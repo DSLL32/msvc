@@ -36,7 +36,7 @@
 #include <recon.h>
 
 /* Encountered mutable386rgtbl.c parameter-register lists. */
-static hw_reg_set FPParm2Reg[]={0,0};
+hw_reg_set FPParm2Reg[]={0,0};
 hw_reg_set STParmReg[]={
     0x00020000U, /* ST1 */
     0x00040000U, /* ST2 */

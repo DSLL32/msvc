@@ -33,6 +33,8 @@
 #include "codegen.h"
 #include "cgmemory.h"
 #include "dbinfo.h"
+#include "procdef.h"
+#include "stubs.h"
 #include <recon.h>
 cue_ctl LineInfo;
 cue_idx SrcLine;
@@ -233,3 +235,78 @@ void DBLineNum(unsigned line)
     OutSourceLine((unsigned short)line);
     SetOP(old);
 }
+
+void DBAllocReg(name *reg_name,name *opnd) { STUB_TRAP(); }
+
+/* Only the encountered parent-link prefix is established here. */
+struct dbg_block { struct dbg_block *parent; };
+/* Recovered initial fields of symdbg.h's routine descriptor. No allocation or
+ * later debug-member ownership is claimed until its constructor is reached. */
+struct dbg_rtn {
+    void *reeturn;
+    struct dbg_rtn *parent;
+    struct dbg_block *blk;
+};
+typedef char old_debug_block_offset[(offsetof(struct dbg_rtn,blk)==8)?1:-1];
+void MkBlock(void) { STUB_TRAP(); }
+void AddBlockInfo(struct dbg_block *block,unsigned char start) { STUB_TRAP(); }
+void DBBegBlock(void)
+{
+    if (CurrProc->targ.debug!=NULL) {
+        MkBlock();
+        AddBlockInfo(((struct dbg_rtn *)CurrProc->targ.debug)->blk,1);
+    }
+}
+
+void DBEndBlock(void)
+{
+    struct dbg_block *blk;
+    struct dbg_rtn *rtn;
+    if (CurrProc->targ.debug!=NULL) {
+        rtn=CurrProc->targ.debug;
+        blk=rtn->blk;
+        AddBlockInfo(blk,0);
+        rtn->blk=blk->parent;
+    }
+}
+
+void CVSetBase(void) { STUB_TRAP(); }
+static unsigned long CodeOffset;
+unsigned char NeedBaseSet(void);
+void BuffBack(struct bck_info *back,long offset) { STUB_TRAP(); }
+unsigned short AskOP(void);
+void BEFreeBack(void *back);
+void WVSetBase(void)
+{
+    temp_buff temp;
+    struct bck_info *back;
+    if ((Model&0x02000000U) && NeedBaseSet()) {
+        back=BENewBack(NULL);
+        back->segment=AskOP();
+        OutLabel(back->label);
+        CodeOffset=AskAddress(back->label);
+        BuffStart(&temp,0x32); /* NEW_BASE + SET_BASE */
+        BuffBack(back,0);
+        BuffEnd(DbgLocals);
+        BEFreeBack(back);
+        SetUpObj(0);
+    }
+}
+void DbgSetBase(void)
+{
+    if (Model&0x10000000U) { /* DWARF has no base action. */ }
+    else if (Model&0x08000000U) CVSetBase();
+    else WVSetBase();
+}
+
+void DbgBlkEnd(void *handle,unsigned long location) { STUB_TRAP(); }
+
+void DbgProEnd(void *handle,unsigned long location) { STUB_TRAP(); }
+
+void DbgRtnEnd(void *handle,unsigned long location) { STUB_TRAP(); }
+
+void DbgRtnBeg(void *handle,unsigned long location) { STUB_TRAP(); }
+
+void DbgBlkBeg(void *handle,unsigned long location) { STUB_TRAP(); }
+
+void DbgEpiBeg(void *handle,unsigned long location) { STUB_TRAP(); }

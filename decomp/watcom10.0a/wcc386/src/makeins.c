@@ -24,7 +24,7 @@
 *
 *  ========================================================================
 *
-* Description:  Basic type initialization and type-node allocation.
+* Description:  Allocate, construct and release backend instructions.
 *
 ****************************************************************************/
 
@@ -34,6 +34,7 @@
 #include <string.h>
 #include "codegen.h"
 #include "block.h"
+#include "stubs.h"
 #include <recon.h>
 static void *InsFrl;
 
@@ -103,4 +104,39 @@ instruction *MakeNary(unsigned char opcode,name *left,name *right,name *result,
     ins->type_class=type_class;
     ins->base_type_class=base_class;
     return ins;
+}
+
+instruction *MakeCondition(unsigned char op,name *left,name *right,
+                           int true_index,int false_index,unsigned char type_class)
+{
+    instruction *ins;
+    ins=MakeNary(op,left,right,NULL,type_class,XX,2);
+    ins->flags.byte=(unsigned char)true_index|((unsigned char)false_index<<4);
+    return ins;
+}
+
+instruction *MakeMove(name *source,name *dest,unsigned char type_class)
+{
+    return MakeNary(0x26,source,NULL,dest,type_class,XX,1); /* OP_MOV */
+}
+
+void FreeIns(instruction *ins)
+{
+    instruction *next;
+    next=ins->head.next;
+    if (next->head.opcode!=0x4b && next->head.line_num==0)
+        next->head.line_num=ins->head.line_num;
+    ins->head.prev->head.next=next;
+    next->head.prev=ins->head.prev;
+    FrlFreeSize(&InsFrl,ins,sizeof(*ins));
+}
+
+instruction *MakeUnary(unsigned char opcode,name *source,name *result,unsigned char type_class)
+{
+    return MakeNary(opcode,source,NULL,result,type_class,XX,1);
+}
+
+instruction *MakeBinary(unsigned char opcode,name *left,name *right,name *result,unsigned char type_class)
+{
+    return MakeNary(opcode,left,right,result,type_class,XX,2);
 }

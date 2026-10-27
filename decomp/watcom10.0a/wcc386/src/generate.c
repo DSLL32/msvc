@@ -35,6 +35,7 @@
 #include "cgmemory.h"
 #include "genopt.h"
 #include "dbinfo.h"
+#include "stubs.h"
 #include <recon.h>
 
 struct proc_def;
@@ -142,11 +143,139 @@ void Generate(unsigned char routine_done)
     AssignTemps();
     FiniStackMap();
     FreeConflicts();
+    /* Actual 1994 order; later released Generate moved UnFixEdges later. */
+    UnFixEdges();
     SortBlocks();
     GenProlog();
-    UnFixEdges();
     OptSegs();
     GenObject();
     if (!(CurrProc->prolog_state&2)) GenEpilog();
     FreeProc();
+}
+
+void PreOptimize(void)
+{
+    unsigned char change;
+    if (!(Model&0x80000000U)) {
+        MakeMovAddrConsts();
+        PushPostOps();
+        DeadTemps();
+        InsDead();
+        MakeFlowGraph();
+        BlockTrim();
+        CommonSex((Model&0x400000U)!=0);
+        SetOnCondition();
+        BlockTrim();
+        AddANop();
+        if (Model&0x400000U) {
+            change=0;
+            if (TransLoops(0)) change=1;
+            if (LoopInvariant()) change=1;
+            if (change) {
+                CommonSex(1);
+                InsDead();
+                CommonInvariant();
+            }
+            if (IndVars()) {
+                CommonSex(0);
+                InsDead();
+                change=1;
+            }
+            BlockTrim();
+            if (TransLoops(1)) {
+                BlockTrim();
+                CommonSex(0);
+                change=1;
+            }
+            /* This older pass has no later ReConstFold call. */
+            LoopEnregister();
+            if (change) BlockTrim();
+        }
+        MulToShiftAdd();
+        KillMovAddrConsts();
+    } else {
+        MakeFlowGraph();
+        AddANop();
+    }
+    FindReferences();
+}
+
+/* generate.c and cse.c each had a file-local NextBlock. Distinguish the
+ * linear callback's linker name while retaining its separate real vertex. */
+block *LinearNextBlock(block *blk,block *unused);
+void DeadInstructions(void);
+void BuildIndex(void);
+void MergeIndex(void);
+unsigned char LdStAlloc(void);
+void Score(void);
+unsigned char LoopRegInvariant(void);
+void Conditions(void);
+void FPExpand(void);
+void Schedule(void);
+void LiveInfoUpdate(void);
+void LdStCompress(void);
+void FPOptimize(void);
+void PostOptimize(void)
+{
+    if (!(Model&0x80000000U)) {
+        /* Unlike the later released build, the 1994 compiler runs both
+         * post-register-allocation peephole passes. */
+        PeepOpt(HeadBlock,LinearNextBlock,NULL,1);
+        DeadInstructions();
+        BuildIndex();
+        DeadInstructions();
+    }
+    MergeIndex();
+    if (!(Model&0x80000000U)) {
+        LdStAlloc();
+        Score();
+        if (!BlockByBlock) LoopRegInvariant();
+        Conditions();
+    }
+    FPExpand();
+    if (!(Model&0x80000000U)) {
+        DeadInstructions();
+        if (Model&0x200000U) {
+            HaveLiveInfo=0;
+            Schedule();
+            LiveInfoUpdate();
+            HaveLiveInfo=1;
+        }
+        LdStCompress();
+        PeepOpt(HeadBlock,LinearNextBlock,NULL,1);
+    }
+    FPOptimize();
+}
+block *LinearNextBlock(block *blk,block *unused)
+{
+    return blk->next_block;
+}
+
+
+
+
+
+
+
+
+void AddANop(void)
+{
+    AddAnIns(BlockList,MakeNop());
+}
+
+void FiniQueue(void);
+void InitSegment(void);
+void ObjFini(void);
+void TellFreeAllLabels(void);
+void ScoreFini(void);
+/* The1994 body predates abortCG; FiniSegment folds to the same empty
+ * physical entry as InitSegment, represented by that existing void hook. */
+void FiniCG(void)
+{
+    FiniQueue();
+    InitSegment();
+    ObjFini();
+    TellFreeAllLabels();
+    BlowAwayFreeLists();
+    ScoreFini();
 }

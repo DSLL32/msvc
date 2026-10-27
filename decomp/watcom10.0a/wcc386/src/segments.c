@@ -286,6 +286,23 @@ void EmitSegLabels(void)
     }
 }
 
+void BEFiniBack(void *back);
+void BEFreeBack(void *back);
+/* This older combined cleanup finalizes and releases each user-segment
+ * back handle; later source separates FiniSegBacks from FiniSegLabels. */
+void FiniSegLabels(void)
+{
+    struct user_seg *user;
+    SYM_ENTRY sym;
+    for (user=UserSegments;user!=NULL;user=user->next) {
+        if (user->sym_handle!=0) {
+            SymGet(&sym,user->sym_handle);
+            BEFiniBack(sym.info.backinfo);
+            BEFreeBack(sym.info.backinfo);
+        }
+    }
+}
+
 void *FEBack(SYM_HANDLE handle)
 {
     void *back;
@@ -330,4 +347,14 @@ char *FEName(void *symbol)
     handle=(SYM_HANDLE)(unsigned)symbol;
     if (handle==0) return "*** NULL ***";
     return SymGetPtr(handle)->name;
+}
+
+/* cinfo.c's public lookup returns the actual packed user-segment cell. */
+hw_reg_set *SegPeggedReg(unsigned segment)
+{
+    struct user_seg *user;
+    for (user=UserSegments;user!=NULL;user=user->next) {
+        if (user->segment==segment) return &user->pegged_register;
+    }
+    return NULL;
 }

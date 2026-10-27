@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Materialize the finite object-proven usage/Length alignment contracts.
+"""Materialize the finite object-proven final-contribution alignment contracts.
 
 This reads finite OMF contribution metadata, never discovers a CFG or identifies
 CRT functions. Shared registry-export and graph-audit validate the descriptor.
@@ -76,10 +76,35 @@ def code_contribution(raw, owner):
     if owner == 'Wait_for_return':
         total, start = 173, 113
         expected = [('CCusage_', 0), ('Wait_for_return_', 113)]
+    elif owner == 'TransferMemoryFlags':
+        # The final genuine varusage public ends its CODE contribution. Earlier
+        # bodies grow as this case progresses; no instruction graph is inferred.
+        assert len(code) == 1 and code[0][0] == 1
+        total = code[0][1]
+        code_publics = [(name, off) for name, seg, off in publics if seg == 1]
+        assert [name for name, off in code_publics] == [
+            'FindReferences_', 'SearchDefUse_', 'UseDefGlobals_', 'Use_',
+            'Define_', 'CoveringDefinitions_', 'TransferAllMemBlockUsage_',
+            'TransferMemBlockUsage_', 'TransferOneMemBlockUsage_',
+            'TransferBlockUsage_', 'TransferTempBlockUsage_',
+            'TransferOneTempBlockUsage_', 'TransferTempFlags_',
+            'TransferOneTempFlag_', 'TransferMemoryFlags_']
+        start = code_publics[-1][1]
+        assert total - start == 157
+        expected = code_publics
     else:
-        assert owner == 'Length'
-        total, start = 184, 141
-        expected = [('Copy_', 0), ('CopyStr_', 62), ('Length_', 141)]
+        assert owner == 'Length' 
+        # Equal is a genuine newly encountered utils.c public, before CopyStr
+        # and the still-final 43-byte Length contribution. Bind the actual OMF
+        # public order and contribution end rather than stale earlier offsets.
+        assert len(code) == 1 and code[0][0] == 1
+        total = code[0][1]
+        code_publics = [(name, off) for name, seg, off in publics if seg == 1]
+        assert [name for name, off in code_publics] == [
+            'Copy_', 'Equal_', 'CopyStr_', 'Length_']
+        start = code_publics[-1][1]
+        assert total - start == 43
+        expected = code_publics
     assert code == [(1, total)]
     assert [(name, off) for name, seg, off in publics if seg == 1] == expected
     image, covered = bytearray(total), bytearray(total)
@@ -121,7 +146,7 @@ def main():
     rva, size, offset = code[0]
     assert rva == 0x10000
     digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
-    for owner, source, expected_length in [('Wait_for_return', 'usage', 60), ('Length', 'utils', 43)]:
+    for owner, source, expected_length in [('Wait_for_return', 'usage', 60), ('Length', 'utils', 43), ('TransferMemoryFlags', 'varusage', 157)]:
         relative = 'build/obj/src/' + source + '.c.obj'
         obj = project / relative
         length = code_contribution(obj.read_bytes(), owner)

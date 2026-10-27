@@ -24,7 +24,7 @@
 *
 *  ========================================================================
 *
-* Description:  Basic type initialization and type-node allocation.
+* Description:  Object-queue return and line-number optimizations.
 *
 ****************************************************************************/
 
@@ -52,5 +52,64 @@ void MultiLineNums(ins_entry *entry)
             }
         }
     }
+    --InOptimizer;
+}
+
+void JmpToRet(ins_entry *ins,ins_entry *ret);
+ins_entry *DelInstr(ins_entry *ins);
+unsigned char RetAftrLbl(ins_entry *ret)
+{
+    ins_entry *ref,*ins;
+    struct code_lbl *label;
+    unsigned char change;
+    ++InOptimizer;
+    change=0;
+    if (PrevClass(ret)==6) {
+        label=PrevIns(ret)->oc.handle.handle;
+        ref=label->refs;
+        while (ref!=NULL) {
+            ins=ref;
+            ref=ref->oc.handle.ref;
+            if ((ins->oc.op.kind&15)==12) {
+                JmpToRet(ins,ret);
+                change=1;
+            } else if ((ins->oc.op.kind&15)==8 && !(ret->oc.op.kind&0x40)) {
+                DelInstr(ins);
+                change=1;
+            }
+        }
+    }
+    --InOptimizer;
+    return change;
+}
+
+int OptInsSize(unsigned char kind,int destination);
+ins_entry *IsolatedCode(ins_entry *ins);
+void RetAftrCall(ins_entry *ret_instr)
+{
+    ins_entry *call_instr;
+    unsigned char call_attr,ret_attr;
+    ++InOptimizer;
+    if (TargetModel&0x8000) goto done;
+    call_instr=ret_instr;
+    while (PrevClass(call_instr)==6) call_instr=PrevIns(call_instr);
+    if (PrevClass(call_instr)!=8) goto done;
+    call_instr=PrevIns(call_instr);
+    call_attr=call_instr->oc.op.kind&0xf0;
+    if (call_attr&0x40) goto done;
+    ret_attr=ret_instr->oc.op.kind&0xf0;
+    if (ret_attr&0x40) goto done;
+    if ((call_attr^ret_attr)&0x10) goto done;
+    InsDelete=1;
+    call_instr->oc.op.kind=call_attr|12;
+    if (call_instr->oc.op.objlen==OptInsSize(8,2)) {
+        call_instr->oc.op.objlen=(unsigned char)OptInsSize(12,1);
+        call_instr->oc.op.kind&=~0x10;
+    } else if (call_instr->oc.op.objlen==OptInsSize(8,3))
+        call_instr->oc.op.objlen=(unsigned char)OptInsSize(12,3);
+    else call_instr->oc.op.objlen=(unsigned char)OptInsSize(12,1);
+    IsolatedCode(call_instr);
+    Untangle(PrevIns(call_instr));
+done:
     --InOptimizer;
 }

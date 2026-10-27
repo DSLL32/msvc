@@ -46,11 +46,19 @@ void CalcMemLimit(void)
 
 unsigned FrlSize;
 
-/* ChkMemLimit is inlined into MemLow in the old build; MemCritical also
- * reaches its internal entry. Keep the public graph free of a new helper. */
+/* The actual MemLow entry is a five-byte load which falls through into
+ * the separately callable ChkMemLimit entry used by MemCritical. */
+unsigned char ChkMemLimit(unsigned limit);
 unsigned char MemLow(void)
 {
-    unsigned limit=MemLimit;
+    return ChkMemLimit(MemLimit);
+}
+unsigned char MemCritical(void)
+{
+    return ChkMemLimit(MemLimit-MemLimit/4);
+}
+unsigned char ChkMemLimit(unsigned limit)
+{
     if (Model&0x100000) return 0;
     if (MemInUse()-FrlSize<=limit) return 0;
     FlushSomeOpt(MemInUse()-limit-FrlSize);

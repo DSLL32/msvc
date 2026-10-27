@@ -67,7 +67,7 @@ build/obj/src/exit.c.obj: ORIGINAL_CFLAGS += -ox
 
 # Materialize only the finite object-proven alignment descriptor. This is
 # semantic projection input; diagnostic reports remain in owned scratch.
-build/audit-policy.json: harness/policy.json scripts/audit-policy.py build/obj/src/usage.c.obj build/obj/src/utils.c.obj $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
+build/audit-policy.json: harness/policy.json scripts/audit-policy.py build/obj/src/usage.c.obj build/obj/src/utils.c.obj build/obj/src/varusage.c.obj $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
 	python3 scripts/audit-policy.py --output $@
 
 # This original TU uses software floating conversion (__FDI4), not x87 __CHP.

@@ -38,6 +38,8 @@
 #include "objemit.h"
 #include "pragma.h"
 #include "dbinfo.h"
+#include "address.h"
+#include "stubs.h"
 #include <recon.h>
 #pragma pack(1)
 struct segdef {
@@ -1134,4 +1136,107 @@ void TellObjNewProc(void *symbol)
         NormalData();
     }
     SetOP(old);
+}
+
+/* The signed segment_id test precedes the WORD lookup in the OSI body. */
+unsigned char AskSegNear(int id)
+{
+    struct index_rec *rec;
+    if (id<0) return 0;
+    rec=AskSegIndex((unsigned short)id);
+    if (rec->btype!=1) return 0;
+    return rec->base>CodeGroupGIdx;
+}
+
+unsigned char AskNameCode(void *symbol,unsigned char kind)
+{
+    switch (kind) {
+    case CG_FE: return (FEAttr(symbol)&1)!=0;
+    case CG_TBL:case CG_VTB:case CG_CLB: return 1;
+    }
+    return 0;
+}
+
+/* The old AskNameROM inlines AskSegROM's sign check, then shares the
+ * segment-ROM query body at365f0. Preserve its actual two callees. */
+unsigned char AskNameROM(void *symbol,unsigned char kind)
+{
+    int id;
+    id=AskSegID(symbol,kind);
+    if (id<0) return 0;
+    return AskSegIndex((unsigned short)id)->rom;
+}
+
+unsigned char InlineFunction(void *symbol);
+int AskSegID(void *symbol,unsigned char kind)
+{
+    switch (kind) {
+    case CG_FE:
+        if (InlineFunction(symbol)) return AskCodeSeg();
+        return FESegID(symbol);
+    case CG_BACK: return ((struct bck_info *)symbol)->segment;
+    case CG_TBL: case CG_VTB: case CG_CLB:
+        /* The 1994 CLB branch shares AskCodeSeg; the later source has
+         * a separate AskAltCodeSeg there. */
+        return AskCodeSeg();
+    default: return AskBackSeg();
+    }
+}
+unsigned char InlineFunction(void *symbol)
+{
+    void *aux;
+    if (!(FEAttr(symbol)&1)) return 0;
+    aux=FEAuxInfo(symbol,0); /* AUX_LOOKUP */
+    if (FEAuxInfo(aux,1)!=NULL) return 1; /* CALL_BYTES */
+    return *(unsigned *)FEAuxInfo(aux,2)&8; /* CALL_CLASS / MAKE_CALL_INLINE */
+}
+
+unsigned char AskSegPrivate(int segment)
+{
+    struct index_rec *record;
+    if (segment<0) return 1;
+    record=AskSegIndex((unsigned short)segment);
+    return record->private || record->exec;
+}
+
+void ObjFini(void) { STUB_TRAP(); }
+
+void OutRTImport(int symbol,unsigned char fix_class) { STUB_TRAP(); }
+
+void OutSpecialCommon(int symbol,unsigned char fix_class,unsigned char relative) { STUB_TRAP(); }
+
+void OutImport(void *symbol,unsigned char fix_class,unsigned char relative) { STUB_TRAP(); }
+
+unsigned long AskLocation(void)
+{
+    return CurrSeg->location;
+}
+
+unsigned SavePendingLine(unsigned value)
+{
+    unsigned old;
+    old=CurrSeg->obj->pending_line_number;
+    CurrSeg->obj->pending_line_number=value;
+    return old;
+}
+
+unsigned char NeedBaseSet(void) { STUB_TRAP();return 0; }
+
+void OutAbsPatch(void *patch,unsigned char size) { STUB_TRAP(); }
+
+void OutFPPatch(unsigned char kind) { STUB_TRAP(); }
+
+void OutPatch(struct code_lbl *label,unsigned char attributes)
+{
+    struct temp_patch *patch;
+    struct object *object;
+    CheckLEDataSize(12,1);
+    patch=CGAlloc(sizeof(*patch));
+    object=CurrSeg->obj;
+    patch->link=object->patches;
+    patch->label=label;
+    patch->patch.ref=0;
+    patch->patch.where=CurrSeg->location-object->start+CurrSeg->data_prefix_size;
+    patch->patch.attr=attributes;
+    object->patches=patch;
 }

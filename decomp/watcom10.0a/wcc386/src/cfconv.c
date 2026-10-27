@@ -107,11 +107,13 @@ struct cfloat *CFCnvU32F(unsigned long value)
     return CFCnvLongToF((long)value,0);
 }
 
+/* Both actual callers use the same minimum-I32 decimal object (79e28). */
+static struct { int exp,len,alloc;signed char sign;char mant[11]; }
+    MaxNegI32={10,10,0,-1,"2147483648"};
+
 /* cfconv.c CFCnvLongToF, before 64-bit conversion support. */
 struct cfloat *CFCnvLongToF(long value,unsigned char is_signed)
 {
-    static struct { int exp,len,alloc;signed char sign;char mant[11]; }
-        MaxNegI32={10,10,0,-1,"2147483648"};
     struct cfloat *number;
     char mant[11],*digit;
     unsigned long dividend;
@@ -243,4 +245,42 @@ struct cfloat *CFCopy(struct cfloat *value)
      * the released offsetof(mant)+len+1 form. The allocator owns the tail. */
     Copy((char *)value,(char *)number,sizeof(*number)+value->len+1);
     return number;
+}
+
+unsigned char CFIsI32(struct cfloat *value)
+{
+    return CFIsType(value,(struct cfloat *)&MaxNegI32);
+}
+
+unsigned char CFIsU16(struct cfloat *value)
+{
+    static struct { int exp,len,alloc;signed char sign;char mant[6]; }
+        MaxU16={5,5,0,1,"65535"};
+    return CFIsType(value,(struct cfloat *)&MaxU16);
+}
+
+unsigned char CFIsU8(struct cfloat *value);
+unsigned char CFIsI8(struct cfloat *value);
+/* Earlier CFIsSize accepts either signed or unsigned representation, before
+ * the later independent CFUnSignedSize routine. The scalar sizes end at4. */
+unsigned char CFIsSize(struct cfloat *value,unsigned size)
+{
+    switch (size) {
+    case 1: return CFIsU8(value) || CFIsI8(value);
+    case 2: return CFIsU16(value) || CFIsI16(value);
+    case 4: return CFIsU32(value) || CFIsI32(value);
+    }
+    return 0;
+}
+
+unsigned char CFIs32(struct cfloat *value)
+{
+    return CFIsI32(value) || CFIsU32(value);
+}
+
+unsigned char CFIsU8(struct cfloat *value)
+{
+    static struct { int exp,len,alloc;signed char sign;char mant[4]; }
+        MaxU8={3,3,0,1,"255"};
+    return CFIsType(value,(struct cfloat *)&MaxU8);
 }

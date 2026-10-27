@@ -33,6 +33,7 @@
  * imported segment starts at -1 directly, before the later SegData field. */
 #include "codegen.h"
 #include "procdef.h"
+#include "stubs.h"
 #include <recon.h>
 
 static void *FrlHead[5],*ConstDefnFrl;
@@ -224,4 +225,209 @@ name *AllocConst(struct cfloat *value)
     if (ConstOne==NULL && integer==1) ConstOne=constant;
     if (ConstZero==NULL && integer==0 && CFTest(value)==0) ConstZero=constant;
     return constant;
+}
+
+name *ScaleIndex(name *index,name *base,long offset,unsigned char type_class,
+                 long size,int scale,unsigned char flags)
+{
+    name *entry;
+    type_class=OneClass[type_class];
+    entry=Names[4];
+    while (entry!=NULL) {
+        if (entry->i.base==base && entry->i.index==index &&
+            entry->i.constant==offset && entry->i.scale==scale &&
+            entry->i.index_flags==flags &&
+            ((entry->n.name_class==type_class && type_class!=XX) ||
+             (entry->n.name_class==XX && entry->n.size==size))) {
+            if (type_class!=XX) {
+                entry->n.name_class=type_class;
+                entry->n.size=TypeClassSize[type_class];
+            }
+            if (index->n.class==2) index->t.temp_flags|=8; /* INDEXED */
+            return entry;
+        }
+        entry=entry->n.next_name;
+    }
+    entry=AllocName(4,type_class,size);
+    entry->i.index=index;
+    entry->i.base=base;
+    entry->i.constant=offset;
+    entry->i.index_flags=flags;
+    entry->i.scale=scale;
+    if (index->n.class==2) index->t.temp_flags|=8;
+    return entry;
+}
+
+name *STempOffset(name *temp,long offset,unsigned char type_class,long size)
+{
+    name *entry,*xx;
+    type_class=OneClass[type_class];
+    offset=(long)((unsigned long)offset+temp->v.offset);
+    entry=(name *)temp->t.alias;
+    xx=NULL;
+    for (;;) {
+        if (entry->t.id.id==temp->t.id.id && entry->v.offset==offset) {
+            if (type_class==XX && size==0) return entry;
+            if (entry->n.name_class==type_class && type_class!=XX) return entry;
+            if (entry->n.name_class==XX && entry->n.size==size) xx=entry;
+        }
+        if (entry==temp) break;
+        entry=(name *)entry->t.alias;
+    }
+    if (xx!=NULL) {
+        ZapXX(xx,type_class,size);
+        return xx;
+    }
+    entry=AllocName(2,type_class,size);
+    entry->t.id.id=temp->t.id.id;
+    entry->v.symbol=temp->v.symbol;
+    entry->v.offset=offset;
+    entry->v.usage=temp->v.usage;
+    entry->v.block_usage=0;
+    entry->v.conflict=temp->v.conflict;
+    entry->t.u.block_id=temp->t.u.block_id;
+    entry->t.alias=temp->t.alias;
+    temp->t.alias=&entry->t;
+    entry->t.temp_flags=2|(temp->t.temp_flags&0x120); /* ALIAS/PERM_TEMP_FLAGS */
+    entry->t.possible=26;
+    if (temp->t.location==0x7fffffffL) entry->t.location=0x7fffffffL;
+    else entry->t.location=(long)((unsigned long)temp->t.location+offset);
+    return entry;
+}
+
+name *AllocIntConst(int value)
+{
+    name *constant;
+    constant=FindIntValue(value);
+    if (constant!=NULL) return constant;
+    return AllocConst(CFCnvI32F(value));
+}
+
+name *FindIntValue(long value)
+{
+    if (value==0 && ConstZero!=NULL) return ConstZero;
+    if (value==1 && ConstOne!=NULL) return ConstOne;
+    return NULL;
+}
+
+name *DeAlias(name *temp)
+{
+    while (temp->t.temp_flags&2) temp=temp->t.alias; /* ALIAS */
+    return temp;
+}
+
+/* redefby.c's name attribute query, using the old indexed flag byte. */
+unsigned char IsVolatile(name *op)
+{
+    if (op->n.class==1 || op->n.class==2) return (op->v.usage&0x20)!=0;
+    if (op->n.class==4) return (op->i.index_flags&2)!=0;
+    return 0;
+}
+
+struct constant_defn *GetFloat(name *cons,unsigned char type_class)
+{
+    struct constant_defn *defn;
+    for (defn=cons->c.static_defn;defn!=NULL;defn=defn->next_defn)
+        if (defn->const_class==type_class) return defn;
+    defn=AllocFrl(&ConstDefnFrl,sizeof(*defn));
+    defn->label=NULL;
+    defn->const_class=type_class;
+    /* Earlier CFCnvTarget accepts the actual class, not its later byte size. */
+    CFCnvTarget(cons->c.value,(union cg_float *)defn->value,type_class);
+    defn->next_defn=cons->c.static_defn;
+    cons->c.static_defn=defn;
+    return defn;
+}
+name *AllocUIntConst(unsigned value)
+{
+    name *constant;
+    constant=FindIntValue(value);
+    if (constant!=NULL) return constant;
+    return AllocConst(CFCnvU32F(value));
+}
+void FreeTable(tbl_control *table) { STUB_TRAP(); }
+void FreeAName(name *op)
+{
+    struct constant_defn *defn,*junk;
+    if (op->n.class==0) {
+        if (op==ConstZero) ConstZero=NULL;
+        if (op==ConstOne) ConstOne=NULL;
+        if (op->c.const_type==0) {
+            CFFree(op->c.value);
+            defn=op->c.static_defn;
+            while (defn!=NULL) {
+                junk=defn;
+                defn=defn->next_defn;
+                FrlFreeSize(&ConstDefnFrl,junk,sizeof(*junk));
+            }
+        }
+    } else if (op->n.class==1) {
+        if (op->m.memory_type==CG_TBL) FreeTable(op->v.symbol);
+    } else if (op->n.class==3) {
+        if (op==NullReg) NullReg=NULL;
+    } else if (op->n.class==2) {
+        if (op==LastTemp) LastTemp=op->n.next_name;
+        if (op==DummyIndex) DummyIndex=NULL;
+    }
+    FrlFreeSize(&FrlHead[op->n.class],op,Size[op->n.class]);
+}
+
+void FreeNames(void)
+{
+    int class;
+    name *temp,*junk;
+    for (class=0;class<5;++class) {
+        temp=Names[class];
+        Names[class]=NULL;
+        while (temp!=NULL) {
+            junk=temp;
+            temp=temp->n.next_name;
+            FreeAName(junk);
+        }
+    }
+}
+
+void ZapXX(name *entry,unsigned char type_class,long size)
+{
+    if (type_class!=XX) {
+        entry->n.name_class=type_class;
+        entry->n.size=TypeClassSize[type_class];
+    } else if (size!=0) entry->n.size=size;
+}
+
+name *SAllocIndex(name *index,name *base,long offset,unsigned char class,unsigned long size)
+{
+    return ScaleIndex(index,base,offset,class,size,0,0);
+}
+
+name *TempOffset(name *value,long offset,unsigned char type_class)
+{ return STempOffset(value,offset,type_class,0); }
+
+name *AllocIndex(name *index,name *base,long offset,unsigned char type_class)
+{
+    return SAllocIndex(index,base,offset,type_class,0);
+}
+
+name *AllocS32Const(long value)
+{
+    name *constant;
+    constant=FindIntValue(value);
+    if (constant!=NULL) return constant;
+    return AllocConst(CFCnvI32F(value));
+}
+
+name *AllocAddrConst(name *value,long offset,unsigned char kind,unsigned char type_class)
+{
+    name *entry;
+    for (entry=Names[0];entry!=NULL;entry=entry->n.next_name) {
+        if (entry->c.const_type==kind && entry->c.value==value &&
+            entry->n.name_class==type_class && entry->c.int_value==offset)
+            return entry;
+    }
+    entry=AllocName(0,type_class,0);
+    entry->c.static_defn=NULL;
+    entry->c.value=value;
+    entry->c.int_value=offset;
+    entry->c.const_type=kind;
+    return entry;
 }

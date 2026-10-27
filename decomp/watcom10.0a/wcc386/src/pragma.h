@@ -47,7 +47,7 @@ char *ObjFileName(char *extension);
 char *SegClassName(unsigned segment);
 struct fname_list;
 unsigned long *GetTimeStamp(struct fname_list *file);
-void *SegPeggedReg(unsigned segment);
+hw_reg_set *SegPeggedReg(unsigned segment);
 struct aux_info *LangInfo(unsigned flags,struct aux_info *info);
 int VarFunc(struct symtab_entry *sym);
 extern unsigned CallClass;

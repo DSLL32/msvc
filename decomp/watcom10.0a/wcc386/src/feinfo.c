@@ -34,6 +34,7 @@
 #include "symbols.h"
 #include "pragma.h"
 #include "genquads.h"
+#include "stubs.h"
 #include <recon.h>
 #if defined(__WATCOMC__)
 /* The original ten-DWORD aux_info assignment is an inline REP MOVSD. */
@@ -167,4 +168,11 @@ int FEParmType(void *function,void *parameter,int type)
 int FETrue(void)
 {
     return 1;
+}
+
+int FEStackChk(void *symbol)
+{
+    SYMPTR sym;
+    sym=SymGetPtr((SYM_HANDLE)(unsigned)symbol);
+    return (sym->flags&0x40)!=0; /* SYM_CHECK_STACK */
 }

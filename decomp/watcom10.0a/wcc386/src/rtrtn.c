@@ -32,6 +32,8 @@
 /* cgen2.c's emission-state initializer. In the earlier target the next
  * imported segment starts at -1 directly, before the later SegData field. */
 #include "codegen.h"
+#include "block.h"
+#include "stubs.h"
 #include <recon.h>
 
 /* The old runtime-helper set has82 entries. Handles and labels are
@@ -49,3 +51,18 @@ void InitRT(void)
         RTLbls[i]=NULL;
     }
 }
+
+/* The original 386rtrtn.c target hook deliberately leaves no operand fixed. */
+unsigned char RTLeaveOp2(instruction *ins)
+{
+    (void)ins;
+    return 0;
+}
+
+name *Addressable(name *opnd,unsigned char class) { STUB_TRAP();return NULL; }
+
+
+
+int RoutineNum;
+
+void *BEAuxInfo(void *handle,unsigned char request) { STUB_TRAP();return NULL; }

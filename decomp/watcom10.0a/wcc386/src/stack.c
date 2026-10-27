@@ -54,7 +54,7 @@ extern char *CypCopy(char *source,char *destination,unsigned size);
     parm routine [esi] [edi] [ecx] value [edi];
 #endif
 
-struct address_name *SafeRecurse(tree_callback callback,struct tree_node *value)
+void *SafeRecurse(recurse_callback callback,void *value)
 {
 #if defined(__linux__)
     /* The released NT host uses this real callback-only path. Linux owns a
@@ -62,7 +62,7 @@ struct address_name *SafeRecurse(tree_callback callback,struct tree_node *value)
     return callback(value);
 #else
     char *savearea;
-    struct address_name *result;
+    void *result;
     unsigned char old_action;
     /* Keep the actual OSI period-build branch and named cold callees. The
      * current case qualifies only the normal callback, not stack exhaustion. */

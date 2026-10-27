@@ -34,6 +34,7 @@
 #include "scanner.h"
 #include "options.h"
 #include "files.h"
+#include "stubs.h"
 #include <recon.h>
 
 unsigned GenQuadIndex,InlineQuadIndex,InlinedQuadCount;
@@ -96,7 +97,7 @@ struct local_vars *GenerateQuads(unsigned source_line,unsigned first,unsigned la
             quad.operand2=0;
             /* fall through */
         case T_FUNC_DEFN:case T_FUNC_END:case T_CALL:case T_CALL_NO_PARM:
-        case T_LABEL_DEFN:case T_UNROLL:case T_TRY:
+        case T_UNROLL:case T_TRY:
         case 0x0a:case 0x0b:case T_SWITCH:
             immediate=quad.operand1;
             quad.operand1=0;
@@ -161,7 +162,7 @@ struct local_vars *GenerateQuads(unsigned source_line,unsigned first,unsigned la
                 CGControl(O_GOTO,NULL,ReturnLabel);
             } else {
                 type=(cg_type)CGenType(right_leaf.leaf_type);
-                index=GenCall(&left_leaf,type,index,&quad,&result,inline_call);
+                index=GenQuadCall(&left_leaf,type,index,&quad,&result,inline_call);
             }
             break;
         case T_CALL_NO_PARM:
@@ -172,7 +173,7 @@ struct local_vars *GenerateQuads(unsigned source_line,unsigned first,unsigned la
                 CGControl(O_GOTO,NULL,ReturnLabel);
             } else {
                 type=(cg_type)CGenType(result.leaf_type);
-                index=GenCall(&right_leaf,type,index,&quad,&result,inline_call);
+                index=GenQuadCall(&right_leaf,type,index,&quad,&result,inline_call);
             }
             break;
         case 0x7f: /* arithmetic intrinsic selected by a constant leaf */
@@ -372,4 +373,110 @@ struct local_vars *GenerateQuads(unsigned source_line,unsigned first,unsigned la
         ++index;
     }
     return locals;
+}
+
+/* This quad-based assignment predates the released cgen2 tree visitor.
+ * Pointer-host conversion flags belong to the actual leaf/type fields. */
+void GenAssignment(LEAFPTR left,LEAFPTR right,LEAFPTR result)
+{
+    TYPEPTR left_type,right_type;
+    cg_type type;
+    unsigned short flags;
+    cg_name value,address;
+    type=(cg_type)LeafCGType(left);
+    left_type=left->leaf_type;
+    while (left_type->decl_type==TYPE_TYPEDEF) left_type=left_type->object;
+    right_type=right->leaf_type;
+    while (right_type->decl_type==TYPE_TYPEDEF) right_type=right_type->object;
+    if (((left->leaf_flags|left_type->decl_flags)&0x2000) &&
+        left_type->decl_type==TYPE_POINTER) {
+        flags=right->leaf_flags|right_type->decl_flags;
+        right->leaf_flags&=~0x2000;
+        value=LeafValue(right);
+        if (!(flags&0x2000)) value=GenPointerConversion(value,34);
+    } else if (((right->leaf_flags|right_type->decl_flags)&0x2000) &&
+               right_type->decl_type==TYPE_POINTER) {
+        right->leaf_flags&=~0x2000;
+        value=GenPointerConversion(LeafValue(right),33);
+    } else if (right_type->decl_type==TYPE_POINTER &&
+               LeafCGType(right)!=type) {
+        value=GenCast(right,left,type);
+    } else {
+        value=LeafValue(right);
+    }
+    address=LeafAddress(left);
+    result->u.cg_name=CGAssign(address,value,type);
+}
+
+/* Genuine three-byte normalization entry falls through to CGenType. */
+int LeafCGType(LEAFPTR leaf)
+{
+    return CGenType(leaf->leaf_type);
+}
+
+cg_name LeafAddress(LEAFPTR leaf)
+{
+    return LeafAddressEx(leaf,NULL,0);
+}
+
+int SymbolPointerType(LEAFPTR leaf,SYMPTR symbol)
+{
+    int type;
+    type=17; /* T_POINTER */
+    if (symbol->attrib&8) return 6; /* T_LONG_POINTER */
+    if (symbol->attrib&0x10) return 7; /* T_HUGE_POINTER */
+    if ((TargetSwitches&0x14)==4) {
+        if (symbol->stg_class==SC_AUTO ||
+            TypeSize(leaf->leaf_type)+(unsigned long)leaf->u.symbol.offset<0xfff0UL)
+            type=6;
+    } else if ((TargetSwitches&0x200) && symbol->stg_class==SC_AUTO) {
+        type=6;
+    }
+    return type;
+}
+
+void GenJump(LEAFPTR label)
+{
+    CGControl(O_GOTO,NULL,label->u.label.handle);
+}
+
+void FreeSymBackInfo(SYMPTR sym,SYM_HANDLE handle)
+{
+    if (sym->info.backinfo!=NULL) {
+        BEFiniBack(sym->info.backinfo);
+        BEFreeBack(sym->info.backinfo);
+        sym->info.backinfo=NULL;
+        SymReplace(sym,handle);
+    }
+}
+void FreeLocalVars(SYM_HANDLE list)
+{
+    SYM_HANDLE handle;
+    SYM_ENTRY sym;
+    while ((handle=list)!=0) {
+        SymGet(&sym,handle);
+        list=sym.handle;
+        if (sym.stg_class!=SC_EXTERN && !(sym.flags&0x400) &&
+            sym.sym_type->decl_type!=TYPE_VOID) FreeSymBackInfo(&sym,handle);
+    }
+}
+
+void RelLocalVars(struct local_vars *list)
+{
+    struct local_vars *entry;
+    while (list!=NULL) {
+        FreeLocalVars(list->sym_list);
+        entry=list;
+        list=list->next;
+        CMemFree(entry);
+    }
+}
+
+/* Earlier quad leaf address-result variants carry their pointer flags here;
+ * ordinary value results use CGenType directly. */
+int LeafResultType(LEAFPTR leaf)
+{
+    if (leaf->leaf_class==6 || leaf->leaf_class==7)
+        return PtrType(leaf->leaf_type,leaf->leaf_flags);
+    return CGenType(leaf->leaf_type);
 }

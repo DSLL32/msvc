@@ -50,3 +50,11 @@ ins_entry *NewInstr(any_oc *record)
     --InOptimizer;
     return entry;
 }
+
+void FreeInstr(ins_entry *ins)
+{
+    unsigned char size;
+    size=(unsigned char)(ins->oc.op.reclen+8);
+    if (size<=20) FrlFreeSize(&InstrFrl,(void **)ins,20);
+    else CGFreeSize(ins,size);
+}

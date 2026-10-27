@@ -109,3 +109,63 @@ struct cfloat *IntToCF(long value,type_def *type)
     Zoiks(78); /* Old conversion diagnostic, before 64-bit support. */
     return NULL;
 }
+
+unsigned char DemoteTree(struct tree_node *value,type_def *type,unsigned char just_test)
+{
+    type_def *from;
+    unsigned char can_demote,demote_node;
+    from=value->tipe;
+    can_demote=0;
+    demote_node=0;
+    if (TypeClass(from)<=I4) {
+        switch (value->class) {
+        case 1: /* TN_UNARY */
+            switch (value->op) {
+            case 17:case 18:case 36:case 37: /* minus, complement, convert, round */
+                can_demote=DemoteTree(value->u.left,type,just_test);
+                demote_node=1;
+                break;
+            case 80: /* O_POINTS, low byte first */
+                can_demote=1;
+                demote_node=1;
+                break;
+            }
+            break;
+        case 2: /* TN_BINARY */
+            switch (value->op) {
+            case 7:case 8: /* O_DIV, O_MOD */
+                if (value->u.left->tipe->length>type->length ||
+                    value->rite->tipe->length>type->length) break;
+                /* fall through */
+            case 5:case 9:case 10:case 11:case 13:case 1:case 3:
+                if (value->tipe->refno==T_HUGE_POINTER ||
+                    value->u.left->tipe->refno==T_HUGE_POINTER ||
+                    value->rite->tipe->refno==T_HUGE_POINTER) break;
+                can_demote=DemoteTree(value->u.left,type,just_test);
+                if (can_demote) can_demote=DemoteTree(value->rite,type,just_test);
+                demote_node=1;
+                break;
+            }
+            break;
+        case 12: /* TN_COMMA */
+            can_demote=DemoteTree(value->rite,type,just_test);
+            break;
+        case 24: /* TN_SIDE_EFFECT */
+            can_demote=DemoteTree(value->u.left,type,just_test);
+            break;
+        case 13:case 18: /* TN_FLOW_OUT, TN_CONS */
+            can_demote=1;
+            demote_node=1;
+            break;
+        }
+        if (!just_test && demote_node && from->length>type->length) {
+            value->flags|=4; /* TF_DEMOTED */
+            value->tipe=type;
+        }
+    }
+    return can_demote;
+}
+void TGDemote(struct tree_node *value,type_def *type)
+{
+    if (DemoteTree(value,type,1)) DemoteTree(value,type,0);
+}

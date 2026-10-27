@@ -17,13 +17,15 @@ typedef struct address_name {
 #pragma pack()
 typedef char old_address_size[(sizeof(address_name)==32)?1:-1];
 typedef char old_address_union[(offsetof(address_name,u)==16)?1:-1];
+extern address_name *AddrList;
+name *AddrToName(address_name *addr);
 address_name *NewAddrName(void);
 name *Display(void *symbol,int level);
 cg_type NamePtrType(name *value);
 unsigned char AskNameCode(void *symbol,unsigned char kind);
 unsigned char IsFarFunc(void *symbol);
-unsigned short AskSegID(void *symbol,unsigned char kind);
-unsigned char AskSegPrivate(unsigned short segment);
+int AskSegID(void *symbol,unsigned char kind);
+unsigned char AskSegPrivate(int segment);
 #pragma pack(4)
 typedef struct bool_node {
     unsigned short format;

@@ -144,7 +144,7 @@ void ObjError(int error) { (void)error;STUB_TRAP(); }
 
 
 
-void *SegPeggedReg(unsigned segment) { (void)segment;STUB_TRAP();return NULL; }
+/* SegPeggedReg is recovered beside the owning user-segment definitions. */
 
 unsigned char FlushSomeOpt(unsigned size) { (void)size;STUB_TRAP();return 0; }
 unsigned MemInUse(void) { STUB_TRAP();return 0; }
@@ -189,7 +189,7 @@ short DbgSegDef(char *name,char *class_name,unsigned char modifier) { (void)name
 void DFObjInitInfo(void) { STUB_TRAP(); }
 void CVObjInitInfo(void) { STUB_TRAP(); }
 
-void BEStop(void) { STUB_TRAP(); }
+
 void BEFini(void) { STUB_TRAP(); }
 void WrongCodeGen(void) { STUB_TRAP(); }
 void OutCGroup(unsigned segment) { (void)segment;STUB_TRAP(); }
@@ -198,7 +198,7 @@ void DFBegCCU(unsigned short segment) { (void)segment;STUB_TRAP(); }
 unsigned long BETypeLength(cg_type type) { (void)type;STUB_TRAP();return 0; }
 void EmitDBType(void) { STUB_TRAP(); }
 
-void FiniSegLabels(void) { STUB_TRAP(); }
+
 void FreeExtVars(void) { STUB_TRAP(); }
 void FreeTryTableBackHandles(void) { STUB_TRAP(); }
 
@@ -462,7 +462,7 @@ void BuffEnd(unsigned short segment) { (void)segment;STUB_TRAP(); }
 void ChkDbgSegSize(unsigned size,unsigned char need) { (void)size;(void)need;STUB_TRAP(); }
 
 
-unsigned char MapStruct(unsigned long size,unsigned short attr) { (void)size;(void)attr;STUB_TRAP();return 0; }
+unsigned char MapStruct(unsigned long size,unsigned short attr);
 void DBModSym(SYM_HANDLE handle,cg_type type) { (void)handle;(void)type;STUB_TRAP(); }
 
 unsigned long DBType(TYPEPTR type) { (void)type;STUB_TRAP();return 0; }
@@ -486,8 +486,8 @@ void DumpCS_Strings(void) { STUB_TRAP(); }
 void DGFEPtr(void *symbol,cg_type type,long offset) { (void)symbol;(void)type;(void)offset;STUB_TRAP(); }
 
 
-unsigned char Equal(unsigned char *a,unsigned char *b,int length) { (void)a;(void)b;(void)length;STUB_TRAP();return 0; }
-void EmptyQueue(void) { STUB_TRAP(); }
+
+
 
 
 void InitLineInfo(void) { STUB_TRAP(); }
@@ -503,7 +503,7 @@ unsigned NeedComdatNidx(unsigned char type) { (void)type;STUB_TRAP();return 0; }
 
 unsigned GenImport(void *symbol,unsigned char type) { (void)symbol;(void)type;STUB_TRAP();return 0; }
 
-void OutPatch(struct code_lbl *label,unsigned char attributes) { (void)label;(void)attributes;STUB_TRAP(); }
+
 
 
 
@@ -529,32 +529,27 @@ void EmitUnwind(unsigned scope) { (void)scope;STUB_TRAP(); }
 
 void SetTryTable(void *table) { (void)table;STUB_TRAP(); }
 
-void GenAssignment(LEAFPTR left,LEAFPTR right,LEAFPTR result) { (void)left;(void)right;(void)result;STUB_TRAP(); }
-
-cg_name GenCast(LEAFPTR source,LEAFPTR result,cg_type type) { (void)source;(void)result;(void)type;STUB_TRAP();return NULL; }
-
-cg_name LeafAddress(LEAFPTR leaf) { (void)leaf;STUB_TRAP();return NULL; }
 
 
 
-cg_name CGTempName(void *temp,cg_type type) { (void)temp;(void)type;STUB_TRAP();return 0; }
-cg_name CGBitMask(cg_name value,unsigned char start,unsigned char width,cg_type type) { (void)value;(void)start;(void)width;(void)type;STUB_TRAP();return 0; }
-int SymbolPointerType(LEAFPTR leaf,SYMPTR symbol) { (void)leaf;(void)symbol;STUB_TRAP();return 0; }
+
+
+
+cg_name CGBitMask(cg_name value,unsigned char start,unsigned char width,cg_type type);
 cg_name ConvertFromBased(cg_name value,cg_type type) { (void)value;(void)type;STUB_TRAP();return 0; }
 cg_name ConvertToBased(cg_name value,LEAFPTR result,unsigned flags) { (void)value;(void)result;(void)flags;STUB_TRAP();return 0; }
 cg_name FarPointerSegmentAddress(cg_name value) { (void)value;STUB_TRAP();return 0; }
 
 
 
-cg_name CGFloat(char *value,cg_type type) { (void)value;(void)type;STUB_TRAP();return 0; }
+
 cg_name CGBackName(void *back,cg_type type) { (void)back;(void)type;STUB_TRAP();return 0; }
-cg_name CGVolatile(cg_name value) { (void)value;STUB_TRAP();return 0; }
+/* CGVolatile is recovered beside its public code-generator wrappers. */
 cg_name GenPointerConversion(cg_name value,cg_op op) { (void)value;(void)op;STUB_TRAP();return 0; }
 cg_name GenBasedPointer(SYM_HANDLE symbol,cg_name value) { (void)symbol;(void)value;STUB_TRAP();return 0; }
 
-unsigned GenCall(LEAFPTR function,cg_type type,unsigned index,QUAD *quad,LEAFPTR result,int inline_call) { (void)function;(void)type;(void)index;(void)quad;(void)result;(void)inline_call;STUB_TRAP();return 0; }
 
-void GenJump(LEAFPTR label) { (void)label;STUB_TRAP(); }
+
 
 
 
@@ -563,19 +558,18 @@ void GenJump(LEAFPTR label) { (void)label;STUB_TRAP(); }
 
 void EmitLocalsReverse(SYM_HANDLE first) { (void)first;STUB_TRAP(); }
 
-struct local_vars * ReleaseVars(SYM_HANDLE first,struct local_vars *previous) { (void)first;(void)previous;STUB_TRAP();return NULL; }
 
-void RelLocalVars(struct local_vars *list) { (void)list;STUB_TRAP(); }
+
+void RelLocalVars(struct local_vars *list);
 
 void FreeTrySymBackInfo(void) { STUB_TRAP(); }
 
-void FreeLocalVars(SYM_HANDLE first) { (void)first;STUB_TRAP(); }
+void FreeLocalVars(SYM_HANDLE first);
 
-void GenSwitch(unsigned switch_leaf,LEAFPTR value,LEAFPTR result) { (void)switch_leaf;(void)value;(void)result;STUB_TRAP(); }
 
-int LeafCGType(LEAFPTR leaf) { (void)leaf;STUB_TRAP();return 0; }
 
-int LeafResultType(LEAFPTR leaf) { (void)leaf;STUB_TRAP();return 0; }
+
+int LeafResultType(LEAFPTR leaf);
 
 
 
@@ -584,13 +578,12 @@ int LeafResultType(LEAFPTR leaf) { (void)leaf;STUB_TRAP();return 0; }
 
 void OutLineNum(unsigned short line,unsigned char label_line) { (void)line;(void)label_line;STUB_TRAP(); }
 
-void DBBegBlock(void) { STUB_TRAP(); }
-
-void DBEndBlock(void) { STUB_TRAP(); }
 
 
 
-void BEFiniLabel(cg_label label) { (void)label;STUB_TRAP(); }
+
+
+
 
 unsigned long BEUnrollCount(unsigned long count) { (void)count;STUB_TRAP();return 0; }
 
@@ -598,19 +591,22 @@ unsigned long BEUnrollCount(unsigned long count) { (void)count;STUB_TRAP();retur
 
 
 
-void InsToAddr(address_name *addr) { (void)addr;STUB_TRAP(); }
-name *GenIns(address_name *addr) { (void)addr;STUB_TRAP();return 0; }
-void CopyAddr(address_name *source,address_name *dest) { (void)source;(void)dest;STUB_TRAP(); }
 
 
-void BoolFree(bool_node *node) { (void)node;STUB_TRAP(); }
 
-void CGReturn(cg_name value,cg_type type) { (void)value;(void)type;STUB_TRAP(); }
+
+
+
+
+
+void BGRetInline(struct address_name *value,type_def *type) { (void)value;(void)type;STUB_TRAP(); }
+void DbgRetLoc(void) { STUB_TRAP(); }
+name *StReturn(struct address_name *value,type_def *type,struct instruction **last);
 
 
 cg_name CGPostGets(cg_op op,cg_name left,cg_name right,cg_type type) { (void)op;(void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
 
-cg_name CGPreGets(cg_op op,cg_name left,cg_name right,cg_type type) { (void)op;(void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
+cg_name CGPreGets(cg_op op,cg_name left,cg_name right,cg_type type);
 
 
 struct tree_node *FoldUMinus(struct tree_node *value,type_def *type) { (void)value;(void)type;STUB_TRAP();return 0; }
@@ -619,17 +615,16 @@ struct tree_node *FoldSqrt(struct tree_node *value,type_def *type) { (void)value
 struct tree_node *FoldLog(unsigned char op,struct tree_node *value,type_def *type) { (void)op;(void)value;(void)type;STUB_TRAP();return 0; }
 
 
-cg_name CGFlow(cg_op op,cg_name left,cg_name right) { (void)op;(void)left;(void)right;STUB_TRAP();return NULL; }
 
-cg_name CGChoose(cg_name condition,cg_name first,cg_name second,cg_type type) { (void)condition;(void)first;(void)second;(void)type;STUB_TRAP();return NULL; }
 
-unsigned char FoldIfTrue(struct tree_node *node,struct code_lbl *label) { (void)node;(void)label;STUB_TRAP();return 0; }
+
+
+
 
 void CGBigLabel(void *back) { (void)back;STUB_TRAP(); }
 
 void CGTrash(cg_name value) { (void)value;STUB_TRAP(); }
 
-void CGDone(cg_name value) { (void)value;STUB_TRAP(); }
 
 
 
@@ -641,17 +636,13 @@ void ParmReverse(SYM_HANDLE first) { (void)first;STUB_TRAP(); }
 
 void BGParmInline(void *symbol,type_def *type) { (void)symbol;(void)type;STUB_TRAP(); }
 
-void CGAutoDecl(void *symbol,cg_type type) { (void)symbol;(void)type;STUB_TRAP(); }
+
 
 void DBLocalSym(void *symbol,cg_type type) { (void)symbol;(void)type;STUB_TRAP(); }
 
 void CallTryInit(void) { STUB_TRAP(); }
 
-void TryScrapLabel(struct code_lbl *label) { (void)label;STUB_TRAP(); }
-
-unsigned char PrevClass(ins_entry *entry) { (void)entry;STUB_TRAP();return 0; }
-
-void PullQueue(void) { STUB_TRAP(); }
+void TryScrapLabel(struct code_lbl *label);
 
 
 
@@ -661,31 +652,35 @@ void PullQueue(void) { STUB_TRAP(); }
 
 
 
-void AddLblDef(ins_entry *entry) { (void)entry;STUB_TRAP(); }
 
-void AddLblRef(ins_entry *entry) { (void)entry;STUB_TRAP(); }
 
-void UnLinkInstr(ins_entry *entry) { (void)entry;STUB_TRAP(); }
 
-ins_entry * Untangle(ins_entry *entry) { (void)entry;STUB_TRAP();return NULL; }
 
-void TraceCommon(ins_entry *entry) { (void)entry;STUB_TRAP(); }
 
-void CallRet(ins_entry *entry) { (void)entry;STUB_TRAP(); }
 
-ins_entry * PrevIns(ins_entry *entry) { (void)entry;STUB_TRAP();return NULL; }
+void AddLblRef(ins_entry *entry);
 
-unsigned char ComCode(ins_entry *entry) { (void)entry;STUB_TRAP();return 0; }
+void UnLinkInstr(ins_entry *entry);
 
-void JmpRet(ins_entry *entry) { (void)entry;STUB_TRAP(); }
 
-unsigned char RetAftrLbl(ins_entry *entry) { (void)entry;STUB_TRAP();return 0; }
 
-void RetAftrCall(ins_entry *entry) { (void)entry;STUB_TRAP(); }
 
-unsigned char ComTail(ins_entry *list,ins_entry *entry) { (void)list;(void)entry;STUB_TRAP();return 0; }
 
-void FreePendingDeletes(void) { STUB_TRAP(); }
+
+
+
+
+unsigned char ComCode(ins_entry *entry);
+
+void JmpRet(ins_entry *entry);
+
+unsigned char RetAftrLbl(ins_entry *entry);
+
+void RetAftrCall(ins_entry *entry);
+
+unsigned char ComTail(ins_entry *list,ins_entry *entry);
+
+void FreePendingDeletes(void);
 
 
 
@@ -700,20 +695,19 @@ void FlushObject(void) { STUB_TRAP(); }
 
 
 
-void ZapXX(name *entry,unsigned char type_class,long size) { (void)entry;(void)type_class;(void)size;STUB_TRAP(); }
+void ZapXX(name *entry,unsigned char type_class,long size);
 
 
-name *STempOffset(name *temp,long offset,unsigned char type_class,long size) { (void)temp;(void)offset;(void)type_class;(void)size;STUB_TRAP();return 0; }
 
 name *Display(void *symbol,int level) { (void)symbol;(void)level;STUB_TRAP();return 0; }
-unsigned char AskNameCode(void *symbol,unsigned char kind) { (void)symbol;(void)kind;STUB_TRAP();return 0; }
-unsigned char IsFarFunc(void *symbol) { (void)symbol;STUB_TRAP();return 0; }
-unsigned short AskSegID(void *symbol,unsigned char kind) { (void)symbol;(void)kind;STUB_TRAP();return 0; }
-unsigned char AskSegPrivate(unsigned short segment) { (void)segment;STUB_TRAP();return 0; }
-void FlowOff(struct bool_node *node) { (void)node;STUB_TRAP(); }
-void FreeIns(instruction *entry) { (void)entry;STUB_TRAP(); }
 
-long ParmMem(type_def *type,call_state *state) { (void)type;(void)state;STUB_TRAP();return 0; }
+
+
+
+void FlowOff(struct bool_node *node) { (void)node;STUB_TRAP(); }
+
+
+long ParmMem(type_def *type,call_state *state);
 
 void DbgParmLoc(name *value,void *symbol) { (void)value;(void)symbol;STUB_TRAP(); }
 
@@ -723,7 +717,6 @@ void DbgParmLoc(name *value,void *symbol) { (void)value;(void)symbol;STUB_TRAP()
 
 
 
-struct instruction * MakeMove(name *source,name *destination,unsigned char type_class) { (void)source;(void)destination;(void)type_class;STUB_TRAP();return NULL; }
 
 
 
@@ -751,13 +744,13 @@ void SaveToTargProc(void) { STUB_TRAP(); }
 
 
 
-hw_reg_set StructReg(void) { STUB_TRAP();return 0; }
+hw_reg_set StructReg(void);
 
 
 
-unsigned char IsRegClass(hw_reg_set reg,unsigned char type_class) { (void)reg;(void)type_class;STUB_TRAP();return 0; }
+unsigned char IsRegClass(hw_reg_set reg,unsigned char type_class);
 
-void InitStackMap(void) { STUB_TRAP(); }
+
 
 void FlushBlocks(unsigned char routine_done) { (void)routine_done;STUB_TRAP(); }
 
@@ -769,75 +762,25 @@ void GenPartialRoutine(unsigned char routine_done) { (void)routine_done;STUB_TRA
 
 
 
-unsigned char FixReturns(void) { STUB_TRAP();return 0; }
+void *LinkReturns(void) { STUB_TRAP();return NULL; }
 
-void FixEdges(void) { STUB_TRAP(); }
 
-unsigned Renumber(void) { STUB_TRAP();return 0; }
 
-void BlockTrim(void) { STUB_TRAP(); }
+void RemoveEdge(struct block_edge *edge) { (void)edge;STUB_TRAP(); }
 
-void FindReferences(void) { STUB_TRAP(); }
 
-unsigned char TailRecursion(void) { STUB_TRAP();return 0; }
 
-void NullConflicts(unsigned short usage) { (void)usage;STUB_TRAP(); }
 
-unsigned char InsDead(void) { STUB_TRAP();return 0; }
 
-void FixMemRefs(void) { STUB_TRAP(); }
 
-void PreOptimize(void) { STUB_TRAP(); }
 
-void FixMemBases(void) { STUB_TRAP(); }
 
-unsigned char MemCritical(void) { STUB_TRAP();return 0; }
+
+
+
 
 void Panic(unsigned char routine_done) { (void)routine_done;STUB_TRAP(); }
 
-void MakeConflicts(void) { STUB_TRAP(); }
-
-void SplitVars(void) { STUB_TRAP(); }
-
-void AddCacheRegs(void) { STUB_TRAP(); }
-
-void MakeLiveInfo(void) { STUB_TRAP(); }
-
-void AxeDeadCode(void) { STUB_TRAP(); }
-
-void FixIndex(void) { STUB_TRAP(); }
-
-void FixSegments(void) { STUB_TRAP(); }
-
-void FPRegAlloc(void) { STUB_TRAP(); }
-
-unsigned char RegAlloc(unsigned char part) { (void)part;STUB_TRAP();return 0; }
-
-void FPParms(void) { STUB_TRAP(); }
-
-void PostOptimize(void) { STUB_TRAP(); }
-
-void AssignTemps(void) { STUB_TRAP(); }
-
-void FiniStackMap(void) { STUB_TRAP(); }
-
-void FreeConflicts(void) { STUB_TRAP(); }
-
-void SortBlocks(void) { STUB_TRAP(); }
-
-void GenProlog(void) { STUB_TRAP(); }
-
-void UnFixEdges(void) { STUB_TRAP(); }
-
-void OptSegs(void) { STUB_TRAP(); }
-
-void GenObject(void) { STUB_TRAP(); }
-
-void GenEpilog(void) { STUB_TRAP(); }
-
-void FreeProc(void) { STUB_TRAP(); }
-
-void PropNullInfo(void) { STUB_TRAP(); }
 
 
 
@@ -845,65 +788,99 @@ void PropNullInfo(void) { STUB_TRAP(); }
 
 
 
-unsigned char CFIsI32(struct cfloat *value) { (void)value;STUB_TRAP();return 0; }
 
 
 
 
 
-unsigned char CFIsU16(struct cfloat *value) { (void)value;STUB_TRAP();return 0; }
 
-struct tree_node *TGTrash(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void GenEpilog(void);
+
+void FreeProc(void);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 unsigned char RHSLongPointer(struct tree_node *value) { (void)value;STUB_TRAP();return 0; }
-unsigned char NeedPtrConvert(struct address_name *value,type_def *type) { (void)value;(void)type;STUB_TRAP();return 0; }
+unsigned char NeedPtrConvert(struct address_name *value,type_def *type);
 
 unsigned char CFSignedSize(struct cfloat *value,unsigned size) { (void)value;(void)size;STUB_TRAP();return 0; }
-unsigned char CFUnSignedSize(struct cfloat *value,unsigned size) { (void)value;(void)size;STUB_TRAP();return 0; }
+
 
 
 struct cfloat *CFRound(struct cfloat *value) { (void)value;STUB_TRAP();return NULL; }
-void TGDemote(struct tree_node *value,type_def *type) { (void)value;(void)type;STUB_TRAP(); }
+void TGDemote(struct tree_node *value,type_def *type);
 
 
-void CFNegate(struct cfloat *value) { (void)value;STUB_TRAP(); }
 
 
-struct tree_node *FoldMinus(struct tree_node *left,struct tree_node *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
 
-struct tree_node *FoldTimes(struct tree_node *left,struct tree_node *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
 
-struct tree_node *FoldDiv(struct tree_node *left,struct tree_node *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
 
-struct tree_node *FoldMod(struct tree_node *left,struct tree_node *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
 
-struct tree_node *FoldLShift(struct tree_node *left,struct tree_node *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
 
-struct tree_node *FoldRShift(struct tree_node *left,struct tree_node *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
 
-struct tree_node *FoldAnd(struct tree_node *left,struct tree_node *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
+
+
+struct tree_node *FoldLShift(struct tree_node *left,struct tree_node *right,type_def *type);
+
+
+
+struct tree_node *FoldAnd(struct tree_node *left,struct tree_node *right,type_def *type);
 
 struct tree_node *FoldOr(struct tree_node *left,struct tree_node *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
 
-struct tree_node *FoldXor(struct tree_node *left,struct tree_node *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
+struct tree_node *FoldXor(struct tree_node *left,struct tree_node *right,type_def *type);
 
 struct tree_node *FoldPow(struct tree_node *left,struct tree_node *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
 
-unsigned char CFIs32(struct cfloat *value) { (void)value;STUB_TRAP();return 0; }
-long CFConvertByType(struct cfloat *value,type_def *type) { (void)value;(void)type;STUB_TRAP();return 0; }
-struct tree_node *IntToType(long value,type_def *type) { (void)value;(void)type;STUB_TRAP();return NULL; }
+
+long CFConvertByType(struct cfloat *value,type_def *type);
+
 struct tree_node *CFToType(struct cfloat *value,type_def *type) { (void)value;(void)type;STUB_TRAP();return NULL; }
 struct cfloat *CFAdd(struct cfloat *left,struct cfloat *right) { (void)left;(void)right;STUB_TRAP();return NULL; }
-type_def *FixAddType(struct tree_node *left,struct tree_node *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
-
-struct tree_node *TGVolatile(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
 
 
+/* TGVolatile is recovered in the tree owner. */
 
 
-int GetLog2(unsigned long value) { (void)value;STUB_TRAP();return 0; }
-name *AllocIntConst(int value) { (void)value;STUB_TRAP();return NULL; }
+
+
+
 
 unsigned long Mask(struct bit_tree_node *value) { (void)value;STUB_TRAP();return 0; }
 
@@ -911,31 +888,43 @@ unsigned char SimpleLeaf(struct tree_node *value) { (void)value;STUB_TRAP();retu
 
 
 
-unsigned char SetMemOut(unsigned char value) { (void)value;STUB_TRAP();return 0; }
-
-struct address_name *TNBinary(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
 
 
+struct address_name *MakeBased(struct address_name *left,struct address_name *right,type_def *type) { (void)left;(void)right;(void)type;STUB_TRAP();return NULL; }
+struct address_name *CheckType(struct address_name *value,type_def *type);
+unsigned char CypAddrPlus(struct address_name *left,struct address_name *right,type_def *type);
+unsigned char CypAddrShift(struct address_name *left,struct address_name *right,type_def *type);
+void Convert(struct address_name *value,unsigned char type_class) { (void)value;(void)type_class;STUB_TRAP(); }
 
-struct address_name *TNAssign(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
 
-struct address_name *TNPreGets(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
+void AddIndex(struct address_name *value,name *left,name *right) { (void)value;(void)left;(void)right;STUB_TRAP(); }
+
+struct address_name *InsName(struct instruction *ins,type_def *type);
+struct instruction *MakeBinary(unsigned char op,name *left,name *right,name *result,unsigned char type_class);
+
+
+
+struct address_name *TNBitAssign(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
+struct address_name *BGCopy(struct address_name *value) { (void)value;STUB_TRAP();return NULL; }
+
+struct address_name *TNPreGets(struct tree_node *value);
 
 struct address_name *TNPostGets(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
 
-struct address_name *NotAddrGen(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
 
-struct address_name *TNCall(struct tree_node *value,unsigned char use_result) { (void)value;(void)use_result;STUB_TRAP();return NULL; }
 
-struct address_name *Arithmetic(struct address_name *value,type_def *type) { (void)value;(void)type;STUB_TRAP();return NULL; }
 
-struct address_name *TNQuestion(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
 
-struct address_name *AddrGen(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
 
-struct address_name *BGUnary(unsigned char op,struct address_name *value,type_def *type) { (void)op;(void)value;(void)type;STUB_TRAP();return NULL; }
 
-struct address_name *TNBitShift(struct address_name *value,struct bit_tree_node *node,unsigned char masked) { (void)value;(void)node;(void)masked;STUB_TRAP();return NULL; }
+
+
+name *LoadTemp(name *value,unsigned char type_class) { (void)value;(void)type_class;STUB_TRAP();return NULL; }
+void LoadTempInt(struct address_name *value) { (void)value;STUB_TRAP(); }
+
+
+
+struct address_name *TNBitShift(struct address_name *value,struct bit_tree_node *node,unsigned char masked);
 
 struct address_name *TNWarp(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
 
@@ -943,12 +932,104 @@ struct address_name *TNCallback(struct tree_node *value) { (void)value;STUB_TRAP
 
 struct address_name *TNPatch(struct tree_node *value) { (void)value;STUB_TRAP();return NULL; }
 
-struct bool_node *BGFlow(unsigned char op,struct bool_node *left,struct bool_node *right) { (void)op;(void)left;(void)right;STUB_TRAP();return NULL; }
 
-struct bool_node *BGCompare(unsigned char op,struct address_name *left,struct address_name *right,struct code_lbl *entry,type_def *type) { (void)op;(void)left;(void)right;(void)entry;(void)type;STUB_TRAP();return NULL; }
+
 struct bool_node *Boolean(struct address_name *value,struct code_lbl *entry) { (void)value;(void)entry;STUB_TRAP();return NULL; }
 
 struct address_name *Flip(struct address_name *value,unsigned char when_false,unsigned char when_true) { (void)value;(void)when_false;(void)when_true;STUB_TRAP();return NULL; }
 
-struct address_name *BGConvert(struct address_name *value,type_def *type) { (void)value;(void)type;STUB_TRAP();return NULL; }
-void AddrDemote(struct address_name *value) { (void)value;STUB_TRAP(); }
+struct address_name *BGConvert(struct address_name *value,type_def *type);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+unsigned char NeedConvert(type_def *from,type_def *to);
+void SetCSEBits(instruction *ins,instruction *new_ins);
+
+
+
+name *AddrToName(address_name *addr);
+
+
+
+struct cfloat *CFMul(struct cfloat *left,struct cfloat *right) { STUB_TRAP();return NULL; }
+
+struct cfloat *CFSub(struct cfloat *left,struct cfloat *right) { STUB_TRAP();return NULL; }
+
+
+
+unsigned char CFIsI8(struct cfloat *value) { STUB_TRAP();return 0; }
+
+
+
+
+void *GenCallArgument(LEAFPTR value,cg_type *type) { STUB_TRAP();return NULL; }
+unsigned GenInlineStrcpy(QUAD *quad,LEAFPTR result,void *literal,unsigned index,unsigned length) { STUB_TRAP();return 0; }
+
+
+
+
+
+
+
+
+
+
+struct tree_node *FoldFlOr(struct tree_node *left,struct tree_node *right) { STUB_TRAP();return NULL; }
+struct tree_node *FoldFlNot(struct tree_node *left) { STUB_TRAP();return NULL; }
+
+struct call_node;
+void BGStartInline(void *symbol) { STUB_TRAP(); }
+
+
+struct address_name *PassProcParm(struct address_name *value) { STUB_TRAP();return NULL; }
+
+void BGAddInlineParm(struct address_name *value) { STUB_TRAP(); }
+
+struct address_name *BGStopInline(struct tree_node *call,type_def *type) { STUB_TRAP();return NULL; }
+
+void FreeTreeNode(struct tree_node *value) { STUB_TRAP(); }
+
+
+void TellObjVirtFuncRef(void *cookie) { STUB_TRAP(); }
+
+void SaveDisplay(unsigned char op) { STUB_TRAP(); }
+void Far16Parms(struct call_node *call) { STUB_TRAP(); }
+
+
+
+
+struct parm_node;
+hw_reg_set ParmInLineReg(parm_state *state) { STUB_TRAP();return 0; }
+unsigned char CvtOk(unsigned char from,unsigned char to) { STUB_TRAP();return 0; }
+
+/* PushInSameBlock is recovered in its authentic i86call.c owner. */
+/* PushOneParm is recovered in i86call.c. */
+
+
+
+

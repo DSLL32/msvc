@@ -35,6 +35,9 @@
 #include "cgmemory.h"
 #include "dbinfo.h"
 #include "memory.h"
+#include "stubs.h"
+#include "genopt.h"
+#include "address.h"
 #include <recon.h>
 
 unsigned char HaveCurrBlock,BlocksUnTrimmed;
@@ -229,4 +232,152 @@ unsigned char BlkTooBig(void)
     AddTarget(label,0);
     EnLink(label,1);
     return 1;
+}
+
+static struct code_lbl *LinkReturnsParms[2];
+unsigned char FixReturns(void)
+{
+    block *blk,*other;
+    blk=HeadBlock;
+    while (blk!=NULL) {
+        if (blk->class&0x40) { /* CALL_LABEL */
+            blk->class|=0x800; /* BLOCK_VISITED */
+            if (blk->next_block==NULL) return 0;
+            blk->next_block->class|=0x1000; /* RETURNED_TO */
+            LinkReturnsParms[0]=blk->next_block->label;
+            LinkReturnsParms[1]=(struct code_lbl *)blk->edge[0].destination;
+            if (LinkReturns()==NULL) return 0;
+            other=HeadBlock;
+            while (other!=NULL) {
+                other->class&=~0x800;
+                other=other->next_block;
+            }
+        }
+        blk=blk->next_block;
+    }
+    return 1;
+}
+
+void FixEdges(void)
+{
+    block *blk,*dest;
+    block_edge *edge;
+    int targets;
+    blk=HeadBlock;
+    while (blk!=NULL) {
+        /* This earlier body has no later BIG_JUMP exclusion. */
+        targets=blk->targets;
+        while (--targets>=0) {
+            edge=&blk->edge[targets];
+            dest=FindBlockWithLbl((struct code_lbl *)edge->destination);
+            if (dest!=NULL) {
+                edge->flags|=8; /* DEST_IS_BLOCK */
+                edge->destination=dest;
+                edge->next_source=dest->input_edges;
+                dest->input_edges=edge;
+                ++dest->inputs;
+            }
+        }
+        blk=blk->next_block;
+    }
+}
+
+struct block *FindBlockWithLbl(struct code_lbl *label)
+{
+    block *blk;
+    blk=HeadBlock;
+    while (blk!=NULL && blk->label!=label) blk=blk->next_block;
+    return blk;
+}
+
+void FreeABlock(struct block *blk)
+{
+    unsigned size;
+    if (blk->targets<=1) size=sizeof(*blk);
+    else size=offsetof(block,edge)+blk->targets*sizeof(block_edge);
+    CGFreeSize(blk,size);
+}
+
+void AddAnIns(block *blk,instruction *ins)
+{
+    block *curr_block;
+    curr_block=CurrBlock;
+    CurrBlock=blk;
+    AddIns(ins);
+    CurrBlock=curr_block;
+}
+
+/* The 1994 body precedes the later BIG_JUMP exclusion in makeblk.c. */
+void UnFixEdges(void)
+{
+    block *blk;
+    block_edge *edge;
+    int targets;
+    blk=HeadBlock;
+    while (blk!=NULL) {
+        targets=blk->targets;
+        while (--targets>=0) {
+            edge=&blk->edge[targets];
+            if (edge->flags&8) { /* DEST_IS_BLOCK */
+                RemoveInputEdge(edge);
+                edge->destination=(block *)edge->destination->label;
+                edge->flags&=~8;
+            }
+        }
+        blk=blk->next_block;
+    }
+}
+
+void FreeBlock(void)
+{
+    while (CurrBlock->ins.hd.next!=(instruction *)&CurrBlock->ins)
+        FreeIns(CurrBlock->ins.hd.next);
+    if (CurrBlock->dataflow!=NULL) CGFreeSize(CurrBlock->dataflow,sizeof(data_flow_def));
+    FreeABlock(CurrBlock);
+}
+
+void FreeNames(void);
+void TellBeginExecutions(void);
+void RestoreFromTargProc(void) { STUB_TRAP(); }
+void FreeProc(void)
+{
+    proc_def *oldproc;
+    for (;;) {
+        CurrBlock=HeadBlock;
+        if (CurrBlock==NULL) break;
+        HeadBlock=CurrBlock->next_block;
+        FreeBlock();
+    }
+    BlockList=NULL;
+    FreeNames();
+    TellBeginExecutions();
+    oldproc=CurrProc;
+    if (oldproc!=NULL) {
+        CurrProc=oldproc->next_proc;
+        /* CGFree and CGFreeSize share the actual old physical entry. It
+         * consumes the pointer only; zero represents an UNUSED size formal,
+         * not the old caller's incidental EDX or an allocation-size claim.
+         * Unlike the later source this binary calls it unconditionally. */
+        CGFreeSize(oldproc->state.parm.table,0);
+        CGFreeSize(oldproc,sizeof(*oldproc));
+        if (CurrProc!=NULL) {
+            RestoreFromTargProc();
+            InsId=CurrProc->ins_id;
+            HeadBlock=CurrProc->head_block;
+            BlockList=CurrProc->tail_block;
+            CurrBlock=CurrProc->curr_block;
+            Names[0]=CurrProc->names[0];
+            Names[1]=CurrProc->names[1];
+            Names[2]=CurrProc->names[2];
+            Names[3]=CurrProc->names[3];
+            Names[4]=CurrProc->names[4];
+            LastTemp=CurrProc->lasttemp;
+            DummyIndex=CurrProc->dummy_index;
+            BlockByBlock=CurrProc->block_by_block;
+            BlocksUnTrimmed=CurrProc->untrimmed;
+        } else {
+            InsId=0;
+            BlockByBlock=0;
+        }
+    }
 }

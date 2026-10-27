@@ -59,3 +59,18 @@ hw_reg_set ParmReg(unsigned char type_class,parm_state *state)
     }
     return 0;
 }
+
+/* The older interface receives type_def directly; its one exceptional
+ * long-interrupt convention rounds parameters to two bytes, otherwise four. */
+extern long MaxStack;
+long ParmMem(type_def *type,call_state *state)
+{
+    unsigned align;
+    long length,offset;
+    align=(state->attr&0x2002)==0x2002 ? 2:4;
+    length=(type->length+align-1)&~(align-1);
+    offset=state->parm.offset;
+    state->parm.offset=offset+length;
+    if (state->parm.offset>MaxStack) MaxStack=state->parm.offset;
+    return offset;
+}

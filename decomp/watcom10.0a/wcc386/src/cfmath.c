@@ -33,6 +33,7 @@
 #include "memory.h"
 #include "cfloat.h"
 #include "compiler.h"
+#include "stubs.h"
 #include <recon.h>
 
 void CFClean(struct cfloat *number)
@@ -78,6 +79,11 @@ int CFOrder(struct cfloat *left,struct cfloat *right)
     return 0;
 }
 
+void CFNegate(struct cfloat *value)
+{
+    value->sign=-value->sign;
+}
+
 int CFTest(struct cfloat *value)
 {
     return value->sign;
@@ -94,3 +100,6 @@ int CFAccess(struct cfloat *value,int index)
 {
     return (unsigned char)value->mant[index]-'0';
 }
+
+struct cfloat *CFDiv(struct cfloat *left,struct cfloat *right) { STUB_TRAP();return NULL; }
+struct cfloat *CFInverse(struct cfloat *value) { STUB_TRAP();return NULL; }

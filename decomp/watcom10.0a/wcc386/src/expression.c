@@ -50,6 +50,13 @@ int Level,DeadCode;
 unsigned char Class[256],Token[256];
 unsigned ValueStack[256];
 struct nested_parm_lists *NestedParms;
+/* Encountered unary arithmetic-result table. A real const public also
+ * marks the beginning of this TU's leading CODE constants in the period
+ * MAP, so the preceding function cannot own these result tables. */
+const unsigned char UnaryResult[10]={
+    TYPE_INT,TYPE_INT,TYPE_INT,TYPE_INT,TYPE_INT,TYPE_UINT,
+    TYPE_LONG,TYPE_ULONG,TYPE_FLOAT,TYPE_DOUBLE
+};
 void ExprInit(void)
 {
     Level=0;
@@ -62,10 +69,6 @@ unsigned UMinus(unsigned tree)
     DATA_TYPE kind;
     unsigned type_leaf;
     /* Encountered diagonal of the older arithmetic result table. */
-    static const unsigned char UnaryResult[10]={
-        TYPE_INT,TYPE_INT,TYPE_INT,TYPE_INT,TYPE_INT,TYPE_UINT,
-        TYPE_LONG,TYPE_ULONG,TYPE_FLOAT,TYPE_DOUBLE
-    };
 
     tree=RValue(tree);
     LeafGet(&leaf,tree);

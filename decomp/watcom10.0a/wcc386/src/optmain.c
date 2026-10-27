@@ -34,6 +34,7 @@
 #include "codegen.h"
 #include "cgmemory.h"
 #include "encode.h"
+#include "stubs.h"
 #include <recon.h>
 
 struct ins_entry;
@@ -102,4 +103,74 @@ unsigned char LDone(any_oc *record)
     TryScrapLabel(label);
     --InOptimizer;
     return 1;
+}
+
+unsigned short SetOP(unsigned short segment);
+void FiniQueue(void)
+{
+    ++InOptimizer;
+    SetOP(AskCodeSeg());
+    EmptyQueue();
+    --InOptimizer;
+}
+
+void EmptyQueue(void)
+{
+    ++InOptimizer;
+    while (QCount!=0) PullQueue();
+    --InOptimizer;
+}
+
+void OptPull(void);
+unsigned char UniqueLabel(struct code_lbl *label);
+ins_entry *NextIns(ins_entry *entry);
+void OutputOC(any_oc *record,any_oc *next_label);
+ins_entry *DelInstr(ins_entry *entry);
+void PullQueue(void)
+{
+    struct code_lbl *label,*next,*back_labels,**owner;
+    ins_entry *next_ins;
+    unsigned char kind;
+    ++InOptimizer;
+    for (;;) {
+        /* The old physical blip entry also represents the PLBlip role. */
+        DGBlip();
+        OptPull();
+        if (FirstIns==NULL) break;
+        if ((FirstIns->oc.op.kind&15)==6) {
+            if (UniqueLabel(FirstIns->oc.handle.handle)) --FirstIns->oc.op.objlen;
+            back_labels=NULL;
+            owner=&FirstIns->oc.handle.handle;
+            for (label=FirstIns->oc.handle.handle;label!=NULL;label=next) {
+                next=label->alias;
+                if (label->label.symbol!=NULL) {
+                    *owner=label;
+                    owner=&label->alias;
+                } else {
+                    label->alias=back_labels;
+                    back_labels=label;
+                }
+            }
+            *owner=back_labels;
+        }
+        for (;;) {
+            next_ins=NextIns(FirstIns);
+            if (next_ins!=NULL && (next_ins->oc.op.kind&15)==6)
+                OutputOC(&FirstIns->oc,&next_ins->oc);
+            else OutputOC(&FirstIns->oc,NULL);
+            kind=FirstIns->oc.op.kind&15;
+            if (kind!=6) break;
+            label=FirstIns->oc.handle.handle;
+            label->ins=NULL;
+            next=label->alias;
+            if (next==NULL) break;
+            label->alias=NULL;
+            TryScrapLabel(label);
+            FirstIns->oc.handle.handle=next;
+        }
+        DelInstr(FirstIns);
+        FreePendingDeletes();
+        if (kind>=12 || FirstIns==NULL) break;
+    }
+    --InOptimizer;
 }

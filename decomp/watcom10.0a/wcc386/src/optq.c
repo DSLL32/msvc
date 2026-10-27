@@ -62,3 +62,21 @@ void InsertQueue(ins_entry *entry,ins_entry *after)
     ++QCount;
     --InOptimizer;
 }
+
+void DeleteQueue(ins_entry *ins)
+{
+    ++InOptimizer;
+    if (ins==FirstIns) {
+        FirstIns=ins->ins.next;
+        if (FirstIns!=NULL) FirstIns->ins.prev=NULL;
+        else LastIns=NULL;
+    } else if (ins==LastIns) {
+        LastIns=ins->ins.prev;
+        LastIns->ins.next=NULL;
+    } else {
+        ins->ins.next->ins.prev=ins->ins.prev;
+        ins->ins.prev->ins.next=ins->ins.next;
+    }
+    --QCount;
+    --InOptimizer;
+}

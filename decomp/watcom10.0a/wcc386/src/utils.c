@@ -34,13 +34,20 @@
 #include <recon.h>
 #if defined(__WATCOMC__)
 /* CypLength/CypCopy were compiler intrinsics in the original source. */
-#pragma intrinsic(strlen,memcpy)
+#pragma intrinsic(strlen,memcpy,memcmp)
 #endif
 
 char *Copy(char *source,char *destination,unsigned length)
 {
     while (length--) *destination++=*source++;
     return destination;
+}
+
+/* utils.c CypEqual: the 1994 intrinsic returns all bits set for equality.
+ * Selective intrinsic preserves its no-helper graph in the period build. */
+unsigned char Equal(unsigned char *source,unsigned char *destination,int length)
+{
+    return memcmp(source,destination,length)==0?0xff:0;
 }
 
 char *CopyStr(char *source,char *destination)
@@ -55,3 +62,4 @@ unsigned Length(char *text)
 {
     return strlen(text);
 }
+

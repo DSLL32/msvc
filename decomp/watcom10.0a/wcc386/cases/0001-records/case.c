@@ -11,7 +11,12 @@ static const uint32_t order[]={0x47c77,0x47f15,0x66a2e,0x47b89,0x47bb1,0x47e52,0
  * Exclude this static RET0 identity; no observed frontier/order claim. */
 /* EmitAbort's sole C3 is physically shared with EmitCS_Strings. Its empty
  * body/ABI are static facts; exclude only this entry, with no observed order. */
-static const uint32_t seen[]={0x19087,0xfb36,0x13f71,0x47e02,0xd97b};
+/* ScoreSegments is the released empty386 target hook, sharing the final
+ * ScInitRegs C3. Static-only identity/RET0 proof, zero new unique bytes;
+ * this seed makes no observed ScoreSegments frontier/order claim. */
+/* FiniZeroPage is an exact empty386 hook sharing InitZeroPage's C3.
+ * Static RET0/zero extra union byte; no observed hook frontier/order claim. */
+static const uint32_t seen[]={0x19087,0xfb36,0x13f71,0x47e02,0xd97b,0x6a2ee,0x6ad33};
 RECON_EXPORT const ReconCase case_descriptor={
     .abi_version=RECON_ABI_VERSION,
     .struct_size=sizeof(ReconCase),

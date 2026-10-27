@@ -35,6 +35,7 @@
 #include "cgmemory.h"
 #include "memory.h"
 #include "pragma.h"
+#include "stubs.h"
 #include <recon.h>
 
 /* Call-class bit positions and target prolog state are the older 1994 form.
@@ -158,4 +159,44 @@ void UpdateReturn(call_state *state,type_def *type,unsigned char type_class,void
         state->return_reg=normal;
         state->attr&=~8;
     }
+}
+
+hw_reg_set FullReg(hw_reg_set regs);
+hw_reg_set DisplayReg(void);
+hw_reg_set MustSaveRegs(void)
+{
+    hw_reg_set save,tmp;
+    save=~CurrProc->state.modify;
+    if (CurrProc->state.attr&0x400) save&=~CurrProc->state.return_reg;
+    else {
+        tmp=CurrProc->state.parm.used|CurrProc->state.return_reg;
+        tmp=FullReg(tmp);
+        save&=~tmp;
+    }
+    save&=~StackReg();
+    if (CurrProc->state.return_reg==0)
+        save&=~ReturnReg(U4,!(CurrProc->state.attr&0x4000));
+    tmp=CurrProc->state.unalterable;
+    tmp&=~DisplayReg();
+    tmp&=~StackReg();
+    save&=~tmp;
+    return save;
+}
+
+hw_reg_set SaveRegs(void)
+{
+    hw_reg_set save;
+    save=MustSaveRegs();
+    return save&CurrProc->state.used;
+}
+
+hw_reg_set CallZap(call_state *state)
+{
+    hw_reg_set zap;
+    zap=state->modify;
+    if (!(state->attr&0x400)) {
+        zap=FullReg(zap|state->parm.used|state->return_reg);
+        zap|=ReturnReg(U4,!(state->attr&0x4000));
+    }
+    return zap;
 }

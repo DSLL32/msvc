@@ -24,15 +24,14 @@
 *
 *  ========================================================================
 *
-* Description:  Basic type initialization and type-node allocation.
+* Description:  Compiler free-list allocation and accounting.
 *
 ****************************************************************************/
 
 
-/* cgen2.c's emission-state initializer. In the earlier target the next
- * imported segment starts at -1 directly, before the later SegData field. */
 #include "codegen.h"
 #include "cgmemory.h"
+#include "stubs.h"
 #include <recon.h>
 
 /* freelist.c before debug fill/alignment instrumentation. */
@@ -51,4 +50,17 @@ void FrlFreeSize(void **head,void *entry,int size)
     FrlSize+=size;
     *(void **)entry=*head;
     *head=entry;
+}
+
+unsigned char FrlFreeAll(void **head,int size)
+{
+    void *junk;
+    junk=NULL;
+    while (*head!=NULL) {
+        junk=*head;
+        *head=*(void **)*head;
+        CGFreeSize(junk,size);
+        FrlSize-=size;
+    }
+    return junk!=NULL;
 }

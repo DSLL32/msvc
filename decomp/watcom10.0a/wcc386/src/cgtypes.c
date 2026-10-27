@@ -242,3 +242,13 @@ unsigned char MapIntReturn(cg_type type)
     default:Zoiks(78);return XX;
     }
 }
+
+unsigned char MapStruct(unsigned long size,unsigned short attr)
+{
+    if (!(attr&0x100)) {
+        if (size==1) return U1;
+        if (size==2) return U2;
+        if (size==4) return U4;
+    }
+    return XX;
+}

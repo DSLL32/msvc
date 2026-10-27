@@ -37,6 +37,8 @@
 #include "cgmemory.h"
 #include "memory.h"
 #include "objemit.h"
+#include "stubs.h"
+#include "bldsel.h"
 #include <recon.h>
 
 unsigned Model,TargetModel;
@@ -88,6 +90,14 @@ void CGMemInit(void)
 /* memmgt.c's tracked allocator calls the compiler-private allocator. The
  * initial MemLow check predates the later per-allocation tracking build. */
 int InOptimizer;
+unsigned char SetMemOut(unsigned char value)
+{
+    unsigned char old;
+    old=MemOut;
+    MemOut=value;
+    return old;
+}
+
 void *CGAlloc(int size)
 {
     void *chunk;
@@ -108,6 +118,12 @@ void *CGAlloc(int size)
 void BEDefSeg(unsigned short segment,unsigned char flags,char *name,unsigned alignment)
 {
     DefSegment(segment,flags,name,alignment,0);
+}
+
+void FiniCG(void);
+void BEStop(void)
+{
+    FiniCG();
 }
 
 void BEStart(void)
@@ -485,6 +501,12 @@ void *CGUnary(unsigned char op,void *value,cg_type type)
     return TGUnary(op,value,TypeAddress(type));
 }
 
+struct address_name *BGFloat(char *value,type_def *type);
+void *CGFloat(char *value,cg_type type)
+{
+    return TGLeaf(BGFloat(value,TypeAddress(type)));
+}
+
 void *CGInteger(long value,cg_type type)
 {
     return TGLeaf(BGInteger(value,TypeAddress(type)));
@@ -500,3 +522,178 @@ void *CGCompare(unsigned char op,void *left,void *right,cg_type type)
 {
     return TGCompare(op,left,right,TypeAddress(type));
 }
+
+void *CGTempName(void *temp,cg_type type)
+{
+    (void)type; /* The original interface deliberately uses T_POINTER. */
+    return TGLeaf(BGTempName(temp,TypeAddress(17)));
+}
+
+void *CGAssign(void *dest,void *source,cg_type type)
+{
+    return TGAssign(dest,source,TypeAddress(type));
+}
+
+void CGDone(void *value)
+{
+    BGDone(TGen(TGTrash(value),TypeAddress(14)));
+    BGStartBlock();
+}
+
+void BEFiniLabel(void *label)
+{
+    BGFiniLabel(label);
+}
+
+void CGReturn(void *value,cg_type type)
+{
+    type_def *new_type;
+    new_type=TypeAddress(type);
+    if (value!=NULL) value=TGReturn(value,new_type);
+    if (BGInInline()) BGRetInline(value,new_type);
+    else BGReturn(value,new_type);
+}
+
+/* The old opttell body removes any owned handle directly. It predates the
+ * released CODELABEL restriction and inlines ReallyScrapLabel's search. */
+void TellScrapLabel(struct code_lbl *label)
+{
+    struct code_lbl **owner;
+    ++InOptimizer;
+    owner=&Handles;
+    while (*owner!=NULL) {
+        if (*owner==label) {
+            *owner=label->label.link;
+            CGFreeSize(label,sizeof(*label));
+            break;
+        }
+        owner=&(*owner)->label.link;
+    }
+    --InOptimizer;
+}
+
+unsigned char AskIfRTLabel(struct code_lbl *label) { STUB_TRAP(); return 0; }
+
+/* opttell.c label reachability, with the actual old REACHED bit. */
+void TellReachedLabel(struct code_lbl *label)
+{
+    ++InOptimizer;
+    ValidLbl(label);
+    label->label.status|=8;
+    --InOptimizer;
+}
+
+void TellCondemnedLabel(struct code_lbl *label)
+{
+    ++InOptimizer;
+    ValidLbl(label);
+    --InOptimizer;
+    label->label.status|=0x20;
+}
+
+struct code_lbl *NextCondemned(struct code_lbl *label)
+{
+    ++InOptimizer;
+    while (label!=NULL) {
+        if (label->label.status&0x20) {
+            label->label.status&=~0x20;
+            break;
+        }
+        label=label->label.link;
+    }
+    /* Original branches into the existing optend/TellByPassOver entry. */
+    TellByPassOver();
+    return label;
+}
+void GenKillLabel(struct code_lbl *label);
+void TellBeginExecutions(void)
+{
+    struct code_lbl *dead;
+    ++InOptimizer;
+    for (;;) {
+        dead=NextCondemned(Handles);
+        if (dead==NULL) break;
+        GenKillLabel(dead);
+    }
+    /* The old compiler branches to the genuine TellByPassOver entry for
+     * optend. Preserve that existing vertex rather than owning its tail. */
+    TellByPassOver();
+}
+
+void *TGPreGets(unsigned char op,void *left,void *right,type_def *type);
+void *CGPreGets(unsigned char op,void *left,void *right,cg_type type)
+{
+    return TGPreGets(op,left,right,TypeAddress(type));
+}
+
+void *TGBitMask(void *value,unsigned char start,unsigned char width,type_def *type);
+void *CGBitMask(void *value,unsigned char start,unsigned char width,cg_type type)
+{
+    return TGBitMask(value,start,width,TypeAddress(type));
+}
+
+void BGAutoDecl(void *symbol,type_def *type);
+void CGAutoDecl(void *symbol,cg_type type)
+{
+    BGAutoDecl(symbol,TypeAddress(type));
+}
+
+struct tree_node *TGInitCall(struct tree_node *function,type_def *type,void *symbol);
+void *CGInitCall(void *function,cg_type type,void *symbol)
+{
+    return TGInitCall(function,TypeAddress(type),symbol);
+}
+
+struct tree_node *TGAddParm(struct tree_node *call,struct tree_node *value,type_def *type);
+void CGAddParm(void *call,void *value,cg_type type)
+{
+    TGAddParm(call,value,TypeAddress(type));
+}
+
+struct tree_node *TGCall(struct tree_node *call);
+void *CGCall(void *call)
+{
+    return TGCall(call);
+}
+
+struct tree_node *TGFlow(unsigned char op,struct tree_node *left,struct tree_node *right);
+void *CGFlow(unsigned char op,void *left,void *right)
+{
+    return TGFlow(op,left,right);
+}
+
+void *CGSelInit(void) { return BGSelInit(); }
+
+void CGSelCase(void *table,void *label,long value)
+{
+    BGSelCase(table,label,value);
+}
+void CGSelOther(void *table,void *label) { BGSelOther(table,label); }
+void CGSelect(void *table,void *value)
+{
+    BGSelect(table,TGen(value,TypeAddress(T_DEFAULT)));
+}
+
+struct tree_node *TGQuestion(struct tree_node *condition,struct tree_node *first,
+                             struct tree_node *second,type_def *type);
+void *CGChoose(void *condition,void *first,void *second,cg_type type)
+{
+    return TGQuestion(condition,first,second,TypeAddress(type));
+}
+
+void *CGVolatile(void *value)
+{
+    return TGVolatile(value);
+}
+
+void TellFreeAllLabels(void) { STUB_TRAP(); }
+
+unsigned char AskIfUniqueLabel(struct code_lbl *label)
+{
+    ++InOptimizer;
+    ValidLbl(label);
+    --InOptimizer;
+    return (label->label.status&0x100)!=0;
+}
+
+unsigned char AskIfCommonLabel(struct code_lbl *label) { STUB_TRAP();return 0; }

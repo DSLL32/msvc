@@ -43,10 +43,48 @@ typedef struct block_ins { ins_header hd;struct block *blk; } block_ins;
 typedef struct block_edge {
     struct block *destination,*source;
     struct block_edge *next_source;
-    unsigned short join_level,flags;
+    unsigned char join_level; /* Actual old interval-depth byte at +12. */
+    unsigned short flags;
 } block_edge;
 struct interval_def;
-struct data_flow_def;
+/* Actual old global variable sets are four DWORDs, not the later larger
+ * backend universe. The seven encountered data-flow sets occupy 112 bytes. */
+typedef struct global_bit_set { unsigned bits[4]; } global_bit_set;
+typedef struct data_flow_def {
+    global_bit_set in,out,def,use,call_exempt,need_load,need_store;
+} data_flow_def;
+typedef char old_data_flow_size[(sizeof(data_flow_def)==112)?1:-1];
+/* Released conflict_node layout with the actual old 16-byte global set.
+ * AddConflictNode now proves the complete 88-byte allocation and final
+ * WORD state / BYTE possible fields. */
+typedef struct reg_tree {
+    struct reg_tree *lo,*hi;
+    name *temp,*alt;
+    hw_reg_set *regs,chosen;
+    long size,offset;
+    unsigned char idx,has_name;
+} reg_tree;
+typedef char old_reg_tree_size[(sizeof(reg_tree)==36)?1:-1];
+typedef char old_reg_tree_idx[(offsetof(reg_tree,idx)==32)?1:-1];
+typedef struct conflict_node {
+    struct conflict_node *next_conflict,*next_for_name;
+    name *name;
+    struct block *start_block;
+    struct reg_tree *tree;
+    unsigned savings;
+    int num_constrained,available;
+    name_set with;
+    struct { instruction *first,*last; } ins_range;
+    struct { unsigned within_block;global_bit_set out_of_block; } id;
+    unsigned short state;
+    unsigned char possible;
+} conflict_node;
+typedef char old_conflict_global_id[(offsetof(conflict_node,id.out_of_block)==68)?1:-1];
+typedef char old_conflict_size[(sizeof(conflict_node)==88)?1:-1];
+typedef char old_conflict_state[(offsetof(conflict_node,state)==84)?1:-1];
+typedef char old_conflict_possible[(offsetof(conflict_node,possible)==86)?1:-1];
+extern conflict_node *ConfList;
+
 typedef struct block {
     block_ins ins;
     struct block *next_block,*prev_block;
@@ -58,7 +96,8 @@ typedef struct block {
     union { struct block *alter_ego,*next; } v;
     struct code_lbl *label;
     unsigned available_bit;
-    unsigned short depth,id,gen_id,inputs,targets;
+    unsigned char depth;
+    unsigned short id,gen_id,inputs,targets;
     unsigned class;
     long iterations;
     unsigned unroll_count;
@@ -66,6 +105,8 @@ typedef struct block {
 } block;
 #pragma pack()
 typedef char old_ins_header_size[(sizeof(ins_header)==36)?1:-1];
+typedef char old_block_depth[(offsetof(block,depth)==80)?1:-1];
+typedef char old_block_id[(offsetof(block,id)==82)?1:-1];
 typedef char old_block_label[(offsetof(block,label)==72)?1:-1];
 typedef char old_block_class[(offsetof(block,class)==92)?1:-1];
 extern block *CurrBlock,*BlockList,*HeadBlock;

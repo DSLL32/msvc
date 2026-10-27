@@ -37,6 +37,7 @@
 #include "expression.h"
 #include "scanner.h"
 #include "memory.h"
+#include "cstring.h"
 #include <recon.h>
 
 void *SSVar;
@@ -320,4 +321,186 @@ integer:
         break;
     }
     return value;
+}
+
+void *CGInitCall(void *function,cg_type type,void *symbol);
+void CGAddParm(void *call,void *value,cg_type type);
+void *CGCall(void *call);
+void *GenCallArgument(LEAFPTR value,cg_type *type);
+unsigned GenInlineStrcpy(QUAD *quad,LEAFPTR result,void *literal,unsigned index,unsigned length);
+extern unsigned Inline_Threshold;
+/* Serialized predecessor of cgen2.c's call builder. The old driver consumes
+ * argument quads itself, including its single-level inline-function path. */
+unsigned GenQuadCall(LEAFPTR function,cg_type type,unsigned index,QUAD *quad,
+                     LEAFPTR result,int inline_call)
+{
+    SYM_ENTRY symbol;
+    struct aux_info *info;
+    QUAD next_quad;
+    LEAF parameter;
+    union { SYM_ENTRY symbol;STRING_LITERAL literal; } chunk;
+    TYPEPTR pointer_type;
+    cg_name address,call,value;
+    cg_type parameter_type;
+    unsigned start;
+
+    info=FindInfo(&symbol,function->u.symbol.handle);
+    if ((info->flags&1) || (symbol.attrib&0x2000)) {
+        if (symbol.flags&0x20) address=function->u.cg_name;
+        else address=LeafAddress(function);
+        if (type==T_INTEGER) {
+            type=T_INT_2;
+            result->leaf_type=GetType(TYPE_SHORT);
+        }
+        if (type==T_UNSIGNED) {
+            type=T_UINT_2;
+            result->leaf_type=GetType(TYPE_USHORT);
+        }
+        call=CGInitCall(address,type,(void *)(unsigned)function->u.symbol.handle);
+        for (;;) {
+            QuadGet(quad,index);
+            LeafGetString(result,quad->result);
+            if (quad->quad_class==T_CALL || quad->quad_class==T_CALL_NO_PARM) break;
+            value=GenCallArgument(result,&parameter_type);
+            CGAddParm(call,value,parameter_type);
+            ReleaseString(result,quad->result);
+            ++index;
+        }
+        result->u.cg_name=CGCall(call);
+        if (LeafCGType(result)==T_POINTER) result->leaf_flags|=0x2000;
+        return index;
+    }
+
+    SymGet(&symbol,function->u.symbol.handle);
+    if (symbol.flags&0x20) address=function->u.cg_name;
+    else {
+        if ((symbol.flags&8) && (symbol.attrib&0x0c)!=0x0c &&
+            (symbol.attrib&0x8000) && !VarParm(&symbol) &&
+            (function->leaf_flags&0x8000) && InlineFuncHandle==0 &&
+            !inline_call && function->u.symbol.handle!=CurFuncHandle &&
+            symbol.u.func.number_of_quads<Inline_Threshold) {
+            Inline_Threshold-=symbol.u.func.number_of_quads;
+            InlineFuncHandle=CurFuncHandle;
+            CurFuncHandle=0;
+            SymGet(CurFunc,function->u.symbol.handle);
+            CurFuncHandle=function->u.symbol.handle;
+            /* Actual older inline mode supplies the flag value1 through this
+             * shared serialized-parameter entry's fourth transport slot. */
+            InlineQuadIndex=EmitForLoop(quad,index,NULL,(void *)1);
+            QuadGet(quad,index);
+            InlineReturnLeaf=quad->result;
+            if (quad->quad_flags&1) InlineReturnLeaf=0;
+            EmitLocals(CurFunc->u.func.locals);
+            start=CurFunc->u.func.start_of_func;
+            DefineLabels(start+1);
+            SavedReturnLabel=ReturnLabel;
+            ReturnLabel=BENewLabel();
+            CGControl(O_LABEL,NULL,ReturnLabel);
+            quad->operand2=0;
+            quad->result=0;
+            quad->quad_flags=0;
+            return start;
+        }
+        if (result->leaf_class==0x10 &&
+            (strcmp(symbol.name,"strcpy")==0 ||
+             strcmp(symbol.name,"_inline_strcpy")==0)) {
+            QuadGet(&next_quad,index+1);
+            LeafGet(&parameter,next_quad.result);
+            pointer_type=parameter.leaf_type;
+            while (pointer_type->decl_type==TYPE_TYPEDEF)
+                pointer_type=pointer_type->object;
+            if (pointer_type->decl_type==TYPE_POINTER) {
+                ReadLiteralChunk(&chunk,result->u.string.handle);
+                ReleaseString(result,quad->result);
+                value=CGBackName((void *)result->u.string.back_handle,T_UINT_1);
+                return GenInlineStrcpy(quad,result,value,index,chunk.literal.length);
+            }
+        }
+        address=LeafAddress(function);
+    }
+    call=CGInitCall(address,type,(void *)(unsigned)function->u.symbol.handle);
+    while (quad->quad_class!=T_CALL && quad->quad_class!=T_CALL_NO_PARM) {
+        result->leaf_flags&=~0x2000;
+        parameter_type=(cg_type)LeafCGType(result);
+        value=LeafValue(result);
+        CGAddParm(call,value,parameter_type);
+        ReleaseString(result,quad->result);
+        QuadGet(quad,++index);
+        LeafGetString(result,quad->result);
+    }
+    result->u.cg_name=CGCall(call);
+    result->leaf_class=8;
+    return index;
+}
+
+struct local_vars *ReleaseVars(SYM_HANDLE first,struct local_vars *previous)
+{
+    struct local_vars *entry;
+    entry=CMemAlloc(sizeof(*entry));
+    entry->next=previous;
+    entry->sym_list=first;
+    return entry;
+}
+
+void *CGSelInit(void);
+void CGSelCase(void *table,void *label,long value);
+void CGSelOther(void *table,void *label);
+void CGSelect(void *table,cg_name value);
+/* Earlier serialized switch cases use quad.operand2 as the next index;
+ * their leaf retains the already-created label and DWORD case value. */
+void GenSwitch(unsigned case_index,LEAFPTR value,LEAFPTR default_label)
+{
+    QUAD quad;
+    LEAF entry;
+    void *table;
+    table=CGSelInit();
+    while (case_index!=0) {
+        QuadGet(&quad,case_index);
+        LeafGet(&entry,quad.operand1);
+        CGSelCase(table,entry.u.label.handle,(long)entry.u.words[3]);
+        case_index=quad.operand2;
+    }
+    CGSelOther(table,default_label->u.label.handle);
+    CGSelect(table,LeafValue(value));
+}
+
+/* Serialized predecessor of the later cgen2.c pointer-conversion cases.
+ * Preserve the old based-pointer and segment-value paths as separate calls. */
+cg_name GenCast(LEAFPTR source,LEAFPTR result,cg_type cgtype)
+{
+    TYPEPTR type;
+    unsigned flags;
+    cg_name value;
+    if (result->leaf_class==6 && result->u.symbol.handle!=0)
+        return GenBasedPointer(result->u.symbol.handle,LeafValue(source));
+    if (result->leaf_class==7 && (source->leaf_flags&0x800))
+        return GenBasedPointer(source->leaf_type->u.p.based_sym,LeafValue(source));
+    flags=4;
+    type=result->leaf_type;
+    while (type->decl_type==TYPE_TYPEDEF) type=type->object;
+    switch (type->decl_type) {
+    case TYPE_LONG:case TYPE_ULONG:
+        break;
+    case TYPE_POINTER:
+        if (source->leaf_flags&0x800) {
+            if (TypeSize(type)!=6) result=NULL;
+        } else if (type->decl_flags&0x800) {
+            return GenBasedPointer(type->u.p.based_sym,LeafValue(source));
+        } else if (source->leaf_flags&0x2000) {
+            source->leaf_flags&=~0x2000;
+            value=LeafValueEx(source,result,flags);
+            return GenPointerConversion(value,33); /* O_PTR_TO_NATIVE. */
+        }
+        break;
+    case TYPE_USHORT:
+        if (type->decl_flags&0x1000) {
+            flags|=2;
+            return LeafValueEx(source,result,flags);
+        }
+        break;
+    default:
+        if (source->leaf_flags&0x800) result=NULL;
+        break;
+    }
+    return CGUnary(0x24,LeafValueEx(source,result,flags),cgtype);
 }

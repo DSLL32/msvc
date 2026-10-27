@@ -39,7 +39,8 @@ cg_name LeafAddress(LEAFPTR leaf);
 cg_name LeafAddressEx(LEAFPTR leaf,LEAFPTR result,unsigned flags);
 cg_name LeafValue(LEAFPTR leaf);
 cg_name LeafValueEx(LEAFPTR leaf,LEAFPTR result,unsigned flags);
-unsigned GenCall(LEAFPTR function,cg_type type,unsigned index,QUAD *quad,LEAFPTR result,int inline_call);
+/* Earlier quad-level call builder; distinct from backend GenCall. */
+unsigned GenQuadCall(LEAFPTR function,cg_type type,unsigned index,QUAD *quad,LEAFPTR result,int inline_call);
 void GenJump(LEAFPTR label);
 cg_type ComparisonType(LEAFPTR left,LEAFPTR right);
 int DoFuncDefn(LEAFPTR function);
@@ -72,6 +73,7 @@ void BEFreeBack(void *back);
 cg_label CGLastParm(void);
 void CGReturn(cg_name value,cg_type type);
 cg_name CGInteger(long value,cg_type type);
+cg_name CGAssign(cg_name left,cg_name right,cg_type type);
 cg_name CGPostGets(cg_op op,cg_name left,cg_name right,cg_type type);
 cg_name CGPreGets(cg_op op,cg_name left,cg_name right,cg_type type);
 cg_name CGBinary(cg_op op,cg_name left,cg_name right,cg_type type);
