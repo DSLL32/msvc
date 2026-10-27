@@ -25,7 +25,6 @@ int __stdcall get_debug_flag(unsigned index)
 {
     return (signed char)debug_flags[index];
 }
-int __stdcall run_dumper(int argc, char **argv) { __asm { int 3 } return 255; }
 int __stdcall run_editor(int argc, char **argv) { __asm { int 3 } return 255; }
 int __stdcall run_helper(int argc, char **argv) { __asm { int 3 } return 255; }
 int __stdcall save_exception(unsigned char passthrough, DWORD code, EXCEPTION_POINTERS *info,

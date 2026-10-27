@@ -5479,5 +5479,174 @@
       },
       "basis": "Identified stdcall classifier/four stack slots/RET16 and ordinary EDI nonvolatile ABI. Existing reference-record and checksum contracts reused; pending classifier body gets no credit."
     }
+  ],
+  "dumper_driver_ordinary_abi": [
+    {
+      "owner": "_run_dumper@8",
+      "normal_return_preservation": {
+        "_dump_file@4": [
+          "ebx"
+        ],
+        "_next_output_section@4": [
+          "esi"
+        ]
+      },
+      "basis": "Actual caller caches public fputc in EBX across dump_file and fprintf in ESI across next_output_section. The identified stdcall functions have one physical pointer slot and RET4; ordinary x86 nonvolatile ABI is the preservation premise. No pending dump-file body or exceptional-return credit."
+    }
+  ],
+  "dumper_options_ordinary_abi": [
+    {
+      "owner": "_configure_dumper_options",
+      "normal_return_preservation": {
+        "_dumper_usage": [
+          "ebx",
+          "ebp"
+        ],
+        "_append_argument@8": [
+          "ebx",
+          "ebp"
+        ],
+        "msvcrt.dll!fopen": [
+          "ebp"
+        ]
+      },
+      "basis": "Actual parser caches _strnicmp in EBX and _stricmp in EBP across the question-mark usage branch, out-file fopen and section append. Identified cdecl/public fopen and ordinary target cdecl/stdcall interfaces preserve those registers on normal return. No successful usage/fatal body or exceptional-return claim."
+    }
+  ],
+  "dumper_archive_ordinary_abi": [
+    {
+      "owner": "_dump_archive_linker_members@4",
+      "cached_import": "msvcrt.dll!printf IAT401238 in EBX at42c667; actual repeated first/second index printing sites",
+      "normal_return_preservation": {
+        "_archive_big_endian_dword@4": [
+          "ebx"
+        ],
+        "_seek_file@16": [
+          "ebx"
+        ],
+        "_read_archive_member_header": [
+          "ebx"
+        ],
+        "_dump_archive_header@68": [
+          "ebx"
+        ],
+        "_allocate_memory@4": [
+          "ebx"
+        ],
+        "_mapped_read@12": [
+          "ebx"
+        ],
+        "_buffered_read@12": [
+          "ebx"
+        ]
+      },
+      "basis": "Identified ordinary x86 stdcall/cdecl interfaces preserve EBX on normal return. The header printer receives DWORD plus60-byte by-value header plusDWORD and has actual RET68; pending native entry remains a genuine trap. Existing printf/release/statistics ABI facts reused; no provider body campaign or pending body credit."
+    },
+    {
+      "owner": "_dump_archive_header@68",
+      "normal_return_preservation": {
+        "OutputLibrary::MemberName": [
+          "ebx",
+          "ebp"
+        ],
+        "msvcrt.dll!ctime": [
+          "ebx",
+          "esi"
+        ],
+        "msvcrt.dll!fputs": [
+          "ebx",
+          "esi"
+        ]
+      },
+      "basis": "Actual ordinary thiscall MemberName has receiver plusone stack pointer/RET4. Identified public cdecl ctime/fputs use ordinary nonvolatile x86 ABI. Header printer caches sscanf/EBX, fprintf/EBP and fputc/ESI across these normal-return calls. Existing fprintf/fputc/sscanf and ctime/fputs EBP facts reused; no provider implementation or wider return claim."
+    }
+  ],
+  "dumper_header_ordinary_abi": [
+    {
+      "owner": "_prepare_dumper_file@4",
+      "normal_return_preservation": {
+        "msvcrt.dll!sprintf": [
+          "edi"
+        ]
+      },
+      "basis": "Identified public cdecl sprintf preserves EDI on normal return. Original caches its IAT401240 entry in EDI at426216 and reuses it at4262de/426300/426322 after its first426232 call and intervening fprintf. Existing ordinary fprintf EDI and sprintf EBP contracts retained; no provider body campaign."
+    }
+  ],
+  "dumper_empty_body_alias": {
+    "canonical": "LibrarianContext::EmitImportDebugRelocations",
+    "original_rva": 116640,
+    "original_bytes": "c20c00",
+    "original_body_sha256": "dbd1a662565b07272069f88faadf4327acaf51b7d14f236c84c0a9679d07cef3",
+    "additional_caller_rva": 174932,
+    "additional_source_prototype": "void stdcall(DWORD start,DWORD end,void *labels)",
+    "canonical_source_prototype": "void thiscall LibrarianContext::EmitImportDebugRelocations(LibrarianImportInfo *,void *,void *)",
+    "qualification": "One physical empty body; exact RET12 on both roles, no semantic receiver/formal use, no EAX result consumed. The additional source spelling is a code-free alias, with canonical registry/native body and instrumentation retained. No separate body credit or general calling-convention conversion."
+  },
+  "dumper_section_header_ordinary_abi": [
+    {
+      "owner": "_dump_section_header@8",
+      "normal_return_preservation": {
+        "_get_input_section_name@8": [
+          "edi"
+        ]
+      },
+      "basis": "Actual ordinary stdcall section-name helper receives two pointer slots/RET8; EDI is x86 nonvolatile. Original caches fprintf in EDI at42664f, then uses it at426692 after the long-name helper42667e. Existing public fprintf preservation applies across its first call. Normal-return scope only; no helper/provider byte campaign."
+    }
+  ],
+  "dumper_line_number_ordinary_abi": [
+    {
+      "owner": "_dump_line_numbers@4",
+      "target": "_dump_relocation_symbol@12",
+      "preserves": [
+        "ebx"
+      ],
+      "basis": "Identified void stdcall(FILE*,const char*,IMAGE_SYMBOL*), RET12, ordinary normal-return nonvolatile EBX. Actual owner cached fprintf survives call42a034."
+    }
+  ],
+  "dumper_fpo_ordinary_abi": [
+    {
+      "owner": "_dump_fpo@12",
+      "target": "_print_dumper_address@12",
+      "preserves": [
+        "ebp"
+      ],
+      "basis": "Actual three-slot stdcall caller427624, complete callee normal RET12 exits427196/427202/427265/427296 with EBP restored. This contract qualifies preservation only; named pending body remains unimplemented."
+    }
+  ],
+  "dumper_symbol_ordinary_abi": [
+    {
+      "owner": "_dump_coff_symbol@4",
+      "target": "_format_dumper_symbol@8",
+      "preserves": [
+        "edi"
+      ],
+      "basis": "Identified stdcall(IMAGE_SYMBOL*,char*) call42bb95, ordinary normal-return nonvolatile EDI preserves cached fprintf at42bbab; pending body has zero implementation credit."
+    }
+  ],
+  "dumper_debug_loader_ordinary_abi": [
+    {
+      "owner": "_load_dumper_debug@28",
+      "import": {
+        "dll": "msvcrt.dll",
+        "name": "fseek"
+      },
+      "preserves": [
+        "esi",
+        "edi"
+      ],
+      "basis": "Public cdecl int fseek(FILE*,long,int); ordinary normal-return nonvolatile ESI. Actual fread cache425b16 survives fseek425bbb before425bd8. Includes own cached-target reuse: fread425b26\u2192425bd8 in ESI and fseek425bbb\u2192425ce0 in EDI."
+    },
+    {
+      "owner": "_load_dumper_debug@28",
+      "import": {
+        "dll": "msvcrt.dll",
+        "name": "fread"
+      },
+      "preserves": [
+        "esi",
+        "edi"
+      ],
+      "basis": "Public cdecl size_t fread(void*,size_t,size_t,FILE*); ordinary normal-return nonvolatile EDI. Actual fseek cache425bb1 survives fread425bd8 before425ce0. Includes own cached-target reuse: fread425b26\u2192425bd8 in ESI and fseek425bbb\u2192425ce0 in EDI."
+    }
   ]
 }

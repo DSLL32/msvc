@@ -87,6 +87,8 @@ struct LibrarianContext {
     RECON_FORCEINLINE RECON_THISCALL ~LibrarianContext();
     RECON_THISCALL LibrarianContext(int,const char *,const char *,DWORD,WORD,DWORD);
     int RECON_THISCALL Process(void);
+    /* Provisional identity for the distinct outlined base-cleanup entry. */
+    void RECON_THISCALL Release(void);
     void RECON_THISCALL InitializeMachine(DWORD);
     DWORD RECON_THISCALL OrdinalSlots(DWORD);
     void RECON_THISCALL CreateImportSymbols(DWORD *);

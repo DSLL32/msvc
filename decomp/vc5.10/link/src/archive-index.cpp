@@ -8,10 +8,12 @@
 #include "memory.h"
 #include "options.h"
 #include "full-link-functions.h"
+#include "dumper.h"
 #include <recon.h>
 
 extern "C" {
 extern BYTE file_access_statistics;
+extern const char *default_phase;
 /* Original47f084, paired with archive_member_offset47eed8. */
 DWORD archive_member_size;
 IMAGE_ARCHIVE_MEMBER_HEADER *__cdecl read_archive_member_header(void);
@@ -133,5 +135,95 @@ void RECON_THISCALL OutputLibrary::ReadIndex(LinkContext *context)
     if (is_import) context->CheckMachine(this->name,*(WORD *)(import_header+6));
     else if (object_header.Machine) context->CheckMachine(this->name,object_header.Machine);
 }
+/* Dump both real archive symbol indexes and retain their ordinary library
+ * buffers for the later member walker.  The first index is big endian; the
+ * second has little-endian offsets and WORD member numbers. */
+extern "C" void __stdcall dump_archive_header(OutputLibrary *,IMAGE_ARCHIVE_MEMBER_HEADER,DWORD);
+extern "C" void __stdcall dump_archive_linker_members(OutputLibrary *library)
+{
+    IMAGE_ARCHIVE_MEMBER_HEADER *first,header;
+    FileRecord *file_record;
+    DWORD count,members,position,bytes,next_member_position,error,i;
+    char *name;
+    default_phase="DumpSpecialLinkerInterfaceMembers";
+    archive_member_offset=8;
+    archive_member_size=0;
+    first=read_archive_member_header();
+    if(memcmp(first->Name,"/               ",16)) {
+        if(selected_tool_kind!=2)link_warning(library->name,4003);
+        return;
+    }
+    if(dumper_context->options.dump_linker_members & 1)
+        dump_archive_header(0,*first,8);
+    READ_ARCHIVE(&count,4);
+    count=archive_big_endian_dword(&count);
+    library->archive_symbol_count=count;
+    library->index_data[0]=allocate_memory(count*4+4);
+    READ_ARCHIVE(library->index_data[0],count*4);
+    ARCHIVE_POSITION(position);
+    bytes=archive_member_size-position+68;
+    library->index_data[2]=allocate_memory(bytes);
+    READ_ARCHIVE(library->index_data[2],bytes);
+    if(dumper_context->options.dump_linker_members & 1) {
+        printf("\n    %lu public symbols\n\n",library->archive_symbol_count);
+        name=(char *)library->index_data[2];
+        for(i=0;i<library->archive_symbol_count;++i) {
+            printf(" %8lX ",archive_big_endian_dword((DWORD *)library->index_data[0]+i));
+            /* The real printer's result includes its newline, advancing over
+             * the name's terminating NUL in the serialized name list. */
+            name+=printf("%s\n",name);
+        }
+    }
+    next_member_position=(archive_member_offset+archive_member_size+1)&~1UL;
+    error=0;
+    seek_file(current_input_file,next_member_position,0,&error);
+    READ_ARCHIVE(&header,60);
+    if(!memcmp(header.Name,"/               ",16)) {
+        first=read_archive_member_header();
+        if(dumper_context->options.dump_linker_members & 2)
+            dump_archive_header(0,*first,next_member_position);
+        library->flags|=1;
+        release_memory(library->index_data[0]);
+        READ_ARCHIVE(&members,4);
+        library->index_data[0]=allocate_memory(members*4+4);
+        READ_ARCHIVE((DWORD *)library->index_data[0]+1,members*4);
+        READ_ARCHIVE(&count,4);
+        library->index_data[1]=allocate_memory(count*2);
+        READ_ARCHIVE(library->index_data[1],count*2);
+        ARCHIVE_POSITION(position);
+        bytes=next_member_position-position+archive_member_size+60;
+        READ_ARCHIVE(library->index_data[2],bytes);
+        if(dumper_context->options.dump_linker_members & 2) {
+            printf("\n    %lu offsets\n\n",members);
+            for(i=1;i<=members;++i)
+                printf(" %8lX %8lX\n",i,((DWORD *)library->index_data[0])[i]);
+            printf("\n    %lu public symbols\n\n",library->archive_symbol_count);
+            name=(char *)library->index_data[2];
+            for(i=0;i<library->archive_symbol_count;++i) {
+                printf(" %8hX ",((WORD *)library->index_data[1])[i]);
+                name+=printf("%s\n",name);
+            }
+        }
+    }
+    library->index_data[3]=allocate_memory(library->archive_symbol_count*4);
+    name=(char *)library->index_data[2];
+    for(i=0;i<library->archive_symbol_count;++i) {
+        ((char **)library->index_data[3])[i]=name;
+        while(*name++) ;
+    }
+    next_member_position=(archive_member_offset+archive_member_size+1)&~1UL;
+    error=0;
+    seek_file(current_input_file,next_member_position,0,&error);
+    READ_ARCHIVE(&header,60);
+    if(!memcmp(header.Name,"//              ",16)) {
+        first=read_archive_member_header();
+        if(dumper_context->options.dump_linker_members & 2)
+            dump_archive_header(0,*first,next_member_position);
+        name=(char *)allocate_memory(archive_member_size);
+        READ_ARCHIVE(name,archive_member_size);
+        library->index_data[4]=name;
+    } else library->index_data[4]=NULL;
+}
+
 #undef READ_ARCHIVE
 #undef ARCHIVE_POSITION

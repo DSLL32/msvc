@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "aliases": [
+    {
+      "win32_alias": "_build_pe_dumper_labels@12",
+      "win32_target": "?EmitImportDebugRelocations@LibrarianContext@@QAEXPAULibrarianImportInfo@@PAX1@Z",
+      "native_alias": "build_pe_dumper_labels",
+      "native_target": "_ZN16LibrarianContext26EmitImportDebugRelocationsEP19LibrarianImportInfoPvS2_"
+    }
+  ]
+}

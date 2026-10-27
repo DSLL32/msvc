@@ -2,3 +2,4 @@ LIBRARY MSPDB50
 EXPORTS
     SigForPbCb
     TruncStFromSz
+    ?OpenValidate@PDB@@SAHPAD00KKPAJQADPAPAU1@@Z

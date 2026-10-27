@@ -25,9 +25,19 @@ typedef struct LinkOptions {
     const char *mac_creator, *mac_type;
     const char *library_basename;
     const char *default_extension;
-    BYTE librarian_list,librarian_skip_directive_symbols,librarian_convert,reserved16f[17];
-    BYTE default180, reserved181[15];
+    BYTE librarian_list,librarian_skip_directive_symbols,librarian_convert,reserved16f;
+    WORD dump_linker_members,dump_raw_count;
+    DWORD dump_raw_format;
+    BYTE dump_headers,dump_relocations,dump_line_numbers,dump_symbols;
+    BYTE dump_base_relocations,dump_imports,dump_exports,dump_raw_data;
+    union { BYTE default180; BYTE dump_summary; };
+    BYTE dump_architecture,dump_archive_members,dump_convert,dump_fpo;
+    BYTE dump_pdata,dump_omap_to,dump_omap_from,dump_fixups,dump_map;
+    BYTE reserved18a,dump_dependents,dump_disassembly,dump_directives;
+    BYTE reserved18e[2];
 } LinkOptions;
+typedef char DumperOptionOffsets[(offsetof(LinkOptions,dump_raw_format)==0x50 &&
+    offsetof(LinkOptions,dump_summary)==0x5c)?1:-1];
 
 typedef struct LinkContext LinkContext;
 typedef struct LinkAuxiliaryData {

@@ -8,7 +8,7 @@ NATIVE_CPPFLAGS = -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TRACE -DRECON_NA
 NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
 NATIVE_CXXFLAGS = -nostdinc++ -fno-exceptions -fno-rtti
 BINARY_SOURCES = src/definition-buffer.cpp src/definition-reserve.cpp src/option-stubs.c src/symbols.c src/string-storage.c src/buffers.c src/arguments.c src/reproduction.c src/memory.c src/files.c src/driver-stubs.c src/driver.c src/initializers.c src/full-link-init.c src/comdat.c src/sections.c src/libraries.c src/input.c src/machine.c src/module-index.c src/symbol-input.c src/input-sections.c src/default-libraries.c src/comdat-input.cpp src/symbol-table.cpp src/link-driver.cpp src/options.cpp src/full-link.cpp src/full-link-stubs.cpp src/section-driver.cpp src/pass-one.cpp src/input-machine.cpp src/input-module.cpp src/object-loader.cpp harness/startup.c
-BINARY_SOURCES += src/comdat-fold.cpp src/import-sections.c src/incremental-image.c src/definition-file.cpp src/archive-index.cpp src/archive-search.cpp src/input-relocations.cpp src/x86-relocations.c src/alpha-relocations.c src/alpha-fixups.cpp src/mips-relocations.c src/mips-fixups.cpp src/arm-relocations.cpp src/ppc-relocations.c src/ppc-fixups.cpp src/sh-relocations.cpp src/module-symbols.cpp src/module-symbol-stubs.c
+BINARY_SOURCES += src/comdat-fold.cpp src/import-sections.c src/incremental-image.c src/definition-file.cpp src/archive-index.cpp src/archive-search.cpp src/input-relocations.cpp src/x86-relocations.c src/alpha-relocations.c src/alpha-fixups.cpp src/mips-relocations.c src/mips-fixups.cpp src/arm-relocations.cpp src/ppc-relocations.c src/ppc-fixups.cpp src/sh-relocations.cpp src/dumper.cpp src/dumper-file.cpp src/dumper-sections.cpp src/module-symbols.cpp src/module-symbol-stubs.c
 BINARY_SOURCES += src/section-layout.cpp src/pass-two.cpp src/output-symbols.cpp src/debug-output.cpp
 BINARY_SOURCES += src/definition-file-stubs.c
 BINARY_SOURCES += src/librarian.cpp src/librarian-stubs.cpp
@@ -30,6 +30,7 @@ ORIGINAL_LDFLAGS = /nologo /incremental:no /opt:noicf
 ORIGINAL_LDLIBS = build/messages.res build/operator-new-alias.obj build/operator-delete-alias.obj build/mspdb50.lib $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB
 ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 
+RECON_ALIAS_MAP = symbol-aliases.json
 RECON_AUDIT_PROFILE = link
 RECON_IMAGE_BASE = 4194304
 RECON_POLICY = policy-data.json
@@ -105,3 +106,7 @@ build/obj/src/archive-convert.cpp.obj: ORIGINAL_CFLAGS += /O2 /GX
 # This real scoped temporary retains the existing qualified cleanup outline.
 .build/pic/src/comdat-fold-report.cpp.o: NATIVE_CXXFLAGS := $(filter-out -O0 -fno-inline -finstrument-functions,$(NATIVE_CXXFLAGS)) -O2 -finstrument-functions-after-inlining
 build/obj/src/comdat-fold-report.cpp.obj: ORIGINAL_CFLAGS += /O2 /GX
+
+# The real per-file new expression has inline lifetime and Win32 EH cleanup.
+.build/pic/src/dumper-file.cpp.o: NATIVE_CXXFLAGS := $(filter-out -O0 -fno-inline -finstrument-functions,$(NATIVE_CXXFLAGS)) -O2 -finstrument-functions-after-inlining
+build/obj/src/dumper-file.cpp.obj: ORIGINAL_CFLAGS += /O2 /Ob2 /GX

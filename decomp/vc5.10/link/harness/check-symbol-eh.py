@@ -37,6 +37,8 @@ def verify(report, images):
                      0x238 if side == 'original' else 0x23c, -0x220, 0)
         verify_import_conversion(facts, side, image)
         verify_converted_member(facts, side, image)
+        verify_dumper_file(facts, side, image)
+        verify_dumper_file(facts, side, image, members=True)
 
 
 def verify_owner(facts, side, image, name, cleanup_name, argument_bytes,
@@ -249,12 +251,90 @@ def verify_converted_member(facts, side, image):
     assert qualified_import(image,identity,thunk)==[('msvcrt.dll','__CxxFrameHandler')]
 
 
+def verify_dumper_file(facts, side, image, members=False):
+    """Normal caller cleanup and failed-new delete action are distinct ABI roles."""
+    identity = facts['inputs']['images'][side]
+    assert identity['original_file_sha256'] == hashlib.sha256(image.read_bytes()).hexdigest()
+    owner_name = '_dump_archive_members@8' if members else '_dump_file@4'
+    owner = facts['functions'][owner_name][side]
+    start, end = owner['record']['start'], owner['record']['end']
+    (action, action_end), (handler, handler_end) = owner['record']['code_chunks']
+    assert action_end == handler and handler-action == 11 and handler_end-handler == 10
+    assert set(owner['effective_roots']) == {start, action, handler}
+    assert owner['checked_ret_cleanup_set'] is None
+    instructions = {row['address']: bytes.fromhex(row['bytes_hex'])
+                    for row in owner['instructions']}
+    memory = {at+i: byte for at, data in instructions.items() for i, byte in enumerate(data)}
+    def code(at, count):
+        return bytes(memory[at+i] for i in range(count))
+    frame = 0x2c if members else 0x48 if side == 'original' else 0x50
+    argument_bytes = 8 if members else 4
+    ret_bytes = b'\xc2'+struct.pack('<H',argument_bytes)
+    prologue = code(start, 24 if members else 29)
+    assert prologue[:9] == bytes.fromhex('64a1000000006aff68')
+    assert struct.unpack_from('<I', prologue, 9)[0] == handler
+    if members:
+        assert prologue[13:] == bytes.fromhex('506489250000000083ec')+bytes([frame])
+    else:
+        assert prologue[13:15] == bytes.fromhex('50a1')
+        assert prologue[19:] == bytes.fromhex('6489250000000083ec')+bytes([frame])
+    returns = [(at, data) for at, data in instructions.items()
+               if start <= at < end and data[:1] in (b'\xc2', b'\xc3')]
+    assert len(returns) == 1 and returns[0][1] == ret_bytes
+    if members:
+        epilogue = (bytes.fromhex('8b4c24')+bytes([frame+16])+
+                    bytes.fromhex('5f5e5d64890d000000005b83c4')+bytes([frame+12])+ret_bytes)
+    else:
+        epilogue = (bytes.fromhex('5f5e8b4c24')+bytes([frame+4])+
+                    bytes.fromhex('5b64890d0000000083c4')+bytes([frame+12])+ret_bytes)
+    assert code(returns[0][0]+3-len(epilogue), len(epilogue)) == epilogue
+    # The action loads the exact saved allocation at EBP-50h, calls scalar
+    # delete with cdecl cleanup, and returns without consuming owner arguments.
+    a = code(action, 11)
+    local_offset = -0x24 if members else -0x50
+    assert a[:5] == bytes.fromhex('8b45')+bytes([local_offset&255])+bytes.fromhex('50e8') and a[-2:] == bytes.fromhex('59c3')
+    delete = action+9+struct.unpack_from('<i', a, 5)[0]
+    assert qualified_import(image, identity, delete) == [('msvcrt.dll','??3@YAXPAX@Z')]
+    allocations = []
+    normal_deletes = []
+    for at, data in instructions.items():
+        if start <= at < end and data[:1] == b'\xe8':
+            target = at+5+struct.unpack_from('<i', data, 1)[0]
+            if contextual_bytes(image, target, 2) == bytes.fromhex('ff25'):
+                imported = qualified_import(image, identity, target)
+                if imported == [('msvcrt.dll','??2@YAPAXI@Z')]: allocations.append(at)
+                if imported == [('msvcrt.dll','??3@YAXPAX@Z')]: normal_deletes.append(at)
+    assert len(allocations) == len(normal_deletes) == 1
+    allocation = allocations[0]
+    assert code(allocation-2, 2) == bytes.fromhex('6a0c')
+    saved = frame+(28 if members else 24)+local_offset
+    assert code(allocation+5, 9) == bytes.fromhex('8bf083c404897424')+bytes([saved])
+    assert code(normal_deletes[0]-1, 1) == b'\x56'
+    assert code(normal_deletes[0]+5, 3) == bytes.fromhex('83c404')
+    h = code(handler, 10)
+    assert h[0] == 0xb8 and h[5] == 0xe9
+    info = struct.unpack_from('<I', h, 1)[0]
+    words = struct.unpack('<8I', contextual_bytes(image, info, 32))
+    assert words[:2] == (0x19930520, 1) and words[3:] == (0,0,0,0,0)
+    assert struct.unpack('<2I', contextual_bytes(image, words[2], 8)) == (0xffffffff, action)
+    if side == 'original': assert [info, words[2]+8] in owner['record']['shared']
+    thunk = handler+10+struct.unpack_from('<i', h, 6)[0]
+    assert qualified_import(image, identity, thunk) == [('msvcrt.dll','__CxxFrameHandler')]
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--report',type=Path,required=True)
     parser.add_argument('--original',type=Path,required=True)
     parser.add_argument('--rebuilt',type=Path,required=True)
+    parser.add_argument('--owner', choices=['dumper-file','dumper-members'])
     options = parser.parse_args()
-    verify(json.loads(options.report.read_text()),
-           {'original':options.original,'rebuilt':options.rebuilt})
-    print('PASS five C++ owners: symbol RET24, definition RET8, import conversion RET28, converted member RET32 and COMDAT report RET0; distinct cleanup roles and qualified handlers')
+    report = json.loads(options.report.read_text())
+    images = {'original': options.original, 'rebuilt': options.rebuilt}
+    if options.owner in ('dumper-file','dumper-members'):
+        for side, image in images.items():
+            verify_dumper_file(report['decoded_instructions'], side, image, members=options.owner=='dumper-members')
+        print('PASS '+options.owner+': normal caller cleanup, allocation-bound failed-new RET0 action and qualified handler')
+    else:
+        verify(report, images)
+        print('PASS seven C++ owners: symbol RET24, definition RET8, import conversion RET28, converted member RET32, COMDAT report RET0 dumper file RET4 and archive members RET8; distinct cleanup roles and qualified handlers')

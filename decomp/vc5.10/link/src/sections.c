@@ -352,6 +352,24 @@ void __stdcall move_section_to_end(OutputSection *section,SectionList *sections)
     sections->last=&section->next;
     section->next=NULL;
 }
+void __stdcall sort_output_sections(SectionList *sections,int (__cdecl *compare)(const void *,const void *))
+{
+    OutputSection **order=(OutputSection **)allocate_memory(output_section_count*4);
+    SectionEnumerator enumerator;
+    DWORD copied=0;
+    WORD index;
+    initialize_section_enumerator(&enumerator,sections);
+    while(next_output_section(&enumerator))order[(WORD)copied++]=enumerator.current;
+    qsort(order,output_section_count,sizeof(OutputSection *),compare);
+    sections->last=&sections->first;
+    for(index=0;index<output_section_count;++index) {
+        *sections->last=order[index];
+        sections->last=&(*sections->last)->next;
+    }
+    *sections->last=NULL;
+    release_memory(order);
+}
+
 void __stdcall partition_sections(SectionList *sections,DWORD mask,DWORD value)
 {
     OutputSection **order=(OutputSection **)allocate_memory(output_section_count*4);

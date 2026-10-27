@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-537 application functions / 193,266 original code bytes are reconstructed
-(46.59% of the 414,810-byte whole `.text` extent, which includes CRT and text
+579 application functions / 217,184 original code bytes are reconstructed
+(52.36% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 41 pending bodies with known extents totaling 4,624 bytes and
-148 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 40 pending bodies with known extents totaling 4,219 bytes and
+199 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all twenty-five cached native cases and their narrow checks;
+`make -j4 check unit` runs all twenty-six cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,9 +45,9 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-550-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 532 ordinary application bodies and six CRT bodies. Seven import
-thunks remain in the graph without body-return claims. The five genuine C++
+592-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 572 ordinary application bodies and six CRT bodies. Seven import
+thunks remain in the graph without body-return claims. The seven genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
 contracts; they do not grant provider or pending-helper body credit.
@@ -563,3 +563,41 @@ original-build/full-audit batch passed in 3.95 s: twenty-five fixtures, 550
 graph vertices, 538 return contracts and the five existing EH-owner checks.
 Raw originals, native diagnostic artifacts and clock-only failures remain in
 scratch. These are incremental timings, not isolated audit costs.
+
+
+The archive/PE Dumper case runs `/dump /all /nologo widgets.lib resource.dll`
+against the unchanged original-produced ordinary COFF archive and SH4 resource
+DLL. Both sides exit 0 with 126 application first entries and exactly 28,091
+stdout bytes; there are no output files. The corrected masked reference also
+matches the untouched master on complete streams, inputs and inventory, with
+no normalization. Dumper does not support `/nologo`; its authentic logo and
+warning 4044 remain part of the strict output.
+
+Forty-two whole bodies / 23,918 original code bytes recover option parsing,
+archive indexes and members, COFF/PE dispatch, file and section headers, raw
+data, COFF relocations, line numbers, FPO, symbols and auxiliaries, debug
+directory display, base relocation records, symbol indexing and summary sorting.
+The original 12-byte COFF dumper object uses genuine inline construction and
+destruction, with separate failed-new actions and qualified frame handlers.
+Only its actual owner TU has the justified optimization/instrumentation settings.
+One empty physical RET12 body has a code-free stdcall alias for an otherwise
+thiscall entry; it consumes neither receiver nor formals and adds no body credit.
+
+The readonly debug loader reopens the live read/share-read input through the
+tracked `_fsopen` lease while its readonly view remains live. This input has
+COFF and MISC debug records without CodeView; PDB interfaces are declarations
+only and the cold OpenValidate boundary remains denied. Provider objects are
+never manufactured. Separate debug files, PDB lookup, disassembly, further
+machine relocation names and unvisited debug-content children retain named
+traps or precise native guards. The 328-byte per-file scratch, shared nine-byte
+symbol-name buffer, 12-byte export records and existing 16-byte NB10 header each
+retain their actual storage identity and field widths.
+
+Failed raw comparisons remain in scratch. Newly encountered format-literal
+NUL extents were corrected before final qualification, without code credit or
+output masks. The completed original took 1,513.7 ms; fresh native comparison
+took 18.9 ms (11.6 ms setup, 3.9 ms execution, 3.4 ms checks). The single case-end
+parallel cached regression/unit/original-build/full-audit batch passed in 4.97 s,
+covering twenty-six fixtures, 592 graph vertices, 578 return contracts and seven
+separate C++ EH-owner checks. These are incremental timings, not isolated audit
+or clean-build benchmarks.

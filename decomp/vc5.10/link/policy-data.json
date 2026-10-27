@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 133520
+              "offset": 133840
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 133531
+              "offset": 133851
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 168432
+              "offset": 200272
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 168443
+              "offset": 200283
             }
           ]
         },
@@ -4963,11 +4963,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_get_import_conversion@28",
-              "offset": 67488
+              "offset": 67552
             },
             {
               "rebuilt_symbol": "_get_import_conversion@28",
-              "offset": 67502
+              "offset": 67566
             }
           ]
         }
@@ -4983,11 +4983,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_write_converted_archive_member@32",
-              "offset": 66080
+              "offset": 66144
             },
             {
               "rebuilt_symbol": "_write_converted_archive_member@32",
-              "offset": 66088
+              "offset": 66152
             }
           ]
         }
@@ -5094,11 +5094,11 @@
           "roots": [
             {
               "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-              "offset": 79840
+              "offset": 79904
             },
             {
               "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-              "offset": 79851
+              "offset": 79915
             }
           ]
         }
@@ -7185,6 +7185,3489 @@
             ]
           ]
         }
+      },
+      "_run_dumper@8": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {
+                "4383046": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4383175": {
+                  "dll": "msvcrt.dll",
+                  "name": "fclose"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4382981": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4383139": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_run_dumper@8",
+                    "offset": 248
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_run_dumper@8",
+                    "offset": 299
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_run_dumper@8",
+                    "offset": 394
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_run_dumper@8",
+                    "offset": 421
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fclose"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          }
+        }
+      },
+      "_configure_dumper_options": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {
+                "4346665": {
+                  "dll": "msvcrt.dll",
+                  "name": "fopen"
+                },
+                "4347030": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4345732": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4345991": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346025": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346060": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346095": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346129": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346164": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346199": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346233": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346268": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346303": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346337": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346372": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346409": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strnicmp"
+                },
+                "4346525": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346559": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346594": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346631": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strnicmp"
+                },
+                "4346718": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4346755": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strnicmp"
+                },
+                "4346810": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strnicmp"
+                },
+                "4346854": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strnicmp"
+                },
+                "4346899": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strnicmp"
+                },
+                "4346943": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strnicmp"
+                },
+                "4347130": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4347179": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strnicmp"
+                },
+                "4347219": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                },
+                "4347252": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strnicmp"
+                },
+                "4347284": {
+                  "dll": "msvcrt.dll",
+                  "name": "_stricmp"
+                }
+              },
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 111
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 374
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 413
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 453
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 493
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 532
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 572
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 612
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 651
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 691
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 731
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 770
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 810
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 852
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1028
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1068
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1108
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1149
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1197
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fopen"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1255
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1297
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1363
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1417
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1468
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1518
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1623
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sscanf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1745
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1799
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1851
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1890
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_configure_dumper_options",
+                    "offset": 1926
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          }
+        }
+      },
+      "_dump_file@4": {
+        "original": {
+          "roots": [
+            4609360,
+            4609371
+          ],
+          "text_data": [
+            [
+              4609808,
+              4609848
+            ]
+          ]
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "rebuilt_symbol": "_dump_file@4",
+              "offset": 150496
+            },
+            {
+              "rebuilt_symbol": "_dump_file@4",
+              "offset": 150507
+            }
+          ]
+        }
+      },
+      "_dump_archive_linker_members@4": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {},
+              "resolved_register_calls": {
+                "4376191": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                },
+                "4376226": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                },
+                "4376237": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                },
+                "4376890": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                },
+                "4376921": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                },
+                "4376944": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                },
+                "4376976": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                },
+                "4376987": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_linker_members@4",
+                    "offset": 611
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_linker_members@4",
+                    "offset": 682
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_linker_members@4",
+                    "offset": 700
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_linker_members@4",
+                    "offset": 1605
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_linker_members@4",
+                    "offset": 1662
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_linker_members@4",
+                    "offset": 1685
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_linker_members@4",
+                    "offset": 1753
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_linker_members@4",
+                    "offset": 1771
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        }
+      },
+      "_dump_archive_header@68": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {
+                "4375326": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4375382": {
+                  "dll": "msvcrt.dll",
+                  "name": "ctime"
+                },
+                "4375459": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4375525": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                }
+              },
+              "resolved_register_calls": {
+                "4375206": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4375226": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4375246": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4375279": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4375350": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4375372": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4375407": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4375423": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4375485": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4375508": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4375572": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4375594": {
+                  "dll": "msvcrt.dll",
+                  "name": "sscanf"
+                },
+                "4375617": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4375639": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4375666": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4375702": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4375719": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 31
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sscanf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 53
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sscanf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 75
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sscanf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 104
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 171
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 189
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 213
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 226
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "ctime"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 259
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 279
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 318
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 342
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sscanf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 368
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 389
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 429
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 453
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sscanf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 479
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 499
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 533
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 572
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_header@68",
+                    "offset": 593
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        }
+      },
+      "_dump_archive_members@8": {
+        "original": {
+          "roots": [
+            4609328,
+            4609339
+          ],
+          "text_data": [
+            [
+              4609768,
+              4609808
+            ]
+          ]
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "rebuilt_symbol": "_dump_archive_members@8",
+              "offset": 149536
+            },
+            {
+              "rebuilt_symbol": "_dump_archive_members@8",
+              "offset": 149547
+            }
+          ]
+        }
+      },
+      "_prepare_dumper_file@4": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {
+                "4349963": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4350058": {
+                  "dll": "msvcrt.dll",
+                  "name": "ctime"
+                },
+                "4350100": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4351202": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                }
+              },
+              "resolved_register_calls": {
+                "4350044": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4350084": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4350147": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4350446": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4350514": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4350571": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4350686": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4350720": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4350754": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4350862": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4350949": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4351027": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4351123": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4351188": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 195
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 269
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 301
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 323
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 408
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 424
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "ctime"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 458
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 477
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 531
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 1105
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 1164
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 1239
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 1431
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 1472
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 1510
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 1628
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 1817
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 1885
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 2091
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 2184
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_prepare_dumper_file@4",
+                    "offset": 2201
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        }
+      },
+      "_dump_section_header@8": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {
+                "4351720": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4352508": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4352636": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4352697": {
+                  "dll": "msvcrt.dll",
+                  "name": "strncpy"
+                },
+                "4352728": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4352780": {
+                  "dll": "msvcrt.dll",
+                  "name": "strncpy"
+                },
+                "4352812": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4352993": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4353087": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "resolved_register_calls": {
+                "4351595": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4351634": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4352041": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 38
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 94
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 213
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 734
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 1489
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 1691
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 1754
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "strncpy"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 1796
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 1854
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "strncpy"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 1891
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 2106
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_section_header@8",
+                    "offset": 2241
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        }
+      },
+      "_x86_dumper_relocation_name@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                "offset": 235
+              },
+              {
+                "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                "offset": 296
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                "offset": 38
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                  "offset": 45
+                },
+                {
+                  "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                  "offset": 63
+                },
+                {
+                  "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                  "offset": 78
+                },
+                {
+                  "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                  "offset": 93
+                },
+                {
+                  "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                  "offset": 108
+                },
+                {
+                  "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                  "offset": 123
+                },
+                {
+                  "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                  "offset": 138
+                },
+                {
+                  "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                  "offset": 153
+                },
+                {
+                  "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                  "offset": 168
+                },
+                {
+                  "rebuilt_symbol": "_x86_dumper_relocation_name@12",
+                  "offset": 183
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_dump_line_numbers@4": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {
+                "4366176": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4366213": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4366263": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4366411": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4366504": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                }
+              },
+              "resolved_register_calls": {
+                "4366237": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4366371": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4366470": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_line_numbers@4",
+                    "offset": 185
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_line_numbers@4",
+                    "offset": 238
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_line_numbers@4",
+                    "offset": 271
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_line_numbers@4",
+                    "offset": 298
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_line_numbers@4",
+                    "offset": 518
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_line_numbers@4",
+                    "offset": 562
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_line_numbers@4",
+                    "offset": 643
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_line_numbers@4",
+                    "offset": 675
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        }
+      },
+      "_dump_fpo@12": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {
+                "4355369": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4355454": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4355601": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "resolved_register_calls": {
+                "4355634": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_fpo@12",
+                    "offset": 59
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_fpo@12",
+                    "offset": 178
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_fpo@12",
+                    "offset": 409
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_fpo@12",
+                    "offset": 447
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        }
+      },
+      "_dump_coff_symbol@4": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {},
+              "resolved_register_calls": {
+                "4373381": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4373419": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_coff_symbol@4",
+                    "offset": 28
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_coff_symbol@4",
+                    "offset": 78
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        }
+      },
+      "_format_dumper_symbol@8": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {},
+              "resolved_register_calls": {
+                "4372044": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4372458": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4372478": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4372500": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4372945": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_format_dumper_symbol@8",
+                    "offset": 175
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_format_dumper_symbol@8",
+                    "offset": 577
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_format_dumper_symbol@8",
+                    "offset": 618
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_format_dumper_symbol@8",
+                    "offset": 659
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_format_dumper_symbol@8",
+                    "offset": 1280
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sprintf"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_format_dumper_symbol@8",
+                "offset": 1362
+              },
+              {
+                "rebuilt_symbol": "_format_dumper_symbol@8",
+                "offset": 1690
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_format_dumper_symbol@8",
+                "offset": 267
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 274
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 286
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 298
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 307
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 316
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 325
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 334
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 343
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 352
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 361
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 370
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 379
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 388
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 397
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 406
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 415
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_format_dumper_symbol@8",
+                "offset": 797
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 844
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 856
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 868
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 880
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 892
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 904
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 916
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 928
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 940
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 952
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 964
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 976
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 988
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1000
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1012
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1024
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1036
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1048
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1060
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_format_dumper_symbol@8",
+                "offset": 837
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1084
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1152
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1217
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1226
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1235
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1244
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1253
+                },
+                {
+                  "rebuilt_symbol": "_format_dumper_symbol@8",
+                  "offset": 1262
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_dump_aux_symbol@12": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {
+                "4373547": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4373755": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4373994": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4374036": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4374078": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4374120": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4374158": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4374216": {
+                  "dll": "msvcrt.dll",
+                  "name": "strncmp"
+                },
+                "4374259": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4374364": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                },
+                "4374454": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                }
+              },
+              "resolved_register_calls": {
+                "4373477": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4373580": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4373603": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4373627": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4373651": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4373806": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4373827": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4373875": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4373980": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4374022": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4374203": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4374245": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4374296": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4374344": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4374414": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4374437": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 32
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 107
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 190
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 314
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 382
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 410
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 477
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 628
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 655
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 672
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 724
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 763
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 799
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 819
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "strncmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 850
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 868
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 897
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 939
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 1015
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 1077
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 1111
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_aux_symbol@12",
+                    "offset": 1131
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_dump_aux_symbol@12",
+                "offset": 1146
+              },
+              {
+                "rebuilt_symbol": "_dump_aux_symbol@12",
+                "offset": 1318
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_dump_aux_symbol@12",
+                "offset": 82
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 686
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 204
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 738
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 777
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 882
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 89
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 911
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_dump_aux_symbol@12",
+                "offset": 515
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 522
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 531
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 540
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 549
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 558
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 567
+                },
+                {
+                  "rebuilt_symbol": "_dump_aux_symbol@12",
+                  "offset": 576
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_dump_archive_export_names": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {
+                "4379262": {
+                  "dll": "msvcrt.dll",
+                  "name": "free"
+                }
+              },
+              "resolved_register_calls": {
+                "4379169": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4379214": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4379232": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4379250": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_export_names",
+                    "offset": 74
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_export_names",
+                    "offset": 153
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_export_names",
+                    "offset": 175
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_export_names",
+                    "offset": 200
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_archive_export_names",
+                    "offset": 223
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        }
+      },
+      "_load_dumper_debug@28": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {
+                "4348675": {
+                  "dll": "msvcrt.dll",
+                  "name": "_fsopen"
+                },
+                "4348754": {
+                  "dll": "msvcrt.dll",
+                  "name": "fseek"
+                },
+                "4348973": {
+                  "dll": "msvcrt.dll",
+                  "name": "fclose"
+                },
+                "4349192": {
+                  "dll": "msvcrt.dll",
+                  "name": "fread"
+                },
+                "4349262": {
+                  "dll": "msvcrt.dll",
+                  "name": "fseek"
+                },
+                "4349304": {
+                  "dll": "msvcrt.dll",
+                  "name": "fread"
+                },
+                "4349410": {
+                  "dll": "msvcrt.dll",
+                  "name": "fseek"
+                },
+                "4349443": {
+                  "dll": "msvcrt.dll",
+                  "name": "fread"
+                },
+                "4349482": {
+                  "dll": "msvcrt.dll",
+                  "name": "fclose"
+                },
+                "4349509": {
+                  "dll": "msvcrt.dll",
+                  "name": "_splitpath"
+                },
+                "4349570": {
+                  "dll": "msvcrt.dll",
+                  "name": "_makepath"
+                },
+                "4349640": {
+                  "dll": "mspdb50.dll",
+                  "name": "?OpenValidate@PDB@@SAHPAD00KKPAJQADPAPAU1@@Z"
+                },
+                "4349736": {
+                  "dll": "msvcrt.dll",
+                  "name": "fclose"
+                }
+              },
+              "resolved_register_calls": {
+                "4348710": {
+                  "dll": "msvcrt.dll",
+                  "name": "fread"
+                },
+                "4348859": {
+                  "dll": "msvcrt.dll",
+                  "name": "fseek"
+                },
+                "4348888": {
+                  "dll": "msvcrt.dll",
+                  "name": "fread"
+                },
+                "4349152": {
+                  "dll": "msvcrt.dll",
+                  "name": "fseek"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 82
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_fsopen"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 131
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fread"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 181
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fseek"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 338
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fseek"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 372
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fread"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 482
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fclose"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 622
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fseek"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 705
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fread"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 811
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fseek"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 888
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fread"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 1091
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fseek"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 1127
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fread"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 1168
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fclose"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 1202
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_splitpath"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 1287
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_makepath"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 1359
+                  },
+                  "identity": {
+                    "dll": "mspdb50.dll",
+                    "name": "?OpenValidate@PDB@@SAHPAD00KKPAJQADPAPAU1@@Z"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_dumper_debug@28",
+                    "offset": 1456
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fclose"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        }
+      },
+      "_build_dumper_symbol_index@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_build_dumper_symbol_index@12",
+                "offset": 406
+              },
+              {
+                "rebuilt_symbol": "_build_dumper_symbol_index@12",
+                "offset": 530
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_build_dumper_symbol_index@12",
+                "offset": 235
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_build_dumper_symbol_index@12",
+                  "offset": 273
+                },
+                {
+                  "rebuilt_symbol": "_build_dumper_symbol_index@12",
+                  "offset": 242
+                },
+                {
+                  "rebuilt_symbol": "_build_dumper_symbol_index@12",
+                  "offset": 318
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_dump_debug_directory@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_dump_debug_directory@4",
+                "offset": 1440
+              },
+              {
+                "rebuilt_symbol": "_dump_debug_directory@4",
+                "offset": 1472
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_dump_debug_directory@4",
+                "offset": 85
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_dump_debug_directory@4",
+                  "offset": 92
+                },
+                {
+                  "rebuilt_symbol": "_dump_debug_directory@4",
+                  "offset": 118
+                },
+                {
+                  "rebuilt_symbol": "_dump_debug_directory@4",
+                  "offset": 143
+                },
+                {
+                  "rebuilt_symbol": "_dump_debug_directory@4",
+                  "offset": 169
+                },
+                {
+                  "rebuilt_symbol": "_dump_debug_directory@4",
+                  "offset": 192
+                },
+                {
+                  "rebuilt_symbol": "_dump_debug_directory@4",
+                  "offset": 214
+                },
+                {
+                  "rebuilt_symbol": "_dump_debug_directory@4",
+                  "offset": 237
+                },
+                {
+                  "rebuilt_symbol": "_dump_debug_directory@4",
+                  "offset": 260
+                }
+              ]
+            }
+          ]
+        },
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {
+                "4356991": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4357024": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4357276": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4357488": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4357602": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4357642": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                }
+              },
+              "resolved_register_calls": {
+                "4356789": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4356835": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4356857": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4356878": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4356897": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4356916": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4356934": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4356953": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                },
+                "4356972": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputs"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 30
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 104
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 129
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 155
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 181
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 203
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 226
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 249
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 271
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputs"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 300
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 342
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 778
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 1191
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 1370
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_debug_directory@4",
+                    "offset": 1425
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        }
+      },
+      "_dump_debug_directories@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_dump_debug_directories@8",
+                "offset": 570
+              },
+              {
+                "rebuilt_symbol": "_dump_debug_directories@8",
+                "offset": 594
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_dump_debug_directories@8",
+                "offset": 395
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_dump_debug_directories@8",
+                  "offset": 402
+                },
+                {
+                  "rebuilt_symbol": "_dump_debug_directories@8",
+                  "offset": 438
+                },
+                {
+                  "rebuilt_symbol": "_dump_debug_directories@8",
+                  "offset": 475
+                },
+                {
+                  "rebuilt_symbol": "_dump_debug_directories@8",
+                  "offset": 514
+                },
+                {
+                  "rebuilt_symbol": "_dump_debug_directories@8",
+                  "offset": 550
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_dump_base_reloc_block@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_dump_base_reloc_block@8",
+                "offset": 382
+              },
+              {
+                "rebuilt_symbol": "_dump_base_reloc_block@8",
+                "offset": 414
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_dump_base_reloc_block@8",
+                "offset": 123
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_dump_base_reloc_block@8",
+                  "offset": 130
+                },
+                {
+                  "rebuilt_symbol": "_dump_base_reloc_block@8",
+                  "offset": 139
+                },
+                {
+                  "rebuilt_symbol": "_dump_base_reloc_block@8",
+                  "offset": 148
+                },
+                {
+                  "rebuilt_symbol": "_dump_base_reloc_block@8",
+                  "offset": 157
+                },
+                {
+                  "rebuilt_symbol": "_dump_base_reloc_block@8",
+                  "offset": 166
+                },
+                {
+                  "rebuilt_symbol": "_dump_base_reloc_block@8",
+                  "offset": 175
+                },
+                {
+                  "rebuilt_symbol": "_dump_base_reloc_block@8",
+                  "offset": 184
+                },
+                {
+                  "rebuilt_symbol": "_dump_base_reloc_block@8",
+                  "offset": 193
+                }
+              ]
+            }
+          ]
+        },
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": {},
+              "resolved_register_calls": {
+                "4364457": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4364592": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4364627": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4364658": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                },
+                "4364674": {
+                  "dll": "msvcrt.dll",
+                  "name": "fputc"
+                }
+              },
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_base_reloc_block@8",
+                    "offset": 66
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_base_reloc_block@8",
+                    "offset": 223
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_base_reloc_block@8",
+                    "offset": 284
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_base_reloc_block@8",
+                    "offset": 342
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_dump_base_reloc_block@8",
+                    "offset": 362
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fputc"
+                  }
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": []
+            }
+          }
+        }
       }
     },
     "callback_tables": [
@@ -7214,7 +10697,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7231,7 +10714,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7248,7 +10731,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7265,7 +10748,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp",
@@ -7283,7 +10766,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7301,12 +10784,13 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
             "esi",
-            "edi"
+            "edi",
+            "ebp"
           ],
           "target": {
             "import": {
@@ -7318,7 +10802,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7335,7 +10819,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp",
@@ -7350,7 +10834,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7368,7 +10852,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7382,12 +10866,13 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "esi",
             "ebx",
-            "ebp"
+            "ebp",
+            "edi"
           ],
           "target": {
             "import": {
@@ -7399,7 +10884,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7417,7 +10902,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7435,7 +10920,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7451,7 +10936,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7463,7 +10948,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -7476,10 +10961,11 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
-            "edi"
+            "edi",
+            "ebx"
           ],
           "target": {
             "function": "_seek_file@16"
@@ -7488,7 +10974,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "esi"
@@ -7500,7 +10986,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7512,7 +10998,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7524,7 +11010,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -7537,7 +11023,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7549,7 +11035,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7561,7 +11047,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7573,7 +11059,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7585,7 +11071,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -7598,7 +11084,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7610,7 +11096,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7622,7 +11108,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7634,7 +11120,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7646,7 +11132,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7658,7 +11144,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7670,7 +11156,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7683,7 +11169,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7695,7 +11181,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7707,7 +11193,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7719,7 +11205,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7731,7 +11217,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7743,7 +11229,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7755,7 +11241,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -7767,7 +11253,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "esi"
@@ -7779,7 +11265,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -7793,7 +11279,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -7811,7 +11297,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp",
@@ -7828,7 +11314,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp",
@@ -7846,7 +11332,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -7862,7 +11348,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7877,7 +11363,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7890,7 +11376,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -7905,7 +11391,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -7921,7 +11407,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -7939,7 +11425,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7955,7 +11441,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -7969,7 +11455,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -7983,7 +11469,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -7995,7 +11481,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8007,7 +11493,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8019,7 +11505,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -8035,7 +11521,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -8052,7 +11538,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -8069,7 +11555,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -8081,7 +11567,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -8095,7 +11581,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -8107,7 +11593,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -8119,7 +11605,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -8134,7 +11620,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -8152,7 +11638,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp"
@@ -8167,7 +11653,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp"
@@ -8179,7 +11665,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp",
@@ -8197,7 +11683,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -8213,7 +11699,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp"
@@ -8225,7 +11711,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp"
@@ -8240,7 +11726,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp"
@@ -8252,7 +11738,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp"
@@ -8264,7 +11750,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp"
@@ -8276,7 +11762,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -8291,7 +11777,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx",
@@ -8304,7 +11790,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp",
@@ -8321,7 +11807,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "esi",
@@ -8337,7 +11823,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -8352,7 +11838,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -8367,7 +11853,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -8379,7 +11865,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "esi"
@@ -8391,7 +11877,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -8406,7 +11892,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -8421,7 +11907,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -8436,7 +11922,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -8449,7 +11935,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp"
@@ -8464,7 +11950,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8479,7 +11965,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -8491,7 +11977,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -8508,7 +11994,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi",
@@ -8521,7 +12007,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -8533,7 +12019,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -8545,7 +12031,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp",
@@ -8562,7 +12048,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp",
@@ -8578,7 +12064,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp",
@@ -8591,7 +12077,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebp"
@@ -8603,7 +12089,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8615,7 +12101,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8627,7 +12113,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8639,7 +12125,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8651,7 +12137,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8663,7 +12149,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8675,7 +12161,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8687,7 +12173,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8699,7 +12185,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8711,7 +12197,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8723,7 +12209,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8735,7 +12221,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8747,7 +12233,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8759,7 +12245,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8771,7 +12257,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8783,7 +12269,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8795,7 +12281,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8807,7 +12293,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8819,7 +12305,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8831,7 +12317,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8846,7 +12332,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "esi"
@@ -8858,7 +12344,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "esi"
@@ -8870,7 +12356,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "ebx"
@@ -8888,7 +12374,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -8903,7 +12389,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -8914,11 +12400,13 @@
             }
           },
           "preserves": [
-            "ebp"
+            "ebp",
+            "ebx",
+            "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -8930,7 +12418,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -8942,7 +12430,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -8954,7 +12442,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -8966,7 +12454,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -8978,7 +12466,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -8990,7 +12478,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9001,11 +12489,13 @@
             }
           },
           "preserves": [
-            "ebp"
+            "ebp",
+            "ebx",
+            "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9017,7 +12507,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9029,7 +12519,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9041,7 +12531,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9053,7 +12543,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9061,11 +12551,12 @@
             "function": "_next_output_section@4"
           },
           "preserves": [
-            "edi"
+            "edi",
+            "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9078,7 +12569,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9090,13 +12581,13 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -9108,7 +12599,7 @@
         {
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           },
           "preserves": [
             "edi"
@@ -9126,7 +12617,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9141,7 +12632,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9153,7 +12644,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9169,7 +12660,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9181,7 +12672,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9196,7 +12687,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9208,7 +12699,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9220,7 +12711,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9232,7 +12723,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9244,7 +12735,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9256,7 +12747,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         },
         {
@@ -9268,7 +12759,210 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_dump_file@4"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_dumper_usage"
+          },
+          "preserves": [
+            "ebx",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_append_argument@8"
+          },
+          "preserves": [
+            "ebx",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_archive_big_endian_dword@4"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_read_archive_member_header"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_dump_archive_header@68"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_allocate_memory@4"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_mapped_read@12"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_buffered_read@12"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "OutputLibrary::MemberName"
+          },
+          "preserves": [
+            "ebx",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_get_input_section_name@8"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_dump_relocation_symbol@12"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_print_dumper_address@12"
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "function": "_format_dumper_symbol@8"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fseek"
+            }
+          },
+          "preserves": [
+            "esi",
+            "edi"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fread"
+            }
+          },
+          "preserves": [
+            "esi",
+            "edi"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         }
       ],
@@ -9294,7 +12988,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "83b458178d6c9434ae335b2aba4a707bb247c78a847fa83b10fabfdd6272a594"
+            "sha256": "56e4bb9775593d1855966e3b7a0bd541418528effab9470cca2b26ef9b8a4139"
           }
         }
       ]
@@ -12007,6 +15701,206 @@
         "expected_cleanup": [
           28
         ]
+      },
+      "_dump_archive_export_names": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_dump_archive_linker_members@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_compare_dumper_symbol_value": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_prepare_dumper_file@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_dump_base_reloc_block@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_dump_archive_header@68": {
+        "expected_cleanup": [
+          68
+        ]
+      },
+      "_dumper_file_range_valid@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_dump_line_numbers@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_load_dumper_debug@28": {
+        "expected_cleanup": [
+          28
+        ]
+      },
+      "_is_supported_coff_file@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_dump_coff_relocations@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_free_librarian_inputs@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_dump_pe_file@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_x86_dumper_relocation_name@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_dump_debug_directory@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "CoffDumper::ReadSymbolTable": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_dump_coff_symbol@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_print_dumper_address@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_read_dumper_strings@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_dump_sections@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_dump_debug_section_header@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_dump_fpo@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_dump_raw_data@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_dump_section_header@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_read_dumper_optional_header@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_release_dumper_symbol_index@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_dump_relocation_symbol@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_compare_output_section_names": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_dumper_machine_name@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_dump_coff_symbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_sort_output_sections_by_name@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_build_dumper_symbol_index@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_configure_dumper_options": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_dump_debug_directories@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_run_dumper@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_dump_archive@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "CoffDumper::Dump": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_dump_aux_symbol@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_format_dumper_symbol@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_sort_output_sections@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   },
@@ -12016,21 +15910,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 133520
+            "offset": 133840
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 133531
+            "offset": 133851
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 133531
+            "offset": 133851
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 133541
+            "offset": 133861
           }
         ]
       ]
@@ -12040,21 +15934,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 168432
+            "offset": 200272
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 168443
+            "offset": 200283
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 168443
+            "offset": 200283
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 168453
+            "offset": 200293
           }
         ]
       ]
@@ -12064,21 +15958,21 @@
         [
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 67488
+            "offset": 67552
           },
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 67502
+            "offset": 67566
           }
         ],
         [
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 67502
+            "offset": 67566
           },
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 67512
+            "offset": 67576
           }
         ]
       ]
@@ -12088,21 +15982,21 @@
         [
           {
             "rebuilt_symbol": "_write_converted_archive_member@32",
-            "offset": 66080
+            "offset": 66144
           },
           {
             "rebuilt_symbol": "_write_converted_archive_member@32",
-            "offset": 66088
+            "offset": 66152
           }
         ],
         [
           {
             "rebuilt_symbol": "_write_converted_archive_member@32",
-            "offset": 66088
+            "offset": 66152
           },
           {
             "rebuilt_symbol": "_write_converted_archive_member@32",
-            "offset": 66098
+            "offset": 66162
           }
         ]
       ]
@@ -12112,21 +16006,69 @@
         [
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 79840
+            "offset": 79904
           },
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 79851
+            "offset": 79915
           }
         ],
         [
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 79851
+            "offset": 79915
           },
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 79861
+            "offset": 79925
+          }
+        ]
+      ]
+    },
+    "_dump_file@4": {
+      "rebuilt_code_chunks": [
+        [
+          {
+            "rebuilt_symbol": "_dump_file@4",
+            "offset": 150496
+          },
+          {
+            "rebuilt_symbol": "_dump_file@4",
+            "offset": 150507
+          }
+        ],
+        [
+          {
+            "rebuilt_symbol": "_dump_file@4",
+            "offset": 150507
+          },
+          {
+            "rebuilt_symbol": "_dump_file@4",
+            "offset": 150517
+          }
+        ]
+      ]
+    },
+    "_dump_archive_members@8": {
+      "rebuilt_code_chunks": [
+        [
+          {
+            "rebuilt_symbol": "_dump_archive_members@8",
+            "offset": 149536
+          },
+          {
+            "rebuilt_symbol": "_dump_archive_members@8",
+            "offset": 149547
+          }
+        ],
+        [
+          {
+            "rebuilt_symbol": "_dump_archive_members@8",
+            "offset": 149547
+          },
+          {
+            "rebuilt_symbol": "_dump_archive_members@8",
+            "offset": 149557
           }
         ]
       ]
