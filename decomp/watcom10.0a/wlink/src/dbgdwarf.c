@@ -556,3 +556,8 @@ void FillHeader( elf32_section *header, char *name, stringtable *table, unsigned
     header->align = 0;
     header->entsize = 0;
 }
+
+void DwarfAddModLines( unsigned count )
+{
+    ((dwarfmodinfo *)CurrMod->d.d)->dasi.size += count;
+}

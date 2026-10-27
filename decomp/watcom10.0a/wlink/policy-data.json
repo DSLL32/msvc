@@ -5821,6 +5821,16 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcELFDLL": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfAddModLines": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

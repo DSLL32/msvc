@@ -92,3 +92,9 @@ void FreeELFFmt( void )
     FreeList( (path_entry *)FmtData.u.elf.exports );
     FreeList( (path_entry *)FmtData.u.elf.modules );
 }
+
+unsigned char ProcELFDLL( void )
+{
+    FmtData.flags |= 1;
+    return 1;
+}

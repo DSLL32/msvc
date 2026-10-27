@@ -494,7 +494,6 @@ unsigned char SwapOutVirt( void ) { TRAP(); return 0; }
 unsigned char SwapOutRelocs( void ) { TRAP(); return 0; }
 
 
-void DwarfAddModLines( unsigned count ) { TRAP(); }
 
 
 
@@ -653,7 +652,6 @@ void OpenOvlFile( outfilelist *file ) { TRAP(); }
 
 
 
-unsigned char ProcELFDLL( void ) { TRAP(); return 0; }
 
 
 

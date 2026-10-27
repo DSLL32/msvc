@@ -1,5 +1,5 @@
-WLINK 10.0a has twenty-eight completed native regression cases. The acceptance ledger
-contains **1,161 application functions / 131,004 unique original code bytes**.
+WLINK 10.0a has twenty-nine completed native regression cases. The acceptance ledger
+contains **1,163 application functions / 131,038 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -63,6 +63,8 @@ absolute hardware segment, explicit archive-member loading and quiet/segment
 policies.
 The twenty-eighth combines Windows NE implicit-stack selection, reserved BSS
 boundaries, brace lists and real unordered16/32-bit line metadata.
+The twenty-ninth combines old ELF DLL policy, dead-code selection and DWARF
+line accounting with real imports/exports and a dependency module.
 
 | Case | Result |
 | --- | --- |
@@ -94,6 +96,7 @@ boundaries, brace lists and real unordered16/32-bit line metadata.
 | `0026-omf-conditional` | Exit 0; exact 255-byte stdout, empty stderr, 2,505-byte DSK and 4,713-byte map |
 | `0027-qnx-float` | Exit 0; empty stdout/stderr, 670-byte QNX16 image and 3,658-byte map |
 | `0028-ne-lines` | Exit 0; exact 248-byte stdout, empty stderr, 771-byte NE executable and 3,212-byte map |
+| `0029-elf-dll` | Exit 0; exact 255-byte stdout, empty stderr, 32,848-byte ELF image and 3,126-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -654,3 +657,21 @@ cases and 1,165 source-ready graph/ABI identities pass. The 56 native runs took
 baseline took **666.892 ms**; assembly/archive production took **445.609 /
 472.416 / 580.266 ms**. All authoring, manifests, diagnostics and raw artifacts
 remain in scratch wlink-ne-lines; only source/capture data are in the case.
+
+
+The ELF-DLL case matches507 first entries and complete output, qualifying
+ProcELFDLL and the real saved-line-size addition in DwarfAddModLines under
+dead-code selection. Inputs reuse genuine USE32 assembly objects and an archive
+with line records, imports/exports and a dependency module. The old writer
+announces a DLL but still emits ET_EXEC2; that actual1994 behavior remains strict,
+without a later shared-object ABI claim. Only six known map-clock fields are
+excluded; every ELF/code/relocation/debug byte is checked.
+
+Full parallel build/regression/unit/audit took **2.670 s**; all twenty-nine cases
+and1,167 source-ready graph/ABI identities pass. The58 native regression runs
+took **18.471–56.220 ms**. Final original capture took **1,173.228 ms** (owned
+target **1,159.992 ms**); clock-adjusted replay took **34.228 ms**, split
+**18.032 / 8.877 / 7.319 ms** for setup/execution/checks. The clean original
+baseline took **580.618 ms**, with existing producer bytes reused rather than
+recompiled. Authoring/raw diagnostics remain in scratch wlink-elf-dll; the case
+contains only source and capture data.
