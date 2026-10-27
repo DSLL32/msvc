@@ -1,5 +1,31 @@
+#include <string.h>
 #include "compiler-state.h"
+#pragma intrinsic(strlen, memcpy)
 #include <recon.h>
+
+/* The second argument selects one of the six genuine arenas. C++ expresses
+ * this helper's direct CommitExtent member call without an ABI wrapper. */
+extern "C" char *__cdecl duplicate_argument(const char *argument, int arena_kind)
+{
+    CompilerArena *arena;
+    char *result;
+    unsigned count;
+    if ((unsigned)arena_kind >= 6) {
+#ifdef __linux__
+        recon_unsupported("string-copy arena not recovered");
+#else
+        __asm { int 3 }
+#endif
+    }
+    arena = &c1_bss.arenas[arena_kind];
+    count = strlen(argument) + 1;
+    result = (char *)arena->cursor;
+    arena->cursor += (count + 3) & ~3U;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    count = strlen(argument) + 1;
+    memcpy(result, argument, count);
+    return result;
+}
 
 CompilerArenaDescriptor c1_arena_descriptors[6] = {
     { 0, 0x3200000, 0x10000, 0x21, 1 },

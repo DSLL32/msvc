@@ -24,7 +24,6 @@ static PragmaSourceState pragma_state;
 void *c1_pch_stop_owner; /* Shared source-only PCH stop/file owner, RVA5f31c */
 /* Respectively RVA5e588(BSS), 5e58c(CONST), 5e590(DATA). */
 extern "C" int function_pch_replayed; /* Same owner as check_finished_function */
-extern const char *current_forced_include; /* Same owner as forced-source input */
 #define PRAGMA_CONTEXT c1_bss.current_context
 #define PRAGMA_STREAM c1_bss.current_context.saved_frame->stream
 #define PRAGMA_ASSERT(test,line) do { if (!(test)) \
@@ -93,12 +92,12 @@ extern "C" CompilerParserToken *__cdecl dispatch_recorded_pragma(void)
     PRAGMA_ASSERT(c1_bss.debug_module->Slota4(), 0x410);
     token = PRAGMA_CONTEXT.ReadToken();
     code = token->kind;
-    if (code != PRAGMA_PACK && code != PRAGMA_MESSAGE && code != PRAGMA_WARNING && code != PRAGMA_CHECK_STACK &&
+    if (code != PRAGMA_PACK && code != PRAGMA_MESSAGE && code != PRAGMA_WARNING && code != PRAGMA_CHECK_STACK && code != PRAGMA_ONCE &&
         code != PRAGMA_INLINE_DEPTH && code != PRAGMA_INLINE_RECURSION && code != PRAGMA_AUTO_INLINE &&
         code != PRAGMA_OPTIMIZE && code != PRAGMA_INTRINSIC && code != PRAGMA_FUNCTION &&
         code != PRAGMA_COMMENT && code != PRAGMA_ALLOC_TEXT && code != PRAGMA_CONST_SEG && code != PRAGMA_BSS_SEG &&
-        code != PRAGMA_DATA_SEG && code != PRAGMA_CODE_SEG && code != 45 &&
-        (code != 44 || !token->value.context.object)) {
+        code != PRAGMA_DATA_SEG && code != PRAGMA_CODE_SEG && code != 43 && code != 45 &&
+        (code != 44 || (!token->value.context.object && !c1_bss.forced_include_name))) {
 #ifdef __linux__
         recon_unsupported("pragma dispatcher: unsupported source marker or missing owner");
 #else
@@ -139,7 +138,7 @@ extern "C" CompilerParserToken *__cdecl dispatch_recorded_pragma(void)
     case 44: { /* Recorded source owner, followed by the initial line. */
         CompilerSourceFile *file = (CompilerSourceFile *)token->value.context.object;
         c1_bss.current_context.object = file ? file :
-            c1_data.translation_unit->FindSourceFile(current_forced_include, 0);
+            c1_data.translation_unit->FindSourceFile(c1_bss.forced_include_name, 0);
         c1_bss.current_context.value = 1;
         emit_control_record(2);
         emit_control_record(1);

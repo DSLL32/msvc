@@ -199,7 +199,7 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
         !(symbol->kind == 12 && declarator && declarator->resolved_type &&
           (CDECL_INT_CALLBACK(declarator->resolved_type) || SCALAR_ARITHMETIC_TYPE(declarator->resolved_type) ||
            VOLATILE_SHORT_POINTER(declarator->resolved_type) || CONST_CHAR_POINTER(declarator->resolved_type) ||
-           COMPLETE_RECORD_VALUE(declarator->resolved_type) ||
+           COMPLETE_RECORD_VALUE(declarator->resolved_type) || COMPLETE_RECORD_POINTER(declarator->resolved_type) ||
            declarator->resolved_type == c1_data.builtin_types.type_0080 ||
            declarator->resolved_type == c1_data.builtin_types.type_0063 ||
            declarator->resolved_type == c1_data.builtin_types.type_4063_first ||
@@ -270,7 +270,7 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
               type->symbol_owner->kind == 4) &&
             symbol->kind != 7 && symbol->kind != 11 &&
             !(symbol->kind == 12 && (CDECL_INT_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
-              VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_INT_POINTER(type) || COMPLETE_RECORD_VALUE(type) ||
+              VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_INT_POINTER(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
               type == c1_data.builtin_types.type_0080 ||
               type == c1_data.builtin_types.type_0063 ||
               type == c1_data.builtin_types.type_4063_first ||
@@ -836,7 +836,7 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
     } else if (symbol->kind == 11 || symbol->kind == 12) {
         if (typedef_name || !(DECLARED_INT_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
             (symbol->kind == 11 && type->flags == 0x62 && !type->attributes && !shape && !type->auxiliary) ||
-            VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_INT_POINTER(type) || COMPLETE_RECORD_VALUE(type) ||
+            VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_INT_POINTER(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
             type == c1_data.builtin_types.type_0063 ||
             type == c1_data.builtin_types.type_4063_first ||
             (shape && (shape->flags & 7) == 1 && type->flags == 0x402 &&

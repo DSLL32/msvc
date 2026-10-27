@@ -300,7 +300,14 @@ transform_expression:
             c1_bss.context.saved_frame = frame->next;
             c1_bss.context.object = frame->object;
             c1_bss.context.value = frame->value;
-            if (frame->second) ((C1Initializer)frame->second)();
+            if (frame->second) {
+#ifdef __linux__
+                recon_unsupported("line directive return callback is not yet qualified");
+#else
+                __asm { int 3 }
+#endif
+                ((C1Initializer)frame->second)();
+            }
         } else recording = NULL;
         c1_bss.literal.recorded_stream = recording;
         c1_data.type_arena_kind = c1_data.expression_arena_kind = 3;
@@ -877,8 +884,8 @@ extern "C" int __cdecl match_condition_token(unsigned expected)
     }
     token = c1_bss.current_context.ReadToken();
     kind = token->kind;
-    if (kind != 6 && kind != 45 && kind != 50 && kind != 59 && kind != 67 &&
-        kind != 68 && kind != 101 && kind != 118 && kind != 126) {
+    if (kind != 6 && kind != 45 && kind != 50 && kind != 59 && kind != 60 && kind != 67 &&
+        kind != 68 && kind != 79 && kind != 101 && kind != 118 && kind != 126) {
 #ifdef __linux__
         recon_unsupported("conditional token classification cell is not yet recovered");
 #else
@@ -1193,15 +1200,8 @@ extern "C" CompilerParserToken *__cdecl read_line_directive(void)
         c1_data.type_arena_kind = c1_data.expression_arena_kind = 3;
         return (CompilerParserToken *)c1_data.predefined_tokens[1];
     }
-    /* The recorded form copies the complete original24-byte literal and
-     * later replays its context. Its wider payload roles are pending. */
-    if (!c1_bss.options.preprocess_stdout) {
-#ifdef __linux__
-        recon_unsupported("recorded line directive literal payload is not modeled");
-#else
-        __asm { int 3 }
-#endif
-    }
+    /* Preserve the authentic24-byte literal storage. The marker consumes only
+     * its kind; the following number/filename tokens own their typed values. */
     if (c1_bss.options.preprocess_stdout) {
         begin_line_output();
         result = (CompilerParserToken *)c1_data.predefined_tokens[1];
@@ -1224,7 +1224,14 @@ extern "C" CompilerParserToken *__cdecl read_line_directive(void)
             c1_bss.context.saved_frame = frame->next;
             c1_bss.context.object = frame->object;
             c1_bss.context.value = frame->value;
-            if (frame->second) ((C1Initializer)frame->second)();
+            if (frame->second) {
+#ifdef __linux__
+                recon_unsupported("line directive return callback is not yet qualified");
+#else
+                __asm { int 3 }
+#endif
+                ((C1Initializer)frame->second)();
+            }
         } else recording = NULL;
         c1_bss.literal.recorded_stream = recording;
         if (c1_bss.symbol_arena_kind) {
@@ -1418,11 +1425,13 @@ extern "C" int __cdecl classify_pragma_name(const char *name)
     if (first == 'm') return strcmp(name + 1, "essage") == 0 ? PRAGMA_MESSAGE : PRAGMA_UNKNOWN;
     /* Complete encountered 'w' bucket, relation48. */
     if (first == 'w') return strcmp(name + 1, "arning") == 0 ? PRAGMA_WARNING : PRAGMA_UNKNOWN;
-    /* Encountered prefix12..14 of the 'i' bucket, in search order. */
+    /* Encountered prefix12..16 of the 'i' bucket, in search order. */
     if (first == 'i') {
         if (!strcmp(name + 1, "ntrinsic")) return PRAGMA_INTRINSIC;
         if (!strcmp(name + 1, "nline_recursion")) return PRAGMA_INLINE_RECURSION;
         if (!strcmp(name + 1, "nline_depth")) return PRAGMA_INLINE_DEPTH;
+        if (!strcmp(name + 1, "nit_seg")) return PRAGMA_INIT_SEG;
+        if (!strcmp(name + 1, "nclude_alias")) return PRAGMA_INCLUDE_ALIAS;
         __asm { int 3 }
     }
     /* Complete two-row 'a' bucket, relations0..1. */
@@ -1457,8 +1466,66 @@ extern "C" int __cdecl classify_pragma_name(const char *name)
             return pragma_p_names[i].selector;
     return PRAGMA_UNKNOWN;
 }
+extern "C" char *__cdecl duplicate_argument(const char *, int);
+extern "C" void __cdecl skip_to_directive_newline(CompilerParserToken *);
+typedef char IncludeAlias_extent[sizeof(CompilerIncludeAlias) == 20 ? 1 : -1];
+typedef char IncludeAlias_kind_offset[offsetof(CompilerIncludeAlias, kind) == 12 ? 1 : -1];
 extern "C" void __cdecl read_include_alias_pragma(void)
-{ __asm { int 3 } }
+{
+    CompilerArena *arena;
+    CompilerIncludeAlias *alias;
+    const char *delimiter;
+    if (!c1_bss.debug_module->Slot24(36)) compiler_error(73, ".\\p0pragma.c", 0xa6e);
+    if (!expect_directive_token(118)) return;
+    if (c1_bss.options.preprocess_stdout) fwrite("(", 1, 1, c1_bss.preprocessor_output);
+    arena = &c1_bss.arenas[0];
+    alias = (CompilerIncludeAlias *)arena->cursor;
+    arena->cursor += 20;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    alias->name = parse_include_name(0, (unsigned *)&alias->kind);
+    if (!alias->name) {
+        report_language_diagnostic(1, 612);
+        skip_to_directive_newline(c1_bss.current_context.ReadToken());
+        return;
+    }
+    if (c1_bss.options.preprocess_stdout) {
+        delimiter = alias->kind ? "<" : "\"";
+        fwrite(delimiter, 1, 1, c1_bss.preprocessor_output);
+        fwrite(alias->name, strlen(alias->name), 1, c1_bss.preprocessor_output);
+        delimiter = alias->kind ? ">" : "\"";
+        fwrite(delimiter, 1, 1, c1_bss.preprocessor_output);
+    }
+    if (!expect_directive_token(55)) return;
+    if (c1_bss.options.preprocess_stdout) fwrite(",", 1, 1, c1_bss.preprocessor_output);
+    alias->name = duplicate_argument(alias->name, 0);
+    alias->replacement = parse_include_name(0, (unsigned *)&alias->replacement_kind);
+    if (!alias->replacement) {
+        report_language_diagnostic(1, 612);
+        skip_to_directive_newline(c1_bss.current_context.ReadToken());
+        return;
+    }
+    if (c1_bss.options.preprocess_stdout) {
+        delimiter = alias->replacement_kind ? "<" : "\"";
+        fwrite(delimiter, 1, 1, c1_bss.preprocessor_output);
+        fwrite(alias->replacement, strlen(alias->replacement), 1, c1_bss.preprocessor_output);
+        delimiter = alias->replacement_kind ? ">" : "\"";
+        fwrite(delimiter, 1, 1, c1_bss.preprocessor_output);
+    }
+    if (!expect_directive_token(126)) return;
+    if (c1_bss.options.preprocess_stdout) fwrite(")", 1, 1, c1_bss.preprocessor_output);
+    if (alias->kind != alias->replacement_kind) {
+        report_language_diagnostic(1, 612);
+        skip_to_directive_newline(c1_bss.current_context.ReadToken());
+        return;
+    }
+    alias->replacement = duplicate_argument(alias->replacement, 0);
+    c1_data.options.include_aliases->Insert(alias);
+}
+void RECON_THISCALL CompilerIncludeAliases::Insert(CompilerIncludeAlias *alias)
+{
+    alias->next = head;
+    head = alias;
+}
 
 extern "C" int __cdecl process_forced_macro_directive(unsigned, const char *, const char *);
 extern "C" int __cdecl process_forced_macro_directive(unsigned, const char *, const char *)

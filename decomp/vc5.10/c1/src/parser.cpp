@@ -278,7 +278,7 @@ int RECON_THISCALL CompilerParser::Run(void)
             value_top->value.declaration = c1_bss.parser_value.declaration;
         else if (state == 254 || state == 31 || state == 149)
             value_top->value.attributes = c1_bss.parser_value.attributes;
-        else if (state == 103 || state == 104 || state == 268)
+        else if (state == 103 || state == 104 || state == 163 || state == 268)
             value_top->value.integer = c1_bss.parser_value.integer;
         else if (state == 234 || state == 256 || state == 98 || state == 27 || state == 101 || state == 211 || state == 212 || state == 213 || state == 150 || state == 218 || state == 222 || state == 219 || state == 277 || state == 223 || state == 205 || state == 86 || state == 33)
             value_top->value.declarator_symbol = c1_bss.parser_value.declarator_symbol;
@@ -526,6 +526,7 @@ read_action:
         case 41:
         case 42:
         case 43: /* First enum identifier uses the established enum type/value owners. */
+        case 44: /* Explicit enumerator: name, assignment and the established QWORD constant. */
         case 45:
         case 46:
         case 47: /* Member terminator clears the established temporary arena/control bits. */
@@ -944,6 +945,10 @@ case 43:
     add_enumerator(right[0].value.name, enumerator_type, enumerator_value);
     break;
 case 44:
+#ifdef RECON_NATIVE_TEST
+    if (state_top[1] != 46 || state_top[2] != 92 || state_top[3] != 163)
+        recon_unsupported("explicit enumerator semantic source states not yet modeled");
+#endif
     add_enumerator(right[-2].value.name, enumerator_type, right[0].value.integer);
     if (!unevaluated_expression_depth && !type_description_depth)
         c1_bss.arenas[3].ClearUsed();
@@ -6879,8 +6884,8 @@ int __cdecl returns_local_address(CompilerParserNode *value)
     }
     return 0;
 }
-/* Shared BYTE column at63c78: two encountered semantic relations only. */
-CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, {0}, 61, {0}, 65, {0}, 128, 124, {0}, 70, {0}, 74, {0}, 81, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126 } };
+/* Encountered semantic cells of shared BYTE column63c78; gaps remain unmodeled. */
+CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, 60, 61, {0}, 65, {0}, 128, 124, {0}, 70, {0}, 74, {0}, 79, {0}, 81, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126 } };
 CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *value)
 {
     for (;;) {
@@ -8065,7 +8070,7 @@ CompilerParserToken *RECON_THISCALL CompilerContextState::ReadToken(void)
         /* Location tokens expose only object/value; recorded-stream tokens
          * pass directly to their genuine pending consumer. Wider special
          * semantics are incomplete and trap in both builds. */
-        if ((token->kind != 0xf0 && token->kind != 0xf2) ||
+        if ((token->kind != 0xf0 && token->kind != 0xf2 && token->kind != 0xf4) ||
             (token->kind == 0xf0 && !(lexer_flags & 0x200000U) && (lexer_flags & 0x20000U))) {
 #ifdef RECON_NATIVE_TEST
             recon_unsupported("context reader special-token state is not yet modeled");
@@ -8090,8 +8095,14 @@ CompilerParserToken *RECON_THISCALL CompilerContextState::ReadToken(void)
                 saved_frame = frame->next;
                 object = frame->object;
                 value = frame->value;
-                if (frame->second)
+                if (frame->second) {
+#ifdef __linux__
+                    recon_unsupported("context-end callback ABI has not been encountered");
+#else
+                    __asm { int 3 }
+#endif
                     ((void (__cdecl *)(void))frame->second)();
+                }
             }
             continue;
         }
@@ -9015,7 +9026,84 @@ ordinary_question:
     --c1_bss.source_cursor;
     return 1;
 }
-extern "C" void __cdecl discard_input_character(void) { __asm { int 3 }  }
+extern "C" unsigned char __cdecl read_multibyte_character(void);
+extern "C" void __cdecl discard_input_character(void)
+{
+    BYTE character;
+    for (;;) {
+        character = *c1_bss.source_cursor++;
+        switch (c1_data.scanner.classes[character]) {
+        case SC_NEWLINE:
+            --c1_bss.source_cursor;
+            return;
+        case SC_SPECIAL:
+            if (process_special_character() == 1 && !*c1_bss.source_cursor) return;
+            break;
+        case SC_LEAD:
+            read_multibyte_character();
+            break;
+        case SC_SLASH:
+            if (c1_data.options.language_extensions || c1_data.options.preprocess_only) {
+                character = *c1_bss.source_cursor++;
+                if (c1_data.scanner.classes[character] == SC_SPECIAL)
+                    character = (BYTE)resolve_special_character(character);
+                if (character == '/') goto line_comment;
+                --c1_bss.source_cursor;
+                character = *c1_bss.source_cursor++;
+                if (c1_data.scanner.classes[character] == SC_SPECIAL)
+                    character = (BYTE)resolve_special_character(character);
+                if (character != '*') {
+                    --c1_bss.source_cursor;
+                    break;
+                }
+                lexer_flags |= 0x800;
+                if (c1_bss.options.preserve_comments && !(lexer_flags & 0x8000)) {
+                    skip_preserved_macro_comment();
+                    goto block_done;
+                }
+                goto block_comment;
+            }
+            character = *c1_bss.source_cursor++;
+            if (c1_data.scanner.classes[character] == SC_SPECIAL)
+                character = (BYTE)resolve_special_character(character);
+            if (character == '/') {
+                character = *c1_bss.source_cursor++;
+                if (c1_data.scanner.classes[character] == SC_SPECIAL)
+                    character = (BYTE)resolve_special_character(character);
+                if (character != '*') {
+                    --c1_bss.source_cursor;
+                    report_language_diagnostic(4, 1);
+                    goto line_comment;
+                }
+                report_language_diagnostic(4, 179);
+            } else {
+                --c1_bss.source_cursor;
+                character = *c1_bss.source_cursor++;
+                if (c1_data.scanner.classes[character] == SC_SPECIAL)
+                    character = (BYTE)resolve_special_character(character);
+                if (character != '*') {
+                    --c1_bss.source_cursor;
+                    break;
+                }
+            }
+            lexer_flags |= 0x800;
+            if (c1_bss.options.preserve_comments && !(lexer_flags & 0x8000)) {
+                skip_preserved_macro_comment();
+                goto block_done;
+            }
+block_comment:
+            skip_macro_block_comment();
+block_done:
+            lexer_flags &= ~0x800U;
+            break;
+line_comment:
+            lexer_flags |= 0x800;
+            skip_line_comment();
+            lexer_flags &= ~0x800U;
+            break;
+        }
+    }
+}
 extern "C" int __cdecl splice_input_line(void)
 {
     unsigned character = *c1_bss.source_cursor++;
@@ -9365,7 +9453,6 @@ struct CompilerSymbolArenaFrame {
     CompilerSymbolArenaFrame *next;
 };
 typedef char CompilerSymbolArenaFrame_extent[sizeof(CompilerSymbolArenaFrame) == 8 ? 1 : -1];
-const char *current_forced_include; /* Source-only BSS cell RVA54db0. */
 extern "C" int __cdecl open_forced_include(const char *, int);
 extern "C" CompilerParserToken *__cdecl make_source_state_token(void *);
 extern "C" int __cdecl read_forced_include(void)
@@ -9381,13 +9468,8 @@ extern "C" int __cdecl read_forced_include(void)
         files = c1_bss.pending_forced_includes;
         if (!files || c1_bss.forced_include_index >= files->count)
             return 0;
-#ifdef RECON_NATIVE_TEST
-        /* The current list is empty. No filename slot, include effect or
-         * recorded-mode object below has a native contract yet. */
-        recon_unsupported("nonempty forced-include stream is not yet modeled");
-#endif
-        current_forced_include = (const char *)files->items[c1_bss.forced_include_index++];
-        if (open_forced_include(current_forced_include, 0) <= -1)
+        c1_bss.forced_include_name = (const char *)files->items[c1_bss.forced_include_index++];
+        if (open_forced_include(c1_bss.forced_include_name, 0) <= -1)
             continue;
         if (c1_bss.options.preprocess_stdout)
             return 1;
@@ -9413,7 +9495,14 @@ extern "C" int __cdecl read_forced_include(void)
             c1_bss.context.saved_frame = frame->next;
             c1_bss.context.object = frame->object;
             c1_bss.context.value = frame->value;
-            if (frame->second) ((void (__cdecl *)(void))frame->second)();
+            if (frame->second) {
+#ifdef __linux__
+                recon_unsupported("forced-include frame callback ABI not encountered");
+#else
+                __asm { int 3 }
+#endif
+                ((void (__cdecl *)(void))frame->second)();
+            }
         } else recorded = NULL;
         c1_bss.current_context.Push((CompilerLexer *)recorded, 2, 1, 0,
                                     &c1_bss.current_context);

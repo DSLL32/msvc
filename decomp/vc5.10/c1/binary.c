@@ -817,8 +817,8 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_duplicate_argument", .entry_rva = 0x221ca,
-.code = (const ReconExtent[]){{0x221ca, 0x221cb}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x221ca, 0x2222c}, {0x3986f, 0x3987b}},
+.code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
 .native_symbol = "duplicate_argument",
     },
     {
@@ -3406,8 +3406,9 @@ static const ReconFunction functions[] = {
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "process_trigraph" },
 
     { .name = "_discard_input_character", .entry_rva = 0xa430,
-      .code = (const ReconExtent[]){{0xa430, 0xa431}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "discard_input_character" },
+      .code = (const ReconExtent[]){{0xa430, 0xa539}, {0x2c0c9, 0x2c25a}}, .code_count = 2,
+      .text_data = (const ReconExtent[]){{0xa53c, 0xa574}}, .text_data_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "discard_input_character" },
 
     { .name = "_splice_input_line", .entry_rva = 0x97e9,
       .code = (const ReconExtent[]){{0x97e9, 0x9869}, {0x2b84a, 0x2b889}}, .code_count = 2,
@@ -3783,8 +3784,12 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]){{0xccc8, 0xcd5b}, {0x2d456, 0x2d466}}, .code_count = 2,
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "classify_pragma_name" },
     { .name = "_read_include_alias_pragma", .entry_rva = 0x3cd53,
-      .code = (const ReconExtent[]){{0x3cd53, 0x3cd54}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "read_include_alias_pragma" },
+      .code = (const ReconExtent[]){{0x3cd53, 0x3cfe1}}, .code_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "read_include_alias_pragma" },
+    { .name = "CompilerIncludeAliases::Insert", .entry_rva = 0x3cc94,
+      .code = (const ReconExtent[]){{0x3cc94, 0x3cca1}}, .code_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "_ZN22CompilerIncludeAliases6InsertEP20CompilerIncludeAlias",
+      .original_symbol = "?Insert@CompilerIncludeAliases@@QAEXPAUCompilerIncludeAlias@@@Z" },
     { .name = "_process_forced_macro_directive", .entry_rva = 0x195f0,
       .code = (const ReconExtent[]){{0x195f0, 0x195f1}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "process_forced_macro_directive" },

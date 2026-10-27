@@ -374,6 +374,7 @@ static int type_arena_snapshot(void)
         c1_data.source_descriptor != -1 || c1_data.conditional_depth != -1 ||
         c1_bss.source_cursor || c1_data.type_arena_kind != 3 ||
         c1_data.inline_depth != 8 || c1_data.inline_recursion ||
+        c1_bss.forced_include_name ||
         c1_data.pragma_restore_options != 0x03fff800 || c1_data.pragma_disable_options != 0x037eb800 ||
         c1_data.anonymous_identifier_count != 1 || c1_bss.runtime_initializer_pending || c1_data.segment_symbol_cache_index != 9 || c1_data.declaration_context_map ||
         c1_data.record_sizes.known.segment_symbol_bytes != 52 ||
@@ -609,6 +610,7 @@ static int type_arena_snapshot(void)
     c1_data.pragma_restore_options = 0x11223344;
     c1_data.pragma_disable_options = 0x55667788;
     c1_bss.runtime_initializer_pending = 37;
+    c1_bss.forced_include_name = "dirty forced include";
     c1_data.declaration_context_map = (CompilerSymbolMap *)&owned_symbols[1];
     c1_data.global_symbol_cache_index = 3;
     c1_data.anonymous_global_symbol = NULL;
@@ -637,6 +639,7 @@ static int type_arena_snapshot(void)
             saved->predefined_time_text[i] != 0x37) return 0;
     for (i = 0; i < sizeof(c1_bss.declaration_specs[0]); ++i)
         if (c1_bss.declaration_specs[0][i]) return 0;
+    if (c1_bss.forced_include_name) return 0;
     if (c1_bss.runtime_initializer_pending || c1_bss.dereferenced_shape_value || c1_bss.token_input_finished || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_bss.function_entry_label || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting ||
         c1_bss.declaration_control[1].flags || c1_bss.declaration_depth || c1_bss.declaration_control[0].flags ||
         c1_bss.pending_scope_symbols || c1_data.try_depth || c1_data.finally_depth || c1_data.exception_filter_depth ||

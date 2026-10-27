@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 769 application functions / 212,893 code bytes and
-9,406 bytes of owned text data. Application code is 66.06% of the original
+The reconstruction contains 773 application functions / 214,336 code bytes and
+9,462 bytes of owned text data. Application code is 66.50% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All twelve cached cases complete natively: DLL attach/export lookup/detach, the
+All thirteen cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, and the pragma-configuration workload below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, and the header-directives workload below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -193,6 +193,18 @@ method body has one canonical registry owner. Output-buffer destruction likewise
 has one outlined ECX receiver method and eight real callback prefixes, preserving
 the original tail/fallthrough graph. Its explicit `Destroy` spelling keeps the
 containing BSS a trivial C storage owner.
+
+The header-directives case combines a forced header, quoted/angle include
+search, include aliases, repeated once/guarded headers, `defined` conditions,
+and logical `#line`/`__FILE__`/`__LINE__` handling. Both executions exit zero
+with 565 first entries and exact outputs: `headersex` (1,435 bytes), `headersgl`
+(204), `headersin` (45), and `headerssy` (62). The final reference took
+2,005.455 ms; the matching native run took 21.111 ms. Two focused tests cover
+arena string-copy alignment/tails and newest matching alias links/delimiters;
+the existing dirty-state restore test covers the selected forced-header name.
+This case adds four application functions, 1,443 code bytes and 56 text-data
+bytes. Raw artifacts and intermediate failures remain in scratch
+`header-directives-case-20261027/`.
 
 The completed cases exercise bounded domains. Larger readable parser, lexer,
 IR writer, PCH, debug and recorded-input bodies include unexercised branches;

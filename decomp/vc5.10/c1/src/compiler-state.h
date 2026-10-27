@@ -449,6 +449,7 @@ typedef struct CompilerBss {
     char *macro_time; /* RVA54db4 */
     CompilerVector *pending_forced_includes; /* RVA54da8 */
     short forced_include_index; /* RVA54dac */
+    const char *forced_include_name; /* RVA54db0, BSS0; borrowed selected vector string. */
     CompilerIrSymbol *initializer_symbol; /* RVA57574, current initialization target */
     unsigned initializer_bytes; /* RVA57558, cleared at initialization entry; accumulated by element layout */
     unsigned runtime_initializer_pending; /* RVA5756c, BSS0; temporary requires an initial zero assignment. */

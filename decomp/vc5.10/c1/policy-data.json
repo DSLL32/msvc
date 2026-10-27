@@ -2845,11 +2845,11 @@
             [
               {
                 "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                "offset": 844
+                "offset": 860
               },
               {
                 "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                "offset": 868
+                "offset": 884
               }
             ]
           ],
@@ -2857,32 +2857,32 @@
             {
               "site": {
                 "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                "offset": 414
+                "offset": 429
               },
               "targets": [
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 421
+                  "offset": 436
                 },
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 445
+                  "offset": 460
                 },
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 469
+                  "offset": 484
                 },
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 493
+                  "offset": 508
                 },
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 517
+                  "offset": 532
                 },
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 541
+                  "offset": 556
                 }
               ]
             }
@@ -3326,11 +3326,11 @@
             [
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 4615
+                "offset": 4790
               },
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 4647
+                "offset": 4822
               }
             ]
           ],
@@ -3338,40 +3338,40 @@
             {
               "site": {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 3812
+                "offset": 3987
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3835
+                  "offset": 4010
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3962
+                  "offset": 4137
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3835
+                  "offset": 4010
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3849
+                  "offset": 4024
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3819
+                  "offset": 3994
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3819
+                  "offset": 3994
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3819
+                  "offset": 3994
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3923
+                  "offset": 4098
                 }
               ]
             }
@@ -3718,11 +3718,11 @@
             [
               {
                 "rebuilt_symbol": "_dispatch_recorded_pragma",
-                "offset": 5426
+                "offset": 5451
               },
               {
                 "rebuilt_symbol": "_dispatch_recorded_pragma",
-                "offset": 5694
+                "offset": 5719
               }
             ]
           ],
@@ -3730,160 +3730,160 @@
             {
               "site": {
                 "rebuilt_symbol": "_dispatch_recorded_pragma",
-                "offset": 226
+                "offset": 251
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1722
+                  "offset": 1747
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1151
+                  "offset": 1176
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 265
+                  "offset": 290
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1282
+                  "offset": 1307
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1380
+                  "offset": 1405
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1683
+                  "offset": 1708
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1151
+                  "offset": 1176
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2131
+                  "offset": 2156
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2259
+                  "offset": 2284
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 3377
+                  "offset": 3402
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 3767
+                  "offset": 3792
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2779
+                  "offset": 2804
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1151
+                  "offset": 1176
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2779
+                  "offset": 2804
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4851
+                  "offset": 4876
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4729
+                  "offset": 4754
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4136
+                  "offset": 4161
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4227
+                  "offset": 4252
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4676
+                  "offset": 4701
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 233
+                  "offset": 258
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2001
+                  "offset": 2026
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 233
+                  "offset": 258
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1180
+                  "offset": 1205
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 324
+                  "offset": 349
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 362
+                  "offset": 387
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 660
+                  "offset": 685
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 775
+                  "offset": 800
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4978
+                  "offset": 5003
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2719
+                  "offset": 2744
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2779
+                  "offset": 2804
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 5280
+                  "offset": 5305
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_dispatch_recorded_pragma",
-                "offset": 1824
+                "offset": 1849
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1861
+                  "offset": 1886
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1846
+                  "offset": 1871
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1831
+                  "offset": 1856
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1899
+                  "offset": 1924
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1972
+                  "offset": 1997
                 }
               ]
             }
@@ -7527,6 +7527,63 @@
       "_write_language_diagnostic": {
         "register_imports": {
           "require_all_register_calls_resolved": true
+        }
+      },
+      "_discard_input_character": {
+        "original": {
+          "switches": {
+            "274769006": [
+              274907602,
+              274769013,
+              274769172,
+              274907337,
+              274768966
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_discard_input_character",
+                "offset": 860
+              },
+              {
+                "rebuilt_symbol": "_discard_input_character",
+                "offset": 916
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_discard_input_character",
+                "offset": 71
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_discard_input_character",
+                  "offset": 98
+                },
+                {
+                  "rebuilt_symbol": "_discard_input_character",
+                  "offset": 142
+                },
+                {
+                  "rebuilt_symbol": "_discard_input_character",
+                  "offset": 78
+                },
+                {
+                  "rebuilt_symbol": "_discard_input_character",
+                  "offset": 132
+                },
+                {
+                  "rebuilt_symbol": "_discard_input_character",
+                  "offset": 841
+                }
+              ]
+            }
+          ]
         }
       }
     },

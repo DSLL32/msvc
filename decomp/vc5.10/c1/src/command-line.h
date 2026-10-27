@@ -22,6 +22,7 @@ typedef struct CompilerIncludeAliases {
     struct CompilerIncludeAlias *head;
 #ifdef __cplusplus
     const char *RECON_THISCALL Find(const char *, int *);
+    void RECON_THISCALL Insert(CompilerIncludeAlias *);
 #endif
 } CompilerIncludeAliases;
 

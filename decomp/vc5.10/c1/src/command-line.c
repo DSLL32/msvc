@@ -334,7 +334,6 @@ char **__cdecl get_argument_append_slot(void)
     __asm { int 3 }
     return NULL;
 }
-char *__cdecl duplicate_argument(const char *argument, int copy) { __asm { int 3 } return NULL; }
 void __cdecl report_response_error(int code, ...) { __asm { int 3 } }
 void __cdecl stop_compiler(int status, int detail) { __asm { int 3 } }
 
