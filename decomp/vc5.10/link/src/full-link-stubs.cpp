@@ -24,7 +24,7 @@ extern "C" void __stdcall add_ppc_branch_island(Contribution *last,DWORD rva,DWO
 extern "C" void __stdcall initialize_relocation_padding(void *state,DWORD pages,DWORD base,DWORD extra) { __asm { int 3 } }
 
 extern "C" void __cdecl update_gp_bounds(void) { __asm { int 3 } }
-extern "C" void __stdcall adjust_rom_section_header(OutputSection *section,IMAGE_SECTION_HEADER *header,LinkContext *context) { __asm { int 3 } }
+
 void RECON_THISCALL LinkContext::CollectRelocationSymbols(DWORD *first_count,void **first,DWORD *second_count,void **second) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::WriteRelocationSymbols(DWORD first_count,void **first,DWORD second_count,void **second) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PrepareMacJumpTables(void) { __asm { int 3 } }

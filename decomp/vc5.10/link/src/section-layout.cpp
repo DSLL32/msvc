@@ -636,3 +636,34 @@ extern "C" void __stdcall apply_section_merge(OutputSection *section)
         section->vxd_flag10=(BYTE)((section->characteristics>>25)&1);
     }
 }
+
+extern "C" void __stdcall adjust_rom_section_header(OutputSection *section,
+    IMAGE_SECTION_HEADER *header,LinkContext *context)
+{
+    switch(context->file_header.Machine) {
+    case IMAGE_FILE_MACHINE_R4000:case IMAGE_FILE_MACHINE_R10000:
+    case IMAGE_FILE_MACHINE_ALPHA:case 0x1a2:case 0x1a6:case 0x1c0:
+    case IMAGE_FILE_MACHINE_POWERPC:
+        break;
+    default:return;
+    }
+    /* ROM section types are distinct from PE section characteristics. */
+    switch(section->characteristics&0x1e0) {
+    case IMAGE_SCN_CNT_CODE:
+        header->Characteristics=0x20;
+        break;
+    case IMAGE_SCN_CNT_INITIALIZED_DATA:
+        if(section==procedure_section || section==relocation_section)
+            header->Characteristics=0;
+        else header->Characteristics=(section->characteristics&IMAGE_SCN_MEM_WRITE)?
+            0x40:0x100;
+        break;
+    case IMAGE_SCN_CNT_UNINITIALIZED_DATA:
+        header->Characteristics=0x400;
+        context->reserved1e8=section->rva;
+        break;
+    default:
+        header->Characteristics=0;
+        break;
+    }
+}

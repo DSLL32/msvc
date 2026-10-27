@@ -762,7 +762,7 @@ static const ReconFunction functions[] = {
     {"_compact_procedure_entries@4",0x58b50,(const ReconExtent[]){{0x58b50,0x58b7a}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"compact_procedure_entries",NULL,NULL,0,NULL},
     {"_count_section_lines@8",0x3fea0,(const ReconExtent[]){{0x3fea0,0x3ff96}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"count_section_lines",NULL,NULL,0,NULL},
     {"_build_section_header@8",0x3ffa0,(const ReconExtent[]){{0x3ffa0,0x3fffd}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"build_section_header",NULL,NULL,0,NULL},
-    {"_adjust_rom_section_header@12",0x40000,(const ReconExtent[]){{0x40000,0x40001}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"adjust_rom_section_header",NULL,NULL,0,NULL},
+    {"_adjust_rom_section_header@12",0x40000,(const ReconExtent[]){{0x40000,0x40100}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"adjust_rom_section_header",NULL,NULL,0,NULL},
     {"_write_section_header@12",0x61340,(const ReconExtent[]){{0x61340,0x6139d}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"write_section_header",NULL,NULL,0,NULL},
     {"_release_memory_arena@4",0x4f690,(const ReconExtent[]){{0x4f690,0x4f6fa}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"release_memory_arena",NULL,NULL,0,NULL},
     {"_prepare_incremental_pass@24",0x35540,(const ReconExtent[]){{0x35540,0x35541}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"prepare_incremental_pass",NULL,NULL,0,NULL},

@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-626 application functions / 236,456 original code bytes are reconstructed
-(57.00% of the 414,810-byte whole `.text` extent, which includes CRT and text
+627 application functions / 236,712 original code bytes are reconstructed
+(57.07% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 40 pending bodies with known extents totaling 4,281 bytes and
-177 entries whose body extents remain unknown; this is not a complete non-CRT
+176 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all thirty-three cached native cases and their narrow checks;
+`make -j4 check unit` runs all thirty-four cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-639-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 619 ordinary application bodies and six CRT bodies. Seven import
+640-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 620 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The seven genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -798,3 +798,29 @@ Completion took 1,575.8 ms in the original and 21.0 ms natively (11.0 ms setup,
 original-build and full graph/RET/EH batch passed in 4.85 s: 33 cases, 639 graph
 vertices, 625 scoped return contracts and seven separate EH-owner checks.
 These are incremental measurements.
+
+The Alpha ROM case serializes the unchanged original RC/CVTRES resource object
+with COFF debug and a map. It exits 0 with 223 application first entries, a
+3,072-byte ROM image and a 464-byte map. The real 56-byte ROM optional header,
+read-only/data section type conversion and debug-directory terminator are
+retained. The newly recovered 256-byte converter preserves the other machine
+branches and the BSS-base store, but this resource-only input qualifies Alpha
+read-only/data serialization; it makes no firmware/runtime, code-section or
+other-machine execution claim. A prior MIPS proposal was rejected by the
+original backend and remains separately retained, not a ROM qualification.
+
+Raw original/native/master artifacts differ only at the COFF timestamp DWORD
+at file offset 4, the two actual `.rdata` debug-directory timestamp copies,
+and the map's exact hex/ctime fields. The derived reference preserves the
+untouched raw capture/report and compares every other byte and inventory
+strictly. Completion replay took 17.6 ms (11.1 ms setup, 2.9 ms execution,
+3.7 ms checks); its original took 1,206.3 ms. The native GDB raw-file diagnostic
+is separate from that timing.
+
+All 34 cached cases, unit checks and original builds passed in the initial
+1.80-second case-end batch. Its full audit exposed undeclared emitted switch
+data at the former end of the section-layout TU. Exact rebuilt table/byte-map
+ownership for the unchanged merge body and new ROM helper corrected that
+metadata; the audit-only retry passed in 3.93 s, without another case campaign.
+The current full graph has 640 vertices, 626 scoped return contracts and seven
+separate EH-owner checks. These are incremental measurements.

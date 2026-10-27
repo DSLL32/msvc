@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 134160
+              "offset": 134560
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 134171
+              "offset": 134571
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 222416
+              "offset": 222816
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 222427
+              "offset": 222827
             }
           ]
         },
@@ -7739,11 +7739,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 162048
+              "offset": 162448
             },
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 162059
+              "offset": 162459
             }
           ]
         }
@@ -8216,11 +8216,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 161088
+              "offset": 161488
             },
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 161099
+              "offset": 161499
             }
           ]
         }
@@ -13506,6 +13506,146 @@
                 {
                   "rebuilt_symbol": "_sh_dumper_relocation_name@12",
                   "offset": 304
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_apply_section_merge@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_apply_section_merge@4",
+                "offset": 681
+              },
+              {
+                "rebuilt_symbol": "_apply_section_merge@4",
+                "offset": 793
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_apply_section_merge@4",
+                "offset": 312
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 319
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 528
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 341
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 353
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 517
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 389
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 497
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 319
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 405
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 421
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 454
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 463
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 508
+                },
+                {
+                  "rebuilt_symbol": "_apply_section_merge@4",
+                  "offset": 539
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_adjust_rom_section_header@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_adjust_rom_section_header@12",
+                "offset": 220
+              },
+              {
+                "rebuilt_symbol": "_adjust_rom_section_header@12",
+                "offset": 391
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_adjust_rom_section_header@12",
+                "offset": 50
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_adjust_rom_section_header@12",
+                  "offset": 57
+                },
+                {
+                  "rebuilt_symbol": "_adjust_rom_section_header@12",
+                  "offset": 57
+                },
+                {
+                  "rebuilt_symbol": "_adjust_rom_section_header@12",
+                  "offset": 57
+                },
+                {
+                  "rebuilt_symbol": "_adjust_rom_section_header@12",
+                  "offset": 57
+                },
+                {
+                  "rebuilt_symbol": "_adjust_rom_section_header@12",
+                  "offset": 57
+                },
+                {
+                  "rebuilt_symbol": "_adjust_rom_section_header@12",
+                  "offset": 57
+                },
+                {
+                  "rebuilt_symbol": "_adjust_rom_section_header@12",
+                  "offset": 57
+                },
+                {
+                  "rebuilt_symbol": "_adjust_rom_section_header@12",
+                  "offset": 59
                 }
               ]
             }
@@ -19126,6 +19266,11 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_adjust_rom_section_header@12": {
+        "expected_cleanup": [
+          12
+        ]
       }
     }
   },
@@ -19135,21 +19280,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 134160
+            "offset": 134560
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 134171
+            "offset": 134571
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 134171
+            "offset": 134571
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 134181
+            "offset": 134581
           }
         ]
       ]
@@ -19159,21 +19304,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 222416
+            "offset": 222816
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 222427
+            "offset": 222827
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 222427
+            "offset": 222827
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 222437
+            "offset": 222837
           }
         ]
       ]
@@ -19255,21 +19400,21 @@
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 162048
+            "offset": 162448
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 162059
+            "offset": 162459
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 162059
+            "offset": 162459
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 162069
+            "offset": 162469
           }
         ]
       ]
@@ -19279,21 +19424,21 @@
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 161088
+            "offset": 161488
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 161099
+            "offset": 161499
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 161099
+            "offset": 161499
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 161109
+            "offset": 161509
           }
         ]
       ]
