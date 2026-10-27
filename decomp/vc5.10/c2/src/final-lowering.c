@@ -210,10 +210,10 @@ C2Expression *__fastcall materialize_final_address_input(unsigned mode,
     inserted = new_final_move_expression(mode, type, operand, NULL, owner);
     if (mode == 0x7f || mode == 0x94) remove_input_operand(inserted, inserted->left);
     result = inserted->tail.right;
-    /* Only rows zero/one/two have encountered number initializers 0/1/2.
-     * A different row/variant is valid original data, but still unmodeled. */
+    /* These number columns were already recovered: general roots0/1/2
+     * and x87 row31. Other rows/variants remain unmodeled here. */
     if (reg != &machine_registers[0] && reg != &machine_registers[1] &&
-        reg != &machine_registers[2]) { __asm { int 3 } }
+        reg != &machine_registers[2] && reg != &machine_registers[31]) { __asm { int 3 } }
     if (reg->number) result->fixed_register = reg;
     if ((inserted->type & 0xfff) > 4 && mode == 1) {
         result = copy_input_expression(result);
@@ -262,11 +262,55 @@ C2Expression *__fastcall new_final_move_expression(unsigned opcode, unsigned sho
     }
     return inserted;
 }
+C2Expression *__fastcall find_final_fixed_operand(C2Expression *first, C2FunctionRegister *reg);
+int __fastcall register_views_differ(C2Expression *expression);
+C2Expression *__fastcall prepare_final_aggregate_operand(C2Expression *owner,
+    C2Expression *operand, C2FunctionRegister **original)
+{
+    C2Expression *result = NULL, *head, *matched;
+    C2FunctionRegister *reg;
+
+    if (operand->kind != 1) return NULL;
+    *original = NULL;
+    reg = operand->value.reg;
+    /* Only the existing static kind column is available. The containing
+     * sentinel's proved kind2 is tested by identity, without a full row read. */
+    if (reg == (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT))
+        return NULL;
+    if ((unsigned long)reg >= (unsigned long)machine_registers &&
+        (unsigned long)reg < (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT) &&
+        reg != (C2FunctionRegister *)&machine_registers[1] &&
+        reg != (C2FunctionRegister *)&machine_registers[2] &&
+        reg != (C2FunctionRegister *)&machine_registers[3] &&
+        reg != (C2FunctionRegister *)&machine_registers[4] &&
+        reg != (C2FunctionRegister *)&machine_registers[5] &&
+        reg != (C2FunctionRegister *)&machine_registers[6] &&
+        reg != (C2FunctionRegister *)&machine_registers[7] &&
+        reg != (C2FunctionRegister *)&machine_registers[8] &&
+        reg != (C2FunctionRegister *)&machine_registers[18] &&
+        !(reg >= (C2FunctionRegister *)&machine_registers[66] &&
+          reg <= (C2FunctionRegister *)&machine_registers[73])) { __asm { int 3 } }
+    if (reg->kind == 3 && reg->value && register_views_differ(operand)) {
+        *original = operand->original_register;
+        head = owner->tail.right;
+        matched = find_final_fixed_operand(head, *original);
+        if (matched && matched != head) {
+            result = copy_input_expression(matched);
+            remove_input_result(owner, matched);
+        }
+    }
+    return result;
+}
 C2Expression *__fastcall prepare_final_aggregate_result(C2Expression *owner,
     C2Expression *operand, C2FunctionRegister **original)
 {
-    __asm { int 3 }
-    return NULL;
+    C2Expression *result = NULL;
+
+    if (operand->aggregate_value)
+        result = prepare_final_aggregate_operand(owner, operand->aggregate_value, original);
+    if (!result && operand->aggregate_second)
+        result = prepare_final_aggregate_operand(owner, operand->aggregate_second, original);
+    return result;
 }
 /* These four DWORDs are initialized by the genuine constraint initializer.
  * Register numbers name existing static rows, without granting their payload. */
@@ -749,13 +793,182 @@ void __fastcall finish_final_multiply(C2Expression *record)
         record->left = next;
     }
 }
+void __fastcall assign_parameter_storage(C2Function *, unsigned *, C2Expression *, unsigned, int);
+C2Expression *__fastcall prepare_final_call_stack(C2Expression *record, unsigned char convention);
+unsigned __fastcall final_parameter_stack_size(C2Expression *record);
+
+unsigned __fastcall measure_final_call_stack(C2Expression *record)
+{
+    C2Expression *operand, *definition;
+    unsigned bytes, total = 0, alignment = (unsigned)argument_alignment;
+
+    for (operand = record->left->next; operand; operand = operand->next) {
+        if (operand->kind == 10 || operand->kind == 9 ||
+            (operand->location.expression.properties & 0x20) ||
+            (operand->kind == 1 && operand->value.reg->kind == 1)) continue;
+        definition = operand->value.reg->value;
+        if (definition->opcode == 0x130 || definition->opcode == 0x13e) {
+            if (operand->kind == 1 && operand->original_register->kind == 1) continue;
+            if (definition->opcode == 0x130) {
+                bytes = ((operand->type & 0xfff) - 1U + alignment) & ~(alignment - 1U);
+                total += bytes;
+            } else {
+                total += final_parameter_stack_size(definition);
+                alignment = (unsigned)argument_alignment;
+            }
+        } else if (definition->opcode == 0x15f) {
+            if (definition->detail.intrinsic == 0xdf)
+                bytes = definition->left->immediate;
+            else bytes = definition->left->next->immediate;
+            total += (bytes - 1U + alignment) & ~(alignment - 1U);
+        }
+    }
+    return total;
+}
+
+C2Expression *__fastcall prepare_final_call_stack(C2Expression *record, unsigned char convention)
+{
+    unsigned bytes = measure_final_call_stack(record);
+    C2Expression *stack, *amount;
+
+    if (convention) {
+        record->detail.call_stack_bytes = bytes;
+        stack = new_fixed_register_operand(5, 0x1004);
+        attach_optimizer_output(record, stack);
+        return NULL;
+    }
+    record->detail.call_stack_bytes = 0;
+    if (!bytes) return NULL;
+    stack = new_fixed_register_operand(5, 0x1004);
+    amount = new_integer_expression(0x1004, (__int64)(long)bytes);
+    return new_global_ternary_expression(0x2d, 0x1004, stack, stack, amount,
+                                         insert_input_record, (C2Record *)record);
+}
+
+void __fastcall prepare_final_call_parameters(C2Expression *record)
+{
+    C2Expression *operand, *definition;
+
+    operand = record->left;
+    if (record->kind == 13) operand = operand->next;
+    for (; operand; operand = operand->next) {
+        if (operand->kind == 10 || operand->kind == 9 ||
+            (operand->location.expression.properties & 0x20) ||
+            (operand->kind == 1 && operand->value.reg->kind == 1)) continue;
+        definition = operand->value.reg->value;
+        if (definition && (definition->opcode == 0x130 || definition->opcode == 0x13e) &&
+            (definition->type & 0xf000) != 0x4000) lower_final_record(definition);
+    }
+}
+C2Expression *__fastcall bind_final_call_parameter(C2Expression *record, C2Expression *parameter);
+
+void __fastcall assign_final_call_registers(C2Expression *record)
+{
+    C2Expression *operand, *next, *definition;
+
+    prepare_final_call_parameters(record);
+    for (operand = record->left->next; operand; operand = next) {
+        next = operand->next;
+        if (operand->kind == 10 || operand->kind == 9 ||
+            (operand->location.expression.properties & 0x20) ||
+            (operand->kind == 1 && operand->value.reg->kind == 1)) continue;
+        definition = operand->value.reg->value;
+        if (definition->opcode == 0x130 || definition->opcode == 0x13e) {
+            if (operand->kind == 1 && operand->original_register->kind == 1)
+                bind_final_call_parameter(record, operand);
+            else {
+                remove_input_operand(record, operand);
+                if (definition->opcode == 0x130 && (definition->type & 0xf000) != 0x4000)
+                    definition->opcode = 0xd;
+                else unlink_and_release_input_record((C2Record *)definition);
+            }
+        } else if (definition->opcode == 0x15f) {
+            unlink_and_release_input_record((C2Record *)definition);
+            remove_input_operand(record, operand);
+        }
+    }
+}
+C2Expression *__fastcall find_final_register_output(C2Expression *record, C2FunctionRegister *reg);
+C2Expression *__fastcall new_register_set_expression(C2RegisterSet *set);
+
+void __fastcall finish_final_call_result(C2Expression *record)
+{
+    C2RegisterSet *clobbered;
+    C2Expression *stack, *output;
+    unsigned number;
+
+    stack = new_fixed_register_operand(5, 0x1004);
+    copy_input_operand(record, stack);
+    clobbered = new_register_set(8);
+    for (number = 0; number <= 8; ++number) {
+        output = find_final_register_output(record, (C2FunctionRegister *)&machine_registers[number]);
+        if (!output && (call_clobbered_register_mask & (1U << number)))
+            add_register_to_set(clobbered, number);
+    }
+    if (clobbered->links.first)
+        attach_optimizer_output(record, new_register_set_expression(clobbered));
+    else release_optimizer_symbol_set(clobbered);
+}
+void __fastcall spill_final_float_call_stack(C2Expression *record, unsigned count, int mode);
+
+void __fastcall finish_final_float_call(C2Expression *record)
+{
+    if (final_float_stack_top != -1)
+        spill_final_float_call_stack(record, (unsigned)final_float_stack_top + 1, 0);
+}
+
 void __fastcall finish_final_call(C2Expression *record)
 {
-    __asm { int 3 }
+    C2Expression *target, *parameter, *replacement;
+    unsigned offset;
+    unsigned char convention;
+
+    if (record->left->kind == 3) {
+        replacement = materialize_final_address_input(1, record, record->left, &machine_registers[0]);
+        attach_input_expression(record, record->left, replacement);
+    }
+    target = record->left;
+    if (find_final_fixed_operand(target, (C2FunctionRegister *)&machine_registers[5])) return;
+    convention = record->call_convention;
+    if (convention == 4 || convention == 0x14 || convention == 0x18) {
+        offset = 0;
+        for (parameter = target->next; parameter; parameter = parameter->next)
+            assign_parameter_storage(NULL, &offset, parameter, convention, 0);
+    }
+    prepare_final_call_stack(record, convention);
+    assign_final_call_registers(record);
+    finish_final_call_result(record);
+    if (record->left->kind != 4 || !(record->left->value.symbol->flags & 0x10000))
+        finish_final_float_call(record);
 }
+int __fastcall register_views_differ(C2Expression *expression);
+
 void __fastcall finish_final_condition_use(C2Expression *record, C2Expression *operand)
 {
-    __asm { int 3 }
+    C2Expression *definition, *output, *previous, *input, *next, *replacement;
+
+    operand->fixed_register = &machine_registers[66];
+    definition = operand->value.reg->value;
+    output = find_final_overlapping_result(definition, operand->value.reg);
+    output->fixed_register = &machine_registers[66];
+    previous = record->previous;
+    while (!(previous->flags & 1)) previous = previous->previous;
+    if (previous == definition) return;
+    for (input = definition->left; input; input = next) {
+        next = input->next;
+        if (input->opcode != 0x11d &&
+            (input->kind != 1 || input->value.reg->kind != 3 ||
+             !input->value.reg->value || register_views_differ(input))) {
+            replacement = materialize_final_address_input(1, definition, input, &machine_registers[0]);
+            next = attach_input_expression(definition, input, replacement)->next;
+        }
+    }
+    previous = definition->previous;
+    next = definition->next;
+    definition->next = NULL;
+    previous->next = next;
+    next->previous = previous;
+    prepend_input_record((C2Record *)record, (C2Record *)definition);
 }
 C2Expression *__fastcall prepare_final_division_operands(unsigned short type,
     C2Expression *definition, C2Expression *temporary, C2Expression **input);
@@ -826,7 +1039,7 @@ C2Expression *__fastcall insert_final_constant_assignment(C2Expression *temporar
 }
 C2Expression *__fastcall find_final_register_output(C2Expression *record, C2FunctionRegister *reg);
 C2Expression *__fastcall split_final_wide_result(C2Expression *record,
-    C2Expression *result, C2Expression *replacement);
+    C2Expression *result, C2Expression **replacement);
 C2Expression *__fastcall find_final_result_use(C2Expression *first,
     C2Expression *result, C2Expression **owner);
 
@@ -865,8 +1078,9 @@ void __fastcall bind_final_fixed_result(C2Expression *record, C2MachineRegister 
     result = record->tail.right;
     if (reg != &machine_registers[0]) {
         if ((result->type & 0xfff) < 4) {
-            /* Other static-row payloads are still unmodeled. */
-            if (reg != &machine_registers[1]) { __asm { int 3 } }
+            /* Root1 and its reached16-bit row9 have the required
+             * number/displacement column. Other payload remains unmodeled. */
+            if (reg != &machine_registers[1] && reg != &machine_registers[9]) { __asm { int 3 } }
             if (!reg->bit_displacement)
                 reg = (C2MachineRegister *)new_bitfield_register(
                     (C2FunctionRegister *)&machine_registers[reg->number],
@@ -897,10 +1111,29 @@ C2Expression *__fastcall find_final_register_output(C2Expression *record, C2Func
 
     if ((unsigned long)reg >= (unsigned long)&machine_registers[0] &&
         (unsigned long)reg < (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT) &&
+        reg != (C2FunctionRegister *)&machine_registers[0] &&
+        reg != (C2FunctionRegister *)&machine_registers[4] &&
+        reg != (C2FunctionRegister *)&machine_registers[5] &&
+        reg != (C2FunctionRegister *)&machine_registers[6] &&
+        reg != (C2FunctionRegister *)&machine_registers[7] &&
+        reg != (C2FunctionRegister *)&machine_registers[8] &&
         reg != (C2FunctionRegister *)&machine_registers[1] &&
         reg != (C2FunctionRegister *)&machine_registers[2] &&
         reg != (C2FunctionRegister *)&machine_registers[3] &&
+        reg != (C2FunctionRegister *)&machine_registers[17] &&
         reg != (C2FunctionRegister *)&machine_registers[18] &&
+        reg != (C2FunctionRegister *)&machine_registers[20] &&
+        reg != (C2FunctionRegister *)&machine_registers[9] &&
+        reg != (C2FunctionRegister *)&machine_registers[31] &&
+        reg != (C2FunctionRegister *)&machine_registers[32] &&
+        reg != (C2FunctionRegister *)&machine_registers[74] &&
+        reg != (C2FunctionRegister *)&machine_registers[68] &&
+        reg != (C2FunctionRegister *)&machine_registers[69] &&
+        reg != (C2FunctionRegister *)&machine_registers[70] &&
+        reg != (C2FunctionRegister *)&machine_registers[71] &&
+        reg != (C2FunctionRegister *)&machine_registers[72] &&
+        reg != (C2FunctionRegister *)&machine_registers[73] &&
+        reg != (C2FunctionRegister *)&machine_registers[67] &&
         reg != (C2FunctionRegister *)&machine_registers[66]) { __asm { int 3 } }
     root = reg->canonical;
     for (result = record->tail.right; result; result = result->next) {
@@ -917,8 +1150,24 @@ C2Expression *__fastcall find_final_register_output(C2Expression *record, C2Func
                 original != (C2FunctionRegister *)&machine_registers[1] &&
                 original != (C2FunctionRegister *)&machine_registers[2] &&
                 original != (C2FunctionRegister *)&machine_registers[3] &&
+                original != (C2FunctionRegister *)&machine_registers[17] &&
                 original != (C2FunctionRegister *)&machine_registers[18] &&
+                original != (C2FunctionRegister *)&machine_registers[20] &&
+                original != (C2FunctionRegister *)&machine_registers[9] &&
+                original != (C2FunctionRegister *)&machine_registers[31] &&
+            original != (C2FunctionRegister *)&machine_registers[32] &&
+            original != (C2FunctionRegister *)&machine_registers[33] &&
+            original != (C2FunctionRegister *)&machine_registers[34] &&
+            original != (C2FunctionRegister *)&machine_registers[35] &&
+                original != (C2FunctionRegister *)&machine_registers[32] &&
+                original != (C2FunctionRegister *)&machine_registers[74] &&
                 original != (C2FunctionRegister *)&machine_registers[66] &&
+                original != (C2FunctionRegister *)&machine_registers[68] &&
+                original != (C2FunctionRegister *)&machine_registers[69] &&
+                original != (C2FunctionRegister *)&machine_registers[70] &&
+                original != (C2FunctionRegister *)&machine_registers[71] &&
+                original != (C2FunctionRegister *)&machine_registers[72] &&
+                original != (C2FunctionRegister *)&machine_registers[73] &&
                 original != (C2FunctionRegister *)&machine_registers[67] &&
                 original != (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT)) { __asm { int 3 } }
             /* The table-end identity has only a typed sentinel prefix. */
@@ -928,21 +1177,27 @@ C2Expression *__fastcall find_final_register_output(C2Expression *record, C2Func
             if (original == reg) return result;
             /* Row3 has canonical identity/number but no modeled range. */
             if (reg == (C2FunctionRegister *)&machine_registers[3] ||
+                reg == (C2FunctionRegister *)&machine_registers[31] ||
+                reg == (C2FunctionRegister *)&machine_registers[32] ||
+                reg == (C2FunctionRegister *)&machine_registers[74] ||
                 original == (C2FunctionRegister *)&machine_registers[3] ||
-                original == (C2FunctionRegister *)&machine_registers[5]) { __asm { int 3 } }
+                original == (C2FunctionRegister *)&machine_registers[5] ||
+                original == (C2FunctionRegister *)&machine_registers[31] ||
+            original == (C2FunctionRegister *)&machine_registers[32] ||
+            original == (C2FunctionRegister *)&machine_registers[33] ||
+            original == (C2FunctionRegister *)&machine_registers[34] ||
+            original == (C2FunctionRegister *)&machine_registers[35] ||
+                original == (C2FunctionRegister *)&machine_registers[32] ||
+                original == (C2FunctionRegister *)&machine_registers[74]) { __asm { int 3 } }
             end = (long)(reg->value_bytes + (unsigned)reg->displacement);
             result_end = (long)(original->value_bytes + (unsigned)original->displacement);
             if (original->displacement < end && reg->displacement < result_end) return result;
-        } else if (result->kind == 9 && optimizer_set_contains(result->value.registers, root->number)) {
-            return result;
+        } else if (result->kind == 9) {
+            /* Row74's number is not part of its modeled canonical identity. */
+            if (root == (C2FunctionRegister *)&machine_registers[74]) { __asm { int 3 } }
+            if (optimizer_set_contains(result->value.registers, root->number)) return result;
         }
     }
-    return NULL;
-}
-C2Expression *__fastcall split_final_wide_result(C2Expression *record,
-    C2Expression *result, C2Expression *replacement)
-{
-    __asm { int 3 }
     return NULL;
 }
 C2Expression *__fastcall find_final_result_use(C2Expression *first,
@@ -1053,7 +1308,52 @@ unsigned char __fastcall final_record_condition(C2Expression *record)
 }
 void __fastcall set_final_record_condition(C2Expression *record, unsigned char condition)
 {
-    __asm { int 3 }
+    C2Expression *use;
+    unsigned number;
+
+    if (condition == final_record_condition(record)) return;
+    use = final_record_uses_machine_register(record, &machine_registers[66]);
+    if (record->opcode && record->opcode < 0x11b) {
+        /* Composed DWORD columns48d208/4943b8 select an address identity
+           within the existing75-row owner; no row payload is read here. */
+        switch (condition) {
+        case 0: case 15: case 16: number = 0; break;
+        case 1: case 2: number = 72; break;
+        case 3: case 6: number = 68; break;
+        case 4: case 5: number = 67; break;
+        case 7: case 10: number = 73; break;
+        case 8: case 9: number = 69; break;
+        case 11: case 12: number = 71; break;
+        case 13: case 14: number = 70; break;
+        default: { __asm { int 3 } } number = 0;
+        }
+        use->fixed_register = &machine_registers[number];
+    }
+    if (record->kind == 15) record->detail.condition = condition;
+    else if (record->kind == 16) record->condition_code = condition;
+    else {
+        /* The other composed DWORD column selects the actual x86 opcode. */
+        switch (condition) {
+        case 0: record->opcode = 0x11c; break;
+        case 1: record->opcode = 0x10f; break;
+        case 2: record->opcode = 0x110; break;
+        case 3: record->opcode = 0x117; break;
+        case 4: record->opcode = 0x11a; break;
+        case 5: record->opcode = 0x119; break;
+        case 6: record->opcode = 0x118; break;
+        case 7: record->opcode = 0x10d; break;
+        case 8: record->opcode = 0x112; break;
+        case 9: record->opcode = 0x111; break;
+        case 10: record->opcode = 0x10e; break;
+        case 11: record->opcode = 0x10b; break;
+        case 12: record->opcode = 0x10c; break;
+        case 13: record->opcode = 0x113; break;
+        case 14: record->opcode = 0x114; break;
+        case 15: record->opcode = 0x115; break;
+        case 16: record->opcode = 0x116; break;
+        default: { __asm { int 3 } }
+        }
+    }
 }
 void __fastcall prepare_final_assembly_record(C2Expression *record)
 {
@@ -1065,9 +1365,11 @@ C2Expression *__fastcall final_record_uses_machine_register(C2Expression *record
     C2FunctionRegister *original, *original_root;
     long end, operand_end;
 
-    /* The reached queries use the fully modeled row1 or flags-row66
+    /* Reached queries use the already modeled row1/2/7/8 or flags-row66
      * root/range. Operand roots below are separately known identities. */
-    if (reg != &machine_registers[1] && reg != &machine_registers[66])
+    if (reg != &machine_registers[1] && reg != &machine_registers[2] &&
+        reg != &machine_registers[7] &&
+        reg != &machine_registers[8] && reg != &machine_registers[66])
         { __asm { int 3 } }
     for (operand = record->left; operand; operand = operand->next) {
         if (operand->kind != 1) continue;
@@ -1083,7 +1385,24 @@ C2Expression *__fastcall final_record_uses_machine_register(C2Expression *record
             original != (C2FunctionRegister *)&machine_registers[6] &&
             original != (C2FunctionRegister *)&machine_registers[7] &&
             original != (C2FunctionRegister *)&machine_registers[8] &&
+            original != (C2FunctionRegister *)&machine_registers[17] &&
             original != (C2FunctionRegister *)&machine_registers[18] &&
+            original != (C2FunctionRegister *)&machine_registers[20] &&
+            original != (C2FunctionRegister *)&machine_registers[19] &&
+            original != (C2FunctionRegister *)&machine_registers[9] &&
+            original != (C2FunctionRegister *)&machine_registers[31] &&
+            original != (C2FunctionRegister *)&machine_registers[32] &&
+            original != (C2FunctionRegister *)&machine_registers[33] &&
+            original != (C2FunctionRegister *)&machine_registers[34] &&
+            original != (C2FunctionRegister *)&machine_registers[35] &&
+            original != (C2FunctionRegister *)&machine_registers[74] &&
+            original != (C2FunctionRegister *)&machine_registers[67] &&
+            original != (C2FunctionRegister *)&machine_registers[68] &&
+            original != (C2FunctionRegister *)&machine_registers[69] &&
+            original != (C2FunctionRegister *)&machine_registers[70] &&
+            original != (C2FunctionRegister *)&machine_registers[71] &&
+            original != (C2FunctionRegister *)&machine_registers[72] &&
+            original != (C2FunctionRegister *)&machine_registers[73] &&
             original != (C2FunctionRegister *)&machine_registers[66] &&
             original != (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT)) { __asm { int 3 } }
         /* Compare the minimally modeled sentinel through its own view;
@@ -1092,16 +1411,17 @@ C2Expression *__fastcall final_record_uses_machine_register(C2Expression *record
             ? machine_register_storage.sentinel.canonical : original->canonical;
         if (original_root != reg->canonical) continue;
         if (original == (C2FunctionRegister *)reg) return operand;
-        if (original == (C2FunctionRegister *)&machine_registers[5]) { __asm { int 3 } }
+        if (original == (C2FunctionRegister *)&machine_registers[5] ||
+            original == (C2FunctionRegister *)&machine_registers[31] ||
+            original == (C2FunctionRegister *)&machine_registers[32] ||
+            original == (C2FunctionRegister *)&machine_registers[33] ||
+            original == (C2FunctionRegister *)&machine_registers[34] ||
+            original == (C2FunctionRegister *)&machine_registers[35] ||
+            original == (C2FunctionRegister *)&machine_registers[74]) { __asm { int 3 } }
         end = (long)(reg->bit_width + (unsigned)reg->bit_displacement);
         operand_end = (long)(original->value_bytes + (unsigned)original->displacement);
         if (original->displacement < end && reg->bit_displacement < operand_end) return operand;
     }
-    return NULL;
-}
-C2Expression *__fastcall lower_final_float_record(C2Expression *record)
-{
-    __asm { int 3 }
     return NULL;
 }
 void __fastcall lower_final_address_record(C2Expression *record)
@@ -1124,12 +1444,13 @@ void __fastcall fold_final_assignment(C2Expression *record)
     if (result->kind != 1 || result->value.reg->kind != 3 || !result->value.reg->value) return;
     input = record->left;
     if (input->kind == 1 && input->value.reg->kind == 3 && input->value.reg->value) {
-        /* Only rows one/two/three have static kind bytes modeled so far. */
+        /* Only the encountered row1/2/3/9 kind bytes are admitted here. */
         if ((unsigned long)input->original_register >= (unsigned long)&machine_registers[0] &&
             (unsigned long)input->original_register < (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT) &&
             input->original_register != (C2FunctionRegister *)&machine_registers[1] &&
             input->original_register != (C2FunctionRegister *)&machine_registers[2] &&
-            input->original_register != (C2FunctionRegister *)&machine_registers[3])
+            input->original_register != (C2FunctionRegister *)&machine_registers[3] &&
+            input->original_register != (C2FunctionRegister *)&machine_registers[9])
             { __asm { int 3 } }
         if (input->original_register->kind == 1 &&
             (!register_views_differ(result) || result->original_register == input->original_register)) {
@@ -1274,14 +1595,106 @@ void __fastcall select_final_machine_form(C2Expression *record)
         return;
     }
 }
+C2Expression *__fastcall find_final_register_use(C2FunctionRegister *reg, C2Expression *owner);
+C2Expression *__fastcall final_register_has_other_use(C2FunctionRegister *reg, C2Expression *owner);
+int __fastcall final_address_operand_changes(C2Expression *operand, C2Expression *first,
+    C2Expression *last, C2FunctionRegister *excluded);
+
 void __fastcall fold_final_address_operand(C2Expression *record, C2Expression *operand)
 {
-    __asm { int 3 }
-}
-C2InputSymbol *__fastcall materialize_real_symbol(C2Expression *operand)
-{
-    __asm { int 3 }
-    return NULL;
+    C2Expression *address = operand->aggregate_value;
+    C2Expression *definition, *base, *index, *source, *last, *use, *first, *temporary;
+    C2FunctionRegister *reg, *symbol;
+    unsigned opcode, scale;
+    long displacement;
+
+    if (address->kind != 1 || address->value.reg->kind != 3 ||
+        !(definition = address->value.reg->value)) return;
+    if (definition->opcode == 0x2d) {
+        base = definition->left;
+        index = base->next;
+        if ((index->kind != 7 && index->kind != 1) || (definition->type & 0xfff) != 4) return;
+        if (index->kind == 7) {
+            displacement = (long)index->integer.low;
+            opcode = 0x122;
+            index = NULL;
+        } else {
+            displacement = 0;
+            opcode = 0x123;
+        }
+        symbol = NULL;
+        scale = 0;
+    } else if (definition->opcode == 0x12) {
+        source = definition->left;
+        if (source->kind != 5 || (operand->tail.aggregate_register && source->tail.aggregate_register)) return;
+        index = source->aggregate_second;
+        displacement = source->detail.aggregate_displacement;
+        base = source->aggregate_value;
+        symbol = source->tail.aggregate_register;
+        opcode = source->opcode;
+        scale = source->location.expression.properties & 15;
+    } else return;
+    reg = address->original_register;
+    last = record;
+    while (find_final_register_use(reg, last)) {
+        do {
+            last = last->next;
+            use = final_register_has_other_use(reg, last);
+        } while (!use);
+        if (!(use->location.expression.properties & 0x20)) return;
+    }
+    /* Keep the actual original-register read order; these are genuine
+       operand-owner fields, not a guessed default for another kind. */
+    if (base && !(base->original_register->kind != 1 && base->kind == 1 &&
+                  base->value.reg->kind == 3 && base->value.reg->value) &&
+        final_address_operand_changes(base, definition, last, reg)) return;
+    if (index && !(index->original_register->kind != 1 && index->kind == 1 &&
+                   index->value.reg->kind == 3 && index->value.reg->value) &&
+        final_address_operand_changes(index, definition, last, reg)) return;
+    for (;;) {
+        address->location.expression.properties &= ~0x20;
+        remove_input_operand(record, address);
+        operand->aggregate_value = NULL;
+        if (base) {
+            use = copy_input_operand(record, base);
+            operand->aggregate_value = use;
+            use->location.expression.properties |= 0x20;
+        }
+        if (index) {
+            use = copy_input_operand(record, index);
+            operand->aggregate_second = use;
+            use->location.expression.properties |= 0x20;
+            operand->location.expression.properties =
+                (operand->location.expression.properties & ~15) | scale;
+        }
+        operand->opcode = opcode;
+        operand->detail.aggregate_displacement =
+            (long)((unsigned)operand->detail.aggregate_displacement + (unsigned)displacement);
+        if (symbol) operand->tail.aggregate_register = symbol;
+        if (record == last) break;
+        remove_input_result(record, find_final_register_use(reg, record));
+        if (base && base->kind == 1 && base->value.reg->kind == 3 && base->value.reg->value) {
+            temporary = new_temporary_register_expression(0x11f, base->type,
+                new_temporary_register(base->type), base->original_register);
+            base->value.reg = temporary->value.reg;
+            temporary->value.reg->value = record;
+            attach_optimizer_output(record, temporary);
+        }
+        if (index && index->kind == 1 && index->value.reg->kind == 3 && index->value.reg->value) {
+            temporary = new_temporary_register_expression(0x11f, index->type,
+                new_temporary_register(index->type), index->original_register);
+            index->value.reg = temporary->value.reg;
+            temporary->value.reg->value = record;
+            attach_optimizer_output(record, temporary);
+        }
+        do {
+            record = record->next;
+            address = final_register_has_other_use(reg, record);
+        } while (!address);
+        operand = find_aggregate_operand_owner(record, address, &first);
+        address = operand->aggregate_value;
+    }
+    unlink_and_release_input_record((C2Record *)definition);
 }
 
 int __fastcall final_register_accepts_width(C2FunctionRegister *reg, unsigned bytes, int mode);
@@ -1337,10 +1750,28 @@ int __fastcall replace_final_input(C2Expression *owner, C2Expression *old,
 }
 
 C2Expression *__fastcall convert_final_operand(C2Expression *operand,
-    unsigned short type, long alignment)
+    unsigned short type, long displacement)
 {
-    __asm { int 3 }
-    return NULL;
+    unsigned char kind;
+
+    if (operand->type == type && operand->value.reg->displacement == displacement) return operand;
+    if (operand->location.expression.properties & 0x10) operand = copy_input_expression(operand);
+    kind = operand->kind;
+    switch (kind) {
+    case 1: case 2:
+        operand->value.reg = new_address_register(operand->value.reg, type,
+                                                type & 0xfff, displacement);
+        if (kind == 1 && operand->original_register->kind == 1)
+            operand->original_register = new_bitfield_register(operand->original_register,
+                (type & 0xfff) * 8, (long)((unsigned)displacement * 8));
+        break;
+    case 5: case 6:
+        operand->detail.aggregate_displacement =
+            (long)((unsigned)operand->detail.aggregate_displacement + (unsigned)displacement);
+        break;
+    }
+    operand->type = type;
+    return operand;
 }
 int __fastcall final_record_accepts_width(C2Expression *record, unsigned bytes)
 {
@@ -1599,10 +2030,143 @@ void __fastcall fold_final_record_inputs(C2Expression *record)
             unlink_and_release_input_record((C2Record *)definition);
     }
 }
+void __fastcall remove_branch_record(C2Expression *record);
+C2Expression *__fastcall fold_final_zero_test(C2Expression *record, C2Expression *next);
+
 C2Expression *__fastcall fold_final_comparison(C2Expression *record)
 {
-    __asm { int 3 }
-    return NULL;
+    C2Expression *next = record->next, *input = record->left, *producer;
+    C2Expression *output, *flags_output, *copy_input = NULL, *consumer, *flags_use;
+    C2Expression *temporary, *after;
+    C2Expression *label;
+    C2FunctionRegister *view, *out_view;
+    unsigned condition, replacement = 0;
+    int copied = 0, examine_flags = 1;
+    long position, end;
+#ifdef __linux__
+    int flags_output_written = 0;
+#endif
+
+    if (!((1U << (input->kind & 31)) & 6) || input->next->kind != 7 ||
+        input->next->integer.low) return next;
+    /* Original defect: flags_output is a fresh unwritten stack pointer if
+       the backward scan reaches a boundary before any code record. The
+       native stack cannot stand in for that incidental Win32 pointer. */
+    for (producer = record->previous; ; producer = producer->previous) {
+        if (producer->kind == 25 || producer->kind == 24 || producer->kind == 20) break;
+        if (!(producer->flags & 1)) continue;
+        flags_output = find_final_register_output(producer, (C2FunctionRegister *)&machine_registers[66]);
+#ifdef __linux__
+        flags_output_written = 1;
+#endif
+        if (flags_output) break;
+        output = find_final_overlapping_result(producer, input->value.reg);
+        if (output) {
+            if (copied || producer->opcode != 1 || ((output->type ^ input->type) & 0xfff)) break;
+            copy_input = producer->left;
+            copied = 1;
+        }
+        if (final_record_uses_machine_register(producer, &machine_registers[66])) break;
+    }
+#ifdef __linux__
+    if (!flags_output_written) recon_unsupported("final comparison uses unwritten Win32 flags-output stack pointer");
+#endif
+    if (!flags_output || producer->kind == 13 || (producer->kind > 23 && producer->kind < 26)) return next;
+    if (copied) {
+        if (compare_input_operands(copy_input, producer->tail.right)) return next;
+    } else {
+        output = find_final_overlapping_result(producer, input->value.reg);
+        if (compare_input_operands(output, input)) return next;
+    }
+    /* The original tests record's kind throughout this forward scan,
+       rather than the advancing consumer's kind. Preserve that logic. */
+    if (record->kind == 25) return next;
+    for (consumer = next; ; consumer = consumer->next)
+        if ((consumer->flags & 1) && find_register_input(consumer, record->tail.right->value.reg)) break;
+    if (consumer->opcode == 0x108 || consumer->opcode == 0x107) return next;
+    flags_use = final_record_uses_machine_register(consumer, &machine_registers[66]);
+    condition = final_record_condition(consumer);
+    switch (producer->opcode) {
+    case 0x1f: case 0x20: case 0x22: case 0xa3: case 0xc1: case 0x107: case 0x108:
+        examine_flags = 0;
+        break;
+    case 0x29: case 0x2a: case 0x2b:
+        temporary = producer->left->next;
+        if (temporary->kind != 7 || (int)temporary->integer.low < 1 ||
+            (int)temporary->integer.low > 31) examine_flags = 0;
+        break;
+    case 0x2e: case 0x30: case 0x33: case 0x34:
+        replacement = condition;
+        examine_flags = 0;
+        break;
+    default:
+        if (producer->opcode == 6 || producer->opcode == 0xe) examine_flags = 0;
+        break;
+    }
+    if (examine_flags) {
+        view = flags_use->original_register;
+        if ((unsigned long)view >= (unsigned long)machine_registers &&
+            (unsigned long)view < (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT) &&
+            (view < (C2FunctionRegister *)&machine_registers[66] ||
+             view > (C2FunctionRegister *)&machine_registers[73])) { __asm { int 3 } }
+        if (view->number == 68) replacement = (condition != 3) + 13;
+        else if (view->number != 67 && view->number != 71) {
+            position = view->displacement;
+            end = (long)((unsigned)position + view->value_bytes);
+            if (view == (C2FunctionRegister *)&machine_registers[73] ||
+                (position < (long)(machine_registers[73].bit_width +
+                                  (unsigned)machine_registers[73].bit_displacement) &&
+                 machine_registers[73].bit_displacement < end)) {
+                switch (condition) {
+                case 7:
+                    if (consumer == next) next = consumer->next;
+                    remove_branch_record(consumer);
+                    return next;
+                case 8: replacement = 2; break;
+                case 9: replacement = 1; break;
+                case 10:
+                    after = consumer->next;
+                    label = ((C2InputSymbol *)consumer->left->value.symbol)->input_operand;
+                    remove_branch_record(consumer);
+                    new_call_expression(0x10, 0, label, NULL, 0,
+                                        prepend_input_record, (C2Record *)after);
+                    return after;
+                }
+            } else {
+                out_view = flags_output->original_register;
+                if ((unsigned long)out_view >= (unsigned long)machine_registers &&
+                    (unsigned long)out_view < (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT) &&
+                    (out_view < (C2FunctionRegister *)&machine_registers[66] ||
+                     out_view > (C2FunctionRegister *)&machine_registers[73])) { __asm { int 3 } }
+                if (out_view->displacement <= position && end <=
+                    (long)((unsigned)out_view->displacement + out_view->value_bytes)) replacement = condition;
+            }
+        }
+    }
+    if (replacement) {
+        unlink_and_release_input_record((C2Record *)record);
+        flags_output->value.reg = flags_use->value.reg;
+        flags_use->value.reg->value = producer;
+        set_final_record_condition(consumer, (unsigned char)replacement);
+        if (!copied && ((1U << (output->kind & 31)) & 6) && output->value.reg->value) {
+            if (output->kind == 1 && output->original_register->kind == 1)
+                output->value.reg = output->original_register;
+            else if (producer->opcode == 0x2e && output->next == flags_output && !flags_output->next)
+                remove_input_result(producer, output);
+            else {
+                temporary = new_input_expression(0x16c, output->type);
+                copy_input_operand(temporary, output);
+                insert_input_record((C2Record *)producer, (C2Record *)temporary);
+                temporary->flags |= 0x10;
+            }
+        }
+        if (producer->opcode == 0x2e && producer->tail.right == flags_output && !flags_output->next) {
+            producer->opcode = 0x33;
+            fold_final_record_inputs(producer);
+            next = fold_final_zero_test(producer, next);
+        }
+    }
+    return next;
 }
 
 int __fastcall can_forward_final_operand(C2Expression *record, C2Expression *operand)
@@ -1642,4 +2206,70 @@ int __fastcall final_replacement_is_blocked(C2Expression *definition,
         }
     }
     return 0;
+}
+
+void __fastcall remove_control_record(C2Expression *record);
+void __fastcall redirect_allocation_branch(C2Expression *branch, C2Expression *label, int mode);
+
+C2Expression *__fastcall fold_final_zero_test(C2Expression *record, C2Expression *next)
+{
+    C2Expression *branch = record->next, *scan, *older_branch, *older_test;
+    C2Expression *constant, *older_constant, *label, *previous, *first_target, *other_target;
+    unsigned condition, previous_condition;
+
+    if (branch->opcode != 0xf || (branch->condition_code != 1 && branch->condition_code != 2) ||
+        record->left->next->kind != 7) return next;
+    scan = record->previous;
+    constant = record->left->next;
+    for (;;) {
+        while (scan && !(scan->flags & 1)) {
+            if (scan->kind != 24) return next;
+            scan = scan->previous;
+        }
+        /* Original assumes a preceding code record after the marker walk;
+           retain the genuine NULL read if that list invariant fails. */
+        if (scan->opcode != 0xf) break;
+        older_branch = scan;
+        older_test = older_branch->previous;
+        scan = older_test->previous;
+        if (older_test->opcode != 0x33 || older_branch->condition_code != 2) return next;
+        for (label = branch->next; label; label = label->next)
+            if ((label->flags & 1) || label->kind == 25) break;
+        if (!label || (label->flags & 1) || label->kind != 25) label = NULL;
+        condition = branch->condition_code;
+        if (older_branch->condition_code == condition) {
+            if (((C2InputSymbol *)older_branch->left->value.symbol)->input_operand !=
+                ((C2InputSymbol *)branch->left->value.symbol)->input_operand) return next;
+        } else {
+            if (condition > 16) { __asm { int 3 } }
+            if (older_branch->condition_code != input_inverse_condition[condition] || !label ||
+                ((C2InputSymbol *)older_branch->left->value.symbol)->input_operand != label) return next;
+        }
+        older_constant = older_test->left->next;
+        if (compare_input_operands(older_test->left, record->left) || older_constant->kind != 7) continue;
+        older_constant->integer.low |= constant->integer.low;
+        for (previous = record->previous; previous && !(previous->flags & 1);
+             previous = previous->previous) { }
+        previous_condition = previous->condition_code;
+        if (previous_condition != condition) {
+            if (condition > 16) { __asm { int 3 } }
+            if (previous_condition != input_inverse_condition[condition]) return next;
+        }
+        first_target = ((C2InputSymbol *)previous->left->value.symbol)->input_operand;
+        other_target = ((C2InputSymbol *)branch->left->value.symbol)->input_operand;
+        if (first_target == other_target) previous->condition_code = (unsigned char)condition;
+        else {
+            if (first_target != label) return next;
+            if (previous_condition > 16) { __asm { int 3 } }
+            previous->condition_code = input_inverse_condition[previous_condition];
+            redirect_allocation_branch(previous, other_target, 0);
+        }
+        if (next == branch) next = branch->next;
+        unlink_and_release_input_record((C2Record *)record);
+        remove_control_record(branch);
+        constant = older_constant;
+        branch = older_branch;
+        record = older_test;
+    }
+    return next;
 }

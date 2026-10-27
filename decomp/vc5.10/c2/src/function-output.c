@@ -148,7 +148,29 @@ void __fastcall initialize_instruction_sizes(C2Function *function)
     generate_frame = saved_frame;
 }
 int __fastcall relax_instruction_branch(C2Expression **record, unsigned offset,
-    unsigned char iteration, int delta) { __asm { int 3 } return 0; }
+    unsigned char iteration, int delta)
+{
+    C2Expression *branch = *record;
+    C2InputSymbol *label;
+    unsigned destination, previous_size;
+    long distance;
+
+    if (branch->left->kind != 4) return 0;
+    label = (C2InputSymbol *)branch->left->value.symbol;
+    if (label->symbol.kind != 3) return 0;
+    destination = label->symbol.parameter_offset;
+    if (label->branch_record->control_flags != iteration) destination += (unsigned)delta;
+    distance = (long)(destination - offset);
+    if (distance >= -128 && distance <= 127) return 0;
+    switch (branch->opcode) {
+    case 0x102: branch->opcode = 0xf; break;
+    case 0x104: branch->opcode = 0x10; break;
+    default: return 0;
+    }
+    previous_size = branch->control_flags;
+    branch->control_flags = (unsigned char)final_record_code_size(branch);
+    return (int)((unsigned)branch->control_flags - previous_size);
+}
 void __fastcall optimize_instruction_offsets(C2Function *function)
 {
     C2Expression *record, *next;
@@ -524,12 +546,12 @@ void clear_function_symbol_scope(void)
     current_symbol = NULL;
     local_symbol_table = NULL;
 }
-/*48fb24: this leaf establishes only a zero DWORD. Its unvisited producers
- * and consumers retain their pending identities and grant no payload model. */
-unsigned function_finish_state;
+/*48fb24: the actual clear establishes a NULL head. The reached intrinsic
+ * consumer proves only the list's next/record prefix; the writer stays pending. */
+C2FinalStackLink *function_finish_state;
 void clear_function_finish_state(void)
 {
-    function_finish_state = 0;
+    function_finish_state = NULL;
 }
 
 void finish_function(void)

@@ -618,51 +618,51 @@
             [
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8520
+                "offset": 8570
               },
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8828
+                "offset": 8878
               }
             ],
             [
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8828
+                "offset": 8878
               },
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8985
+                "offset": 9035
               }
             ],
             [
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8985
+                "offset": 9035
               },
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 9005
+                "offset": 9055
               }
             ],
             [
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 9005
+                "offset": 9055
               },
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 9061
+                "offset": 9111
               }
             ],
             [
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 9061
+                "offset": 9111
               },
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 9098
+                "offset": 9148
               }
             ]
           ]
@@ -762,21 +762,21 @@
             [
               {
                 "rebuilt_symbol": "@release_small_node@4",
-                "offset": 700
+                "offset": 752
               },
               {
                 "rebuilt_symbol": "@release_small_node@4",
-                "offset": 744
+                "offset": 796
               }
             ],
             [
               {
                 "rebuilt_symbol": "@release_small_node@4",
-                "offset": 744
+                "offset": 796
               },
               {
                 "rebuilt_symbol": "@release_small_node@4",
-                "offset": 768
+                "offset": 820
               }
             ]
           ]
@@ -2852,21 +2852,21 @@
             [
               {
                 "rebuilt_symbol": "@normalize_final_float_opcode@4",
-                "offset": 960
+                "offset": 1113
               },
               {
                 "rebuilt_symbol": "@normalize_final_float_opcode@4",
-                "offset": 988
+                "offset": 1141
               }
             ],
             [
               {
                 "rebuilt_symbol": "@normalize_final_float_opcode@4",
-                "offset": 988
+                "offset": 1141
               },
               {
                 "rebuilt_symbol": "@normalize_final_float_opcode@4",
-                "offset": 1103
+                "offset": 1256
               }
             ]
           ]
@@ -2878,21 +2878,21 @@
             [
               {
                 "rebuilt_symbol": "@normalize_final_float_order@4",
-                "offset": 982
+                "offset": 1226
               },
               {
                 "rebuilt_symbol": "@normalize_final_float_order@4",
-                "offset": 998
+                "offset": 1242
               }
             ],
             [
               {
                 "rebuilt_symbol": "@normalize_final_float_order@4",
-                "offset": 998
+                "offset": 1242
               },
               {
                 "rebuilt_symbol": "@normalize_final_float_order@4",
-                "offset": 1070
+                "offset": 1314
               }
             ]
           ]
@@ -2930,21 +2930,21 @@
             [
               {
                 "rebuilt_symbol": "@allocation_operand_is_copy@8",
-                "offset": 1978
+                "offset": 2297
               },
               {
                 "rebuilt_symbol": "@allocation_operand_is_copy@8",
-                "offset": 2018
+                "offset": 2337
               }
             ],
             [
               {
                 "rebuilt_symbol": "@allocation_operand_is_copy@8",
-                "offset": 2018
+                "offset": 2337
               },
               {
                 "rebuilt_symbol": "@allocation_operand_is_copy@8",
-                "offset": 2220
+                "offset": 2539
               }
             ]
           ]
@@ -3034,41 +3034,41 @@
             [
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13457
+                "offset": 13736
               },
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13481
+                "offset": 13760
               }
             ],
             [
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13481
+                "offset": 13760
               },
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13505
+                "offset": 13784
               }
             ],
             [
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13505
+                "offset": 13784
               },
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13565
+                "offset": 13844
               }
             ],
             [
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13565
+                "offset": 13844
               },
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13742
+                "offset": 14021
               }
             ]
           ]
@@ -3148,41 +3148,41 @@
             [
               {
                 "rebuilt_symbol": "@optimize_final_value_reuse@4",
-                "offset": 3918
+                "offset": 4330
               },
               {
                 "rebuilt_symbol": "@optimize_final_value_reuse@4",
-                "offset": 3942
+                "offset": 4354
               }
             ],
             [
               {
                 "rebuilt_symbol": "@optimize_final_value_reuse@4",
-                "offset": 3942
+                "offset": 4354
               },
               {
                 "rebuilt_symbol": "@optimize_final_value_reuse@4",
-                "offset": 3978
+                "offset": 4390
               }
             ],
             [
               {
                 "rebuilt_symbol": "@optimize_final_value_reuse@4",
-                "offset": 3978
+                "offset": 4390
               },
               {
                 "rebuilt_symbol": "@optimize_final_value_reuse@4",
-                "offset": 4090
+                "offset": 4502
               }
             ],
             [
               {
                 "rebuilt_symbol": "@optimize_final_value_reuse@4",
-                "offset": 4090
+                "offset": 4502
               },
               {
                 "rebuilt_symbol": "@optimize_final_value_reuse@4",
-                "offset": 4326
+                "offset": 4738
               }
             ]
           ]
@@ -3304,41 +3304,41 @@
             [
               {
                 "rebuilt_symbol": "@build_schedule_graph@12",
-                "offset": 1785
+                "offset": 2280
               },
               {
                 "rebuilt_symbol": "@build_schedule_graph@12",
-                "offset": 1801
+                "offset": 2296
               }
             ],
             [
               {
                 "rebuilt_symbol": "@build_schedule_graph@12",
-                "offset": 1801
+                "offset": 2296
               },
               {
                 "rebuilt_symbol": "@build_schedule_graph@12",
-                "offset": 1813
+                "offset": 2308
               }
             ],
             [
               {
                 "rebuilt_symbol": "@build_schedule_graph@12",
-                "offset": 1813
+                "offset": 2308
               },
               {
                 "rebuilt_symbol": "@build_schedule_graph@12",
-                "offset": 1853
+                "offset": 2348
               }
             ],
             [
               {
                 "rebuilt_symbol": "@build_schedule_graph@12",
-                "offset": 1853
+                "offset": 2348
               },
               {
                 "rebuilt_symbol": "@build_schedule_graph@12",
-                "offset": 1893
+                "offset": 2388
               }
             ]
           ]
@@ -3376,11 +3376,11 @@
             [
               {
                 "rebuilt_symbol": "@add_schedule_record_dependencies@8",
-                "offset": 619
+                "offset": 865
               },
               {
                 "rebuilt_symbol": "@add_schedule_record_dependencies@8",
-                "offset": 659
+                "offset": 905
               }
             ]
           ]
@@ -3392,11 +3392,11 @@
             [
               {
                 "rebuilt_symbol": "@add_schedule_control_dependencies@12",
-                "offset": 703
+                "offset": 950
               },
               {
                 "rebuilt_symbol": "@add_schedule_control_dependencies@12",
-                "offset": 743
+                "offset": 990
               }
             ]
           ]
@@ -3424,21 +3424,21 @@
             [
               {
                 "rebuilt_symbol": "@schedule_record_resource_class@4",
-                "offset": 139
+                "offset": 241
               },
               {
                 "rebuilt_symbol": "@schedule_record_resource_class@4",
-                "offset": 203
+                "offset": 401
               }
             ],
             [
               {
                 "rebuilt_symbol": "@schedule_record_resource_class@4",
-                "offset": 203
+                "offset": 401
               },
               {
                 "rebuilt_symbol": "@schedule_record_resource_class@4",
-                "offset": 426
+                "offset": 655
               }
             ]
           ]
@@ -3450,21 +3450,21 @@
             [
               {
                 "rebuilt_symbol": "@schedule_node_cost@4",
-                "offset": 230
+                "offset": 428
               },
               {
                 "rebuilt_symbol": "@schedule_node_cost@4",
-                "offset": 298
+                "offset": 592
               }
             ],
             [
               {
                 "rebuilt_symbol": "@schedule_node_cost@4",
-                "offset": 298
+                "offset": 592
               },
               {
                 "rebuilt_symbol": "@schedule_node_cost@4",
-                "offset": 521
+                "offset": 846
               }
             ]
           ]
@@ -3476,21 +3476,21 @@
             [
               {
                 "rebuilt_symbol": "@prepare_schedule_paths@8",
-                "offset": 1370
+                "offset": 2202
               },
               {
                 "rebuilt_symbol": "@prepare_schedule_paths@8",
-                "offset": 1390
+                "offset": 2222
               }
             ],
             [
               {
                 "rebuilt_symbol": "@prepare_schedule_paths@8",
-                "offset": 1390
+                "offset": 2222
               },
               {
                 "rebuilt_symbol": "@prepare_schedule_paths@8",
-                "offset": 1642
+                "offset": 2474
               }
             ]
           ]
@@ -3548,41 +3548,41 @@
             [
               {
                 "rebuilt_symbol": "@can_pair_schedule_nodes@8",
-                "offset": 432
+                "offset": 758
               },
               {
                 "rebuilt_symbol": "@can_pair_schedule_nodes@8",
-                "offset": 480
+                "offset": 898
               }
             ],
             [
               {
                 "rebuilt_symbol": "@can_pair_schedule_nodes@8",
-                "offset": 480
+                "offset": 898
               },
               {
                 "rebuilt_symbol": "@can_pair_schedule_nodes@8",
-                "offset": 703
+                "offset": 1152
               }
             ],
             [
               {
                 "rebuilt_symbol": "@can_pair_schedule_nodes@8",
-                "offset": 703
+                "offset": 1152
               },
               {
                 "rebuilt_symbol": "@can_pair_schedule_nodes@8",
-                "offset": 751
+                "offset": 1292
               }
             ],
             [
               {
                 "rebuilt_symbol": "@can_pair_schedule_nodes@8",
-                "offset": 751
+                "offset": 1292
               },
               {
                 "rebuilt_symbol": "@can_pair_schedule_nodes@8",
-                "offset": 974
+                "offset": 1546
               }
             ]
           ]
@@ -3594,21 +3594,21 @@
             [
               {
                 "rebuilt_symbol": "@schedule_node_resource_cost@4",
-                "offset": 150
+                "offset": 255
               },
               {
                 "rebuilt_symbol": "@schedule_node_resource_cost@4",
-                "offset": 202
+                "offset": 391
               }
             ],
             [
               {
                 "rebuilt_symbol": "@schedule_node_resource_cost@4",
-                "offset": 202
+                "offset": 391
               },
               {
                 "rebuilt_symbol": "@schedule_node_resource_cost@4",
-                "offset": 425
+                "offset": 645
               }
             ]
           ]
@@ -3636,31 +3636,31 @@
             [
               {
                 "rebuilt_symbol": "@adjust_final_stack_depth@8",
-                "offset": 1460
+                "offset": 1613
               },
               {
                 "rebuilt_symbol": "@adjust_final_stack_depth@8",
-                "offset": 1476
+                "offset": 1629
               }
             ],
             [
               {
                 "rebuilt_symbol": "@adjust_final_stack_depth@8",
-                "offset": 1476
+                "offset": 1629
               },
               {
                 "rebuilt_symbol": "@adjust_final_stack_depth@8",
-                "offset": 1504
+                "offset": 1657
               }
             ],
             [
               {
                 "rebuilt_symbol": "@adjust_final_stack_depth@8",
-                "offset": 1504
+                "offset": 1657
               },
               {
                 "rebuilt_symbol": "@adjust_final_stack_depth@8",
-                "offset": 1687
+                "offset": 1840
               }
             ]
           ]
@@ -3714,101 +3714,101 @@
             [
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10177
+                "offset": 14593
               },
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10245
+                "offset": 14753
               }
             ],
             [
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10245
+                "offset": 14753
               },
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10468
+                "offset": 15002
               }
             ],
             [
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10468
+                "offset": 15002
               },
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10492
+                "offset": 15026
               }
             ],
             [
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10492
+                "offset": 15026
               },
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10524
+                "offset": 15058
               }
             ],
             [
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10524
+                "offset": 15058
               },
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10776
+                "offset": 15310
               }
             ],
             [
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10776
+                "offset": 15310
               },
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10864
+                "offset": 15398
               }
             ],
             [
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10864
+                "offset": 15398
               },
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10960
+                "offset": 15494
               }
             ],
             [
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 10960
+                "offset": 15494
               },
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 11215
+                "offset": 15749
               }
             ],
             [
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 11215
+                "offset": 15749
               },
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 11283
+                "offset": 15909
               }
             ],
             [
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 11283
+                "offset": 15909
               },
               {
                 "rebuilt_symbol": "@encode_final_record@16",
-                "offset": 11506
+                "offset": 16158
               }
             ]
           ]
@@ -4373,6 +4373,1094 @@
             ]
           ]
         }
+      },
+      "@region_candidate_pass_3d4a4@8": {
+        "original": {
+          "text_data": [
+            [
+              4446504,
+              4446524
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@region_candidate_pass_3d4a4@8",
+                "offset": 1697
+              },
+              {
+                "rebuilt_symbol": "@region_candidate_pass_3d4a4@8",
+                "offset": 1717
+              }
+            ]
+          ]
+        }
+      },
+      "@simplify_region_statement@4": {
+        "original": {
+          "text_data": [
+            [
+              4483924,
+              4483960
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@simplify_region_statement@4",
+                "offset": 121
+              },
+              {
+                "rebuilt_symbol": "@simplify_region_statement@4",
+                "offset": 157
+              }
+            ]
+          ]
+        }
+      },
+      "@collect_region_candidates@8": {
+        "original": {
+          "text_data": [
+            [
+              4438536,
+              4438560
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@collect_region_candidates@8",
+                "offset": 2926
+              },
+              {
+                "rebuilt_symbol": "@collect_region_candidates@8",
+                "offset": 2950
+              }
+            ]
+          ]
+        }
+      },
+      "@region_candidate_pass_3de8b@12": {
+        "original": {
+          "text_data": [
+            [
+              4449348,
+              4449364
+            ],
+            [
+              4449364,
+              4449380
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@region_candidate_pass_3de8b@12",
+                "offset": 1796
+              },
+              {
+                "rebuilt_symbol": "@region_candidate_pass_3de8b@12",
+                "offset": 1812
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@region_candidate_pass_3de8b@12",
+                "offset": 1812
+              },
+              {
+                "rebuilt_symbol": "@region_candidate_pass_3de8b@12",
+                "offset": 1828
+              }
+            ]
+          ]
+        }
+      },
+      "@canonical_region_opcode@4": {
+        "original": {
+          "text_data": [
+            [
+              4523776,
+              4523812
+            ],
+            [
+              4523824,
+              4523852
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@canonical_region_opcode@4",
+                "offset": 109
+              },
+              {
+                "rebuilt_symbol": "@canonical_region_opcode@4",
+                "offset": 141
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@canonical_region_opcode@4",
+                "offset": 141
+              },
+              {
+                "rebuilt_symbol": "@canonical_region_opcode@4",
+                "offset": 169
+              }
+            ]
+          ]
+        }
+      },
+      "@materialize_region_operand@12": {
+        "original": {
+          "text_data": [
+            [
+              4523632,
+              4523648
+            ],
+            [
+              4523648,
+              4523685
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@materialize_region_operand@12",
+                "offset": 908
+              },
+              {
+                "rebuilt_symbol": "@materialize_region_operand@12",
+                "offset": 924
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@materialize_region_operand@12",
+                "offset": 924
+              },
+              {
+                "rebuilt_symbol": "@materialize_region_operand@12",
+                "offset": 961
+              }
+            ]
+          ]
+        }
+      },
+      "@region_candidate_pass_3bbb3@4": {
+        "original": {
+          "text_data": [
+            [
+              4440592,
+              4440612
+            ],
+            [
+              4440612,
+              4440645
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@region_candidate_pass_3bbb3@4",
+                "offset": 2328
+              },
+              {
+                "rebuilt_symbol": "@region_candidate_pass_3bbb3@4",
+                "offset": 2348
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@region_candidate_pass_3bbb3@4",
+                "offset": 2348
+              },
+              {
+                "rebuilt_symbol": "@region_candidate_pass_3bbb3@4",
+                "offset": 2381
+              }
+            ]
+          ]
+        }
+      },
+      "@global_class1_opcodes@4": {
+        "original": {
+          "text_data": [
+            [
+              4363356,
+              4363380
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@global_class1_opcodes@4",
+                "offset": 94
+              },
+              {
+                "rebuilt_symbol": "@global_class1_opcodes@4",
+                "offset": 118
+              }
+            ]
+          ]
+        }
+      },
+      "@global_class2_opcodes@4": {
+        "original": {
+          "text_data": [
+            [
+              4363512,
+              4363536
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@global_class2_opcodes@4",
+                "offset": 94
+              },
+              {
+                "rebuilt_symbol": "@global_class2_opcodes@4",
+                "offset": 118
+              }
+            ]
+          ]
+        }
+      },
+      "@assignment_identity_value@4": {
+        "original": {
+          "text_data": [
+            [
+              4460556,
+              4460600
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@assignment_identity_value@4",
+                "offset": 79
+              },
+              {
+                "rebuilt_symbol": "@assignment_identity_value@4",
+                "offset": 123
+              }
+            ]
+          ]
+        }
+      },
+      "@retype_final_operand@12": {
+        "original": {
+          "text_data": [
+            [
+              4461760,
+              4461788
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@retype_final_operand@12",
+                "offset": 269
+              },
+              {
+                "rebuilt_symbol": "@retype_final_operand@12",
+                "offset": 297
+              }
+            ]
+          ]
+        }
+      },
+      "@set_final_record_condition@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@set_final_record_condition@8",
+                "offset": 529
+              },
+              {
+                "rebuilt_symbol": "@set_final_record_condition@8",
+                "offset": 597
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@set_final_record_condition@8",
+                "offset": 597
+              },
+              {
+                "rebuilt_symbol": "@set_final_record_condition@8",
+                "offset": 665
+              }
+            ]
+          ]
+        }
+      },
+      "@fold_final_comparison@4": {
+        "original": {
+          "text_data": [
+            [
+              4316148,
+              4316188
+            ],
+            [
+              4316188,
+              4316422
+            ],
+            [
+              4316424,
+              4316440
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@fold_final_comparison@4",
+                "offset": 1477
+              },
+              {
+                "rebuilt_symbol": "@fold_final_comparison@4",
+                "offset": 1517
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_final_comparison@4",
+                "offset": 1517
+              },
+              {
+                "rebuilt_symbol": "@fold_final_comparison@4",
+                "offset": 1751
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_final_comparison@4",
+                "offset": 1751
+              },
+              {
+                "rebuilt_symbol": "@fold_final_comparison@4",
+                "offset": 1767
+              }
+            ]
+          ]
+        }
+      },
+      "@convert_final_operand@12": {
+        "original": {
+          "text_data": [
+            [
+              4486884,
+              4486908
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@convert_final_operand@12",
+                "offset": 282
+              },
+              {
+                "rebuilt_symbol": "@convert_final_operand@12",
+                "offset": 306
+              }
+            ]
+          ]
+        }
+      },
+      "@lower_final_condition_record@4": {
+        "original": {
+          "text_data": [
+            [
+              4513368,
+              4513689
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@lower_final_condition_record@4",
+                "offset": 4770
+              },
+              {
+                "rebuilt_symbol": "@lower_final_condition_record@4",
+                "offset": 4886
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@lower_final_condition_record@4",
+                "offset": 4886
+              },
+              {
+                "rebuilt_symbol": "@lower_final_condition_record@4",
+                "offset": 5071
+              }
+            ]
+          ]
+        }
+      },
+      "@allocation_move_is_blocked@16": {
+        "original": {
+          "text_data": [
+            [
+              4452812,
+              4452832
+            ],
+            [
+              4452832,
+              4452842
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@allocation_move_is_blocked@16",
+                "offset": 799
+              },
+              {
+                "rebuilt_symbol": "@allocation_move_is_blocked@16",
+                "offset": 819
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@allocation_move_is_blocked@16",
+                "offset": 819
+              },
+              {
+                "rebuilt_symbol": "@allocation_move_is_blocked@16",
+                "offset": 829
+              }
+            ]
+          ]
+        }
+      },
+      "@register_may_alias_index@8": {
+        "original": {
+          "text_data": [
+            [
+              4302564,
+              4302584
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@register_may_alias_index@8",
+                "offset": 425
+              },
+              {
+                "rebuilt_symbol": "@register_may_alias_index@8",
+                "offset": 445
+              }
+            ]
+          ]
+        }
+      },
+      "@read_il_block@8": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "@fold_expression_conversion@8": {
+        "original": {
+          "text_data": [
+            [
+              4419928,
+              4419948
+            ],
+            [
+              4419952,
+              4419963
+            ],
+            [
+              4419964,
+              4419984
+            ],
+            [
+              4419984,
+              4420003
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@fold_expression_conversion@8",
+                "offset": 975
+              },
+              {
+                "rebuilt_symbol": "@fold_expression_conversion@8",
+                "offset": 995
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_expression_conversion@8",
+                "offset": 995
+              },
+              {
+                "rebuilt_symbol": "@fold_expression_conversion@8",
+                "offset": 1006
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_expression_conversion@8",
+                "offset": 1006
+              },
+              {
+                "rebuilt_symbol": "@fold_expression_conversion@8",
+                "offset": 1026
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_expression_conversion@8",
+                "offset": 1026
+              },
+              {
+                "rebuilt_symbol": "@fold_expression_conversion@8",
+                "offset": 1045
+              }
+            ]
+          ]
+        }
+      },
+      "@propagate_expression_conversion@12": {
+        "original": {
+          "text_data": [
+            [
+              4420588,
+              4420608
+            ],
+            [
+              4420608,
+              4420636
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@propagate_expression_conversion@12",
+                "offset": 906
+              },
+              {
+                "rebuilt_symbol": "@propagate_expression_conversion@12",
+                "offset": 922
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@propagate_expression_conversion@12",
+                "offset": 922
+              },
+              {
+                "rebuilt_symbol": "@propagate_expression_conversion@12",
+                "offset": 934
+              }
+            ]
+          ]
+        }
+      },
+      "@lower_final_float_record@4": {
+        "original": {
+          "text_data": [
+            [
+              4596576,
+              4596628
+            ],
+            [
+              4596628,
+              4596689
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@lower_final_float_record@4",
+                "offset": 5671
+              },
+              {
+                "rebuilt_symbol": "@lower_final_float_record@4",
+                "offset": 5723
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@lower_final_float_record@4",
+                "offset": 5723
+              },
+              {
+                "rebuilt_symbol": "@lower_final_float_record@4",
+                "offset": 5784
+              }
+            ]
+          ]
+        }
+      },
+      "@select_float_arithmetic_form@12": {
+        "original": {
+          "text_data": [
+            [
+              4584480,
+              4584500
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@select_float_arithmetic_form@12",
+                "offset": 191
+              },
+              {
+                "rebuilt_symbol": "@select_float_arithmetic_form@12",
+                "offset": 211
+              }
+            ]
+          ]
+        }
+      },
+      "@widen_final_integer_record@4": {
+        "original": {
+          "text_data": [
+            [
+              4520992,
+              4521052
+            ],
+            [
+              4521052,
+              4521112
+            ],
+            [
+              4521112,
+              4521152
+            ],
+            [
+              4667744,
+              4667764
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@widen_final_integer_record@4",
+                "offset": 3714
+              },
+              {
+                "rebuilt_symbol": "@widen_final_integer_record@4",
+                "offset": 3774
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@widen_final_integer_record@4",
+                "offset": 3774
+              },
+              {
+                "rebuilt_symbol": "@widen_final_integer_record@4",
+                "offset": 3834
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@widen_final_integer_record@4",
+                "offset": 3834
+              },
+              {
+                "rebuilt_symbol": "@widen_final_integer_record@4",
+                "offset": 3874
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@widen_final_integer_record@4",
+                "offset": 3874
+              },
+              {
+                "rebuilt_symbol": "@widen_final_integer_record@4",
+                "offset": 3894
+              }
+            ]
+          ]
+        }
+      },
+      "@split_final_wide_result@12": {
+        "original": {
+          "text_data": [
+            [
+              4521744,
+              4521772
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@split_final_wide_result@12",
+                "offset": 1502
+              },
+              {
+                "rebuilt_symbol": "@split_final_wide_result@12",
+                "offset": 1530
+              }
+            ]
+          ]
+        }
+      },
+      "@schedule_float_operation_is_ordered@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@schedule_float_operation_is_ordered@4",
+                "offset": 86
+              },
+              {
+                "rebuilt_symbol": "@schedule_float_operation_is_ordered@4",
+                "offset": 130
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@schedule_float_operation_is_ordered@4",
+                "offset": 130
+              },
+              {
+                "rebuilt_symbol": "@schedule_float_operation_is_ordered@4",
+                "offset": 272
+              }
+            ]
+          ]
+        }
+      },
+      "@float_allocation_record_needs_reload@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@float_allocation_record_needs_reload@4",
+                "offset": 280
+              },
+              {
+                "rebuilt_symbol": "@float_allocation_record_needs_reload@4",
+                "offset": 292
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@float_allocation_record_needs_reload@4",
+                "offset": 292
+              },
+              {
+                "rebuilt_symbol": "@float_allocation_record_needs_reload@4",
+                "offset": 300
+              }
+            ]
+          ]
+        }
+      },
+      "@finish_float_allocation_machine@0": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@finish_float_allocation_machine@0",
+                "offset": 2287
+              },
+              {
+                "rebuilt_symbol": "@finish_float_allocation_machine@0",
+                "offset": 2307
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@finish_float_allocation_machine@0",
+                "offset": 2307
+              },
+              {
+                "rebuilt_symbol": "@finish_float_allocation_machine@0",
+                "offset": 2317
+              }
+            ]
+          ]
+        }
+      },
+      "@rewrite_spill_float_block@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@rewrite_spill_float_block@8",
+                "offset": 1508
+              },
+              {
+                "rebuilt_symbol": "@rewrite_spill_float_block@8",
+                "offset": 1528
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@rewrite_spill_float_block@8",
+                "offset": 1528
+              },
+              {
+                "rebuilt_symbol": "@rewrite_spill_float_block@8",
+                "offset": 1750
+              }
+            ]
+          ]
+        }
+      },
+      "@peephole_463a2c@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@remove_redundant_float_exchange@4",
+                "offset": 511
+              },
+              {
+                "rebuilt_symbol": "@remove_redundant_float_exchange@4",
+                "offset": 594
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@remove_redundant_float_exchange@4",
+                "offset": 594
+              },
+              {
+                "rebuilt_symbol": "@remove_redundant_float_exchange@4",
+                "offset": 677
+              }
+            ]
+          ]
+        }
+      },
+      "@reuse_float_stack_store@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@reuse_float_stack_store@8",
+                "offset": 2367
+              },
+              {
+                "rebuilt_symbol": "@reuse_float_stack_store@8",
+                "offset": 2393
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@reuse_float_stack_store@8",
+                "offset": 2393
+              },
+              {
+                "rebuilt_symbol": "@reuse_float_stack_store@8",
+                "offset": 2417
+              }
+            ]
+          ]
+        }
+      },
+      "@peephole_463050@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@fold_float_memory_binary@4",
+                "offset": 3492
+              },
+              {
+                "rebuilt_symbol": "@fold_float_memory_binary@4",
+                "offset": 3575
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_float_memory_binary@4",
+                "offset": 3575
+              },
+              {
+                "rebuilt_symbol": "@fold_float_memory_binary@4",
+                "offset": 3658
+              }
+            ]
+          ]
+        }
+      },
+      "@reuse_float_memory_operand@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@reuse_float_memory_operand@8",
+                "offset": 1987
+              },
+              {
+                "rebuilt_symbol": "@reuse_float_memory_operand@8",
+                "offset": 2013
+              }
+            ]
+          ]
+        }
+      },
+      "@peephole_46133c@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@remove_paired_float_stack_moves@4",
+                "offset": 2511
+              },
+              {
+                "rebuilt_symbol": "@remove_paired_float_stack_moves@4",
+                "offset": 2537
+              }
+            ]
+          ]
+        }
+      },
+      "@peephole_463b53@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@fold_float_condition_mask@4",
+                "offset": 253
+              },
+              {
+                "rebuilt_symbol": "@fold_float_condition_mask@4",
+                "offset": 293
+              }
+            ]
+          ]
+        }
+      },
+      "@is_spill_float_binary@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@is_spill_float_binary@4",
+                "offset": 64
+              },
+              {
+                "rebuilt_symbol": "@is_spill_float_binary@4",
+                "offset": 207
+              }
+            ]
+          ]
+        }
+      },
+      "@delete_final_record_range@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@delete_final_record_range@8",
+                "offset": 157
+              },
+              {
+                "rebuilt_symbol": "@delete_final_record_range@8",
+                "offset": 187
+              }
+            ]
+          ]
+        }
+      },
+      "_output_callback_44a79d": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@output_callback_44a79d@12",
+                "offset": 920
+              },
+              {
+                "rebuilt_symbol": "@output_callback_44a79d@12",
+                "offset": 944
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@output_callback_44a79d@12",
+                "offset": 944
+              },
+              {
+                "rebuilt_symbol": "@output_callback_44a79d@12",
+                "offset": 960
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@output_callback_44a79d@12",
+                "offset": 960
+              },
+              {
+                "rebuilt_symbol": "@output_callback_44a79d@12",
+                "offset": 1000
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@output_callback_44a79d@12",
+                "offset": 1000
+              },
+              {
+                "rebuilt_symbol": "@output_callback_44a79d@12",
+                "offset": 1032
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [
@@ -4410,7 +5498,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4422,7 +5510,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4434,7 +5522,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4446,7 +5534,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4458,7 +5546,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4470,7 +5558,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4482,7 +5570,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4494,7 +5582,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4506,7 +5594,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4518,7 +5606,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4532,7 +5620,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4544,7 +5632,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4560,7 +5648,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4572,7 +5660,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4584,7 +5672,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4596,7 +5684,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4608,7 +5696,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4620,7 +5708,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4635,7 +5723,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4650,7 +5738,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4662,7 +5750,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4674,7 +5762,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4686,7 +5774,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4701,7 +5789,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4716,7 +5804,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4728,7 +5816,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4743,7 +5831,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         },
         {
@@ -4755,7 +5843,22 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_filbuf"
+            }
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
           }
         }
       ]
@@ -4772,6 +5875,9 @@
       "pending_extent": false
     },
     "@propagate_final_stack_depths@8": {
+      "pending_extent": false
+    },
+    "@find_symbol_real@4": {
       "pending_extent": false
     }
   }

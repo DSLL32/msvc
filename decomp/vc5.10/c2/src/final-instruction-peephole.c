@@ -48,6 +48,21 @@
         (reg) != (C2FunctionRegister *)&machine_registers[66]) { __asm { int 3 } } \
 } while (0)
 
+/* This consumer uses only the already proved physical number column. */
+#define PEEPHOLE_FLOAT_NUMBER(reg) do { \
+    if ((reg) != (C2FunctionRegister *)&machine_registers[33] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[34] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[35]) \
+        REQUIRE_REGISTER_NUMBER(reg); \
+} while (0)
+
+/* The reached floating stack pair reads only the proved kind bytes. */
+#define REQUIRE_FLOAT_STACK_KIND(reg) do { \
+    if ((reg) != (C2FunctionRegister *)&machine_registers[31] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[32]) \
+        REQUIRE_REGISTER_KIND(reg); \
+} while (0)
+
 /* Genuine pending callees retain separate named entry traps. */
 C2Expression * __fastcall new_register_set_expression(C2RegisterSet *set);
 void __fastcall prepare_instruction_peephole_inputs(C2Expression *record, C2Expression *input);
@@ -57,15 +72,15 @@ void __fastcall remove_input_operand(C2Expression *record, C2Expression *operand
 int __fastcall peephole_436085(C2Expression *record, C2Expression **next);
 int __fastcall peephole_436275(C2Expression *first, C2Expression *second);
 int __fastcall select_narrow_logical_width(C2Expression *record, unsigned *width, unsigned *displacement);
-void __fastcall peephole_440fae(C2Expression *record, C2Expression *replacement);
+void __fastcall replace_peephole_record(C2Expression *record, C2Expression *replacement);
 C2Expression * __fastcall peephole_4464f0(C2Expression *record);
 void __fastcall peephole_45856e(C2Expression *record, unsigned width, unsigned displacement);
 void __fastcall peephole_459fcf(C2Expression *record);
-C2Expression * __fastcall peephole_46133c(C2Expression *record);
-C2Expression * __fastcall peephole_462dfb(C2Expression *record);
-C2Expression * __fastcall peephole_463050(C2Expression *record);
-C2Expression * __fastcall peephole_463a2c(C2Expression *record);
-void __fastcall peephole_463b53(C2Expression *record);
+C2Expression * __fastcall remove_paired_float_stack_moves(C2Expression *record);
+C2Expression * __fastcall fold_float_store_before_binary(C2Expression *record);
+C2Expression * __fastcall fold_float_memory_binary(C2Expression *record);
+C2Expression * __fastcall remove_redundant_float_exchange(C2Expression *record);
+void __fastcall fold_float_condition_mask(C2Expression *record);
 void __fastcall peephole_465547(C2Expression *record);
 unsigned __fastcall previous_float_register_number(unsigned number);
 void __fastcall peephole_47d9b4(C2Function *function);
@@ -192,7 +207,7 @@ void __fastcall optimize_final_instruction_forms(C2Function *function)
                     if (!left->integer.low || left->integer.low == (unsigned)normalized) {
                         created = new_global_ternary_expression(left->integer.low ? 0x30 : 0x2e,
                             record->type, right, right, left, NULL, NULL);
-                        peephole_440fae(record, created);
+                        replace_peephole_record(record, created);
                         attach_optimizer_output(created, new_fixed_register_operand(66, 0x8000));
                         record = created;
                     }
@@ -432,22 +447,22 @@ fold_simple_move:
             }
             break;
         case 0x45: case 0x46: case 0x47: case 0x48: case 0x49: case 0x4a:
-            next = peephole_462dfb(record);
-            next = peephole_463050(record);
+            next = fold_float_store_before_binary(record);
+            next = fold_float_memory_binary(record);
             goto next_record;
         case 0x4b: case 0x4c: case 0x4d: case 0x4e: case 0x4f: case 0x50:
-            next = peephole_463050(record);
+            next = fold_float_memory_binary(record);
             goto next_record;
         case 0x5d:
             previous = record->previous;
             if (previous->opcode != 0x60) break;
             left = previous->left;
-            if (left->kind == 1) REQUIRE_REGISTER_KIND(left->original_register);
+            if (left->kind == 1) REQUIRE_FLOAT_STACK_KIND(left->original_register);
             if (left->kind == 1 && (left->original_register)->kind == 1) REQUIRE_REGISTER_NUMBER(left->original_register);
             if (left->kind == 1 && (left->original_register)->kind == 1 &&
                 (left->original_register)->number == 31) {
                 input = record->left->next;
-                if (input->kind == 1) REQUIRE_REGISTER_KIND(input->original_register);
+                if (input->kind == 1) REQUIRE_FLOAT_STACK_KIND(input->original_register);
                 if (input->kind == 1 && (input->original_register)->kind == 1) {
                     REQUIRE_REGISTER_NUMBER(input->original_register);
                     low = previous_float_register_number((input->original_register)->number);
@@ -462,14 +477,14 @@ fold_simple_move:
                 if (record->type != previous->type || !((1U << (left->kind & 31)) & 0x60)) break;
                 input = record->left;
                 if (input->kind == 1) {
-                    REQUIRE_REGISTER_KIND(input->original_register);
+                    REQUIRE_FLOAT_STACK_KIND(input->original_register);
                     if (input->original_register->kind == 1) REQUIRE_REGISTER_NUMBER(input->original_register);
                 }
                 if (input->kind != 1 || (input->original_register)->kind != 1 ||
                     (input->original_register)->number != 31) break;
                 input = input->next;
                 if (input->kind == 1) {
-                    REQUIRE_REGISTER_KIND(input->original_register);
+                    REQUIRE_FLOAT_STACK_KIND(input->original_register);
                     if (input->original_register->kind == 1) REQUIRE_REGISTER_NUMBER(input->original_register);
                 }
                 if (input->kind != 1 || (input->original_register)->kind != 1 ||
@@ -512,7 +527,7 @@ fold_simple_move:
             unlink_and_release_input_record((C2Record *)previous);
             goto next_record;
         case 0x5f:
-            next = peephole_463a2c(record);
+            next = remove_redundant_float_exchange(record);
             goto next_record;
         case 0x60:
             previous = record->previous;
@@ -528,9 +543,14 @@ fold_simple_move:
                 }
             }
             if (record->left->kind != 1) break;
-            REQUIRE_REGISTER_KIND(record->left->original_register);
+            if (record->left->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                record->left->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                record->left->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                record->left->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+                record->left->original_register != (C2FunctionRegister *)&machine_registers[35])
+                REQUIRE_REGISTER_KIND(record->left->original_register);
             if ((record->left->original_register)->kind != 1) break;
-            next = peephole_46133c(record);
+            next = remove_paired_float_stack_moves(record);
             goto next_record;
         case 0x63:
             previous = record->previous;
@@ -564,7 +584,7 @@ fold_simple_move:
             } else {
                 right = record->tail.right;
                 if (right->kind == 1) {
-                    REQUIRE_REGISTER_KIND(right->original_register);
+                    REQUIRE_FLOAT_STACK_KIND(right->original_register);
                     if (right->original_register->kind == 1) REQUIRE_REGISTER_NUMBER(right->original_register);
                 }
                 if (right->kind != 1 || (right->original_register)->kind != 1 ||
@@ -585,7 +605,7 @@ fold_simple_move:
             }
             goto next_record;
         case 0xae:
-            if (c2_favor_speed) peephole_463b53(record);
+            if (c2_favor_speed) fold_float_condition_mask(record);
             break;
         case 0xc2: case 0xc3:
             right = record->tail.right;
@@ -694,8 +714,7 @@ next_record:
 }
 
 /* Unreconstructed genuine callees stop before their bodies execute. */
-C2Expression * __fastcall new_register_set_expression(C2RegisterSet *set)
-{ __asm { int 3 } return NULL; }
+C2Expression *__fastcall new_register_set_expression(C2RegisterSet *set);
 C2Expression *__fastcall new_final_address_expression(unsigned opcode,
     unsigned short type, C2FunctionRegister *reg, long displacement,
     C2Expression *base, C2Expression *index);
@@ -806,7 +825,35 @@ int __fastcall peephole_436085(C2Expression *record, C2Expression **next)
     return 0;
 }
 int __fastcall peephole_436275(C2Expression *first, C2Expression *second)
-{ __asm { int 3 } return 0; }
+{
+    if (!first) return second == NULL;
+    if (!second || first->kind != second->kind ||
+        !register_types_match(first->type, second->type)) return 0;
+    switch (first->kind) {
+    case 1:
+        return first->original_register == second->original_register;
+    case 2: case 3:
+        return first->value.reg == second->value.reg;
+    case 4:
+        return first->value.symbol == second->value.symbol;
+    case 5: case 6:
+        return first->tail.aggregate_register == second->tail.aggregate_register &&
+            first->detail.aggregate_displacement == second->detail.aggregate_displacement &&
+            !((first->location.expression.use_flags ^ second->location.expression.use_flags) & 7) &&
+            !((first->location.expression.properties ^ second->location.expression.properties) & 15) &&
+            peephole_436275(first->aggregate_value, second->aggregate_value) &&
+            peephole_436275(first->aggregate_second, second->aggregate_second);
+    case 7:
+        return first->integer.low == second->integer.low &&
+            first->integer.high == second->integer.high;
+    case 8:
+        return c2_real_compare(1, first->value.real, second->value.real) != 0;
+    case 9: case 10:
+        return 1;
+    default:
+        return 0;
+    }
+}
 int __fastcall select_narrow_logical_width(C2Expression *record,
     unsigned *width, unsigned *displacement)
 {
@@ -870,24 +917,503 @@ int __fastcall select_narrow_logical_width(C2Expression *record,
     if (!requested) *width = selected;
     return selected == *width;
 }
-void __fastcall peephole_440fae(C2Expression *record, C2Expression *replacement)
-{ __asm { int 3 } }
+void __fastcall replace_peephole_record(C2Expression *record, C2Expression *replacement)
+{
+    C2Expression *previous, *next;
+    prepend_input_record((C2Record *)record, (C2Record *)replacement);
+    previous = record->previous;
+    next = record->next;
+    previous->next = next;
+    next->previous = previous;
+    release_small_node(record);
+}
 C2Expression * __fastcall peephole_4464f0(C2Expression *record)
 { __asm { int 3 } return NULL; }
 void __fastcall peephole_45856e(C2Expression *record, unsigned width, unsigned displacement)
 { __asm { int 3 } }
 void __fastcall peephole_459fcf(C2Expression *record)
 { __asm { int 3 } }
-C2Expression * __fastcall peephole_46133c(C2Expression *record)
-{ __asm { int 3 } return NULL; }
-C2Expression * __fastcall peephole_462dfb(C2Expression *record)
-{ __asm { int 3 } return NULL; }
-C2Expression * __fastcall peephole_463050(C2Expression *record)
-{ __asm { int 3 } return NULL; }
-C2Expression * __fastcall peephole_463a2c(C2Expression *record)
-{ __asm { int 3 } return NULL; }
-void __fastcall peephole_463b53(C2Expression *record)
-{ __asm { int 3 } }
+/* Existing stack-order owners and genuine later leaves remain shared with
+ * the other final float rewrites. */
+extern int spill_float_top, spill_float_count;
+extern unsigned spill_float_order[16];
+int __fastcall final_float_stack_effect(C2Expression *);
+int __fastcall rewrite_spill_float_block(C2Expression *, C2Expression *);
+void finish_spill_float_block(void);
+void __fastcall restore_spill_float_order(C2Expression *, C2Expression *);
+void __fastcall finish_spill_float_records(C2Expression *);
+
+C2Expression *__fastcall remove_paired_float_stack_moves(C2Expression *record)
+{
+    C2Expression *first = record->next, *store, *operand, *input, *previous;
+    C2FunctionRegister *original;
+    unsigned depth, number, temporary;
+    unsigned char kind;
+    int i, effect, slot;
+
+    if (!c2_favor_speed) return first;
+    input = record->left;
+    PEEPHOLE_FLOAT_NUMBER(input->original_register);
+    depth = input->original_register->number - 30;
+    for (store = first; store; store = store->next) {
+        switch (store->kind) {
+        case 16: case 21: case 22: case 23: case 25:
+            return first;
+        }
+        if (store->opcode == 0x5f) {
+            PEEPHOLE_FLOAT_NUMBER(store->left->original_register);
+            number = store->left->original_register->number - 31;
+            if (depth == number) depth = 0;
+            else if (!depth) depth = number;
+            continue;
+        }
+        if (!(store->flags & 1) ||
+            ((store->type & 0xf000) != 0x4000 && store->kind != 13)) continue;
+        if (store->opcode == 0x63 && store->tail.right->kind == 1) {
+            original = store->tail.right->original_register;
+            if (original == (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT))
+                kind = machine_register_storage.sentinel.kind;
+            else {
+                if (original != (C2FunctionRegister *)&machine_registers[31] &&
+                    original != (C2FunctionRegister *)&machine_registers[32] &&
+                    original != (C2FunctionRegister *)&machine_registers[33] &&
+                    original != (C2FunctionRegister *)&machine_registers[34] &&
+                    original != (C2FunctionRegister *)&machine_registers[35])
+                    REQUIRE_REGISTER_KIND(original);
+                kind = original->kind;
+            }
+            if (kind == 1) {
+                PEEPHOLE_FLOAT_NUMBER(original);
+                number = original->number;
+                if ((!depth && number == 31) ||
+                    (depth && number - 31 == (depth & 0xffff))) break;
+            }
+        }
+        for (operand = store->left; operand; operand = operand->next) {
+            if (operand->kind != 1 || (operand->type & 0xf000) != 0x4000) continue;
+            PEEPHOLE_FLOAT_NUMBER(operand->original_register);
+            if (operand->original_register->number - 31 == (depth & 0xffff)) return first;
+        }
+        effect = final_float_stack_effect(store);
+        depth += (unsigned)effect;
+        if ((int)depth < 0) return first;
+    }
+    for (i = 0; i < 8; ++i) spill_float_order[7 - i] = i;
+    spill_float_count = 8;
+    spill_float_top = 8;
+    PEEPHOLE_FLOAT_NUMBER(input->original_register);
+    spill_float_order[8] = input->original_register->number - 31;
+    /* Original defect: an exhausted search still dereferences store.
+     * Retain that known NULL path rather than supplying a synthetic record. */
+    if (rewrite_spill_float_block(first, store->previous) == -1) return first;
+    PEEPHOLE_FLOAT_NUMBER(store->tail.right->original_register);
+    slot = (int)((unsigned)spill_float_top -
+        (store->tail.right->original_register->number - 31));
+    if ((unsigned)spill_float_top >= 16 || slot < 0 || slot > spill_float_top) { __asm { int 3 } }
+    temporary = spill_float_order[spill_float_top];
+    --spill_float_top;
+    spill_float_order[slot] = temporary;
+    finish_spill_float_block();
+    spill_float_top = 7;
+    for (i = 0; i < 8; ++i) spill_float_order[7 - i] = i;
+    restore_spill_float_order(first, store->previous);
+    finish_spill_float_records(store);
+    previous = record->previous;
+    unlink_input_record((C2Record *)record);
+    release_small_node(record);
+    unlink_input_record((C2Record *)store);
+    release_small_node(store);
+    return previous->next;
+}
+int __fastcall float_binary_opcode_index(int opcode)
+{
+    if (opcode < 0x45 || opcode > 0x4a) return -1;
+    return opcode - 0x45;
+}
+extern int spill_float_top, spill_float_count;
+extern unsigned spill_float_order[16];
+int __fastcall rewrite_spill_float_block(C2Expression *, C2Expression *);
+int __fastcall final_float_stack_effect(C2Expression *);
+void finish_spill_float_block(void);
+void __fastcall restore_spill_float_order(C2Expression *, C2Expression *);
+void __fastcall finish_spill_float_records(C2Expression *);
+void __fastcall fold_final_float_record(C2Expression *);
+
+
+C2Expression *__fastcall reuse_float_stack_store(C2Expression *record, int index)
+{
+    C2Expression *first = record->next, *scan, *operand;
+    unsigned depth, relative = 0, number;
+    int i, effect, slot;
+
+    operand = record->left->next;
+    if (operand->kind != 1) return first;
+    PEEPHOLE_FLOAT_NUMBER(operand->original_register);
+    number = operand->original_register->number;
+    if (number == 31) return first;
+    depth = number - 31;
+    for (scan = first; scan; scan = scan->next) {
+        switch (scan->kind) {
+        case 16: case 21: case 22: case 23: case 25:
+            return first;
+        }
+        if (scan->opcode == 0x5f) {
+            PEEPHOLE_FLOAT_NUMBER(scan->left->original_register);
+            number = scan->left->original_register->number - 31;
+            if (depth == number) depth = 0;
+            else if (!depth) depth = number;
+            if (relative == number) relative = 0;
+            else if (!relative) relative = number;
+            continue;
+        }
+        if (!(scan->flags & 1) ||
+            ((scan->type & 0xf000) != 0x4000 && scan->kind != 13) ||
+            scan->opcode == 0x138) continue;
+        if (!relative && scan->opcode == 0x63 && scan->tail.right->kind == 1) {
+            PEEPHOLE_FLOAT_NUMBER(scan->tail.right->original_register);
+            if (scan->tail.right->original_register->number - 31 == (depth & 0xffff))
+                break;
+        }
+        for (operand = scan->left; operand; operand = operand->next) {
+            if (operand->kind != 1 || (operand->type & 0xf000) != 0x4000) continue;
+            PEEPHOLE_FLOAT_NUMBER(operand->original_register);
+            if (operand->original_register->number - 31 == (depth & 0xffff)) return first;
+        }
+        effect = final_float_stack_effect(scan);
+        depth += (unsigned)effect;
+        relative += (unsigned)effect;
+        if ((int)depth < 0 || (int)relative < 0) return first;
+    }
+    spill_float_top = 7;
+    for (i = 0; i < 8; ++i) spill_float_order[7 - i] = i;
+    spill_float_count = 8;
+    /* The original dereferences scan after a search that may reach NULL.
+     * Preserve that recovered defective path rather than inventing a result. */
+    if (rewrite_spill_float_block(first, scan->previous) == -1) return first;
+    slot = (int)((unsigned)spill_float_top - depth);
+    if ((unsigned)spill_float_top >= 16 || slot < 0 || slot > spill_float_top) { __asm { int 3 } }
+    spill_float_order[slot] = spill_float_order[spill_float_top];
+    --spill_float_top;
+    finish_spill_float_block();
+    for (i = 0; i < 8; ++i) spill_float_order[7 - i] = i;
+    spill_float_top = 6;
+    operand = record->left->next;
+    PEEPHOLE_FLOAT_NUMBER(operand->original_register);
+    number = operand->original_register->number - 31;
+    /* Only the initialized eight-cell prefix and its actual row identities
+     * participate here; this grants no payload of other machine rows. */
+    if (number >= 8) { __asm { int 3 } }
+    switch (index) {
+    case 0: record->opcode = 0x4b; break;
+    case 1: record->opcode = 0x4c; break;
+    case 2: record->opcode = 0x4e; break;
+    case 3: record->opcode = 0x4d; break;
+    case 4: record->opcode = 0x50; break;
+    case 5: record->opcode = 0x4f; break;
+    default: { __asm { int 3 } }
+    }
+    spill_float_order[7 - number] = 0;
+    swap_global_operands(record);
+    record->tail.right->original_register = (C2FunctionRegister *)&machine_registers[31 + number];
+    fold_final_float_record(record);
+    restore_spill_float_order(record->next, scan->previous);
+    finish_spill_float_records(scan);
+    unlink_input_record((C2Record *)scan);
+    release_small_node(scan);
+    return record;
+}
+
+C2Expression *__fastcall fold_float_store_before_binary(C2Expression *record)
+{
+    C2Expression *next = record->next, *left, *right;
+    int index = float_binary_opcode_index(record->opcode);
+
+    if (index < 0) return next;
+    if (next->opcode == 0x63 && next->left->kind == 1) {
+        REQUIRE_REGISTER_NUMBER(next->left->original_register);
+        if (next->left->original_register->number == 31 &&
+            next->tail.right->kind == 1) {
+            REQUIRE_REGISTER_NUMBER(next->tail.right->original_register);
+            if (next->tail.right->original_register->number == 32 &&
+                record->left->kind == 1) {
+                left = record->left;
+                REQUIRE_REGISTER_NUMBER(left->original_register);
+                if (left->original_register->number == 31 && left->next->kind == 1) {
+                    right = left->next;
+                    REQUIRE_REGISTER_NUMBER(right->original_register);
+                    if (right->original_register->number == 32) {
+                        /* Actual49a040 has six DWORD pop/reversed forms. */
+                        switch (index) {
+                        case 0: record->opcode = 0x4b; break;
+                        case 1: record->opcode = 0x4c; break;
+                        case 2: record->opcode = 0x4e; break;
+                        case 3: record->opcode = 0x4d; break;
+                        case 4: record->opcode = 0x50; break;
+                        case 5: record->opcode = 0x4f; break;
+                        default: { __asm { int 3 } }
+                        }
+                        unlink_and_release_input_record((C2Record *)next);
+                        swap_global_operands(record);
+                        return record->next;
+                    }
+                }
+            }
+        }
+    }
+    if (c2_favor_speed) return reuse_float_stack_store(record, index);
+    /* Original defect: EAX still holds the defined 0..5 opcode index here,
+     * which the caller consumes as a record pointer. Preserve that value,
+     * rather than silently substituting the saved next-record pointer. */
+    return (C2Expression *)(unsigned)index;
+}
+/* Actual six-DWORD columns49a008,49a020 and49b8c0. The first is passed
+ * to the genuine bounded lookup; no padding or neighboring bytes are modeled. */
+static const unsigned float_pop_opcodes[6] = {0x4b, 0x4c, 0x4d, 0x4e, 0x4f, 0x50};
+static const unsigned float_short_memory_opcodes[6] = {0x51, 0x57, 0x58, 0x59, 0x54, 0x55};
+static const unsigned float_binary_memory_opcodes[6] = {0x45, 0x46, 0x47, 0x48, 0x49, 0x4a};
+
+int __fastcall find_float_pop_opcode_index(int opcode, const unsigned *opcodes)
+{
+    int index;
+    for (index = 0; index < 6; ++index)
+        if (opcodes[index] == (unsigned)opcode) return index;
+    return -1;
+}
+C2Expression *__fastcall reuse_float_memory_operand(C2Expression *record, int index)
+{
+    C2Expression *load = record->previous, *scan, *operand, *memory, *next;
+    C2FunctionRegister *base_identity, *index_identity;
+    unsigned depth = 0, number;
+    int i, effect, mode = index;
+
+    if ((unsigned)index >= 6) { __asm { int 3 } }
+    for (; load; load = load->previous) {
+        switch (load->kind) {
+        case 16: case 21: case 22: case 23: case 25:
+            return record->next;
+        }
+        if (load->opcode == 0x5f) {
+            PEEPHOLE_FLOAT_NUMBER(load->left->original_register);
+            number = load->left->original_register->number - 31;
+            if (depth == number) depth = 0;
+            else if (!depth) depth = number;
+            continue;
+        }
+        if (!(load->flags & 1) ||
+            ((load->type & 0xf000) != 0x4000 && load->kind != 13) ||
+            load->opcode == 0x138) continue;
+        if (!depth && load->opcode == 0x60) {
+            memory = load->left;
+            if (memory->kind == 1 || memory->type == 0x400a) return record->next;
+            if (memory->kind == 6) {
+                base_identity = memory->aggregate_value ?
+                    memory->aggregate_value->value.reg : NULL;
+                index_identity = memory->aggregate_second ?
+                    memory->aggregate_second->value.reg : NULL;
+                for (scan = load->next; scan != record; scan = scan->next) {
+                    for (operand = scan->tail.right; operand; operand = operand->next) {
+                        if (operand->kind == 1 &&
+                            (operand->value.reg == base_identity ||
+                             operand->value.reg == index_identity)) return record->next;
+                    }
+                }
+            }
+            for (scan = load->next; scan != record; scan = scan->next)
+                for (operand = scan->tail.right; operand; operand = operand->next)
+                    if (input_operands_may_alias(operand, memory)) return record->next;
+            mode = 0;
+            goto reuse_float_memory_load;
+        }
+        effect = final_float_stack_effect(load);
+        depth -= (unsigned)effect;
+        if ((int)depth < 0) return record->next;
+        for (operand = load->left; operand; operand = operand->next) {
+            if (operand->kind != 1 || (operand->type & 0xf000) != 0x4000) continue;
+            PEEPHOLE_FLOAT_NUMBER(operand->original_register);
+            if (operand->original_register->number - 31 == (depth & 0xffff))
+                return record->next;
+        }
+    }
+reuse_float_memory_load:
+    fold_final_float_record(record);
+    for (i = 0; i < 8; ++i) spill_float_order[7 - i] = i;
+    spill_float_count = 8;
+    /* Original defect: exhausting the predecessor search leaves load NULL
+     * and mode equal to the defined incoming index. The following genuine
+     * load dereferences are retained, with no invented default candidate. */
+    if (!mode) {
+        spill_float_order[8] = 8;
+        spill_float_count = 9;
+    } else {
+        PEEPHOLE_FLOAT_NUMBER(load->left->original_register);
+        spill_float_order[8] = load->left->original_register->number - 31;
+    }
+    spill_float_top = 8;
+    if (rewrite_spill_float_block(load->next, record) == -1) return record->next;
+    finish_spill_float_block();
+    record->opcode = load->opcode == 0x60 ?
+        float_binary_memory_opcodes[index] : float_short_memory_opcodes[index];
+    record->left->original_register = (C2FunctionRegister *)&machine_registers[31];
+    record->tail.right->original_register = (C2FunctionRegister *)&machine_registers[31];
+    if (!mode)
+        attach_input_expression(record, record->left->next, load->left);
+    else record->left->next->original_register = (C2FunctionRegister *)&machine_registers[33];
+    record->type = load->type;
+    fold_final_float_record(record);
+    spill_float_top = 7;
+    for (i = 0; i < 8; ++i) spill_float_order[7 - i] = i;
+    restore_spill_float_order(load->next, record);
+    next = record->next;
+    finish_spill_float_records(next);
+    unlink_input_record((C2Record *)load);
+    release_small_node(load);
+    return next;
+}
+
+C2Expression *__fastcall replace_expression_operand(C2Expression *context,
+    C2Expression *previous, C2Expression *replacement);
+
+C2Expression *__fastcall fold_float_memory_binary(C2Expression *record)
+{
+    C2Expression *previous = record->previous, *before = previous->previous;
+    C2Expression *next = record->next, *left, *second;
+    unsigned opcode = record->opcode;
+    int index = find_float_pop_opcode_index(opcode, float_pop_opcodes);
+
+    if (index < 0) return next;
+    if (index >= 6) { __asm { int 3 } }
+    if (previous->kind == 11 && (previous->type & 0xf000) == 0x4000 &&
+        (previous->opcode == 0x60 || previous->opcode == 0x56) &&
+        (previous->type == 0x4004 ||
+            (previous->type == 0x4008 && previous->opcode != 0x56)) &&
+        previous->tail.right->kind == 1) {
+        PEEPHOLE_FLOAT_NUMBER(previous->tail.right->original_register);
+        if (previous->tail.right->original_register->number == 31 &&
+            previous->left->kind != 1 && record->left->kind == 1) {
+            left = record->left;
+            PEEPHOLE_FLOAT_NUMBER(left->original_register);
+            if (left->original_register->number == 32 && left->next->kind == 1) {
+                second = left->next;
+                PEEPHOLE_FLOAT_NUMBER(second->original_register);
+                if (second->original_register->number == 31 &&
+                    record->tail.right->kind == 1) {
+                    previous->opcode = previous->opcode == 0x60 ?
+                        float_binary_memory_opcodes[index] : float_short_memory_opcodes[index];
+                    replace_expression_operand(previous, previous->left, second);
+                    swap_global_operands(previous);
+                    unlink_and_release_input_record((C2Record *)record);
+                    return next;
+                }
+            }
+        }
+    }
+    if (float_binary_opcode_index(opcode) != -1 && before->kind == 11 &&
+        (before->type & 0xf000) == 0x4000 && before->left) {
+        switch (before->opcode) {
+        case 0x56: case 0x60:
+        case 0x7f: case 0x80: case 0x81: case 0x82: case 0x83: case 0x84:
+        case 0x94:
+            if (previous->kind != 11 || (previous->type & 0xf000) != 0x4000)
+                goto try_float_memory_reuse;
+            if (previous->left && previous->left->kind == 1) {
+                PEEPHOLE_FLOAT_NUMBER(previous->left->original_register);
+                if (previous->left->original_register->number == 31)
+                    goto try_float_memory_reuse;
+            }
+            switch (previous->opcode) {
+            case 0x56: case 0x60:
+            case 0x7f: case 0x80: case 0x81: case 0x82: case 0x83: case 0x84:
+            case 0x94:
+                if ((before->type != 0x4004 &&
+                        (before->type != 0x4008 || before->opcode == 0x56)) ||
+                    before->tail.right->kind != 1) break;
+                PEEPHOLE_FLOAT_NUMBER(before->tail.right->original_register);
+                if (before->tail.right->original_register->number != 31 ||
+                    before->left->kind == 1 || record->left->kind != 1) break;
+                left = record->left;
+                PEEPHOLE_FLOAT_NUMBER(left->original_register);
+                if (left->original_register->number != 32 || left->next->kind != 1) break;
+                second = left->next;
+                PEEPHOLE_FLOAT_NUMBER(second->original_register);
+                if (second->original_register->number != 31 || record->tail.right->kind != 1) break;
+                record->opcode = before->opcode == 0x60 ?
+                    float_binary_memory_opcodes[index] : float_short_memory_opcodes[index];
+                attach_input_expression(record, left, before->left);
+                swap_global_operands(record);
+                unlink_and_release_input_record((C2Record *)before);
+                return next;
+            }
+            break;
+        }
+    }
+try_float_memory_reuse:
+    if (c2_favor_speed && record->left->kind == 1) {
+        left = record->left;
+        PEEPHOLE_FLOAT_NUMBER(left->original_register);
+        if (left->original_register->number == 32 && left->next->kind == 1) {
+            PEEPHOLE_FLOAT_NUMBER(left->next->original_register);
+            if (left->next->original_register->number == 31)
+                return reuse_float_memory_operand(record, index);
+        }
+    }
+    return next;
+}
+#undef PEEPHOLE_FLOAT_NUMBER
+void __fastcall move_final_label_after(C2Expression *after, C2Expression *label);
+C2Expression *__fastcall remove_redundant_float_exchange(C2Expression *record)
+{
+    C2Expression *previous = record->previous, *before = previous->previous;
+    C2Expression *next = record->next;
+
+    switch (previous->opcode) {
+    case 0x56: case 0x60:
+    case 0x7f: case 0x80: case 0x81: case 0x82: case 0x83: case 0x84:
+    case 0x94:
+        switch (before->opcode) {
+        case 0x56: case 0x60:
+        case 0x7f: case 0x80: case 0x81: case 0x82: case 0x83: case 0x84:
+        case 0x94:
+            if ((!previous->left || previous->left->kind != 1) &&
+                (!before->left || before->left->kind != 1)) {
+                if (record->left->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                    record->left->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+                    record->left->original_register != (C2FunctionRegister *)&machine_registers[35])
+                    REQUIRE_REGISTER_NUMBER(record->left->original_register);
+                if (record->left->original_register->number == 32) {
+                    move_final_label_after(previous, before);
+                    unlink_and_release_input_record((C2Record *)record);
+                }
+            }
+            break;
+        }
+        break;
+    }
+    return next;
+}
+void __fastcall fold_float_condition_mask(C2Expression *record)
+{
+    C2Expression *test, *use, *input;
+    unsigned mask;
+    unsigned char condition;
+
+    test = follow_optimizer_result(record, &use);
+    if (test->kind != 16 || test->opcode != 15) return;
+    switch (test->condition_code) {
+    case 1: mask = 0x40; condition = 2; break;
+    case 2: mask = 0x40; condition = 1; break;
+    case 7: mask = 1; condition = 2; break;
+    case 8: mask = 0x41; condition = 1; break;
+    case 9: mask = 0x41; condition = 2; break;
+    case 10: mask = 1; condition = 1; break;
+    default: return;
+    }
+    copy_input_operand(record, new_integer_expression(record->type, mask));
+    input = record->left;
+    set_input_expression_type(input, record->type);
+    input->original_register = (C2FunctionRegister *)&machine_registers[21];
+    record->opcode = 0x33;
+    test->condition_code = condition;
+}
 void __fastcall peephole_465547(C2Expression *record)
 { __asm { int 3 } }
 unsigned __fastcall previous_float_register_number(unsigned number)

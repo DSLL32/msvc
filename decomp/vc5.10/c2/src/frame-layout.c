@@ -1,5 +1,6 @@
 #include "functions.h"
 #include "function-records.h"
+#include "frame-layout.h"
 #include "symbol-storage.h"
 #include "function-reader.h"
 #include "register-sets.h"
@@ -7,6 +8,7 @@
 #include "global-optimizer.h"
 #include "output-callbacks.h"
 #include "optimizer.h"
+#include "optimizer-translate.h"
 #include <recon.h>
 
 extern int c2_global_optimize, c2_exception_mode, c2_favor_speed;
@@ -31,13 +33,16 @@ void __fastcall layout_function_stack_frame(C2Function *function)
     if (function->flags & 0x8000) layout_funclet_stack_frame(function);
 }
 
-/* Encountered20-byte block stride: only the two set-pointer columns are
- * consumed here. The producer owns allocation and the remaining12 bytes. */
+/* The frame groups carry their member/conflict sets, allocation size and
+ * fixed offset. Nonfixed groups also accumulate their members' use counts. */
 typedef struct C2FrameBlock {
     C2RegisterSet *uses, *definitions;
-    unsigned char pending08[12];
+    unsigned bytes;
+    int references;
+    long offset;
 } C2FrameBlock;
 typedef char C2FrameBlockStrideCheck[sizeof(C2FrameBlock) == 20 ? 1 : -1];
+C2FrameSlot *frame_slots; /* Original493168, reset before constructing this chain. */
 C2FunctionRegister **frame_registers; /* Original4910b4; real allocation below. */
 C2FrameBlock *frame_blocks; /* Original4910b8; deferred producer-owned array. */
 C2RegisterSet **frame_register_conflicts; /* Original4910c8; real allocation below. */
@@ -205,10 +210,552 @@ void __fastcall limit_frame_register_pressure(C2Function *function, int availabl
         !c2_favor_speed && !can_omit_frame_pointer(function, available))
         function->flags &= ~0x10U;
 }
-void __fastcall build_frame_register_conflicts(C2Function *function) { __asm { int 3 } }
-void __fastcall compute_frame_register_liveness(C2Function *function) { __asm { int 3 } }
+void __fastcall merge_frame_live_sets(C2RegisterSet *destination,
+    C2RegisterSet *input, C2RegisterSet *generated)
+{
+    C2RegisterSetNode *source = input->links.first;
+    C2RegisterSetNode *spare = destination->links.first, *node = spare, *next;
+
+    while (source) {
+        if (spare) {
+            node = spare;
+            spare = spare->next;
+        } else node = insert_register_set_node(destination, node);
+        node->group = source->group;
+        node->bits = source->bits;
+        source = source->next;
+    }
+    while (spare) {
+        next = spare->next;
+        remove_register_set_node(destination, spare);
+        spare = next;
+    }
+    merge_optimizer_symbol_sets(destination, generated);
+}
+
+void __fastcall build_frame_register_conflicts(C2Function *function)
+{
+    C2RegisterSet *scratch = new_register_set(6);
+    C2FlowGraph *flow = function->flow;
+    C2BasicBlock *first = flow->last, *block;
+    C2FlowEdge *edge;
+    C2Expression *record, *operand;
+    C2OptimizerUse *use, *saved;
+    C2FunctionRegister *reg, *root;
+    int index, changed, side;
+
+    for (block = first; block; block = block->previous) {
+        block->frame_live_in = new_register_set(6);
+        block->frame_live_out = new_register_set(6);
+        block->frame_defined_in = new_register_set(6);
+        block->frame_defined_out = new_register_set(6);
+        block->frame_uses = new_register_set(6);
+        block->frame_definitions = new_register_set(6);
+        block->frame_kills = new_register_set(6);
+        if (block == first) {
+            copy_optimizer_symbol_set_into(block->frame_live_in, frame_fixed_registers);
+            copy_optimizer_symbol_set_into(block->frame_definitions, frame_fixed_registers);
+        }
+        for (record = (C2Expression *)block->records;
+             record != (C2Expression *)block->last_record; record = record->next) {
+            if (!(record->flags & 1)) continue;
+            for (side = 0; side < 2; ++side) {
+                for (operand = side ? record->tail.right : record->left;
+                     operand; operand = operand->next) {
+                    if (operand->kind == 2) {
+                        reg = operand->value.reg;
+                        if ((unsigned long)reg >= (unsigned long)machine_registers &&
+                            (unsigned long)reg <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT))
+                            { __asm { int 3 } }
+                        root = reg->canonical;
+                        /* Static register rows have no frame-index view. */
+                        if ((unsigned long)root >= (unsigned long)machine_registers &&
+                            (unsigned long)root <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT))
+                            { __asm { int 3 } }
+                        index = root->frame_index;
+                        if (index < 0) continue;
+                        if (!side) {
+                            if (optimizer_set_contains(block->frame_kills, index)) continue;
+                            add_register_to_set(block->frame_uses, index);
+                            if (!optimizer_set_contains(block->frame_definitions, index))
+                                operand->location.expression.use_flags |= 0x80;
+                            else operand->location.expression.use_flags &= ~0x80;
+                        } else {
+                            if (!optimizer_set_contains(block->frame_definitions, index)) {
+                                operand->location.expression.use_flags |= 0x80;
+                                add_register_to_set(block->frame_definitions, index);
+                            } else operand->location.expression.use_flags &= ~0x80;
+                            if (root == reg && !optimizer_set_contains(block->frame_uses, index))
+                                add_register_to_set(block->frame_kills, index);
+                        }
+                    } else if (operand->kind == 6 || operand->kind == 10) {
+                        operand->location.expression.use_flags &= ~0x80;
+                        use = get_global_index_uses(operand->kind == 6 ?
+                            operand->immediate : operand->value.optimizer_index);
+                        saved = NULL;
+                        while (use) {
+                            reg = use->reg;
+                            if ((unsigned long)reg >= (unsigned long)machine_registers &&
+                                (unsigned long)reg <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT))
+                                { __asm { int 3 } }
+                            if (reg->kind == 12) {
+                                saved = use;
+                                use = reg->optimizer_uses;
+                                if (!use) {
+                                    use = saved->next;
+                                    goto resume_frame_conflict_uses;
+                                }
+                                reg = use->reg;
+                            }
+                            if ((unsigned long)reg >= (unsigned long)machine_registers &&
+                                (unsigned long)reg <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT))
+                                { __asm { int 3 } }
+                            index = reg->frame_index;
+                            if (index >= 0) {
+                                if (!side) {
+                                    if (!optimizer_set_contains(block->frame_kills, index)) {
+                                        add_register_to_set(block->frame_uses, index);
+                                        if (!optimizer_set_contains(block->frame_definitions, index)) {
+                                            if (!(operand->location.expression.use_flags & 0x80)) {
+                                                operand->location.expression.use_flags |= 0x80;
+                                                operand->frame_indices = new_register_set(6);
+                                            }
+                                            add_register_to_set(operand->frame_indices, index);
+                                        }
+                                    }
+                                } else if (!optimizer_set_contains(block->frame_definitions, index)) {
+                                    add_register_to_set(block->frame_definitions, index);
+                                    if (!(operand->location.expression.use_flags & 0x80)) {
+                                        operand->location.expression.use_flags |= 0x80;
+                                        operand->frame_indices = new_register_set(6);
+                                    }
+                                    add_register_to_set(operand->frame_indices, index);
+                                }
+                            }
+                            use = use->next;
+                            if (!use && saved) {
+                                use = saved->next;
+                                saved = NULL;
+                            }
+resume_frame_conflict_uses: ;
+                        }
+                    }
+                }
+            }
+        }
+        copy_optimizer_symbol_set_into(block->frame_live_in, block->frame_uses);
+        copy_optimizer_symbol_set_into(block->frame_defined_out, block->frame_definitions);
+    }
+    do {
+        changed = 0;
+        for (block = flow->first; block; block = block->next) {
+            clear_register_set(scratch);
+            for (edge = block->outgoing; edge; edge = edge->next_outgoing)
+                merge_optimizer_symbol_sets(scratch, edge->destination->frame_live_in);
+            if (!optimizer_symbol_sets_equal(scratch, block->frame_live_out)) {
+                changed = 1;
+                copy_optimizer_symbol_set_into(block->frame_live_out, scratch);
+                update_optimizer_alias_set(block->frame_live_in, block->frame_live_out,
+                    block->frame_kills, block->frame_uses);
+            }
+        }
+    } while (changed);
+    do {
+        changed = 0;
+        for (block = first; block; block = block->previous) {
+            clear_register_set(scratch);
+            for (edge = block->incoming; edge; edge = edge->next_incoming)
+                merge_optimizer_symbol_sets(scratch, edge->source->frame_defined_out);
+            if (!optimizer_symbol_sets_equal(scratch, block->frame_defined_in)) {
+                changed = 1;
+                copy_optimizer_symbol_set_into(block->frame_defined_in, scratch);
+                merge_frame_live_sets(block->frame_defined_out, block->frame_defined_in,
+                    block->frame_definitions);
+            }
+        }
+    } while (changed);
+    for (block = first; block; block = block->previous) {
+        intersect_optimizer_symbol_sets(block->frame_live_in, block->frame_defined_in);
+        intersect_optimizer_symbol_sets(block->frame_live_out, block->frame_defined_out);
+    }
+    release_optimizer_symbol_set(scratch);
+}
+/* All frame indices belong to dynamic function registers initialized by
+ * initialize_frame_allocation; static machine-row index payload is unknown. */
+#define FRAME_KNOWN_INDEX(reg) \
+    do { if ((unsigned long)(reg) >= (unsigned long)machine_registers && \
+        (unsigned long)(reg) <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT)) \
+        { __asm { int 3 } } } while (0)
+
+void __fastcall compute_frame_register_liveness(C2Function *function)
+{
+    C2RegisterSet *live = new_register_set(6);
+    C2RegisterSet *input_only = new_register_set(6);
+    C2RegisterSet *output_only = new_register_set(6);
+    C2BasicBlock *block;
+    C2Expression *record, *operand;
+    C2OptimizerUse *uses, *saved;
+    C2FunctionRegister *reg, *root;
+    unsigned number, expression_index;
+    int index;
+
+    for (number = next_optimizer_symbol(frame_fixed_registers); number != ~0U;
+         number = next_optimizer_symbol(NULL)) {
+        merge_optimizer_symbol_sets(frame_register_conflicts[number], frame_fixed_registers);
+        remove_optimizer_symbol(frame_register_conflicts[number], number);
+    }
+    for (block = function->flow->last; block; block = block->previous) {
+        copy_optimizer_symbol_set_into(live, block->frame_live_out);
+        copy_optimizer_symbol_difference(input_only, block->frame_uses, block->frame_live_in);
+        copy_optimizer_symbol_difference(output_only, block->frame_definitions, block->frame_defined_in);
+        for (record = (C2Expression *)block->last_record;
+             record != (C2Expression *)block->records; record = record->previous) {
+            if (!(record->flags & 1)) continue;
+            if (record->kind == 20) {
+            for (operand = record->left; operand; operand = operand->next) {
+                if (operand->kind == 2) {
+                    reg = operand->value.reg;
+                    FRAME_KNOWN_INDEX(reg);
+                    root = reg->canonical;
+                    FRAME_KNOWN_INDEX(root);
+                    index = root->frame_index;
+                    if (index >= 0 &&
+                        (!optimizer_set_contains(input_only, index) ||
+                         !(operand->location.expression.use_flags & 0x80)))
+                        add_register_to_set(live, index);
+                } else if (operand->kind == 6 || operand->kind == 10) {
+                    uses = get_global_index_uses(operand->kind == 6 ?
+                        operand->immediate : operand->value.optimizer_index);
+                    saved = NULL;
+                    while (uses) {
+                        reg = uses->reg;
+                        FRAME_KNOWN_INDEX(reg);
+                        if (reg->kind == 12) {
+                            saved = uses;
+                            uses = reg->optimizer_uses;
+                            if (!uses) {
+                                uses = saved->next;
+                                goto resume_frame_pre_inputs;
+                            }
+                            reg = uses->reg;
+                            FRAME_KNOWN_INDEX(reg);
+                        }
+                        index = reg->frame_index;
+                        if (index >= 0)
+                            add_register_to_set(live, index);
+                        uses = uses->next;
+                        if (!uses && saved) {
+                            uses = saved->next;
+                            saved = NULL;
+                        }
+resume_frame_pre_inputs: ;
+                    }
+
+                }
+            }
+
+            }
+            for (operand = record->tail.right; operand; operand = operand->next) {
+                if (operand->kind == 2) {
+                    reg = operand->value.reg;
+                    FRAME_KNOWN_INDEX(reg);
+                    root = reg->canonical;
+                    FRAME_KNOWN_INDEX(root);
+                    index = root->frame_index;
+                    if (index < 0) continue;
+                    merge_optimizer_symbol_sets(frame_register_conflicts[index], live);
+                    if (reg == root || ((operand->location.expression.use_flags & 0x80) &&
+                        optimizer_set_contains(output_only, index)))
+                        remove_optimizer_symbol(live, index);
+                } else if (operand->kind == 6 || operand->kind == 10) {
+                    expression_index = operand->kind == 6 ?
+                        operand->immediate : operand->value.optimizer_index;
+                    uses = get_global_index_uses(expression_index);
+                    saved = NULL;
+                    while (uses) {
+                        reg = uses->reg;
+                        FRAME_KNOWN_INDEX(reg);
+                        if (reg->kind == 12) {
+                            saved = uses;
+                            uses = reg->optimizer_uses;
+                            if (!uses) {
+                                uses = saved->next;
+                                goto resume_frame_conflict_outputs;
+                            }
+                            reg = uses->reg;
+                            FRAME_KNOWN_INDEX(reg);
+                        }
+                        index = reg->frame_index;
+                        if (index >= 0) {
+                            merge_optimizer_symbol_sets(frame_register_conflicts[index], live);
+                            add_register_to_set(live, index);
+                        }
+                        uses = uses->next;
+                        if (!uses && saved) {
+                            uses = saved->next;
+                            saved = NULL;
+                        }
+resume_frame_conflict_outputs: ;
+                    }
+                    uses = get_global_index_uses(expression_index);
+                    saved = NULL;
+                    while (uses) {
+                        reg = uses->reg;
+                        FRAME_KNOWN_INDEX(reg);
+                        if (reg->kind == 12) {
+                            saved = uses;
+                            uses = reg->optimizer_uses;
+                            if (!uses) {
+                                uses = saved->next;
+                                goto resume_frame_killed_outputs;
+                            }
+                            reg = uses->reg;
+                            FRAME_KNOWN_INDEX(reg);
+                        }
+                        index = reg->frame_index;
+                        if (index >= 0 && (operand->location.expression.use_flags & 0x80) &&
+                            optimizer_set_contains(output_only, index) &&
+                            optimizer_set_contains(operand->frame_indices, index))
+                            remove_optimizer_symbol(live, index);
+                        uses = uses->next;
+                        if (!uses && saved) {
+                            uses = saved->next;
+                            saved = NULL;
+                        }
+resume_frame_killed_outputs: ;
+                    }
+                    if (operand->location.expression.use_flags & 0x80)
+                        release_optimizer_symbol_set(operand->frame_indices);
+                }
+            }
+            for (operand = record->left; operand; operand = operand->next) {
+                if (operand->kind == 2) {
+                    reg = operand->value.reg;
+                    FRAME_KNOWN_INDEX(reg);
+                    root = reg->canonical;
+                    FRAME_KNOWN_INDEX(root);
+                    index = root->frame_index;
+                    if (index >= 0 &&
+                        (!optimizer_set_contains(input_only, index) ||
+                         !(operand->location.expression.use_flags & 0x80)))
+                        add_register_to_set(live, index);
+                } else if (operand->kind == 6 || operand->kind == 10) {
+                    uses = get_global_index_uses(operand->kind == 6 ?
+                        operand->immediate : operand->value.optimizer_index);
+                    saved = NULL;
+                    while (uses) {
+                        reg = uses->reg;
+                        FRAME_KNOWN_INDEX(reg);
+                        if (reg->kind == 12) {
+                            saved = uses;
+                            uses = reg->optimizer_uses;
+                            if (!uses) {
+                                uses = saved->next;
+                                goto resume_frame_post_inputs;
+                            }
+                            reg = uses->reg;
+                            FRAME_KNOWN_INDEX(reg);
+                        }
+                        index = reg->frame_index;
+                        if (index >= 0 && (!optimizer_set_contains(input_only, index) ||
+                             !(operand->location.expression.use_flags & 0x80) ||
+                             !optimizer_set_contains(operand->frame_indices, index)))
+                            add_register_to_set(live, index);
+                        uses = uses->next;
+                        if (!uses && saved) {
+                            uses = saved->next;
+                            saved = NULL;
+                        }
+resume_frame_post_inputs: ;
+                    }
+                    if (operand->location.expression.use_flags & 0x80)
+                        release_optimizer_symbol_set(operand->frame_indices);
+                }
+            }
+
+        }
+        release_optimizer_symbol_set(block->frame_live_in);
+        release_optimizer_symbol_set(block->frame_live_out);
+        release_optimizer_symbol_set(block->frame_defined_in);
+        release_optimizer_symbol_set(block->frame_defined_out);
+        release_optimizer_symbol_set(block->frame_uses);
+        release_optimizer_symbol_set(block->frame_definitions);
+        release_optimizer_symbol_set(block->frame_kills);
+    }
+    release_optimizer_symbol_set(live);
+    release_optimizer_symbol_set(input_only);
+    release_optimizer_symbol_set(output_only);
+}
+#undef FRAME_KNOWN_INDEX
+int __fastcall add_frame_register_group(C2FunctionRegister *reg, int bytes)
+{
+    C2FrameBlock *group;
+    unsigned number = reg->frame_index;
+    unsigned width = reg->value_bytes;
+    int i;
+
+    for (i = frame_block_count - 1; i >= frame_fixed_register_count; --i) {
+        group = &frame_blocks[i];
+        if ((int)width > (int)(group->bytes << 1) ||
+            optimizer_set_contains(group->definitions, number) ||
+            optimizer_symbol_sets_intersect(group->uses, frame_register_conflicts[number])) continue;
+        add_register_to_set(group->uses, number);
+        merge_optimizer_symbol_sets(group->definitions, frame_register_conflicts[number]);
+        group->references = (int)((unsigned)group->references + reg->frame_uses);
+        if ((int)group->bytes < (int)width) {
+            bytes = (int)((unsigned)bytes + width - group->bytes);
+            group->bytes = width;
+        }
+        return bytes;
+    }
+    group = &frame_blocks[frame_block_count];
+    group->definitions = new_register_set(6);
+    group->uses = new_register_set(6);
+    copy_optimizer_symbol_set_into(group->definitions, frame_register_conflicts[number]);
+    add_register_to_set(group->uses, number);
+    group->bytes = width;
+    group->references = reg->frame_uses;
+    ++frame_block_count;
+    return (int)((unsigned)bytes + width);
+}
+void __fastcall sort_frame_register_groups(int first, int last) { __asm { int 3 } }
+unsigned __fastcall frame_register_group_alignment(C2RegisterSet *members,
+    C2Function *function)
+{
+    unsigned number;
+    unsigned short type;
+
+    if (function->flags & 0x300000) {
+        for (number = next_optimizer_symbol(members); number != ~0U;
+             number = next_optimizer_symbol(NULL)) {
+            type = frame_registers[number]->type;
+            if ((type & 0xf000) == 0x4000 && type == 0x4008) return 8;
+        }
+    }
+    return 0;
+}
+
 void __fastcall assign_frame_register_offsets(C2Function *function, int limited,
-    unsigned count) { __asm { int 3 } }
+    unsigned count)
+{
+    C2FunctionRegister *reg;
+    C2FrameBlock *group;
+    C2FrameSlot *slot;
+    C2FrameSlotUse *use;
+    unsigned number, index;
+    long offset;
+    int reusable = 0, shared = 0, bytes = 0, i;
+
+    frame_blocks = c2_pool_allocate(4, (unsigned)frame_register_count * sizeof(C2FrameBlock));
+    for (reg = frame_register_chain; reg; reg = reg->frame_next) {
+        if (reg->kind != 5) continue;
+        number = reg->frame_index;
+        if (reg->flags & 4) fill_global_available_set(frame_register_conflicts[number], count);
+        group = &frame_blocks[frame_block_count];
+        group->definitions = new_register_set(6);
+        group->uses = new_register_set(6);
+        copy_optimizer_symbol_set_into(group->definitions, frame_register_conflicts[number]);
+        add_register_to_set(group->uses, number);
+        group->bytes = ((unsigned)reg->symbol->value + 3) & ~3U;
+        group->offset = reg->symbol->parameter_offset;
+        ++reusable;
+        ++frame_block_count;
+    }
+    if (reusable != frame_fixed_register_count)
+        c2_report_internal("E:\\utc\\src\\\\P2\\stack.c", 0x36e);
+    if (function->flags & (0x40 | 0x300000)) reusable = 0;
+    for (reg = frame_register_chain; reg; reg = reg->frame_next) {
+        if (reg->kind == 5) continue;
+        number = reg->frame_index;
+        if (reg->flags & 4) fill_global_available_set(frame_register_conflicts[number], count);
+        for (i = 0; i < reusable; ++i) {
+            group = &frame_blocks[i];
+            if ((int)reg->value_bytes <= (int)group->bytes &&
+                !optimizer_set_contains(group->definitions, number) &&
+                !optimizer_symbol_sets_intersect(group->uses, frame_register_conflicts[number])) {
+                add_register_to_set(group->uses, number);
+                merge_optimizer_symbol_sets(group->definitions, frame_register_conflicts[number]);
+                ++shared;
+                break;
+            }
+        }
+        if (i >= reusable) bytes = add_frame_register_group(reg, bytes);
+    }
+    if (limited && shared > 0 && bytes >= 112) {
+        for (i = 0; i < frame_block_count; ++i) {
+            release_optimizer_symbol_set(frame_blocks[i].definitions);
+            release_optimizer_symbol_set(frame_blocks[i].uses);
+        }
+        frame_block_count = 0;
+        bytes = 0;
+        frame_fixed_register_count = 0;
+        for (reg = frame_register_chain; reg; reg = reg->frame_next)
+            if (reg->kind != 5) bytes = add_frame_register_group(reg, bytes);
+    }
+    frame_group_count = bytes;
+    if (bytes > 128) sort_frame_register_groups(frame_fixed_register_count, frame_block_count - 1);
+    frame_slots = NULL;
+    if (limited) {
+        for (i = frame_block_count - 1; i >= 0; --i) {
+            group = &frame_blocks[i];
+            if (i < frame_fixed_register_count) offset = group->offset;
+            else offset = allocate_local_storage(group->bytes,
+                frame_register_group_alignment(group->uses, function));
+            slot = c2_pool_allocate(1, sizeof(C2FrameSlot));
+            slot->offset = offset;
+            slot->next = frame_slots;
+            frame_slots = slot;
+            slot->bytes = group->bytes;
+            for (number = next_optimizer_symbol(group->uses); number != ~0U;
+                 number = next_optimizer_symbol(NULL)) {
+                reg = frame_registers[number];
+                if (reg->kind == 4) {
+                    reg->symbol->parameter_offset = offset;
+                    reg->symbol->flags |= 0x800;
+                } else {
+                    reg->frame_displacement = offset;
+                    reg->view_flags |= 0x20;
+                }
+                if (reg->view_flags & 2) {
+                    use = c2_pool_allocate(1, sizeof(C2FrameSlotUse));
+                    use->reg = reg;
+                    use->next = slot->uses;
+                    slot->uses = use;
+                }
+            }
+        }
+    } else {
+        for (index = 0; (int)index < frame_block_count; ++index) {
+            group = &frame_blocks[index];
+            if ((int)index < frame_fixed_register_count) offset = group->offset;
+            else offset = (long)((unsigned)allocate_local_storage(group->bytes, 0) + frame_aux_count);
+            slot = c2_pool_allocate(1, sizeof(C2FrameSlot));
+            slot->offset = offset;
+            slot->next = frame_slots;
+            frame_slots = slot;
+            slot->bytes = group->bytes;
+            for (number = next_optimizer_symbol(group->uses); number != ~0U;
+                 number = next_optimizer_symbol(NULL)) {
+                reg = frame_registers[number];
+                offset = -(long)align_stack_storage(reg->value_bytes - group->bytes -
+                    (unsigned)slot->offset, reg->value_bytes, local_storage_alignment);
+                if (reg->kind == 4) {
+                    reg->symbol->parameter_offset = offset;
+                    reg->symbol->flags |= 0x800;
+                } else {
+                    reg->frame_displacement = offset;
+                    reg->view_flags |= 0x20;
+                }
+                if (reg->view_flags & 2) {
+                    use = c2_pool_allocate(1, sizeof(C2FrameSlotUse));
+                    use->reg = reg;
+                    use->next = slot->uses;
+                    slot->uses = use;
+                }
+            }
+        }
+    }
+}
 
 void __fastcall layout_optimized_stack_frame(C2Function *function)
 {
@@ -360,9 +907,12 @@ void __fastcall adjust_final_stack_operands(C2Expression *operands, int depth)
         (reg) != (C2FunctionRegister *)&machine_registers[2] && \
         (reg) != (C2FunctionRegister *)&machine_registers[3] && \
         (reg) != (C2FunctionRegister *)&machine_registers[4] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[5] && \
         (reg) != (C2FunctionRegister *)&machine_registers[6] && \
         (reg) != (C2FunctionRegister *)&machine_registers[7] && \
         (reg) != (C2FunctionRegister *)&machine_registers[8] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[17] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[20] && \
         (reg) != (C2FunctionRegister *)&machine_registers[31] && \
         (reg) != (C2FunctionRegister *)&machine_registers[32] && \
         (reg) != (C2FunctionRegister *)&machine_registers[66]) { __asm { int 3 } } } while (0)

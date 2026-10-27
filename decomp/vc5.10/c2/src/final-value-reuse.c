@@ -100,6 +100,23 @@ void __fastcall remove_control_record(C2Expression *record);
 void __fastcall redirect_allocation_branch(C2Expression *branch, C2Expression *label, int copy);
 extern int c2_favor_speed;
 
+/* This pass now encounters the modeled byte-view canonical/range columns.
+ * Their numbers, links and unrelated payload remain unavailable. */
+#define REUSE_KNOWN_ROOT(reg) do { \
+    if ((reg) != (C2FunctionRegister *)&machine_registers[9] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[17] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[20] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[31] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[32] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[33] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[34] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[35]) CACHE_KNOWN_ROOT(reg); \
+} while (0)
+#define REUSE_KNOWN_RANGE(reg) do { \
+    if ((reg) != (C2FunctionRegister *)&machine_registers[9] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[17] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[20]) CACHE_KNOWN_RANGE(reg); \
+} while (0)
 void __fastcall optimize_final_value_reuse(C2Function *function)
 {
     C2Expression *record, *next, *input, *output, *value, *value_next, *previous_value;
@@ -213,19 +230,19 @@ void __fastcall optimize_final_value_reuse(C2Function *function)
                 for (position = 0; output && position < limit; ++position, output = output->next) {
                     if (output->kind == 1) {
                         original = output->original_register;
-                        CACHE_KNOWN_ROOT(original);
-                        CACHE_KNOWN_ROOT(member);
+                        REUSE_KNOWN_ROOT(original);
+                        REUSE_KNOWN_ROOT(member);
                         if (CACHE_ROOT(original) == CACHE_ROOT(member)) {
                             if (original == member) break;
-                            CACHE_KNOWN_RANGE(original);
-                            CACHE_KNOWN_RANGE(member);
+                            REUSE_KNOWN_RANGE(original);
+                            REUSE_KNOWN_RANGE(member);
                             if ((long)((unsigned)member->value_bytes + (unsigned)member->displacement) > original->displacement &&
                                 (long)((unsigned)original->value_bytes + (unsigned)original->displacement) > member->displacement)
                                 break;
                         }
                     }
                     if (output->kind == 9) {
-                        CACHE_KNOWN_ROOT(member);
+                        REUSE_KNOWN_ROOT(member);
                         root = CACHE_ROOT(member);
                         CACHE_KNOWN_NUMBER(root);
                         if (optimizer_set_contains(output->value.registers, root->number)) break;
@@ -338,6 +355,9 @@ next_record:
  * The real initializer establishes the head before any consumer runs. */
 C2Expression *final_cached_constants;
 
+#undef REUSE_KNOWN_ROOT
+#undef REUSE_KNOWN_RANGE
+
 void __fastcall initialize_final_value_reuse(void)
 {
     final_cached_constants = new_integer_expression(0x1004, 0);
@@ -446,16 +466,19 @@ int __fastcall final_cached_operand_aliases(C2Expression *value, C2Expression *o
     if (output->kind != 1) return input_operands_may_alias(output, value);
     if (value->kind != 6) return 0;
     reg = output->original_register;
-    CACHE_KNOWN_ROOT(reg);
+    if (reg != (C2FunctionRegister *)&machine_registers[17] &&
+        reg != (C2FunctionRegister *)&machine_registers[20]) CACHE_KNOWN_ROOT(reg);
     root = CACHE_ROOT(reg);
     if (value->aggregate_value) {
         reg = value->aggregate_value->original_register;
-        CACHE_KNOWN_ROOT(reg);
+        if (reg != (C2FunctionRegister *)&machine_registers[17] &&
+        reg != (C2FunctionRegister *)&machine_registers[20]) CACHE_KNOWN_ROOT(reg);
         if (CACHE_ROOT(reg) == root) return 1;
     }
     if (value->aggregate_second) {
         reg = value->aggregate_second->original_register;
-        CACHE_KNOWN_ROOT(reg);
+        if (reg != (C2FunctionRegister *)&machine_registers[17] &&
+        reg != (C2FunctionRegister *)&machine_registers[20]) CACHE_KNOWN_ROOT(reg);
         if (CACHE_ROOT(reg) == root) return 1;
     }
     return 0;
@@ -543,6 +566,30 @@ C2Expression *__fastcall find_following_flags_use(C2Expression *record)
 int __fastcall replace_final_cached_constant(C2Expression *record, C2Expression *input, C2FunctionRegister *reg)
 { __asm { int 3 } return 0; }
 int __fastcall final_cached_input_is_usable(C2Expression *record, C2Expression *input)
-{ __asm { int 3 } return 0; }
+{
+    unsigned opcode;
+
+    if ((record->type & 0xf000) == 0x4000) return 0;
+    opcode = record->opcode;
+    if (opcode > 0 && opcode < 0x11b) {
+        /* The existing property columns are represented by their proved
+         * semantic ranges, without reading the other packed WORD bits. */
+        if ((opcode >= 0x45 && opcode <= 0x94) ||
+            (opcode >= 0xd1 && opcode <= 0xd7)) return 0;
+        if (opcode == 9 || opcode == 0x1e || opcode == 0x21 ||
+            (opcode >= 0x23 && opcode <= 0x2e) ||
+            (opcode >= 0x30 && opcode <= 0x32) || opcode == 0x34 ||
+            (opcode >= 0x45 && opcode <= 0x51) ||
+            (opcode >= 0x54 && opcode <= 0x55) ||
+            (opcode >= 0x57 && opcode <= 0x59) ||
+            (opcode >= 0x76 && opcode <= 0x77) || opcode == 0x8c ||
+            opcode == 0x9f || opcode == 0xc1 ||
+            (opcode >= 0xca && opcode <= 0xcb) ||
+            (opcode >= 0xd6 && opcode <= 0xd7) ||
+            (opcode >= 0xd9 && opcode <= 0xda))
+            return input != record->left;
+    }
+    return 1;
+}
 void __fastcall note_final_cached_memory_use(C2Expression *record, C2Expression *value)
 { __asm { int 3 } }

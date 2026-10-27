@@ -53,7 +53,16 @@ void __fastcall remove_input_operand(C2Expression *expression, C2Expression *ope
 void __fastcall detach_input_operand(C2Expression *expression, C2Expression *operand);
 int __fastcall expression_is_unary_operation(C2Expression *expression);
 C2Expression *__fastcall eliminate_expression_node(C2Expression *expression, C2Expression *context);
-int __fastcall conversion_may_change_value(unsigned short from, unsigned short to);
+int __fastcall conversion_may_change_value(unsigned short from, unsigned short to)
+{
+    int from_integral, to_integral;
+    if (from == to) return 0;
+    if ((from & 0xfff) < (to & 0xfff)) return 1;
+    from_integral = ((1U << (from >> 12)) & 0x0e) != 0;
+    to_integral = ((1U << (to >> 12)) & 0x0e) != 0;
+    if (!((from ^ to) & 0xfff) && from_integral != to_integral) return 1;
+    return from_integral && (to & 0xf000) == 0x4000;
+}
 int __fastcall simplify_unary_constant(C2Expression *operand, C2Expression *context, int mode);
 int __fastcall compare_expression_trees(C2Expression *left, C2Expression *right);
 int __fastcall input_has_side_effects(C2Expression *expression);
@@ -729,8 +738,264 @@ int __fastcall expression_is_binary_operation(C2Expression *expression)
     }
 }
 
-C2Expression *__fastcall fold_expression_value(C2Expression *expression, C2Expression *context);
-C2Expression *__fastcall fold_expression_conversion(C2Expression *expression, C2Expression *context);
+int __fastcall mark_expression_execution(C2Expression *expression, C2Expression *result);
+C2Expression *__fastcall previous_expression_operand(C2Expression *head, C2Expression *value)
+{
+    C2Expression *previous = NULL;
+    while (head && head != value) {
+        previous = head;
+        head = head->next;
+    }
+    return previous;
+}
+/* The second input is the previous link: replace its next field by the
+ * inserted expression, returning the actual (possibly copied) node. */
+C2Expression *__fastcall replace_expression_operand(C2Expression *context,
+    C2Expression *previous, C2Expression *replacement)
+{
+    unsigned mask = 1U << (replacement->kind & 31);
+    if (mask & 0x7fe) {
+        if (replacement->location.expression.properties & 0x10)
+            replacement = copy_input_expression(replacement);
+        replacement->location.expression.properties |= 0x10;
+    }
+    replacement->next = previous->next;
+    previous->next = replacement;
+    mask = 1U << (replacement->kind & 31);
+    if ((mask & 0x7fe) && (mask & 0x60) &&
+        !(replacement->location.expression.comparison & 0x20)) {
+        if (replacement->aggregate_value) {
+            replacement->aggregate_value->location.expression.properties &= ~0x10;
+            copy_input_operand(context, replacement->aggregate_value);
+        }
+        if (replacement->aggregate_second) {
+            replacement->aggregate_second->location.expression.properties &= ~0x10;
+            copy_input_operand(context, replacement->aggregate_second);
+        }
+    }
+    return replacement;
+}
+
+C2Expression *__fastcall fold_expression_value(C2Expression *expression, C2Expression *context)
+{
+    C2Expression *component = expression, *definition, *source, *result, *previous;
+    C2FunctionRegister *reg;
+    unsigned aggregate = (1U << (expression->kind & 31)) & 0x60;
+    unsigned source_kind;
+    unsigned short type;
+
+    if (aggregate) component = expression->aggregate_value;
+    definition = component->value.reg->value;
+    source = definition->left;
+    if (source->kind == 4 || definition->control_flags == 1 || source->next ||
+        (aggregate && !((1U << (source->kind & 31)) & 0x1e)))
+        return expression;
+    if (((source->type ^ component->type) & 0xfff) ||
+        ((source->flags & 1) && mark_expression_execution(source, NULL)))
+        return expression;
+    source_kind = 1U << (source->kind & 31);
+    type = source_kind & 0x18 ? expression->type : component->type;
+    result = source;
+    if ((source_kind & 6) || ((source_kind & 0x18) && aggregate)) {
+        reg = source->value.reg;
+        if ((long)reg->canonical->value_bytes <
+            (long)((unsigned)reg->displacement + (type & 0xfff)))
+            return expression;
+        source->value.reg = new_address_register(reg, type, type & 0xfff,
+                                                component->value.reg->displacement);
+    } else if ((source->flags & 1) && expression->type != source->type) {
+        if (definition) {
+            previous = previous_expression_operand(definition->left, source);
+            detach_input_operand(definition, source);
+        } else previous = context;
+        result = new_assignment_expression(0x135, expression->type,
+                    new_temporary_operand(expression->type), NULL, NULL);
+        attach_input_expression(result, result->left, source);
+        result->control_flags = 2;
+        if (definition) {
+            if (previous) replace_expression_operand(definition, previous, result);
+            else {
+                result->next = definition->left;
+                definition->left = result;
+            }
+        }
+    }
+    detach_input_operand(definition, result);
+    if (VALUE_OPERAND(result)) result->type = type;
+    if (aggregate) {
+        if (result->kind != 3) {
+            expression->aggregate_value = result;
+            result->location.expression.properties |= 0x30;
+            release_small_node(component);
+            result = expression;
+            goto release_definition;
+        }
+        mark_first_input_expression(result);
+    }
+    if (context) attach_input_expression(context, expression, result);
+release_definition:
+    release_function_register(definition->tail.right->value.reg->canonical);
+    release_small_node(definition);
+    return result;
+}
+C2Expression *__fastcall propagate_conversion_to_operand(C2Expression *expression,
+    C2Expression *operand, unsigned short type, C2Expression *context);
+C2Expression *__fastcall distribute_expression_conversion(C2Expression *expression,
+    C2Expression *operand, unsigned short type, C2Expression *context);
+
+C2Expression *__fastcall propagate_expression_conversion(C2Expression *expression,
+    C2Expression *operand, C2Expression *context)
+{
+    unsigned short source_type = operand->left->type;
+    unsigned short result_type = expression->type, type = source_type;
+    unsigned char condition;
+    C2Expression *other, *previous, *conversion, *result;
+    if ((source_type & 0xfff) > (result_type & 0xfff) ||
+        !((1U << (source_type >> 12)) & 0x0e) ||
+        !((1U << (result_type >> 12)) & 0x0e)) return NULL;
+    switch (expression->opcode) {
+    case 0x146: case 0x147: case 0x148:
+        return distribute_expression_conversion(expression, operand, type, context);
+    case 0x14b:
+        if (((source_type & 0xf000) == 0x1000) !=
+            ((result_type & 0xf000) == 0x1000) &&
+            (source_type & 0xf000) != 0x2000) return NULL;
+        if (operand != expression->left) return NULL;
+        other = expression->left->next;
+        if (expression) {
+            previous = previous_expression_operand(expression->left, other);
+            detach_input_operand(expression, other);
+        }
+        conversion = new_assignment_expression(0x135, type,
+            new_temporary_operand(type), NULL, NULL);
+        attach_input_expression(conversion, conversion->left, other);
+        conversion->control_flags = 2;
+        if (expression) {
+            if (previous) replace_expression_operand(expression, previous, conversion);
+            else {
+                conversion->next = expression->left;
+                expression->left = conversion;
+            }
+        }
+        prune_detached_operands(conversion);
+        conversion->control_flags = 2;
+        return propagate_conversion_to_operand(expression, operand, type, context);
+    case 0x151:
+        condition = context ? context->detail.condition :
+            ((C2Expression *)expression_statement_context)->convention;
+        if (condition != 1 && condition != 2) {
+            if (!((result_type ^ source_type) & 0xfff)) return NULL;
+            if ((result_type & 0xf000) == 0x2000 &&
+                (source_type & 0xf000) == 0x1000)
+                type = (source_type & 0xfff) | 0x2000;
+        }
+        other = expression->left;
+        if (other->opcode == 0x135 && other->next->opcode == 0x135) {
+            if (other == operand) other = other->next;
+            if (((source_type & 0xf000) == 0x1000) !=
+                ((other->left->type & 0xf000) == 0x1000)) {
+                if ((source_type & 0xf000) == 0x2000 ||
+                    (source_type & 0xfff) <= (other->left->type & 0xfff))
+                    return NULL;
+            }
+        }
+        result = distribute_expression_conversion(expression, operand, type, context);
+        if (result && result != expression)
+            return eliminate_expression_node(result, context);
+        return result;
+    }
+    return NULL;
+}
+
+C2Expression *__fastcall fold_expression_conversion(C2Expression *expression,
+    C2Expression *context)
+{
+    C2Expression *operand = expression->left, *output, *next, *previous, *conversion;
+    unsigned short type = expression->type;
+    unsigned bytes = type & 0xfff;
+    if ((operand->type & 0xfff) < bytes ||
+        !((1U << (operand->type >> 12)) & 0x0e) ||
+        !((1U << (type >> 12)) & 0x0e)) return expression;
+    switch (operand->kind) {
+    case 1: case 2: case 3: case 4:
+        if (operand->kind == 1 && operand->value.reg->kind == 3 &&
+            operand->value.reg->value && (operand->type & 0xfff) > 4)
+            return expression;
+        expression = eliminate_expression_node(expression, context);
+        if ((1U << (expression->kind & 31)) & 6U)
+            expression->value.reg = new_address_register(expression->value.reg,
+                type, bytes, 0);
+        expression->type = type;
+        expression_rewrite_changed = 1;
+        return expression;
+    case 6:
+        expression = eliminate_expression_node(expression, context);
+        expression->type = type;
+        expression_rewrite_changed = 1;
+        return expression;
+    case 7: case 8:
+        return fold_expression_constants(expression, context);
+    case 11:
+        switch (operand->opcode) {
+        case 0x136: case 0x137: case 0x141: case 0x142:
+        case 0x143: case 0x146: case 0x147: case 0x148:
+            expression = eliminate_expression_node(expression, context);
+            output = expression->tail.right;
+            expression->type = type;
+            output->value.reg = new_address_register(output->value.reg, type, bytes, 0);
+            output->type = type;
+            for (operand = expression->left; operand; operand = next) {
+                next = operand->next;
+                if (expression) {
+                    previous = previous_expression_operand(expression->left, operand);
+                    detach_input_operand(expression, operand);
+                }
+                conversion = new_assignment_expression(0x135, type,
+                    new_temporary_operand(type), NULL, NULL);
+                attach_input_expression(conversion, conversion->left, operand);
+                conversion->control_flags = 2;
+                if (expression) {
+                    if (previous) replace_expression_operand(expression, previous, conversion);
+                    else {
+                        conversion->next = expression->left;
+                        expression->left = conversion;
+                    }
+                }
+                prune_detached_operands(conversion);
+                conversion->control_flags = 2;
+            }
+            expression_rewrite_changed = 1;
+            break;
+        case 0x145:
+            expression = eliminate_expression_node(expression, context);
+            output = expression->tail.right;
+            expression->type = type;
+            output->value.reg = new_address_register(output->value.reg, type, bytes, 0);
+            output->type = type;
+            operand = expression->left;
+            if (expression) {
+                previous = previous_expression_operand(operand, operand);
+                detach_input_operand(expression, operand);
+            }
+            conversion = new_assignment_expression(0x135, type,
+                new_temporary_operand(type), NULL, NULL);
+            attach_input_expression(conversion, conversion->left, operand);
+            conversion->control_flags = 2;
+            if (expression) {
+                if (previous) replace_expression_operand(expression, previous, conversion);
+                else {
+                    conversion->next = expression->left;
+                    expression->left = conversion;
+                }
+            }
+            prune_detached_operands(conversion);
+            conversion->control_flags = 2;
+            expression_rewrite_changed = 1;
+            break;
+        }
+    }
+    return expression;
+}
 int __fastcall distribute_expression_operator(C2Expression **expression, unsigned opcode, C2Expression *context);
 
 C2Expression *__fastcall fold_expression_tree(C2Expression *expression, C2Expression *context)
@@ -807,7 +1072,7 @@ int __fastcall factor_common_operands(C2Expression *expression, unsigned opcode,
 int __fastcall contains_factor_operation(C2Expression *expression, unsigned opcode, unsigned marker);
 int __fastcall factor_constant_operands(C2Expression *expression, unsigned opcode, unsigned marker);
 int __fastcall combine_bitwise_operands(C2Expression *expression);
-void __fastcall replace_expression_operand(C2Expression *context, C2Expression *old, C2Expression *replacement);
+C2Expression *__fastcall replace_expression_operand(C2Expression *context, C2Expression *previous, C2Expression *replacement);
 void __fastcall finish_expression_rewrite(C2Expression *expression);
 void __fastcall bind_input_temporary(C2FunctionRegister *reg, C2Expression *value);
 
@@ -1646,7 +1911,21 @@ C2Expression *__fastcall eliminate_expression_node(C2Expression *expression, C2E
     return operand;
 }
 
-void __fastcall release_input_aggregate_operands(C2Expression *owner, C2Expression *operand);
+void __fastcall release_input_aggregate_operands(C2Expression *owner, C2Expression *operand)
+{
+    C2Expression *component = operand->aggregate_value;
+    if (component && !(operand->location.expression.comparison & 0x20)) {
+        component->location.expression.properties &= ~0x20;
+        detach_input_operand(owner, component);
+        component->location.expression.properties |= 0x30;
+    }
+    component = operand->aggregate_second;
+    if (component && !(operand->location.expression.comparison & 0x20)) {
+        component->location.expression.properties &= ~0x20;
+        detach_input_operand(owner, component);
+        component->location.expression.properties |= 0x30;
+    }
+}
 
 void __fastcall detach_input_operand(C2Expression *expression, C2Expression *operand)
 {

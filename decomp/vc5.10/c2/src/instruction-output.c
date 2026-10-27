@@ -22,7 +22,21 @@ void __fastcall emit_encoding_integer(unsigned value, int bytes)
 }
 void __fastcall encode_modrm_operand(C2Expression *record, C2Expression *operand, int reg);
 int __fastcall encode_immediate_operand(C2Expression *operand, int bytes, int allow_byte);
-void __fastcall encode_far_symbol_operand(C2Expression *operand, int bytes) { __asm { int 3 } }
+void __fastcall encode_far_symbol_operand(C2Expression *operand, int bytes)
+{
+    C2Symbol *symbol = operand->value.symbol;
+    unsigned offset = encoding_cursor - encoding_origin;
+    if (encoding_relocations) {
+        if (bytes == 6) {
+            output_slot_499750.target(offset, symbol);
+            output_slot_491070.target(offset + 2U, symbol);
+        } else output_slot_491078.target(offset, symbol);
+    }
+    if (bytes == 6) {
+        emit_encoding_integer(0, 2);
+        emit_encoding_integer(0, 4);
+    } else emit_encoding_integer(0, bytes);
+}
 int __fastcall immediate_fits_signed_byte(int value)
 {
     return (int)(signed char)value == value;
@@ -64,6 +78,17 @@ static const C2OpcodeEncoding xor_encoding = {
     0, 2, 6 << 3, 4,
     {{0x34,20|0x80|0x20}, {0x80,2|0x80|0x20},
      {0x30,1|0x40|0x80}, {0,0}}
+};
+/* TEST does not choose a direction bit or sign-extend an eight-bit immediate:
+ * accumulator-immediate, /0 r/m-immediate, then symmetric r/m-register. */
+static const C2OpcodeEncoding test_encoding = {
+    0, 2, 0, 4,
+    {{0xa8,20|0x80}, {0xf6,2|0x80}, {0x84,1|0x80}, {0,0}}
+};
+/* REP MOVS: emit the repeat prefix followed by the MOVS byte opcode.
+ * The existing width action selects A4/A5 (and the word-size prefix). */
+static const C2OpcodeEncoding repeat_move_encoding = {
+    0, 0, 0xa4, 1, {{0xf3,17|0x80}}
 };
 /* Unsigned DIV uses the /6 F6/F7 unary ModRM encoding. */
 static const C2OpcodeEncoding divide_encoding = {
@@ -114,6 +139,87 @@ static const C2OpcodeEncoding subtract_encoding = {
 static const C2OpcodeEncoding arithmetic_shift_right_encoding = {
     0, 2, 7 << 3, 2, {{0xc0,18|0x80}, {0xd2,0}}
 };
+/* Reached final records: comparisons, effective addresses, two-operand
+ * multiplication, calls, decrement and local conditional/unconditional jumps.
+ * These choices retain their distinct immediate widths and ModRM groups. */
+static const C2OpcodeEncoding compare_encoding = {
+    0, 2, 7 << 3, 4,
+    {{0x3c,20|0x80|0x20}, {0x80,2|0x80|0x20}, {0x38,1|0x40|0x80}, {0,0}}
+};
+static const C2OpcodeEncoding address_encoding = {
+    0x800, 2, 0, 2, {{0x8d,ENC_MODRM}, {0,0}}
+};
+static const C2OpcodeEncoding multiply_encoding = {
+    0x10, 2, 0, 3, {{0x69,13}, {0xaf,ENC_MODRM}, {0,0}}
+};
+static const C2OpcodeEncoding call_encoding = {
+    0, 1, 2 << 3, 4, {{0xe8,9}, {0x9a,10}, {0xff,ENC_MODRM}, {0,0}}
+};
+static const C2OpcodeEncoding decrement_encoding = {
+    0, 1, 1 << 3, 3, {{0x48,ENC_REGISTER}, {0xfe,ENC_MODRM|0x80}, {0,0}}
+};
+static const C2OpcodeEncoding conditional_jump_encoding = {
+    0x20, 1, 0, 2, {{0x70,13}, {0x80,0}}
+};
+static const C2OpcodeEncoding jump_encoding = {
+    0x20, 1, 4 << 3, 5, {{0xeb,8}, {0xe9,9}, {0xea,10}, {0xff,ENC_MODRM}, {0,0}}
+};
+/* FSTP: the register and ten-byte special forms precede the ordinary
+ * single/double memory form. Original63's0xc000 classification bits are
+ * not consumed by this encoder;0x800 selects the output as first operand. */
+static const C2OpcodeEncoding float_store_pop_encoding = {
+    0x801, 2, 3 << 3, 3, {{0xd9,13}, {0xd9,15}, {0,0}}
+};
+/* FLD uses the same single/double and extended-real choices with /0.
+ * Only0x801 of original0x4801 is consumed by this encoder. */
+static const C2OpcodeEncoding float_load_encoding = {
+    0x801, 2, 0, 3, {{0xd9,13}, {0xd9,15}, {0,0}}
+};
+/* FILD: the eight-byte integer special form uses DF /5; the ordinary
+ * WORD/DWORD form uses DF/DB /0. Only0x801 is consumed of original0x4801. */
+static const C2OpcodeEncoding float_integer_load_encoding = {
+    0x801, 2, 0, 3, {{0xdf,13}, {0xdb,15|0x40}, {0,0}}
+};
+/* FSUB uses D8 /4 for ST0 minus memory and DC /5 for ST(i) minus
+ * ST0. The second choice's byte is that reverse register group selector. */
+static const C2OpcodeEncoding float_subtract_encoding = {
+    1, 2, 4 << 3, 2, {{0xd8,14}, {5,0}}
+};
+/* FST retains the stack top: register form DD /2, or D9/DD /2 for
+ * single/double memory. Its genuine ten-byte error remains in action13. */
+static const C2OpcodeEncoding float_store_encoding = {
+    0x801, 2, 2 << 3, 3, {{0xd9,13}, {0xd9,15}, {0,0}}
+};
+/* The reached x87 arithmetic forms retain their group selectors and pop
+ * actions. Classification-only flag bits are not encoder inputs. */
+static const C2OpcodeEncoding float_multiply_encoding = {
+    1, 2, 1 << 3, 2, {{0xd8,14}, {1,0}}
+};
+static const C2OpcodeEncoding float_add_pop_encoding = {
+    1, 2, 0xc1, 2, {{0xda,14|0x20}, {0,0}}
+};
+static const C2OpcodeEncoding float_multiply_pop_encoding = {
+    1, 2, 0xc9, 2, {{0xda,14|0x20}, {1,0}}
+};
+static const C2OpcodeEncoding float_subtract_pop_encoding = {
+    1, 2, 0xe9, 2, {{0xde,14|0x20}, {5,0}}
+};
+static const C2OpcodeEncoding float_divide_pop_encoding = {
+    1, 2, 0xf9, 2, {{0xde,14|0x20}, {7,0}}
+};
+static const C2OpcodeEncoding float_compare_encoding = {
+    1, 2, 2 << 3, 2, {{0xd8,14}, {2,0}}
+};
+static const C2OpcodeEncoding float_exchange_encoding = {
+    1, 1, 1 << 3, 1, {{0xd9,14|0x20}}
+};
+/* FNSTSW chooses the register status-word form or DD /7 memory. */
+static const C2OpcodeEncoding float_status_encoding = {
+    0x801, 1, 7 << 3, 2, {{0xdf,13}, {0xdd,16}}
+};
+static const C2OpcodeEncoding float_change_sign_encoding = {
+    1, 0, 0xe0, 1, {{0xd9,7}}
+};
 #define ENCODING_ERROR(line) c2_report_internal("E:\\\\utc\\\\src\\\\\\\\P2\\\\x86\\\\code.c", line)
 #define KNOWN_ENCODING_NUMBER(reg) \
  do { if ((unsigned long)(reg) >= (unsigned long)machine_registers && \
@@ -138,7 +244,17 @@ static const C2OpcodeEncoding arithmetic_shift_right_encoding = {
    (reg) != (C2FunctionRegister *)&machine_registers[5] && \
    (reg) != (C2FunctionRegister *)&machine_registers[6] && \
    (reg) != (C2FunctionRegister *)&machine_registers[7] && \
-   (reg) != (C2FunctionRegister *)&machine_registers[8]) { __asm { int 3 } } } while (0)
+   (reg) != (C2FunctionRegister *)&machine_registers[8] && \
+   (reg) != (C2FunctionRegister *)&machine_registers[9] && \
+   (reg) != (C2FunctionRegister *)&machine_registers[17] && \
+   (reg) != (C2FunctionRegister *)&machine_registers[20] && \
+   (reg) != (C2FunctionRegister *)&machine_registers[21] && \
+   (reg) != (C2FunctionRegister *)&machine_registers[31] && \
+   (reg) != (C2FunctionRegister *)&machine_registers[32] && \
+   (reg) != (C2FunctionRegister *)&machine_registers[33] && \
+   (reg) != (C2FunctionRegister *)&machine_registers[34] && \
+   (reg) != (C2FunctionRegister *)&machine_registers[35] && \
+   (reg) != (C2FunctionRegister *)&machine_registers[19]) { __asm { int 3 } } } while (0)
 #define REGISTER_CODE(reg) ((unsigned char)((C2MachineRegister *)(reg))->parameter_number)
 #define IMMEDIATE_OPERAND(op) ((op)->kind == 7 || (op)->kind == 4 || \
  ((op)->kind == 3 && (op)->opcode != 0x120) || \
@@ -360,6 +476,16 @@ stack_base:
     encode_immediate_operand(operand, bytes, 0);
 }
 
+/* Byte-view numbers17/20 are now consumed here; all other unknown
+ * static numbers remain behind the existing column guard. */
+#define FINAL_KNOWN_ENCODING_NUMBER(reg) do { \
+    if ((reg) != (C2FunctionRegister *)&machine_registers[17] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[20] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[21] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[33] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[34] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[35]) KNOWN_ENCODING_NUMBER(reg); \
+} while (0)
 int __fastcall encode_final_record(C2Expression *record, unsigned char *encoding,
     unsigned char *marks, void *relocations)
 {
@@ -375,6 +501,7 @@ int __fastcall encode_final_record(C2Expression *record, unsigned char *encoding
     operation = record->opcode;
     if (!operation || operation > 0x11a) return 0;
     switch (operation) {
+    case 0xfe: format = &repeat_move_encoding; break;
     case 0x21: format = &increment_encoding; break;
     case 0xdf: format = &sign_extend_encoding; break;
     case 0x20: format = &signed_divide_encoding; break;
@@ -390,7 +517,29 @@ int __fastcall encode_final_record(C2Expression *record, unsigned char *encoding
     case 1: format = &move_encoding; break;
     case 0x30: format = &or_encoding; break;
     case 0x34: format = &xor_encoding; break;
+    case 0x33: format = &test_encoding; break;
+    case 0x2f: format = &compare_encoding; break;
+    case 0x12: format = &address_encoding; break;
+    case 0xc1: format = &multiply_encoding; break;
+    case 0xe: format = &call_encoding; break;
+    case 0x1e: format = &decrement_encoding; break;
+    case 0xf: case 0x102: format = &conditional_jump_encoding; break;
+    case 0x10: case 0x104: format = &jump_encoding; break;
     case 0x1f: format = &divide_encoding; break;
+    case 0x63: format = &float_store_pop_encoding; break;
+    case 0x60: format = &float_load_encoding; break;
+    case 0x56: format = &float_integer_load_encoding; break;
+    case 0x47: format = &float_subtract_encoding; break;
+    case 0x62: format = &float_store_encoding; break;
+    case 0x46: format = &float_multiply_encoding; break;
+    case 0x4b: format = &float_add_pop_encoding; break;
+    case 0x4c: format = &float_multiply_pop_encoding; break;
+    case 0x4d: format = &float_subtract_pop_encoding; break;
+    case 0x4f: format = &float_divide_pop_encoding; break;
+    case 0x5c: format = &float_compare_encoding; break;
+    case 0x5f: format = &float_exchange_encoding; break;
+    case 0x6e: format = &float_status_encoding; break;
+    case 0x77: format = &float_change_sign_encoding; break;
     default: { __asm { int 3 } } return 0;
     }
     flags = format->flags;
@@ -455,16 +604,18 @@ next_choice:
     if ((choice->action & 31) == 3 || (choice->action & 31) == 20 ||
         ((choice->action & 31) == 13 && operation == 9)) {
         if (first->opcode == 0x11f) {
-            KNOWN_ENCODING_NUMBER(first->original_register);
-            KNOWN_ENCODING_NUMBER(first->original_register->canonical);
-            first_accumulator = first->original_register->canonical->number == 1 &&
-                first->original_register->number != 21;
+            FINAL_KNOWN_ENCODING_NUMBER(first->original_register->canonical);
+            if (first->original_register->canonical->number == 1) {
+                FINAL_KNOWN_ENCODING_NUMBER(first->original_register);
+                first_accumulator = first->original_register->number != 21;
+            }
         }
         if (second->opcode == 0x11f) {
-            KNOWN_ENCODING_NUMBER(second->original_register);
-            KNOWN_ENCODING_NUMBER(second->original_register->canonical);
-            second_accumulator = second->original_register->canonical->number == 1 &&
-                second->original_register->number != 21;
+            FINAL_KNOWN_ENCODING_NUMBER(second->original_register->canonical);
+            if (second->original_register->canonical->number == 1) {
+                FINAL_KNOWN_ENCODING_NUMBER(second->original_register);
+                second_accumulator = second->original_register->number != 21;
+            }
         }
     }
     switch (choice->action & 31) {
@@ -550,7 +701,7 @@ modrm:
         break;
     case 11: case 12:
         if (first->opcode == 0x11f) {
-            KNOWN_ENCODING_NUMBER(first->original_register);
+            FINAL_KNOWN_ENCODING_NUMBER(first->original_register);
             number = first->original_register->number;
             if (number > 24 && number < 31) {
                 KNOWN_ENCODING_CODE(first->original_register);
@@ -568,7 +719,7 @@ modrm:
             }
         }
         if ((choice->action & 31) == 11 && second->opcode == 0x11f) {
-            KNOWN_ENCODING_NUMBER(second->original_register);
+            FINAL_KNOWN_ENCODING_NUMBER(second->original_register);
             number = second->original_register->number;
             if (number > 24 && number < 31) {
                 KNOWN_ENCODING_CODE(second->original_register);
@@ -667,11 +818,11 @@ modrm:
             goto encoded;
         case 0xd0:
             if (first->opcode == 0x11f) {
-                KNOWN_ENCODING_NUMBER(first->original_register);
+                FINAL_KNOWN_ENCODING_NUMBER(first->original_register);
                 number = first->original_register->number;
             } else number = 0;
             if (number >= 39 && number <= 57) { *opcode |= 2; first = second; }
-            else { KNOWN_ENCODING_NUMBER(second->original_register); number = second->original_register->number; }
+            else { FINAL_KNOWN_ENCODING_NUMBER(second->original_register); number = second->original_register->number; }
             if (number >= 42 && number <= 49) *opcode |= 1;
             else if (number > 49 && number < 58) *opcode |= 4;
             if (number >= C2_MACHINE_REGISTER_COUNT) { __asm { int 3 } }
@@ -687,7 +838,7 @@ modrm:
         case 0xe6:
             if (width == 8) *opcode |= 1;
             if (second->kind == 1) {
-                KNOWN_ENCODING_NUMBER(second->original_register);
+                FINAL_KNOWN_ENCODING_NUMBER(second->original_register);
                 number = second->original_register->number;
                 if (number > 57 && number < 66) {
                     if (first->kind == 1) { other = first; first = second; }
@@ -745,8 +896,8 @@ modrm:
     case 14:
         if (first->opcode != 0x11f) ENCODING_ERROR(0x297);
         if (count == 1) goto first_modrm;
-        KNOWN_ENCODING_NUMBER(first->original_register);
-        if (second->opcode == 0x11f) KNOWN_ENCODING_NUMBER(second->original_register);
+        FINAL_KNOWN_ENCODING_NUMBER(first->original_register);
+        if (second->opcode == 0x11f) FINAL_KNOWN_ENCODING_NUMBER(second->original_register);
         if (first->original_register->number == 31 &&
             (second->opcode != 0x11f || second->original_register->number != 31)) {
             if (choice->action & 0x20) ENCODING_ERROR(0x2b0);
@@ -808,6 +959,7 @@ width_bit:
 encoded:
     /* The machine code reloads the owner opcode after its operand helpers. */
     switch (record->opcode) {
+    case 0xfe: flags = repeat_move_encoding.flags; break;
     case 0x21: flags = increment_encoding.flags; break;
     case 0xdf: flags = sign_extend_encoding.flags; break;
     case 0x20: flags = signed_divide_encoding.flags; break;
@@ -817,7 +969,29 @@ encoded:
     case 1: flags = move_encoding.flags; break;
     case 0x30: flags = or_encoding.flags; break;
     case 0x34: flags = xor_encoding.flags; break;
+    case 0x33: flags = test_encoding.flags; break;
+    case 0x2f: flags = compare_encoding.flags; break;
+    case 0x12: flags = address_encoding.flags; break;
+    case 0xc1: flags = multiply_encoding.flags; break;
+    case 0xe: flags = call_encoding.flags; break;
+    case 0x1e: flags = decrement_encoding.flags; break;
+    case 0xf: case 0x102: flags = conditional_jump_encoding.flags; break;
+    case 0x10: case 0x104: flags = jump_encoding.flags; break;
     case 0x1f: flags = divide_encoding.flags; break;
+    case 0x63: flags = float_store_pop_encoding.flags; break;
+    case 0x60: flags = float_load_encoding.flags; break;
+    case 0x56: flags = float_integer_load_encoding.flags; break;
+    case 0x47: flags = float_subtract_encoding.flags; break;
+    case 0x62: flags = float_store_encoding.flags; break;
+    case 0x46: flags = float_multiply_encoding.flags; break;
+    case 0x4b: flags = float_add_pop_encoding.flags; break;
+    case 0x4c: flags = float_multiply_pop_encoding.flags; break;
+    case 0x4d: flags = float_subtract_pop_encoding.flags; break;
+    case 0x4f: flags = float_divide_pop_encoding.flags; break;
+    case 0x5c: flags = float_compare_encoding.flags; break;
+    case 0x5f: flags = float_exchange_encoding.flags; break;
+    case 0x6e: flags = float_status_encoding.flags; break;
+    case 0x77: flags = float_change_sign_encoding.flags; break;
     case 0xd: flags = push_encoding.flags; break;
     case 0x2e: flags = and_encoding.flags; break;
     case 0x2b: flags = shift_right_encoding.flags; break;
@@ -829,3 +1003,5 @@ encoded:
     if (!(flags & 1) && (choice->action & 0x80) && width != 1) *opcode |= 1;
     return encoding_cursor - encoding;
 }
+
+#undef FINAL_KNOWN_ENCODING_NUMBER

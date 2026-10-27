@@ -11,6 +11,15 @@ typedef struct C2ExpressionReference {
 } C2ExpressionReference;
 /* Kind29 context links carry a defining record. The real allocator clears
  * all16 bytes; only next/kind/record have encountered semantic consumers. */
+/* The reached stack-intrinsic list consumes only these first two pointer
+ * fields. Its pending factory owns additional payload; no full node extent
+ * or other field/default is claimed here. */
+typedef struct C2FinalStackLink {
+    struct C2FinalStackLink *next;
+    C2Expression *record;
+} C2FinalStackLink;
+typedef char C2FinalStackLinkRecordOffset[offsetof(C2FinalStackLink, record) == 4 ? 1 : -1];
+extern C2FinalStackLink *function_finish_state;
 typedef struct C2StatementLink {
     struct C2StatementLink *next;
     unsigned pending04;
@@ -31,7 +40,7 @@ typedef struct C2SymbolInputUse {
     unsigned pending04;
     unsigned char kind, pending09[3];
     C2Expression *expression;
-    unsigned pending10;
+    union { unsigned pending10, peephole_group; };
 } C2SymbolInputUse;
 typedef char C2SymbolInputUseSizeCheck[sizeof(C2SymbolInputUse) == 20 ? 1 : -1];
 typedef char C2SymbolInputUseValueCheck[offsetof(C2SymbolInputUse, expression) == 12 ? 1 : -1];
@@ -41,7 +50,7 @@ struct C2Expression {
     unsigned char kind, flags;
     union { unsigned short type; struct { union { unsigned char convention, condition_code; }; unsigned char pending0b; }; };
     /* The same DWORD is a list link or an alias/order key in distinct passes. */
-    union { C2Expression *previous, *global_operands, *cached_next; unsigned optimizer_alias_number, order_key, allocation_class_number; long stack_adjustment; };
+    union { C2Expression *previous, *global_operands, *cached_next, *allocation_operand_next; unsigned optimizer_alias_number, order_key, allocation_class_number; long stack_adjustment, float_stack_index; C2RegisterSet *frame_indices; };
     union {
         unsigned short line, attributes;
         struct { unsigned char properties;
@@ -49,8 +58,8 @@ struct C2Expression {
     } location;
     union {
         struct {
-            unsigned char control_flags;
-            union { unsigned char pending13, precision_flags; };
+            union { unsigned char control_flags, float_depth_before; };
+            union { unsigned char pending13, precision_flags, float_depth_after; };
         };
         unsigned short peephole_number;
     };
@@ -69,13 +78,13 @@ struct C2Expression {
     } value;
     union {
         struct {
-            union { C2Expression *left; C2InputSymbol *declaration; C2FunctionRegister *original_register; struct C2MachineRegister *fixed_register; unsigned immediate; };
+            union { C2Expression *left; C2InputSymbol *declaration; C2FunctionRegister *original_register; struct C2MachineRegister *fixed_register; unsigned immediate, allocation_alias_index; };
             union { C2Expression *right; C2ExpressionReference *indirect; C2SymbolInputUse *symbol_uses; C2FunctionRegister *aggregate_register; } tail;
         };
         C2IntegerWords integer;
     };
-    union { void *data; C2StatementLink *statement_links; C2Expression *assembly; C2InputUse *use; struct C2InputClause *clauses; C2BranchTarget *branch; unsigned short intrinsic; unsigned char condition; long aggregate_displacement; } detail;
-    union { C2Expression *aggregate_value;
+    union { void *data; C2StatementLink *statement_links; C2Expression *assembly; C2InputUse *use; struct C2InputClause *clauses; C2BranchTarget *branch; struct { unsigned short intrinsic; short intrinsic_count; }; unsigned char condition; unsigned call_stack_bytes; long aggregate_displacement; } detail;
+    union { C2Expression *aggregate_value; unsigned short intrinsic_call_flags;
         struct { unsigned char call_convention, pending_call25[3]; }; };
     union { C2Expression *aggregate_second; unsigned branch_flags; };
 };
@@ -89,6 +98,7 @@ struct C2Record {
     union { C2Expression *arguments; C2InputSymbol *declaration; } value;
     C2Expression *results;
 };
+typedef char C2AllocationOperandLinkOffset[offsetof(C2Expression, allocation_operand_next) == 12 ? 1 : -1];
 typedef char C2ExpressionIntegerCheck[offsetof(C2Expression, integer) == 24 ? 1 : -1];
 typedef char C2ExpressionTypeCheck[offsetof(C2Expression, type) == 10 ? 1 : -1];
 typedef char C2ExpressionLocationCheck[offsetof(C2Expression, location) == 16 ? 1 : -1];

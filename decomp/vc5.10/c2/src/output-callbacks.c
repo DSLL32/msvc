@@ -23,7 +23,7 @@ C2CodeRelocationCallback output_slot_497db4;
 C2CodeRelocationCallback output_slot_491078;
 C2PendingCallback output_slot_497f60;
 C2PendingCallback output_slot_497dfc;
-C2PendingCallback output_slot_497f50;
+C2InitializerCallback output_slot_497f50;
 C2DirectiveCallback output_slot_49971c;
 C2SymbolCallback output_slot_497cec;
 

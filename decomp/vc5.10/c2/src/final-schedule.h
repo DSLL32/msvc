@@ -1,6 +1,7 @@
 #ifndef C2_FINAL_SCHEDULE_H
 #define C2_FINAL_SCHEDULE_H
 #include "function-records.h"
+#include "frame-layout.h"
 #include <recon.h>
 
 typedef struct C2ScheduleWeights {
@@ -29,7 +30,8 @@ typedef struct C2ScheduleDependency {
 typedef char C2ScheduleDependencySizeCheck[sizeof(C2ScheduleDependency) == 24 ? 1 : -1];
 typedef char C2ScheduleDependencyDelayCheck[offsetof(C2ScheduleDependency, delay) == 20 ? 1 : -1];
 typedef struct C2ScheduleMemory C2ScheduleMemory;
-typedef struct C2ScheduleRegisterAlias C2ScheduleRegisterAlias;
+/* The scheduler receives the existing frame-slot member chain. */
+typedef C2FrameSlotUse C2ScheduleRegisterAlias;
 typedef struct C2ScheduleNode {
     struct C2ScheduleNode *previous, *next;
     C2ScheduleDependency *incoming, *outgoing;

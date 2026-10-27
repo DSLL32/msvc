@@ -12,7 +12,7 @@ void __fastcall remove_input_operand(C2Expression *expression, C2Expression *ope
 void __fastcall prepare_final_address_inputs(C2Expression *record);
 int __fastcall final_address_value_changes(C2Expression *first, C2Expression *last, C2Expression *owner);
 int __fastcall final_address_operand_changes(C2Expression *operand, C2Expression *first,
-    C2Expression *last, int mode);
+    C2Expression *last, C2FunctionRegister *excluded);
 int __fastcall final_address_displacement_fits(C2FunctionRegister *reg, long displacement);
 C2Expression *__fastcall new_final_address_expression(unsigned opcode, unsigned short type,
     C2FunctionRegister *symbol, long displacement, C2Expression *base, C2Expression *index);
@@ -373,7 +373,7 @@ void __fastcall expand_final_operand(C2Expression *record, C2Expression *definit
                         bits = 1U << (index->kind & 31);
                         if (DEFINED_REGISTER(index) ||
                             (!(bits & 0x180) && !(bits & 0x18) &&
-                             final_address_operand_changes(index, definition, record, 0)))
+                             final_address_operand_changes(index, definition, record, NULL)))
                             goto change_component;
                         base = first;
                         definition->left = index;
@@ -384,7 +384,7 @@ void __fastcall expand_final_operand(C2Expression *record, C2Expression *definit
                         bits = 1U << (base->kind & 31);
                         if (DEFINED_REGISTER(base) ||
                             (!(bits & 0x180) && !(bits & 0x18) &&
-                             final_address_operand_changes(base, definition, record, 0)))
+                             final_address_operand_changes(base, definition, record, NULL)))
                             goto change_component;
                         old = first->next;
                         first->next = base;
@@ -726,7 +726,7 @@ int __fastcall final_address_value_changes(C2Expression *first, C2Expression *la
     return 0;
 }
 int __fastcall final_address_operand_changes(C2Expression *operand, C2Expression *first,
-    C2Expression *last, int mode)
+    C2Expression *last, C2FunctionRegister *excluded)
 {
     __asm { int 3 }
     return 0;
@@ -736,9 +736,4 @@ int __fastcall final_address_displacement_fits(C2FunctionRegister *reg, long dis
     __asm { int 3 }
     return 0;
 }
-C2Expression *__fastcall new_final_address_expression(unsigned opcode, unsigned short type,
-    C2FunctionRegister *symbol, long displacement, C2Expression *base, C2Expression *index)
-{
-    __asm { int 3 }
-    return NULL;
-}
+

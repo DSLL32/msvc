@@ -10,7 +10,7 @@ extern int c2_favor_speed, c2_basic_mode;
 void __fastcall prepare_final_record_operands(C2Expression *record);
 C2Expression *__fastcall widen_final_integer_record(C2Expression *record);
 C2Expression *__fastcall new_fixed_register_operand(unsigned number, unsigned short type);
-void __fastcall lower_final_direct_call(C2Expression *record);
+C2Expression *__fastcall lower_final_direct_call(C2Expression *record);
 C2Expression *__fastcall lower_final_indirect_call(C2Expression *record);
 C2Expression *__fastcall new_numbered_machine_operand(unsigned number, unsigned short type);
 unsigned __fastcall final_integer_log2(unsigned value);
@@ -391,11 +391,6 @@ C2Expression *__fastcall lower_final_integer_record(C2Expression *record)
     return record;
 }
 
-C2Expression * __fastcall widen_final_integer_record(C2Expression *record)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 C2Expression * __fastcall new_fixed_register_operand(unsigned number, unsigned short type)
 {
@@ -406,15 +401,190 @@ C2Expression * __fastcall new_fixed_register_operand(unsigned number, unsigned s
     return new_temporary_register_expression(0x11f, type, reg, reg);
 }
 
-void __fastcall lower_final_direct_call(C2Expression *record)
+C2Expression *__fastcall lower_final_direct_call(C2Expression *record)
 {
     __asm { int 3 }
+    return NULL;
 }
 
+extern int c2_stack_probe_limit, c2_global_optimize;
+extern unsigned input_option_high_bit;
+unsigned __fastcall final_parameter_stack_size(C2Expression *record);
+C2Symbol *__fastcall find_runtime_function(char *name);
+C2Expression *__fastcall new_scalar_expression(unsigned opcode, unsigned value);
+C2Expression *__fastcall new_runtime_call(unsigned opcode, unsigned short type,
+    C2Expression *result, C2Expression *target, unsigned char convention,
+    C2InputLink link, C2Record *prior);
+C2Expression *__fastcall prepare_final_block_address(C2Expression *record,
+    C2Expression *operand, C2ExpressionReplacer replace)
+{
+    /* The supplied replacement callback is unused by this original helper.
+     * Its other-kind return carries the actual incoming record argument. */
+    if (operand->kind == 2)
+        return new_register_expression(operand->opcode, operand->value.reg);
+    if (operand->kind == 6)
+        return copy_input_expression(operand->aggregate_value);
+    return record;
+}
+C2Expression *__fastcall new_final_move_expression(unsigned opcode, unsigned short type,
+    C2Expression *input, C2Expression *result, C2Expression *owner);
+
+C2Expression *__fastcall prepare_final_intrinsic_arguments(C2Expression *record, int count)
+{
+    C2Expression *operand = record->left, *next, *last = record;
+
+    while (count > 0) {
+        next = operand->next;
+        last = new_final_move_expression(0x130, operand->type, operand, NULL, last);
+        attach_input_expression(record, operand, last->tail.right);
+        operand = next;
+        --count;
+    }
+    return last;
+}
+/* First encountered rule at496820: block move uses EDI, ESI and ECX.
+ * The original fourth register DWORD and the other ten rows remain unmodeled.
+ * No table address escapes this lookup and no static row payload is read here. */
+static const struct C2BlockMoveRegisterRule {
+    unsigned intrinsic;
+    unsigned registers[3];
+} block_move_register_rule = { 0xac, { 8, 7, 2 } };
+
+void __fastcall set_final_intrinsic_register(C2Expression *operand, C2MachineRegister *reg)
+{
+    operand->original_register = new_bitfield_register((C2FunctionRegister *)reg,
+        (operand->type & 0xfff) << 3, 0);
+}
+
+void __fastcall bind_final_intrinsic_operands(C2Expression *record)
+{
+    C2Expression *operand;
+    C2MachineRegister *reg;
+    unsigned index = 0;
+
+    if (record->detail.intrinsic != block_move_register_rule.intrinsic) { __asm { int 3 } }
+    for (operand = record->left; operand; operand = operand->next, ++index) {
+        if (operand->kind == 10 || operand->kind == 9 ||
+            (operand->location.expression.properties & 0x20) ||
+            (operand->kind == 1 && operand->value.reg->kind == 1)) continue;
+        if (index >= 3) { __asm { int 3 } }
+        reg = &machine_registers[block_move_register_rule.registers[index]];
+        set_final_intrinsic_register(operand, reg);
+        set_final_intrinsic_register(operand->value.reg->value->tail.right, reg);
+    }
+}
+
+C2Expression *__fastcall new_final_block_transfer(C2Expression *output,
+    C2Expression *destination, C2Expression *source, C2Expression *bytes,
+    C2Expression *record, unsigned destination_alias, unsigned source_alias,
+    C2InputLink link)
+{
+    C2Expression *created;
+
+    created = new_global_intrinsic_expression(0x15f, 0x5000, output,
+        destination, source, bytes, NULL, 0xac, link, (C2Record *)record);
+    prepare_final_intrinsic_arguments(created, 3);
+    bind_final_intrinsic_operands(created);
+    if (c2_global_optimize) {
+        attach_optimizer_output(created, new_optimizer_index_operand(destination_alias));
+        copy_input_operand(created, new_optimizer_index_operand(source_alias));
+    }
+    return lower_final_condition_record(created);
+}
+
+/* The historical graph name covers aggregate moves and dynamic stack storage,
+ * rather than a scalar call. Keep the complete hot/cold owner together. */
 C2Expression * __fastcall lower_final_indirect_call(C2Expression *record)
 {
-    __asm { int 3 }
-    return 0;
+    C2Expression *output, *destination, *source, *bytes, *definition, *result;
+    C2Expression *stack, *constant, *call, *operand, *target;
+    unsigned destination_alias = 0, source_alias = 0;
+    unsigned count;
+    C2Symbol *runtime;
+
+    if (record->opcode == 0x13f) {
+        output = record->tail.right;
+        if (((1U << (output->kind & 31)) & 6) && output->value.reg->value &&
+            (output->type & 0xf000) == 0x5000) return record;
+        source = record->left;
+        if (((1U << (source->kind & 31)) & 6) && source->value.reg->value &&
+            (source->type & 0xf000) == 0x5000 &&
+            source->value.reg->value->opcode == 0x13f) {
+            definition = source->value.reg->value;
+            attach_input_expression(record, source, definition->left);
+            unlink_and_release_input_record((C2Record *)definition);
+        }
+        destination = output->next;
+        if (!destination) { destination = output; output = NULL; }
+        bytes = new_integer_expression(0x1004, record->type & 0xfff);
+        if (c2_global_optimize) {
+            if (destination->kind == 6) destination_alias = destination->immediate;
+            else destination_alias = ((C2InputSymbol *)destination->value.reg->canonical->symbol)->detail.optimizer_number;
+            source = record->left;
+            if (source->kind == 6) source_alias = source->immediate;
+            else source_alias = ((C2InputSymbol *)source->value.reg->canonical->symbol)->detail.optimizer_number;
+        }
+        destination = prepare_final_block_address(record, destination, replace_input_result);
+        source = prepare_final_block_address(record, record->left, attach_input_expression);
+        result = new_final_block_transfer(output, destination, source, bytes, record,
+            destination_alias, source_alias, prepend_input_record);
+        unlink_and_release_input_record((C2Record *)record);
+        return result;
+    }
+    stack = new_fixed_register_operand(5, 0x1004);
+    count = final_parameter_stack_size(record);
+    constant = new_integer_expression(0x1004, (__int64)(int)count);
+    if (!input_option_high_bit && (int)count < c2_stack_probe_limit)
+        new_global_ternary_expression(0x32, 0x1004, stack, stack, constant,
+            prepend_input_record, (C2Record *)record);
+    else {
+        new_binary_expression(1, 0x1004, new_fixed_register_operand(1, 0x1004),
+            constant, prepend_input_record, (C2Record *)record);
+        runtime = find_runtime_function(c2_basic_mode ? "___vbaChkstk" : "__chkstk");
+        target = new_scalar_expression(0x129, (unsigned)runtime);
+        call = new_runtime_call(14, 0x1004, new_fixed_register_operand(1, 0x1004),
+            target, 4, prepend_input_record, (C2Record *)record);
+        copy_input_operand(call, new_fixed_register_operand(1, 0x1004));
+        copy_input_operand(call, stack);
+        attach_optimizer_output(call, stack);
+        /* This call field carries the negative dynamic stack adjustment. */
+        call->detail.call_stack_bytes = 0U - count;
+    }
+    if (record->opcode == 0x13e) {
+        bytes = new_integer_expression(0x1004, record->type & 0xfff);
+        if (c2_global_optimize) {
+            destination_alias = 1;
+            operand = record->left;
+            if (operand->kind == 6) source_alias = operand->immediate;
+            else source_alias = ((C2InputSymbol *)operand->value.reg->canonical->symbol)->detail.optimizer_number;
+        }
+        source = prepare_final_block_address(record, record->left, attach_input_expression);
+    } else {
+        definition = record->left->value.reg->value;
+        attach_input_expression(record, record->left, definition->left);
+        unlink_and_release_input_record((C2Record *)definition);
+        source = record->left;
+        if (c2_global_optimize) {
+            destination_alias = 1;
+            if (source->kind == 6) source_alias = source->immediate;
+            else if (source->kind == 7) source_alias = 1;
+            else if (((1U << (source->kind & 31)) & 6) && source->value.reg->value) {
+                definition = source->value.reg->value;
+                if (definition->opcode == 0x12)
+                    source_alias = ((C2InputSymbol *)definition->left->value.reg->canonical->symbol)->detail.optimizer_number;
+                else {
+                    c2_report_internal("E:\\utc\\src\\\\P2\\x86\\cgintrin.c", 0x755);
+                    source_alias = (unsigned)stack;
+                }
+            } else source_alias = ((C2InputSymbol *)source->value.reg->canonical->symbol)->detail.optimizer_number;
+        }
+        definition = source->next->value.reg->value;
+        attach_input_expression(record, source->next, definition->left);
+        unlink_and_release_input_record((C2Record *)definition);
+        bytes = record->left->next;
+    }
+    return new_final_block_transfer(NULL, stack, source, bytes, record,
+        destination_alias, source_alias, insert_input_record);
 }
 
 C2Expression * __fastcall new_numbered_machine_operand(unsigned number, unsigned short type)
@@ -507,8 +677,28 @@ void __fastcall lower_final_shift_count(C2Expression *record)
 C2Expression *__fastcall retype_final_operand(C2Expression *operand,
     unsigned short type, long displacement)
 {
-    __asm { int 3 }
-    return NULL;
+    unsigned char kind;
+
+    if (operand->type == type) return operand;
+    kind = operand->kind;
+    switch (kind) {
+    case 1: case 2:
+        operand->value.reg = new_address_register(operand->value.reg, type,
+                                                 type & 0xfff, displacement);
+        if (kind == 1 && operand->original_register->kind == 1)
+            operand->original_register = new_bitfield_register(operand->original_register,
+                (type & 0xfff) * 8, (long)((unsigned)displacement * 8));
+        break;
+    case 5: case 6:
+        operand->detail.aggregate_displacement =
+            (long)((unsigned)operand->detail.aggregate_displacement + (unsigned)displacement);
+        break;
+    case 7:
+        operand->integer.value = normalize_integer_value(type, operand->integer.value);
+        break;
+    }
+    operand->type = type;
+    return operand;
 }
 
 /* Exact width-selected columns: three DWORD opcodes at499f80 and three
@@ -549,12 +739,6 @@ C2Expression * __fastcall lower_final_flags_record(C2Expression *record)
 }
 
 C2Expression * __fastcall lower_final_selection_record(C2Expression *record)
-{
-    __asm { int 3 }
-    return 0;
-}
-
-C2Expression * __fastcall lower_final_condition_record(C2Expression *record)
 {
     __asm { int 3 }
     return 0;

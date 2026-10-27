@@ -48,10 +48,6 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
 
 
 
-void __fastcall reserve_section_symbol(C2Symbol *symbol)
-{
-    __asm { int 3 }
-}
 
 
 
@@ -111,14 +107,14 @@ int __fastcall register_source_file(char *name) { __asm { int 3 } return 0; }
 char *__fastcall lookup_source_file(char *name, unsigned *bytes) { __asm { int 3 } return NULL; }
 void __fastcall uppercase_symbol_name(char *name) { __asm { int 3 } }
 
-int __fastcall is_constant_symbol(C2Symbol *symbol) { __asm { int 3 } return 0; }
+int __fastcall is_constant_symbol(C2Symbol *symbol)
+{
+    return (((C2InputSymbol *)symbol)->attributes & 0x70) == 0x40;
+}
 
 C2Section *__fastcall select_symbol_section(C2FunctionSymbol *function, C2Symbol *symbol) { __asm { int 3 } return NULL; }
 
-C2InitRecord *__fastcall new_initializer(int kind) { __asm { int 3 } return NULL; }
 void __fastcall read_initializer_values(C2InitRecord *record) { __asm { int 3 } }
-C2InitRecord *__fastcall queue_initializer(C2InitRecord *record) { __asm { int 3 } return NULL; }
-void __fastcall emit_initializer(C2InitRecord *record) { __asm { int 3 } }
 void __fastcall free_initializer(C2InitRecord *record) { __asm { int 3 } }
 
 
@@ -301,10 +297,6 @@ void __fastcall function_pass_47d1d3(C2Function *function)
 
 
 
-void __fastcall output_callback_435af6(unsigned offset, C2Symbol *symbol)
-{
-    __asm { int 3 }
-}
 
 void __fastcall output_callback_43696a(unsigned offset, C2Symbol *symbol)
 {
@@ -336,10 +328,7 @@ void output_callback_4432a1()
     __asm { int 3 }
 }
 
-void output_callback_44a79d()
-{
-    __asm { int 3 }
-}
+
 
 
 void output_callback_4541f3()
@@ -357,9 +346,10 @@ void __fastcall output_callback_4849f2(C2Symbol *symbol, char *file, int unwind,
     __asm { int 3 }
 }
 
-void output_callback_4849f5()
+unsigned __fastcall output_callback_4849f5(C2InitRecord *value, C2Symbol *symbol, C2Section *section)
 {
     __asm { int 3 }
+    return 0;
 }
 
 void __fastcall output_callback_4849fa(C2Symbol *symbol)
@@ -433,17 +423,10 @@ void __fastcall write_assembly_header(char *source)
 }
 
 
-int __fastcall has_local_symbol(unsigned serial)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 C2Symbol *__fastcall resolve_alias_symbol(C2Symbol *symbol) { __asm { int 3 } return NULL; }
-void __fastcall record_symbol_references(C2Symbol *symbol) { __asm { int 3 } }
 int __fastcall symbol_requires_references(C2Symbol *symbol) { __asm { int 3 } return 0; }
 int __fastcall initializer_is_static(C2InitRecord *record) { __asm { int 3 } return 0; }
-C2DebugLink *new_symbol_link(void) { __asm { int 3 } return NULL; }
 
 
 
@@ -574,7 +557,24 @@ void __fastcall merge_flow_labels(C2Expression *first, C2Expression *last,
     __asm { int 3 }
 }
 
-C2Expression *__fastcall fold_expression_value(C2Expression *expression, C2Expression *context)
+
+
+
+
+
+
+
+
+
+C2Expression *__fastcall propagate_conversion_to_operand(C2Expression *expression,
+    C2Expression *operand, unsigned short type, C2Expression *context)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+C2Expression *__fastcall distribute_expression_conversion(C2Expression *expression,
+    C2Expression *operand, unsigned short type, C2Expression *context)
 {
     __asm { int 3 }
     return NULL;
@@ -587,34 +587,10 @@ C2Expression *__fastcall fold_expression_value(C2Expression *expression, C2Expre
 
 
 
-C2Expression *__fastcall propagate_expression_conversion(C2Expression *expression, C2Expression *operand, C2Expression *context)
-{
-    __asm { int 3 }
-    return NULL;
-}
-
-
-int  c2_real_compare(int condition, C2Real *left, C2Real *right)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 
 
 
-void __fastcall release_input_aggregate_operands(C2Expression *owner, C2Expression *operand)
-{
-    __asm { int 3 }
-}
-
-
-
-int __fastcall conversion_may_change_value(unsigned short from, unsigned short to)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 
 
@@ -681,21 +657,14 @@ unsigned __int64 __fastcall expression_sign_mask(C2Expression *expression, unsig
 
 
 
-C2Expression *__fastcall fold_expression_conversion(C2Expression *expression, C2Expression *context)
-{
-    __asm { int 3 }
-    return NULL;
-}
 
 
 
 
 
 
-void __fastcall replace_expression_operand(C2Expression *context, C2Expression *old, C2Expression *replacement)
-{
-    __asm { int 3 }
-}
+
+
 
 
 
@@ -741,11 +710,7 @@ C2Expression *__fastcall copy_reusable_expression(C2Expression *expression)
 
 
 
-C2Expression *__fastcall previous_expression_operand(C2Expression *head, C2Expression *value)
-{
-    __asm { int 3 }
-    return NULL;
-}
+
 
 
 
@@ -770,11 +735,7 @@ int c2_real_add(C2Real *left, C2Real *right, C2Real *result)
     return 0;
 }
 
-int c2_real_subtract(C2Real *left, C2Real *right, C2Real *result)
-{
-    __asm { int 3 }
-    return 0;
-}
+
 
 int c2_real_multiply(C2Real *left, C2Real *right, C2Real *result)
 {
@@ -812,3 +773,6 @@ void __fastcall rewrite_block_label_use(C2BasicBlock *block, C2Function *functio
 
 
 
+
+void __cdecl write_output_word(unsigned short value) { __asm { int 3 } }
+void __cdecl write_output_long(unsigned value) { __asm { int 3 } }

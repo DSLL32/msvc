@@ -793,8 +793,76 @@ C2OptimizerValue *__fastcall new_optimizer_memory_value(unsigned number,
     value->block = block;
     return value;
 }
+/* A single alias may refer to an assignment from a named memory register.
+ * The output base is written only after all definition checks succeed. */
+C2RegisterSet *__fastcall lookup_optimizer_memory_definition(C2FunctionRegister **base,
+    unsigned number)
+{
+    C2OptimizerAlias *alias = &optimizer_aliases[number];
+    C2Expression *definition, *source;
+    C2FunctionRegister *reg;
+    if (!alias->effects) return NULL;
+    definition = alias->record;
+    if (!definition || definition->opcode != 0x131) return NULL;
+    source = definition->left;
+    if (source->kind != 2) return NULL;
+    reg = source->value.reg;
+    if (!(reg->view_flags & 8)) return NULL;
+    *base = reg;
+    return alias->effects;
+}
+
+
 unsigned __fastcall resolve_optimizer_register_memory(C2FunctionRegister *reg,
-    C2RegisterSet *effects, C2RegisterSet *active, C2BasicBlock *block);
+    C2RegisterSet *effects, C2RegisterSet *active, C2BasicBlock *block)
+{
+    C2OptimizerRegisterInfo *info;
+    C2OptimizerValue *head, *value;
+    C2RegisterSet *definition;
+    C2FunctionRegister *base;
+    unsigned member, only = ~0U, number;
+    int multiple = 0;
+
+    if (!effects) effects = collect_optimizer_register_aliases(reg, active);
+    for (member = next_optimizer_symbol(effects); member != ~0U;
+         member = next_optimizer_symbol(NULL)) {
+        if (only != ~0U) { multiple = 1; break; }
+        only = member;
+    }
+    if (only == ~0U) return 1;
+    info = reg->optimizer;
+    head = info->values;
+    for (value = head; value; value = value->next) {
+        if (multiple && value->block != block) continue;
+        if (optimizer_symbol_sets_equal(effects, value->effects) == 1) {
+            release_optimizer_symbol_set(effects);
+            return value->number;
+        }
+    }
+    if (multiple || !(definition = lookup_optimizer_memory_definition(&base, only))) {
+        number = optimizer_index_limit++;
+    } else {
+        only = ~0U;
+        for (member = next_optimizer_symbol(definition); member != ~0U;
+             member = next_optimizer_symbol(NULL)) {
+            if (only != ~0U) { multiple = 1; break; }
+            only = member;
+        }
+        if (only == ~0U) return 1;
+        for (value = base->optimizer->values; value; value = value->next) {
+            if (multiple && value->block != block) continue;
+            if (optimizer_symbol_sets_equal(definition, value->effects) == 1) break;
+        }
+        if (value) number = value->number;
+        else {
+            number = optimizer_index_limit++;
+            base->optimizer->values = new_optimizer_memory_value(number,
+                copy_optimizer_symbol_set(definition), block, base->optimizer->values);
+        }
+    }
+    info->values = new_optimizer_memory_value(number, effects, block, head);
+    return number;
+}
 
 unsigned __fastcall resolve_optimizer_memory(C2FunctionRegister *reg,
     C2RegisterSet *active, unsigned number, C2BasicBlock *block)

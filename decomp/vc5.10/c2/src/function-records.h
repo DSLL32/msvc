@@ -33,6 +33,7 @@ struct C2FunctionRegister {
     union { C2FunctionRegister *cache_group_next; unsigned properties; C2FunctionRegister *frame_previous; C2OptimizerRegisterInfo *optimizer; C2OptimizerUse *optimizer_uses;
         struct C2AllocationInfo *allocation;
         struct { unsigned char rewrite_seen, rewrite_queued, rewrite_flags, pending33; };
+        struct { unsigned char pending_motion30[2]; unsigned short region_motion_flags; };
         /* Final width analysis reuses these bytes for forward facts and
          * backward use requirements after its real scratch reset. */
         struct { unsigned char known_zero_bits, unused_high_bits, extension_flags,
@@ -63,6 +64,7 @@ typedef char C2CacheValuesOffset[offsetof(C2FunctionRegister, cache_values) == 5
 typedef char C2FunctionRegisterValueCheck[offsetof(C2FunctionRegister, value) == 20 ? 1 : -1];
 typedef char C2FunctionRegisterCanonicalCheck[offsetof(C2FunctionRegister, canonical) == 8 ? 1 : -1];
 typedef char C2FunctionRegisterPropertiesCheck[offsetof(C2FunctionRegister, properties) == 48 ? 1 : -1];
+typedef char C2RegionMotionFlagsOffset[offsetof(C2FunctionRegister, region_motion_flags) == 50 ? 1 : -1];
 typedef char C2GlobalLastOperandOffset[offsetof(C2FunctionRegister, global_last_input_operand) == 76 ? 1 : -1];
 typedef char C2FunctionRegisterSizeCheck[sizeof(C2FunctionRegister) == 80 ? 1 : -1];
 typedef char C2FunctionRegisterKindCheck[offsetof(C2FunctionRegister,kind) == 4 ? 1 : -1];

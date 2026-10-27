@@ -631,7 +631,7 @@ void number_optimizer_registers(void)
 extern unsigned diagnostic_position;
 int expression_simplification_mode;
 int expression_warning_issued;
-void __fastcall simplify_statement_expressions(C2Record *record);
+C2Expression *__fastcall simplify_statement_expressions(C2Record *record);
 
 void __fastcall simplify_function_expressions(C2Function *function, int mode)
 {
@@ -649,7 +649,7 @@ void __fastcall simplify_function_expressions(C2Function *function, int mode)
         switch (record->kind) {
         case 11: case 12: case 13: case 15: case 17:
             result = record->results;
-            if (!result || !((1U << (result->kind & 31)) & 6) ||
+            if (result && ((1U << (result->kind & 31)) & 6) &&
                 result->value.reg->value) break;
             /* Definitions owned by a temporary are reached through their uses. */
         case 14: case 16: case 18: case 19:
@@ -664,14 +664,14 @@ C2Expression *expression_following_record;  /* 48fb34 */
 C2Expression *__fastcall simplify_expression_tree(C2Expression *expression);
 C2Expression *__fastcall finalize_expression_tree(C2Expression *expression);
 
-void __fastcall simplify_statement_expressions(C2Record *record)
+C2Expression *__fastcall simplify_statement_expressions(C2Record *record)
 {
     C2Expression *root = (C2Expression *)record, *argument = record->value.arguments;
-    if (!argument) return;
+    if (!argument) return (C2Expression *)record;
     if (record->opcode == 0x140) {
-        if (!((1U << (argument->kind & 31)) & 6)) return;
+        if (!((1U << (argument->kind & 31)) & 6)) return (C2Expression *)record;
         root = argument->value.reg->value;
-        if (!root) return;
+        if (!root) return (C2Expression *)record;
         expression_statement_context = record;
     } else if (record->opcode == 0x159) {
         root = argument->next->value.reg->value;
@@ -681,7 +681,7 @@ void __fastcall simplify_statement_expressions(C2Record *record)
     }
     expression_following_record = root->next;
     root = simplify_expression_tree(root);
-    finalize_expression_tree(root);
+    return finalize_expression_tree(root);
 }
 
 int __fastcall mark_expression_execution(C2Expression *expression, C2Expression *result);

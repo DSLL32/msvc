@@ -1,4 +1,5 @@
 #include "inlining.h"
+#include "code-input.h"
 #include <recon.h>
 
 /* Genuine pending targets; declarations are based on their actual callers
@@ -79,8 +80,10 @@ int __fastcall is_direct_inline_return(C2Expression *record, C2Expression *befor
 
 C2InputSymbol * __fastcall new_inline_result_symbol(unsigned short kind, unsigned bytes, short indirect, int local, unsigned char pool, unsigned attributes)
 {
-    __asm { int 3 }
-    return 0;
+    C2ScopeHash *scope = local_symbol_table;
+
+    if (!local) scope = &global_scope;
+    return new_input_local(scope, kind, bytes, indirect, local, pool, attributes);
 }
 
 C2FunctionRegister * __fastcall find_inline_result_register(C2Expression *call, C2Expression **before, C2Expression *entry)

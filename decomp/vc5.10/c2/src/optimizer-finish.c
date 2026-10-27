@@ -2,7 +2,7 @@
 #include "inlining.h"
 #include <recon.h>
 
-extern unsigned optimizer_initial_limit, optimizer_index_limit;
+extern unsigned optimizer_initial_limit, optimizer_index_limit, optimizer_expression_limit;
 extern unsigned optimizer_final_index_limit;
 extern C2FunctionRegister *optimizer_memory_register;
 
@@ -39,6 +39,62 @@ C2OptimizerUse *__fastcall get_global_index_uses(unsigned number)
     if (number >= optimizer_index_limit)
         number = optimizer_range_masks[number - optimizer_index_limit].original_number;
     return optimizer_index_uses[number];
+}
+
+/* Range indices retain their original alias-list number. Kind-12 entries
+ * group register uses; ordinary entries name their register directly. */
+int __fastcall register_may_alias_index(C2FunctionRegister *reg, unsigned index)
+{
+    C2FunctionRegister *root = reg->canonical;
+    C2OptimizerUse *use, *member;
+    if (index >= optimizer_index_limit)
+        index = optimizer_range_masks[index - optimizer_index_limit].original_number;
+    switch (root->kind) {
+    case 4:
+    case 5:
+        if (!(root->view_flags & 2)) return 0;
+        if (root->view_flags & 4) {
+            for (use = optimizer_index_uses[index]; use; use = use->next) {
+                if (use->reg->kind == 12) {
+                    for (member = use->reg->optimizer_uses; member; member = member->next)
+                        if (member->reg == root) return 1;
+                } else if (use->reg == root) return 1;
+            }
+        } else if (index >= optimizer_expression_limit) {
+            for (use = optimizer_index_uses[index]; use; use = use->next)
+                if (use->reg == root) return 1;
+        }
+        break;
+    case 7:
+    case 8:
+        if ((root->view_flags & 4) && !(root->view_flags & 2)) return 0;
+        for (use = optimizer_index_uses[index]; use; use = use->next)
+            if (use->reg == root || use->reg == optimizer_memory_register) return 1;
+        break;
+    }
+    return 0;
+}
+
+unsigned __fastcall optimizer_dense_sets_intersect(C2RegisterSet *first,
+    C2RegisterSet *second);
+
+int __fastcall optimizer_indices_overlap(unsigned first, unsigned second)
+{
+    C2OptimizerRangeMask *first_range, *second_range;
+    if (first == second) return 1;
+    if (first >= optimizer_index_limit) {
+        first_range = &optimizer_range_masks[first - optimizer_index_limit];
+        first = first_range->original_number;
+        if (second >= optimizer_index_limit) {
+            second_range = &optimizer_range_masks[second - optimizer_index_limit];
+            if (first == second_range->original_number)
+                return first_range->overlaps & (1U << (second_range->bit & 31));
+        }
+    }
+    if (second >= optimizer_index_limit)
+        second = optimizer_range_masks[second - optimizer_index_limit].original_number;
+    return optimizer_dense_sets_intersect(optimizer_index_sets[first],
+                                          optimizer_index_sets[second]);
 }
 
 C2RegisterSet *__fastcall finish_optimizer_records(C2Record *first,

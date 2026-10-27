@@ -179,17 +179,11 @@ void __fastcall finish_optimizer_symbol_map(C2OptimizerContext *context, C2Optim
 
 
 
-int __fastcall optimizer_indices_overlap(unsigned first, unsigned second)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 
 
 
 
 
-unsigned __fastcall resolve_optimizer_register_memory(C2FunctionRegister *reg,
-    C2RegisterSet *effects, C2RegisterSet *active, C2BasicBlock *block)
-{ __asm { int 3 } return 0; }
+
+

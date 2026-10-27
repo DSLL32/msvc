@@ -21,6 +21,276 @@
 
 typedef char CanonicalTemporaryCountOffset[offsetof(C2FunctionSymbol, temporary_count) == 100 ? 1 : -1];
 
+unsigned __fastcall final_intrinsic_output_index(C2Expression *record);
+unsigned __fastcall final_intrinsic_input_index(C2Expression *record);
+/* The existing range map's complete three-DWORD row is owned by the
+ * optimizer finisher; this test supplies a distinct range-number mapping. */
+typedef struct C2OptimizerRangeMask {
+    unsigned original_number, bit, overlaps;
+} C2OptimizerRangeMask;
+extern C2OptimizerRangeMask *optimizer_range_masks;
+extern unsigned optimizer_index_limit, optimizer_expression_limit;
+extern C2FunctionRegister *optimizer_memory_register;
+int __fastcall allocation_operand_is_copy(C2Expression *record, C2Expression *operand);
+static int fixed_address_copy_roles(void)
+{
+    C2Expression record, input, output, before_record, before_input, before_output;
+    unsigned row;
+    for (row = 7; row <= 8; ++row) {
+        memset(&record, 0, sizeof(record));
+        memset(&input, 0x5a, sizeof(input));
+        memset(&output, 0xa5, sizeof(output));
+        record.opcode = 1; record.left = &input; record.tail.right = &output;
+        input.kind = output.kind = 1;
+        input.next = output.next = NULL;
+        input.value.reg = input.original_register = (C2FunctionRegister *)&machine_registers[row];
+        output.value.reg = output.original_register = (C2FunctionRegister *)&machine_registers[row];
+        input.location.expression.properties = output.location.expression.properties = 0;
+        before_record = record; before_input = input; before_output = output;
+        if (allocation_operand_is_copy(&record, &input) != 1 ||
+            allocation_operand_is_copy(&record, &output) != 1 ||
+            memcmp(&record, &before_record, sizeof(record)) ||
+            memcmp(&input, &before_input, sizeof(input)) ||
+            memcmp(&output, &before_output, sizeof(output))) return 0;
+    }
+    return 1;
+}
+
+static int register_alias_index_roles(void)
+{
+    C2FunctionRegister root, variant, group, memory, unrelated;
+    C2OptimizerUse direct, grouped, member, wildcard;
+    C2OptimizerUse *uses[8];
+    C2OptimizerRangeMask range;
+    C2FrameSlot slot, *saved_slots;
+    C2FrameSlotUse aliases[2];
+    memset(&root, 0, sizeof(root)); memset(&variant, 0, sizeof(variant));
+    memset(&group, 0, sizeof(group)); memset(&memory, 0, sizeof(memory));
+    memset(&unrelated, 0, sizeof(unrelated)); memset(uses, 0, sizeof(uses));
+    root.canonical = &root; variant.canonical = &root;
+    root.kind = 4; root.view_flags = 2;
+    direct.next = NULL; direct.reg = &root;
+    grouped.next = NULL; grouped.reg = &group;
+    member.next = NULL; member.reg = &root;
+    wildcard.next = NULL; wildcard.reg = &memory;
+    group.kind = 12; group.optimizer_uses = &member;
+    optimizer_index_limit = 8; optimizer_expression_limit = 4;
+    optimizer_index_uses = uses; optimizer_memory_register = &memory;
+    range.original_number = 5; range.bit = 31; range.overlaps = 0xa5a5a5a5U;
+    optimizer_range_masks = &range;
+    uses[3] = uses[5] = &direct;
+    if (register_may_alias_index(&variant, 3)) return 0;
+    if (register_may_alias_index(&variant, 8) != 1) return 0;
+    uses[5] = &grouped;
+    if (register_may_alias_index(&variant, 5)) return 0;
+    root.view_flags = 6;
+    if (register_may_alias_index(&variant, 5) != 1) return 0;
+    member.reg = &unrelated;
+    if (register_may_alias_index(&variant, 5)) return 0;
+    root.kind = 7; root.view_flags = 0; uses[5] = &wildcard;
+    if (register_may_alias_index(&variant, 5) != 1) return 0;
+    root.view_flags = 4;
+    if (register_may_alias_index(&variant, 5)) return 0;
+    root.kind = 8; root.view_flags = 6;
+    if (register_may_alias_index(&variant, 5) != 1) return 0;
+    memset(&slot, 0, sizeof(slot)); memset(aliases, 0, sizeof(aliases));
+    saved_slots = frame_slots; frame_slots = &slot;
+    root.kind = 3; root.frame_displacement = 0; root.value_bytes = 4;
+    unrelated.canonical = &unrelated; unrelated.kind = 6;
+    memory.canonical = &memory; memory.kind = 7;
+    aliases[0].reg = &unrelated; aliases[0].next = &aliases[1];
+    aliases[1].reg = &memory;
+    slot.offset = 0; slot.bytes = 4; slot.uses = aliases;
+    if (optimizer_register_may_alias_index(&root, 5) != 1) return 0;
+    aliases[1].reg = &unrelated;
+    if (optimizer_register_may_alias_index(&root, 5)) return 0;
+    root.kind = 2;
+    if (optimizer_register_may_alias_index(&root, 5)) return 0;
+    root.kind = 7; root.view_flags = 0;
+    if (optimizer_register_may_alias_index(&root, 5) != 1) return 0;
+    frame_slots = saved_slots;
+    root.kind = 6;
+    return register_may_alias_index(&variant, 5) == 0 &&
+        range.original_number == 5 && range.bit == 31 && range.overlaps == 0xa5a5a5a5U &&
+        direct.reg == &root && grouped.reg == &group && wildcard.reg == &memory;
+}
+
+static int intrinsic_alias_chain_ownership(void)
+{
+    C2Expression record, inputs[3], outputs[3];
+    C2Expression saved_record, saved_inputs[3], saved_outputs[3];
+    memset(&record, 0x39, sizeof(record));
+    memset(inputs, 0xa5, sizeof(inputs));
+    memset(outputs, 0x6b, sizeof(outputs));
+    record.left = inputs;
+    record.tail.right = outputs;
+    inputs[0].kind = 1; inputs[0].next = &inputs[1];
+    inputs[1].kind = 10; inputs[1].next = &inputs[2];
+    inputs[1].value.optimizer_index = 0xfedcba98U;
+    inputs[2].kind = 10; inputs[2].next = NULL;
+    inputs[2].value.optimizer_index = 3;
+    outputs[0].kind = 7; outputs[0].next = &outputs[1];
+    outputs[1].kind = 1; outputs[1].next = &outputs[2];
+    outputs[2].kind = 10; outputs[2].next = NULL;
+    outputs[2].value.optimizer_index = 0x13579bdf;
+    saved_record = record;
+    memcpy(saved_inputs, inputs, sizeof(inputs));
+    memcpy(saved_outputs, outputs, sizeof(outputs));
+    return final_intrinsic_input_index(&record) == 0xfedcba98U &&
+        final_intrinsic_output_index(&record) == 0x13579bdf &&
+        !memcmp(&record, &saved_record, sizeof(record)) &&
+        !memcmp(inputs, saved_inputs, sizeof(inputs)) &&
+        !memcmp(outputs, saved_outputs, sizeof(outputs));
+}
+
+unsigned __fastcall number_allocation_registers(C2Expression *first);
+static int allocation_fixed_address_outputs(void)
+{
+    C2Expression record, output, before, output_before;
+    unsigned row;
+
+    for (row = 7; row <= 8; ++row) {
+        memset(&record, 0, sizeof(record));
+        memset(&output, 0xa5, sizeof(output));
+        record.flags = 1;
+        record.opcode = 0x12;
+        record.left = (C2Expression *)1;
+        record.tail.right = &output;
+        output.next = NULL;
+        output.kind = 1;
+        output.type = 0x1004;
+        output.original_register = (C2FunctionRegister *)&machine_registers[row];
+        before = record;
+        output_before = output;
+        if (number_allocation_registers(&record) != 1 ||
+            memcmp(&record, &before, sizeof(record)) ||
+            memcmp(&output, &output_before, sizeof(output))) return 0;
+    }
+    return 1;
+}
+
+C2Expression *__fastcall allocation_definition_operands(C2Expression *record);
+static int allocation_operand_link_footprint(void)
+{
+    C2Expression record, address, first, second, expected_first, expected_second;
+    C2Expression before_record, before_address, *head;
+    unsigned opcodes[3] = { 0x122, 0x125, 0x123 }, i;
+
+    for (i = 0; i < 3; ++i) {
+        memset(&record, 0x5b, sizeof(record));
+        memset(&address, 0x8c, sizeof(address));
+        memset(&first, 0xa6, sizeof(first));
+        memset(&second, 0x39, sizeof(second));
+        record.left = &address;
+        address.opcode = opcodes[i];
+        address.aggregate_value = &first;
+        address.aggregate_second = &second;
+        before_record = record;
+        before_address = address;
+        expected_first = first;
+        expected_second = second;
+        if (i == 0) { expected_first.allocation_operand_next = NULL; head = &first; }
+        else if (i == 1) { expected_second.allocation_operand_next = NULL; head = &second; }
+        else { expected_first.allocation_operand_next = &second; head = &first; }
+        if (allocation_definition_operands(&record) != head ||
+            memcmp(&record, &before_record, sizeof(record)) ||
+            memcmp(&address, &before_address, sizeof(address)) ||
+            memcmp(&first, &expected_first, sizeof(first)) ||
+            memcmp(&second, &expected_second, sizeof(second))) return 0;
+    }
+    return 1;
+}
+
+typedef struct C2AllocationRegister C2AllocationRegister;
+int __fastcall allocation_move_is_blocked(C2FunctionRegister *source, C2Expression *move,
+    C2Expression *last, C2AllocationRegister *assigned);
+static int allocation_move_interval_liveness(void)
+{
+    C2Expression records[5], output, kill, input;
+    C2FunctionRegister source, other, root;
+    /* No block-boundary records occur here, so assigned is an identity only;
+     * this unit does not invent an allocation-register layout. */
+    unsigned assigned_identity, i;
+    C2AllocationRegister *assigned = (C2AllocationRegister *)&assigned_identity;
+
+    memset(records, 0, sizeof(records));
+    memset(&output, 0, sizeof(output));
+    memset(&kill, 0, sizeof(kill));
+    memset(&input, 0, sizeof(input));
+    memset(&source, 0, sizeof(source));
+    memset(&other, 0, sizeof(other));
+    memset(&root, 0, sizeof(root));
+    for (i = 0; i < 5; ++i) {
+        records[i].flags = 1;
+        records[i].previous = i ? &records[i - 1] : NULL;
+        records[i].next = (C2Expression *)1;
+    }
+    source.kind = other.kind = 3;
+    source.canonical = other.canonical = &root;
+    source.value_bytes = 32;
+    other.value_bytes = 1;
+    other.displacement = 32;
+    output.kind = 2;
+    output.value.reg = &other;
+    records[1].tail.right = &output;
+    if (allocation_move_is_blocked(&source, &records[0], &records[4], assigned)) return 0;
+    /* A known fixed row has a distinct canonical identity; the comparison
+     * must skip its range without reading any unrelated static payload. */
+    output.value.reg = (C2FunctionRegister *)&machine_registers[8];
+    if (allocation_move_is_blocked(&source, &records[0], &records[4], assigned)) return 0;
+    output.value.reg = &other;
+    other.displacement = 31;
+    if (!allocation_move_is_blocked(&source, &records[0], &records[4], assigned)) return 0;
+    kill.kind = 1;
+    kill.original_register = (C2FunctionRegister *)assigned;
+    records[3].tail.right = &kill;
+    if (allocation_move_is_blocked(&source, &records[0], &records[4], assigned)) return 0;
+    input.kind = 1;
+    input.original_register = (C2FunctionRegister *)assigned;
+    records[2].left = &input;
+    return allocation_move_is_blocked(&source, &records[0], &records[4], assigned) == 1;
+}
+
+int __fastcall constrain_spill_block(C2AllocationRegister *reg, C2BasicBlock *block,
+    C2RegisterSet *available, C2RegisterSet *selected, int first, C2RegisterSet *allowed);
+static int spill_block_boundary_results(void)
+{
+    C2BasicBlock block, expected;
+    C2Record end, choice, before_end, before_choice;
+    C2RegisterSet *available, *selected, *blocked, *choice_set;
+    reset_input_pool(6);
+    available = new_register_set(6); selected = new_register_set(6);
+    blocked = new_register_set(6); choice_set = new_register_set(6);
+    memset(&block, 0x5a, sizeof(block));
+    memset(&end, 0xa5, sizeof(end)); memset(&choice, 0x39, sizeof(choice));
+    block.records = block.last_record = &end;
+    block.allocation_edge_uses = blocked;
+    block.spill_partition = 9; block.spill_visit = 5; block.flags = 0x200;
+    end.previous = &choice; choice.kind = 26; choice.owner.registers = choice_set;
+    add_register_to_set(available, 1); add_register_to_set(available, 2);
+    add_register_to_set(selected, 3); add_register_to_set(blocked, 7);
+    add_register_to_set(choice_set, 4);
+    expected = block; expected.spill_visit = 9;
+    before_end = end; before_choice = choice;
+    /* This empty interval does not inspect a register object. */
+    if (constrain_spill_block(NULL, &block, available, selected, 0, NULL) != 1 ||
+        memcmp(&block, &expected, sizeof(block))) return 0;
+    block.spill_visit = 5; expected = block;
+    if (constrain_spill_block(NULL, &block, available, selected, 1, NULL) != 1 ||
+        memcmp(&block, &expected, sizeof(block)) ||
+        !optimizer_set_contains(available, 1) || !optimizer_set_contains(available, 2) ||
+        optimizer_set_contains(available, 7)) return 0;
+    clear_register_set(available);
+    expected.flags |= 0x40000;
+    if (constrain_spill_block(NULL, &block, available, selected, 1, NULL) != 0 ||
+        memcmp(&block, &expected, sizeof(block)) ||
+        memcmp(&end, &before_end, sizeof(end)) || memcmp(&choice, &before_choice, sizeof(choice)) ||
+        !optimizer_set_contains(choice_set, 3) || !optimizer_set_contains(choice_set, 4) ||
+        !optimizer_set_contains(selected, 3) || optimizer_set_contains(selected, 4) ||
+        !optimizer_set_contains(blocked, 7) || available->links.first) return 0;
+    return 1;
+}
+
 static int plain_reuse(void)
 {
     C2FunctionRegister records[2], *result;
@@ -101,23 +371,27 @@ static int register_set_node_reuse(void)
 {
     C2RegisterSet set;
     C2RegisterSetNode nodes[2], saved, *result;
-    memset(&set, 0xa5, sizeof(set));
-    memset(nodes, 0xa5, sizeof(nodes));
-    set.pool = 1;
-    nodes[0].next = &nodes[1];
-    nodes[1].next = NULL;
-    saved = nodes[1];
-    free_register_set_nodes[0] = (C2RegisterSetNode *)0x13579bdfU;
-    last_free_register_set_nodes[0] = (C2RegisterSetNode *)0x2468ace0U;
-    free_register_set_nodes[1] = &nodes[0];
-    last_free_register_set_nodes[1] = &nodes[1];
-    result = new_register_set_node(&set);
-    return result == &nodes[0] && !result->group && !result->next && !result->bits &&
-        free_register_set_nodes[1] == &nodes[1] &&
-        last_free_register_set_nodes[1] == &nodes[1] &&
-        free_register_set_nodes[0] == (C2RegisterSetNode *)0x13579bdfU &&
-        last_free_register_set_nodes[0] == (C2RegisterSetNode *)0x2468ace0U &&
-        !memcmp(&nodes[1], &saved, sizeof(saved));
+    unsigned pool;
+    for (pool = 1; pool <= 8; pool += 7) {
+        memset(&set, 0xa5, sizeof(set));
+        memset(nodes, 0xa5, sizeof(nodes));
+        set.pool = (unsigned char)pool;
+        nodes[0].next = &nodes[1];
+        nodes[1].next = NULL;
+        saved = nodes[1];
+        free_register_set_nodes[0] = (C2RegisterSetNode *)0x13579bdfU;
+        last_free_register_set_nodes[0] = (C2RegisterSetNode *)0x2468ace0U;
+        free_register_set_nodes[pool] = &nodes[0];
+        last_free_register_set_nodes[pool] = &nodes[1];
+        result = new_register_set_node(&set);
+        if (!(result == &nodes[0] && !result->group && !result->next && !result->bits &&
+            free_register_set_nodes[pool] == &nodes[1] &&
+            last_free_register_set_nodes[pool] == &nodes[1] &&
+            free_register_set_nodes[0] == (C2RegisterSetNode *)0x13579bdfU &&
+            last_free_register_set_nodes[0] == (C2RegisterSetNode *)0x2468ace0U &&
+            !memcmp(&nodes[1], &saved, sizeof(saved)))) return 0;
+    }
+    return 1;
 }
 
 static int register_set_clear(void)
@@ -342,10 +616,195 @@ static int per_function_option_aliases(void)
         c2_float_precision || c2_frame_optimization || special_function_passes ||
         extra_function_passes || c2_global_optimize || c2_global_optimization ||
         !input_no_global_optimization || input_global_optimization_active != 1) return 0;
+    /* Bit21's global optimizer at48fb4c is independent of the alias flag
+     * at490be8. A same-value setup must not conceal a consumer split. */
+    set_function_input_options(0x00200000U);
+    if (c2_global_optimize != 1 || c2_alias_optimization != 0) return 0;
+    set_function_input_options(0x02000000U);
+    if (c2_global_optimize != 0 || c2_alias_optimization != 0) return 0;
+    set_function_input_options(0x01200000U);
+    if (c2_global_optimize != 1 || c2_alias_optimization != 1) return 0;
     function.additional_flags = 0x100;
     c2_exception_optimization = 1;
     set_function_input_options(0x00200000U);
     return !c2_global_optimize && !input_global_optimization_active;
+}
+
+extern unsigned short real_comparison_status;
+static int real_conversion_range_and_sign(void)
+{
+    static const C2Real inputs[] = {
+        {0, 0x80000000UL, 0x3ffd, 0xa55a},
+        {0, 0x80000000UL, 0xbffd, 0xa55a},
+        {0, 0, 0x0000, 0xa55a},
+        {0, 0, 0x8000, 0xa55a},
+        {0, 0x80000000UL, 0x43ff, 0xa55a},
+        {0, 0x80000000UL, 0xc3ff, 0xa55a}
+    };
+    static const unsigned long high_words[] = {
+        0x3fd00000, 0xbfd00000, 0, 0x80000000,
+        0x7ff00000, 0xfff00000
+    };
+    struct {
+        unsigned long before;
+        double value;
+        unsigned long after;
+    } output;
+    struct { unsigned long before; C2Real value; unsigned long after; } restored;
+    C2Real value, expected;
+    unsigned long words[2];
+    unsigned i;
+    int status;
+    for (i = 0; i < sizeof(inputs) / sizeof(inputs[0]); ++i) {
+        value = inputs[i];
+        output.before = 0x12345678; output.after = 0x89abcdef;
+        real_operation_scratch.negative = 7; real_comparison_status = 0xffff;
+        status = input_real_to_double(&value, &output.value);
+        memcpy(words, &output.value, sizeof(words));
+        if (status != (i >= 4) || words[0] || words[1] != high_words[i] ||
+            real_operation_scratch.negative != (i == 1 || i == 5) ||
+            !!(real_comparison_status & 0x100) != (i >= 4) ||
+            memcmp(&value, &inputs[i], sizeof(value)) ||
+            output.before != 0x12345678 || output.after != 0x89abcdef) return 0;
+        memset(&restored, 0xa5, sizeof(restored));
+        expected = inputs[i]; expected.kind = 8;
+        if (i >= 4) expected.exponent = i == 4 ? 0x7fff : 0xffff;
+        input_real_from_double(&output.value, &restored.value);
+        if (memcmp(&restored.value, &expected, sizeof(expected)) ||
+            restored.before != 0xa5a5a5a5 || restored.after != 0xa5a5a5a5 ||
+            output.before != 0x12345678 || output.after != 0x89abcdef) return 0;
+    }
+    return 1;
+}
+
+static int real_expression_reuse_and_negate_form(void)
+{
+    unsigned long allocation[8], expected[8];
+    C2Real real = {0, 0x80000000UL, 0x3ffd, 8};
+    C2Expression *record;
+    C2ILToken token, token_expected;
+    memset(allocation, 0xa5, sizeof(allocation));
+    allocation[0] = 0;
+    memcpy(expected, allocation, sizeof(expected));
+    memset(expected, 0, 24);
+    expected[1] = 0x11e;
+    ((unsigned char *)expected)[8] = 8;
+    ((unsigned short *)expected)[5] = 0x4008;
+    expected[5] = (unsigned long)&real;
+    free_small_nodes[24] = (C2SmallNode *)allocation;
+    record = new_real_expression(0x4008, &real);
+    if (record != (C2Expression *)allocation || free_small_nodes[24] ||
+        memcmp(allocation, expected, sizeof(expected))) return 0;
+    release_small_node(record);
+    if (free_small_nodes[24] != (C2SmallNode *)allocation ||
+        memcmp(allocation, expected, sizeof(expected))) return 0;
+    memset(&token, 0xa5, sizeof(token)); token_expected = token;
+    token_expected.opcode = 8;
+    if (decode_input_token(8, NULL, &token) != &token ||
+        memcmp(&token, &token_expected, sizeof(token))) return 0;
+    token_expected.opcode = 89;
+    return decode_input_token(89, NULL, &token) == &token &&
+        !memcmp(&token, &token_expected, sizeof(token));
+}
+
+int c2_real_compare(int condition, C2Real *left, C2Real *right);
+static int real_comparison_masks(void)
+{
+    C2Real values[] = {
+        {0, 0x80000000UL, 0x3ffd, 8},
+        {0, 0x80000000UL, 0xbffd, 8},
+        {0, 0, 0, 8},
+        {0, 0, 0x8000, 8},
+        {0, 0xc0000000UL, 0x7fff, 8}
+    };
+    C2Real expected[5];
+    static const unsigned masks[] = {2, 4, 1, 1, 1};
+    unsigned i, condition;
+    memcpy(expected, values, sizeof(values));
+    for (i = 0; i < sizeof(values) / sizeof(values[0]); ++i)
+        for (condition = 0; condition < 8; ++condition) {
+            if (c2_real_compare(condition, &values[i], &values[2]) !=
+                !!(condition & masks[i])) return 0;
+            if (masks[i] == 1 && !(real_comparison_status & 0x4000)) return 0;
+        }
+    if (c2_real_compare(0x10000, &values[0], &values[2]) ||
+        !c2_real_compare(0x10002, &values[0], &values[2])) return 0;
+    return !memcmp(expected, values, sizeof(values));
+}
+
+int finish_real_operation(void); /* ESI destination/ST0 input, EAX status. */
+int c2_real_subtract(C2Real *left, C2Real *right, C2Real *result);
+static int real_operation_precision_and_shared_scratch(void)
+{
+    struct { unsigned before; C2Real value; unsigned after; } output;
+    C2Real input, expected, *source, *destination;
+    C2Real left = {0, 0x80000000UL, 0x3ffd, 8};
+    C2Real right = {0, 0x80000000UL, 0x3ffe, 4};
+    unsigned long scratch[2];
+    unsigned precision, variant;
+    int status, saved = c2_float_precision;
+    for (precision = 0; precision < 2; ++precision) {
+        c2_float_precision = precision;
+        for (variant = 0; variant < 3; ++variant) {
+            input.significand_low = variant ? 8 : 0;
+            input.significand_high = variant ? 0x80000000UL : 0x80000002UL;
+            input.exponent = 0x3fff;
+            input.kind = variant == 0 ? 4 : variant == 1 ? 8 : 10;
+            expected = input;
+            if (precision && variant != 2) {
+                expected.significand_low = 0;
+                expected.significand_high = 0x80000000UL;
+            }
+            memset(&output, 0xa5, sizeof(output));
+            output.value.kind = input.kind;
+            memset(&real_operation_scratch, 0xa5, sizeof(real_operation_scratch));
+            source = &input; destination = &output.value;
+            /* Invoke only the genuine private ABI; no alternate App wrapper. */
+            __asm {
+                mov edi, source
+                mov esi, destination
+                fld tbyte ptr [edi]
+                call finish_real_operation
+                mov status, eax
+            }
+            memcpy(scratch, &real_operation_scratch, sizeof(scratch));
+            if (status || memcmp(&output.value, &expected, sizeof(expected)) ||
+                output.before != 0xa5a5a5a5 || output.after != 0xa5a5a5a5) return 0;
+            if (variant == 2) {
+                if (scratch[0] != 0xa5a5a5a5 || scratch[1] != 0xa5a5a5a5) return 0;
+            } else if (!precision) {
+                if (scratch[0] || scratch[1] != 0xa5a5a5a5) return 0;
+            } else if (!variant) {
+                if (scratch[0] != 0x3f800000 || scratch[1] != 0xa5a5a5a5) return 0;
+            } else if (scratch[0] || scratch[1] != 0x3ff00000) return 0;
+        }
+    }
+    c2_float_precision = saved;
+    if (c2_real_subtract(&left, &right, &left)) return 0;
+    return !left.significand_low && left.significand_high == 0x80000000UL &&
+        left.exponent == 0xbffd && left.kind == 8;
+}
+
+static int real_input_block_scope(void)
+{
+    unsigned char raw[13], expected_raw[13];
+    ShimFILE input, expected;
+    FILE *saved = c2_current_il;
+    C2Real value;
+    unsigned i;
+    c2_current_il = (FILE *)1;
+    read_il_block(0, NULL); read_il_block(-3, NULL);
+    if (c2_current_il != (FILE *)1) return 0;
+    for (i = 0; i < sizeof(raw); ++i) raw[i] = (unsigned char)(0x12 + i);
+    memcpy(expected_raw, raw, sizeof(raw));
+    memset(&input, 0xa5, sizeof(input));
+    input._ptr = (char *)raw; input._cnt = sizeof(raw);
+    expected = input; expected._ptr += sizeof(value); expected._cnt -= sizeof(value);
+    c2_current_il = (FILE *)&input;
+    value = read_input_real();
+    c2_current_il = saved;
+    return sizeof(value) == 12 && !memcmp(&value, raw, sizeof(value)) &&
+        !memcmp(&input, &expected, sizeof(input)) && !memcmp(raw, expected_raw, sizeof(raw));
 }
 
 static int pragma_signed_fields(void)
@@ -732,13 +1191,13 @@ static int folded_integer_width(void)
 
 static int temporary_node_sizes(void)
 {
-    union { unsigned alignment; unsigned char bytes[40]; } storage;
-    static const unsigned kinds[6] = {1, 11, 14, 16, 23, 25};
+    union { unsigned alignment; unsigned char bytes[48]; } storage;
+    static const unsigned kinds[9] = {9, 5, 1, 11, 14, 15, 16, 23, 25};
     unsigned kind, size, i, row;
     C2SmallNode *node = (C2SmallNode *)&storage;
-    for (row = 0; row < 6; ++row) {
+    for (row = 0; row < 9; ++row) {
         kind = kinds[row];
-        size = kind == 23 ? 24 : kind == 1 ? 28 : (kind == 16 || kind == 25) ? 36 : 32;
+        size = kind == 5 ? 44 : (kind == 9 || kind == 23) ? 24 : kind == 1 ? 28 : (kind == 15 || kind == 16 || kind == 25) ? 36 : 32;
         memset(&storage, 0xa5, sizeof(storage));
         node->next = NULL;
         free_small_nodes[size] = node;
@@ -1680,6 +2139,49 @@ static int flow_recycling_lists(void)
         blocks[2].previous == &blocks[0] && blocks[0].previous == &blocks[1];
 }
 
+static int intrinsic_constructor_ownership(void)
+{
+    union { unsigned aligned[16]; unsigned char bytes[64]; } storage;
+    C2Expression inputs[4], *record, *operand;
+    unsigned i;
+
+    memset(&storage, 0x5a, sizeof(storage));
+    memset(inputs, 0, sizeof(inputs));
+    ((C2SmallNode *)storage.bytes)->next = NULL;
+    free_small_nodes[40] = (C2SmallNode *)storage.bytes;
+    for (i = 0; i != 4; ++i) {
+        inputs[i].kind = 7;
+        inputs[i].opcode = 0x11d;
+        inputs[i].type = 0x1004;
+        inputs[i].integer.value = i + 11;
+    }
+    inputs[1].location.expression.properties = 0x10;
+    record_line_delta = 17;
+    record = new_global_intrinsic_expression(0x15f, 0x5000, NULL,
+        &inputs[0], &inputs[1], &inputs[2], &inputs[3], 0xac, NULL, NULL);
+    if (record != (C2Expression *)storage.bytes || free_small_nodes[40] ||
+        record->kind != 17 || record->flags != 1 || record->type != 0x5000 ||
+        record->opcode != 0x15f || record->detail.intrinsic != 0xac ||
+        record->location.line != 17 || record->tail.right) return 0;
+    operand = record->left;
+    for (i = 0; i != 4; ++i) {
+        if (!operand || operand->kind != 7 || operand->type != 0x1004 ||
+            operand->integer.value != i + 11 ||
+            !(operand->location.expression.properties & 0x10) ||
+            (i == 1 ? operand == &inputs[i] : operand != &inputs[i])) return 0;
+        operand = operand->next;
+    }
+    if (operand || inputs[1].next || inputs[1].integer.value != 12 ||
+        inputs[1].location.expression.properties != 0x10) return 0;
+    for (i = 40; i != sizeof(storage); ++i)
+        if (storage.bytes[i] != 0x5a) return 0;
+    release_small_node(record);
+    if (free_small_nodes[40] != (C2SmallNode *)record || record->next) return 0;
+    for (i = 40; i != sizeof(storage); ++i)
+        if (storage.bytes[i] != 0x5a) return 0;
+    return 1;
+}
+
 static int expression_dispatch_owner_branch(void)
 {
     C2Function function;
@@ -2079,37 +2581,70 @@ static int fixed_register_overlap_boundaries(void)
 {
     C2Expression record, operands[2];
     C2FunctionRegister views[2];
-    C2MachineRegister *fixed = &machine_registers[1];
+    C2MachineRegister *fixed;
+    unsigned rows[4] = { 1, 2, 7, 8 }, i;
 
-    if (fixed->canonical != (C2FunctionRegister *)fixed ||
-        fixed->number != 1 || fixed->bit_width != 32 || fixed->bit_displacement) return 0;
-    memset(&record, 0, sizeof(record));
-    memset(operands, 0, sizeof(operands));
-    memset(views, 0, sizeof(views));
-    record.left = &operands[0];
-    operands[0].kind = operands[1].kind = 1;
-    operands[0].next = &operands[1];
-    operands[0].original_register = &views[0];
-    operands[1].original_register = &views[1];
-    views[0].canonical = views[1].canonical = fixed->canonical;
-    views[0].displacement = 32;
-    views[0].value_bytes = 1;
-    views[1].displacement = 31;
-    views[1].value_bytes = 1;
-    if (final_record_uses_machine_register(&record, fixed) != &operands[1]) return 0;
-    views[1].displacement = -1;
-    if (final_record_uses_machine_register(&record, fixed)) return 0;
-    views[1].value_bytes = 2;
-    if (final_record_uses_machine_register(&record, fixed) != &operands[1]) return 0;
-    views[1].canonical = &views[1];
-    if (final_record_uses_machine_register(&record, fixed)) return 0;
-    operands[0].original_register = (C2FunctionRegister *)fixed;
-    return final_record_uses_machine_register(&record, fixed) == &operands[0];
+    for (i = 0; i < 4; ++i) {
+        fixed = &machine_registers[rows[i]];
+
+        if (fixed->canonical != (C2FunctionRegister *)fixed ||
+            fixed->number != rows[i] || fixed->bit_width != 32 || fixed->bit_displacement) return 0;
+        memset(&record, 0, sizeof(record));
+        memset(operands, 0, sizeof(operands));
+        memset(views, 0, sizeof(views));
+        record.left = &operands[0];
+        operands[0].kind = operands[1].kind = 1;
+        operands[0].next = &operands[1];
+        operands[0].original_register = &views[0];
+        operands[1].original_register = &views[1];
+        views[0].canonical = views[1].canonical = fixed->canonical;
+        views[0].displacement = 32;
+        views[0].value_bytes = 1;
+        views[1].displacement = 31;
+        views[1].value_bytes = 1;
+        if (final_record_uses_machine_register(&record, fixed) != &operands[1]) return 0;
+        views[1].displacement = -1;
+        if (final_record_uses_machine_register(&record, fixed)) return 0;
+        views[1].value_bytes = 2;
+        if (final_record_uses_machine_register(&record, fixed) != &operands[1]) return 0;
+        views[1].canonical = &views[1];
+        if (final_record_uses_machine_register(&record, fixed)) return 0;
+        operands[0].original_register = (C2FunctionRegister *)fixed;
+        if (final_record_uses_machine_register(&record, fixed) != &operands[0]) return 0;
+    }
+    return 1;
 }
 
 C2Expression *__fastcall find_final_register_output(C2Expression *record,
     C2FunctionRegister *reg);
 
+static int spill_byte_view_chain(void)
+{
+    unsigned roots[3] = {1, 3, 4}, words[3] = {9, 11, 12}, bytes[3] = {17, 19, 20};
+    C2FunctionRegister *root, *word, *byte, *saved_next, *result;
+    unsigned i;
+
+    for (i = 0; i < 3; ++i) {
+        root = (C2FunctionRegister *)&machine_registers[roots[i]];
+        word = (C2FunctionRegister *)&machine_registers[words[i]];
+        byte = (C2FunctionRegister *)&machine_registers[bytes[i]];
+        saved_next = byte->variant_next;
+        if (root->variant_next != word || word->variant_next != byte ||
+            word->value_bytes != 16 || word->displacement ||
+            byte->value_bytes != 8 || byte->displacement ||
+            (i != 1 && (byte->kind != 1 || byte->canonical != root))) return 0;
+        /* The lookup stops at the matching range without observing its
+         * unavailable continuation. No other row payload is compared. */
+        byte->variant_next = (C2FunctionRegister *)1;
+        result = new_bitfield_register(root, 8, 0);
+        byte->variant_next = saved_next;
+        if (result != byte || new_bitfield_register(root, 32, 0) != root) return 0;
+    }
+    return ((C2FunctionRegister *)&machine_registers[19])->canonical ==
+        (C2FunctionRegister *)&machine_registers[3];
+}
+
+int __fastcall adjust_final_stack_depth(C2Expression *record, int depth);
 static int fixed_output_byte_alias(void)
 {
     C2Expression record, operand;
@@ -2128,6 +2663,27 @@ static int fixed_output_byte_alias(void)
     if (find_final_register_output(&record, root) != &operand ||
         find_final_register_output(&record, byte) != &operand ||
         find_final_register_output(&record, (C2FunctionRegister *)&machine_registers[1])) return 0;
+    {
+        static const unsigned roots[] = { 1, 4 };
+        static const unsigned bytes[] = { 17, 20 };
+        unsigned i;
+        for (i = 0; i < 2; ++i) {
+            C2FunctionRegister *other_root = (C2FunctionRegister *)&machine_registers[roots[i]];
+            C2FunctionRegister *other_byte = (C2FunctionRegister *)&machine_registers[bytes[i]];
+            operand.original_register = other_byte;
+            if (other_byte->canonical != other_root || other_byte->value_bytes != 8 ||
+                other_byte->number != bytes[i] || other_byte->displacement ||
+                find_final_register_output(&record, other_root) != &operand ||
+                find_final_register_output(&record, other_byte) != &operand ||
+                find_final_register_output(&record, root)) return 0;
+            record.left = &operand;
+            if (final_record_uses_machine_register(&record, &machine_registers[66]) ||
+                (i == 0 && final_record_uses_machine_register(&record,
+                    &machine_registers[1]) != &operand)) return 0;
+            record.opcode = 1; record.flags = 1; record.left = NULL;
+            if (adjust_final_stack_depth(&record, -16) != -16) return 0;
+        }
+    }
     adjacent.canonical = root;
     adjacent.value_bytes = 8;
     adjacent.displacement = 8;
@@ -2693,7 +3249,7 @@ static int integer_arithmetic_encoding_recipes(void)
     unsigned i, j, count;
     static const struct {
         unsigned opcode, width, immediate, count;
-        unsigned char bytes[3];
+        unsigned char bytes[6];
     } cases[] = {
         {0x21,4,0,1,{0x40}},       /* INC EAX */
         {0x21,1,0,2,{0xfe,0xc0}},  /* INC AL */
@@ -2701,7 +3257,17 @@ static int integer_arithmetic_encoding_recipes(void)
         {0x20,4,0,2,{0xf7,0xf8}},  /* IDIV EAX */
         {0x2d,4,5,3,{0x83,0xc0,5}},/* ADD EAX,5 with signed-byte immediate */
         {0x32,4,5,3,{0x83,0xe8,5}},/* SUB EAX,5 */
-        {0x29,4,3,3,{0xc1,0xf8,3}} /* SAR EAX,3 */
+        {0x29,4,3,3,{0xc1,0xf8,3}}, /* SAR EAX,3 */
+        {0x33,1,5,2,{0xa8,5}},     /* TEST AL,5 */
+        {0x33,2,5,4,{0x66,0xa9,5,0}}, /* TEST AX,5 */
+        {0x33,4,5,5,{0xa9,5,0,0,0}}, /* TEST EAX,5: no imm8 relaxation */
+        {0x2f,4,5,3,{0x83,0xf8,5}}, /* CMP EAX,5 */
+        {0xc1,4,5,3,{0x6b,0xc0,5}}, /* IMUL EAX,EAX,5 drops0f prefix */
+        {0x1e,4,0,1,{0x48}},        /* DEC EAX */
+        {0x1e,1,0,2,{0xfe,0xc8}},   /* DEC AL */
+        {0xfe,1,0,2,{0xf3,0xa4}},   /* REP MOVSB */
+        {0xfe,2,0,3,{0x66,0xf3,0xa5}}, /* REP MOVSW */
+        {0xfe,4,0,2,{0xf3,0xa5}}    /* REP MOVSD */
     };
     memset(&record, 0, sizeof(record));
     memset(&input, 0, sizeof(input));
@@ -2718,6 +3284,21 @@ static int integer_arithmetic_encoding_recipes(void)
         before_input = input; before_literal = literal;
         count = encode_final_record(&record, bytes, NULL, NULL);
         if (count != cases[i].count || memcmp(bytes, cases[i].bytes, count)) return 0;
+        for (j = count; j < sizeof(bytes); ++j) if (bytes[j] != 0xa5) return 0;
+        if (memcmp(&input, &before_input, sizeof(input)) ||
+            memcmp(&literal, &before_literal, sizeof(literal))) return 0;
+    }
+    /* Byte view numbers17/20 are distinct from their physical codes0/3. */
+    for (i = 0; i < 2; ++i) {
+        memset(bytes, 0xa5, sizeof(bytes));
+        record.opcode = 1; record.type = 0x1001;
+        record.left = &literal; record.tail.right = &input;
+        input.next = NULL; input.type = record.type;
+        input.original_register = (C2FunctionRegister *)&machine_registers[i ? 20 : 17];
+        literal.integer.value = 0x7f;
+        before_input = input; before_literal = literal;
+        count = encode_final_record(&record, bytes, NULL, NULL);
+        if (count != 2 || bytes[0] != (i ? 0xb3 : 0xb0) || bytes[1] != 0x7f) return 0;
         for (j = count; j < sizeof(bytes); ++j) if (bytes[j] != 0xa5) return 0;
         if (memcmp(&input, &before_input, sizeof(input)) ||
             memcmp(&literal, &before_literal, sizeof(literal))) return 0;
@@ -3309,7 +3890,867 @@ static int shift_range_outputs_and_counts(void)
     return 1;
 }
 
+void __fastcall refresh_allocation_work(C2Function *function, int which);
+static int spill_refresh_flow_owner(void)
+{
+    C2Function function;
+    C2FlowGraph flow;
+    C2BasicBlock blocks[3];
+    C2RegisterSet sets[3], recycled;
+    unsigned i;
+
+    memset(&function, 0, sizeof(function));
+    memset(&flow, 0, sizeof(flow));
+    memset(blocks, 0, sizeof(blocks));
+    memset(sets, 0, sizeof(sets));
+    memset(&recycled, 0, sizeof(recycled));
+    function.flow = &flow;
+    flow.last = &blocks[2];
+    flow.first = &blocks[0];
+    for (i = 0; i < 3; ++i) {
+        blocks[i].previous = i ? &blocks[i - 1] : NULL;
+        blocks[i].next = i == 2 ? NULL : &blocks[i + 1];
+        blocks[i].flags = 0x80000 | (1U << i);
+        blocks[i].allocation_live_in_after = &sets[i];
+    }
+    register_set_pool_six_initialized = 1;
+    free_register_sets[6] = last_free_register_sets[6] = &recycled;
+    refresh_allocation_work(&function, 0);
+    for (i = 0; i < 3; ++i)
+        if (blocks[i].flags != (1U << i) || sets[i].links.first) return 0;
+    return flow.last == &blocks[2] && flow.first == &blocks[0] &&
+        !blocks[0].previous && !blocks[2].next;
+}
+
+C2Expression *__fastcall simplify_statement_expressions(C2Record *record);
+static int statement_simplification_returns_owner(void)
+{
+    C2Record record;
+    C2Expression argument;
+    C2FunctionRegister reg;
+    memset(&record, 0, sizeof(record));
+    memset(&argument, 0, sizeof(argument));
+    memset(&reg, 0, sizeof(reg));
+    if (simplify_statement_expressions(&record) != (C2Expression *)&record) return 0;
+    record.opcode = 0x140;
+    record.value.arguments = &argument;
+    argument.kind = 4;
+    if (simplify_statement_expressions(&record) != (C2Expression *)&record) return 0;
+    argument.kind = 1;
+    argument.value.reg = &reg;
+    return simplify_statement_expressions(&record) == (C2Expression *)&record &&
+        !reg.value && record.value.arguments == &argument;
+}
+
+int __fastcall can_pair_schedule_nodes(C2ScheduleNode *first, C2ScheduleNode *second);
+unsigned __fastcall schedule_record_resource_class(C2Expression *record);
+unsigned __fastcall schedule_node_cost(C2ScheduleNode *node);
+int __fastcall schedule_node_resource_cost(C2ScheduleNode *node);
+C2ScheduleRegisterAlias *__fastcall find_schedule_register_alias(C2FunctionRegister *reg);
+static int schedule_pairing_property_width(void)
+{
+    static const unsigned float_rows[][5] = {
+        {0x56,3,1,2,0}, {0x47,3,1,2,1}, {0x63,1,1,2,0}, {0x60,1,1,2,1},
+        {0x46,3,1,2,1}, {0x4b,3,1,2,1}, {0x5d,4,1,2,1},
+        {0x6e,2,2,2,0}, {0xae,2,2,0,0}, {0x4a,39,39,2,1},
+        {0x77,1,1,2,1}, {0x45,3,1,2,1}
+    };
+    unsigned i;
+    C2Function function;
+    C2Symbol symbol;
+    C2ScheduleNode first, second;
+    C2Expression source, destination;
+    memset(&function, 0, sizeof(function));
+    memset(&symbol, 0, sizeof(symbol));
+    memset(&first, 0, sizeof(first));
+    memset(&second, 0, sizeof(second));
+    memset(&source, 0, sizeof(source));
+    memset(&destination, 0, sizeof(destination));
+    current_symbol = &symbol;
+    c2_cpu_generation = 5;
+    schedule_final_mode = 0;
+    initialize_schedule_function(&function);
+    source.type = destination.type = 0x1004;
+    first.record = &source;
+    second.record = &destination;
+    source.opcode = 0x33;
+    destination.opcode = 1;
+    if (schedule_record_resource_class(&source) || can_pair_schedule_nodes(&first, &second)) return 0;
+    source.opcode = 1;
+    destination.opcode = 0x33;
+    if (can_pair_schedule_nodes(&first, &second)) return 0;
+    destination.opcode = 0xf;
+    if (schedule_record_resource_class(&destination) || !can_pair_schedule_nodes(&first, &second)) return 0;
+    source.opcode = 0xfe;
+    source.left = source.tail.right = NULL;
+    if (schedule_record_resource_class(&source) || schedule_node_cost(&first) != 13 ||
+        schedule_node_resource_cost(&first) != 13 ||
+        can_pair_schedule_nodes(&first, &second)) return 0;
+    source.opcode = 1; destination.opcode = 0xfe;
+    if (can_pair_schedule_nodes(&first, &second)) return 0;
+    source.opcode = 0xf;
+    destination.opcode = 1;
+    if (can_pair_schedule_nodes(&first, &second)) return 0;
+    source.type = 0x4008; destination.opcode = 0x5f;
+    for (i = 0; i != sizeof(float_rows) / sizeof(float_rows[0]); ++i) {
+        source.opcode = float_rows[i][0];
+        if (schedule_record_resource_class(&source) != float_rows[i][3] ||
+            schedule_node_cost(&first) != float_rows[i][1] ||
+            schedule_node_resource_cost(&first) != (int)float_rows[i][2] ||
+            can_pair_schedule_nodes(&first, &second) != (int)float_rows[i][4]) return 0;
+        destination.opcode = 1;
+        if (can_pair_schedule_nodes(&first, &second)) return 0;
+        destination.opcode = 0x5f;
+    }
+    return 1;
+}
+int __fastcall schedule_operand_fully_covers(C2Expression *written, C2Expression *used);
+void __fastcall make_global_register_operand(C2Expression *operand);
+extern unsigned optimizer_original_limit;
+static int schedule_operand_coverage_boundaries(void)
+{
+    C2Expression first, second;
+    C2FunctionRegister wide, narrow, other;
+    unsigned saved_limit = optimizer_original_limit;
+    memset(&first, 0, sizeof(first)); memset(&second, 0, sizeof(second));
+    memset(&wide, 0, sizeof(wide)); memset(&narrow, 0, sizeof(narrow));
+    memset(&other, 0, sizeof(other));
+    wide.kind = narrow.kind = 3;
+    wide.canonical = narrow.canonical = &wide;
+    wide.value_bytes = 32; wide.displacement = -8;
+    narrow.value_bytes = 8; narrow.displacement = 16;
+    first.kind = second.kind = 1;
+    first.original_register = &wide; second.original_register = &narrow;
+    if (!schedule_operand_fully_covers(&first, &first) ||
+        !schedule_operand_fully_covers(&first, &second) ||
+        schedule_operand_fully_covers(&second, &first)) return 0;
+    narrow.displacement = 17;
+    if (schedule_operand_fully_covers(&first, &second)) return 0;
+    narrow.displacement = -9;
+    if (schedule_operand_fully_covers(&first, &second)) return 0;
+    narrow.canonical = &other;
+    if (schedule_operand_fully_covers(&first, &second)) return 0;
+    first.kind = second.kind = 2;
+    first.value.reg = &wide; second.value.reg = &narrow;
+    narrow.canonical = &wide; narrow.displacement = 16;
+    if (!schedule_operand_fully_covers(&first, &second)) return 0;
+    first.kind = second.kind = 6;
+    first.immediate = second.immediate = 4; optimizer_original_limit = 5;
+    if (schedule_operand_fully_covers(&first, &second)) return 0;
+    optimizer_original_limit = saved_limit;
+    wide.kind = 8; first.value.reg = &wide; first.left = &second;
+    make_global_register_operand(&first);
+    return first.kind == 2 && first.opcode == 0x121 && !first.left &&
+        first.value.reg == &wide;
+}
+static int schedule_frame_slot_overlap(void)
+{
+    C2FunctionRegister reg, root;
+    C2Symbol symbol;
+    C2FrameSlot slots[2], *saved = frame_slots;
+    C2FrameSlotUse uses[2];
+    int pass;
+    memset(&reg, 0, sizeof(reg));
+    memset(&root, 0, sizeof(root));
+    memset(&symbol, 0, sizeof(symbol));
+    memset(slots, 0, sizeof(slots));
+    memset(uses, 0, sizeof(uses));
+    reg.canonical = &root;
+    root.kind = 3;
+    root.frame_displacement = -16;
+    root.value_bytes = 8;
+    frame_slots = &slots[0];
+    slots[0].next = &slots[1];
+    slots[0].offset = -24; slots[0].bytes = 8; slots[0].uses = &uses[0];
+    slots[1].offset = -8; slots[1].bytes = 4; slots[1].uses = &uses[1];
+    pass = find_schedule_register_alias(&reg) == NULL;
+    slots[0].offset = -15; slots[0].bytes = 1;
+    pass = pass && find_schedule_register_alias(&reg) == &uses[0];
+    root.kind = 4; root.symbol = &symbol; symbol.parameter_offset = 0;
+    slots[0].offset = -4; slots[0].bytes = 4;
+    slots[1].offset = 0; slots[1].bytes = 1;
+    pass = pass && find_schedule_register_alias(&reg) == &uses[1];
+    frame_slots = saved;
+    return pass;
+}
+
+extern C2ScheduleMemory *free_schedule_memory_uses;
+C2ScheduleMemory *__fastcall new_schedule_memory_use(C2Expression *operand, C2ScheduleNode *node);
+static int schedule_memory_reuse_owner(void)
+{
+    struct { C2ScheduleMemory use; unsigned canary; } first;
+    C2ScheduleMemory tail, *saved = free_schedule_memory_uses, *result;
+    C2Expression operand;
+    C2ScheduleNode node;
+    memset(&first, 0xa5, sizeof(first));
+    memset(&tail, 0, sizeof(tail));
+    first.use.next = &tail;
+    free_schedule_memory_uses = &first.use;
+    result = new_schedule_memory_use(&operand, &node);
+    if (result != &first.use || free_schedule_memory_uses != &tail ||
+        result->operand != &operand || result->node != &node || result->next ||
+        first.canary != 0xa5a5a5a5U) return 0;
+    free_schedule_memory_uses = saved;
+    return 1;
+}
+
+void __fastcall prepare_schedule_ready_node(C2ScheduleNode *node);
+void __fastcall remove_schedule_dependency(C2ScheduleDependency *edge);
+extern C2ScheduleGraph *active_schedule_graph;
+extern unsigned schedule_edge_count;
+static int schedule_ready_predecessor_fence(void)
+{
+    C2ScheduleNode oldest, fence, middle, node;
+    C2ScheduleDependency edge, expected;
+    C2ScheduleGraph graph;
+    memset(&oldest, 0, sizeof(oldest)); memset(&fence, 0, sizeof(fence));
+    memset(&middle, 0, sizeof(middle)); memset(&node, 0, sizeof(node));
+    memset(&edge, 0xa5, sizeof(edge));
+    oldest.flags3a = fence.flags3a = 1;
+    fence.previous = &oldest; middle.previous = &fence; node.previous = &middle;
+    node.next = &oldest; node.incoming = &edge;
+    edge.next_outgoing = edge.next_incoming = NULL; edge.source = &fence; edge.destination = &node;
+    expected = edge; expected.flags |= 0x80000;
+    prepare_schedule_ready_node(&node);
+    if (memcmp(&edge, &expected, sizeof(edge)) ||
+        node.previous != &middle || middle.previous != &fence ||
+        fence.previous != &oldest || node.next != &oldest) return 0;
+    memset(&graph, 0, sizeof(graph)); active_schedule_graph = &graph;
+    node.incoming_count = node.remaining_incoming = fence.outgoing_count = 1;
+    fence.outgoing = &edge; schedule_edge_count = 1;
+    remove_schedule_dependency(&edge);
+    return !node.incoming_count && !node.remaining_incoming && !fence.outgoing_count &&
+        !node.incoming && !fence.outgoing && !schedule_edge_count &&
+        graph.flow.free_edges == (C2FlowEdge *)&edge &&
+        !memcmp(&edge, &expected, sizeof(edge));
+}
+
+C2Expression *__fastcall lower_final_float_record(C2Expression *record);
+extern C2FunctionRegister *final_float_register_stack[8];
+extern int final_float_stack_top;
+extern int c2_favor_speed;
+static int final_float_stack_transitions(void)
+{
+    C2Expression record, input, output, before_input, before_output;
+    C2FunctionRegister reg, *saved[8];
+    int old_speed = c2_favor_speed, old_top = final_float_stack_top, ok = 1;
+    unsigned i;
+    memcpy(saved, final_float_register_stack, sizeof(saved));
+    c2_favor_speed = 0;
+    memset(&reg, 0, sizeof(reg));
+    reg.kind = 3; reg.value = &record;
+    memset(&record, 0, sizeof(record));
+    memset(&input, 0x5a, sizeof(input)); memset(&output, 0xa5, sizeof(output));
+    record.opcode = 0x131; record.left = &input; record.tail.right = &output;
+    input.kind = 1; input.value.reg = &reg; output.kind = 7;
+    before_input = input; before_output = output;
+    for (i = 0; i != 8; ++i) final_float_register_stack[i] = &reg;
+    final_float_stack_top = 3;
+    if (lower_final_float_record(&record) != &record || record.opcode != 0x63 ||
+        final_float_stack_top != 2 || final_float_register_stack[3] ||
+        input.fixed_register != &machine_registers[31] ||
+        memcmp(&output, &before_output, sizeof(output))) ok = 0;
+    before_input.fixed_register = &machine_registers[31];
+    if (memcmp(&input, &before_input, sizeof(input))) ok = 0;
+    for (i = 0; i != 8; ++i)
+        if (i != 3 && final_float_register_stack[i] != &reg) ok = 0;
+    input = before_input; output = before_output;
+    output.kind = 1; output.value.reg = &reg;
+    before_input = input; before_output = output;
+    record.opcode = 0x131; final_float_stack_top = -1;
+    if (lower_final_float_record(&record) != &record || record.opcode != 0x60 ||
+        final_float_stack_top != 0 || final_float_register_stack[0] != &reg ||
+        output.fixed_register != &machine_registers[31] ||
+        memcmp(&input, &before_input, sizeof(input))) ok = 0;
+    before_output.fixed_register = &machine_registers[31];
+    if (memcmp(&output, &before_output, sizeof(output))) ok = 0;
+    memcpy(final_float_register_stack, saved, sizeof(saved));
+    final_float_stack_top = old_top; c2_favor_speed = old_speed;
+    return ok;
+}
+
+void __fastcall select_float_arithmetic_form(C2Expression *record, int reverse, int pop);
+static int float_arithmetic_forms_and_word_view(void)
+{
+    static const unsigned opcodes[] = {0x45, 0x46, 0x47, 0x49};
+    static const unsigned forms[4][2][2] = {
+        {{0x45, 0x4b}, {0x45, 0x4b}},
+        {{0x46, 0x4c}, {0x46, 0x4c}},
+        {{0x47, 0x4e}, {0x48, 0x4d}},
+        {{0x49, 0x50}, {0x4a, 0x4f}}
+    };
+    static const int modes[] = {0, 1, -1};
+    C2Expression record, expected;
+    unsigned op, reverse, pop;
+    for (op = 0; op != 4; ++op)
+        for (reverse = 0; reverse != 3; ++reverse)
+            for (pop = 0; pop != 3; ++pop) {
+                memset(&record, 0xa5, sizeof(record));
+                record.opcode = opcodes[op]; expected = record;
+                expected.opcode = forms[op][reverse != 0][pop != 0];
+                select_float_arithmetic_form(&record, modes[reverse], modes[pop]);
+                if (memcmp(&record, &expected, sizeof(record))) return 0;
+            }
+    if (machine_registers[9].kind != 1 || machine_registers[9].number != 9 ||
+        machine_registers[9].canonical != (C2FunctionRegister *)&machine_registers[1] ||
+        new_bitfield_register((C2FunctionRegister *)&machine_registers[9], 16, 0) !=
+            (C2FunctionRegister *)&machine_registers[9]) return 0;
+    memset(&record, 0, sizeof(record)); memset(&expected, 0, sizeof(expected));
+    expected.kind = 1; record.tail.right = &expected;
+    for (op = 0; op != 3; ++op) {
+        unsigned row = op == 0 ? 31 : op == 1 ? 32 : 74;
+        if (machine_registers[row].canonical != (C2FunctionRegister *)&machine_registers[row]) return 0;
+        expected.original_register = (C2FunctionRegister *)&machine_registers[row];
+        record.left = &expected;
+        if (find_final_register_output(&record, (C2FunctionRegister *)&machine_registers[row]) != &expected ||
+            find_final_register_output(&record, (C2FunctionRegister *)&machine_registers[66]) ||
+            (row != 32 && final_record_uses_machine_register(&record, &machine_registers[66]))) return 0;
+    }
+    return 1;
+}
+
+C2Expression *__fastcall split_final_wide_result(C2Expression *record,
+    C2Expression *operand, C2Expression **replacement);
+static int wide_integer_halves_and_fallback(void)
+{
+    static const unsigned words[][2] = {
+        {0xabcdef01U, 0x12345678U}, {1, 0x80000000U},
+        {0xffffffffU, 0xffffffffU}, {0x80000000U, 0}
+    };
+    C2Expression owner, operand, expected, *result, *holder = &owner;
+    C2SmallNode *saved = free_small_nodes[32];
+    unsigned backing[10], type, row, low_high, upper_high;
+    int ok = 1;
+    memset(&owner, 0, sizeof(owner)); owner.opcode = 1;
+    for (type = 0x1008; type <= 0x2008; type += 0x1000)
+        for (row = 0; row != 4; ++row) {
+            memset(backing, 0xa5, sizeof(backing)); backing[0] = 0;
+            free_small_nodes[32] = (C2SmallNode *)backing;
+            memset(&operand, 0x5a, sizeof(operand));
+            operand.kind = 7; operand.type = (unsigned short)type;
+            operand.integer.low = words[row][0]; operand.integer.high = words[row][1];
+            expected = operand; expected.type = (unsigned short)((type & 0xf000) | 4);
+            low_high = type == 0x1008 && (words[row][0] & 0x80000000U) ? ~0U : 0;
+            upper_high = type == 0x1008 && (words[row][1] & 0x80000000U) ? ~0U : 0;
+            expected.integer.high = low_high;
+            result = split_final_wide_result(&owner, &operand, &holder);
+            if (result != (C2Expression *)backing || holder != &owner ||
+                result->type != expected.type || result->integer.low != words[row][1] ||
+                result->integer.high != upper_high || free_small_nodes[32] ||
+                backing[8] != 0xa5a5a5a5U || backing[9] != 0xa5a5a5a5U ||
+                memcmp(&operand, &expected, sizeof(operand))) ok = 0;
+        }
+    free_small_nodes[32] = saved;
+    memset(&operand, 0x5a, sizeof(operand)); operand.kind = 5; expected = operand;
+    if (split_final_wide_result(&owner, NULL, &holder) || holder != &owner ||
+        split_final_wide_result(&owner, &operand, &holder) != (C2Expression *)&holder ||
+        holder != &owner || memcmp(&operand, &expected, sizeof(operand))) ok = 0;
+    return ok;
+}
+
+extern C2InitRecord *free_initializers;
+static int initializer_reuse_exact_span(void)
+{
+    struct { C2InitRecord record; unsigned canary[2]; } backing;
+    C2InitRecord expected, next, other, *saved = free_initializers, *created;
+    int ok;
+
+    memset(&backing, 0xa5, sizeof(backing));
+    backing.record.next = &other;
+    backing.record.list_next = &next;
+    free_initializers = &backing.record;
+    memset(&expected, 0, sizeof(expected)); expected.kind = 1;
+    created = new_initializer(1);
+    ok = created == &backing.record && free_initializers == &next &&
+        !memcmp(created, &expected, sizeof(expected)) &&
+        backing.canary[0] == 0xa5a5a5a5U && backing.canary[1] == 0xa5a5a5a5U;
+    free_initializers = saved;
+    return ok;
+}
+
+int __fastcall early_schedule_range_is_usable(C2Expression *first, C2Expression *last);
+static int early_schedule_float_density_boundaries(void)
+{
+    /* Independent opcode set from the original signed two-column comparison. */
+    static const unsigned preferred[] = {0x45,0x46,0x47,0x48,0x4b,0x4c,0x4d,0x4e,
+        0x51,0x52,0x53,0x56,0x57,0x58,0x59,0x5c,0x5d,0x5e,
+        0x80,0x81,0x82,0x83,0x84,0x8d,0xd1,0xd2,0xd3};
+    C2Function function;
+    C2Symbol symbol;
+    C2Expression record, other, end, expected;
+    unsigned opcode, i;
+    int wanted;
+
+    memset(&function, 0, sizeof(function)); memset(&symbol, 0, sizeof(symbol));
+    current_symbol = &symbol; c2_cpu_generation = 5; schedule_final_mode = 0;
+    initialize_schedule_function(&function);
+    memset(&record, 0, sizeof(record)); memset(&other, 0, sizeof(other));
+    memset(&end, 0xa5, sizeof(end)); record.next = &end;
+    record.flags = 1; record.type = 0x4008;
+    if (early_schedule_range_is_usable(&record, &record)) return 0;
+    for (opcode = 0; opcode <= 0x11b; ++opcode) {
+        wanted = 0;
+        for (i = 0; i < sizeof(preferred)/sizeof(preferred[0]); ++i)
+            if (preferred[i] == opcode) wanted = 1;
+        record.opcode = opcode; expected = record;
+        if (early_schedule_range_is_usable(&record, &end) != wanted ||
+            memcmp(&record, &expected, sizeof(record))) return 0;
+    }
+    record.opcode = 0x45; record.next = &other;
+    other.next = &end; other.flags = 1; other.type = 0x1004;
+    if (early_schedule_range_is_usable(&record, &end)) return 0;
+    other.flags = 0;
+    if (!early_schedule_range_is_usable(&record, &end)) return 0;
+    record.flags = 0;
+    return !early_schedule_range_is_usable(&record, &end);
+}
+
+int __fastcall allocation_spill_is_profitable(unsigned number,
+    C2BasicBlock *from, C2BasicBlock *to);
+static int spill_profitability_definition_owner(void)
+{
+    C2BasicBlock from, first, second, common, before_first, before_second;
+    C2FlowEdge first_edge, second_edge, common_edge;
+    C2RegisterSet *empty, *marked;
+    int allowed;
+
+    reset_input_pool(6);
+    empty = new_register_set(6); marked = new_register_set(6);
+    memset(&from, 0, sizeof(from)); memset(&first, 0, sizeof(first));
+    memset(&second, 0, sizeof(second)); memset(&common, 0, sizeof(common));
+    memset(&first_edge, 0, sizeof(first_edge));
+    memset(&second_edge, 0, sizeof(second_edge));
+    memset(&common_edge, 0, sizeof(common_edge));
+    add_register_to_set(marked, 41);
+    from.incoming = &first_edge;
+    first_edge.source = &first; first_edge.next_incoming = &second_edge;
+    second_edge.source = &second;
+    first.number84 = 1; second.number84 = 2; common.number84 = 3;
+    first.incoming = &common_edge; common_edge.source = &common;
+    /* A value can be live at a predecessor without being defined there.
+     * The common endpoint itself is outside the intervening-path test. */
+    first.allocation_live_in = marked; first.allocation_definitions = empty;
+    second.allocation_live_in = empty; second.allocation_definitions = empty;
+    common.allocation_definitions = marked;
+    before_first = first; before_second = second;
+    allowed = allocation_spill_is_profitable(41, &from, &common);
+    if (!allowed || memcmp(&first, &before_first, sizeof(first)) ||
+        memcmp(&second, &before_second, sizeof(second))) return 0;
+    /* A definition on the other path must reject, even with no live-in bit. */
+    second.allocation_definitions = marked; before_second = second;
+    if (allocation_spill_is_profitable(41, &from, &common) ||
+        memcmp(&first, &before_first, sizeof(first)) ||
+        memcmp(&second, &before_second, sizeof(second))) return 0;
+    second.allocation_definitions = empty;
+    return allocation_spill_is_profitable(41, &from, &common) &&
+        optimizer_set_contains(marked, 41) && !empty->links.first;
+}
+
+void __fastcall move_final_label_after(C2Expression *after, C2Expression *label);
+static int final_label_move_chain_identity(void)
+{
+    C2Expression nodes[5], expected[5];
+    unsigned i;
+    memset(nodes, 0xa5, sizeof(nodes));
+    for (i = 0; i != 5; ++i) {
+        nodes[i].previous = i ? &nodes[i - 1] : NULL;
+        nodes[i].next = i != 4 ? &nodes[i + 1] : NULL;
+    }
+    memcpy(expected, nodes, sizeof(nodes));
+    expected[0].next = &nodes[3];
+    expected[3].previous = &nodes[0]; expected[3].next = &nodes[1];
+    expected[1].previous = &nodes[3]; expected[2].next = &nodes[4];
+    expected[4].previous = &nodes[2];
+    move_final_label_after(&nodes[0], &nodes[3]);
+    if (memcmp(nodes, expected, sizeof(nodes))) return 0;
+    /* The reached initializer also makes this call for already adjacent nodes. */
+    move_final_label_after(&nodes[0], &nodes[3]);
+    if (memcmp(nodes, expected, sizeof(nodes))) return 0;
+    expected[0].next = &nodes[1]; expected[1].previous = &nodes[0];
+    expected[2].next = &nodes[3]; expected[3].previous = &nodes[2];
+    expected[3].next = &nodes[4]; expected[4].previous = &nodes[3];
+    move_final_label_after(&nodes[2], &nodes[3]);
+    return !memcmp(nodes, expected, sizeof(nodes));
+}
+
+int __fastcall float_allocation_record_needs_reload(C2Expression *record);
+static int float_reload_follows_value_identity(void)
+{
+    C2Expression record, next, output, input, before;
+    C2FunctionRegister value, other;
+    unsigned opcode;
+    int expected;
+    memset(&record, 0, sizeof(record)); memset(&next, 0, sizeof(next));
+    memset(&output, 0, sizeof(output)); memset(&input, 0, sizeof(input));
+    memset(&value, 0, sizeof(value)); memset(&other, 0, sizeof(other));
+    record.tail.right = &output; record.next = &next; output.value.reg = &value;
+    value.kind = 3; value.value = &record;
+    next.flags = 1; next.left = &input; input.kind = 1;
+    input.type = 0x1004; /* This consumer tests kind/value identity, not its type. */
+    input.value.reg = &value;
+    input.original_register = &other;
+    for (opcode = 0x5b; opcode <= 0x64; ++opcode) {
+        next.opcode = opcode; before = next;
+        expected = opcode == 0x5c || opcode == 0x5d || opcode == 0x5e ||
+            opcode == 0x62 || opcode == 0x63;
+        if (float_allocation_record_needs_reload(&record) != expected ||
+            memcmp(&next, &before, sizeof(next))) return 0;
+    }
+    next.opcode = 0x5c;
+    input.value.reg = &other; input.original_register = &value;
+    if (float_allocation_record_needs_reload(&record)) return 0;
+    input.value.reg = &value;
+    next.flags = 0;
+    if (float_allocation_record_needs_reload(&record)) return 0;
+    next.flags = 1; value.value = NULL;
+    if (float_allocation_record_needs_reload(&record)) return 0;
+    value.value = &record;
+    return float_allocation_record_needs_reload(&record) == 1;
+}
+
+void __fastcall move_record_range_before(C2Expression *, C2Expression *, C2Expression *);
+static int record_range_splice_identity(void)
+{
+    C2Expression nodes[6], expected[6];
+    static const unsigned order[3][6] = {
+        {0, 3, 4, 1, 2, 5}, {2, 3, 0, 1, 4, 5}, {0, 4, 5, 1, 2, 3}
+    };
+    unsigned round, i, n;
+    for (round = 0; round < 3; ++round) {
+        memset(nodes, 0xa5, sizeof(nodes));
+        for (i = 0; i < 6; ++i) {
+            nodes[i].next = i != 5 ? &nodes[i + 1] : NULL;
+            nodes[i].previous = i ? &nodes[i - 1] : NULL;
+        }
+        memcpy(expected, nodes, sizeof(nodes));
+        for (i = 0; i < 6; ++i) {
+            n = order[round][i];
+            expected[n].previous = i ? &nodes[order[round][i - 1]] : NULL;
+            expected[n].next = i != 5 ? &nodes[order[round][i + 1]] : NULL;
+        }
+        if (!round) {
+            move_record_range_before(&nodes[5], &nodes[1], &nodes[2]);
+            if (memcmp(nodes, expected, sizeof(nodes))) return 0;
+            move_record_range_before(&nodes[5], &nodes[1], &nodes[2]);
+        } else if (round == 1)
+            move_record_range_before(&nodes[4], &nodes[0], &nodes[1]);
+        else move_record_range_before(&nodes[1], &nodes[4], &nodes[5]);
+        if (memcmp(nodes, expected, sizeof(nodes))) return 0;
+    }
+    return 1;
+}
+
+
+extern int spill_float_top, spill_float_count;
+extern unsigned spill_float_order[16];
+int __fastcall rewrite_spill_float_block(C2Expression *, C2Expression *);
+static int spill_float_order_transitions(void)
+{
+    C2Expression records[3], operands[2], expected[3];
+    unsigned before[16], i;
+    memset(records, 0xa5, sizeof(records));
+    memset(operands, 0, sizeof(operands));
+    for (i = 0; i < 3; ++i) {
+        records[i].next = i < 2 ? &records[i + 1] : NULL;
+        records[i].flags = 1; records[i].type = 0x4008;
+        records[i].opcode = 0x5f;
+        records[i].left = &operands[0];
+    }
+    operands[0].kind = 1; operands[0].type = 0x4008;
+    operands[0].original_register = (C2FunctionRegister *)&machine_registers[32];
+    for (i = 0; i < 16; ++i)
+        spill_float_order[i] = before[i] = i < 8 ? 7 - i : 0xa5000000U + i;
+    spill_float_top = 7; spill_float_count = 8;
+    memcpy(expected, records, sizeof(records));
+    if (rewrite_spill_float_block(records, records) != -2 ||
+        spill_float_order[7] != 1 || spill_float_order[6] != 0 ||
+        spill_float_top != 7 || spill_float_count != 8 ||
+        memcmp(records, expected, sizeof(records))) return 0;
+    memcpy(spill_float_order, before, sizeof(before));
+    if (rewrite_spill_float_block(records, &records[1]) != 1 ||
+        memcmp(spill_float_order, before, sizeof(before))) return 0;
+    records[0].opcode = 0x13c;
+    if (rewrite_spill_float_block(records, records) != -1 ||
+        memcmp(spill_float_order, before, sizeof(before))) return 0;
+
+    /* A real push defines exactly the next cell; neighboring unavailable
+     * backing is deliberately nonzero, rather than asserting default zeros. */
+    records[0].opcode = 0x60;
+    records[0].left = NULL;
+    records[0].tail.right = &operands[1];
+    operands[1].kind = 1; operands[1].type = 0x4008;
+    operands[1].original_register = (C2FunctionRegister *)&machine_registers[31];
+    operands[1].float_stack_index = -99;
+    memcpy(expected, records, sizeof(records));
+    if (rewrite_spill_float_block(records, records) != -2 ||
+        spill_float_top != 8 || spill_float_count != 9 ||
+        spill_float_order[8] != 9 || operands[1].float_stack_index != 9 ||
+        memcmp(records, expected, sizeof(records))) return 0;
+    for (i = 0; i < 16; ++i)
+        if (i != 8 && spill_float_order[i] != before[i]) return 0;
+    return 1;
+}
+
+void __fastcall unlink_final_output(C2Expression *record, C2Expression *operand);
+static int final_output_unlink_scope(void)
+{
+    C2Expression record, nodes[4], expected_record, expected[4];
+    unsigned mode, kind, victim;
+    for (mode = 0; mode < 5; ++mode) {
+        for (kind = 0; kind < 64; ++kind) {
+            memset(&record, 0x5a, sizeof(record));
+            memset(nodes, 0xa5, sizeof(nodes));
+            nodes[0].next = &nodes[1];
+            nodes[1].next = &nodes[2];
+            nodes[2].next = NULL;
+            nodes[3].next = &nodes[2];
+            record.tail.right = mode == 4 ? NULL : nodes;
+            victim = mode < 3 ? mode : 3;
+            nodes[victim].kind = (unsigned char)kind;
+            expected_record = record;
+            memcpy(expected, nodes, sizeof(nodes));
+            /* Missing and empty lists retain the original splice behavior. */
+            if (mode == 0 || mode == 4) expected_record.tail.right = nodes[victim].next;
+            else expected[mode == 1 ? 0 : mode == 2 ? 1 : 2].next = nodes[victim].next;
+            expected[victim].next = NULL;
+            if ((kind & 31) >= 1 && (kind & 31) <= 10)
+                expected[victim].location.expression.properties &= ~0x10;
+            unlink_final_output(&record, &nodes[victim]);
+            if (memcmp(&record, &expected_record, sizeof(record)) ||
+                memcmp(nodes, expected, sizeof(nodes))) return 0;
+        }
+    }
+    return 1;
+}
+
+extern int spill_float_top, saved_spill_float_top;
+extern unsigned spill_float_order[16], saved_spill_float_order[16];
+void finish_spill_float_block(void);
+static int spill_float_snapshot_owned_span(void)
+{
+    unsigned before[16], i;
+    int top;
+    for (top = -1; top < 16; ++top) {
+        for (i = 0; i < 16; ++i) {
+            before[i] = 0x81a30000U + 0x010101U * i + top;
+            spill_float_order[i] = before[i];
+            saved_spill_float_order[i] = ~before[i];
+        }
+        spill_float_top = top;
+        saved_spill_float_top = 77;
+        finish_spill_float_block();
+        if (saved_spill_float_top != top || spill_float_top != top ||
+            memcmp(saved_spill_float_order, before, sizeof(before)) ||
+            memcmp(spill_float_order, before, sizeof(before))) return 0;
+    }
+    return 1;
+}
+
+void __fastcall merge_final_record_ranges(C2Expression *, C2Expression *, C2Expression *, C2Expression *);
+static int merge_record_result_indices(void)
+{
+    C2Expression first, other, label, a[3], b[3], input, ignored;
+    C2Expression before_first, before_other, before_label, before_a[3], before_b[3], before_ignored;
+    C2Expression *outputs, *inputs;
+
+    memset(&first, 0xa5, sizeof(first));
+    memset(&other, 0x5a, sizeof(other));
+    memset(&label, 0xc3, sizeof(label));
+    memset(a, 0x71, sizeof(a));
+    memset(b, 0x37, sizeof(b));
+    memset(&input, 0x6d, sizeof(input));
+    memset(&ignored, 0x9b, sizeof(ignored));
+    first.kind = other.kind = 11;
+    label.kind = 25; label.next = &first;
+    first.left = &ignored; first.tail.right = a;
+    other.left = &input; other.tail.right = b;
+    a[0].kind = b[0].kind = 6; a[0].immediate = 7; b[0].immediate = 8;
+    a[1].kind = b[1].kind = 10; a[1].value.control = 9; b[1].value.control = 10;
+    a[2].kind = b[2].kind = 7;
+    a[0].next = a + 1; a[1].next = a + 2; a[2].next = NULL;
+    b[0].next = b + 1; b[1].next = b + 2; b[2].next = NULL;
+    input.kind = 7; input.next = NULL;
+    ignored.kind = 10; ignored.value.control = 0x555; ignored.next = NULL;
+    before_first = first; before_other = other; before_label = label; before_ignored = ignored;
+    memcpy(before_a, a, sizeof(a)); memcpy(before_b, b, sizeof(b));
+    merge_final_record_ranges(&label, &first, &other, &other);
+    outputs = b[2].next; inputs = input.next;
+    if (!outputs || !outputs->next || outputs->next->next ||
+        !inputs || !inputs->next || inputs->next->next ||
+        outputs == inputs || outputs->next == inputs->next ||
+        outputs->kind != 10 || outputs->value.control != 9 ||
+        outputs->next->kind != 10 || outputs->next->value.control != 7 ||
+        inputs->kind != 10 || inputs->value.control != 9 ||
+        inputs->next->kind != 10 || inputs->next->value.control != 7) return 0;
+    before_b[2].next = outputs;
+    if (memcmp(&first, &before_first, sizeof(first)) ||
+        memcmp(&other, &before_other, sizeof(other)) ||
+        memcmp(&label, &before_label, sizeof(label)) ||
+        memcmp(&ignored, &before_ignored, sizeof(ignored)) ||
+        memcmp(a, before_a, sizeof(a)) || memcmp(b, before_b, sizeof(b))) return 0;
+    return 1;
+}
+
+static int float_load_store_encoding_widths(void)
+{
+    C2Expression record, memory, physical, base, before_memory, before_physical;
+    unsigned char bytes[12];
+    unsigned i, j;
+    static const struct {
+        unsigned opcode, width;
+        unsigned char opcode_byte, modrm_byte;
+    } cases[] = {
+        {0x60,4,0xd9,0x00}, {0x60,8,0xdd,0x00}, {0x60,10,0xdb,0x28},
+        {0x63,4,0xd9,0x18}, {0x63,8,0xdd,0x18}, {0x63,10,0xdb,0x38},
+        {0x62,4,0xd9,0x10}, {0x62,8,0xdd,0x10},
+        {0x56,2,0xdf,0x00}, {0x56,4,0xdb,0x00}, {0x56,8,0xdf,0x28}
+    };
+
+    memset(&record, 0, sizeof(record)); memset(&memory, 0, sizeof(memory));
+    memset(&physical, 0, sizeof(physical)); memset(&base, 0, sizeof(base));
+    record.kind = 11;
+    memory.kind = 5; memory.opcode = 0x122; memory.aggregate_value = &base;
+    base.kind = 1; base.opcode = 0x11f;
+    base.original_register = (C2FunctionRegister *)&machine_registers[1];
+    physical.kind = 1; physical.opcode = 0x11f;
+    physical.original_register = (C2FunctionRegister *)&machine_registers[31];
+    for (i = 0; i < RECON_COUNT(cases); ++i) {
+        record.opcode = cases[i].opcode; record.type = 0x4000 | cases[i].width;
+        memory.type = record.type;
+        record.left = record.opcode == 0x60 || record.opcode == 0x56 ? &memory : &physical;
+        record.tail.right = record.opcode == 0x60 || record.opcode == 0x56 ? &physical : &memory;
+        before_memory = memory; before_physical = physical;
+        memset(bytes, 0xa5, sizeof(bytes));
+        if (encode_final_record(&record, bytes, NULL, NULL) != 2 ||
+            bytes[0] != cases[i].opcode_byte || bytes[1] != cases[i].modrm_byte ||
+            memcmp(&memory, &before_memory, sizeof(memory)) ||
+            memcmp(&physical, &before_physical, sizeof(physical))) return 0;
+        for (j = 2; j < sizeof(bytes); ++j) if (bytes[j] != 0xa5) return 0;
+    }
+    record.opcode = 0x63; record.type = 0x4008;
+    record.left = record.tail.right = &physical;
+    memset(bytes, 0xa5, sizeof(bytes));
+    if (encode_final_record(&record, bytes, NULL, NULL) != 2 ||
+        bytes[0] != 0xdd || bytes[1] != 0xd8) return 0;
+    for (j = 2; j < sizeof(bytes); ++j) if (bytes[j] != 0xa5) return 0;
+    return 1;
+}
+
+/* Exercise the recovered producer with deliberately different controls.
+ * The listing flag chooses scope/pool; object emission does not. */
+typedef struct C2RealSymbolCache C2RealSymbolCache;
+extern C2RealSymbolCache *real_symbol_cache;
+extern C2InitRecord *last_global_initializer, *free_initializers;
+extern int c2_internal_listing, output_enabled;
+C2InputSymbol *__fastcall materialize_real_symbol(C2Expression *operand);
+static int real_constant_scope_owner(void)
+{
+    C2ScopeHash local;
+    C2Expression operand;
+    C2Real value = {0, 0x80000000UL, 0x3ffd, 8};
+    C2InputSymbol *symbol;
+    unsigned mode, serial;
+
+    for (mode = 0; mode != 2; ++mode) {
+        memset(&local, 0, sizeof(local));
+        local_symbol_table = &local;
+        real_symbol_cache = NULL;
+        global_initializers = last_global_initializer = free_initializers = NULL;
+        serial = 0x3450 + mode;
+        c2_il_initial_symbol_count = serial;
+        c2_internal_listing = mode;
+        output_enabled = !mode;
+        memset(&operand, 0, sizeof(operand));
+        operand.type = 0x4008;
+        operand.value.real = &value;
+        symbol = materialize_real_symbol(&operand);
+        if (!symbol || symbol->symbol.serial != serial ||
+            !global_initializers || global_initializers->symbol_serial != serial ||
+            symbol->initializer != global_initializers)
+            return 0;
+        if (mode) {
+            if (local.buckets[serial & 1023] != &symbol->symbol ||
+                global_scope.buckets[serial & 1023]) return 0;
+        } else if (global_scope.buckets[serial & 1023] != &symbol->symbol ||
+                   local.buckets[serial & 1023]) return 0;
+    }
+    return 1;
+}
+
+static int x87_arithmetic_encoding_roles(void)
+{
+    static const struct {
+        unsigned opcode, first, second;
+        unsigned char code, modrm;
+    } cases[] = {
+        {0x46,31,33,0xd8,0xca}, {0x46,33,31,0xdc,0xca},
+        {0x47,31,33,0xd8,0xe2}, {0x47,33,31,0xdc,0xea},
+        {0x4b,33,31,0xde,0xc2}, {0x4c,33,31,0xde,0xca},
+        {0x4d,33,31,0xde,0xea}, {0x4f,33,31,0xde,0xfa},
+        {0x5c,31,33,0xd8,0xd2}, {0x5f,33,31,0xd9,0xca},
+        {0x77,31,33,0xd9,0xe0}, {0x6e,9,31,0xdf,0xe0}
+    };
+    C2Expression record, operands[2], saved[2];
+    unsigned char bytes[12];
+    unsigned i, j;
+    for (i = 0; i < RECON_COUNT(cases); ++i) {
+        memset(&record, 0, sizeof(record));
+        memset(operands, 0, sizeof(operands));
+        record.kind = 11; record.opcode = cases[i].opcode;
+        record.type = record.opcode == 0x6e ? 0x2002 : 0x4008;
+        record.left = operands; record.tail.right = operands;
+        operands[0].next = &operands[1];
+        operands[0].opcode = operands[1].opcode = 0x11f;
+        operands[0].kind = operands[1].kind = 1;
+        operands[0].original_register = (C2FunctionRegister *)&machine_registers[cases[i].first];
+        operands[1].original_register = (C2FunctionRegister *)&machine_registers[cases[i].second];
+        memcpy(saved, operands, sizeof(saved));
+        memset(bytes, 0xa5, sizeof(bytes));
+        if (encode_final_record(&record, bytes, NULL, NULL) != 2 ||
+            bytes[0] != cases[i].code || bytes[1] != cases[i].modrm ||
+            memcmp(operands, saved, sizeof(saved))) return 0;
+        for (j = 2; j < sizeof(bytes); ++j)
+            if (bytes[j] != 0xa5) return 0;
+    }
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
+    {"x87 arithmetic encoding preserves direction, pop groups and output tails", 1, x87_arithmetic_encoding_roles},
+    {"float constant scope follows listing control instead of object-output control", 1, real_constant_scope_owner},
+    {"float load and pop-store encoding retains widths, operand roles and byte canaries", 1, float_load_store_encoding_widths},
+    {"tail merge preserves result-index ordering and its distinct input attachment", 1, merge_record_result_indices},
+    {"float stack snapshot copies all owned cells without changing source state", 1, spill_float_snapshot_owned_span},
+    {"output unlink preserves payloads, missing-node behavior and x86 kind shifts", 1, final_output_unlink_scope},
+    {"float spill order preserves swap status, append ownership and untouched cells", 1, spill_float_order_transitions},
+    {"record range moves preserve head, tail, adjacent links and complete payloads", 1, record_range_splice_identity},
+    {"float reload classification follows value identity and exact opcode boundaries", 1, float_reload_follows_value_identity},
+    {"final label moves preserve both links, adjacent identity and payloads", 1, final_label_move_chain_identity},
+    {"spill profitability distinguishes predecessor definitions from live-in values", 1, spill_profitability_definition_owner},
+    {"early floating schedule checks exact latency relation, range end and half-density", 1, early_schedule_float_density_boundaries},
+    {"initializer reuse takes its own link and clears exactly28 bytes", 1, initializer_reuse_exact_span},
+    {"wide integer splitting preserves signed halves, fallback identity and untouched bytes", 1, wide_integer_halves_and_fallback},
+    {"floating arithmetic preserves reverse-pop forms and its16-bit view", 1, float_arithmetic_forms_and_word_view},
+    {"floating lowering pushes and pops only its actual stack slot", 1, final_float_stack_transitions},
+    {"real operations retain precision modes, scratch aliases and subtraction order", 1, real_operation_precision_and_shared_scratch},
+    {"extended real comparison retains signed zero, unordered equality and mask semantics", 1, real_comparison_masks},
+    {"real expression reuses exact 24-byte node and negation form consumes no payload", 1, real_expression_reuse_and_negate_form},
+    {"real conversion preserves signed values, range status and input/output tails", 1, real_conversion_range_and_sign},
+    {"real IL block preserves signed count, full structure and untouched FILE/input tails", 1, real_input_block_scope},
+    {"ready scheduler node selects its nearest previous fence and reuses edge", 1, schedule_ready_predecessor_fence},
+    {"spill block boundaries retain availability ownership and update visit results", 1, spill_block_boundary_results},
+    {"allocation copy roles preserve known fixed address inputs and outputs", 1, fixed_address_copy_roles},
+    {"register alias lookup preserves remapped indices, grouped uses and wildcard roles", 1, register_alias_index_roles},
+    {"allocation move scan respects previous links, overlap and killed-live intervals", 1, allocation_move_interval_liveness},
+    {"allocation operand list preserves return identity and unrelated link bytes", 1, allocation_operand_link_footprint},
+    {"allocation numbering skips known fixed address outputs before input reads", 1, allocation_fixed_address_outputs},
+    {"intrinsic alias lookup distinguishes input and output chains", 1, intrinsic_alias_chain_ownership},
+    {"schedule memory reuse consumes its own free head and preserves the tail", 1, schedule_memory_reuse_owner},
+    {"Pentium pairing uses the full property rather than resource byte", 1, schedule_pairing_property_width},
+    {"schedule coverage preserves signed ranges and kind8 opcode ownership", 1, schedule_operand_coverage_boundaries},
+    {"frame-slot aliases use canonical signed half-open ranges", 1, schedule_frame_slot_overlap},
+    {"statement simplification returns its exact owner on all early exits", 1, statement_simplification_returns_owner},
+    {"spill refresh visits distinct flow-zero and predecessor blocks", 1, spill_refresh_flow_owner},
     {"shift ranges preserve signed results, machine shift counts and pointer outputs", 1, shift_range_outputs_and_counts},
     {"shift masks preserve low-byte counts, signed widths and exact rewritten owners", 1, shift_mask_width_count_and_rewrite},
     {"unary constant modes preserve signed widths, staged order and untouched fields", 1, unary_constant_modes_and_widths},
@@ -3349,6 +4790,7 @@ const ReconTest numeric_tests[] = {
     {"symbol iterator retains hash chains and the final bucket", 1, symbol_iterator_chain_and_end},
     {"machine sentinel prefix preserves table-end identity", 1, machine_sentinel_identity},
     {"machine output views preserve byte aliases and adjacent ranges", 1, fixed_output_byte_alias},
+    {"spill byte view follows its exact chain without reading the unknown tail", 1, spill_byte_view_chain},
     {"fixed register overlap distinguishes adjacent ranges and canonical identities", 1, fixed_register_overlap_boundaries},
     {"final address folding preserves DWORD wrap and unlinks consumed definitions", 1, final_address_constant_wrap},
     {"multiply recipe collisions retain distinct signed keys and allocation identity", 1, final_multiplier_hash_identity},
@@ -3364,6 +4806,7 @@ const ReconTest numeric_tests[] = {
     {"expression sorting is stable across unsigned keys and preserves payloads", 1, expression_order_stability},
     {"integer mask propagation retains signed representatives and unrelated bytes", 1, integer_mask_representatives},
     {"detached operand pruning preserves list and flag-byte roles", 1, detached_operand_roles},
+    {"intrinsic constructor preserves ordered inputs, shared ownership and allocation tail", 1, intrinsic_constructor_ownership},
     {"expression dispatcher distinguishes NULL and nonNULL definition owners", 1, expression_dispatch_owner_branch},
     {"flow recycling preserves both edge chains and block endpoints", 1, flow_recycling_lists},
     {"input-use unlink preserves the owner alias and full-width count", 1, input_use_owner_identity},

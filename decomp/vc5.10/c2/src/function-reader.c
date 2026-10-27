@@ -163,7 +163,7 @@ unsigned __fastcall resolve_input_source_line(unsigned serial)
 void finish_function_input(void)
 {
     /* The original490c08 owner is the reusable input-stack chain. Its first
-     * sentinel is a separate small node; pending_input_records/490e78 is a
+     * sentinel is a separate small node; pending_input_records/490e74 is a
      * distinct IL list and is not consumed by this cleanup. */
     while (free_input_stacks) {
         release_small_node(free_input_stacks->first);

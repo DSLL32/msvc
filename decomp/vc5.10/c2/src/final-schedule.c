@@ -7,6 +7,7 @@
 #include "registers.h"
 #include "optimizer.h"
 #include "global-optimizer.h"
+#include "optimizer-translate.h"
 #include <recon.h>
 
 C2ScheduleNodeHook schedule_input_mode;             /* 493060, set by the constructor */
@@ -38,8 +39,9 @@ C2ScheduleGraph *__fastcall new_schedule_graph(C2ScheduleNodeHook input_mode, C2
  * the image. Only the first score/delay fields have reached named consumers.
  * Reserved backing bytes below are UNMODELED, not initialized-value claims. */
 static C2ScheduleWeights early_schedule_weights[4] = {
-    {-1}, {-1}, {-1}, {23}
-}; /*492288,16B stride; all other fields remain unavailable. */
+    {-1}, {-1}, {-1, 13, -5, -1, 0, 15, 0}, {23}
+}; /*492288,16B stride. Only Pentium's reached priority columns extend
+    * the fixed-resource field; pair_weight and pending0e remain UNMODELED. */
 static C2ScheduleWeights late_schedule_weights[4] = {
     {-1}, {-1}, {-1, 13, -5, -1, -2, 16, 16}, {23}
 }; /*493018: only Pentium's reached priority columns extend the first field.
@@ -122,8 +124,13 @@ int __fastcall schedule_resource_available(int resource)
     if ((unsigned)resource >= 4) { __asm { int 3 } }
     return schedule_resources[resource].occupied < schedule_resources[resource].capacity;
 }
+int __fastcall final_float_stack_effect(C2Expression *record);
+extern short schedule_early_delta;
 int __fastcall early_schedule_node_is_busy(C2ScheduleNode *node)
-{ __asm { int 3 } return 0; }
+{
+    if (schedule_early_delta <= 6) return 0;
+    return final_float_stack_effect(node->record) + (int)schedule_early_delta > 8;
+}
 int __fastcall can_pair_schedule_nodes(C2ScheduleNode *first, C2ScheduleNode *second);
 short __fastcall select_pentium_schedule_node(C2ScheduleNode *node, C2ScheduleNode **selected, int count)
 {
@@ -146,8 +153,19 @@ short __fastcall select_486_schedule_node(C2ScheduleNode *node, C2ScheduleNode *
 { __asm { int 3 } return 0; }
 short __fastcall select_p6_schedule_node(C2ScheduleNode *node, C2ScheduleNode **selected, int count)
 { __asm { int 3 } return 0; }
+/* Original499fa0 holds eight canonical floating-register pointers. The
+ * schedule mapper at46333c compares/stores actual register canonical roots;
+ * only this reset establishes all eight NULL entries. The adjacent49a000
+ * signed WORD is the stack's first occupied slot, not a ninth entry. */
+C2FunctionRegister *early_float_registers[8];
+short early_float_stack_base;
+extern short schedule_early_base, schedule_early_delta;
 void __fastcall prepare_early_schedule_costs(void)
-{ __asm { int 3 } }
+{
+    early_float_stack_base = 8;
+    schedule_early_base = 2;
+    memset(early_float_registers, 0, sizeof(early_float_registers));
+}
 int __fastcall schedule_range_has_memory_output(C2Expression *first);
 C2Expression *schedule_entry_records[10];   /*492260,only the first count slots live */
 unsigned schedule_entry_record_count;       /*492218 */
@@ -304,19 +322,46 @@ C2Expression *__fastcall find_schedule_range_end(C2Expression *first)
 }
 C2Expression *__fastcall find_early_schedule_range_end(C2Expression *first)
 { __asm { int 3 } return NULL; }
-int __fastcall early_schedule_range_is_usable(C2Expression *first);
+int __fastcall early_schedule_range_is_usable(C2Expression *first, C2Expression *last);
 int __fastcall schedule_range_has_work(C2Expression *first, C2Expression *last)
 {
     C2Expression *record;
     int count = 0;
-    if (schedule_final_mode && !early_schedule_range_is_usable(first)) return 0;
+    if (schedule_final_mode && !early_schedule_range_is_usable(first, last)) return 0;
     if (first->opcode == 0x17f) return 0;
     for (record = first; record != last; record = record->next)
         if ((record->flags & 1) && ++count >= 2) return 1;
     return 0;
 }
-int __fastcall early_schedule_range_is_usable(C2Expression *first)
-{ __asm { int 3 } return 0; }
+int __fastcall early_schedule_range_is_usable(C2Expression *first, C2Expression *last)
+{
+    C2Expression *record;
+    int total = 0, floating = 0, overlapped = 0;
+    unsigned opcode;
+
+    for (record = first; record != last; record = record->next) {
+        if (!(record->flags & 1)) continue;
+        ++total;
+        if ((record->type & 0xf000) != 0x4000) continue;
+        ++floating;
+        opcode = record->opcode;
+        if (opcode < 0x11b) {
+            if (schedule_opcode_costs != &schedule_costs_pentium) { __asm { int 3 } }
+            /* This sole consumer needs only signed column+4 < delay from
+             * the12-byte Pentium rows. Other column values remain unmodeled. */
+            if ((opcode >= 0x45 && opcode <= 0x48) ||
+                (opcode >= 0x4b && opcode <= 0x4e) ||
+                (opcode >= 0x51 && opcode <= 0x53) ||
+                (opcode >= 0x56 && opcode <= 0x59) ||
+                (opcode >= 0x5c && opcode <= 0x5e) ||
+                (opcode >= 0x80 && opcode <= 0x84) || opcode == 0x8d ||
+                (opcode >= 0xd1 && opcode <= 0xd3)) ++overlapped;
+        }
+    }
+    /* Original48d3e0 is the exact double0.5; all integer counts convert
+     * exactly, so the half-density comparison requires no private x87 ABI. */
+    return overlapped > 0 && (double)floating > (double)total * 0.5;
+}
 void __fastcall reset_schedule_graph(C2ScheduleGraph *graph)
 {
     C2FlowGraph *flow = &graph->flow;
@@ -335,7 +380,7 @@ void __fastcall reset_schedule_graph(C2ScheduleGraph *graph)
     flow->state08 = 0;
     flow->state0c = 0;
 }
-void __fastcall prepare_schedule_range(C2Expression *first, C2Expression *last) { __asm { int 3 } }
+void __fastcall prepare_schedule_range(C2Expression *first, C2Expression *last);
 void __fastcall initialize_schedule_graph_state(C2ScheduleGraph *graph);
 C2ScheduleNode *__fastcall new_schedule_node(C2Expression *record);
 void __fastcall fence_schedule_node(C2ScheduleNode *node);
@@ -344,7 +389,7 @@ void __fastcall add_schedule_record_dependencies(C2ScheduleNode *node, C2Express
 void __fastcall add_schedule_control_dependencies(C2ScheduleNode *node, C2Expression *record, C2Expression *last);
 C2ScheduleRegisterUse *__fastcall record_schedule_register_use(C2FunctionRegister *reg, C2ScheduleNode *node);
 C2ScheduleRegisterUse *__fastcall record_schedule_register_write(C2FunctionRegister *reg, C2ScheduleNode *node);
-void __fastcall record_schedule_memory_dependency(C2ScheduleMemory **head, C2ScheduleMemory **tail,
+C2ScheduleMemory *__fastcall record_schedule_memory_dependency(C2ScheduleMemory **head, C2ScheduleMemory **tail,
     C2Expression *operand, C2ScheduleNode *node);
 C2ScheduleDependency *__fastcall new_schedule_dependency(C2ScheduleNode *source, C2ScheduleNode *destination,
     unsigned flags);
@@ -374,10 +419,67 @@ extern int optimizer_input_changed;
     (reg) != (C2FunctionRegister *)&machine_registers[8] && \
         (reg) != (C2FunctionRegister *)&machine_registers[18] && \
         (reg) != (C2FunctionRegister *)&machine_registers[66] && \
-        (reg) != (C2FunctionRegister *)&machine_registers[67]) { __asm { int 3 } } \
+        (reg) != (C2FunctionRegister *)&machine_registers[67] && \
+        !((unsigned long)(reg) >= (unsigned long)&machine_registers[68] && \
+          (unsigned long)(reg) < (unsigned long)&machine_registers[74])) { __asm { int 3 } } \
     (result) = (reg) == (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT) ? \
         machine_register_storage.sentinel.kind : (reg)->kind; \
 } while (0)
+
+int __fastcall final_float_stack_effect(C2Expression *record);
+void __fastcall prepare_schedule_range(C2Expression *first, C2Expression *last)
+{
+    C2Expression *record, *next, *end = last->next, *operand;
+    C2FunctionRegister *reg, *original;
+    int depth = 0, phase;
+    unsigned kind;
+
+    prepare_early_schedule_costs();
+    for (record = first; record != end; record = next) {
+        next = record->next;
+        if (!(record->flags & 1) ||
+            ((record->type & 0xf000) != 0x4000 && record->kind != 13)) continue;
+        if (record->opcode == 0x5f) {
+            unlink_input_record((C2Record *)record);
+            release_small_node((C2SmallNode *)record);
+            continue;
+        }
+        for (phase = 0; phase != 2; ++phase)
+            for (operand = phase ? record->tail.right : record->left;
+                 operand; operand = operand->next) {
+                if (operand->kind != 1) continue;
+                reg = operand->value.reg;
+                if (reg == (C2FunctionRegister *)&machine_registers[9] ||
+                    reg == (C2FunctionRegister *)&machine_registers[17] ||
+                    reg == (C2FunctionRegister *)&machine_registers[20] ||
+                    reg == (C2FunctionRegister *)&machine_registers[31] ||
+                    reg == (C2FunctionRegister *)&machine_registers[32] ||
+                    reg == (C2FunctionRegister *)&machine_registers[74]) kind = reg->kind;
+                else SCHEDULE_REGISTER_KIND(reg, kind);
+                if (kind != 3 || !reg->value) continue;
+                original = operand->original_register;
+                if (original == (C2FunctionRegister *)&machine_registers[9] ||
+                    original == (C2FunctionRegister *)&machine_registers[17] ||
+                    original == (C2FunctionRegister *)&machine_registers[20] ||
+                    original == (C2FunctionRegister *)&machine_registers[31] ||
+                    original == (C2FunctionRegister *)&machine_registers[32] ||
+                    original == (C2FunctionRegister *)&machine_registers[74]) kind = original->kind;
+                else SCHEDULE_REGISTER_KIND(original, kind);
+                if (kind != 1 || (operand->type & 0xf000) != 0x4000) continue;
+                /* Only ST0/ST1 number fields are encountered in this view;
+                 * other original rows are valid but unmodeled here. */
+                if ((unsigned long)original >= (unsigned long)machine_registers &&
+                    (unsigned long)original <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT) &&
+                    original != (C2FunctionRegister *)&machine_registers[31] &&
+                    original != (C2FunctionRegister *)&machine_registers[32]) { __asm { int 3 } }
+                operand->float_stack_index = (long)original->number - 31;
+                operand->original_register = reg;
+            }
+        depth = (int)((unsigned)depth + (unsigned)final_float_stack_effect(record));
+        if (depth > (int)schedule_early_base) schedule_early_base = (short)depth;
+    }
+    schedule_early_delta = (short)(8 - early_float_stack_base);
+}
 
 #define SCHEDULE_REGISTER_ROOT(reg, result) do { \
     if ((unsigned long)reg >= (unsigned long)machine_registers && \
@@ -393,7 +495,9 @@ extern int optimizer_input_changed;
     reg != (C2FunctionRegister *)&machine_registers[8] && \
     reg != (C2FunctionRegister *)&machine_registers[18] && \
     reg != (C2FunctionRegister *)&machine_registers[66] && \
-    reg != (C2FunctionRegister *)&machine_registers[67]) { __asm { int 3 } } \
+    reg != (C2FunctionRegister *)&machine_registers[67] && \
+    !((unsigned long)reg >= (unsigned long)&machine_registers[68] && \
+      (unsigned long)reg < (unsigned long)&machine_registers[74])) { __asm { int 3 } } \
     (result) = reg == (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT) ? \
     machine_register_storage.sentinel.canonical : reg->canonical; \
 } while (0)
@@ -411,7 +515,9 @@ extern int optimizer_input_changed;
         (reg) != (C2FunctionRegister *)&machine_registers[8] && \
         (reg) != (C2FunctionRegister *)&machine_registers[18] && \
         (reg) != (C2FunctionRegister *)&machine_registers[66] && \
-        (reg) != (C2FunctionRegister *)&machine_registers[67]) { __asm { int 3 } } \
+        (reg) != (C2FunctionRegister *)&machine_registers[67] && \
+        !((unsigned long)(reg) >= (unsigned long)&machine_registers[68] && \
+          (unsigned long)(reg) < (unsigned long)&machine_registers[74])) { __asm { int 3 } } \
 } while (0)
 
 void __fastcall build_schedule_graph(C2ScheduleGraph *graph, C2Expression *first, C2Expression *last)
@@ -443,14 +549,34 @@ void __fastcall build_schedule_graph(C2ScheduleGraph *graph, C2Expression *first
                 switch (operand->kind) {
                 case 1:
                     reg = operand->original_register;
-                    SCHEDULE_REGISTER_KIND(reg, kind);
+                    if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+                        reg == (C2FunctionRegister *)&machine_registers[20] ||
+                        reg == (C2FunctionRegister *)&machine_registers[9] ||
+                        reg == (C2FunctionRegister *)&machine_registers[31] ||
+                        reg == (C2FunctionRegister *)&machine_registers[32] ||
+                        reg == (C2FunctionRegister *)&machine_registers[21] ||
+                        reg == (C2FunctionRegister *)&machine_registers[33] ||
+                        reg == (C2FunctionRegister *)&machine_registers[34] ||
+                        reg == (C2FunctionRegister *)&machine_registers[35] ||
+                        reg == (C2FunctionRegister *)&machine_registers[74]) kind = reg->kind;
+                    else SCHEDULE_REGISTER_KIND(reg, kind);
                     if (kind == 2) goto input_memory;
                     record_schedule_register_use(reg, node);
                     break;
                 case 2:
 input_memory:
                     reg = operand->value.reg;
-                    SCHEDULE_REGISTER_KIND(reg, kind);
+                    if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+                        reg == (C2FunctionRegister *)&machine_registers[20] ||
+                        reg == (C2FunctionRegister *)&machine_registers[9] ||
+                        reg == (C2FunctionRegister *)&machine_registers[31] ||
+                        reg == (C2FunctionRegister *)&machine_registers[32] ||
+                        reg == (C2FunctionRegister *)&machine_registers[21] ||
+                        reg == (C2FunctionRegister *)&machine_registers[33] ||
+                        reg == (C2FunctionRegister *)&machine_registers[34] ||
+                        reg == (C2FunctionRegister *)&machine_registers[35] ||
+                        reg == (C2FunctionRegister *)&machine_registers[74]) kind = reg->kind;
+                    else SCHEDULE_REGISTER_KIND(reg, kind);
                     volatile_access = (operand->location.expression.properties & 0x40) >> 6;
                     if ((kind == 3 || kind == 4 || kind == 5) && !(reg->view_flags & 2) &&
                         (!optimizer_input_changed || !find_schedule_register_alias(reg))) {
@@ -477,14 +603,34 @@ input_unknown_memory:
                 switch (operand->kind) {
                 case 1:
                     reg = operand->original_register;
-                    SCHEDULE_REGISTER_KIND(reg, kind);
+                    if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+                        reg == (C2FunctionRegister *)&machine_registers[20] ||
+                        reg == (C2FunctionRegister *)&machine_registers[9] ||
+                        reg == (C2FunctionRegister *)&machine_registers[31] ||
+                        reg == (C2FunctionRegister *)&machine_registers[32] ||
+                        reg == (C2FunctionRegister *)&machine_registers[21] ||
+                        reg == (C2FunctionRegister *)&machine_registers[33] ||
+                        reg == (C2FunctionRegister *)&machine_registers[34] ||
+                        reg == (C2FunctionRegister *)&machine_registers[35] ||
+                        reg == (C2FunctionRegister *)&machine_registers[74]) kind = reg->kind;
+                    else SCHEDULE_REGISTER_KIND(reg, kind);
                     if (kind == 2) goto output_memory;
                     record_schedule_register_write(reg, node);
                     break;
                 case 2:
 output_memory:
                     reg = operand->value.reg;
-                    SCHEDULE_REGISTER_KIND(reg, kind);
+                    if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+                        reg == (C2FunctionRegister *)&machine_registers[20] ||
+                        reg == (C2FunctionRegister *)&machine_registers[9] ||
+                        reg == (C2FunctionRegister *)&machine_registers[31] ||
+                        reg == (C2FunctionRegister *)&machine_registers[32] ||
+                        reg == (C2FunctionRegister *)&machine_registers[21] ||
+                        reg == (C2FunctionRegister *)&machine_registers[33] ||
+                        reg == (C2FunctionRegister *)&machine_registers[34] ||
+                        reg == (C2FunctionRegister *)&machine_registers[35] ||
+                        reg == (C2FunctionRegister *)&machine_registers[74]) kind = reg->kind;
+                    else SCHEDULE_REGISTER_KIND(reg, kind);
                     volatile_access = (operand->location.expression.properties & 0x40) >> 6;
                     if ((kind == 3 || kind == 4 || kind == 5) && !(reg->view_flags & 2) &&
                         (!optimizer_input_changed || !find_schedule_register_alias(reg))) {
@@ -578,18 +724,35 @@ unsigned __fastcall schedule_record_resource_class(C2Expression *record)
      * in-range rows and the neighboring property fields remain unavailable. */
     if (schedule_opcode_costs != &schedule_costs_pentium) { __asm { int 3 } }
     switch (opcode) {
-    case 0x29: case 0x32: case 0x2d: case 0x21: /* Reached increment: Pentium delay1/class0. */
+    case 0x29: case 0x32: case 0x33: case 0x2d: case 0x21: /* Reached arithmetic: Pentium delay1/class0. */
     case 0x20: case 0xdf: /* Pentium full property0x300, low BYTE0. */
     case 1: return 0;
+    case 0xf: return 0;
     case 0x30: return 0;
     case 0x34: return 0;
     case 0x1f: return 0;
+    case 0x10: return 0;
+    case 0xd: return 0;
+    case 0xe: return 0;
+    case 0x1e: return 0;
+    case 0xc1: return 4;
+    case 0x12: return 0;
+    case 0x2f: return 0;
     case 0x2e: return 0;
     case 0x2b: return 0;
     case 0x2a: return 0;
     case 0xb9: return 0;
     case 0x8: return 0;
     case 0xba: return 0;
+    case 0xfe: return 0; /* Reached Pentium row: low property BYTE0. */
+    case 0x56: case 0x47: case 0x62: case 0x63: case 0x60: return 2;
+    case 0x46: case 0x4b: case 0x4c: case 0x4d: case 0x5d: case 0x6e: return 2;
+    case 0xae: return 0;
+    case 0x45: return 2;
+    case 0x77: return 2;
+    case 0x4a: case 0x4f: return 2;
+    case 0x5c: return 2;
+    case 0x5f: return 2;
     default: __asm { int 3 }
     }
     return 0;
@@ -608,17 +771,36 @@ unsigned __fastcall schedule_node_cost(C2ScheduleNode *node)
     switch (opcode) {
     case 0x20: return cost + 22;
     case 0xdf: return cost + 2;
-    case 0x29: case 0x32: case 0x2d: case 0x21: /* Reached increment: Pentium delay1/class0. */
+    case 0x29: case 0x32: case 0x33: case 0x2d: case 0x21: /* Reached arithmetic: Pentium delay1/class0. */
     case 1: return cost + 1;
+    case 0xf: return cost + 1;
     case 0x30: return cost + 1;
     case 0x34: return cost + 1;
     case 0x1f: return cost + 17;
+    case 0x10: return cost + 2;
+    case 0xd: return cost + 1;
+    case 0xe: return cost + 0;
+    case 0x1e: return cost + 1;
+    case 0xc1: return cost + 10;
+    case 0x12: return cost + 1;
+    case 0x2f: return cost + 1;
     case 0x2e: return cost + 1;
     case 0x2b: return cost + 1;
     case 0x2a: return cost + 1;
     case 0xb9: return cost + 1;
     case 0x8: return cost + 3;
     case 0xba: return cost + 1;
+    case 0xfe: return cost + 13;
+    case 0x56: case 0x47: return cost + 3;
+    case 0x62: case 0x63: case 0x60: return cost + 1;
+    case 0x46: case 0x4b: case 0x4c: case 0x4d: return cost + 3;
+    case 0x5d: return cost + 4;
+    case 0x6e: case 0xae: return cost + 2;
+    case 0x45: return cost + 3;
+    case 0x77: return cost + 1;
+    case 0x4a: case 0x4f: return cost + 39;
+    case 0x5c: return cost + 4;
+    case 0x5f: return cost + 1;
     default: __asm { int 3 }
     }
     return cost;
@@ -734,14 +916,34 @@ void __fastcall add_schedule_record_dependencies(C2ScheduleNode *node, C2Express
         switch (operand->kind) {
         case 1:
             reg = operand->original_register;
-            SCHEDULE_REGISTER_KIND(reg, kind);
+            if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+                reg == (C2FunctionRegister *)&machine_registers[20] ||
+                reg == (C2FunctionRegister *)&machine_registers[9] ||
+                reg == (C2FunctionRegister *)&machine_registers[31] ||
+                reg == (C2FunctionRegister *)&machine_registers[32] ||
+                reg == (C2FunctionRegister *)&machine_registers[21] ||
+                reg == (C2FunctionRegister *)&machine_registers[33] ||
+                reg == (C2FunctionRegister *)&machine_registers[34] ||
+                reg == (C2FunctionRegister *)&machine_registers[35] ||
+                reg == (C2FunctionRegister *)&machine_registers[74]) kind = reg->kind;
+            else SCHEDULE_REGISTER_KIND(reg, kind);
             if (kind == 2) goto memory;
             add_schedule_register_dependencies(reg, node, 1);
             break;
         case 2:
 memory:
             reg = operand->value.reg;
-            SCHEDULE_REGISTER_KIND(reg, kind);
+            if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+                reg == (C2FunctionRegister *)&machine_registers[20] ||
+                reg == (C2FunctionRegister *)&machine_registers[9] ||
+                reg == (C2FunctionRegister *)&machine_registers[31] ||
+                reg == (C2FunctionRegister *)&machine_registers[32] ||
+                reg == (C2FunctionRegister *)&machine_registers[21] ||
+                reg == (C2FunctionRegister *)&machine_registers[33] ||
+                reg == (C2FunctionRegister *)&machine_registers[34] ||
+                reg == (C2FunctionRegister *)&machine_registers[35] ||
+                reg == (C2FunctionRegister *)&machine_registers[74]) kind = reg->kind;
+            else SCHEDULE_REGISTER_KIND(reg, kind);
             if ((kind == 3 || kind == 4 || kind == 5) && !(reg->view_flags & 2) &&
                 (!optimizer_input_changed || !find_schedule_register_alias(reg))) {
                 add_schedule_register_dependencies(reg, node, 0x20);
@@ -781,7 +983,17 @@ void __fastcall add_schedule_register_dependencies(C2FunctionRegister *reg, C2Sc
         } else if (flags == 4) {
             edge = find_or_add_schedule_dependency(use->node, node, 4);
             set_schedule_register_delay(reg, edge);
-            SCHEDULE_REGISTER_ROOT(reg, root);
+            if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+                reg == (C2FunctionRegister *)&machine_registers[20] ||
+                reg == (C2FunctionRegister *)&machine_registers[9] ||
+                reg == (C2FunctionRegister *)&machine_registers[31] ||
+                reg == (C2FunctionRegister *)&machine_registers[32] ||
+                reg == (C2FunctionRegister *)&machine_registers[21] ||
+                reg == (C2FunctionRegister *)&machine_registers[33] ||
+                reg == (C2FunctionRegister *)&machine_registers[34] ||
+                reg == (C2FunctionRegister *)&machine_registers[35] ||
+                reg == (C2FunctionRegister *)&machine_registers[74]) root = reg->canonical;
+            else SCHEDULE_REGISTER_ROOT(reg, root);
             if (root == (C2FunctionRegister *)&machine_registers[66]) continue;
         } else if (flags == 0x20) {
             edge = find_or_add_schedule_dependency(use->node, node, 0x20);
@@ -895,7 +1107,13 @@ void __fastcall set_schedule_register_delay(C2FunctionRegister *reg, C2ScheduleD
     if (source->opcode == 0xe) return;
     destination = edge->destination->record;
     if (destination->opcode == 0x5f) return;
-    SCHEDULE_REGISTER_ROOT(reg, root);
+    if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+        reg == (C2FunctionRegister *)&machine_registers[20] ||
+                reg == (C2FunctionRegister *)&machine_registers[9] ||
+                reg == (C2FunctionRegister *)&machine_registers[31] ||
+                reg == (C2FunctionRegister *)&machine_registers[32] ||
+                reg == (C2FunctionRegister *)&machine_registers[74]) root = reg->canonical;
+    else SCHEDULE_REGISTER_ROOT(reg, root);
     if (root == (C2FunctionRegister *)&machine_registers[66] || source->opcode == 0x138 ||
         schedule_dependency_is_zero_latency(reg, edge)) return;
     if (minimum > edge->delay) edge->delay = (unsigned short)minimum;
@@ -905,19 +1123,67 @@ int __fastcall schedule_register_fully_covers(C2FunctionRegister *written, C2Fun
     C2FunctionRegister *written_root, *used_root;
     unsigned written_kind, used_kind;
     long written_base, used_base, written_start, used_start;
-    SCHEDULE_REGISTER_ROOT(used, used_root);
-    SCHEDULE_REGISTER_ROOT(written, written_root);
+    if (used == (C2FunctionRegister *)&machine_registers[17] ||
+        used == (C2FunctionRegister *)&machine_registers[20] ||
+                used == (C2FunctionRegister *)&machine_registers[9] ||
+                used == (C2FunctionRegister *)&machine_registers[31] ||
+                used == (C2FunctionRegister *)&machine_registers[32] ||
+                used == (C2FunctionRegister *)&machine_registers[21] ||
+                used == (C2FunctionRegister *)&machine_registers[33] ||
+                used == (C2FunctionRegister *)&machine_registers[34] ||
+                used == (C2FunctionRegister *)&machine_registers[35] ||
+                used == (C2FunctionRegister *)&machine_registers[74]) used_root = used->canonical;
+    else SCHEDULE_REGISTER_ROOT(used, used_root);
+    if (written == (C2FunctionRegister *)&machine_registers[17] ||
+        written == (C2FunctionRegister *)&machine_registers[20] ||
+                written == (C2FunctionRegister *)&machine_registers[9] ||
+                written == (C2FunctionRegister *)&machine_registers[31] ||
+                written == (C2FunctionRegister *)&machine_registers[32] ||
+                written == (C2FunctionRegister *)&machine_registers[21] ||
+                written == (C2FunctionRegister *)&machine_registers[33] ||
+                written == (C2FunctionRegister *)&machine_registers[34] ||
+                written == (C2FunctionRegister *)&machine_registers[35] ||
+                written == (C2FunctionRegister *)&machine_registers[74]) written_root = written->canonical;
+    else SCHEDULE_REGISTER_ROOT(written, written_root);
     if (written_root == used_root) {
-        SCHEDULE_REGISTER_RANGE(written);
-        SCHEDULE_REGISTER_RANGE(used);
+        if (written != (C2FunctionRegister *)&machine_registers[17] &&
+            written != (C2FunctionRegister *)&machine_registers[20] &&
+            written != (C2FunctionRegister *)&machine_registers[9] &&
+            written != (C2FunctionRegister *)&machine_registers[31] &&
+            written != (C2FunctionRegister *)&machine_registers[74]) SCHEDULE_REGISTER_RANGE(written);
+        if (used != (C2FunctionRegister *)&machine_registers[17] &&
+            used != (C2FunctionRegister *)&machine_registers[20] &&
+            used != (C2FunctionRegister *)&machine_registers[9] &&
+            used != (C2FunctionRegister *)&machine_registers[31] &&
+            used != (C2FunctionRegister *)&machine_registers[74]) SCHEDULE_REGISTER_RANGE(used);
         return written->displacement <= used->displacement &&
             (long)(used->value_bytes + (unsigned)used->displacement) <=
             (long)(written->value_bytes + (unsigned)written->displacement);
     }
     if (!optimizer_input_changed) return 0;
-    SCHEDULE_REGISTER_KIND(written, written_kind);
+    if (written == (C2FunctionRegister *)&machine_registers[17] ||
+        written == (C2FunctionRegister *)&machine_registers[20] ||
+                written == (C2FunctionRegister *)&machine_registers[9] ||
+                written == (C2FunctionRegister *)&machine_registers[31] ||
+                written == (C2FunctionRegister *)&machine_registers[32] ||
+                written == (C2FunctionRegister *)&machine_registers[21] ||
+                written == (C2FunctionRegister *)&machine_registers[33] ||
+                written == (C2FunctionRegister *)&machine_registers[34] ||
+                written == (C2FunctionRegister *)&machine_registers[35] ||
+                written == (C2FunctionRegister *)&machine_registers[74]) written_kind = written->kind;
+    else SCHEDULE_REGISTER_KIND(written, written_kind);
     if (written_kind < 3 || written_kind > 6) return 0;
-    SCHEDULE_REGISTER_KIND(used, used_kind);
+    if (used == (C2FunctionRegister *)&machine_registers[17] ||
+        used == (C2FunctionRegister *)&machine_registers[20] ||
+                used == (C2FunctionRegister *)&machine_registers[9] ||
+                used == (C2FunctionRegister *)&machine_registers[31] ||
+                used == (C2FunctionRegister *)&machine_registers[32] ||
+                used == (C2FunctionRegister *)&machine_registers[21] ||
+                used == (C2FunctionRegister *)&machine_registers[33] ||
+                used == (C2FunctionRegister *)&machine_registers[34] ||
+                used == (C2FunctionRegister *)&machine_registers[35] ||
+                used == (C2FunctionRegister *)&machine_registers[74]) used_kind = used->kind;
+    else SCHEDULE_REGISTER_KIND(used, used_kind);
     if (used_kind < 3 || used_kind > 6) return 0;
     /* Address-register roots below use actual dynamic symbol/frame fields.
      * Static machine-row payloads for that distinct role remain unavailable. */
@@ -933,8 +1199,82 @@ int __fastcall schedule_register_fully_covers(C2FunctionRegister *written, C2Fun
     return written_start <= used_start &&
         (long)(used->value_bytes + (unsigned)used_start) <= (long)(written->value_bytes + (unsigned)written_start);
 }
+extern unsigned optimizer_original_limit;
+int __fastcall schedule_memory_operands_match(C2Expression *written, C2Expression *used)
+{ __asm { int 3 } return 0; }
+int __fastcall schedule_operand_fully_covers(C2Expression *written, C2Expression *used)
+{
+    C2FunctionRegister *first, *second, *first_root, *second_root;
+    unsigned first_kind, second_kind;
+    if (written == used) return 1;
+    switch (written->kind) {
+    case 1:
+        first = written->original_register;
+        if (first == (C2FunctionRegister *)&machine_registers[9] ||
+            first == (C2FunctionRegister *)&machine_registers[17] ||
+            first == (C2FunctionRegister *)&machine_registers[20] ||
+            first == (C2FunctionRegister *)&machine_registers[31] ||
+            first == (C2FunctionRegister *)&machine_registers[32] ||
+            first == (C2FunctionRegister *)&machine_registers[74]) first_kind = first->kind;
+        else SCHEDULE_REGISTER_KIND(first, first_kind);
+        if (first_kind == 2) break;
+        if (used->kind != 1) return 0;
+        second = used->original_register;
+        if (first == (C2FunctionRegister *)&machine_registers[9] ||
+            first == (C2FunctionRegister *)&machine_registers[17] ||
+            first == (C2FunctionRegister *)&machine_registers[20] ||
+            first == (C2FunctionRegister *)&machine_registers[31] ||
+            first == (C2FunctionRegister *)&machine_registers[32] ||
+            first == (C2FunctionRegister *)&machine_registers[74]) first_root = first->canonical;
+        else SCHEDULE_REGISTER_ROOT(first, first_root);
+        if (second == (C2FunctionRegister *)&machine_registers[9] ||
+            second == (C2FunctionRegister *)&machine_registers[17] ||
+            second == (C2FunctionRegister *)&machine_registers[20] ||
+            second == (C2FunctionRegister *)&machine_registers[31] ||
+            second == (C2FunctionRegister *)&machine_registers[32] ||
+            second == (C2FunctionRegister *)&machine_registers[74]) second_root = second->canonical;
+        else SCHEDULE_REGISTER_ROOT(second, second_root);
+        if (first_root != second_root) return 0;
+        if (first != (C2FunctionRegister *)&machine_registers[9] &&
+            first != (C2FunctionRegister *)&machine_registers[17] &&
+            first != (C2FunctionRegister *)&machine_registers[20] &&
+            first != (C2FunctionRegister *)&machine_registers[74]) SCHEDULE_REGISTER_RANGE(first);
+        if (second != (C2FunctionRegister *)&machine_registers[9] &&
+            second != (C2FunctionRegister *)&machine_registers[17] &&
+            second != (C2FunctionRegister *)&machine_registers[20] &&
+            second != (C2FunctionRegister *)&machine_registers[74]) SCHEDULE_REGISTER_RANGE(second);
+        return first->displacement <= second->displacement &&
+            (long)((unsigned)first->displacement + first->value_bytes) >=
+            (long)((unsigned)second->displacement + second->value_bytes);
+    case 2:
+        break;
+    case 6:
+        if (used->kind != 6 || written->immediate != used->immediate ||
+            written->immediate < optimizer_original_limit) return 0;
+        return schedule_memory_operands_match(written, used);
+    default:
+        return 0;
+    }
+    if (used->kind != 2) {
+        if (used->kind != 1) return 0;
+        second = used->original_register;
+        SCHEDULE_REGISTER_KIND(second, second_kind);
+        if (second_kind != 2) return 0;
+    }
+    return schedule_register_fully_covers(written->value.reg, used->value.reg);
+}
 void __fastcall add_schedule_memory_dependencies(C2Expression *operand, C2ScheduleNode *node, unsigned flags)
-{ __asm { int 3 } }
+{
+    C2ScheduleMemory *use;
+    for (use = schedule_write_head; use; use = use->next) {
+        if (operand->kind == 2 && schedule_operand_fully_covers(use->operand, operand)) {
+            find_or_add_schedule_dependency(use->node, node, flags);
+            return;
+        }
+        if (input_operands_may_alias(use->operand, operand))
+            find_or_add_schedule_dependency(use->node, node, flags);
+    }
+}
 int __fastcall output_dependency_is_redundant(C2Expression *operand, C2Expression *record, C2Expression *last);
 void __fastcall add_schedule_anti_dependencies(C2FunctionRegister *reg, C2ScheduleNode *node, unsigned flags);
 void __fastcall add_schedule_memory_anti_dependencies(C2Expression *operand, C2ScheduleNode *node, unsigned flags);
@@ -947,7 +1287,17 @@ void __fastcall add_schedule_control_dependencies(C2ScheduleNode *node, C2Expres
         switch (operand->kind) {
         case 1:
             reg = operand->original_register;
-            SCHEDULE_REGISTER_KIND(reg, kind);
+            if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+                reg == (C2FunctionRegister *)&machine_registers[20] ||
+                reg == (C2FunctionRegister *)&machine_registers[9] ||
+                reg == (C2FunctionRegister *)&machine_registers[31] ||
+                reg == (C2FunctionRegister *)&machine_registers[32] ||
+                reg == (C2FunctionRegister *)&machine_registers[21] ||
+                reg == (C2FunctionRegister *)&machine_registers[33] ||
+                reg == (C2FunctionRegister *)&machine_registers[34] ||
+                reg == (C2FunctionRegister *)&machine_registers[35] ||
+                reg == (C2FunctionRegister *)&machine_registers[74]) kind = reg->kind;
+            else SCHEDULE_REGISTER_KIND(reg, kind);
             if (kind == 2) goto memory;
             if (!output_dependency_is_redundant(operand, record, last))
                 add_schedule_register_dependencies(reg, node, 4);
@@ -956,7 +1306,17 @@ void __fastcall add_schedule_control_dependencies(C2ScheduleNode *node, C2Expres
         case 2:
 memory:
             reg = operand->value.reg;
-            SCHEDULE_REGISTER_KIND(reg, kind);
+            if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+                reg == (C2FunctionRegister *)&machine_registers[20] ||
+                reg == (C2FunctionRegister *)&machine_registers[9] ||
+                reg == (C2FunctionRegister *)&machine_registers[31] ||
+                reg == (C2FunctionRegister *)&machine_registers[32] ||
+                reg == (C2FunctionRegister *)&machine_registers[21] ||
+                reg == (C2FunctionRegister *)&machine_registers[33] ||
+                reg == (C2FunctionRegister *)&machine_registers[34] ||
+                reg == (C2FunctionRegister *)&machine_registers[35] ||
+                reg == (C2FunctionRegister *)&machine_registers[74]) kind = reg->kind;
+            else SCHEDULE_REGISTER_KIND(reg, kind);
             if ((kind == 3 || kind == 4 || kind == 5) && !(reg->view_flags & 2) &&
                 (!optimizer_input_changed || !find_schedule_register_alias(reg))) {
                 add_schedule_register_dependencies(reg, node, 0x80);
@@ -992,13 +1352,33 @@ int __fastcall output_dependency_is_redundant(C2Expression *operand, C2Expressio
         for (value = scan->left; value; value = value->next) {
             if (value->kind != 1) continue;
             reg = value->original_register;
-            SCHEDULE_REGISTER_ROOT(reg, root);
+            if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+                reg == (C2FunctionRegister *)&machine_registers[20] ||
+                reg == (C2FunctionRegister *)&machine_registers[9] ||
+                reg == (C2FunctionRegister *)&machine_registers[31] ||
+                reg == (C2FunctionRegister *)&machine_registers[32] ||
+                reg == (C2FunctionRegister *)&machine_registers[21] ||
+                reg == (C2FunctionRegister *)&machine_registers[33] ||
+                reg == (C2FunctionRegister *)&machine_registers[34] ||
+                reg == (C2FunctionRegister *)&machine_registers[35] ||
+                reg == (C2FunctionRegister *)&machine_registers[74]) root = reg->canonical;
+            else SCHEDULE_REGISTER_ROOT(reg, root);
             if (root == flags) return 0;
         }
         for (value = scan->tail.right; value; value = value->next) {
             if (value->kind != 1) continue;
             reg = value->original_register;
-            SCHEDULE_REGISTER_ROOT(reg, root);
+            if (reg == (C2FunctionRegister *)&machine_registers[17] ||
+                reg == (C2FunctionRegister *)&machine_registers[20] ||
+                reg == (C2FunctionRegister *)&machine_registers[9] ||
+                reg == (C2FunctionRegister *)&machine_registers[31] ||
+                reg == (C2FunctionRegister *)&machine_registers[32] ||
+                reg == (C2FunctionRegister *)&machine_registers[21] ||
+                reg == (C2FunctionRegister *)&machine_registers[33] ||
+                reg == (C2FunctionRegister *)&machine_registers[34] ||
+                reg == (C2FunctionRegister *)&machine_registers[35] ||
+                reg == (C2FunctionRegister *)&machine_registers[74]) root = reg->canonical;
+            else SCHEDULE_REGISTER_ROOT(reg, root);
             if (root == flags) return 1;
         }
     }
@@ -1012,7 +1392,12 @@ void __fastcall add_schedule_anti_dependencies(C2FunctionRegister *reg, C2Schedu
             annotate_schedule_dependency(find_or_add_schedule_dependency(use->node, node, flags));
 }
 void __fastcall add_schedule_memory_anti_dependencies(C2Expression *operand, C2ScheduleNode *node, unsigned flags)
-{ __asm { int 3 } }
+{
+    C2ScheduleMemory *use;
+    for (use = schedule_read_head; use; use = use->next)
+        if (input_operands_may_alias(use->operand, operand))
+            find_or_add_schedule_dependency(use->node, node, flags);
+}
 C2ScheduleRegisterUse *__fastcall prepend_schedule_register_use(C2ScheduleRegisterUse **head,
     C2FunctionRegister *reg, C2ScheduleNode *node);
 C2ScheduleRegisterUse *__fastcall record_schedule_register_use(C2FunctionRegister *reg, C2ScheduleNode *node)
@@ -1046,9 +1431,25 @@ C2ScheduleRegisterUse *__fastcall record_schedule_register_write(C2FunctionRegis
 {
     return prepend_schedule_register_use(&schedule_register_writes, reg, node);
 }
-void __fastcall record_schedule_memory_dependency(C2ScheduleMemory **head, C2ScheduleMemory **tail,
+C2ScheduleMemory *__fastcall new_schedule_memory_use(C2Expression *operand, C2ScheduleNode *node)
+{
+    C2ScheduleMemory *use = free_schedule_memory_uses;
+    if (use) free_schedule_memory_uses = use->next;
+    else use = c2_pool_allocate(0, sizeof(C2ScheduleMemory));
+    use->operand = operand;
+    use->node = node;
+    use->next = NULL;
+    return use;
+}
+C2ScheduleMemory *__fastcall record_schedule_memory_dependency(C2ScheduleMemory **head, C2ScheduleMemory **tail,
     C2Expression *operand, C2ScheduleNode *node)
-{ __asm { int 3 } }
+{
+    C2ScheduleMemory *use = new_schedule_memory_use(operand, node), *previous = *head;
+    *head = use;
+    use->next = previous;
+    if (!*tail) *tail = use;
+    return use;
+}
 C2ScheduleDependency *__fastcall new_schedule_dependency(C2ScheduleNode *source, C2ScheduleNode *destination,
     unsigned flags)
 {
@@ -1090,7 +1491,46 @@ delay:
 void __fastcall note_volatile_schedule_node(C2ScheduleNode *node)
 { __asm { int 3 } }
 C2ScheduleRegisterAlias *__fastcall find_schedule_register_alias(C2FunctionRegister *reg)
-{ __asm { int 3 } return NULL; }
+{
+    C2FunctionRegister *root = reg->canonical;
+    C2FrameSlot *slot;
+    long offset = root->kind == 3 ? root->frame_displacement : root->symbol->parameter_offset;
+    unsigned bytes = root->value_bytes;
+
+    for (slot = frame_slots; slot; slot = slot->next)
+        if (offset < (long)((unsigned)slot->offset + slot->bytes) &&
+            slot->offset < (long)((unsigned)offset + bytes)) return slot->uses;
+    return NULL;
+}
+/* A frame-slot alias may name another register with the requested use. */
+int __fastcall optimizer_register_may_alias_index(C2FunctionRegister *reg, unsigned index)
+{
+    C2ScheduleRegisterAlias *alias;
+    if (register_may_alias_index(reg, index)) return 1;
+    switch (reg->kind) {
+    case 3: case 4: case 5: case 6:
+        for (alias = find_schedule_register_alias(reg); alias; alias = alias->next)
+            if (register_may_alias_index(alias->reg, index)) return 1;
+        break;
+    }
+    return 0;
+}
+/* This path walker consumes only these independently recovered canonical
+ * pointers. Kind, range and other columns retain their separate guards. */
+#define PATH_REGISTER_ROOT(reg, result) do { \
+    if ((reg) == (C2FunctionRegister *)&machine_registers[9] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[17] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[19] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[20] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[21] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[31] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[32] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[33] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[34] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[35] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[74]) (result) = (reg)->canonical; \
+    else SCHEDULE_REGISTER_ROOT(reg, result); \
+} while (0)
 void __fastcall prepare_schedule_paths(C2ScheduleNode *last, C2ScheduleNode *first)
 {
     C2ScheduleNode *node = first->next, *source;
@@ -1115,12 +1555,12 @@ void __fastcall prepare_schedule_paths(C2ScheduleNode *last, C2ScheduleNode *fir
         input = record->left->next;
         for (output = source->record->tail.right; output; output = output->next) {
             if (input->kind == 1 && output->kind == 1) {
-                SCHEDULE_REGISTER_ROOT(input->original_register, input_root);
-                SCHEDULE_REGISTER_ROOT(output->original_register, output_root);
+                PATH_REGISTER_ROOT(input->original_register, input_root);
+                PATH_REGISTER_ROOT(output->original_register, output_root);
                 if (input_root != output_root) continue;
             } else if (input->kind == 2 && output->kind == 2) {
-                SCHEDULE_REGISTER_ROOT(input->value.reg, input_root);
-                SCHEDULE_REGISTER_ROOT(output->value.reg, output_root);
+                PATH_REGISTER_ROOT(input->value.reg, input_root);
+                PATH_REGISTER_ROOT(output->value.reg, output_root);
                 if (input_root != output_root) continue;
             } else continue;
             edge->delay = 1;
@@ -1130,8 +1570,30 @@ void __fastcall prepare_schedule_paths(C2ScheduleNode *last, C2ScheduleNode *fir
         }
     }
 }
+
+void __fastcall remove_schedule_dependency(C2ScheduleDependency *edge);
 void __fastcall prepare_schedule_move_dependency(C2ScheduleNode *node, C2FunctionRegister *reg)
-{ __asm { int 3 } }
+{
+    C2ScheduleDependency *edge, *next, *incoming;
+    C2ScheduleNode *destination;
+    C2Expression *record, *input;
+
+    for (edge = node->outgoing; edge; edge = next) {
+        destination = edge->destination;
+        next = edge->next_outgoing;
+        record = destination->record;
+        if (!record || record->kind == 13 || (record->type & 0xf000) != 0x4000)
+            continue;
+        input = record->left;
+        if (!input) continue;
+        if (input->kind == 1 && input->value.reg == reg) continue;
+        input = input->next;
+        if (input && input->kind == 1 && input->value.reg == reg) continue;
+        remove_schedule_dependency(edge);
+        for (incoming = node->incoming; incoming; incoming = incoming->next_incoming)
+            find_or_add_schedule_dependency(incoming->source, destination, incoming->flags);
+    }
+}
 void __fastcall prepare_schedule_dependencies(C2ScheduleNode *last, C2ScheduleNode *first)
 {
     C2ScheduleNode *node, *following;
@@ -1145,7 +1607,7 @@ void __fastcall prepare_schedule_dependencies(C2ScheduleNode *last, C2ScheduleNo
         if (!record || !(record->flags & 1)) continue;
         output = record->tail.right;
         if (!output || (output->type & 0xf000) != 0x4000 || output->kind != 1 || record->opcode == 0xe) continue;
-        SCHEDULE_REGISTER_ROOT(output->value.reg, root);
+        PATH_REGISTER_ROOT(output->value.reg, root);
         if (record->opcode == 0x138) {
             prepare_schedule_move_dependency(node, root);
             continue;
@@ -1156,7 +1618,7 @@ void __fastcall prepare_schedule_dependencies(C2ScheduleNode *last, C2ScheduleNo
             if ((record->type & 0xf000) != 0x4000 && record->kind != 13) continue;
             for (input = record->left; input; input = input->next) {
                 if (input->kind != 1) continue;
-                SCHEDULE_REGISTER_ROOT(input->value.reg, input_root);
+                PATH_REGISTER_ROOT(input->value.reg, input_root);
                 if (input_root != root) continue;
                 edge = find_or_add_schedule_dependency(node, following, 1);
                 set_schedule_register_overlap(edge, root, root);
@@ -1167,6 +1629,7 @@ void __fastcall prepare_schedule_dependencies(C2ScheduleNode *last, C2ScheduleNo
         }
     }
 }
+
 C2Expression *__fastcall find_schedule_register_address(C2Expression *record,
     C2FunctionRegister *reg);
 C2Expression *__fastcall find_schedule_address_operand(C2Expression *record, C2Expression *other,
@@ -1180,7 +1643,9 @@ C2Expression *__fastcall find_schedule_address_operand(C2Expression *record, C2E
     for (output = record->tail.right; output; output = output->next) {
         if (output->kind == 6) return NULL;
         if (output->kind != 1) continue;
-        SCHEDULE_REGISTER_ROOT(output->original_register, root);
+        if (output->original_register == (C2FunctionRegister *)&machine_registers[17] ||
+            output->original_register == (C2FunctionRegister *)&machine_registers[20]) root = output->original_register->canonical;
+        else PATH_REGISTER_ROOT(output->original_register, root);
         if (root != flags) {
             *reg = output->original_register;
             break;
@@ -1192,20 +1657,28 @@ C2Expression *__fastcall find_schedule_address_operand(C2Expression *record, C2E
     input = other->left;
     for (scan = input; scan; scan = scan->next) {
         if (scan->kind != 1) continue;
-        SCHEDULE_REGISTER_ROOT(scan->original_register, root);
+        if (scan->original_register == (C2FunctionRegister *)&machine_registers[17] ||
+            scan->original_register == (C2FunctionRegister *)&machine_registers[20]) root = scan->original_register->canonical;
+        else PATH_REGISTER_ROOT(scan->original_register, root);
         if (root == flags) return NULL;
     }
     if (input->kind == 1) {
-        SCHEDULE_REGISTER_ROOT(input->original_register, root);
+        if (input->original_register == (C2FunctionRegister *)&machine_registers[17] ||
+            input->original_register == (C2FunctionRegister *)&machine_registers[20]) root = input->original_register->canonical;
+        else PATH_REGISTER_ROOT(input->original_register, root);
         if (root == *reg) return NULL;
     }
     input = input->next;
     if (input->kind != 1) return address;
-    SCHEDULE_REGISTER_ROOT(input->original_register, root);
+    if (input->original_register == (C2FunctionRegister *)&machine_registers[17] ||
+            input->original_register == (C2FunctionRegister *)&machine_registers[20]) root = input->original_register->canonical;
+        else PATH_REGISTER_ROOT(input->original_register, root);
     if (root != *reg || input == address->aggregate_value ||
         input == address->aggregate_second) return address;
     return NULL;
 }
+#undef PATH_REGISTER_ROOT
+
 C2Expression *__fastcall find_schedule_register_address(C2Expression *record,
     C2FunctionRegister *reg)
 {
@@ -1223,9 +1696,13 @@ C2Expression *__fastcall find_schedule_register_address(C2Expression *record,
         return address;
     return NULL;
 }
+/* The original target is a defined false leaf: XOR EAX,EAX; RET8.
+ * Its four-argument fastcall role retains the two stack slots at each caller. */
 int __fastcall test_schedule_dependency(C2ScheduleNode *source, C2ScheduleDependency *edge,
     C2FunctionRegister *reg, C2FunctionRegister *flags)
-{ __asm { int 3 } return 0; }
+{
+    return 0;
+}
 #define SCHEDULE_REGISTER_NUMBER(reg) do { \
     if ((unsigned long)(reg) >= (unsigned long)machine_registers && \
         (unsigned long)(reg) <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT) && \
@@ -1441,7 +1918,21 @@ anti_dependency:
 }
 
 void __fastcall prepare_schedule_ready_node(C2ScheduleNode *node)
-{ __asm { int 3 } }
+{
+    C2ScheduleNode *previous = node->previous;
+    if (!previous) {
+        c2_report_internal("E:\\utc\\src\\\\P2\\dag.c", 0x34f);
+        return;
+    }
+    do {
+        if (previous->flags3a & 1) {
+            find_or_add_schedule_dependency(previous, node, 0x80000);
+            return;
+        }
+        previous = previous->previous;
+    } while (previous);
+    c2_report_internal("E:\\utc\\src\\\\P2\\dag.c", 0x34f);
+}
 unsigned __fastcall scale_schedule_priority(unsigned value, int shift)
 {
     if (shift < 0) return value >> ((0U - (unsigned)shift) & 31);
@@ -1477,8 +1968,9 @@ void __fastcall order_schedule_graph(C2ScheduleGraph *graph)
             for (edge = node->outgoing; edge; edge = edge->next_outgoing)
                 if ((unsigned)node->path_length == (unsigned)edge->delay + 1 + edge->destination->path_length)
                     edge->destination->properties |= 8;
-        /* Only the reached late Pentium priority columns are modeled. */
-        if (schedule_weights != &late_schedule_weights[2]) { __asm { int 3 } }
+        /* Only the reached early/late Pentium priority columns are modeled. */
+        if (schedule_weights != &late_schedule_weights[2] &&
+            schedule_weights != &early_schedule_weights[2]) { __asm { int 3 } }
         priority = scale_schedule_priority(node->path_length, schedule_weights->path_weight);
         priority += scale_schedule_priority(node->outgoing_count, schedule_weights->outgoing_weight);
         priority += scale_schedule_priority((properties >> 5) & 1, schedule_weights->read_weight);
@@ -1546,12 +2038,28 @@ int __fastcall can_pair_schedule_nodes(C2ScheduleNode *first, C2ScheduleNode *se
         /* Only full property DWORDs for this reached scheduling range. The
          * earlier resource-class consumer uses just the low BYTE. */
         switch (opcode) {
-        case 0x32: case 0x2d: case 0x21: case 1: case 0x2e: case 0x30: case 0x34: case 0xb9: case 0xba:
+        case 0x12: case 0x2f: case 0x32: case 0x2d: case 0x21: case 1: case 0x2e: case 0x30: case 0x34: case 0xb9: case 0xba:
             first_class = 0;
             break;
-        case 0x29: case 0x20: case 0xdf: case 8: case 0x1f: case 0x2a: case 0x2b:
+        case 0x33: case 0x29: case 0x20: case 0xdf: case 8: case 0x1f: case 0x2a: case 0x2b: case 0xfe:
             first_class = 0x300;
             break;
+        case 0x10: first_class = 0x300; break;
+        case 0xd: first_class = 0x0; break;
+        case 0xe: first_class = 0x300; break;
+        case 0x1e: first_class = 0x0; break;
+        case 0xc1: first_class = 0x304; break;
+        case 0xf: first_class = 0x200; break;
+        case 0x56: case 0x62: case 0x63: first_class = 0x302; break;
+        case 0x5c: first_class = 0x102; break;
+        case 0x5f: first_class = 0x202; break;
+        case 0x47: case 0x60: first_class = 0x102; break;
+        case 0x46: case 0x4b: case 0x4c: case 0x4d: case 0x5d: first_class = 0x102; break;
+        case 0x6e: first_class = 0x302; break;
+        case 0xae: first_class = 0x300; break;
+        case 0x45: first_class = 0x102; break;
+        case 0x77: first_class = 0x102; break;
+        case 0x4a: case 0x4f: first_class = 0x102; break;
         default: __asm { int 3 } first_class = 0;
         }
     }
@@ -1565,12 +2073,28 @@ int __fastcall can_pair_schedule_nodes(C2ScheduleNode *first, C2ScheduleNode *se
         else {
             if (schedule_opcode_costs != &schedule_costs_pentium) { __asm { int 3 } }
             switch (opcode) {
-            case 0x32: case 0x2d: case 0x21: case 1: case 0x2e: case 0x30: case 0x34: case 0xb9: case 0xba:
+            case 0x12: case 0x2f: case 0x32: case 0x2d: case 0x21: case 1: case 0x2e: case 0x30: case 0x34: case 0xb9: case 0xba:
                 second_class = 0;
                 break;
-            case 0x29: case 0x20: case 0xdf: case 8: case 0x1f: case 0x2a: case 0x2b:
+            case 0x33: case 0x29: case 0x20: case 0xdf: case 8: case 0x1f: case 0x2a: case 0x2b: case 0xfe:
                 second_class = 0x300;
                 break;
+            case 0x10: second_class = 0x300; break;
+            case 0xd: second_class = 0x0; break;
+            case 0xe: second_class = 0x300; break;
+            case 0x1e: second_class = 0x0; break;
+            case 0xc1: second_class = 0x304; break;
+            case 0xf: second_class = 0x200; break;
+            case 0x56: case 0x62: case 0x63: second_class = 0x302; break;
+            case 0x5c: second_class = 0x102; break;
+            case 0x5f: second_class = 0x202; break;
+            case 0x47: case 0x60: second_class = 0x102; break;
+            case 0x46: case 0x4b: case 0x4c: case 0x4d: case 0x5d: second_class = 0x102; break;
+            case 0x6e: second_class = 0x302; break;
+            case 0xae: second_class = 0x300; break;
+            case 0x45: second_class = 0x102; break;
+            case 0x77: second_class = 0x102; break;
+            case 0x4a: case 0x4f: second_class = 0x102; break;
             default: __asm { int 3 } second_class = 0;
             }
         }
@@ -1689,8 +2213,160 @@ void __fastcall remove_schedule_ready_node(C2ScheduleNode *node)
     node->ready_next = NULL;
 }
 C2ScheduleDependency *__fastcall find_schedule_coalescing_dependency(C2ScheduleNode *source, C2ScheduleNode *destination)
-{ __asm { int 3 } return NULL; }
-void __fastcall apply_schedule_dependency(C2ScheduleDependency *edge) { __asm { int 3 } }
+{
+    C2ScheduleDependency *edge;
+    unsigned kind;
+    if (schedule_cpu_index == 3) return NULL;
+    for (edge = source->outgoing; edge; edge = edge->next_outgoing) {
+        if (edge->destination != destination) continue;
+        kind = edge->properties & 31;
+        if (kind == 6 || kind == 8 || kind == 10) return edge;
+    }
+    return NULL;
+}
+void __fastcall detach_input_operand(C2Expression *record, C2Expression *operand);
+void __fastcall remove_schedule_dependency(C2ScheduleDependency *edge)
+{
+    --edge->source->outgoing_count;
+    --edge->destination->incoming_count;
+    if (edge->properties & 31) --edge->destination->remaining_incoming;
+    release_flow_edge(&active_schedule_graph->flow, (C2FlowEdge *)edge);
+    --schedule_edge_count;
+}
+void __fastcall prepare_schedule_terminal_node(C2ScheduleNode *node)
+{ __asm { int 3 } }
+void __fastcall discard_schedule_node_dependencies(C2ScheduleNode *node)
+{ __asm { int 3 } }
+
+/* Apply the actual address-rewrite class selected on this dependency. The
+ * shared completion path remains part of this owner, including cold cases. */
+int __fastcall apply_schedule_dependency(C2ScheduleDependency *edge)
+{
+    C2ScheduleNode *source_node = edge->source;
+    C2Expression *source = source_node->record;
+    C2Expression *destination = edge->destination->record;
+    C2Expression *owner, *address, *form, *operand, *component, *copy;
+    unsigned action = edge->properties & 31, bytes, scale, shift;
+
+    owner = action >= 16 ? source : destination;
+    for (address = owner->left; address && address->kind != 6; address = address->next) ;
+    if (!address)
+        for (address = owner->tail.right; address && address->kind != 6; address = address->next) ;
+
+    switch (action) {
+    case 1: case 3: case 16: case 17:
+        owner = action < 16 ? source : destination;
+        bytes = owner->left->next->integer.low;
+        scale = 1U << (address->location.expression.properties & 15);
+        if (address->aggregate_value && owner->tail.right->original_register ==
+            address->aggregate_value->original_register) scale = 1;
+        if (action == 3 || action == 16)
+            address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement - scale * bytes);
+        else
+            address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement + scale * bytes);
+        break;
+    case 2: case 18:
+        owner = action == 2 ? source : destination;
+        copy = copy_input_expression(owner->left->next);
+        copy_input_operand(action == 2 ? destination : source, copy);
+        if (address->aggregate_second) address->aggregate_value = copy;
+        else {
+            address->aggregate_second = copy;
+            address->location.expression.properties &= 0xf0;
+        }
+        address->opcode = 0x123;
+        break;
+    case 4:
+        bytes = source->left->next->integer.low;
+        if (!address->aggregate_second) {
+            address->aggregate_second = address->aggregate_value;
+            address->aggregate_value = NULL;
+        } else bytes *= 1U << (address->location.expression.properties & 15);
+        shift = bytes == 1 ? 0 : bytes == 2 ? 1 : bytes == 4 ? 2 : 3;
+        address->location.expression.properties = (address->location.expression.properties & 0xf0) | shift;
+        /* This class shares the authentic kind-5 address replacement below. */
+    case 5: case 6:
+        for (form = source->left; form && form->kind != 5; form = form->next) ;
+        operand = address->aggregate_value;
+        if (operand) {
+            operand->location.expression.properties &= 0xdf;
+            detach_input_operand(destination, operand);
+            release_small_node(address->aggregate_value);
+            address->aggregate_value = NULL;
+        }
+        operand = address->aggregate_second;
+        if (operand) {
+            operand->location.expression.properties &= 0xdf;
+            detach_input_operand(destination, operand);
+            release_small_node(address->aggregate_second);
+            address->aggregate_second = NULL;
+        }
+        if (form->aggregate_value) {
+            address->aggregate_value = copy_input_expression(form->aggregate_value);
+            copy_input_operand(destination, address->aggregate_value);
+            address->aggregate_value->location.expression.properties |= 0x10;
+        }
+        if (form->aggregate_second) {
+            address->aggregate_second = copy_input_expression(form->aggregate_second);
+            copy_input_operand(destination, address->aggregate_second);
+            address->aggregate_second->location.expression.properties |= 0x10;
+        }
+        address->opcode = form->opcode;
+        address->tail.aggregate_register = form->tail.aggregate_register;
+        address->location.expression.properties = (address->location.expression.properties & 0xf0) |
+            (form->location.expression.properties & 15);
+        address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement +
+            (unsigned)form->detail.aggregate_displacement);
+        break;
+    case 7: case 8:
+        for (form = source->left; form && form->kind != 5; form = form->next) ;
+        component = form->aggregate_value ? form->aggregate_value : form->aggregate_second;
+        address->aggregate_value->value.reg = component->value.reg;
+        address->aggregate_value->original_register = component->original_register;
+        address->tail.aggregate_register = form->tail.aggregate_register;
+        address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement +
+            (unsigned)form->detail.aggregate_displacement);
+        break;
+    case 9: case 10:
+        for (form = source->left; form && form->kind != 5; form = form->next) ;
+        address->tail.aggregate_register = form->tail.aggregate_register;
+        scale = 1U << (address->location.expression.properties & 15);
+        address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement +
+            scale * (unsigned)form->detail.aggregate_displacement);
+        component = form->aggregate_value ? form->aggregate_value : form->aggregate_second;
+        address->aggregate_second->value.reg = component->value.reg;
+        address->aggregate_second->original_register = component->original_register;
+        if (!form->aggregate_value)
+            address->location.expression.properties = (address->location.expression.properties & 0xf0) |
+                ((form->location.expression.properties + address->location.expression.properties) & 15);
+        break;
+    case 11: case 12: case 21: case 22:
+        owner = action < 16 ? source : destination;
+        scale = 1U << (address->location.expression.properties & 15);
+        if (address->aggregate_value && owner->tail.right->original_register ==
+            address->aggregate_value->original_register) scale = 1;
+        if (action == 12 || action == 21)
+            address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement - scale);
+        else
+            address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement + scale);
+        break;
+    case 19: case 20:
+        for (form = destination->left; form && form->kind != 5; form = form->next) ;
+        scale = action == 19 ? 1 : 1U << (address->location.expression.properties & 15);
+        address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement -
+            scale * (unsigned)form->detail.aggregate_displacement);
+        break;
+    default:
+        c2_report_internal("E:\\utc\\src\\\\P2\\x86\\schedmd.c", 0x728);
+        break;
+    }
+    remove_schedule_dependency(edge);
+    if (edge->properties & 0x20) discard_schedule_node_dependencies(source_node);
+    else if (!source_node->outgoing_count) prepare_schedule_terminal_node(source_node);
+    destination->flags &= 0xfb;
+    source->flags &= 0xfb;
+    return 1;
+}
 void __fastcall update_schedule_dependent(C2ScheduleDependency *edge)
 {
     C2ScheduleNode *node = edge->destination;
@@ -1774,12 +2450,26 @@ int __fastcall schedule_node_resource_cost(C2ScheduleNode *node)
     /* The second DWORD is the resource occupancy increment, distinct from
      * the result delay and the full pairing/property DWORD. */
     switch (opcode) {
-    case 0x29: case 0x32: case 0x2d: case 0x21: case 1: case 0x2a: case 0x2b: case 0x2e: case 0x30: case 0x34: case 0xb9: case 0xba:
+    case 0x12: case 0x2f: case 0xf: case 0x33: case 0x29: case 0x32: case 0x2d: case 0x21: case 1: case 0x2a: case 0x2b: case 0x2e: case 0x30: case 0x34: case 0xb9: case 0xba:
         return 1;
+    case 0x10: return 2;
+    case 0xd: return 1;
+    case 0xe: return 0;
+    case 0x1e: return 1;
+    case 0xc1: return 10;
     case 0x20: return 22;
     case 0xdf: return 2;
     case 8: return 3;
     case 0x1f: return 17;
+    case 0xfe: return 13;
+    case 0x56: case 0x47: case 0x62: case 0x63: case 0x60: return 1;
+    case 0x46: case 0x4b: case 0x4c: case 0x4d: case 0x5d: return 1;
+    case 0x6e: case 0xae: return 2;
+    case 0x45: return 1;
+    case 0x77: return 1;
+    case 0x4a: case 0x4f: return 39;
+    case 0x5c: return 1;
+    case 0x5f: return 1;
     default: __asm { int 3 }
     }
     return 0;
@@ -1844,7 +2534,234 @@ void __fastcall emit_schedule_graph(C2ScheduleGraph *graph)
         advance_schedule_cycle();
     }
 }
-void __fastcall finish_schedule_output(C2Expression *first) { __asm { int 3 } }
+int __fastcall schedule_float_operation_is_ordered(C2Expression *record);
+void __fastcall move_scheduled_float_slot(C2Expression *record, int from, int to);
+void __fastcall exchange_scheduled_float_top(C2Expression *record, int slot);
+C2Expression *__fastcall new_fixed_register_operand(unsigned number, unsigned short type);
+
+/* These guards reuse only already established columns of the partial machine
+ * owner. They do not give the remaining x87 rows kind/root/payload defaults. */
+#define EARLY_FLOAT_KIND(reg, value) do { \
+    if ((reg) == (C2FunctionRegister *)&machine_registers[9] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[17] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[20] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[31] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[32] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[74]) (value) = (reg)->kind; \
+    else SCHEDULE_REGISTER_KIND(reg, value); \
+} while (0)
+#define EARLY_FLOAT_ROOT(reg, value) do { \
+    if ((reg) == (C2FunctionRegister *)&machine_registers[9] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[17] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[20] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[31] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[32] || \
+        (reg) == (C2FunctionRegister *)&machine_registers[74]) (value) = (reg)->canonical; \
+    else SCHEDULE_REGISTER_ROOT(reg, value); \
+} while (0)
+#define EARLY_FLOAT_INDEX(index) do { if ((unsigned)(index) >= 8) { __asm { int 3 } } } while (0)
+/* The original error continuation retains the corresponding prior stack local
+ * if the internal-error routine returns. Do not seed an invented index. */
+#define FIND_EARLY_FLOAT(reg, index) do { \
+    EARLY_FLOAT_ROOT(reg, root); \
+    if (early_float_stack_base < 0) { __asm { int 3 } } \
+    for (position = early_float_stack_base; position < 8; ++position) \
+        if (early_float_registers[position] == root) break; \
+    if (position >= 8) c2_report_internal("E:\\utc\\src\\\\P2\\x86\\schedmd.c", 0x9e3); \
+    else (index) = position - early_float_stack_base; \
+} while (0)
+
+void __fastcall finish_schedule_output(C2Expression *first)
+{
+    C2Expression *record, *input, *second, *output, *operand, *pending;
+    C2FunctionRegister *reg, *root;
+    int effect, ordered, live, position, outputs;
+    int index, assignment_index, result_index; /* Genuine carried locals. */
+    short count, top;
+    unsigned kind;
+
+    for (record = first; record; record = record->next) {
+        if (!(record->flags & 1) ||
+            ((record->type & 0xf000) != 0x4000 && record->kind != 13)) continue;
+        input = record->left;
+        output = record->tail.right;
+        effect = final_float_stack_effect(record);
+        if (record->opcode == 0x138) {
+            reg = input->value.reg;
+            FIND_EARLY_FLOAT(reg, index);
+            EARLY_FLOAT_INDEX(index);
+            input->fixed_register = &machine_registers[31 + index];
+            FIND_EARLY_FLOAT(reg, assignment_index);
+            EARLY_FLOAT_INDEX(early_float_stack_base + assignment_index);
+            EARLY_FLOAT_ROOT(output->value.reg, root);
+            early_float_registers[early_float_stack_base + assignment_index] = root;
+            output->fixed_register = &machine_registers[31 + index];
+            continue;
+        }
+        ordered = record->kind == 13;
+        if (!ordered) ordered = schedule_float_operation_is_ordered(record);
+        second = NULL;
+        if (!ordered && input && input->kind == 1) {
+            reg = input->value.reg;
+            EARLY_FLOAT_KIND(reg, kind);
+            if (kind == 3 && reg->value) {
+                second = input->next;
+                if (second && second->kind == 1) {
+                    reg = second->value.reg;
+                    EARLY_FLOAT_KIND(reg, kind);
+                    if (kind != 3 || !reg->value || (second->type & 0xf000) != 0x4000)
+                        second = NULL;
+                } else second = NULL;
+            }
+        }
+        if (second) {
+            FIND_EARLY_FLOAT(input->value.reg, index);
+            if (!index && effect < 0 && (output->type & 0xf000) == 0x4000) {
+                move_scheduled_float_slot(record, 0, 1);
+                index = 1;
+            }
+            EARLY_FLOAT_INDEX(index);
+            input->fixed_register = &machine_registers[31 + index];
+            if ((output->type & 0xf000) == 0x4000) {
+                output->fixed_register = &machine_registers[31 + index];
+                FIND_EARLY_FLOAT(input->value.reg, result_index);
+                EARLY_FLOAT_INDEX(early_float_stack_base + result_index);
+                EARLY_FLOAT_ROOT(output->value.reg, root);
+                early_float_registers[early_float_stack_base + result_index] = root;
+            }
+            if (!index) {
+                FIND_EARLY_FLOAT(second->value.reg, index);
+                EARLY_FLOAT_INDEX(index);
+                second->fixed_register = &machine_registers[31 + index];
+            } else {
+                FIND_EARLY_FLOAT(second->value.reg, index);
+                exchange_scheduled_float_top(record, index);
+                second->fixed_register = &machine_registers[31];
+            }
+            early_float_stack_base = (short)((unsigned short)early_float_stack_base -
+                (unsigned short)effect);
+            if (effect < 0) {
+                if (output->fixed_register != &machine_registers[31] &&
+                    output->fixed_register != &machine_registers[32]) { __asm { int 3 } }
+                if (output->fixed_register->number != 31)
+                    attach_optimizer_output(record, new_fixed_register_operand(31, output->type));
+            }
+            continue;
+        }
+        count = 0;
+        pending = NULL;
+        for (operand = record->left; operand; operand = operand->next) {
+            if (operand->kind != 1) continue;
+            reg = operand->value.reg;
+            EARLY_FLOAT_KIND(reg, kind);
+            if (kind != 3 || !reg->value || (operand->type & 0xf000) != 0x4000) continue;
+            if (reg->value->opcode == 0x16c) {
+                EARLY_FLOAT_INDEX(operand->float_stack_index);
+                operand->fixed_register = &machine_registers[31 + operand->float_stack_index];
+            } else {
+                count = (short)((unsigned short)count + 1);
+                if (!operand->float_stack_index) pending = operand;
+                else {
+                    FIND_EARLY_FLOAT(reg, index);
+                    move_scheduled_float_slot(record, index, operand->float_stack_index);
+                    EARLY_FLOAT_INDEX(operand->float_stack_index);
+                    operand->fixed_register = &machine_registers[31 + operand->float_stack_index];
+                }
+            }
+        }
+        if (pending) {
+            FIND_EARLY_FLOAT(pending->value.reg, index);
+            move_scheduled_float_slot(record, index, 0);
+            pending->fixed_register = &machine_registers[31];
+        }
+        top = (short)((unsigned short)early_float_stack_base + (unsigned short)count);
+        outputs = 0;
+        for (operand = record->tail.right; operand; operand = operand->next) {
+            if (operand->kind != 1) continue;
+            reg = operand->value.reg;
+            EARLY_FLOAT_KIND(reg, kind);
+            live = kind == 3 && reg->value && (operand->type & 0xf000) == 0x4000;
+            if (!live && record->opcode != 0x60) continue;
+            ++outputs;
+            if (record->opcode != 0x16c) {
+                top = (short)((unsigned short)top - 1);
+                EARLY_FLOAT_INDEX(top);
+                EARLY_FLOAT_ROOT(reg, root);
+                early_float_registers[top] = root;
+            }
+            EARLY_FLOAT_INDEX(operand->float_stack_index);
+            operand->fixed_register = &machine_registers[31 + operand->float_stack_index];
+        }
+        early_float_stack_base = top;
+        if (outputs > 1) {
+            output = record->tail.right;
+            output->fixed_register = &machine_registers[32];
+            EARLY_FLOAT_INDEX(top + 1);
+            EARLY_FLOAT_ROOT(output->value.reg, root);
+            early_float_registers[top + 1] = root;
+            second = output->next;
+            second->fixed_register = &machine_registers[31];
+            EARLY_FLOAT_INDEX(top);
+            EARLY_FLOAT_ROOT(second->value.reg, root);
+            early_float_registers[top] = root;
+        }
+    }
+}
+#undef FIND_EARLY_FLOAT
+#undef EARLY_FLOAT_INDEX
+#undef EARLY_FLOAT_ROOT
+#undef EARLY_FLOAT_KIND
+
+int __fastcall schedule_float_operation_is_ordered(C2Expression *record)
+{
+    switch (record->opcode) {
+    case 0x47: case 0x49: case 0x4a: case 0x4d: case 0x4f: case 0x50:
+    case 0x5c: case 0x5d: case 0x5e: case 0xd1: case 0xd2: case 0xd3:
+        return record->left->float_stack_index == 0;
+    case 0x86: case 0x87: case 0x8a: case 0x91: case 0x92: case 0xd4:
+        return 1;
+    default:
+        return 0;
+    }
+}
+void __fastcall move_scheduled_float_slot(C2Expression *record, int from, int to)
+{
+    if (from == to) return;
+    exchange_scheduled_float_top(record, from);
+    exchange_scheduled_float_top(record, to);
+}
+void __fastcall swap_scheduled_float_registers(int first, int second);
+void __fastcall exchange_scheduled_float_top(C2Expression *record, int slot)
+{
+    C2Expression *scan, *source, *top;
+
+    if (!slot) return;
+    swap_scheduled_float_registers(slot, 0);
+    for (scan = record->previous; scan; scan = scan->previous) {
+        if ((scan->type & 0xf000) != 0x4000 && scan->kind != 13) continue;
+        if (scan->opcode == 0x138) continue;
+        source = new_fixed_register_operand(31 + slot, 0x400a);
+        top = new_fixed_register_operand(31, 0x400a);
+        new_binary_expression(0x5f, 0x400a, top, source,
+            insert_input_record, (C2Record *)scan);
+        return;
+    }
+    c2_report_internal("E:\\utc\\src\\\\P2\\x86\\schedmd.c", 0x999);
+}
+void __fastcall swap_scheduled_float_registers(int first, int second)
+{
+    unsigned a = (unsigned)(int)early_float_stack_base + (unsigned)first;
+    unsigned b = (unsigned)(int)early_float_stack_base + (unsigned)second;
+    C2FunctionRegister *temporary;
+
+    /* The encountered stack has eight pointer slots; surrounding globals
+     * are not an extension of this array in either reconstructed build. */
+    if (a >= 8 || b >= 8) { __asm { int 3 } }
+    temporary = early_float_registers[b];
+    early_float_registers[b] = early_float_registers[a];
+    early_float_registers[a] = temporary;
+}
+
 void __fastcall finish_schedule_registers(C2Function *function)
 {
     C2Expression *first = ((C2Expression *)function->flow->last->records)->next;

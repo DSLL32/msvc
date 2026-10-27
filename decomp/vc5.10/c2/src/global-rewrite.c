@@ -2612,14 +2612,23 @@ int __fastcall simplify_final_transfers_once(C2Function *function)
     return total;
 }
 
+/* The next actual code record, skipping non-code list markers. */
 C2Expression *__fastcall next_final_marker(C2Expression *record)
 {
-    __asm { int 3 }
+    for (record = record->next; record; record = record->next)
+        if (record->flags & 1) return record;
     return NULL;
 }
+void __fastcall redirect_allocation_branch(C2Expression *branch, C2Expression *label, int mode);
 void __fastcall redirect_final_symbol_uses(C2Expression *record, C2Expression *target)
 {
-    __asm { int 3 }
+    C2SymbolInputUse *use, *next;
+
+    for (use = record->tail.symbol_uses; use; use = next) {
+        next = use->next;
+        redirect_allocation_branch(use->expression, target, 0);
+    }
+    if (!symbol_range_boundary(record)) remove_symbol_record(record);
 }
 void __fastcall remove_control_record(C2Expression *record);
 int __fastcall prune_after_final_transfer(C2Expression *record)
@@ -2649,14 +2658,49 @@ int __fastcall prune_after_final_transfer(C2Expression *record)
     }
     return removed;
 }
+void __fastcall remove_branch_record(C2Expression *record);
+
 int __fastcall fold_final_branch_target(C2Expression *record)
 {
-    __asm { int 3 }
+    C2Expression *next;
+    for (next = record->next; next && !(next->flags & 1); next = next->next) {
+        if (next->kind == 25 && next ==
+            ((C2InputSymbol *)record->left->value.symbol)->input_operand) {
+            remove_branch_record(record);
+            return 1;
+        }
+    }
     return 0;
 }
+void __fastcall redirect_allocation_branch(C2Expression *branch, C2Expression *label, int copy);
+
 int __fastcall invert_final_branch(C2Expression *record)
 {
-    __asm { int 3 }
+    C2Expression *branch, *next;
+    unsigned condition;
+
+    for (branch = record->next; branch; branch = branch->next) {
+        if (branch->kind == 16 && !branch->detail.data && branch->opcode != 0x15c &&
+            branch->left->kind == 4 &&
+            ((C2InputSymbol *)branch->left->value.symbol)->input_operand &&
+            branch->opcode != 0x15b) break;
+        if ((branch->flags & 1) || branch->kind == 25) return 0;
+    }
+    if (!branch) return 0;
+    for (next = branch->next; next; next = next->next) {
+        if (next->kind == 25 && next ==
+            ((C2InputSymbol *)record->left->value.symbol)->input_operand) {
+            condition = record->condition_code;
+            if (condition > 16) { __asm { int 3 } }
+            record->condition_code = input_inverse_condition[condition];
+            redirect_allocation_branch(record,
+                ((C2InputSymbol *)branch->left->value.symbol)->input_operand, 0);
+            record->location.attributes = branch->location.attributes;
+            remove_control_record(branch);
+            return 1;
+        }
+        if (next->flags & 1) return 0;
+    }
     return 0;
 }
 
@@ -2672,9 +2716,86 @@ void __fastcall fold_final_conditional_branches(C2Function *function)
     }
 }
 
+int __fastcall input_operand_has_effects(C2Expression *operand);
+int __fastcall evaluate_comparison_rewrite(unsigned short type, C2Expression *result,
+    C2Expression *left, C2Expression *right, unsigned condition, int mode);
+C2Expression *__fastcall new_select_expression(unsigned opcode, unsigned short type,
+    C2Expression *condition, C2Expression *left, C2Expression *right,
+    unsigned char comparison, C2InputLink link, C2Record *prior);
+C2Expression *__fastcall resolve_final_single_use_value(C2Expression *record);
+
+C2Expression *__fastcall simplify_statement_expressions(C2Record *record);
+
 void __fastcall fold_final_branch_pair(C2Expression *record)
 {
-    __asm { int 3 }
+    C2Expression *label, *condition_value, *branch, *target, *before, *after;
+    C2Expression *output, *left, *right, *current, *optional_branch = NULL;
+    C2Expression *stop, *next, *selection;
+    C2SymbolInputUse *use;
+    unsigned condition, inverse;
+
+    if (record->left->kind != 4) return;
+    label = ((C2InputSymbol *)record->left->value.symbol)->input_operand;
+    if (!label) return;
+    condition_value = record->left->next;
+    condition = record->condition_code;
+    if (condition > 16) { __asm { int 3 } }
+    inverse = input_inverse_condition[condition];
+    if (condition_value->value.reg->value != record->previous) return;
+    for (use = label->tail.symbol_uses; use; use = use->next)
+        if (use->expression != record) return;
+    for (branch = label->previous; branch->kind == 24 || branch->kind == 21;
+         branch = branch->previous) { }
+    if (branch->kind != 16 || branch->detail.data || branch->opcode == 0x15c) return;
+    target = ((C2InputSymbol *)branch->left->value.symbol)->input_operand;
+    before = branch->previous;
+    while (before->kind == 24 || before->kind == 21) before = before->previous;
+    if (before->opcode == 0x131) output = before->tail.right;
+    else if (before->opcode == 0x140) output = NULL;
+    else return;
+    left = before->left;
+    current = before->previous;
+    while (current->kind == 24 || current->kind == 21) current = current->previous;
+    if (current != record) return;
+    after = label->next;
+    while (after->kind == 24 || after->kind == 21) after = after->next;
+    if (after->opcode == 0x131) {
+        if (output && compare_input_operands(output, after->tail.right)) return;
+    } else if (after->opcode != 0x140 || output) return;
+    right = after->left;
+    current = after->next;
+    while (current->kind == 24 || current->kind == 21) current = current->next;
+    stop = target;
+    if (current != target) {
+        if (current->kind != 16 || current->detail.data || current->opcode == 0x15c ||
+            ((C2InputSymbol *)current->left->value.symbol)->input_operand != target) return;
+        stop = optional_branch = current;
+    }
+    if (input_operand_has_effects(left) || input_operand_has_effects(right)) return;
+    if (left->type != right->type) set_input_expression_type(right, left->type);
+    if (inverse > 16) { __asm { int 3 } }
+    if (!evaluate_comparison_rewrite(left->type, condition_value, left, right,
+                                    input_inverse_condition[inverse], 1)) return;
+    selection = new_select_expression(0x15e, left->type, condition_value, left, right,
+                                     (unsigned char)inverse, prepend_input_record, (C2Record *)record);
+    if (output)
+        new_binary_expression(0x131, left->type, output, selection->tail.right,
+                              insert_input_record, (C2Record *)selection);
+    else
+        new_transfer_expression(0x140, left->type, NULL, selection->tail.right,
+                                insert_input_record, (C2Record *)selection);
+    current = record->next;
+    stop = stop->next;
+    remove_control_record(record);
+    remove_control_record(branch);
+    while (current != stop) {
+        next = current->next;
+        if (current->kind != 24 && current->kind != 25 && current != optional_branch)
+            unlink_and_release_input_record((C2Record *)current);
+        current = next;
+    }
+    if (selection->previous == selection->left->value.reg->value)
+        simplify_statement_expressions((C2Record *)resolve_final_single_use_value(selection));
 }
 
 struct C2FinalMultiplyRecipe {
@@ -2943,7 +3064,7 @@ void __fastcall make_global_register_operand(C2Expression *operand)
     unsigned kind = operand->value.reg->kind;
 
     /* Unknown semantic rows are unsupported in both reconstructed builds. */
-    if (kind != 3 && kind != 4 && kind != 5) { __asm { int 3 } }
+    if (kind != 3 && kind != 4 && kind != 5 && kind != 8) { __asm { int 3 } }
     operand->left = NULL;
     operand->kind = 2;
     operand->opcode = input_register_opcodes.values[kind];
@@ -3070,9 +3191,62 @@ unsigned assignment_rewrite_opcode;           /* 496924 */
 void __fastcall rewrite_final_binary_assignment(C2Expression *record,
     C2Expression *first, C2Expression *second, C2Expression *definition);
 int __fastcall find_assignment_rewrite(C2Expression *record, int negate);
-C2Expression *__fastcall assignment_identity_operand(C2Expression *record);
-C2Expression *__fastcall simplify_assignment_rewrite(C2Expression *record);
-void __fastcall peephole_440fae(C2Expression *record, C2Expression *replacement);
+unsigned __int64 __fastcall assignment_identity_value(C2Expression *record)
+{
+    unsigned __int64 unwritten;
+    switch (record->opcode) {
+    case 0x141: case 0x142: case 0x145: case 0x147: case 0x148: case 0x14b:
+        return 0;
+    case 0x143: case 0x149:
+        return 1;
+    case 0x146:
+        return ~(unsigned __int64)0;
+    default:
+        /* Original returns its fresh, unwritten eight-byte automatic cell.
+         * This is an internal identity value, not undefined output padding. */
+#ifdef __linux__
+        recon_unsupported("assignment identity incidental stack value");
+#endif
+        return unwritten;
+    }
+}
+C2Expression *__fastcall assignment_identity_operand(C2Expression *record)
+{
+    unsigned __int64 value = assignment_identity_value(record);
+    return new_integer_expression(record->type, value);
+}
+C2Expression *__fastcall simplify_statement_expressions(C2Record *record);
+C2Expression *__fastcall simplify_assignment_rewrite(C2Expression *record)
+{
+    C2Expression *operand = record->left->next, *definition;
+    if (((1U << (operand->kind & 31)) & 6) && operand->value.reg->value) {
+        definition = simplify_statement_expressions((C2Record *)operand->value.reg->value);
+        if (record->opcode == 0x141 && definition->opcode == 0x137 &&
+            register_types_match(operand->type, definition->type)) {
+            attach_input_expression(record, operand, definition->left);
+            unlink_and_release_input_record((C2Record *)definition);
+            record->opcode = 0x142;
+        }
+    }
+    return record;
+}
+void __fastcall replace_peephole_record(C2Expression *record, C2Expression *replacement);
+
+/* Fold a matching memory/result operand directly into a binary assignment.
+ * An independently held definition result keeps its compensating copy. */
+void __fastcall rewrite_final_binary_assignment(C2Expression *record,
+    C2Expression *first, C2Expression *second, C2Expression *definition)
+{
+    C2Expression *input = record->left, *replacement;
+
+    if (input->kind != 1 || input->value.reg->kind != 3 || !input->value.reg->value)
+        new_binary_expression(0x131, definition->type, definition->tail.right,
+            record->tail.right, insert_input_record, (C2Record *)record);
+    replacement = new_global_ternary_expression(definition->opcode, record->type,
+        record->tail.right, first, second, NULL, NULL);
+    replace_peephole_record(record, replacement);
+    unlink_and_release_input_record((C2Record *)definition);
+}
 
 void __fastcall rewrite_final_assignment(C2Expression *record)
 {
@@ -3126,7 +3300,7 @@ void __fastcall rewrite_final_assignment(C2Expression *record)
     }
     replacement = new_global_ternary_expression(definition->opcode, record->type,
         output, output, input, NULL, NULL);
-    peephole_440fae(record, replacement);
+    replace_peephole_record(record, replacement);
     if (definition->opcode == 0x142 || assignment_rewrite_negated)
         replacement->opcode = 0x141;
     first = assignment_identity_operand(assignment_rewrite_owner);
@@ -3364,5 +3538,176 @@ void __fastcall emit_final_multiply_shift(int multiplier, int odd_multiplier,
         operation = new_folded_binary_expression(0x145, record->type, *operand, constant,
             prepend_input_record, (C2Record *)record);
         *operand = operation->tail.right;
+    }
+}
+
+void __fastcall swap_global_operands(C2Expression *record)
+{
+    C2Expression *first = record->left;
+    C2Expression *second = first->next;
+    C2Expression *rest = second->next;
+    record->left = second;
+    second->next = first;
+    first->next = rest;
+}
+
+void __fastcall normalize_global_call_operands(C2Expression *record)
+{
+    C2Expression *operand, *definition;
+    for (operand = record->left; operand; operand = operand->next) {
+        if (!((1U << (operand->kind & 31)) & 6)) continue;
+        definition = operand->value.reg->value;
+        if (!definition) continue;
+        if ((definition->opcode == 0x130 || definition->opcode == 0x13e) && definition->next != record) {
+            unlink_input_record((C2Record *)definition);
+            prepend_input_record((C2Record *)record, (C2Record *)definition);
+        }
+        /* Every defined operand becomes the next anchor, including a
+         * non-call definition that did not need moving. */
+        record = definition;
+    }
+}
+
+
+int __fastcall simplify_final_record(C2Expression *record, C2Expression *operand)
+{
+    C2Expression *comparison = operand->value.reg->value;
+    C2Expression *left, *right;
+    unsigned width;
+
+    if (comparison->opcode != 0x151 ||
+        (comparison->type & 0xf000) == 0x4000) return 0;
+    width = comparison->type & 0xfff;
+    if (width >= 5) return 0;
+    left = comparison->left;
+    if (left && (left->type & 0xfff) >= 5) return 0;
+    /* Original defect: the preceding NULL alternative still reaches this
+       genuine type read. It does not establish a default operand. */
+    if ((left->type & 0xf000) == 0x4000 || width == 1) return 0;
+
+    if ((int)(final_operand_zero_bits(left) +
+              (4U - (left->type & 0xfff)) * 8) > 23) {
+        right = left->next;
+        if ((int)(final_operand_zero_bits(right) +
+                  (4U - (right->type & 0xfff)) * 8) > 23 &&
+            final_condition_allows_narrowing(record) &&
+            final_record_supports_width(comparison, 1)) {
+            rewrite_final_record_width(comparison, 1);
+            return 1;
+        }
+    }
+    left = comparison->left;
+    if (final_operand_fits_signed_byte(left) ||
+        (int)(final_operand_zero_bits(left) +
+              (4U - (left->type & 0xfff)) * 8) > 24) {
+        right = left->next;
+        if ((final_operand_fits_signed_byte(right) ||
+             (int)(final_operand_zero_bits(right) +
+                   (4U - (right->type & 0xfff)) * 8) > 24) &&
+            final_record_supports_width(comparison, 1)) {
+            rewrite_final_record_width(comparison, 1);
+            return 1;
+        }
+    }
+    if ((comparison->type & 0xfff) == 2) {
+        if ((comparison->type & 0xf000) == 0x2000) {
+            left = comparison->left;
+            if (final_operand_canonical_zero_bits(left) > 15) {
+                right = left->next;
+                if (final_operand_canonical_zero_bits(right) > 15 ||
+                    (c2_favor_speed && right->kind == 7)) {
+                    rewrite_final_record_width(comparison, 4);
+                    return 1;
+                }
+            }
+        }
+    } else {
+        left = comparison->left;
+        if ((int)(final_operand_zero_bits(left) +
+                  (4U - (left->type & 0xfff)) * 8) > 15) {
+            right = left->next;
+            if ((int)(final_operand_zero_bits(right) +
+                      (4U - (right->type & 0xfff)) * 8) > 15 &&
+                final_condition_allows_narrowing(record) &&
+                final_record_supports_width(comparison, 2)) {
+                rewrite_final_record_width(comparison, 2);
+                return 1;
+            }
+        }
+        left = comparison->left;
+        if (final_operand_fits_signed_word(left) ||
+            (int)(final_operand_zero_bits(left) +
+                  (4U - (left->type & 0xfff)) * 8) > 16) {
+            right = left->next;
+            if ((final_operand_fits_signed_word(right) ||
+                 (int)(final_operand_zero_bits(right) +
+                       (4U - (right->type & 0xfff)) * 8) > 16) &&
+                final_record_supports_width(comparison, 2)) {
+                rewrite_final_record_width(comparison, 2);
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+int __fastcall final_operand_fits_signed_byte(C2Expression *operand)
+{
+    if (operand->kind >= 1 && operand->kind <= 2)
+        return (operand->value.reg->rewrite_flags >> 1) & 1;
+    if (operand->kind == 7)
+        return (int)(signed char)operand->integer.low == (int)operand->integer.low;
+    return 0;
+}
+
+int __fastcall final_operand_fits_signed_word(C2Expression *operand)
+{
+    if (operand->kind >= 1 && operand->kind <= 2)
+        return operand->value.reg->rewrite_flags & 1;
+    if (operand->kind == 7)
+        return (int)(short)operand->integer.low == (int)operand->integer.low;
+    return 0;
+}
+
+
+int __fastcall final_condition_allows_narrowing(C2Expression *record)
+{
+    /* PUSH ECX seeds the original condition cell from the record pointer.
+       Kinds 15/16 replace its low byte; other kinds retain that defined byte.
+       Native object addresses cannot represent that Win32 numeric fallback. */
+    unsigned char condition = (unsigned char)(unsigned)record;
+    if (record->kind == 15) condition = record->detail.condition;
+    else if (record->kind == 16) condition = record->condition_code;
+#ifdef __linux__
+    else recon_unsupported("final condition from Win32 record address");
+#endif
+    /* Encountered 48d2d0 conversion column: 3..6 become 7..10;
+       equality/inequality and unsigned conditions are unchanged. */
+    if (condition > 10) { __asm { int 3 } }
+    return condition <= 2 || condition >= 7;
+}
+
+C2Expression *__fastcall retype_final_operand(C2Expression *, unsigned short, long);
+
+void __fastcall rewrite_final_record_width(C2Expression *record, int bytes)
+{
+    C2Expression *operand, *next;
+    unsigned short type = (unsigned short)((record->type & 0xf000) | bytes);
+    int bound;
+
+    operand = record->tail.right;
+    record->type = type;
+    if (operand->type != 0x8000) {
+        bound = operand->value.reg->value != NULL;
+        retype_final_operand(operand, (unsigned short)((type & 0xf000) | bytes), 0);
+        if (bound) record->tail.right->value.reg->value = record;
+    }
+    if (record->kind == 13) return;
+    for (operand = record->left; operand; operand = next) {
+        next = operand->next;
+        if ((operand->location.expression.properties & 0x20) || (operand->type & 0xfff) == bytes) break;
+        retype_final_operand(operand, type, 0);
+        if (record->opcode == 0x14b || record->opcode == 0x145 ||
+            final_record_is_machine_shift(record)) break;
     }
 }

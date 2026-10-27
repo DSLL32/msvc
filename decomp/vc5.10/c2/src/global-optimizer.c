@@ -771,11 +771,44 @@ void __fastcall region_candidate_pass_3edd3(C2FlowRegion *region);
 
 /* Candidate preparation clears its three real region DWORDs at the end.
  * Their later list/count meanings remain with their reached consumers. */
-unsigned region_candidate_state; /* 497434 */
+C2Expression *region_deferred_assignment; /* 497434, last two-use rewrite. */
+/* Original initialized DWORD497454 is NULL; the counter factory owns later writes. */
+C2Expression *region_iteration_counter;
 void __fastcall remove_input_operand(C2Expression *owner, C2Expression *operand);
 C2Expression *__fastcall new_region_binary_expression(unsigned opcode,
     unsigned short type, C2Expression *left, C2Expression *right,
-    C2InputLink link, C2Record *prior);
+    C2InputLink link, C2Record *prior)
+{
+    C2Expression *value, *record;
+    value = new_global_value_expression(opcode, type, left, right);
+    link_global_expression_dependencies(value->value.reg);
+    record = (C2Expression *)allocate_small_node(11);
+    record->opcode = opcode;
+    record->flags |= 1;
+    record->type = type;
+    if ((1U << (value->kind & 31)) & 0x7fe) {
+        if (value->location.expression.properties & 0x10)
+            value = copy_input_expression(value);
+        value->location.expression.properties |= 0x10;
+    }
+    record->tail.right = value;
+    if ((1U << (left->kind & 31)) & 0x7fe) {
+        if (left->location.expression.properties & 0x10)
+            left = copy_input_expression(left);
+        left->location.expression.properties |= 0x10;
+    }
+    record->left = left;
+    if ((1U << (right->kind & 31)) & 0x7fe) {
+        if (right->location.expression.properties & 0x10)
+            right = copy_input_expression(right);
+        right->location.expression.properties |= 0x10;
+    }
+    left->next = right;
+    retain_aggregate_operands(record);
+    if (link) link(prior, (C2Record *)record);
+    record->location.line = record_line_delta;
+    return record;
+}
 int __fastcall region_operand_is_invariant(C2Expression *operand);
 
 int __fastcall region_operand_is_invariant(C2Expression *operand)
@@ -830,7 +863,7 @@ void __fastcall region_candidate_pass_3caf9(C2FlowRegion *region)
     region->pending28_word = 0;
     region->pending2c_word = 0;
     region->allocation_next = NULL;
-    region_candidate_state = 0;
+    region_deferred_assignment = NULL;
 }
 
 extern C2RegisterSet *region_motion_sets[11];
@@ -1105,6 +1138,1696 @@ void __fastcall region_candidate_pass_3ba96(C2FlowRegion *region)
                 if (global_operand_is_restricted(operand))
                     add_region_register_definition(operand->value.reg, record);
         }
+}
+
+C2Expression *__fastcall previous_global_code_record(C2Expression *record);
+void __fastcall remove_control_record(C2Expression *record);
+C2BasicBlock *__fastcall find_input_record_block(C2Expression *record);
+int __fastcall compare_region_iteration_order(C2Expression *comparison, C2Expression *update);
+C2Expression *__fastcall find_region_initial_value(C2Expression *operand, C2FlowRegion *region);
+C2Expression *__fastcall compute_region_iteration_count(C2FlowRegion *region,
+    C2Expression *first, C2Expression *bound, C2Expression *step, int inclusive,
+    int order, C2Expression *branch);
+
+C2BasicBlock *__fastcall find_input_record_block(C2Expression *record)
+{
+    for (; record; record = record->previous)
+        if (record->kind == 24) return ((C2Record *)record)->owner.block;
+    return NULL;
+}
+
+C2Expression *__fastcall previous_global_code_record(C2Expression *record)
+{
+    record = record->previous;
+    while (record && !(record->flags & 1)) {
+        if (record->kind == 24) return NULL;
+        record = record->previous;
+    }
+    return record;
+}
+
+int __fastcall compare_region_iteration_order(C2Expression *comparison, C2Expression *update)
+{
+    C2BasicBlock *first, *second;
+    C2Expression *record;
+    first = find_input_record_block(comparison);
+    second = find_input_record_block(update);
+    if (!optimizer_dense_contains(second->dominators, (int)(short)first->number84)) return 0;
+    if (first != second) return 1;
+    for (record = comparison; record; record = record->next) {
+        if (record->kind == 24) return 0;
+        if (record == update) return 1;
+    }
+    return 0;
+}
+
+C2Expression *__fastcall find_region_initial_value(C2Expression *operand, C2FlowRegion *region)
+{
+    C2Expression *assignment, *result;
+    assignment = new_binary_expression(0x131, operand->type, operand, operand, NULL, NULL);
+    global_available_registers = region->rewrite_entry->global_available_in;
+    global_record_needs_rewrite(assignment);
+    result = copy_input_expression(assignment->left);
+    release_small_node(assignment);
+    return result;
+}
+
+/* These two statement boundaries enclose the temporary region expressions.
+ * Their links are written by initialize_region_expression_list before use. */
+C2Record *region_expression_head; /* 497438 */
+C2Record *region_expression_tail; /* 497430 */
+C2Record *__cdecl new_statement_boundary(void);
+void __cdecl initialize_region_expression_list(void)
+{
+    region_expression_head = new_statement_boundary();
+    region_expression_tail = new_statement_boundary();
+    region_expression_tail->previous = region_expression_head;
+    region_expression_head->next = region_expression_tail;
+}
+void __cdecl clear_region_expression_list(void)
+{
+    C2Record *record, *next;
+    for (record = region_expression_head; record; record = next) {
+        next = record->next;
+        if (record->kind != 24) unlink_and_release_input_record(record);
+    }
+}
+void __cdecl release_region_expression_list(void)
+{
+    clear_region_expression_list();
+    release_small_node(region_expression_head);
+    release_small_node(region_expression_tail);
+    region_expression_head = NULL;
+    region_expression_tail = NULL;
+}
+C2Expression *__fastcall compare_region_constants(C2Expression *left,
+    C2Expression *right, int condition);
+C2Expression *__fastcall convert_region_operand(unsigned short type,
+    C2Expression *operand, C2Record *prior)
+{
+    C2Expression *last = (C2Expression *)prior->previous;
+    convert_input_expression(&operand, type, &last);
+    return operand;
+}
+C2FunctionRegister *__fastcall renew_region_output_register(C2Expression *operand)
+{
+    C2FunctionRegister *reg = new_temporary_register(operand->type);
+    operand->value.reg = reg;
+    operand->original_register = reg;
+    return reg;
+}
+
+C2Expression *__fastcall collect_region_value_records(C2FunctionRegister *reg,
+    C2Expression **first, C2Expression **last)
+{
+    C2Expression *record, *operand, *next, *replacement, *result, *subfirst, *sublast;
+    C2FunctionRegister *old;
+    unsigned short type;
+    record = copy_input_expression(reg->value);
+    *first = record;
+    *last = record;
+    for (operand = record->left; operand; operand = next) {
+        next = operand->next;
+        if (!((1U << (operand->kind & 31)) & 6) || !operand->value.reg->value) continue;
+        replacement = collect_region_value_records(operand->value.reg, &subfirst, &sublast);
+        type = operand->type;
+        if (replacement->type != type) {
+            replacement->type = type;
+            replacement->value.reg = new_address_register(replacement->value.reg,
+                                                           type, type & 0xfff, 0);
+        }
+        attach_input_expression(record, operand, replacement);
+        link_code_nodes((C2Record *)sublast, (C2Record *)*first);
+        *first = subfirst;
+    }
+    result = NULL;
+    for (operand = record->tail.right; operand; operand = operand->next) {
+        if (!((1U << (operand->kind & 31)) & 6) || !operand->value.reg->value) continue;
+        old = operand->value.reg;
+        renew_region_output_register(operand);
+        operand->value.reg->value = record;
+        if (old->canonical != reg->canonical) continue;
+        result = copy_input_expression(operand);
+        type = reg->type;
+        if (result->type != type) {
+            result->type = type;
+            result->value.reg = new_address_register(result->value.reg, type, type & 0xfff, 0);
+        }
+    }
+    if (!result) c2_report_internal("E:\\utc\\src\\\\P2\\sdsu.c", 0xa5);
+    return result;
+}
+
+extern int expression_warning_issued; /* Existing48fb18 owner. */
+C2Expression *__fastcall simplify_statement_expressions(C2Record *record);
+void __fastcall simplify_region_statement(C2Expression *record)
+{
+    C2Expression *output;
+    expression_warning_issued = 0;
+    switch (record->kind) {
+    case 11: case 12: case 13: case 15: case 17:
+        output = record->tail.right;
+        if (output && ((1U << (output->kind & 31)) & 6) && output->value.reg->value) break;
+        /* Fall through: only unbound results are simplified directly. */
+    case 14: case 16: case 18: case 19:
+        simplify_statement_expressions((C2Record *)record);
+        break;
+    }
+}
+int __cdecl check_region_integer_operation(unsigned left, unsigned right,
+    int sign, int bytes);
+
+C2Expression *__fastcall new_select_expression(unsigned opcode, unsigned short type,
+    C2Expression *condition, C2Expression *left, C2Expression *right,
+    unsigned char comparison, C2InputLink link, C2Record *prior);
+
+C2Expression *__fastcall compare_region_constants(C2Expression *left,
+    C2Expression *right, int condition)
+{
+    C2Record *tail;
+    C2Expression *comparison, *one, *zero, *record;
+    unsigned short type;
+    clear_region_expression_list();
+    tail = region_expression_tail;
+    type = common_input_value_type(left->type, right->type);
+    comparison = new_comparison_expression(0x151, type, left, right, prepend_input_record, tail);
+    one = new_integer_expression(0x1004, 1);
+    zero = new_integer_expression(0x1004, 0);
+    new_select_expression(0x15e, 0x1004, comparison->tail.right, zero, one,
+                          (unsigned char)condition, prepend_input_record, tail);
+    prepare_global_record(comparison, NULL, NULL);
+    record = (C2Expression *)region_expression_tail->previous;
+    if (record->opcode == 0x131) return copy_input_expression(record->left);
+    return NULL;
+}
+
+C2Expression *__fastcall compute_region_iteration_count(C2FlowRegion *region,
+    C2Expression *first, C2Expression *bound, C2Expression *step, int inclusive,
+    int order, C2Expression *branch)
+{
+    C2Expression *difference, *nonzero, *test, *record, *constant, *result;
+    C2Expression *list, *last, *next, *operand;
+    C2Record *tail;
+    unsigned first_value, bound_value, step_value;
+    unsigned char condition;
+#ifdef __linux__
+    int immediate_inputs;
+    immediate_inputs = first->kind == 7 && bound->kind == 7;
+#endif
+
+    condition = branch->convention;
+    initialize_region_expression_list();
+    /* Original only saves these words for immediate operands. The eventual
+     * constant-result test otherwise consumes unwritten automatic storage. */
+    if (first->kind == 7) first_value = first->integer.low;
+    if (bound->kind == 7) bound_value = bound->integer.low;
+    step_value = step->integer.low;
+    nonzero = NULL;
+    operand = copy_input_expression(bound);
+    difference = compare_region_constants(copy_input_expression(first), operand, 3);
+    if (difference) {
+        constant = new_integer_expression(0x1004, 0);
+        test = compare_region_constants(copy_input_expression(step), constant, 3);
+        if (test) nonzero = compare_region_constants(difference, test, 2);
+    }
+    clear_region_expression_list();
+    tail = region_expression_tail;
+    first = convert_region_operand(0x2004, first, tail);
+    bound = convert_region_operand(0x2004, bound, tail);
+    step = convert_region_operand(0x2004, step, tail);
+    if (first->kind == 7 && bound->kind == 7 &&
+        check_region_integer_operation(bound->integer.low - first->integer.low,
+                                       step->integer.low, 1, 4))
+        return NULL;
+    record = new_folded_binary_expression(0x142, 0x2004, bound, first, prepend_input_record, tail);
+    record = new_folded_binary_expression(0x141, 0x2004, record->tail.right, step,
+                                          prepend_input_record, tail);
+    if (inclusive) {
+        constant = new_integer_expression(0x2004, 1);
+        record = new_folded_binary_expression(0x142, 0x2004, record->tail.right, constant,
+                                              prepend_input_record, tail);
+    }
+    record = new_folded_binary_expression(0x149, 0x2004, record->tail.right, step,
+                                          prepend_input_record, tail);
+    if (order) {
+        constant = new_integer_expression(0x2004, 1);
+        record = new_folded_binary_expression(0x141, 0x2004, record->tail.right, constant,
+                                              prepend_input_record, tail);
+    }
+    collect_region_value_records(record->tail.right->value.reg, &list, &last);
+    clear_region_expression_list();
+    while (list) {
+        next = list->next;
+        prepend_input_record(tail, (C2Record *)list);
+        list = next;
+    }
+    record = (C2Expression *)tail->previous;
+    operand = record->tail.right;
+    constant = new_typed_register_expression(0x120, operand->type, operand->value.reg);
+    constant->value.reg->value = NULL;
+    replace_input_result(record, operand, constant);
+    simplify_region_statement(record);
+    record = (C2Expression *)tail->previous;
+    if (record->opcode == 0x131 &&
+        (record->left->kind == 2 || record->left->kind == 3 || record->left->kind == 7))
+        operand = record->left;
+    else {
+        for (operand = (C2Expression *)region_expression_head->next;
+             operand != (C2Expression *)region_expression_tail; operand = operand->next)
+            update_global_record_registers(operand, 1);
+        unlink_and_release_input_record((C2Record *)tail->previous);
+        operand = ((C2Expression *)tail->previous)->tail.right;
+    }
+    result = copy_input_expression(operand);
+    if (result->kind == 7) {
+        if (!nonzero) {
+            release_small_node(result);
+            result = NULL;
+            /* Original continues to the result-kind read below after this
+             * release. Preserve that genuine NULL-read defect, not a default. */
+        } else if (nonzero->integer.value == 1) result->integer.value = 0;
+    }
+    if (!(branch->flags & 0x80) && result->kind != 7) goto reject;
+    if (result->kind == 7) {
+#ifdef __linux__
+        /* The original comparison below may use incidental Win32 stack words.
+         * Host automatic storage cannot reproduce those numerical inputs. */
+        if (!immediate_inputs) recon_unsupported("region iteration constant inputs");
+#endif
+        if (result->integer.low * step_value == bound_value + order - first_value) goto done;
+    } else if (step_value == 1) goto done;
+    if (condition != 2) goto done;
+reject:
+    release_small_node(result);
+    result = NULL;
+done:
+    release_region_expression_list();
+    return result;
+}
+
+int __fastcall region_candidate_pass_3d4a4(C2FlowRegion *region, C2Function *function)
+{
+    C2FlowBlockLink *exit;
+    C2FlowEdge *edge;
+    C2BasicBlock *block, *assignment_block;
+    C2Expression *branch, *comparison, *variable, *bound, *record, *assignment, *update;
+    C2Expression *step, *first, *temporary, *trip;
+    C2StatementLink *use;
+    unsigned count;
+    int valid, inclusive, order;
+    unsigned char condition;
+
+    valid = 1;
+    trip = NULL;
+    comparison = NULL;
+    branch = NULL;
+    count = 0;
+    for (exit = region->exits; exit; exit = exit->next) {
+        if (exit->block != region->last) goto finish;
+        ++count;
+    }
+    if (count != 1) goto finish;
+    count = 0;
+    for (edge = region->header->incoming; edge; edge = edge->next_incoming) {
+        if (edge->source != region->rewrite_entry && edge->source != region->last) goto finish;
+        ++count;
+    }
+    if (count != 2) goto finish;
+    branch = previous_global_code_record((C2Expression *)region->last->last_record);
+    if (branch->kind != 16) goto finish;
+    count = 0;
+    for (use = branch->detail.statement_links; use; use = use->next) ++count;
+    if (count != 1) goto finish;
+    comparison = branch->detail.statement_links->record;
+    if (comparison->opcode != 0x151 || !((1U << (comparison->type >> 12)) & 0xe)) goto finish;
+    if (!global_operand_is_restricted(comparison->left) ||
+        !region_operand_is_invariant(comparison->left->next)) {
+        if (!global_operand_is_restricted(comparison->left->next) ||
+            !region_operand_is_invariant(comparison->left)) goto finish;
+        swap_global_operands(comparison);
+        /* Original48d250 swaps ordered comparison operands; this is distinct
+         * from the existing comparison-negation column at48d1a8. */
+        condition = branch->convention;
+        if (condition > 10) { __asm { int 3 } }
+        branch->convention = condition <= 2 ? condition :
+            (condition & 1) ? condition + 1 : condition - 1;
+    }
+    variable = comparison->left;
+    condition = branch->convention;
+    bound = copy_input_expression(variable->next);
+    if (!region_operand_is_invariant(bound) || !((1U << (bound->type >> 12)) & 0xe)) goto finish;
+    assignment = NULL;
+    for (block = region->header; block != region->last->previous; block = block->previous)
+        for (record = (C2Expression *)block->records->next;
+             record != (C2Expression *)block->last_record; record = record->next)
+            if (record->opcode == 0x131 && !compare_input_operands(record->tail.right, variable)) {
+                if (assignment) goto finish;
+                assignment = record;
+            }
+    if (!assignment) goto finish;
+    assignment_block = find_input_record_block(assignment);
+    if (assignment_block->block_scope != region) {
+        c2_report_internal("E:\\utc\\src\\\\P2\\globlopt.c", 0xf6c);
+        goto finish;
+    }
+    if (!optimizer_dense_contains(region->last->dominators, (int)(short)assignment_block->number84)) goto finish;
+    update = assignment->previous;
+    if (update->opcode != 0x141 && update->opcode != 0x142) goto finish;
+    if (!global_operand_is_restricted(update->left) ||
+        !region_operand_is_invariant(update->left->next)) {
+        if (update->opcode != 0x141 || !region_operand_is_invariant(update->left) ||
+            !global_operand_is_restricted(update->left->next)) goto finish;
+        swap_global_operands(update);
+    }
+    order = compare_region_iteration_order(comparison, update);
+    if (compare_input_operands(update->tail.right, assignment->left) ||
+        compare_input_operands(assignment->tail.right, update->left)) goto finish;
+    step = copy_input_expression(update->left->next);
+    if (step->kind != 7) goto finish;
+    if (update->opcode == 0x142) step->integer.value = 0 - step->integer.value;
+    first = find_region_initial_value(variable, region);
+    if (!first || !((1U << (first->type >> 12)) & 0xe)) goto finish;
+    inclusive = 0;
+    switch (condition) {
+    case 2:
+        inclusive = 1;
+        if ((__int64)step->integer.value < 0) goto reverse;
+        break;
+    case 3:
+        inclusive = 1;
+        /* fall through */
+    case 5:
+        if ((__int64)step->integer.value <= 0) goto finish;
+        break;
+    case 4:
+        inclusive = 1;
+        /* fall through */
+    case 6:
+        if ((__int64)step->integer.value >= 0) goto finish;
+reverse:
+        step->integer.value = 0 - step->integer.value;
+        temporary = first; first = bound; bound = temporary;
+        break;
+    default:
+        goto finish;
+    }
+    if (!register_types_match(first->type, bound->type) ||
+        (first->type & 0xfff) > 4 || (bound->type & 0xfff) > 4 ||
+        (step->type & 0xfff) > 4) goto finish;
+    trip = compute_region_iteration_count(region, first, bound, step, inclusive, order, branch);
+    if (trip && trip->kind == 7 && !trip->integer.value) {
+        release_small_node(trip);
+        trip = NULL;
+        valid = 0;
+    }
+finish:
+    if (!trip) region->iteration_count = NULL;
+    else {
+        region->iteration_count = retain_input_result(trip);
+        if ((variable->type & 0xfff) < 4)
+            add_register_to_set(region_motion_sets[5], variable->value.reg->number);
+    }
+    if (valid) {
+        region->iteration_comparison = comparison;
+        return valid;
+    }
+    unlink_and_release_input_record((C2Record *)comparison);
+    remove_control_record(branch);
+    remove_global_successor(region->last, region->header, function);
+    region->exits = NULL;
+    return valid;
+}
+
+C2OptimizerRecordLink *region_candidates;          /* 49743c */
+C2OptimizerRecordLink *deferred_region_candidates; /* 497440 */
+/* These independent DWORDs have only reset writers in the recovered prefix.
+ * Their later list/index roles are deliberately not inferred from zero/-1. */
+C2OptimizerRecordLink *seen_region_candidates; /* 497444, cleared by the actual begin pass. */
+unsigned region_candidate_word_497448;
+C2FunctionRegister *region_pending_register_tail; /* 49744c; same chain tail. */
+C2FunctionRegister *region_pending_registers; /* 497450; real -1-terminated global_next chain. */
+void __cdecl begin_region_candidate_work(void)
+{
+    region_candidates = NULL;
+    deferred_region_candidates = NULL;
+    seen_region_candidates = NULL;
+    region_candidate_word_497448 = 0;
+    region_pending_registers = (C2FunctionRegister *)-1;
+    region_pending_register_tail = (C2FunctionRegister *)-1;
+}
+C2OptimizerRecordLink *__fastcall collect_region_candidates(C2FlowRegion *region, unsigned mode);
+C2OptimizerRecordLink *__fastcall pop_region_candidate_link(C2OptimizerRecordLink *head,
+    C2Expression **record)
+{
+    C2OptimizerRecordLink *next;
+    if (!head) {
+        *record = NULL;
+        return NULL;
+    }
+    next = head->next;
+    *record = head->record;
+    return next;
+}
+C2Expression *__cdecl pop_region_candidate(void)
+{
+    C2Expression *record;
+    region_candidates = pop_region_candidate_link(region_candidates, &record);
+    return record;
+}
+C2Expression *__cdecl pop_deferred_region_candidate(void)
+{
+    C2Expression *record;
+    deferred_region_candidates = pop_region_candidate_link(deferred_region_candidates, &record);
+    return record;
+}
+int __fastcall count_region_record_uses(C2OptimizerRecordLink *uses)
+{
+    unsigned count = 0;
+    for (; uses; uses = uses->next) ++count;
+    return (int)count;
+}
+int __fastcall region_operand_overlaps_motion_inputs(C2Expression *operand)
+{
+    C2FunctionRegister *reg, *variant;
+    if (!((1U << (operand->kind & 31)) & 6)) return 0;
+    reg = operand->value.reg;
+    for (variant = reg->canonical; variant; variant = variant->variant_next) {
+        if (variant != reg &&
+            (reg->displacement >= (long)((unsigned)variant->displacement + variant->value_bytes) ||
+             variant->displacement >= (long)((unsigned)reg->displacement + reg->value_bytes))) continue;
+        if (optimizer_set_contains(global_motion_inputs, variant->number)) return 1;
+    }
+    return 0;
+}
+void __fastcall retarget_region_operand(C2Expression *operand, unsigned short type)
+{
+    C2FunctionRegister *previous = NULL, *current;
+    unsigned old_number, new_number;
+    int invariant = 0;
+    if ((1U << (operand->kind & 31)) & 6) {
+        previous = operand->value.reg;
+        invariant = (previous->rewrite_flags >> 1) & 1;
+    }
+    retarget_global_operand(operand, type);
+    if (invariant && ((1U << (operand->kind & 31)) & 6))
+        operand->value.reg->rewrite_flags |= 2;
+    if (previous && previous != operand->value.reg) {
+        current = operand->value.reg;
+        old_number = previous->number;
+        new_number = current->number;
+        if (optimizer_set_contains(region_motion_sets[0], old_number))
+            add_register_to_set(region_motion_sets[0], new_number);
+        if (optimizer_set_contains(global_motion_registers, old_number))
+            add_register_to_set(global_motion_registers, new_number);
+        if (optimizer_set_contains(global_region_definitions, old_number))
+            add_register_to_set(global_region_definitions, new_number);
+        if (optimizer_set_contains(global_motion_outputs, old_number))
+            add_register_to_set(global_motion_outputs, new_number);
+        if (optimizer_set_contains(global_motion_inputs, old_number))
+            add_register_to_set(global_motion_inputs, new_number);
+        if (optimizer_set_contains(region_entry_uses, old_number))
+            add_register_to_set(region_entry_uses, new_number);
+    }
+}
+C2Expression *__fastcall fold_region_binary_expression(C2Expression *left,
+    C2Expression *right, unsigned opcode)
+{
+    C2Record *tail;
+    C2Expression *first, *second, *record, *list, *last, *next, *operand;
+    C2FunctionRegister *reg, *view;
+    unsigned short type;
+
+    clear_region_expression_list();
+    tail = region_expression_tail;
+    type = left->type;
+    first = copy_input_expression(left);
+    second = copy_input_expression(right);
+    retarget_region_operand(second, type);
+    record = new_folded_binary_expression(opcode, type, first, second,
+                                          prepend_input_record, tail);
+    collect_region_value_records(record->tail.right->value.reg, &list, &last);
+    clear_region_expression_list();
+    while (list) {
+        next = list->next;
+        prepend_input_record(tail, (C2Record *)list);
+        list = next;
+    }
+    record = (C2Expression *)tail->previous;
+    for (operand = record->left; operand; operand = operand->next)
+        retarget_region_operand(operand, type);
+    reg = record->tail.right->value.reg;
+    if (!reg->canonical->variant_next) reg->value = NULL;
+    else bind_input_temporary(reg, NULL);
+    simplify_region_statement(record);
+    record = (C2Expression *)tail->previous;
+    if (record->opcode == 0x142 && record->left->kind == 7 &&
+        record->left->next->kind == 3) {
+        reg = record->left->next->value.reg;
+        if (reg->displacement >= (long)record->left->integer.low) {
+            view = new_address_register(reg->canonical, 0x5000, 0,
+                (long)((unsigned)reg->displacement - record->left->integer.low));
+            remove_input_operand(record, record->left);
+            record->opcode = 0x137;
+            record->left->value.reg = view;
+        }
+    }
+    return record;
+}
+C2Expression *__fastcall find_region_independent_value(C2Expression *first,
+    C2Expression *second);
+C2Expression *__fastcall reduce_region_difference(C2Expression *value,
+    C2Expression *first, C2Expression *difference);
+int __fastcall region_value_depends_on(C2Expression *value, C2Expression *input);
+C2Expression *__fastcall new_region_iteration(C2Expression *value, unsigned short type,
+    C2Expression *step, unsigned opcode, C2FunctionRegister *source,
+    unsigned mode, C2FlowRegion *region, C2Function *function);
+C2Expression *__fastcall combine_region_iterations(C2Expression *difference,
+    C2Expression *first, C2Expression *second, C2Expression *step,
+    unsigned opcode, C2FlowRegion *region, C2Function *function)
+{
+    C2Expression *value, *record;
+    C2FunctionRegister *reg = NULL;
+    unsigned short type;
+    if ((difference->opcode == 0x131 &&
+         ((1U << (difference->left->kind & 31)) & 0x18)) ||
+        (difference->opcode == 0x142 &&
+         ((1U << (difference->left->kind & 31)) & 0x18) &&
+         ((1U << (difference->left->next->kind & 31)) & 0x18))) {
+        value = find_region_independent_value(first, second);
+        if (value) {
+            value = reduce_region_difference(value, first, difference->left);
+            reg = value->value.reg;
+            type = value->type;
+        }
+    } else if (difference->opcode == 0x137 &&
+               ((1U << (difference->left->kind & 31)) & 0x18) &&
+               region_value_depends_on(second, first)) {
+        value = first;
+        reg = first->value.reg;
+        type = first->type;
+    }
+    if (!reg) return NULL;
+    if (!reg->global_definitions)
+        return new_region_iteration(value, type, step, opcode, first->value.reg,
+                                    1, region, function);
+    for (record = (C2Expression *)region->rewrite_entry->records->next;
+         record != (C2Expression *)region->rewrite_entry->last_record;
+         record = record->next)
+        if (record->opcode == 0x131 && !compare_input_operands(value, record->tail.right))
+            return record;
+    return NULL;
+}
+C2Expression *__fastcall constant_region_difference(C2Expression *record)
+{
+    C2Expression *value, *result = NULL;
+    C2FunctionRegister *reg;
+    if (record->opcode == 0x131) {
+        if (region_operand_is_invariant(record->left)) return record->left;
+    } else if (record->opcode == 0x142 &&
+               region_operand_is_invariant(record->left) &&
+               region_operand_is_invariant(record->left->next)) {
+        reg = record->tail.right->value.reg;
+        value = new_global_value_expression(0x142, record->type, record->left,
+                                            record->left->next);
+        release_function_register(reg);
+        result = replace_input_result(record, record->tail.right, value);
+        unlink_input_record((C2Record *)record);
+        prepend_input_record(region_motion_anchor, (C2Record *)record);
+        reg = result->value.reg;
+        reg->rewrite_flags |= 6;
+        add_register_to_set(region_motion_sets[0], reg->number);
+        add_register_to_set(global_region_definitions, reg->number);
+    }
+    return result;
+}
+int __fastcall global_range_overlaps_operand(C2Expression *first,
+    C2Expression *last, C2Expression *operand)
+{
+    C2Expression *end = last->next, *input;
+    for (; first != end; first = first->next) {
+        if (!(first->flags & 1)) continue;
+        for (input = first->left; input; input = input->next)
+            if (input_operands_may_alias(input, operand)) return 1;
+        for (input = first->tail.right; input; input = input->next)
+            if (input_operands_may_alias(input, operand)) return 1;
+    }
+    return 0;
+}
+int __fastcall region_substitution_conflicts(C2Expression *operand,
+    C2Expression *first, C2Expression *second)
+{
+    C2Expression *swap;
+    if (!compare_region_iteration_order(first, second)) {
+        swap = first;
+        first = second;
+        second = swap;
+    }
+    first = first->next->next;
+    if (first == second) return 0;
+    return global_range_overlaps_operand(first, second->previous, operand) != 0;
+}
+C2Expression *__fastcall pop_region_register_use(C2FunctionRegister *reg)
+{
+    C2OptimizerRecordLink *link = reg->global_uses;
+    C2Expression *record;
+    if (!link) {
+        reg->global_uses = NULL;
+        return NULL;
+    }
+    record = link->record;
+    reg->global_uses = link->next;
+    return record;
+}
+C2Expression *__fastcall pop_region_register_definition(C2FunctionRegister *reg)
+{
+    C2OptimizerRecordLink *link = reg->global_definitions;
+    C2Expression *record;
+    if (!link) {
+        reg->global_definitions = NULL;
+        return NULL;
+    }
+    record = link->record;
+    reg->global_definitions = link->next;
+    return record;
+}
+void __fastcall substitute_region_register(C2Expression *operand,
+    C2Expression *replacement, C2Expression *difference, int *uses)
+{
+    C2FunctionRegister *reg = operand->value.reg, *new_reg = replacement->value.reg;
+    C2Expression *record, *input, *value, *offset, *operation;
+    unsigned short type;
+    if (reg == new_reg) return;
+    while ((record = pop_region_register_use(reg)) != NULL) {
+        if (record->precision_flags == 4) {
+            unlink_and_release_input_record((C2Record *)record);
+            continue;
+        }
+        if (difference->kind == 7 && !difference->integer.value) {
+            while ((input = find_register_input(record, reg)) != NULL) {
+                type = input->type;
+                value = copy_input_expression(replacement);
+                retarget_region_operand(value, type);
+                attach_input_expression(record, input, value);
+                update_global_record_registers(record, 0);
+                add_region_register_use(new_reg, record);
+                ++*uses;
+            }
+        } else {
+            while ((input = find_register_input(record, reg)) != NULL) {
+                type = input->type;
+                value = copy_input_expression(replacement);
+                retarget_region_operand(value, type);
+                offset = copy_input_expression(difference);
+                retarget_region_operand(offset, type);
+                operation = new_region_binary_expression(0x141, type, value, offset,
+                                                          prepend_input_record, (C2Record *)record);
+                attach_input_expression(record, input, operation->tail.right);
+                update_global_record_registers(record, 0);
+                add_region_register_use(new_reg, operation);
+                ++*uses;
+            }
+        }
+    }
+    unlink_and_release_input_record((C2Record *)pop_region_register_definition(reg));
+}
+C2OptimizerRecordLink *__fastcall new_region_candidate_link(C2OptimizerRecordLink *head,
+    C2Expression *record)
+{
+    C2OptimizerRecordLink *link = c2_pool_allocate(3, sizeof(*link));
+    link->next = head;
+    link->record = record;
+    return link;
+}
+void __fastcall defer_region_candidate(C2Expression *record)
+{
+    deferred_region_candidates = new_region_candidate_link(deferred_region_candidates, record);
+}
+void __fastcall append_region_candidate(C2Expression *record)
+{
+    region_candidates = new_region_candidate_link(region_candidates, record);
+}
+
+int __fastcall region_operand_is_narrow_candidate(C2Expression *operand);
+int __fastcall region_definitions_are_nonincremental(C2Expression *operand)
+{
+    C2OptimizerRecordLink *definition;
+    for (definition = operand->value.reg->global_definitions; definition; definition = definition->next)
+        if (definition->record->precision_flags != 4) return 1;
+    return 0;
+}
+unsigned __fastcall region_operand_can_move(C2Expression *operand)
+{
+    if (!((1U << (operand->kind & 31)) & 6)) return 0;
+    return optimizer_set_contains(region_entry_uses, operand->value.reg->number);
+}
+C2Expression *__fastcall region_intrinsic_operand(unsigned index, C2Expression *record);
+C2Expression *__fastcall find_region_matching_value(C2Expression *operand, C2FlowRegion *region)
+{
+    C2OptimizerRecordLink *link;
+    for (link = region->initial_updates; link; link = link->next)
+        if (!compare_input_operands(operand, link->record->left)) return link->record;
+    return NULL;
+}
+C2Expression *__fastcall find_region_index_operand(C2Expression *operand);
+
+C2OptimizerRecordLink *__fastcall collect_region_candidates(C2FlowRegion *region, unsigned mode)
+{
+    C2BasicBlock *block, *entry;
+    C2Expression *record, *prior, *input, *output, *other, *source, *cursor;
+    C2OptimizerRecordLink *definition;
+    C2GlobalRegisterLink *assignment;
+    C2FunctionRegister *reg, *source_reg;
+    C2GlobalExpression *expression;
+    unsigned number, low, high;
+
+    if (!region_motion_sets[9]->links.first) return NULL;
+    switch (mode) {
+    case 1:
+        for (block = region->header; block != region->last->previous; block = block->previous)
+            for (record = (C2Expression *)block->records->next;
+                 record != (C2Expression *)block->last_record; record = record->next)
+                if (record->precision_flags == 4) record->precision_flags = 0;
+        for (number = next_optimizer_symbol(region_motion_sets[9]); number != ~0U;
+             number = next_optimizer_symbol(NULL)) {
+            reg = lookup_function_register(number);
+            for (definition = reg->global_definitions; definition; definition = definition->next) {
+                record = definition->record;
+                if (record->opcode != 0x131) continue;
+                prior = record->previous;
+                if ((prior->opcode == 0x141 || prior->opcode == 0x142) &&
+                    !compare_input_operands(record->left, prior->tail.right) &&
+                    !compare_input_operands(record->tail.right, prior->left)) {
+                    record->precision_flags = 4;
+                    prior->precision_flags = 4;
+                }
+            }
+        }
+        for (block = region->header; block != region->last->previous; block = block->previous)
+            for (record = (C2Expression *)block->records->next;
+                 record != (C2Expression *)block->last_record; record = record->next) {
+                if (record->flags & 0x40) break;
+                if (record->opcode != 0x135 && record->opcode != 0x141 && record->opcode != 0x143) continue;
+                if (!((1U << (record->type >> 12)) & 0xe)) continue;
+                input = record->left;
+                if (record->opcode == 0x135) {
+                    if ((record->type & 0xfff) == 4 && global_operand_is_restricted(input) &&
+                        region_operand_is_narrow_candidate(input)) {
+                        append_region_candidate(record);
+                        record->control_flags = 6;
+                    }
+                } else if (record->opcode == 0x141) {
+                    if (!global_operand_is_restricted(input) || !region_operand_is_invariant(input->next)) {
+                        if (!region_operand_is_invariant(input) || !global_operand_is_restricted(input->next))
+                            continue;
+                        swap_global_operands(record);
+                    }
+                    if (record->precision_flags != 4 && !region_definitions_are_nonincremental(record->left) &&
+                        region_operand_can_move(record->left)) {
+                        append_region_candidate(record);
+                        record->flags |= 0x40;
+                    }
+                } else if (record->opcode == 0x143) {
+                    if (global_operand_is_restricted(input) && region_operand_is_invariant(input->next)) {
+                        if (optimizer_set_contains(global_motion_outputs, input->value.reg->number)) continue;
+                    } else {
+                        if (!region_operand_is_invariant(input) || !global_operand_is_restricted(input->next) ||
+                            optimizer_set_contains(global_motion_outputs, input->next->value.reg->number)) continue;
+                        swap_global_operands(record);
+                    }
+                    append_region_candidate(record);
+                    record->flags |= 0x40;
+                }
+            }
+        break;
+    case 2:
+        for (block = region->header; block != region->last->previous; block = block->previous)
+            for (record = (C2Expression *)block->records->next;
+                 record != (C2Expression *)block->last_record; record = record->next)
+                if (record->opcode == 0x151 && ((1U << (record->type >> 12)) & 0xe) &&
+                    ((global_operand_is_restricted(record->left) &&
+                      region_operand_is_invariant(record->left->next)) ||
+                     (region_operand_is_invariant(record->left) &&
+                      global_operand_is_restricted(record->left->next))))
+                    append_region_candidate(record);
+        break;
+    case 3:
+        for (block = region->header; block != region->last->previous; block = block->previous)
+            for (record = (C2Expression *)block->records->next;
+                 record != (C2Expression *)block->last_record; record = record->next) {
+                if (record->opcode == 0x131) {
+                    input = record->left;
+                    output = record->tail.right;
+                    if (output->kind != 6 || !global_operand_is_restricted(output->aggregate_value) ||
+                        input_has_side_effects(record)) continue;
+                    if (!region_operand_is_invariant(input)) {
+                        prior = record->previous;
+                        if (prior->opcode == 0x133 && prior->left->kind == 6 &&
+                            !compare_input_operands(prior->tail.right, input) &&
+                            global_operand_is_restricted(prior->left->aggregate_value) &&
+                            !input_has_side_effects(prior)) source = prior->left;
+                        else {
+                            if ((record->type & 0xf000) != 0x5000 || input->kind != 6 ||
+                                !global_operand_is_restricted(input->aggregate_value) ||
+                                input_has_side_effects(input)) continue;
+                            source = input;
+                        }
+                        if (input_operands_may_alias(output, source)) continue;
+                    }
+                    append_region_candidate(record);
+                } else if (record->kind == 17) {
+                    if (record->detail.intrinsic == 0xad) {
+                        if (global_operand_is_restricted(region_intrinsic_operand(1, record)) &&
+                            region_operand_is_invariant(region_intrinsic_operand(2, record)) &&
+                            region_operand_is_invariant(region_intrinsic_operand(3, record)))
+                            append_region_candidate(record);
+                    } else if (record->detail.intrinsic == 0xac) {
+                        if (!global_operand_is_restricted(region_intrinsic_operand(1, record)) ||
+                            !global_operand_is_restricted(region_intrinsic_operand(2, record)) ||
+                            !region_operand_is_invariant(region_intrinsic_operand(3, record))) continue;
+                        input = find_region_index_operand(record->left);
+                        output = find_region_index_operand(record->tail.right);
+                        if (!input_operands_may_alias(input, output)) append_region_candidate(record);
+                    }
+                }
+            }
+        break;
+    case 4:
+        entry = region->rewrite_entry;
+        prior = (C2Expression *)entry->records->next;
+        for (number = next_optimizer_symbol(region_motion_sets[9]); number != ~0U;
+             number = next_optimizer_symbol(NULL)) {
+            reg = lookup_function_register(number);
+            if (!optimizer_set_contains(entry->rewrite_mode1[2], number)) continue;
+            for (assignment = reg->global_assignments; assignment; assignment = assignment->next) {
+                expression = assignment->reg->global_expression;
+                if (!optimizer_set_contains(entry->global_definitions, assignment->reg->number)) continue;
+                other = expression->operands->next;
+                if (((1U << (other->kind & 31)) & 6) && other->value.reg->value) continue;
+                record = new_binary_expression(0x131, expression->type, expression->operands,
+                    other, prepend_input_record, (C2Record *)prior);
+                record->precision_flags = 9;
+                break;
+            }
+        }
+        for (number = next_optimizer_symbol(region_motion_sets[9]); number != ~0U;
+             number = next_optimizer_symbol(NULL)) {
+            reg = lookup_function_register(number);
+            for (definition = reg->global_definitions; definition; definition = definition->next) {
+                record = definition->record;
+                if (record->opcode != 0x131) continue;
+                prior = record->previous;
+                if ((prior->opcode == 0x141 || prior->opcode == 0x142) &&
+                    !compare_input_operands(record->left, prior->tail.right) &&
+                    !compare_input_operands(record->tail.right, prior->left)) {
+                    record->precision_flags = 4;
+                    prior->precision_flags = 4;
+                }
+            }
+        }
+        for (record = (C2Expression *)entry->records->next;
+             record != (C2Expression *)entry->last_record; record = record->next)
+            if (record->opcode == 0x131 && record->precision_flags != 1 &&
+                global_operand_is_restricted(record->tail.right)) {
+                definition = record->tail.right->value.reg->global_definitions;
+                if (definition && !definition->next && definition->record->precision_flags == 4)
+                    append_region_candidate(record);
+            }
+        break;
+    case 5:
+        entry = region->rewrite_entry;
+        for (record = (C2Expression *)entry->records->next;
+             record != (C2Expression *)entry->last_record; record = record->next) {
+            if (record->opcode != 0x131 || !global_operand_is_restricted(record->left) ||
+                !find_region_matching_value(record->tail.right, region)) continue;
+            reg = record->left->value.reg;
+            definition = reg->global_definitions;
+            if (!definition || definition->next || definition->record->precision_flags != 4 ||
+                !compare_region_iteration_order(record, definition->record)) continue;
+            append_region_candidate(record);
+            for (cursor = record->next; cursor != region->iteration_comparison->next; cursor = cursor->next)
+                if ((cursor->flags & 1) && find_register_input(cursor, reg)) {
+                    pop_region_candidate();
+                    break;
+                }
+        }
+        break;
+    case 6:
+        entry = region->rewrite_entry;
+        for (record = (C2Expression *)entry->records->next;
+             record != (C2Expression *)entry->last_record; record = record->next) {
+            if (record->opcode != 0x131 || !global_operand_is_restricted(record->tail.right)) continue;
+            reg = record->tail.right->value.reg;
+            expression = reg->global_expression;
+            if (!(reg->rewrite_flags & 1) || !reg->global_uses || !expression) continue;
+            input = expression->operands;
+            source_reg = input->value.reg;
+            other = input->next;
+            if (!region_operand_can_move(input) || !source_reg->global_uses) continue;
+            if (expression->opcode == 0x14d) append_region_candidate(record);
+            else if (expression->opcode == 0x14e) {
+                if (other->kind == 7) append_region_candidate(record);
+            } else if (expression->opcode == 0x14f && other->kind == 7) {
+                low = other->integer.low;
+                high = other->integer.high;
+                if (!(((low - 1) & low) | ((high - (low == 0)) & high))) append_region_candidate(record);
+            }
+        }
+        break;
+    }
+    return region_candidates;
+}
+
+unsigned __fastcall region_candidate_pass_3d93c(C2FlowRegion *region, C2Function *function)
+{
+    C2Expression *first, *second, *definition, *first_update, *second_update;
+    C2Expression *first_step, *second_step, *difference, *combined, *offset_first, *offset_second;
+    C2Expression *record, *next;
+    C2FunctionRegister *reg;
+    C2BasicBlock *first_block, *second_block;
+    unsigned changed;
+    int first_uses, second_uses, spare_uses;
+    int first_multiple, second_multiple, first_unsigned, second_unsigned, reverse;
+    unsigned first_opcode, second_opcode;
+
+    spare_uses = 0;
+    changed = 0;
+    begin_region_candidate_work();
+    collect_region_candidates(region, 4);
+    initialize_region_expression_list();
+    for (first = pop_region_candidate(); first; first = pop_region_candidate()) {
+        reg = first->tail.right->value.reg;
+        definition = reg->global_definitions->record;
+        first_update = definition->previous;
+        first_opcode = first_update->opcode;
+        first_unsigned = !(definition->left->location.expression.comparison & 0x10);
+        first_step = first_update->left->next;
+        first_block = find_input_record_block(first_update);
+        first_uses = count_region_record_uses(reg->global_uses);
+        first_multiple = region_operand_overlaps_motion_inputs(first->tail.right);
+        for (second = pop_region_candidate(); second; second = pop_region_candidate()) {
+            reg = second->tail.right->value.reg;
+            definition = reg->global_definitions->record;
+            second_update = definition->previous;
+            second_opcode = second_update->opcode;
+            second_unsigned = !(definition->left->location.expression.comparison & 0x10);
+            second_step = second_update->left->next;
+            second_block = find_input_record_block(second_update);
+            second_multiple = region_operand_overlaps_motion_inputs(second->tail.right);
+            if (!register_types_match(first->type, second->type) ||
+                compare_input_operands(first_step, second_step) ||
+                first_opcode != second_opcode || first_block != second_block ||
+                (first_multiple && second_multiple) || (first_unsigned && second_unsigned))
+                goto defer_second;
+            second_uses = count_region_record_uses(reg->global_uses);
+            reverse = second_uses < first_uses || first_multiple || first_unsigned;
+            if (reverse) {
+                difference = fold_region_binary_expression(second->left, first->left, 0x142);
+                combined = combine_region_iterations(difference, second->tail.right,
+                    first->tail.right, second_step, second_opcode, region, function);
+                if (!combined) {
+                    difference = fold_region_binary_expression(second->left, first->left, 0x142);
+                    difference = constant_region_difference(difference);
+                    if (!difference || second_multiple || second_unsigned ||
+                        region_substitution_conflicts(second->tail.right, first_update, second_update))
+                        goto defer_second;
+                    substitute_region_register(second->tail.right, first->tail.right,
+                                               difference, &first_uses);
+                    changed = 1;
+                    continue;
+                }
+                if (first_multiple || second_multiple || first_unsigned || second_unsigned) break;
+            } else {
+                difference = fold_region_binary_expression(first->left, second->left, 0x142);
+                combined = combine_region_iterations(difference, first->tail.right,
+                    second->tail.right, first_step, first_opcode, region, function);
+                if (!combined) {
+                    difference = fold_region_binary_expression(first->left, second->left, 0x142);
+                    difference = constant_region_difference(difference);
+                    if (!difference || region_substitution_conflicts(first->tail.right,
+                                                                     first_update, second_update))
+                        goto defer_second;
+                    substitute_region_register(first->tail.right, second->tail.right,
+                                               difference, &second_uses);
+                    changed = 1;
+                    defer_region_candidate(second);
+                    while ((record = pop_region_candidate()) != NULL) defer_region_candidate(record);
+                    break;
+                }
+                if (second_multiple || second_unsigned) break;
+            }
+            difference = fold_region_binary_expression(first->left, combined->left, 0x142);
+            offset_first = copy_input_expression(difference);
+            difference = fold_region_binary_expression(second->left, combined->left, 0x142);
+            offset_second = copy_input_expression(difference);
+            if ((offset_first->opcode == 0x131 || offset_first->opcode == 0x137) &&
+                (offset_second->opcode == 0x131 || offset_second->opcode == 0x137)) {
+                if (offset_first->opcode == 0x131) {
+                    substitute_region_register(first->tail.right, combined->tail.right,
+                                               offset_first->left, &spare_uses);
+                    changed = 1;
+                }
+                if (offset_second->opcode == 0x131) {
+                    substitute_region_register(second->tail.right, combined->tail.right,
+                                               offset_second->left, &spare_uses);
+                    changed = 1;
+                }
+                while ((record = pop_region_candidate()) != NULL) defer_region_candidate(record);
+            }
+            release_small_node(offset_first);
+            release_small_node(offset_second);
+            break;
+defer_second:
+            defer_region_candidate(second);
+        }
+        while ((record = pop_deferred_region_candidate()) != NULL) append_region_candidate(record);
+    }
+    release_region_expression_list();
+    for (record = (C2Expression *)region->rewrite_entry->records->next;
+         record != (C2Expression *)region->rewrite_entry->last_record; record = next) {
+        next = record->next;
+        if (record->precision_flags == 9) unlink_and_release_input_record((C2Record *)record);
+    }
+    return changed;
+}
+
+C2Expression *__fastcall next_final_marker(C2Expression *record);
+void __fastcall refresh_region_candidate_sources(C2FlowRegion *region, C2Function *function)
+{
+    C2FlowEdge *edge;
+    C2BasicBlock *block;
+    C2Expression *record;
+    if (region_motion_sets[1]->links.first)
+        for (edge = region->header->incoming; edge; edge = edge->next_incoming)
+            merge_optimizer_symbol_sets(edge->source->global_definitions, region_motion_sets[1]);
+    for (block = region->header; block != region->last->previous; block = block->previous)
+        optimize_global_block(block, function);
+    for (block = region->header; block != region->last->previous; block = block->previous)
+        for (record = (C2Expression *)block->records->next;
+             record != (C2Expression *)block->last_record; record = record->next)
+            if (record->opcode == 0x131 && record->value.reg &&
+                global_operand_is_restricted(record->tail.right))
+                add_register_to_set(region_motion_sets[6], record->value.reg->number);
+    if (region_motion_sets[1]->links.first)
+        for (edge = region->header->incoming; edge; edge = edge->next_incoming)
+            subtract_optimizer_symbol_sets(edge->source->global_definitions, region_motion_sets[1]);
+}
+int __fastcall region_operand_is_volatile(C2Expression *operand)
+{
+    unsigned short flags;
+    if (operand->kind == 7) return 0;
+    if (operand->kind == 3 && (operand->value.reg->kind == 7 || operand->value.reg->kind == 8)) return 0;
+    if (operand->kind == 2) {
+        flags = operand->value.reg->region_motion_flags;
+        if ((flags & 2) && !(flags & 4)) return 0;
+    }
+    return 1;
+}
+unsigned __fastcall canonical_region_opcode(unsigned opcode)
+{
+    switch (opcode) {
+    case 0x135: return 0x150;
+    case 0x141: return 0x14d;
+    case 0x142: return 0x14e;
+    case 0x143: return 0x14f;
+    case 0x14d: return 0x141;
+    case 0x14e: return 0x142;
+    case 0x150: return 0x135;
+    default: return 0x143;
+    }
+}
+C2Expression *__fastcall build_region_operation(unsigned short type, unsigned opcode,
+    C2Expression *left, C2Expression *right)
+{
+    C2Expression *value;
+    C2FunctionRegister *reg;
+    unsigned number;
+    int is_volatile;
+    value = new_global_value_expression(canonical_region_opcode(opcode), type, left, right);
+    reg = value->value.reg;
+    if (reg->rewrite_flags & 3) return value;
+    if (region_pending_registers == (C2FunctionRegister *)-1) region_pending_registers = reg;
+    else region_pending_register_tail->global_next = reg;
+    region_pending_register_tail = reg;
+    reg->global_next = (C2FunctionRegister *)-1;
+    if (!region_operand_is_invariant(left) || (right && !region_operand_is_invariant(right))) {
+        number = reg->number;
+        reg->rewrite_flags |= 1;
+        add_register_to_set(region_motion_sets[9], number);
+        add_register_to_set(global_motion_registers, number);
+        reg->flags |= 0x40;
+    } else {
+        reg->rewrite_flags |= 2;
+        is_volatile = region_operand_is_volatile(left) || (right && region_operand_is_volatile(right));
+        reg->region_motion_flags = (reg->region_motion_flags & 0xfffb) | (is_volatile << 2);
+        add_register_to_set(region_motion_sets[0], reg->number);
+    }
+    if ((1U << (left->kind & 31)) & 6) merge_global_register_identity(left->value.reg, reg);
+    if (right && ((1U << (right->kind & 31)) & 6)) merge_global_register_identity(right->value.reg, reg);
+    return value;
+}
+int __fastcall region_candidate_link_contains(C2OptimizerRecordLink *head, C2Expression *record)
+{
+    for (; head; head = head->next)
+        if (head->record == record) return 1;
+    return 0;
+}
+int __fastcall mark_region_candidate_seen(C2Expression *record)
+{
+    if (region_candidate_link_contains(seen_region_candidates, record)) return 0;
+    seen_region_candidates = new_region_candidate_link(seen_region_candidates, record);
+    return 1;
+}
+void __fastcall remove_region_register_use(C2FunctionRegister *reg, C2Expression *record)
+{
+    C2OptimizerRecordLink *head = reg->global_uses, *previous = NULL, *link;
+    for (link = head; link; link = link->next) {
+        if (link->record == record) break;
+        previous = link;
+    }
+    if (link) {
+        if (previous) previous->next = link->next;
+        else head = link->next;
+    }
+    reg->global_uses = head;
+}
+void __fastcall rewrite_region_candidate_uses(C2Expression *operand, C2Expression *record)
+{
+    C2Expression *child, *previous;
+    if (!operand || record->opcode == 0x131 || record->kind != 11 || !record->tail.right ||
+        compare_input_operands(operand, record->tail.right) || !mark_region_candidate_seen(record)) return;
+    previous = record->previous;
+    for (child = record->left; child; child = child->next) {
+        if (global_operand_is_restricted(child)) remove_region_register_use(child->value.reg, record);
+        rewrite_region_candidate_uses(child, previous);
+    }
+}
+unsigned __fastcall canonical_region_opcode(unsigned opcode);
+C2FunctionRegister *__fastcall convert_region_register(C2FunctionRegister *reg,
+    unsigned short type, unsigned first, unsigned second);
+void __fastcall retarget_region_operand(C2Expression *operand, unsigned short type);
+C2Expression *__fastcall materialize_region_operand(unsigned short type,
+    C2Expression *operand, C2Record *prior)
+{
+    C2GlobalExpression *expression;
+    C2Expression *left, *right, *record, *result, *input;
+    unsigned kind_mask, opcode, attributes;
+    unsigned short working_type;
+    if (!operand) return NULL;
+    kind_mask = 1U << (operand->kind & 31);
+    if ((kind_mask & 6) && operand->value.reg->global_expression) {
+        expression = operand->value.reg->global_expression;
+        opcode = expression->opcode;
+        switch (opcode) {
+        case 0x13b: case 0x15e: case 0x15f:
+            return operand;
+        case 0x14d: case 0x14e: case 0x14f: case 0x150:
+            opcode = canonical_region_opcode(opcode);
+            break;
+        default:
+            if (region_operand_can_move(operand) && !(operand->value.reg->rewrite_flags & 2)) return operand;
+            for (input = expression->operands; input; input = input->next)
+                if (((1U << (input->kind & 31)) & 6) && input->value.reg->value) return operand;
+            break;
+        }
+        working_type = register_types_match(type, expression->type) ? type : expression->type;
+        right = expression->operands->next;
+        left = materialize_region_operand(working_type, expression->operands, prior);
+        right = materialize_region_operand(working_type, right, prior);
+        if (right) record = new_folded_binary_expression(opcode, working_type, left, right,
+                                                         prepend_input_record, prior);
+        else record = new_assignment_expression(opcode, working_type, left, prepend_input_record, prior);
+        if (working_type != type)
+            record = new_assignment_expression(0x135, type, record->tail.right, prepend_input_record, prior);
+        return record->tail.right;
+    }
+    if (kind_mask & 0x60) {
+        attributes = operand->immediate;
+        expression = operand->value.reg->global_expression;
+        opcode = expression->opcode;
+        input = expression->operands;
+        working_type = register_types_match(type, expression->type) ? type : expression->type;
+        left = materialize_region_operand(input->type, input, prior);
+        result = new_aggregate_expression(opcode, working_type, NULL, 0, left, NULL, attributes);
+        if (working_type != type) {
+            record = new_assignment_expression(opcode, type, result, prepend_input_record, prior);
+            return record->tail.right;
+        }
+        return result;
+    }
+    if (kind_mask & 6) {
+        if (type == operand->type || !register_types_match(type, operand->type)) return operand;
+        result = copy_input_expression(operand);
+        result->value.reg = convert_region_register(result->value.reg, type, 0, 0);
+        result->type = type;
+        return result;
+    }
+    if (operand->kind == 7 && type != operand->type && register_types_match(type, operand->type))
+        retarget_region_operand(operand, type);
+    return operand;
+}
+
+C2Expression *__cdecl pop_seen_region_candidate(void)
+{
+    C2Expression *record;
+    seen_region_candidates = pop_region_candidate_link(seen_region_candidates, &record);
+    return record;
+}
+void __cdecl finish_region_candidate_registers(void)
+{
+    C2Expression *record, *operand;
+    while ((record = pop_seen_region_candidate()) != NULL) {
+        for (operand = record->left; operand; operand = operand->next)
+            if (global_operand_is_restricted(operand)) remove_region_register_use(operand->value.reg, record);
+        unlink_and_release_input_record((C2Record *)record);
+    }
+}
+
+void __fastcall region_candidate_pass_3de8b(C2FlowRegion *region, C2Function *function, unsigned changes)
+{
+    C2Expression *candidate, *value, *assignment, *marker, *target;
+    C2Expression *first, *second, *left, *right, *transformed, *other, *carried_left;
+    C2Expression *record, *insertion, *definition_record;
+    C2FunctionRegister *reg, *old_output, *pending;
+    C2GlobalExpression *expression;
+    C2OptimizerRecordLink *definition;
+    unsigned pass, opcode, inner_opcode, number;
+    unsigned short line, type;
+    int direct;
+
+    /* The original reuses the incoming changes DWORD as a carried operand
+     * pointer in its diagnosed-error continuations. Preserve that defined
+     * value; the separate right-operand local remains genuinely unwritten
+     * until a normal selection supplies it. */
+    carried_left = (C2Expression *)changes;
+    set_region_motion_anchor(region);
+    marker = next_final_marker((C2Expression *)region->entry->records);
+    line = marker->location.line;
+    if (changes) {
+        refresh_region_candidate_sources(region, function);
+        prepare_region_motion_assignments(region, 0);
+        region_candidate_pass_3d127(region);
+        region_candidate_pass_3ba96(region);
+    }
+    for (pass = 0; pass < 32; ++pass) {
+        begin_region_candidate_work();
+        if (!collect_region_candidates(region, 1)) break;
+        while ((candidate = pop_region_candidate()) != NULL) {
+            if (candidate->location.line) {
+                record_line_delta = candidate->location.line;
+                diagnostic_position = function->source_line_base + candidate->location.line;
+            }
+            type = candidate->type;
+            value = build_region_operation(type, candidate->opcode, candidate->left, candidate->left->next);
+            reg = value->value.reg;
+            old_output = candidate->tail.right->value.reg;
+            assignment = new_binary_expression(0x131, type, candidate->tail.right, value,
+                                                insert_input_record, (C2Record *)candidate);
+            update_global_record_registers(assignment, 0);
+            add_region_register_use(reg, assignment);
+            number = old_output->number;
+            if (optimizer_set_contains(global_motion_outputs, number) &&
+                !test_and_add_global_register(region_motion_sets[7], number))
+                add_register_to_set(region_motion_sets[1], assignment->value.reg->number);
+            rewrite_region_candidate_uses(candidate->tail.right, candidate);
+        }
+        for (pending = region_pending_registers; pending != (C2FunctionRegister *)-1;
+             pending = pending->global_next) {
+            if (line) {
+                record_line_delta = line;
+                diagnostic_position = function->source_line_base + line;
+            }
+            expression = pending->global_expression;
+            type = expression->type;
+            opcode = canonical_region_opcode(expression->opcode);
+            first = expression->operands;
+            if (!global_operand_is_restricted(first) && opcode != 0x142 && opcode != 0x135) {
+                second = first;
+                first = first->next;
+            } else second = first->next;
+            value = materialize_region_operand(type, first, region_motion_anchor);
+            if (opcode == 0x135)
+                record = new_assignment_expression(0x135, type, value, prepend_input_record, region_motion_anchor);
+            else {
+                other = materialize_region_operand(type, second, region_motion_anchor);
+                record = new_folded_binary_expression(opcode, type, value, other,
+                                                       prepend_input_record, region_motion_anchor);
+            }
+            target = new_typed_register_expression(0x120, type, pending);
+            new_binary_expression(0x131, type, target, record->tail.right,
+                                  prepend_input_record, region_motion_anchor);
+            inner_opcode = opcode;
+            definition = first->kind == 2 ? first->value.reg->global_definitions : NULL;
+            for (; definition; definition = definition->next) {
+                record = definition->record;
+                insertion = record;
+                if ((record->opcode == 0x141 || record->opcode == 0x142) &&
+                    record->next->opcode == 0x131 &&
+                    !compare_input_operands(record->tail.right, record->next->left) &&
+                    !compare_input_operands(record->next->tail.right, record->left))
+                    insertion = record->next;
+                if (insertion->location.line) {
+                    record_line_delta = insertion->location.line;
+                    diagnostic_position = function->source_line_base + insertion->location.line;
+                }
+                direct = 0;
+                if (record->opcode == 0x131) {
+                    left = record->left;
+                    if (((1U << (left->kind & 31)) & 6) && left->value.reg->global_expression) {
+                        expression = left->value.reg->global_expression;
+                        inner_opcode = expression->opcode;
+                        switch (inner_opcode) {
+                        case 0x14d: case 0x14e:
+                            inner_opcode = canonical_region_opcode(inner_opcode);
+                            /* fall through */
+                        case 0x141: case 0x142:
+                            left = expression->operands;
+                            if (!global_operand_is_restricted(left) && inner_opcode != 0x142) {
+                                right = left;
+                                left = left->next;
+                            } else right = left->next;
+                            break;
+                        case 0x14f: case 0x150:
+                            transformed = build_region_operation(type, opcode, left, second);
+                            direct = 1;
+                            break;
+                        default:
+                            /* The original diagnoses this unexpected operation
+                             * and falls into the carried-operand continuation. */
+                            c2_report_internal("E:\\utc\\src\\\\P2\\globlopt.c", 0xbd1);
+                            left = carried_left;
+                            break;
+                        }
+                    } else if (((1U << (left->kind & 31)) & 6) && left->value.reg->value) {
+                        definition_record = left->value.reg->value;
+                        left = definition_record->left;
+                        right = left->next;
+                        inner_opcode = definition_record->opcode;
+                    } else {
+                        transformed = build_region_operation(type, opcode, left, second);
+                        direct = 1;
+                    }
+                } else if (record->opcode == 0x141 || record->opcode == 0x142) {
+                    expression = record->tail.right->value.reg->global_expression;
+                    inner_opcode = expression->opcode;
+                    left = expression->operands;
+                    if (!global_operand_is_restricted(left)) {
+                        right = left;
+                        left = left->next;
+                    } else right = left->next;
+                } else {
+                    /* As above, no invented operands for the original error
+                     * continuation. The genuine reporter remains pending. */
+                    c2_report_internal("E:\\utc\\src\\\\P2\\globlopt.c", 0xbfa);
+                    left = carried_left;
+                }
+                carried_left = left;
+                if (direct) {
+                    assignment = new_binary_expression(0x131, type, target, transformed,
+                                                        insert_input_record, (C2Record *)insertion);
+                    finish_global_assignment(assignment, 1);
+                } else {
+                    transformed = build_region_operation(type, opcode, left, second);
+                    other = right;
+                    if (opcode == 0x143 || opcode == 0x135)
+                        other = build_region_operation(type, opcode, right, second);
+                    if (inner_opcode == 0x135)
+                        value = new_assignment_expression(0x135, type, transformed,
+                                                           insert_input_record, (C2Record *)insertion);
+                    else value = new_folded_binary_expression(inner_opcode, type, transformed, other,
+                                                               insert_input_record, (C2Record *)insertion);
+                    assignment = new_binary_expression(0x131, type, target, value->tail.right,
+                                                        insert_input_record, (C2Record *)value);
+                }
+                add_region_register_definition(pending, assignment);
+            }
+        }
+        finish_region_candidate_registers();
+        refresh_region_candidate_sources(region, function);
+        prepare_region_motion_assignments(region, 0);
+        region_candidate_pass_3d127(region);
+        region_candidate_pass_3ba96(region);
+    }
+    begin_region_candidate_work();
+}
+
+extern C2Expression *global_pending_assignment; /* Existing49721c owner. */
+void __fastcall simplify_region_record_range(C2Expression *first, C2Expression *last, C2Function *function)
+{
+    C2Expression *record, *next, *end;
+    end = last->next;
+    for (record = first; record != end; record = next) {
+        next = record->next;
+        if (record->location.line) {
+            record_line_delta = record->location.line;
+            diagnostic_position = function->source_line_base + record->location.line;
+        }
+        if ((record->flags & 1) && record->precision_flags != 2) simplify_region_statement(record);
+    }
+    end = last->next;
+    for (record = first; record != end; record = next) {
+        next = record->next;
+        if (record->opcode == 0x131 && ((1U << (record->tail.right->kind & 31)) & 6) &&
+            record->tail.right->value.reg->value && !global_assignment_restored(record))
+            restore_global_assignment(record);
+    }
+}
+void __fastcall simplify_region_entry_block(C2BasicBlock *block, C2Function *function)
+{
+    simplify_region_record_range((C2Expression *)block->records,
+                                 (C2Expression *)block->last_record, function);
+}
+void __fastcall region_candidate_pass_3c245(C2FlowRegion *region, C2Function *function)
+{
+    C2BasicBlock *entry = region->rewrite_entry;
+    C2Expression *record;
+    global_available_registers = entry->global_available_in;
+    for (record = (C2Expression *)entry->records->next;
+         record != (C2Expression *)entry->last_record; record = record->next)
+        if (record->flags & 1) {
+            global_record_needs_rewrite(record);
+            global_pending_assignment = NULL;
+        }
+    simplify_region_entry_block(entry, function);
+}
+
+void __fastcall region_candidate_pass_3c33f(C2FlowRegion *region)
+{
+    C2BasicBlock *entry = region->rewrite_entry;
+    C2Expression *record;
+    C2OptimizerRecordLink *link;
+    for (record = (C2Expression *)entry->records->next;
+         record != (C2Expression *)entry->last_record; record = record->next)
+        if (record->opcode == 0x131 && global_operand_is_restricted(record->tail.right)) {
+            link = c2_pool_allocate(13, sizeof(*link));
+            link->record = copy_input_expression(record);
+            link->next = region->assignment_copies;
+            region->assignment_copies = link;
+        }
+}
+
+extern int global_removed_register_use; /* Existing48fa5c owner. */
+void __fastcall region_candidate_pass_3c3a0(C2FlowRegion *region, C2Function *function)
+{
+    C2BasicBlock *block;
+    C2Expression *record, *next, *end;
+    if (!region_motion_sets[9]->links.first) return;
+    global_region_limited = 0;
+    for (block = region->header; block != region->last->previous; block = block->previous) {
+        optimize_global_block(block, function);
+        end = (C2Expression *)block->last_record;
+        for (record = (C2Expression *)block->records->next; record != end; record = next) {
+            next = record->next;
+            if (record->opcode >= 0x141 && record->opcode <= 0x142 &&
+                global_operand_is_restricted(record->left) &&
+                region_operand_is_invariant(record->left->next) &&
+                record->next->opcode == 0x131 &&
+                !compare_input_operands(record->tail.right, record->next->left) &&
+                !compare_input_operands(record->next->tail.right, record->left)) {
+                record->precision_flags = 4;
+                record->next->precision_flags = 4;
+                next = record->next->next;
+            } else if (record->precision_flags == 4) record->precision_flags = 0;
+        }
+    }
+    do {
+        global_removed_register_use = 0;
+        prepare_region_motion_assignments(region, 3);
+    } while (global_removed_register_use);
+}
+
+C2Expression *__fastcall find_region_address_update(C2FunctionRegister *reg);
+C2Expression *__fastcall find_region_initial_constant(C2Expression *operand, C2FlowRegion *region)
+{
+    C2Expression *record, *value;
+    C2BasicBlock *entry;
+    if ((1U << (operand->kind & 31)) & 0x180) return operand;
+    entry = region->rewrite_entry;
+    for (record = (C2Expression *)entry->records->next;
+         record != (C2Expression *)entry->last_record; record = record->next) {
+        if (record->opcode != 0x131 || compare_input_operands(record->tail.right, operand)) continue;
+        value = record->left;
+        if ((1U << (value->kind & 31)) & 0x180) operand = value;
+        break;
+    }
+    return operand;
+}
+unsigned short __fastcall region_copy_intrinsic_type(C2Expression *record, unsigned *flags);
+int __fastcall region_copy_conflicts(C2Expression *destination, C2Expression *source,
+    C2Expression *record, C2FlowRegion *region);
+C2Expression *__fastcall build_region_copy_count(C2FlowRegion *region, C2Function *function,
+    unsigned __int64 bytes);
+void __fastcall emit_region_memory_copy(C2Expression *destination, unsigned destination_attributes,
+    C2Expression *source, unsigned source_attributes, unsigned short type, unsigned char flags,
+    C2Expression *count, C2Record *prior);
+
+void __fastcall region_candidate_pass_3c4a5(C2FlowRegion *region, C2Function *function)
+{
+    C2Expression *candidate, *assignment, *intrinsic, *source_load, *destination, *source;
+    C2Expression *destination_address, *source_address, *fill_value, *length_value;
+    C2Expression *destination_update, *source_update, *destination_step, *source_step;
+    C2Expression *count, *cleanup;
+    C2FunctionRegister *destination_reg, *source_reg;
+    C2BasicBlock *destination_block, *source_block;
+    unsigned destination_opcode, source_opcode, destination_attributes, source_attributes, flags;
+    unsigned short destination_type, source_type, copy_type;
+    unsigned __int64 bytes, step, magnitude;
+    int fill;
+
+    if (!region->iteration_count) return;
+    begin_region_candidate_work();
+    if (!collect_region_candidates(region, 3)) return;
+    while ((candidate = pop_region_candidate()) != NULL) {
+        source_address = NULL;
+        if (candidate->location.line) {
+            record_line_delta = candidate->location.line;
+            diagnostic_position = function->source_line_base + candidate->location.line;
+        }
+        if (!block_reaches_region_exits(find_input_record_block(candidate), region)) continue;
+        if (candidate->opcode == 0x131) {
+            assignment = candidate;
+            intrinsic = NULL;
+            flags = 0;
+            destination = candidate->tail.right;
+            destination_type = copy_type = destination->type;
+            destination_address = destination->aggregate_value;
+            destination_attributes = destination->immediate;
+            bytes = destination_type & 0xfff;
+            destination_reg = destination_address->value.reg;
+            destination_update = find_region_address_update(destination_reg);
+            if (!destination_update) continue;
+            destination_opcode = destination_update->opcode;
+            destination_step = find_region_initial_constant(destination_update->left->next, region);
+            destination_block = find_input_record_block(destination_update);
+            if (region_operand_is_invariant(candidate->left)) {
+                fill = 1;
+                fill_value = candidate->left;
+                source_load = NULL;
+                source_type = destination_type;
+                source_reg = destination_reg;
+                source_attributes = destination_attributes;
+                source_update = destination_update;
+                source_opcode = destination_opcode;
+                source_step = destination_step;
+                source_block = destination_block;
+            } else {
+                fill = 0;
+                if ((candidate->type & 0xf000) == 0x5000) {
+                    source_load = NULL;
+                    source = candidate->left;
+                } else {
+                    source_load = candidate->previous;
+                    source = source_load->left;
+                }
+                source_address = source->aggregate_value;
+                source_attributes = source->immediate;
+                source_type = source->type;
+                source_reg = source_address->value.reg;
+                source_update = find_region_address_update(source_reg);
+                if (!source_update) continue;
+                source_opcode = source_update->opcode;
+                source_step = find_region_initial_constant(source_update->left->next, region);
+                source_block = find_input_record_block(source_update);
+            }
+        } else {
+            assignment = NULL;
+            source_load = NULL;
+            intrinsic = candidate;
+            flags = 0;
+            destination_address = region_intrinsic_operand(1, candidate);
+            length_value = find_region_initial_constant(region_intrinsic_operand(3, candidate), region);
+            copy_type = region_copy_intrinsic_type(candidate, &flags);
+            if (length_value->kind != 7) continue;
+            bytes = length_value->integer.value;
+            destination_attributes = find_region_index_operand(candidate->tail.right)->value.optimizer_index;
+            destination_reg = destination_address->value.reg;
+            destination_type = destination_address->type;
+            destination_update = find_region_address_update(destination_reg);
+            if (!destination_update) continue;
+            destination_opcode = destination_update->opcode;
+            destination_step = find_region_initial_constant(destination_update->left->next, region);
+            destination_block = find_input_record_block(destination_update);
+            if (candidate->detail.intrinsic == 0xad) {
+                fill = 1;
+                fill_value = region_intrinsic_operand(2, candidate);
+                source_type = destination_type;
+                source_reg = destination_reg;
+                source_attributes = destination_attributes;
+                source_update = destination_update;
+                source_opcode = destination_opcode;
+                source_step = destination_step;
+                source_block = destination_block;
+            } else {
+                fill = 0;
+                source_address = region_intrinsic_operand(2, candidate);
+                source_attributes = find_region_index_operand(candidate->left)->value.optimizer_index;
+                source_type = source_address->type;
+                source_reg = source_address->value.reg;
+                source_update = find_region_address_update(source_reg);
+                if (!source_update) continue;
+                source_opcode = source_update->opcode;
+                source_step = find_region_initial_constant(source_update->left->next, region);
+                source_block = find_input_record_block(source_update);
+            }
+        }
+        if (!register_types_match(destination_type, source_type) ||
+            compare_input_operands(destination_step, source_step) ||
+            destination_opcode != source_opcode || destination_block != source_block ||
+            destination_step->kind != 7 || !block_reaches_region_exits(destination_block, region) ||
+            !compare_region_iteration_order(candidate, destination_update) ||
+            !compare_region_iteration_order(candidate, source_update)) continue;
+        destination = assignment ? assignment->tail.right : find_region_index_operand(intrinsic->tail.right);
+        if (fill) source = NULL;
+        else if (source_load) source = source_load->left;
+        else source = assignment ? assignment->left : find_region_index_operand(intrinsic->left);
+        if (region_copy_conflicts(destination, source, candidate, region)) continue;
+        step = destination_step->integer.value;
+        magnitude = (__int64)step < 0 ? 0 - step : step;
+        if (bytes != magnitude || destination_opcode != 0x141 || (__int64)step <= 0) continue;
+        count = build_region_copy_count(region, function, bytes);
+        if (fill)
+            emit_region_memory_copy(destination_address, destination_attributes, fill_value, 0,
+                                    copy_type, (unsigned char)flags, count, region_motion_anchor);
+        else {
+            emit_region_memory_copy(destination_address, destination_attributes, source_address,
+                                    source_attributes, copy_type, (unsigned char)flags, count, region_motion_anchor);
+            if (source_load) {
+                remove_region_register_use(source_reg, source_load);
+                unlink_and_release_input_record((C2Record *)source_load);
+            }
+        }
+        if (assignment) remove_region_register_use(destination_reg, assignment);
+        else {
+            cleanup = intrinsic->left->next->next->value.reg->value;
+            unlink_and_release_input_record((C2Record *)cleanup);
+            cleanup = intrinsic->left->next->value.reg->value;
+            if (!fill) remove_region_register_use(source_reg, cleanup);
+            unlink_and_release_input_record((C2Record *)cleanup);
+            cleanup = intrinsic->left->value.reg->value;
+            remove_region_register_use(destination_reg, cleanup);
+            unlink_and_release_input_record((C2Record *)cleanup);
+        }
+        unlink_and_release_input_record((C2Record *)(assignment ? assignment : intrinsic));
+    }
 }
 
 void __fastcall finish_region_motion_candidates(C2FlowRegion *region, C2Function *function)
@@ -3197,5 +4920,980 @@ void __fastcall invalidate_global_available_register(C2FunctionRegister *reg,
             variant->displacement < (long)((unsigned)reg->displacement + reg->value_bytes) &&
             reg->displacement < (long)((unsigned)variant->displacement + variant->value_bytes))
             invalidate_global_available_register(variant, head);
+    }
+}
+
+int __fastcall global_operand_rejects_substitution(C2Expression *operand)
+{
+    if (!((1U << (operand->kind & 31)) & 6)) return 0;
+    return optimizer_set_contains(region_motion_sets[2], operand->value.reg->number) != 0;
+}
+
+void __fastcall rewrite_region_comparison(C2Expression *record,
+    C2FlowRegion *region, C2Function *function);
+void __fastcall region_candidate_pass_3c87c(C2FlowRegion *region, C2Function *function)
+{
+    C2Expression *record, *consumer, *result, *left, *right, *operation;
+    C2FunctionRegister *reg;
+    C2GlobalExpression *expression;
+    unsigned short line, type;
+    unsigned opcode;
+    set_region_motion_anchor(region);
+    record = next_final_marker((C2Expression *)region->entry->records);
+    line = record->location.line;
+    begin_region_candidate_work();
+    if (!collect_region_candidates(region, 2)) return;
+    while ((record = pop_region_candidate()) != NULL) {
+        consumer = follow_optimizer_result(record, &result);
+        if (consumer->kind == 16) {
+            if (record->location.line) {
+                record_source_line = function->source_line_base + record->location.line;
+                record_line_delta = record->location.line;
+            }
+            rewrite_region_comparison(record, region, function);
+        }
+    }
+    for (reg = region_pending_registers; reg != (C2FunctionRegister *)-1; reg = reg->global_next) {
+        if (line) {
+            record_source_line = function->source_line_base + line;
+            record_line_delta = line;
+        }
+        expression = reg->global_expression;
+        type = expression->type;
+        opcode = expression->opcode;
+        right = expression->operands->next;
+        left = materialize_region_operand(type, expression->operands, region_motion_anchor);
+        right = materialize_region_operand(type, right, region_motion_anchor);
+        operation = new_folded_binary_expression(canonical_region_opcode(opcode), type,
+                                                 left, right, prepend_input_record,
+                                                 region_motion_anchor);
+        result = new_typed_register_expression(0x120, type, reg);
+        new_binary_expression(0x131, type, result, operation->tail.right,
+                              prepend_input_record, region_motion_anchor);
+    }
+}
+
+/* This comparison-choice chain exposes only the fields consumed here.
+ * The DWORD at +12 has no recovered role or default. */
+typedef struct C2RegionComparisonChoice {
+    C2FunctionRegister *reg;
+    C2Expression *operand;
+    unsigned opcode;
+    unsigned char pending0c[4];
+    struct C2RegionComparisonChoice *next;
+} C2RegionComparisonChoice;
+typedef char C2RegionComparisonChoiceNextOffset[
+    offsetof(C2RegionComparisonChoice, next) == 16 ? 1 : -1];
+C2Expression *__fastcall fold_region_invariant(C2Expression *operand, C2FlowRegion *region)
+{
+    C2Record *tail;
+    C2Expression *value, *record;
+    C2FunctionRegister *reg;
+    unsigned short type;
+    if (((1U << (operand->kind & 31)) & 0x180) || operand->kind == 3) return operand;
+    clear_region_expression_list();
+    tail = region_expression_tail;
+    type = operand->type;
+    value = materialize_region_operand(type, operand, tail);
+    new_assignment_expression(0x131, type, value, prepend_input_record, tail);
+    global_available_registers = region->rewrite_entry->global_available_in;
+    for (record = (C2Expression *)region_expression_head;
+         record != (C2Expression *)region_expression_tail->next; record = record->next)
+        if (record->flags & 1) global_record_needs_rewrite(record);
+    global_pending_assignment = NULL;
+    record = (C2Expression *)tail->previous;
+    reg = record->tail.right->value.reg;
+    if (!reg->canonical->variant_next) reg->value = NULL;
+    else bind_input_temporary(reg, NULL);
+    simplify_region_statement(record);
+    record = (C2Expression *)tail->previous;
+    release_function_register(record->tail.right->value.reg);
+    return record->left;
+}
+int __fastcall region_choice_dependency_is_valid(C2FunctionRegister *candidate,
+    C2FunctionRegister *input)
+{
+    C2GlobalExpression *expression = candidate->global_expression;
+    if (!expression || (expression->opcode != 0x14d && expression->opcode != 0x14f)) return 0;
+    return expression->operands->value.reg == input;
+}
+C2Expression *__fastcall region_other_operand(C2FunctionRegister *reg, C2FunctionRegister *input)
+{
+    C2Expression *operand = reg->global_expression->operands;
+    if (((1U << (operand->kind & 31)) & 6) && operand->value.reg == input)
+        operand = operand->next;
+    return operand;
+}
+int __fastcall region_register_has_external_use(C2FunctionRegister *reg)
+{
+    C2OptimizerRecordLink *use;
+    for (use = reg->global_uses; use; use = use->next)
+        if (use->record->precision_flags != 4) return 1;
+    return 0;
+}
+int __fastcall score_region_dependency_chain(C2FunctionRegister *reg, C2FunctionRegister *input,
+    unsigned depth)
+{
+    C2GlobalDependency *dependency;
+    int best, score;
+    if (region_operand_is_volatile(region_other_operand(reg, input))) return -1;
+    best = region_register_has_external_use(reg) ? (int)depth : -1;
+    for (dependency = reg->global_dependents; dependency; dependency = dependency->next_dependent) {
+        if (!region_choice_dependency_is_valid(dependency->dependent, reg)) continue;
+        score = score_region_dependency_chain(dependency->dependent, reg, depth + 1);
+        if (score > best) best = score;
+    }
+    return best;
+}
+int __fastcall region_operation_is_safe(unsigned short type, unsigned opcode,
+    C2Expression *left, C2Expression *right, C2FlowRegion *region);
+C2Expression *__fastcall find_region_initial_expression(C2Expression *operand, C2FlowRegion *region);
+C2RegionComparisonChoice *__fastcall new_region_comparison_choice(C2FunctionRegister *reg,
+    C2Expression *operand, unsigned opcode, C2FunctionRegister *source);
+C2RegionComparisonChoice *__fastcall next_region_comparison_choice(C2FlowRegion *region,
+    C2RegionComparisonChoice *previous, C2FunctionRegister *reg, C2Expression **bound,
+    unsigned short type, unsigned nonnegative, unsigned nonpositive)
+{
+    C2GlobalDependency *dependency;
+    C2FunctionRegister *candidate, *best = reg;
+    C2Expression *other, *value, *initial, *saved;
+    C2RegionComparisonChoice *choice;
+    unsigned opcode;
+    int score, best_score = -1;
+    /* Both actual callers set EDX to the preceding choice (or NULL).
+     * This entry never consumes that register; its five stack slots remain. */
+    for (dependency = reg->global_dependents; dependency; dependency = dependency->next_dependent) {
+        candidate = dependency->dependent;
+        if (!region_choice_dependency_is_valid(candidate, reg)) continue;
+        opcode = canonical_region_opcode(candidate->global_expression->opcode);
+        other = region_other_operand(candidate, reg);
+        score = score_region_dependency_chain(candidate, reg, 1);
+        if (score <= best_score) continue;
+        if (region_operand_is_volatile(other) && !region_operand_is_volatile(*bound)) continue;
+        if (opcode == 0x143 && other->kind == 7 && (other->type & 0xf000) == 0x1000 &&
+            (long)other->integer.high < 0) nonnegative = nonpositive = 1;
+        if (nonnegative && !region_operation_is_safe(type, opcode, *bound, other, region)) continue;
+        if (nonpositive) {
+            initial = new_typed_register_expression(0x120, reg->type, reg);
+            initial = find_region_initial_expression(initial, region);
+            if (!region_operand_is_invariant(initial) ||
+                !region_operation_is_safe(type, opcode, initial, other, region)) continue;
+        }
+        value = fold_region_invariant(other, region);
+        value = copy_input_expression(value);
+        value = fold_region_binary_expression(*bound, value, opcode);
+        if (value->opcode == 0x131) {
+            saved = copy_input_expression(value->left);
+            best_score = score;
+            best = candidate;
+        }
+    }
+    if (best == reg) return NULL;
+    other = region_other_operand(best, reg);
+    opcode = canonical_region_opcode(best->global_expression->opcode);
+    choice = new_region_comparison_choice(best, other, opcode, reg);
+    *bound = copy_input_expression(saved);
+    return choice;
+}
+C2RegionComparisonChoice *__fastcall collect_region_comparison_choices(C2FunctionRegister *reg,
+    C2Expression *bound, C2FlowRegion *region, unsigned short type,
+    unsigned nonnegative, unsigned nonpositive)
+{
+    C2RegionComparisonChoice *head, *choice, *next;
+    head = next_region_comparison_choice(region, NULL, reg, &bound, type,
+                                         nonnegative, nonpositive);
+    if (!head) return NULL;
+    choice = head;
+    while ((next = next_region_comparison_choice(region, choice, choice->reg, &bound,
+                                                 type, nonnegative, nonpositive)) != NULL) {
+        choice->next = next;
+        choice = next;
+    }
+    return head;
+}
+C2Expression *__fastcall build_region_comparison_operand(unsigned short type,
+    unsigned opcode, C2Expression *left, C2Expression *right, C2FlowRegion *region);
+int __fastcall region_definition_is_available(C2Expression *record, C2FunctionRegister *reg);
+int __fastcall final_replacement_is_blocked(C2Expression *first,
+    C2Expression *last, C2Expression *operand);
+void __fastcall rewrite_region_comparison(C2Expression *record,
+    C2FlowRegion *region, C2Function *function)
+{
+    C2Expression *bound, *induction, *definition, *update, *offset, *value, *input, *consumer;
+    C2FunctionRegister *reg, *replacement;
+    C2RegionComparisonChoice *choice;
+    unsigned short type;
+    unsigned update_opcode, opcode, nonnegative, nonpositive, condition;
+    long delta;
+    initialize_region_expression_list();
+    if (global_operand_is_restricted(record->left)) {
+        bound = record->left->next;
+        induction = record->left;
+    } else {
+        bound = record->left;
+        induction = bound->next;
+    }
+    reg = induction->value.reg;
+    definition = reg->global_definitions->record;
+    if (definition->precision_flags != 4) return;
+    update = definition->previous;
+    offset = NULL;
+    update_opcode = 0;
+    if (update->precision_flags == 4 && (update->opcode == 0x141 || update->opcode == 0x142)) {
+        offset = update->left->next;
+        update_opcode = update->opcode;
+    }
+    nonnegative = nonpositive = 1;
+    if (offset && region_operand_is_invariant(offset)) {
+        value = fold_region_invariant(offset, region);
+        if (value->kind == 7) {
+            delta = (long)value->integer.low;
+            if (update->opcode == 0x142) delta = (long)(0U - (unsigned)delta);
+            nonnegative = delta >= 0;
+            nonpositive = delta <= 0;
+        }
+    }
+    choice = collect_region_comparison_choices(reg, bound, region, record->type,
+                                                nonnegative, nonpositive);
+    if (!choice) return;
+    type = record->type;
+    do {
+        replacement = choice->reg;
+        input = new_typed_register_expression(0x120, type, replacement);
+        opcode = choice->opcode;
+        value = build_region_comparison_operand(type, opcode, bound, choice->operand, region);
+        induction = attach_input_expression(record, induction, input);
+        bound = attach_input_expression(record, bound, value);
+        if (offset) {
+            if (opcode == 0x143)
+                offset = build_region_comparison_operand(offset->type, opcode, offset,
+                                                         choice->operand, region);
+            else offset = copy_input_expression(offset);
+        }
+        if (opcode == 0x143 && (record->type & 0xf000) == 0x1000 &&
+            choice->operand->kind == 7 && (choice->operand->type & 0xf000) == 0x1000 &&
+            (long)choice->operand->integer.high < 0) {
+            global_expression_condition(record);
+            consumer = follow_optimizer_result(record, &input);
+            condition = consumer->convention;
+            /* The already recovered BYTE column at48d250 exchanges order. */
+            if (condition > 10) { __asm { int 3 } }
+            consumer->convention = condition <= 2 ? condition :
+                (condition & 1) ? condition + 1 : condition - 1;
+        }
+        if (!final_replacement_is_blocked((C2Expression *)region->rewrite_entry->records,
+                (C2Expression *)region->rewrite_entry->last_record, induction)) {
+            global_available_registers = region_motion_sets[6];
+            global_record_needs_rewrite(record);
+            if (find_register_input(record, replacement) &&
+                !region_definition_is_available(record, replacement)) {
+                if (!offset) c2_report_internal("E:\\utc\\src\\\\P2\\globlopt.c", 0xe6d);
+                new_region_iteration(induction, type, offset, update_opcode, reg, 0, region, function);
+            }
+        }
+        update_global_record_registers(record, 0);
+        choice = choice->next;
+    } while (choice);
+    release_region_expression_list();
+}
+
+int __fastcall compare_region_residues(C2Expression *value, C2Expression *initial, unsigned opcode);
+C2Expression *__fastcall combine_region_offsets(C2Expression *other, C2Expression *operand);
+int __fastcall rewrite_region_aggregate_use(C2Expression *record, C2Expression *owner,
+    C2Expression *operand, unsigned opcode, C2Expression *source, C2Expression *initial, unsigned apply);
+void __fastcall clear_region_value_uses(C2FunctionRegister *reg);
+void __fastcall remove_region_update_use(C2FunctionRegister *reg, C2Expression *record);
+void __fastcall rewrite_region_limit(C2Expression *record, C2Expression *bound,
+    C2Expression *initial, unsigned opcode, C2Expression *source);
+void __fastcall materialize_region_saved_value(C2Expression *operand, C2FlowRegion *region);
+C2Expression *__fastcall materialize_region_aggregate(C2Expression *record, C2Expression *operand);
+void __fastcall prune_detached_operands(C2Expression *record);
+void __fastcall finish_restored_expression(C2Expression *record);
+void __fastcall region_candidate_pass_3bbb3(C2FlowRegion *region)
+{
+    C2Expression *candidate, *record, *source, *initial, *value, *input, *other, *next;
+    C2Expression *assignment, *comparison, *owner, *first, *aggregate, *materialized;
+    C2Expression *last_operation;
+    C2FunctionRegister *reg, *input_reg;
+    C2GlobalExpression *expression;
+    C2OptimizerRecordLink *use;
+    unsigned opcode;
+    int valid, compatible;
+#ifdef __linux__
+    int last_operation_written = 0;
+#endif
+
+    begin_region_candidate_work();
+    initialize_region_expression_list();
+    collect_region_candidates(region, 6);
+    while ((candidate = pop_region_candidate()) != NULL) {
+        reg = candidate->tail.right->value.reg;
+        expression = reg->global_expression;
+        source = expression->operands;
+        input_reg = source->value.reg;
+        if (!input_reg->global_uses) continue;
+        initial = find_region_initial_constant(source->next, region);
+        opcode = canonical_region_opcode(expression->opcode);
+        valid = 1;
+        assignment = comparison = NULL;
+        for (use = reg->global_uses; use && valid; use = use->next) {
+            record = use->record;
+            if (record->precision_flags == 4) continue;
+            if (record->opcode == 0x131 &&
+                ((1U << (record->left->kind & 31)) & 6) && record->left->value.reg == reg) {
+                if (assignment || (input_reg->rewrite_flags & 1)) valid = 0;
+                assignment = record;
+                continue;
+            }
+            if (record->opcode == 0x151) {
+                input = record->left;
+                if (region_operand_is_invariant(input->next)) {
+                    value = fold_region_invariant(input->next, region);
+                    compatible = value->kind == 7 && initial->kind == 7 &&
+                        compare_region_residues(value, initial, opcode);
+                    if (!compatible)
+                        compatible = opcode == 0x141 && value->kind == 3 && initial->kind == 3 &&
+                            value->value.reg->canonical == initial->value.reg->canonical;
+                    if (compatible) continue;
+                } else if (((1U << (input->kind & 31)) & 6) && input->value.reg == reg) {
+                    if (comparison || (input_reg->rewrite_flags & 1)) valid = 0;
+                    comparison = record;
+                    continue;
+                }
+            }
+            if ((record->type & 0xf000) == 0x5000) {
+                valid = 0;
+                break;
+            }
+            if (record->opcode == 0x141 && (record->type & 0xfff) == 4) {
+                other = record->left;
+                for (input = other; input; input = input->next) {
+                    if (((1U << (input->kind & 31)) & 6) && input->value.reg == reg &&
+                        !(input->location.expression.properties & 0x20)) {
+                        if (other == input) other = other->next;
+                        value = combine_region_offsets(other, input);
+                        if (value) {
+                            record->opcode = 0x13d;
+                            remove_input_operand(record, input);
+                            attach_input_expression(record, other, value);
+                        }
+                        break;
+                    }
+                }
+            }
+            for (input = record->left; input; input = input->next) {
+                if (!((1U << (input->kind & 31)) & 6) || input->value.reg != reg) continue;
+                if (input->location.expression.properties & 0x20) {
+                    owner = find_aggregate_operand_owner(record, input, &first);
+                    if (rewrite_region_aggregate_use(record, owner, input, opcode, source, initial, 0))
+                        continue;
+                }
+                valid = 0;
+            }
+        }
+        if (comparison && (!assignment || comparison->previous != assignment ||
+                           compare_input_operands(assignment->left, comparison->left))) valid = 0;
+        if (!valid) {
+            clear_region_value_uses(reg);
+            continue;
+        }
+        while ((record = pop_region_register_use(reg)) != NULL) {
+            if (record->precision_flags == 4) {
+                remove_region_update_use(reg, record->next);
+                unlink_and_release_input_record((C2Record *)record->next);
+                unlink_and_release_input_record((C2Record *)record);
+            } else if (record->opcode == 0x131 &&
+                       ((1U << (record->left->kind & 31)) & 6) && record->left->value.reg == reg) {
+                last_operation = new_region_binary_expression(opcode, record->type, source, initial,
+                                                              prepend_input_record, (C2Record *)record);
+#ifdef __linux__
+                last_operation_written = 1;
+#endif
+                attach_input_expression(record, record->left, last_operation->tail.right);
+                add_region_register_use(input_reg, last_operation);
+                defer_region_candidate(record);
+            } else if (record->opcode == 0x151 &&
+                       ((1U << (record->left->kind & 31)) & 6) && record->left->value.reg == reg) {
+                if (!comparison) {
+                    value = fold_region_invariant(record->left->next, region);
+                    rewrite_region_limit(record, value, initial, opcode, source);
+                } else {
+                    attach_input_expression(record, record->left, assignment->tail.right);
+                    if (global_operand_is_restricted(assignment->tail.right)) {
+                        /* Original reuses its +3c local from the latest assignment
+                         * constructor, even if no such write has occurred yet.
+                         * Preserve the carried/unwritten Win32 pointer, not NULL. */
+#ifdef __linux__
+                        if (!last_operation_written)
+                            recon_unsupported("region comparison incidental stack pointer");
+#endif
+                        add_region_register_use(assignment->tail.right->value.reg, last_operation);
+                    }
+                    defer_region_candidate(record);
+                }
+            } else {
+                for (input = record->left; input; input = next) {
+                    next = input->next;
+                    if (!((1U << (input->kind & 31)) & 6) || input->value.reg != reg) continue;
+                    owner = find_aggregate_operand_owner(record, input, &first);
+                    rewrite_region_aggregate_use(record, owner, input, opcode, source, initial, 1);
+                    defer_region_candidate(record);
+                }
+            }
+        }
+        prune_input_tree(candidate, 1);
+        if (initial->kind == 2 && initial->value.reg &&
+            ((initial->value.reg->rewrite_flags & 2) ||
+             optimizer_set_contains(global_motion_outputs, initial->value.reg->number)))
+            materialize_region_saved_value(initial, region);
+    }
+    while ((record = pop_deferred_region_candidate()) != NULL) {
+        prune_detached_operands(record);
+        switch (record->opcode) {
+        case 0x131:
+            aggregate = record->tail.right;
+            if (((1U << (aggregate->kind & 31)) & 0x60) &&
+                ((aggregate->aggregate_value && global_operand_is_restricted(aggregate->aggregate_value)) ||
+                 (aggregate->aggregate_second && global_operand_is_restricted(aggregate->aggregate_second)))) {
+                materialized = materialize_region_aggregate(record, aggregate);
+                aggregate->opcode = 0x122;
+                materialized->location.expression.properties |= 0x20;
+                aggregate->tail.right = NULL;
+                if (aggregate->aggregate_value) release_small_node(aggregate->aggregate_value);
+                aggregate->aggregate_value = retain_input_result(materialized);
+                if (aggregate->aggregate_second) release_small_node(aggregate->aggregate_second);
+                aggregate->aggregate_second = NULL;
+                aggregate->detail.data = NULL;
+                aggregate->location.expression.properties &= 0xf0;
+            }
+            if (!((1U << (record->left->kind & 31)) & 0x60)) break;
+            /* An aggregate input uses the same cleanup as opcode133. */
+        case 0x133:
+            aggregate = record->left;
+            if ((aggregate->aggregate_value && global_operand_is_restricted(aggregate->aggregate_value)) ||
+                (aggregate->aggregate_second && global_operand_is_restricted(aggregate->aggregate_second))) {
+                materialized = materialize_region_aggregate(record, aggregate);
+                aggregate->opcode = 0x122;
+                materialized->location.expression.properties |= 0x20;
+                aggregate->tail.right = NULL;
+                if (aggregate->aggregate_value) release_small_node(aggregate->aggregate_value);
+                aggregate->aggregate_value = retain_input_result(materialized);
+                if (aggregate->aggregate_second) release_small_node(aggregate->aggregate_second);
+                aggregate->aggregate_second = NULL;
+                aggregate->detail.data = NULL;
+                aggregate->location.expression.properties &= 0xf0;
+            }
+            break;
+        case 0x13d:
+            materialized = materialize_region_aggregate(record, record->left);
+            attach_input_expression(record, record->left, materialized);
+            record->opcode = 0x131;
+            break;
+        case 0x151:
+            break;
+        default:
+            c2_report_internal("E:\\utc\\src\\\\P2\\globlopt.c", 0x1f36);
+            break;
+        }
+        finish_restored_expression(record);
+        update_global_record_registers(record, 0);
+    }
+    prepare_region_motion_assignments(region, 1);
+    release_region_expression_list();
+}
+
+C2Expression *__fastcall new_region_iteration_counter(C2FlowRegion *region, C2Function *function)
+{
+    C2Expression *counter = region_iteration_counter, *record, *value;
+    if (!counter) {
+        counter = new_input_temporary(0x2004);
+        counter->value.reg->rewrite_flags |= 1;
+        add_register_to_set(region_motion_sets[9], counter->value.reg->number);
+        set_region_motion_anchor(region);
+        record = next_final_marker((C2Expression *)region->entry->records);
+        if (record->location.line) {
+            record_line_delta = record->location.line;
+            record_source_line = function->source_line_base + record->location.line;
+        }
+        value = materialize_region_operand(0x2004, region->iteration_count, region_motion_anchor);
+        new_binary_expression(0x131, 0x2004, counter, value, prepend_input_record, region_motion_anchor);
+        region_iteration_counter = retain_input_result(counter);
+    }
+    return counter;
+}
+void __fastcall region_candidate_pass_3e5ed(C2FlowRegion *region, C2Function *function)
+{
+    C2Expression *comparison, *update, *step, *counter, *operation, *assignment, *consumer, *result;
+    C2FunctionRegister *reg;
+    C2OptimizerRecordLink *use;
+    if (!region->iteration_count) return;
+    comparison = region->iteration_comparison;
+    reg = comparison->left->value.reg;
+    if (!comparison->left->next) {
+        update = find_region_address_update(reg);
+        step = update->left->next;
+        if (update->opcode == 0x141) {
+            if (step->kind == 7 && (step->integer.low & step->integer.high) == 0xffffffffU) return;
+        } else if (step->kind == 7 && step->integer.low == 1 && !step->integer.high) return;
+    }
+    for (use = reg->global_uses; use; use = use->next)
+        if (use->record->precision_flags != 4 && use->record != comparison) return;
+    if (!reg->global_definitions || reg->global_definitions->next) return;
+    counter = new_region_iteration_counter(region, function);
+    if (comparison->location.line) {
+        record_line_delta = comparison->location.line;
+        record_source_line = function->source_line_base + comparison->location.line;
+    }
+    step = new_integer_expression(0x2004, 1);
+    operation = new_folded_binary_expression(0x142, 0x2004, counter, step,
+                                            prepend_input_record, (C2Record *)comparison);
+    operation->precision_flags = 4;
+    add_region_register_use(reg, operation);
+    assignment = new_binary_expression(0x131, 0x2004, counter, operation->tail.right,
+                                       prepend_input_record, (C2Record *)comparison);
+    assignment->precision_flags = 4;
+    add_region_register_definition(reg, assignment);
+    comparison->type = 0x2004;
+    attach_input_expression(comparison, comparison->left, counter);
+    step = new_integer_expression(0x2004, 0);
+    attach_input_expression(comparison, comparison->left->next, step);
+    consumer = follow_optimizer_result(comparison, &result);
+    consumer->convention = 4;
+    comparison->value.reg = new_global_expression_register(0x155, 0x2004,
+                                                          comparison->left, comparison->left->next);
+    prepare_region_motion_assignments(region, 3);
+}
+
+C2Expression *__fastcall new_region_typed_counter(C2FlowRegion *region,
+    unsigned short type, C2Function *function);
+void __fastcall region_candidate_pass_3e73e(C2FlowRegion *region, C2Function *function)
+{
+    C2FunctionRegister *reg;
+    C2OptimizerRecordLink *definitions, *uses;
+    C2Expression *update, *assignment, *operand, *step, *counter, *operation, *inserted;
+    unsigned number;
+    unsigned short type;
+    int changed = 0, two_uses;
+    if (!region->iteration_count) return;
+    begin_region_candidate_work();
+    set_region_motion_anchor(region);
+    for (number = next_optimizer_symbol(region_motion_sets[9]); number != (unsigned)-1;
+         number = next_optimizer_symbol(NULL)) {
+        reg = lookup_function_register(number);
+        definitions = reg->global_definitions;
+        if (!definitions || definitions->next) continue;
+        uses = reg->global_uses;
+        if (!uses) continue;
+        assignment = definitions->record;
+        if (!uses->next) {
+            update = uses->record;
+            two_uses = 0;
+        } else {
+            if (uses->next->next ||
+                !region_candidate_link_contains(uses, region->iteration_comparison)) continue;
+            update = uses->record;
+            if (update == region->iteration_comparison) update = uses->next->record;
+            two_uses = 1;
+        }
+        if (update->precision_flags != 4 || assignment->precision_flags != 4 ||
+            update->opcode != 0x141 || assignment->opcode != 0x131 ||
+            !region_operand_overlaps_motion_inputs(assignment->tail.right) ||
+            !compare_region_iteration_order(assignment, region->iteration_comparison)) continue;
+        type = assignment->type;
+        operand = assignment->tail.right;
+        step = update->left->next;
+        retarget_region_operand(step, type);
+        counter = new_region_typed_counter(region, type, function);
+        operation = new_folded_binary_expression(0x143, type, counter, step,
+                                                 prepend_input_record, region_motion_anchor);
+        operation = new_folded_binary_expression(update->opcode, type, operand,
+                                                 operation->tail.right, prepend_input_record,
+                                                 region_motion_anchor);
+        inserted = new_binary_expression(assignment->opcode, type, operand, operation->tail.right,
+                                         prepend_input_record, region_motion_anchor);
+        changed = 1;
+        if (two_uses) region_deferred_assignment = inserted;
+        else {
+            remove_region_update_use(reg, assignment);
+            remove_region_register_use(reg, update);
+            mark_region_candidate_seen(update);
+            mark_region_candidate_seen(assignment);
+        }
+    }
+    finish_region_candidate_registers();
+    if (changed) region_candidate_pass_3c245(region, function);
+}
+
+void __fastcall region_candidate_pass_3e91d(C2FlowRegion *region)
+{
+    C2BasicBlock *entry;
+    C2Expression *record, *result, *definition, *update, *copy, *value;
+    C2OptimizerRecordLink *definitions, *link;
+    if (!region->iteration_count) return;
+    entry = region->rewrite_entry;
+    for (record = (C2Expression *)entry->records->next;
+         record != (C2Expression *)entry->last_record; record = record->next) {
+        if (record->opcode != 0x131) continue;
+        result = record->tail.right;
+        if (!global_operand_is_restricted(result)) continue;
+        definitions = result->value.reg->global_definitions;
+        if (!definitions || definitions->next) continue;
+        definition = definitions->record;
+        if (definition->precision_flags != 4) continue;
+        update = definition->previous;
+        if (update->precision_flags != 4 || (update->opcode != 0x141 && update->opcode != 0x142) ||
+            !compare_region_iteration_order(update, region->iteration_comparison)) continue;
+        link = c2_pool_allocate(13, sizeof(*link));
+        copy = copy_input_expression(update);
+        value = find_region_initial_constant(copy->left->next, region);
+        if (value != copy->left->next) attach_input_expression(copy, copy->left->next, value);
+        link->record = copy;
+        link->next = region->initial_updates;
+        region->initial_updates = link;
+    }
+}
+
+void __fastcall region_candidate_pass_3e9fe(C2FlowRegion *region, C2Function *function)
+{
+    C2FlowRegion *child;
+    C2Expression *candidate, *result, *matching, *update, *step, *initial, *assignment;
+    C2FunctionRegister *reg;
+    for (child = region->children; child; child = child->next) {
+        if (!child->initial_updates) continue;
+        begin_region_candidate_work();
+        collect_region_candidates(child, 5);
+        while ((candidate = pop_region_candidate()) != NULL) {
+            result = candidate->tail.right;
+            matching = find_region_matching_value(result, child);
+            reg = candidate->left->value.reg;
+            update = find_region_address_update(reg);
+            if (!update || matching->opcode != update->opcode) continue;
+            step = matching->left->next;
+            initial = find_region_initial_constant(update->left->next, region);
+            if (step->kind != 7 || initial->kind != 7 || child->iteration_count->kind != 7) continue;
+            if (step->integer.value * child->iteration_count->integer.value != initial->integer.value)
+                continue;
+            assignment = update->next;
+            attach_input_expression(assignment, assignment->left, result);
+            remove_region_register_use(reg, update);
+            unlink_and_release_input_record((C2Record *)update);
+            update_global_record_registers(assignment, 0);
+        }
+    }
+}
+
+void __fastcall release_function_flow_edge(C2Function *function, C2FlowEdge *edge);
+void __fastcall region_candidate_pass_3ea57(C2FlowRegion *region, C2Function *function)
+{
+    C2BasicBlock *first_block = region->header, *last_block = region->last, *block;
+    C2Expression *record, *comparison, *operand, *consumer, *result;
+    C2FunctionRegister *reg;
+#ifdef __linux__
+    int record_written = 0;
+#endif
+    if (!region_motion_sets[9]->links.first) return;
+    for (block = first_block; block != last_block->previous; block = block->previous) {
+        for (record = (C2Expression *)block->records->next;
+#ifdef __linux__
+             (record_written = 1),
+#endif
+             record != (C2Expression *)block->last_record; record = record->next) {
+            if (!(record->flags & 1)) continue;
+            if (record->precision_flags != 4 && record->precision_flags != 1 &&
+                record->precision_flags != 2) goto inspect;
+            if (record->opcode == 0x131 && region_operand_overlaps_motion_inputs(record->tail.right)) {
+                if (!region_deferred_assignment) return;
+                if (compare_input_operands(region_deferred_assignment->tail.right, record->tail.right))
+                    goto cleanup;
+            }
+        }
+    }
+inspect:
+    /* With no blocks, original +10 automatic storage was never written.
+     * Preserve that Win32 defect; native stack bytes cannot name its record. */
+#ifdef __linux__
+    if (!record_written) recon_unsupported("region termination incidental stack record");
+#endif
+    comparison = record;
+    if (comparison->opcode == 0x151) {
+        operand = comparison->left;
+        if (global_operand_is_restricted(operand) && region_operand_is_invariant(operand->next)) {
+            consumer = follow_optimizer_result(comparison, &record);
+            if (consumer->kind == 16) {
+                record = comparison->next;
+                while (record->precision_flags == 4 &&
+                       !region_operand_overlaps_motion_inputs(record->tail.right)) record = record->next;
+                if (record == consumer && !next_global_code_record(consumer) && block == last_block) {
+                    release_function_flow_edge(function, find_flow_edge(last_block, first_block));
+                    reg = operand->value.reg;
+                    remove_region_register_use(reg, comparison);
+                    record = pop_region_register_use(reg);
+                    unlink_and_release_input_record((C2Record *)record);
+                    record = pop_region_register_definition(reg);
+                    unlink_and_release_input_record((C2Record *)record);
+                    unlink_and_release_input_record((C2Record *)comparison);
+                    remove_control_record(consumer);
+                    global_aliases_changed = 1;
+                    prepare_region_motion_assignments(region, 3);
+                    if (region->iteration_count) release_small_node(region->iteration_count);
+                    region->iteration_count = NULL;
+                    region->iteration_comparison = NULL;
+                    region->initial_updates = NULL;
+                    return;
+                }
+            }
+        }
+    }
+cleanup:
+    if (region_deferred_assignment) {
+        operand = region_deferred_assignment->left;
+        if (((1U << (operand->kind & 31)) & 6) && operand->value.reg->value)
+            prune_cached_input(operand);
+        unlink_and_release_input_record((C2Record *)region_deferred_assignment);
+    }
+}
+
+void __fastcall finish_region_block_records(C2BasicBlock *block, unsigned mode)
+{
+    C2Expression *record, *next;
+    C2Expression *last = (C2Expression *)block->last_record;
+    for (record = (C2Expression *)block->records->next; record != last; record = next) {
+        next = record->next;
+        if (record->flags & 1) update_global_record_registers(record, mode);
+    }
+}
+void __fastcall region_candidate_pass_3ec06(C2FlowRegion *region, C2Function *function)
+{
+    C2BasicBlock *block = region->rewrite_entry;
+    prepare_global_block(block, function);
+    finish_region_block_records(block, 1);
+    global_region_limited = 0;
+    optimize_global_block(block, function);
+}
+
+void __fastcall region_candidate_pass_3ec67(C2FlowRegion *region, C2Function *function)
+{
+    C2BasicBlock *block, *entry;
+    C2Expression *record, *next, *output;
+    C2FunctionRegister *input_reg, *output_reg;
+    if (!region_motion_sets[9]->links.first) return;
+    global_available_registers = new_temporary_register_set();
+    entry = region->rewrite_entry;
+    for (record = (C2Expression *)entry->records->next;
+         record != (C2Expression *)entry->last_record; record = next) {
+        next = record->next;
+        if (record->opcode != 0x131) continue;
+        output = record->tail.right;
+        if (!region_operand_is_invariant(output)) continue;
+        if (record->left->kind == 7) update_global_available_registers(record);
+        else add_register_to_set(region->global_registers, output->value.reg->number);
+    }
+    for (block = region->header; block != region->last->previous; block = block->previous)
+        for (record = (C2Expression *)block->records->next;
+             record != (C2Expression *)block->last_record; record = record->next)
+            if (record->flags & 1) global_record_needs_rewrite(record);
+    for (block = region->header; block != region->last->previous; block = block->previous)
+        for (record = (C2Expression *)block->records->next;
+             record != (C2Expression *)block->last_record; record = record->next) {
+            if (record->opcode == 0x131 && record->tail.right->kind == 2 && record->left->kind == 2) {
+                input_reg = record->left->value.reg;
+                if (input_reg->rewrite_flags & 1) {
+                    output_reg = record->tail.right->value.reg;
+                    if (output_reg->rewrite_flags & 1) output_reg->flags |= 0x40;
+                    else if (output_reg->global_expression)
+                        merge_global_register_identity(input_reg, output_reg);
+                }
+            }
+            if (record->precision_flags == 4) {
+                update_global_record_registers(record, 1);
+                record->precision_flags = 0;
+            } else if (record->opcode == 0x131 && !record->value.reg)
+                update_global_record_registers(record, 1);
+        }
+}
+
+void __cdecl discard_region_hash_values(void)
+{
+    C2GlobalExpression **link, *expression;
+    C2FunctionRegister *reg;
+    C2GlobalDependency *dependency, **dependent;
+    unsigned bucket;
+    for (bucket = 0; bucket < 101; ++bucket) {
+        link = &global_expression_buckets[bucket];
+        while ((expression = *link) != NULL) {
+            if (expression->opcode < 0x14d || expression->opcode > 0x150) {
+                link = &expression->next;
+                continue;
+            }
+            *link = expression->next;
+            reg = expression->reg;
+            reg->global_expression = NULL;
+            while ((dependency = reg->global_dependencies) != NULL) {
+                reg->global_dependencies = dependency->next_input;
+                dependent = &dependency->input->global_dependents;
+                while (*dependent != dependency) dependent = &(*dependent)->next_dependent;
+                *dependent = dependency->next_dependent;
+            }
+        }
+    }
+}
+void __fastcall region_candidate_pass_3edd3(C2FlowRegion *region)
+{
+    C2FunctionRegister *reg;
+    unsigned number;
+    discard_region_hash_values();
+    for (number = next_optimizer_symbol(region_motion_sets[0]); number != (unsigned)-1;
+         number = next_optimizer_symbol(NULL)) {
+        reg = lookup_function_register(number);
+        reg->region_motion_flags &= 0xfff9;
+    }
+    for (number = next_optimizer_symbol(region_motion_sets[9]); number != (unsigned)-1;
+         number = next_optimizer_symbol(NULL)) {
+        reg = lookup_function_register(number);
+        reg->global_uses = NULL;
+        reg->global_definitions = NULL;
+    }
+    clear_register_set(region_motion_sets[9]);
+    clear_register_set(region_motion_sets[5]);
+    clear_register_set(region_motion_sets[0]);
+    clear_register_set(region_motion_sets[3]);
+    clear_register_set(region_motion_sets[10]);
+    clear_register_set(region_motion_sets[4]);
+    clear_register_set(region_motion_sets[2]);
+    clear_register_set(region_motion_sets[7]);
+    clear_register_set(region_motion_sets[1]);
+    clear_register_set(region_motion_sets[6]);
+    clear_register_set(region_motion_sets[8]);
+    reset_input_pool(3);
+    if (region_iteration_counter) {
+        release_small_node(region_iteration_counter);
+        region_iteration_counter = NULL;
+    }
+}
+
+void __fastcall finish_region_selection(C2Expression *record, C2BasicBlock *block)
+{
+    C2FlowEdge *outgoing = block->outgoing;
+    C2Expression *left, *right, *consumer, *result, *inserted;
+    C2BranchTarget *target;
+    C2BasicBlock *destination;
+    C2Record *anchor;
+    unsigned opcode, condition;
+    if (!outgoing) return;
+    left = record->left;
+    right = left->next;
+    if ((((1U << (left->kind & 31)) & 6) && left->value.reg->value) ||
+        (((1U << (right->kind & 31)) & 6) && right->value.reg->value)) return;
+    consumer = follow_optimizer_result(record, &result);
+    if (consumer->kind != 16 || next_global_code_record(record) != consumer ||
+        !outgoing->next_outgoing) return;
+    left = record->left;
+    right = left->next;
+    if (((1U << (left->kind & 31)) & 0x180) &&
+        ((1U << (right->kind & 31)) & 0x180)) return;
+    condition = consumer->convention;
+    opcode = global_condition_opcode((unsigned char)condition);
+    target = ((C2InputSymbol *)consumer->left->value.symbol)->branch_target;
+    if (!target->block) target = get_symbol_branch_target(target, 24);
+    destination = target->block;
+    if (destination->incoming && !destination->incoming->next_incoming) {
+        inserted = new_region_binary_expression(opcode, record->type, left, right,
+                                                 insert_input_record, (C2Record *)target);
+        inserted->precision_flags = 2;
+    }
+    /* Only the proved17-entry negation column is available here. */
+    if (condition > 16) { __asm { int 3 } }
+    opcode = global_condition_opcode(input_inverse_condition[condition]);
+    destination = block->previous;
+    anchor = destination->records;
+    if (destination->incoming && !destination->incoming->next_incoming) {
+        inserted = new_region_binary_expression(opcode, record->type, left, right,
+                                                 insert_input_record, anchor);
+        inserted->precision_flags = 2;
+    }
+}
+
+const unsigned *__fastcall global_class1_opcodes(unsigned opcode)
+{
+    /* DWORD opcode lists, terminated by0. The numbered conditions use the
+     * same opcode mapping as global_condition_opcode. */
+    static const unsigned condition1[] = {0x152, 0};
+    static const unsigned condition2[] = {0x153, 0x155, 0x154, 0};
+    static const unsigned condition3[] = {0x154, 0};
+    static const unsigned condition4[] = {0x155, 0};
+    static const unsigned condition5[] = {0x156, 0x154, 0x152, 0};
+    static const unsigned condition6[] = {0x157, 0x155, 0x152, 0};
+    static const unsigned none[] = {0};
+    switch (opcode) {
+    case 0x152: return condition1;
+    case 0x153: return condition2;
+    case 0x154: return condition3;
+    case 0x155: return condition4;
+    case 0x156: return condition5;
+    case 0x157: return condition6;
+    default: return none;
+    }
+}
+const unsigned *__fastcall global_class2_opcodes(unsigned opcode)
+{
+    /* The classifier's second DWORD-list column, with an explicit terminator. */
+    static const unsigned condition1[] = {0x153, 0x155, 0x154, 0};
+    static const unsigned condition2[] = {0x152, 0};
+    static const unsigned condition3[] = {0x157, 0x155, 0x152, 0};
+    static const unsigned condition4[] = {0x156, 0x154, 0x152, 0};
+    static const unsigned condition5[] = {0x155, 0};
+    static const unsigned condition6[] = {0x154, 0};
+    static const unsigned none[] = {0};
+    switch (opcode) {
+    case 0x152: return condition1;
+    case 0x153: return condition2;
+    case 0x154: return condition3;
+    case 0x155: return condition4;
+    case 0x156: return condition5;
+    case 0x157: return condition6;
+    default: return none;
+    }
+}
+C2FunctionRegister *__fastcall find_global_alternative_register(unsigned opcode,
+    unsigned short type, C2Expression *left, C2Expression *right)
+{
+    C2GlobalExpression *expression;
+    unsigned hash;
+    set_global_expression_operands(2, left, right);
+    hash = hash_global_expression(opcode, type);
+    expression = find_global_expression(hash, opcode, type);
+    return expression ? expression->reg : NULL;
+}
+int __fastcall classify_global_register(C2RegisterSet *available, C2FunctionRegister *reg)
+{
+    C2GlobalExpression *expression;
+    C2Expression *left, *right;
+    C2FunctionRegister *candidate;
+    const unsigned *alternatives;
+    unsigned short type;
+    if (optimizer_set_contains(available, reg->number)) return 1;
+    expression = reg->global_expression;
+    left = expression->operands;
+    right = left->next;
+    type = expression->type;
+    for (alternatives = global_class1_opcodes(expression->opcode); *alternatives; ++alternatives) {
+        candidate = find_global_alternative_register(*alternatives, type, left, right);
+        if (candidate && optimizer_set_contains(available, candidate->number)) return 1;
+    }
+    for (alternatives = global_class2_opcodes(expression->opcode); *alternatives; ++alternatives) {
+        candidate = find_global_alternative_register(*alternatives, type, left, right);
+        if (candidate && optimizer_set_contains(available, candidate->number)) return 2;
+    }
+    return 3;
+}
+
+void __fastcall finish_global_region(C2FlowRegion *region)
+{
+    C2FlowBlockLink *exit;
+    collect_region_motion_definitions(region);
+    for (exit = region->exits; exit; exit = exit->next) {
+        intersect_optimizer_symbol_sets(exit->block->global_definitions,
+                                        region->header->global_available_in);
+        subtract_optimizer_symbol_sets(exit->block->global_definitions, global_motion_registers);
     }
 }

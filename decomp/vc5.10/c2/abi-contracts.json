@@ -849,5 +849,17 @@
       }
     ],
     "qualification": "Multiplication is exact shared-identifier match. Signed div/rem reorder original hot/cold branch blocks; unsigned div/rem share the epilogue earlier. Full sign-normalization, two-word DIV, quotient-product correction, result sign and nonvolatile/RET paths match corresponding shipped members. This is semantic/library identity, not a byte-identical layout assertion."
+  },
+  "il_block_reader_filbuf": {
+    "dll": "MSVCRT.dll",
+    "symbol": "_filbuf",
+    "original_iat_slot": "0x48d10c",
+    "declaration": "toolchains/5.10/include/STDIO.H:307: _CRTIMP int __cdecl _filbuf(FILE *);",
+    "sdk_header_sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+    "caller": "read_il_block [0x4526ac,0x4526ed): MOV EBX,[0x48d10c] at0x4526b5; CALL EBX0x4526e0 with FILE* push and ADD ESP4; loop backedge reuses EBX.",
+    "preserves": [
+      "ebx"
+    ],
+    "scope": "Identified public cdecl normal-return nonvolatile guarantee only. No provider-internal code, data or return-value behavior claim beyond the existing FILE boundary; no App credit."
   }
 }

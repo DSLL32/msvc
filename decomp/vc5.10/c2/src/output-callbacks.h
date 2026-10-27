@@ -76,7 +76,13 @@ extern C2CodeRelocationCallback output_slot_497db4;
 extern C2CodeRelocationCallback output_slot_491078;
 extern C2PendingCallback output_slot_497f60;
 extern C2PendingCallback output_slot_497dfc;
-extern C2PendingCallback output_slot_497f50;
+/* The initializer callback receives ECX=value, EDX=symbol and a single
+ * stack section pointer; EAX counts bytes and both alternatives use RET4. */
+typedef unsigned (__fastcall *C2InitializerWriter)(C2InitRecord *value,
+    C2Symbol *symbol, C2Section *section);
+typedef struct C2InitializerCallback { C2InitializerWriter target; } C2InitializerCallback;
+typedef char C2InitializerCallbackSize[sizeof(C2InitializerCallback) == 4 ? 1 : -1];
+extern C2InitializerCallback output_slot_497f50;
 extern C2DirectiveCallback output_slot_49971c;
 extern C2SymbolCallback output_slot_497cec;
 void __fastcall select_output_section(C2Section *section);
@@ -93,14 +99,14 @@ void __fastcall output_callback_442d21(char *file);
 void output_callback_442d33();
 void __fastcall output_callback_44308f(C2Symbol *symbol);
 void output_callback_4432a1();
-void output_callback_44a79d();
+unsigned __fastcall output_callback_44a79d(C2InitRecord *value, C2Symbol *symbol, C2Section *section);
 void __fastcall emit_output_directive(C2OutputDirective *directive);
 void __fastcall emit_incremental_string(char *value);
 void __fastcall write_coff_directive(char *prefix, char *value, char *suffix, int quoted);
 void output_callback_4541f3();
 void output_callback_454ba8();
 void __fastcall output_callback_4849f2(C2Symbol *symbol, char *file, int unwind, unsigned line);
-void output_callback_4849f5();
+unsigned __fastcall output_callback_4849f5(C2InitRecord *value, C2Symbol *symbol, C2Section *section);
 void __fastcall output_callback_4849fa(C2Symbol *symbol);
 void __fastcall output_callback_4850f5(unsigned offset, C2Symbol *symbol);
 extern char *output_group_name;

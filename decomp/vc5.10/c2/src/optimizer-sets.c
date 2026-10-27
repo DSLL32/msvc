@@ -47,6 +47,17 @@ void __fastcall merge_optimizer_dense_sets(C2RegisterSet *destination, C2Registe
     for (index = 0; index < words; ++index) target[index] |= values[index];
 }
 
+unsigned __fastcall optimizer_dense_sets_intersect(C2RegisterSet *first,
+    C2RegisterSet *second)
+{
+    unsigned *left = first->links.words, *right = second->links.words;
+    unsigned words = ((first->state & 0x00ffffffU) + 31) >> 5;
+    unsigned i;
+    for (i = 0; i < words; ++i)
+        if (left[i] & right[i]) return 1;
+    return 0;
+}
+
 void __fastcall build_optimizer_register_sets(unsigned expression_limit,
     unsigned count, unsigned alias_count, unsigned register_count, int aliases)
 {
@@ -369,4 +380,91 @@ void __fastcall copy_optimizer_dense_set(C2RegisterSet *destination, C2RegisterS
 int __fastcall optimizer_dense_contains(C2RegisterSet *set, unsigned number)
 {
     return (set->links.words[number >> 5] & (1U << (number & 31))) != 0;
+}
+
+C2RegisterSet *__fastcall clone_optimizer_dense_set(C2RegisterSet *source)
+{
+    unsigned count = source->state & 0xffffff;
+    C2RegisterSet *copy = new_optimizer_dense_set(source->pool, count);
+    unsigned i, words = (count + 31) >> 5;
+    for (i = 0; i < words; ++i) copy->links.words[i] |= source->links.words[i];
+    return copy;
+}
+
+static unsigned allocation_dense_bits; /* 493208 */
+static C2RegisterSet *allocation_dense_set; /* 49320c */
+static unsigned allocation_dense_member; /* 493210 */
+static unsigned *allocation_dense_cursor; /* 493214 */
+static unsigned allocation_dense_word; /* 493218 */
+
+unsigned __fastcall next_allocation_dense_member(C2RegisterSet *set)
+{
+    unsigned *cursor, word, bits, bit, position;
+
+    if (set) {
+        allocation_dense_cursor = set->links.words;
+        allocation_dense_bits = *allocation_dense_cursor;
+        allocation_dense_word = 0;
+        allocation_dense_set = set;
+    }
+    cursor = allocation_dense_cursor;
+    word = allocation_dense_word;
+    bits = allocation_dense_bits;
+    while (!bits) {
+        position = word << 5;
+        ++word;
+        if ((allocation_dense_set->state & 0xffffff) <= position) {
+            allocation_dense_cursor = cursor;
+            allocation_dense_word = word;
+            return ~0U;
+        }
+        /* Original defect: after the last logical word becomes empty,
+           this loop can read its successor before rejecting its index.
+           Retain the genuine pool-backed C read and limit the returned
+           member to the set's actual logical count below. */
+        bits = *++cursor;
+        allocation_dense_bits = bits;
+    }
+    allocation_dense_cursor = cursor;
+    allocation_dense_word = word;
+    for (bit = 0; bit < 32; ++bit)
+        if (bits & (1U << bit)) break;
+    allocation_dense_member = bit == 32 ? ~0U : bit;
+    if (allocation_dense_member != ~0U) {
+        allocation_dense_member += word << 5;
+        if (allocation_dense_member < (allocation_dense_set->state & 0xffffff)) {
+            allocation_dense_bits &= ~(1U << (allocation_dense_member & 31));
+            return allocation_dense_member;
+        }
+    }
+    return ~0U;
+}
+
+unsigned __fastcall find_optimizer_set_intersection(C2RegisterSet *first,
+    C2RegisterSet *second)
+{
+    C2RegisterSetNode *node, *scan, *matched = NULL;
+    unsigned group, bits, bit, number;
+
+    if (!second->links.first || !first->links.first) return ~0U;
+    for (node = first->links.first; node; node = node->next) {
+        group = node->group;
+        bits = node->bits;
+        scan = matched;
+        if (group >= second->links.first->group) {
+            if (!scan) scan = second->links.first;
+            for (; scan; scan = scan->next)
+                if (scan->group == group) break;
+            matched = scan;
+        } else matched = NULL;
+        if (!matched || !(matched->bits & bits)) continue;
+        while (bits) {
+            for (bit = 0; bit < 32; ++bit)
+                if (bits & (1U << bit)) break;
+            number = bit == 32 ? ~0U : group + bit;
+            if (number != ~0U) bits &= ~(1U << (number & 31));
+            if (optimizer_set_contains(second, number)) return number;
+        }
+    }
+    return ~0U;
 }

@@ -4,10 +4,12 @@
 #include <recon.h>
 
 C2ScopeHash *new_function_scope(void);
-/* Encountered cleanup prefix; no tail layout or allocation extent claimed. */
+/* Existing490e74 pending-input owner. The newly reached local-symbol
+ * factory proves its8-byte link/symbol view; the earlier expression view
+ * remains available without asserting interchangeable payload semantics. */
 typedef struct C2PendingInput {
     struct C2PendingInput *next;
-    C2Expression *expression;
+    union { C2Expression *expression; C2InputSymbol *symbol; };
 } C2PendingInput;
 typedef char C2PendingInputExpressionCheck[offsetof(C2PendingInput, expression) == 4 ? 1 : -1];
 extern C2PendingInput *pending_input_records;

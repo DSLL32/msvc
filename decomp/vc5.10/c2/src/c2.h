@@ -97,6 +97,22 @@ typedef struct C2Real {
     unsigned short exponent, kind;
 } C2Real;
 extern C2Real c2_real_zero, c2_real_one, c2_real_two;
+/* Ten consumed bytes; any structure tail padding has no payload meaning. */
+typedef struct C2RealLimit {
+    unsigned long significand_low, significand_high;
+    unsigned short exponent;
+} C2RealLimit;
+extern const C2RealLimit double_conversion_limit;
+/* The original49e278 scratch has overlapping sign and rounded-value roles.
+ * Only each actual writer defines its bytes; no initial8B value is claimed. */
+typedef union C2RealOperationScratch {
+    int negative;
+    float single;
+    double real;
+} C2RealOperationScratch;
+extern C2RealOperationScratch real_operation_scratch;
+typedef char C2RealLimitExponentOffset[offsetof(C2RealLimit, exponent) == 8 ? 1 : -1];
+typedef char C2RealOperationScratchSize[sizeof(C2RealOperationScratch) == 8 ? 1 : -1];
 void c2_real_from_int(int *input, C2Real *output);
 void c2_real_from_unsigned(unsigned *input, C2Real *output);
 int c2_real_to_int(C2Real *input, int *output);
@@ -316,18 +332,19 @@ struct C2BasicBlock {
         struct {
             union { unsigned char pending24_prefix[8];
                 struct {
-                    union { unsigned allocation_state24; C2RegisterSet *allocation_edge_uses; };
-                    union { unsigned allocation_state28; C2RegisterSet *allocation_edge_definitions; };
+                    union { unsigned allocation_state24, spill_limit_in_mask; C2RegisterSet *allocation_edge_uses, *frame_uses; };
+                    union { unsigned allocation_state28, spill_limit_out_mask; C2RegisterSet *allocation_edge_definitions, *frame_definitions; };
                 }; };
-            union { C2RegisterSet *alias_uses, *allocation_live_in; };
-            union { unsigned pending30; C2RegisterSet *allocation_uses; };
-            union { C2RegisterSet *alias_kills, *allocation_definitions; };
-            C2RegisterSet *alias_in, *alias_out;
+            union { C2RegisterSet *alias_uses, *allocation_live_in, *frame_kills; unsigned spill_required_mask; };
+            union { unsigned pending30, spill_live_mask; C2RegisterSet *allocation_uses, *frame_live_in; };
+            union { C2RegisterSet *alias_kills, *allocation_definitions, *frame_live_out; unsigned spill_defined_mask; };
+            union { C2RegisterSet *alias_in, *frame_defined_in; unsigned spill_live_in_mask, spill_partition; struct C2AllocationSpillClass *spill_class_in; };
+            union { C2RegisterSet *alias_out, *frame_defined_out; unsigned spill_live_out_mask, spill_visit; C2BasicBlock *spill_partition_next; struct C2AllocationSpillClass *spill_class_out; };
             union { C2RegisterSet *alias_constraints, *allocation_live_out; };
             union {
                 unsigned char pending44[64];
                 struct { C2RegisterSet *allocation_live_in_after, *allocation_region_uses, *allocation_region_input; };
-                struct { union { unsigned char pending44_prefix[52]; struct { unsigned char pending44_before_definitions[12]; C2RegisterSet *global_available_in, *global_definitions; unsigned char pending58_after_definitions[32]; }; }; C2RegisterSet *dominators; union { unsigned pending7c; C2RegisterSet *predecessors; }; C2BlockScope *block_scope; };
+                struct { union { unsigned char pending44_prefix[52]; struct { unsigned char pending44_before_definitions[12]; union { C2RegisterSet *global_available_in; unsigned spill_memory_mask; }; union { C2RegisterSet *global_definitions; unsigned spill_killed_mask; }; union { unsigned char pending58_after_definitions[32]; struct { struct C2FloatBlockState *float_allocation; unsigned char pending5c_after_float[28]; }; }; }; }; C2RegisterSet *dominators; union { unsigned pending7c; C2RegisterSet *predecessors; }; C2BlockScope *block_scope; };
             };
         };
     };
@@ -337,6 +354,11 @@ struct C2BasicBlock {
     unsigned char pending8a[2];
 };
 typedef char C2BlockSizeCheck[sizeof(C2BasicBlock) == 140 ? 1 : -1];
+typedef char C2BlockFloatAllocationOffset[offsetof(C2BasicBlock, float_allocation) == 88 ? 1 : -1];
+/* The spill assignment pass reuses these existing physical cells as a
+ * partition number and work-chain link; no new storage/default is implied. */
+typedef char C2BlockSpillPartitionOffset[offsetof(C2BasicBlock, spill_partition) == 56 ? 1 : -1];
+typedef char C2BlockSpillPartitionLinkOffset[offsetof(C2BasicBlock, spill_partition_next) == 60 ? 1 : -1];
 typedef char C2BlockAllocationOutCheck[offsetof(C2BasicBlock, allocation_live_out) == 64 ? 1 : -1];
 typedef char C2BlockAllocationInCheck[offsetof(C2BasicBlock, allocation_live_in_after) == 68 ? 1 : -1];
 typedef char C2BlockNumbersCheck[offsetof(C2BasicBlock, number84) == 132 ? 1 : -1];
@@ -426,6 +448,7 @@ short input_compact_short(void);
 unsigned input_varuint(void);
 unsigned short input_type(void);
 unsigned input_extended_flags(void);
+void __fastcall read_il_block(int bytes, char *buffer);
 void __fastcall input_string(char *buffer, unsigned capacity);
 void __fastcall copy_symbol_type(C2Symbol *symbol);
 char *__fastcall intern_symbol_name(C2Symbol *symbol, char *name, int pool);
@@ -460,14 +483,17 @@ void read_initializers(void);
 struct C2InitRecord {
     int kind;
     struct C2InitRecord *next;
-    struct C2InitRecord *list_next;
-    long offset;
-    unsigned symbol_serial;
+    /* Root/free-list link; kind2 leaves instead carry a referenced serial. */
+    union { struct C2InitRecord *list_next; unsigned referenced_serial;
+        struct { short value_kind, value_bytes; }; signed char alignment; };
+    union { long offset; unsigned value_low; const void *value_data; };
+    union { unsigned symbol_serial, value_high; signed char reference_bytes; };
     int emitted;
-    C2Symbol *symbol;
+    union { C2Symbol *symbol; int repeat_count; };
 };
 typedef char C2InitRecordSizeCheck[sizeof(C2InitRecord) == 28 ? 1 : -1];
 typedef char C2InitRecordOffsetCheck[offsetof(C2InitRecord, offset) == 12 ? 1 : -1];
+typedef char C2InitReferenceSerialCheck[offsetof(C2InitRecord, referenced_serial) == 8 ? 1 : -1];
 typedef char C2InitRecordSerialCheck[offsetof(C2InitRecord, symbol_serial) == 16 ? 1 : -1];
 C2InitRecord *__fastcall new_initializer(int kind);
 void __fastcall read_initializer_values(C2InitRecord *record);

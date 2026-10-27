@@ -138,9 +138,116 @@ C2BasicBlock *__fastcall find_register_save_region(C2BasicBlock *first,
     *end = finish;
     return start;
 }
+int __fastcall region_uses_saved_register(C2MachineRegister *reg,
+    C2Expression *first, C2Expression *last)
+{
+    C2Expression *operand;
+    C2FunctionRegister *source;
+
+    for (; first != last; first = first->next) {
+        if (!(first->flags & 1)) continue;
+        for (operand = first->tail.right; operand; operand = operand->next) {
+            if (operand->kind == 1) {
+                source = operand->original_register;
+                /* Only the modeled static canonical identities are available. */
+                if ((unsigned long)source >= (unsigned long)machine_registers &&
+                    (unsigned long)source <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT) &&
+                    source != (C2FunctionRegister *)&machine_registers[0] &&
+                    source != (C2FunctionRegister *)&machine_registers[1] &&
+                    source != (C2FunctionRegister *)&machine_registers[2] &&
+                    source != (C2FunctionRegister *)&machine_registers[3] &&
+                    source != (C2FunctionRegister *)&machine_registers[4] &&
+                    source != (C2FunctionRegister *)&machine_registers[5] &&
+                    source != (C2FunctionRegister *)&machine_registers[6] &&
+                    source != (C2FunctionRegister *)&machine_registers[7] &&
+                    source != (C2FunctionRegister *)&machine_registers[8] &&
+                    source != (C2FunctionRegister *)&machine_registers[18] &&
+                    source != (C2FunctionRegister *)&machine_registers[19] &&
+                    source != (C2FunctionRegister *)&machine_registers[66] &&
+                    source != (C2FunctionRegister *)&machine_registers[67] &&
+                    source != (C2FunctionRegister *)&machine_registers[68] &&
+                    source != (C2FunctionRegister *)&machine_registers[69] &&
+                    source != (C2FunctionRegister *)&machine_registers[70] &&
+                    source != (C2FunctionRegister *)&machine_registers[71] &&
+                    source != (C2FunctionRegister *)&machine_registers[72] &&
+                    source != (C2FunctionRegister *)&machine_registers[73]) { __asm { int 3 } }
+                if (source->canonical == (C2FunctionRegister *)reg) return 1;
+            } else if (operand->kind == 9) {
+                if (reg != &machine_registers[4] && reg != &machine_registers[5] &&
+                    reg != &machine_registers[6] && reg != &machine_registers[7] &&
+                    reg != &machine_registers[8]) { __asm { int 3 } }
+                if (optimizer_set_contains(operand->value.registers, reg->number)) return 1;
+            }
+        }
+    }
+    return 0;
+}
+C2Expression *__fastcall push_region_register(C2MachineRegister *reg,
+    C2Expression *position)
+{
+    C2Expression *record;
+
+    if (reg != &machine_registers[4] && reg != &machine_registers[5] &&
+        reg != &machine_registers[6] && reg != &machine_registers[7] &&
+        reg != &machine_registers[8]) { __asm { int 3 } }
+    record = push_function_register(reg->number, position);
+    record->opcode = 0xba;
+    return record;
+}
+C2Expression *__fastcall pop_region_register(C2MachineRegister *reg,
+    C2Expression *position)
+{
+    C2Expression *record;
+
+    if (reg != &machine_registers[4] && reg != &machine_registers[5] &&
+        reg != &machine_registers[6] && reg != &machine_registers[7] &&
+        reg != &machine_registers[8]) { __asm { int 3 } }
+    record = pop_function_register(reg->number, position);
+    record->opcode = 0xb9;
+    return record;
+}
+
 int __fastcall save_register_in_region(C2MachineRegister *reg, C2BasicBlock *first,
     C2BasicBlock *last, C2BasicBlock *start, C2BasicBlock *end)
-{ __asm { int 3 } return 0; }
+{
+    C2Expression *position;
+    int changes = 0;
+
+    if (region_uses_saved_register(reg, (C2Expression *)first->records,
+        (C2Expression *)end->records)) return 0;
+    for (;;) {
+        if (region_uses_saved_register(reg, (C2Expression *)last->records,
+            (C2Expression *)last->last_record)) break;
+        if (last == start) {
+            last = last->next;
+            first = end;
+            start = find_register_save_region(first, last, &end);
+        } else if (!region_uses_saved_register(reg, (C2Expression *)start->records,
+            (C2Expression *)last->records)) {
+            last = start->next;
+            first = end;
+            start = find_register_save_region(first, last, &end);
+        } else {
+            if (region_uses_saved_register(reg, (C2Expression *)end->records,
+                (C2Expression *)start->records)) break;
+            last = last->next;
+            first = start;
+            start = find_register_save_region(first, last, &end);
+        }
+        ++changes;
+        if (!start || region_uses_saved_register(reg, (C2Expression *)first->records,
+            (C2Expression *)end->records)) break;
+    }
+    if (!changes) return 0;
+    position = (C2Expression *)first->records;
+    if (position->next->kind == 25) position = position->next;
+    push_region_register(reg, position);
+    position = ((C2Expression *)last->last_record)->previous;
+    if (position->kind == 16 && !position->detail.data && position->opcode != 0x15c)
+        position = position->previous;
+    pop_region_register(reg, position);
+    return 1;
+}
 unsigned __fastcall count_saved_function_registers(C2Function *function)
 { __asm { int 3 } return 0; }
 C2Expression *__fastcall build_exception_prologue(C2Expression *prior, int opening)
@@ -151,8 +258,53 @@ C2Expression *__fastcall build_exception_epilogue(C2Expression *prior)
 { __asm { int 3 } return NULL; }
 C2Expression *__fastcall build_funclet_epilogue(C2Expression *prior)
 { __asm { int 3 } return NULL; }
+/* Compiler runtime-symbol cache at499bc8:128 initialized NULL pointers.
+ * This is application symbol bookkeeping, not a CRT implementation. */
+C2FunctionSymbol *runtime_function_cache[128];
+unsigned __fastcall hash_runtime_function_name(char *name);
+extern int output_enabled;
 C2Symbol *__fastcall find_runtime_function(char *name)
-{ __asm { int 3 } return NULL; }
+{
+    unsigned first = hash_runtime_function_name(name) & 127;
+    unsigned index = first;
+    C2FunctionSymbol *function;
+    char *left, *right;
+
+    for (;;) {
+        function = runtime_function_cache[index];
+        if (!function) {
+            function = (C2FunctionSymbol *)c2_allocate_node(4, 0);
+            runtime_function_cache[index] = function;
+            function->symbol.kind = 4;
+            function->symbol.serial = output_enabled ? index - 0x81U : next_symbol_serial();
+            function->symbol.name = arena_strdup(name, 0);
+            function->symbol.output_flags &= ~3;
+            function->symbol.flags = 0;
+            function->attributes = (function->attributes & ~0xffU) | 0x47;
+            queue_symbol_debug(&function->symbol);
+            function->attributes = (function->attributes & ~0x600U) | 0x100;
+            insert_symbol(&function->symbol, 0);
+            return &function->symbol;
+        }
+        /* The original inlines byte comparison; no external strcmp edge. */
+        left = function->symbol.name;
+        right = name;
+        while (*left == *right && *left) { ++left; ++right; }
+        if (*left == *right) {
+            if (output_enabled) queue_symbol_debug(&function->symbol);
+            return &function->symbol;
+        }
+        index = (index + 1) & 127;
+        if (index == first)
+            c2_report_internal("E:\\utc\\src\\\\P2\\p2symtab.c", 0x73c);
+    }
+}
+unsigned __fastcall hash_runtime_function_name(char *name)
+{
+    unsigned hash = 0;
+    for (; *name; ++name) hash += (signed char)*name;
+    return hash;
+}
 C2Expression *__fastcall new_runtime_call(unsigned opcode, unsigned short type,
     C2Expression *result, C2Expression *target, unsigned char convention,
     C2InputLink link, C2Record *prior)

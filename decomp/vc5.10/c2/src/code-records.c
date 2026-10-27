@@ -4,6 +4,7 @@
 #include "small-nodes.h"
 #include "flow.h"
 #include "functions.h"
+#include "coff-output.h"
 #include <recon.h>
 
 unsigned record_source_line;
@@ -498,6 +499,35 @@ C2Expression *__fastcall new_binary_expression(unsigned opcode, unsigned short t
     return record;
 }
 
+C2Expression *__fastcall new_block_copy_expression(unsigned opcode, unsigned short type,
+    C2Expression *destination, C2Expression *source, C2Expression *bytes,
+    C2InputLink link, C2Record *prior)
+{
+    C2Expression *record = (C2Expression *)allocate_small_node(12);
+    record->opcode = opcode;
+    record->type = type;
+    record->flags |= 1;
+    if ((1U << (destination->kind & 31)) & 0x7fe) {
+        if (destination->location.expression.properties & 0x10)
+            destination = copy_input_expression(destination);
+        destination->location.expression.properties |= 0x10;
+    }
+    record->tail.right = destination;
+    if ((1U << (source->kind & 31)) & 0x7fe) {
+        if (source->location.expression.properties & 0x10)
+            source = copy_input_expression(source);
+        source->location.expression.properties |= 0x10;
+    }
+    record->left = source;
+    /* This constructor discards the unattached size expression; the record's
+     * aggregate type carries the copy width into later passes. */
+    if (!(bytes->location.expression.properties & 0x10)) release_small_node(bytes);
+    retain_aggregate_operands(record);
+    if (link) link(prior, (C2Record *)record);
+    record->location.line = record_line_delta;
+    return record;
+}
+
 C2Expression *__fastcall new_aggregate_expression(unsigned opcode, unsigned short type,
     C2FunctionRegister *address, long displacement, C2Expression *source,
     C2Expression *destination, unsigned attributes)
@@ -555,6 +585,49 @@ C2Expression *__fastcall new_comparison_expression(unsigned opcode, unsigned sho
         right->location.expression.properties |= 0x10;
     }
     left->next = right;
+    retain_aggregate_operands(record);
+    if (link) link(prior, (C2Record *)record);
+    record->location.line = record_line_delta;
+    temporary->value.reg->value = record;
+    return record;
+}
+
+C2Expression *__fastcall new_select_expression(unsigned opcode, unsigned short type,
+    C2Expression *condition, C2Expression *left, C2Expression *right,
+    unsigned char comparison, C2InputLink link, C2Record *prior)
+{
+    C2Expression *temporary, *output, *record;
+    temporary = new_temporary_operand(type);
+    output = temporary;
+    record = (C2Expression *)allocate_small_node(15);
+    record->opcode = opcode;
+    record->type = type;
+    record->flags |= 1;
+    if ((1U << (output->kind & 31)) & 0x7fe) {
+        if (output->location.expression.properties & 0x10)
+            output = copy_input_expression(output);
+        output->location.expression.properties |= 0x10;
+    }
+    record->tail.right = output;
+    if ((1U << (condition->kind & 31)) & 0x7fe) {
+        if (condition->location.expression.properties & 0x10)
+            condition = copy_input_expression(condition);
+        condition->location.expression.properties |= 0x10;
+    }
+    record->left = condition;
+    if ((1U << (left->kind & 31)) & 0x7fe) {
+        if (left->location.expression.properties & 0x10)
+            left = copy_input_expression(left);
+        left->location.expression.properties |= 0x10;
+    }
+    condition->next = left;
+    if ((1U << (right->kind & 31)) & 0x7fe) {
+        if (right->location.expression.properties & 0x10)
+            right = copy_input_expression(right);
+        right->location.expression.properties |= 0x10;
+    }
+    left->next = right;
+    record->detail.condition = comparison;
     retain_aggregate_operands(record);
     if (link) link(prior, (C2Record *)record);
     record->location.line = record_line_delta;
@@ -1147,4 +1220,277 @@ C2FunctionRegister *__fastcall new_spill_temporary_register(unsigned short type)
 C2Expression *__fastcall new_input_temporary(unsigned short type)
 {
     return new_typed_register_expression(0x120, type, new_spill_temporary_register(type));
+}
+
+C2Expression *__fastcall new_final_address_expression(unsigned opcode, unsigned short type,
+    C2FunctionRegister *symbol, long displacement, C2Expression *base, C2Expression *index)
+{
+    C2Expression *record = (C2Expression *)allocate_small_node(5);
+    record->tail.aggregate_register = symbol;
+    record->opcode = opcode;
+    record->type = type;
+    record->detail.aggregate_displacement = displacement;
+    if (base) {
+        if ((1U << (base->kind & 31)) & 0x7fe) {
+            if (base->location.expression.properties & 0x10)
+                base = copy_input_expression(base);
+            base->location.expression.properties |= 0x10;
+        }
+        record->aggregate_value = base;
+        base->location.expression.properties |= 0x20;
+    }
+    if (index) {
+        if ((1U << (index->kind & 31)) & 0x7fe) {
+            if (index->location.expression.properties & 0x10)
+                index = copy_input_expression(index);
+            index->location.expression.properties |= 0x10;
+        }
+        record->aggregate_second = index;
+        index->location.expression.properties |= 0x20;
+    }
+    return record;
+}
+
+C2Expression *__fastcall new_register_set_expression(C2RegisterSet *set)
+{
+    C2Expression *record = (C2Expression *)allocate_small_node(9);
+    record->value.registers = set;
+    record->opcode = 0x12e;
+    return record;
+}
+
+/* Original497f48 is the initializer free chain, initially NULL. Recycled
+ * links use+8, distinct from the initializer value chain at+4. */
+C2InitRecord *free_initializers;
+C2InitRecord *__fastcall new_initializer(int kind)
+{
+    C2InitRecord *record = free_initializers;
+
+    if (record) {
+        free_initializers = record->list_next;
+        memset(record, 0, sizeof(*record));
+    } else record = (C2InitRecord *)c2_pool_allocate(0, sizeof(*record));
+    record->kind = kind;
+    return record;
+}
+
+/* Reuse the497df4 tail already owned by the output cleanup. It belongs
+ * to the same initializer chain as global_initializers/497d98. */
+extern C2InitRecord *last_global_initializer;
+C2InitRecord *__fastcall queue_initializer(C2InitRecord *record)
+{
+    C2InputSymbol *symbol = (C2InputSymbol *)lookup_global_symbol(record->symbol_serial);
+    C2InitRecord **slot, *existing, *next_root, *last;
+    int before;
+
+    if (symbol && symbol->initializer) {
+        slot = &global_initializers;
+        while (*slot && (*slot)->symbol_serial != record->symbol_serial)
+            slot = &(*slot)->list_next;
+    } else if (last_global_initializer) slot = &last_global_initializer->list_next;
+    else slot = &global_initializers;
+    existing = *slot;
+    if (existing) {
+        before = record->offset < existing->offset;
+        next_root = existing->list_next;
+        while (*slot && record->offset >= (*slot)->offset) {
+            slot = &(*slot)->next;
+            while (*slot && (*slot)->kind) slot = &(*slot)->next;
+        }
+        existing = *slot;
+        if (existing) {
+            last = record->next;
+            while (last->next) last = last->next;
+            last->next = existing;
+        }
+        if (before) {
+            record->list_next = next_root;
+            existing->list_next = NULL;
+        }
+    }
+    *slot = record;
+    last_global_initializer = record;
+    while (last_global_initializer->list_next)
+        last_global_initializer = last_global_initializer->list_next;
+    if (symbol) symbol->initializer = record;
+    return record;
+}
+
+/* Follow the symbol references in an initializer's value chain. The root's
+ * +8 list link and a kind2 leaf's +8 referenced serial share storage. */
+void __fastcall record_symbol_references(C2Symbol *symbol)
+{
+    C2InputSymbol *input = (C2InputSymbol *)symbol;
+    C2InitRecord *initializer, *value;
+    C2Symbol *target;
+
+    if (symbol->output_flags & 3)
+        return;
+    queue_symbol_debug(symbol);
+    if (symbol->kind == 1) {
+        if (!(symbol->flags & 0x480))
+            return;
+        initializer = input->initializer;
+        if (!initializer) {
+            initializer = lookup_initializer(symbol->serial);
+            input->initializer = initializer;
+        }
+        for (value = initializer->next; value; value = value->next) {
+            if (value->kind != 2)
+                continue;
+            target = lookup_global_symbol(value->referenced_serial);
+            if ((target->kind == 4 || target->kind == 1) &&
+                (((C2InputSymbol *)target)->attributes & 0x1000))
+                target = resolve_alias_symbol(target);
+            if (!(target->output_flags & 4))
+                record_symbol_references(target);
+        }
+    } else if (symbol->kind == 4 && (input->attributes & 0x4000) &&
+               !(input->attributes & 0x1000))
+        input->additional_flags |= 0x20;
+}
+
+C2DebugLink *new_symbol_link(void)
+{
+    return (C2DebugLink *)c2_pool_allocate(4, sizeof(C2DebugLink));
+}
+
+/* Original499a0c is reset before each emission; no pre-reset value or
+ * wider neighboring storage is inferred. */
+unsigned initializer_output_state;
+void __fastcall emit_initializer(C2InitRecord *record)
+{
+    C2Symbol *symbol = record->symbol;
+    C2Section *section;
+    C2InitRecord *value;
+    unsigned saved_size, bytes;
+
+    if (!symbol) symbol = lookup_global_symbol(record->symbol_serial);
+    if (symbol && (symbol->kind == 4 || symbol->kind == 1) &&
+        (((C2InputSymbol *)symbol)->attributes & 0x1000))
+        symbol = resolve_alias_symbol(symbol);
+    if (!record->kind)
+        section = (C2Section *)lookup_global_symbol(symbol->association.section_serial);
+    else if (record->kind == 10)
+        section = debug_types_section;
+    else {
+        c2_report_internal("E:\\utc\\src\\\\P2\\emit.c", 0x201);
+        return;
+    }
+    saved_size = section->symbol.section_size;
+    initializer_output_state = 0;
+    for (value = record; value; value = value->next) {
+        if (!value->kind)
+            section->symbol.section_size = symbol->parameter_offset + value->offset;
+        else if (value->kind != 10) {
+            bytes = output_slot_497f50.target(value, symbol, section);
+            section->symbol.section_size += bytes;
+        }
+    }
+    if (section != debug_types_section)
+        section->symbol.section_size = saved_size;
+    record->emitted = 1;
+}
+
+/* Initializer leaf variants share the root's28-byte allocation. Only each
+ * selected kind's actual scalar/pointer payload is interpreted here. */
+unsigned __fastcall output_callback_44a79d(C2InitRecord *value,
+    C2Symbol *symbol, C2Section *section)
+{
+    unsigned total = 0, displacement;
+    int count, bytes;
+    C2Symbol *target;
+
+    select_output_section(section);
+    switch (value->kind) {
+    case 1:
+        count = value->repeat_count;
+        while (count > 0) {
+            if (value->value_kind == 6)
+                write_output_bytes(value->value_data, value->value_bytes);
+            else switch (value->value_bytes) {
+            case 1:
+                write_output_fill((unsigned char)value->value_low, count);
+                if (count > 1) total += (unsigned)(count - 1) * value->value_bytes;
+                count = 1;
+                break;
+            case 2:
+                write_output_word((unsigned short)value->value_low);
+                break;
+            case 4:
+                if (value->value_kind == 5) write_output_bytes(&value->offset, 4);
+                else write_output_long(value->value_low);
+                break;
+            case 8:
+                if (value->value_kind == 5) write_output_bytes(&value->offset, 8);
+                else {
+                    write_output_long(value->value_low);
+                    write_output_long(value->value_high);
+                }
+                break;
+            case 10:
+                write_output_bytes(&value->offset, 10);
+                break;
+            default:
+                c2_report_internal("E:\\utc\\src\\\\P2\\coff.c", 0x49e);
+                break;
+            }
+            total += value->value_bytes;
+            --count;
+        }
+        return total;
+    case 2:
+        bytes = value->reference_bytes;
+        total = (unsigned)bytes;
+        target = lookup_global_symbol(value->referenced_serial);
+        if ((target->kind == 4 || target->kind == 1) &&
+            (((C2InputSymbol *)target)->attributes & 0x1000))
+            target = resolve_alias_symbol(target);
+        switch (target->kind) {
+        case 1: displacement = value->value_low; break;
+        case 3:
+            if (!((C2InputSymbol *)target)->detail.variable.flags)
+                c2_report_internal("E:\\utc\\src\\\\P2\\coff.c", 0x4d7);
+            /* Fall through: branch and function symbols have no addend. */
+        case 4: displacement = 0; break;
+        default:
+            c2_report_internal("E:\\utc\\src\\\\P2\\coff.c", 0x4eb);
+            return 0;
+        }
+        if (bytes < 4) write_output_fill(0, total);
+        else {
+            output_callback_43696a(0, target);
+            write_output_long(displacement);
+            if (bytes > 4) write_output_fill(0, total - 4);
+        }
+        return total;
+    case 4:
+        total = query_coff_position(coff_default_flags) % (unsigned)(int)value->alignment;
+        /* Original defect: writes one byte for a nonzero remainder, while
+         * reporting the remainder as its byte count. */
+        if (total) write_output_fill(0, 1);
+        return total;
+    case 8:
+        total = value->referenced_serial;
+        write_output_fill(0, total);
+        return total;
+    case 16:
+        total = (unsigned)(int)value->value_bytes;
+        switch (value->value_bytes) {
+        case 1: write_output_fill((unsigned char)value->value_low, 1); break;
+        case 2: write_output_word((unsigned short)value->value_low); break;
+        case 4: write_output_long(value->value_low); break;
+        case 8:
+            write_output_long(value->value_low);
+            write_output_long(value->value_high);
+            break;
+        default:
+            c2_report_internal("E:\\utc\\src\\\\P2\\coff.c", 0x4c0);
+            break;
+        }
+        return total;
+    default:
+        c2_report_internal("E:\\utc\\src\\\\P2\\coff.c", 0x532);
+        return total;
+    }
 }

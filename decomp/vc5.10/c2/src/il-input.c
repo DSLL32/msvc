@@ -4,6 +4,14 @@
 #define IL_GETC(refill) (--c2_current_il->_cnt >= 0 \
     ? (unsigned char)*c2_current_il->_ptr++ : refill(c2_current_il))
 
+void __fastcall read_il_block(int bytes, char *buffer)
+{
+    if (bytes <= 0) return;
+    do {
+        *buffer++ = (char)IL_GETC(_filbuf);
+    } while (--bytes);
+}
+
 int c2_read_il_byte(void)
 {
     /* The target expands getc instead of calling the locked CRT entry. */

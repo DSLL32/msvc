@@ -694,8 +694,8 @@ void __fastcall build_flow_regions(C2Function *function, int mode)
 
 C2FlowRegion *new_flow_region(void)
 {
-    /* The original allocation is 64 bytes; only its encountered 40-byte prefix
-     * is currently named. The remaining bytes acquire types at their users. */
+    /* The original allocation is 64 bytes, cleared by the real pool allocator.
+     * Field roles are named only as their actual consumers are recovered. */
     return c2_pool_allocate(12, 64);
 }
 

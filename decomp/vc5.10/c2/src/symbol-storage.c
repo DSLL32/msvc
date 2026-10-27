@@ -3,6 +3,7 @@
 
 /* These are distinct original DWORDs, not the section alignment selected by
  * initialize_machine_registers. */
+extern int c2_zero_alignment;
 int local_storage_alignment = 4;
 int argument_stack_offset = 8;
 int argument_layout_kind = 4;
@@ -99,4 +100,27 @@ unsigned __fastcall reserve_symbol_storage(C2Symbol *symbol)
     }
     symbol->flags |= 0x800;
     return bytes;
+}
+
+/* Reserve the symbol within its real section, promoting a four-byte section
+ * alignment for wide values only when the target and listing mode allow it. */
+void __fastcall reserve_section_symbol(C2Symbol *symbol)
+{
+    C2Section *section = (C2Section *)lookup_global_symbol(symbol->association.section_serial);
+    unsigned bytes = (unsigned)symbol->value;
+    unsigned alignment, position;
+
+    if (!section)
+        c2_report_internal("E:\\utc\\src\\\\P2\\x86\\MDmisc.c", 0x3c7);
+    if (c2_cpu_generation > 3 && bytes >= 8 && section->alignment == 4 &&
+        !(symbol->flags & 0x400) && !c2_zero_alignment)
+        section->alignment = 8;
+    alignment = section->alignment;
+    if (bytes <= 4 || (symbol->flags & 0x400)) {
+        if ((long)alignment > 4) alignment = 4;
+    } else if ((long)alignment > 8)
+        alignment = 8;
+    position = (section->symbol.section_size + alignment - 1) & ~(alignment - 1);
+    symbol->parameter_offset = position;
+    section->symbol.section_size = position + bytes;
 }

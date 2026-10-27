@@ -44,10 +44,7 @@
 
 
 
-void __fastcall finish_global_region(C2FlowRegion *region)
-{
-    __asm { int 3 }
-}
+
 
 void __fastcall rewrite_global_aliases(C2Function *function, int mode)
 {
@@ -85,10 +82,7 @@ int __fastcall evaluate_integer_comparison(int signed_compare, unsigned width, u
     return 0;
 }
 
-void __fastcall swap_global_operands(C2Expression *record)
-{
-    __asm { int 3 }
-}
+
 
 
 
@@ -182,11 +176,7 @@ C2FunctionRegister * __cdecl new_global_call_register(unsigned opcode, unsigned 
 
 
 
-int __fastcall classify_global_register(C2RegisterSet *available, C2FunctionRegister *reg)
-{
-    __asm { int 3 }
-    return 0;
-}
+
 
 
 
@@ -204,18 +194,10 @@ C2Expression * __fastcall optimize_limited_global_record(C2Expression *record, C
 
 
 
-void __fastcall merge_global_register_identity(C2FunctionRegister *destination, C2FunctionRegister *source)
-{
-    __asm { int 3 }
-    
-}
 
 
-int __fastcall global_operand_rejects_substitution(C2Expression *operand)
-{
-    __asm { int 3 }
-    return 0;
-}
+
+
 
 
 
@@ -241,11 +223,7 @@ void __fastcall invalidate_global_assignment_uses(C2FunctionRegister *reg, C2Fun
     __asm { int 3 }
 }
 
-C2Expression *__fastcall new_global_intrinsic_expression(unsigned opcode, unsigned short type, C2Expression *result, C2Expression *first, C2Expression *second, C2Expression *third, C2Expression *fourth, unsigned short intrinsic, C2InputLink link, C2Record *prior)
-{
-    __asm { int 3 }
-    return NULL;
-}
+
 
 C2Expression *__fastcall new_global_selection_expression(unsigned opcode, unsigned short type, C2Expression *result, C2Expression *condition, C2Expression *first, C2Expression *second, unsigned char selector, C2InputLink link, C2Record *prior)
 {
@@ -272,10 +250,7 @@ void __fastcall invalidate_global_available_variants(C2FunctionRegister *reg, C2
 
 
 
-void __fastcall finish_region_selection(C2Expression *record, C2BasicBlock *block)
-{
-    __asm { int 3 }
-}
+
 
 
 
@@ -315,31 +290,14 @@ unsigned __fastcall global_register_seen(C2FunctionRegister *reg, C2RegisterSet 
 
 
 
-int __fastcall register_may_alias_index(C2FunctionRegister *reg, unsigned index)
-{
-    __asm { int 3 }
-    return 0;
-}
-
-int __fastcall optimizer_register_may_alias_index(C2FunctionRegister *reg, unsigned index)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 
 
 
-C2Expression *__fastcall previous_global_code_record(C2Expression *record)
-{
-    __asm { int 3 }
-    return 0;
-}
 
-void __fastcall normalize_global_call_operands(C2Expression *record)
-{
-    __asm { int 3 }
-}
+
+
+
 
 
 
@@ -381,24 +339,12 @@ C2Expression *__fastcall build_final_shift(C2Expression *operand,
 
 
 
-void __fastcall rewrite_final_binary_assignment(C2Expression *record,
-    C2Expression *first, C2Expression *second, C2Expression *definition)
-{
-    __asm { int 3 }
-}
 
 
-C2Expression *__fastcall assignment_identity_operand(C2Expression *record)
-{
-    __asm { int 3 }
-    return 0;
-}
 
-C2Expression *__fastcall simplify_assignment_rewrite(C2Expression *record)
-{
-    __asm { int 3 }
-    return 0;
-}
+
+
+
 
 
 
@@ -413,11 +359,7 @@ void __fastcall rewrite_wide_final_multiply(C2Expression *record)
 {
     __asm { int 3 }
 }
-int __fastcall simplify_final_record(C2Expression *record, C2Expression *operand)
-{
-    __asm { int 3 }
-    return 0;
-}
+
 
 
 
@@ -437,10 +379,7 @@ void __fastcall remove_final_conversion(C2Expression *record)
 
 
 
-void __fastcall rewrite_final_record_width(C2Expression *record, int bytes)
-{
-    __asm { int 3 }
-}
+
 
 
 
@@ -464,101 +403,352 @@ void __fastcall rewrite_final_record_width(C2Expression *record, int bytes)
 
 
 
-int __fastcall region_candidate_pass_3d4a4(C2FlowRegion *region, C2Function *function)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int __cdecl check_region_integer_operation(unsigned left, unsigned right, int sign, int bytes)
 {
     __asm { int 3 }
     return 0;
 }
 
-unsigned __fastcall region_candidate_pass_3d93c(C2FlowRegion *region, C2Function *function)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int __fastcall region_operand_is_narrow_candidate(C2Expression *operand)
 {
     __asm { int 3 }
     return 0;
 }
 
-void __fastcall region_candidate_pass_3de8b(C2FlowRegion *region, C2Function *function, unsigned changes)
-{
-    __asm { int 3 }
-}
 
-void __fastcall region_candidate_pass_3c245(C2FlowRegion *region, C2Function *function)
-{
-    __asm { int 3 }
-}
 
-void __fastcall region_candidate_pass_3c33f(C2FlowRegion *region)
-{
-    __asm { int 3 }
-}
 
-void __fastcall region_candidate_pass_3c3a0(C2FlowRegion *region, C2Function *function)
-{
-    __asm { int 3 }
-}
 
-void __fastcall region_candidate_pass_3c4a5(C2FlowRegion *region, C2Function *function)
-{
-    __asm { int 3 }
-}
-
-void __fastcall region_candidate_pass_3c87c(C2FlowRegion *region, C2Function *function)
-{
-    __asm { int 3 }
-}
-
-void __fastcall region_candidate_pass_3bbb3(C2FlowRegion *region)
-{
-    __asm { int 3 }
-}
-
-void __fastcall region_candidate_pass_3e5ed(C2FlowRegion *region, C2Function *function)
-{
-    __asm { int 3 }
-}
-
-void __fastcall region_candidate_pass_3e73e(C2FlowRegion *region, C2Function *function)
-{
-    __asm { int 3 }
-}
-
-void __fastcall region_candidate_pass_3e91d(C2FlowRegion *region)
-{
-    __asm { int 3 }
-}
-
-void __fastcall region_candidate_pass_3e9fe(C2FlowRegion *region, C2Function *function)
-{
-    __asm { int 3 }
-}
-
-void __fastcall region_candidate_pass_3ea57(C2FlowRegion *region, C2Function *function)
-{
-    __asm { int 3 }
-}
-
-void __fastcall region_candidate_pass_3ec06(C2FlowRegion *region, C2Function *function)
-{
-    __asm { int 3 }
-}
-
-void __fastcall region_candidate_pass_3ec67(C2FlowRegion *region, C2Function *function)
-{
-    __asm { int 3 }
-}
-
-void __fastcall region_candidate_pass_3edd3(C2FlowRegion *region)
-{
-    __asm { int 3 }
-}
-
-C2Expression *__fastcall new_region_binary_expression(unsigned opcode,
-    unsigned short type, C2Expression *left, C2Expression *right,
-    C2InputLink link, C2Record *prior)
+C2Expression * __fastcall region_intrinsic_operand(unsigned index, C2Expression *record)
 {
     __asm { int 3 }
     return NULL;
 }
 
+
+
+C2Expression * __fastcall find_region_index_operand(C2Expression *operand)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+C2FunctionRegister *__fastcall convert_region_register(C2FunctionRegister *reg,
+    unsigned short type, unsigned first, unsigned second)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+
+
+
+
+
+
+
+C2Expression * __fastcall find_region_address_update(C2FunctionRegister *reg)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+
+
+unsigned short __fastcall region_copy_intrinsic_type(C2Expression *record, unsigned *flags)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+int __fastcall region_copy_conflicts(C2Expression *destination, C2Expression *source, C2Expression *record, C2FlowRegion *region)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+C2Expression * __fastcall build_region_copy_count(C2FlowRegion *region, C2Function *function, unsigned __int64 bytes)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+void __fastcall emit_region_memory_copy(C2Expression *destination, unsigned destination_attributes, C2Expression *source, unsigned source_attributes, unsigned short type, unsigned char flags, C2Expression *count, C2Record *prior)
+{
+    __asm { int 3 }
+    
+}
+
+C2Expression *__fastcall find_region_independent_value(C2Expression *first,
+    C2Expression *second)
+{
+    __asm { int 3 }
+    return NULL;
+}
+C2Expression *__fastcall reduce_region_difference(C2Expression *value,
+    C2Expression *first, C2Expression *difference)
+{
+    __asm { int 3 }
+    return NULL;
+}
+int __fastcall region_value_depends_on(C2Expression *value, C2Expression *input)
+{
+    __asm { int 3 }
+    return 0;
+}
+C2Expression *__fastcall new_region_iteration(C2Expression *value, unsigned short type,
+    C2Expression *step, unsigned opcode, C2FunctionRegister *source,
+    unsigned mode, C2FlowRegion *region, C2Function *function)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+
+
+
+
+
+
+
+struct C2RegionComparisonChoice;
+
+
+C2Expression *__fastcall build_region_comparison_operand(unsigned short type,
+    unsigned opcode, C2Expression *left, C2Expression *right, C2FlowRegion *region)
+{
+    __asm { int 3 }
+    return NULL;
+}
+int __fastcall region_definition_is_available(C2Expression *record, C2FunctionRegister *reg)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+
+
+
+
+
+int __fastcall region_operation_is_safe(unsigned short type, unsigned opcode,
+    C2Expression *left, C2Expression *right, C2FlowRegion *region)
+{
+    __asm { int 3 }
+    return 0;
+}
+C2Expression *__fastcall find_region_initial_expression(C2Expression *operand, C2FlowRegion *region)
+{
+    __asm { int 3 }
+    return NULL;
+}
+struct C2RegionComparisonChoice *__fastcall new_region_comparison_choice(C2FunctionRegister *reg,
+    C2Expression *operand, unsigned opcode, C2FunctionRegister *source)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+
+
+int __fastcall compare_region_residues(C2Expression *value, C2Expression *initial, unsigned opcode)
+{
+    __asm { int 3 }
+    return 0;
+}
+C2Expression *__fastcall combine_region_offsets(C2Expression *other, C2Expression *operand)
+{
+    __asm { int 3 }
+    return NULL;
+}
+int __fastcall rewrite_region_aggregate_use(C2Expression *record, C2Expression *owner,
+    C2Expression *operand, unsigned opcode, C2Expression *source, C2Expression *initial, unsigned apply)
+{
+    __asm { int 3 }
+    return 0;
+}
+void __fastcall clear_region_value_uses(C2FunctionRegister *reg)
+{
+    __asm { int 3 }
+}
+void __fastcall remove_region_update_use(C2FunctionRegister *reg, C2Expression *record)
+{
+    __asm { int 3 }
+}
+void __fastcall rewrite_region_limit(C2Expression *record, C2Expression *bound,
+    C2Expression *initial, unsigned opcode, C2Expression *source)
+{
+    __asm { int 3 }
+}
+void __fastcall materialize_region_saved_value(C2Expression *operand, C2FlowRegion *region)
+{
+    __asm { int 3 }
+}
+C2Expression *__fastcall materialize_region_aggregate(C2Expression *record, C2Expression *operand)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+
+
+C2Expression *__fastcall new_region_typed_counter(C2FlowRegion *region,
+    unsigned short type, C2Function *function)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int __fastcall final_operand_canonical_zero_bits(C2Expression *operand)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+C2Expression *__fastcall resolve_final_single_use_value(C2Expression *record)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+unsigned __fastcall final_parameter_stack_size(C2Expression *record)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+
+void __fastcall spill_final_float_call_stack(C2Expression *record, unsigned count, int mode)
+{
+    __asm { int 3 }
+}
 
 
 

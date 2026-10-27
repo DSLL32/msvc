@@ -15,23 +15,28 @@ C2InputClause *input_clauses;
 
 /* Only the two high-byte properties read by this dispatcher are represented.
  * Encountered function-entry70, parameter-end76, pragma79, scope-begin83 and filename86
- * are boundaries; variable38 has neither consumed property.
+ * are boundaries; variable38 and member-address39 have neither consumed property.
  * Reserved bytes are NOT reconstructed defaults; guards precede unknown reads.
  * The original WORDs, including unmodeled low bits, stay in analysis evidence. */
 static struct C2InputOpcodeProperties {
-    unsigned char pending00[2], add, subtract, multiply, divide, remainder, pending07[2], shift_left, shift_right, bit_and, bit_or, bit_xor, pending14, assignment_operator, assignment_subtract, pending17[17], relational34, pending35, relational36, pending37, variable, pending39, operand_type40, symbol_operand, pending42[6], conversion, pending49, typed_operator;
+    unsigned char pending00[2], add, subtract, multiply, divide, remainder, pending07, negate8, shift_left, shift_right, bit_and, bit_or, bit_xor, pending14, assignment_operator, assignment_subtract, pending17[7], assignment_xor24, pending25[9], relational34, pending35, relational36, pending37, variable, member_address39, operand_type40, symbol_operand, pending42[2], operand_type44, pending45[3], conversion, pending49, typed_operator;
     unsigned char number, pending52[4], branch56, pending57, call_symbol, pending59[3], indirect_call62, pending63[2], return_value, argument_list66, ignored67, pending68[2];
     unsigned char function_entry, function_exit, pending72[3], statement_end;
     unsigned char parameter_end, pending77[2];
-    unsigned char pragma, pending80[3], scope_begin, scope_end, call_argument85, filename, pending87[71];
-} input_opcode_properties = {{0}, 0, 0, 0, 0, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0x10, {0}, 0, 0, 0, 0, {0}, 0x90, 0, 0x10, {0}, 0x80, {0}, 0x90, 0, 0, {0}, 0x10, 0x10, {0}, 0x10, 0x10, {0}, 0x10, {0}, 0x10, 0x10, 0, 0x10, {0}};
+    unsigned char pragma, pending80[3], scope_begin, scope_end, call_argument85, filename, pending87[2], discarded_value89, pending90[68];
+} input_opcode_properties = {{0}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, {0}, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0x10, {0}, 0, {0}, 0, 0, 0, 0, {0}, 0x90, 0, 0x10, {0}, 0x80, {0}, 0x90, 0, 0, {0}, 0x10, 0x10, {0}, 0x10, 0x10, {0}, 0x10, {0}, 0x10, 0x10, 0, 0x10, {0}, 0, {0}};
 typedef char InputOpcodePropertiesLayout[
+    offsetof(struct C2InputOpcodeProperties, discarded_value89) == 89 &&
+    offsetof(struct C2InputOpcodeProperties, negate8) == 8 &&
     offsetof(struct C2InputOpcodeProperties, assignment_operator) == 15 &&
     offsetof(struct C2InputOpcodeProperties, assignment_subtract) == 16 &&
+    offsetof(struct C2InputOpcodeProperties, assignment_xor24) == 24 &&
     offsetof(struct C2InputOpcodeProperties, relational34) == 34 &&
     offsetof(struct C2InputOpcodeProperties, variable) == 38 &&
+    offsetof(struct C2InputOpcodeProperties, member_address39) == 39 &&
     offsetof(struct C2InputOpcodeProperties, relational36) == 36 &&
     offsetof(struct C2InputOpcodeProperties, operand_type40) == 40 &&
+    offsetof(struct C2InputOpcodeProperties, operand_type44) == 44 &&
     offsetof(struct C2InputOpcodeProperties, branch56) == 56 &&
     offsetof(struct C2InputOpcodeProperties, indirect_call62) == 62 &&
     offsetof(struct C2InputOpcodeProperties, argument_list66) == 66 &&
@@ -51,7 +56,7 @@ const unsigned char input_inverse_condition[17] = {
 };
 /* The third row is also consumed by global operand normalization. Unknown
  * rows remain storage representation only, with no default/equality claim. */
-C2InputRegisterOpcodes input_register_opcodes = {{{0}, 0x120, 0x120, 0x120, {0}}};
+C2InputRegisterOpcodes input_register_opcodes = {{{0}, 0x120, 0x120, 0x120, {0}, 0x121, {0}}};
 /* Typed operand kind5 is the encountered local-register opcode. All other
  * backing rows remain UNMODELED, and native guards precede their reads. */
 static union {
@@ -65,6 +70,7 @@ static union {
      (unsigned)(op) == 4 ? input_opcode_properties.multiply : \
      (unsigned)(op) == 5 ? input_opcode_properties.divide : \
      (unsigned)(op) == 6 ? input_opcode_properties.remainder : \
+     (unsigned)(op) == 8 ? input_opcode_properties.negate8 : \
      (unsigned)(op) == 9 ? input_opcode_properties.shift_left : \
      (unsigned)(op) == 10 ? input_opcode_properties.shift_right : \
      (unsigned)(op) == 11 ? input_opcode_properties.bit_and : \
@@ -72,11 +78,14 @@ static union {
      (unsigned)(op) == 13 ? input_opcode_properties.bit_xor : \
      (unsigned)(op) == 15 ? input_opcode_properties.assignment_operator : \
      (unsigned)(op) == 16 ? input_opcode_properties.assignment_subtract : \
+     (unsigned)(op) == 24 ? input_opcode_properties.assignment_xor24 : \
      (unsigned)(op) == 34 ? input_opcode_properties.relational34 : \
      (unsigned)(op) == 36 ? input_opcode_properties.relational36 : \
      (unsigned)(op) == 38 ? input_opcode_properties.variable : \
+     (unsigned)(op) == 39 ? input_opcode_properties.member_address39 : \
      (unsigned)(op) == 40 ? input_opcode_properties.operand_type40 : \
      (unsigned)(op) == 41 ? input_opcode_properties.symbol_operand : \
+     (unsigned)(op) == 44 ? input_opcode_properties.operand_type44 : \
      (unsigned)(op) == 48 ? input_opcode_properties.conversion : \
      (unsigned)(op) == 50 ? input_opcode_properties.typed_operator : \
      (unsigned)(op) == 51 ? input_opcode_properties.number : \
@@ -95,6 +104,7 @@ static union {
      (unsigned)(op) == 84 ? input_opcode_properties.scope_end : \
      (unsigned)(op) == 85 ? input_opcode_properties.call_argument85 : \
      (unsigned)(op) == 86 ? input_opcode_properties.filename : \
+     (unsigned)(op) == 89 ? input_opcode_properties.discarded_value89 : \
      (recon_unsupported("unmodeled input opcode properties"), 0))
 #define INPUT_INVERSE(condition) \
     ((unsigned)(condition) < 16 ? \
@@ -151,6 +161,7 @@ C2Record *__fastcall read_function_code(C2Function *function, C2InputStack **pen
         if (token.opcode != 2 && token.opcode != 3 && token.opcode != 4 &&
         token.opcode != 5 &&
         token.opcode != 6 &&
+        token.opcode != 8 &&
         token.opcode != 9 &&
         token.opcode != 10 &&
         token.opcode != 11 &&
@@ -158,11 +169,14 @@ C2Record *__fastcall read_function_code(C2Function *function, C2InputStack **pen
         token.opcode != 13 &&
         token.opcode != 15 &&
         token.opcode != 16 &&
+        token.opcode != 24 &&
         token.opcode != 34 &&
         token.opcode != 36 &&
         token.opcode != 38 &&
+        token.opcode != 39 &&
         token.opcode != 40 &&
         token.opcode != 41 &&
+        token.opcode != 44 &&
         token.opcode != 48 &&
         token.opcode != 50 &&
         token.opcode != 51 &&
@@ -180,7 +194,8 @@ C2Record *__fastcall read_function_code(C2Function *function, C2InputStack **pen
         token.opcode != 83 &&
         token.opcode != 84 &&
         token.opcode != 85 &&
-        token.opcode != 86) { __asm { int 3 } }
+        token.opcode != 86 &&
+        token.opcode != 89) { __asm { int 3 } }
         if ((INPUT_PROPERTIES(token.opcode) & 0x80) && stack && stack->after) {
             if (token.opcode == 56 || token.opcode == 57) {
                 input_comparison(&stack);
@@ -345,7 +360,7 @@ C2Record *__fastcall read_function_code(C2Function *function, C2InputStack **pen
             break;
         case 51:
             if ((token.type & 0xf000) == 0x4000)
-                value = new_real_expression(token.type, (C2Real *)&token.value.scalar.low);
+                value = new_real_expression(token.type, token.value.real_pointer);
             else
                 value = new_integer_expression(token.type,
                     token.value.integer);
@@ -952,17 +967,22 @@ enum InputTokenForm {
     INPUT_FORM_SIGNED_PAIR, INPUT_FORM_SYMBOLS_SHORT
 };
 static struct C2InputTokenForms {
-    unsigned char pending00[2], add, subtract, multiply, divide, remainder, pending07[2], shift_left, shift_right, bit_and, bit_or, bit_xor, pending14, assignment_operator, assignment_subtract, pending17[17], relational34, pending35, relational36, pending37, variable, pending39, operand_type40, symbol_operand, pending42[3], parameter, pending46[2];
+    unsigned char pending00[2], add, subtract, multiply, divide, remainder, pending07, negate8, shift_left, shift_right, bit_and, bit_or, bit_xor, pending14, assignment_operator, assignment_subtract, pending17[7], assignment_xor24, pending25[9], relational34, pending35, relational36, pending37, variable, member_address39, operand_type40, symbol_operand, pending42[2], operand_type44, parameter, pending46[2];
     unsigned char conversion, pending49, typed_operator, number, pending52[4], branch56, pending57, call_symbol, pending59[3], indirect_call62, pending63[2], return_value, argument_list66, ignored67, pending68[2];
-    unsigned char function_entry, function_exit, pending72[3], statement_end, parameter_end, pending77[2], pragma, pending80[3], scope_begin, scope_end, call_argument85;
-} input_token_forms = {{0}, INPUT_FORM_NONE, 0, INPUT_FORM_NONE, INPUT_FORM_NONE, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, INPUT_FORM_NONE, INPUT_FORM_NONE, INPUT_FORM_NONE, INPUT_FORM_NONE, 0, INPUT_FORM_TYPE, INPUT_FORM_TYPE, {0}, 0, 0, 0, 0, INPUT_FORM_SYMBOL, 0, INPUT_FORM_SYMBOL, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_TYPE, 0, INPUT_FORM_TYPE, INPUT_FORM_NUMBER, {0}, INPUT_FORM_SYMBOL, 0, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_TYPED_CODE, {0}, INPUT_FORM_TYPE, 0, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE, INPUT_FORM_SIGNED, INPUT_FORM_TYPE};
+    unsigned char function_entry, function_exit, pending72[3], statement_end, parameter_end, pending77[2], pragma, pending80[3], scope_begin, scope_end, call_argument85, pending86[3], discarded_value89;
+} input_token_forms = {{0}, INPUT_FORM_NONE, 0, INPUT_FORM_NONE, INPUT_FORM_NONE, INPUT_FORM_NONE, 0, INPUT_FORM_NONE, INPUT_FORM_NONE, INPUT_FORM_NONE, INPUT_FORM_NONE, INPUT_FORM_NONE, INPUT_FORM_NONE, 0, INPUT_FORM_TYPE, INPUT_FORM_TYPE, {0}, INPUT_FORM_TYPE, {0}, 0, 0, 0, 0, INPUT_FORM_SYMBOL, INPUT_FORM_TYPE, INPUT_FORM_SYMBOL, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_TYPE_TRAILER, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_TYPE, 0, INPUT_FORM_TYPE, INPUT_FORM_NUMBER, {0}, INPUT_FORM_SYMBOL, 0, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_TYPED_CODE, {0}, INPUT_FORM_TYPE, 0, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE, INPUT_FORM_SIGNED, INPUT_FORM_TYPE, {0}, INPUT_FORM_NONE};
 typedef char InputTokenFormsLayout[
+    offsetof(struct C2InputTokenForms, discarded_value89) == 89 &&
+    offsetof(struct C2InputTokenForms, negate8) == 8 &&
     offsetof(struct C2InputTokenForms, assignment_operator) == 15 &&
     offsetof(struct C2InputTokenForms, assignment_subtract) == 16 &&
+    offsetof(struct C2InputTokenForms, assignment_xor24) == 24 &&
     offsetof(struct C2InputTokenForms, relational34) == 34 &&
     offsetof(struct C2InputTokenForms, variable) == 38 &&
+    offsetof(struct C2InputTokenForms, member_address39) == 39 &&
     offsetof(struct C2InputTokenForms, relational36) == 36 &&
     offsetof(struct C2InputTokenForms, operand_type40) == 40 &&
+    offsetof(struct C2InputTokenForms, operand_type44) == 44 &&
     offsetof(struct C2InputTokenForms, branch56) == 56 &&
     offsetof(struct C2InputTokenForms, indirect_call62) == 62 &&
     offsetof(struct C2InputTokenForms, argument_list66) == 66 &&
@@ -975,6 +995,7 @@ typedef char InputTokenFormsLayout[
     (unsigned)(op) == 4 ? input_token_forms.multiply : \
     (unsigned)(op) == 5 ? input_token_forms.divide : \
     (unsigned)(op) == 6 ? input_token_forms.remainder : \
+    (unsigned)(op) == 8 ? input_token_forms.negate8 : \
     (unsigned)(op) == 9 ? input_token_forms.shift_left : \
     (unsigned)(op) == 10 ? input_token_forms.shift_right : \
     (unsigned)(op) == 11 ? input_token_forms.bit_and : \
@@ -982,11 +1003,14 @@ typedef char InputTokenFormsLayout[
     (unsigned)(op) == 13 ? input_token_forms.bit_xor : \
     (unsigned)(op) == 15 ? input_token_forms.assignment_operator : \
     (unsigned)(op) == 16 ? input_token_forms.assignment_subtract : \
+    (unsigned)(op) == 24 ? input_token_forms.assignment_xor24 : \
     (unsigned)(op) == 34 ? input_token_forms.relational34 : \
     (unsigned)(op) == 36 ? input_token_forms.relational36 : \
     (unsigned)(op) == 38 ? input_token_forms.variable : \
+    (unsigned)(op) == 39 ? input_token_forms.member_address39 : \
     (unsigned)(op) == 40 ? input_token_forms.operand_type40 : \
     (unsigned)(op) == 41 ? input_token_forms.symbol_operand : \
+    (unsigned)(op) == 44 ? input_token_forms.operand_type44 : \
     (unsigned)(op) == 45 ? input_token_forms.parameter : \
     (unsigned)(op) == 48 ? input_token_forms.conversion : \
     (unsigned)(op) == 50 ? input_token_forms.typed_operator : \
@@ -1005,6 +1029,7 @@ typedef char InputTokenFormsLayout[
     (unsigned)(op) == 83 ? input_token_forms.scope_begin : \
     (unsigned)(op) == 84 ? input_token_forms.scope_end : \
     (unsigned)(op) == 85 ? input_token_forms.call_argument85 : \
+    (unsigned)(op) == 89 ? input_token_forms.discarded_value89 : \
     (recon_unsupported("unmodeled input token form"), 0))
 #else
 #define INPUT_TOKEN_FORM(op) (((unsigned char *)&input_token_forms)[(op)])
@@ -1023,6 +1048,7 @@ C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function,
     if (opcode != 2 && opcode != 3 && opcode != 4 &&
         opcode != 5 &&
         opcode != 6 &&
+        opcode != 8 &&
         opcode != 9 &&
         opcode != 10 &&
         opcode != 11 &&
@@ -1030,11 +1056,14 @@ C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function,
         opcode != 13 &&
         opcode != 15 &&
         opcode != 16 &&
+        opcode != 24 &&
         opcode != 34 &&
         opcode != 36 &&
         opcode != 38 &&
+        opcode != 39 &&
         opcode != 40 &&
         opcode != 41 &&
+        opcode != 44 &&
         opcode != 45 &&
         opcode != 48 &&
         opcode != 50 &&
@@ -1052,7 +1081,8 @@ C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function,
         opcode != 79 &&
         opcode != 83 &&
         opcode != 84 &&
-        opcode != 85) { __asm { int 3 } }
+        opcode != 85 &&
+        opcode != 89) { __asm { int 3 } }
     form = INPUT_TOKEN_FORM(opcode);
     token->opcode = opcode;
     switch (form) {
@@ -1162,7 +1192,7 @@ C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function,
             input_real_from_double(&number.real, &real);
         }
         storage = c2_pool_allocate(0, sizeof(C2Real));
-        token->value.scalar.low = (unsigned)storage;
+        token->value.real_pointer = storage;
         *storage = real;
         break;
     default:
@@ -1681,6 +1711,68 @@ C2Expression *__fastcall convert_input_operand(C2InputStack *stack, unsigned sho
     stack->last = tree;
     if (flags) tree->location.expression.properties |= 0x40;
     return tree;
+}
+
+/* Rebuild a value's defining list when it can be reused without effects;
+ * otherwise split its current result into a new temporary. */
+extern C2Expression *__fastcall collect_region_value_records(C2FunctionRegister *reg,
+    C2Expression **first, C2Expression **last);
+
+extern int __fastcall register_views_differ(C2Expression *operand);
+
+int __fastcall aggregate_result_needs_temporary(C2Expression *value)
+{
+    C2Expression *record, *operand;
+    if (value->kind == 6) value = value->aggregate_value;
+    record = value->value.reg->value;
+    if (input_has_side_effects(record)) return 1;
+    for (operand = record->tail.right; operand; operand = operand->next) {
+        if (INPUT_IS_REGISTER(operand) && operand->value.reg->value &&
+            register_views_differ(operand)) return 1;
+    }
+    for (operand = record->left; operand; operand = operand->next) {
+        if (INPUT_IS_REGISTER(operand) && operand->value.reg->value) {
+            if (register_views_differ(operand) ||
+                aggregate_result_needs_temporary(operand)) return 1;
+        } else if (operand->kind == 2 && (operand->value.reg->flags & 0x20))
+            return 1;
+    }
+    return 0;
+}
+
+C2Expression *__fastcall extract_aggregate_result(C2Expression *value, C2Expression *owner,
+    C2Expression **first, C2Expression **last)
+{
+    C2Expression *component = value->kind == 6 ? value->aggregate_value : value;
+    C2Expression *result, *output, *temporary;
+    unsigned short type;
+
+    if (!input_has_side_effects(value) && !aggregate_result_needs_temporary(value)) {
+        result = collect_region_value_records(component->value.reg, first, last);
+        if (value->kind == 6)
+            result = new_aggregate_expression(value->opcode, value->type,
+                NULL, 0, result, NULL, value->immediate);
+        return result;
+    }
+    output = component->value.reg->value->tail.right;
+    type = output->type;
+    temporary = new_input_temporary(type);
+    *first = *last = new_binary_expression(0x131, type, temporary, output, NULL, NULL);
+    if (value->kind == 6) {
+        result = new_aggregate_expression(value->opcode, value->type,
+            NULL, 0, temporary, NULL, value->immediate);
+        if (owner) {
+            if (is_input_result(owner, value))
+                replace_input_result(owner, value, result);
+            else
+                attach_input_expression(owner, value, result);
+            result = copy_input_expression(result);
+        }
+        return result;
+    }
+    result = copy_input_expression(temporary);
+    result->type = value->type;
+    return result;
 }
 
 C2Expression *__fastcall pop_input_expression(C2InputStack *stack)

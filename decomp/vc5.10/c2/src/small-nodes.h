@@ -2,7 +2,7 @@
 #define C2_SMALL_NODES_H
 #include "function-reader.h"
 typedef struct C2SmallNodeKnownSizes {
-    unsigned unmodeled00, temporary_register, register_expression, implicit_register_expression, symbol, unmodeled05, aggregate, integer, unmodeled08[2], optimizer_index, binary_operation, unmodeled0c, input_call_record, transfer, unmodeled0f, call, unmodeled11[2], input_expression, unmodeled14, control, function_entry, function_exit, statement_boundary, symbol_expression, register_set_record, symbol_use, unmodeled1c, statement_link;
+    unsigned unmodeled00, temporary_register, register_expression, implicit_register_expression, symbol, final_address, aggregate, integer, real_expression, register_set_expression, optimizer_index, binary_operation, block_copy, input_call_record, transfer, select_expression, call, intrinsic_expression, unmodeled12, input_expression, unmodeled14, control, function_entry, function_exit, statement_boundary, symbol_expression, register_set_record, symbol_use, unmodeled1c, statement_link;
 } C2SmallNodeKnownSizes;
 typedef union C2SmallNodeSizeView {
     C2SmallNodeKnownSizes known;

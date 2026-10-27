@@ -29,7 +29,7 @@ typedef char C2RegisterSetPoolCheck[offsetof(C2RegisterSet,pool) == 4 ? 1 : -1];
 typedef char C2RegisterSetStateCheck[offsetof(C2RegisterSet,state) == 8 ? 1 : -1];
 /* Header slots0/1/8 and sparse-node slot0 have proved NULL defaults; slots1/3/4/5/6/8/12/13/14 are written by reset.
  * Slots2/7/9..11 are UNMODELED storage, not an original
- * default or object extent. Sparse-node slot8 has only reset-written state; its reader remains unsupported.
+ * default or object extent. Sparse-node slot8 now has its proved initialized NULL head/tail and ordinary typed queue writers.
  * No base escape, whole-array size/serialization or unknown-index access. */
 extern C2RegisterSet *free_register_sets[15];
 /* Pool1/3/4/5/6/8/12/13/14 tails are first encountered as a reset writer, not a prior NULL default. */
@@ -43,7 +43,7 @@ extern int register_set_pool_six_initialized;
 extern int register_set_pool_twelve_initialized;
 extern int register_set_pool_thirteen_initialized;
 extern int register_set_pool_fourteen_initialized;
-#define C2_REGISTER_SET_POOL(pool) ((pool) == 0 ? 0 : (pool) == 1 ? 1 : ((pool) == 6 && register_set_pool_six_initialized) ? 6 : \
+#define C2_REGISTER_SET_POOL(pool) ((pool) == 0 ? 0 : (pool) == 1 ? 1 : (pool) == 8 ? 8 : ((pool) == 6 && register_set_pool_six_initialized) ? 6 : \
     ((pool) == 3 && register_set_pool_three_initialized) ? 3 : \
     ((pool) == 4 && register_set_pool_four_initialized) ? 4 : \
     ((pool) == 12 && register_set_pool_twelve_initialized) ? 12 : \

@@ -43,10 +43,18 @@ struct C2FlowRegion {
     union { unsigned pending20; C2FlowBlockLink *exits; };
     unsigned flags;
     union { unsigned char pending28[12];
-        struct { unsigned pending28_word, pending2c_word; C2FlowRegion *allocation_next; }; };
+        struct { unsigned pending28_word, pending2c_word; C2FlowRegion *allocation_next; };
+        /* Counted-region analysis reuses the same first two DWORDs. */
+        struct { C2Expression *iteration_count, *iteration_comparison;
+            union { unsigned pending30; struct C2OptimizerRecordLink *initial_updates; }; }; };
     C2RegisterSet *global_registers; /* Actual consumer at region+52. */
     C2RegisterSet *allocation_eligible; /* Actual allocator writes region+56. */
+    struct C2OptimizerRecordLink *assignment_copies; /* Region motion's copied entry assignments, +60. */
 };
+typedef char C2FlowRegionInitialUpdatesOffset[
+    offsetof(C2FlowRegion, initial_updates) == 48 ? 1 : -1];
+typedef char C2FlowRegionCopiesOffset[offsetof(C2FlowRegion, assignment_copies) == 60 ? 1 : -1];
+typedef char C2FlowRegionAllocationSize[sizeof(C2FlowRegion) == 64 ? 1 : -1];
 extern int flow_block_count;
 C2FlowGraph *__fastcall new_flow(int pool);
 void __fastcall initialize_flow_pool(C2FlowGraph *flow, int pool,

@@ -14,12 +14,12 @@ typedef struct C2MachineRegister {
     unsigned char flags, pending06[2];
     C2FunctionRegister *canonical;
     union {
-        struct { union { unsigned char pending0c_before_number[16];
+        struct { union {
             struct { C2FunctionRegister *variant_next;
                 union { unsigned char pending10[12];
                     struct { unsigned char pending10_before_definition[4];
                         C2Expression *definition; unsigned char pending18[4]; }; };
-            }; }; unsigned number; };
+            }; unsigned char pending0c_before_number[16]; }; unsigned number; };
         unsigned char pending0c[20];
     };
     unsigned bit_width;

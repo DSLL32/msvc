@@ -201,6 +201,8 @@ unsigned short __fastcall select_coff_section(unsigned short section);
 unsigned __fastcall query_coff_position(unsigned short section);
 unsigned __fastcall output_list_position(C2OutputList *list);
 void __fastcall write_output_fill(unsigned char value, unsigned count);
+void __cdecl write_output_word(unsigned short value);
+void __cdecl write_output_long(unsigned value);
 extern int function_option_23;
 extern int c2_constant_strings, coff_directive_option;
 unsigned short __fastcall add_coff_section(char *name, unsigned flags, int flag8, int reuse);

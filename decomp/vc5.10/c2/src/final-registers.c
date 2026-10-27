@@ -24,9 +24,9 @@ struct C2AllocationRegister {
     C2AllocationRegister *canonical;
     union { unsigned char pending0c[16];
         struct { union { unsigned pending0c_word; int weighted_pressure; };
-            union { unsigned pending10_word; C2FunctionRegister *pinned_register; };
-            union { C2AllocationRegister *next_active; C2Expression *last_use; };
-            union { C2AllocationRegister *previous_active; int reference_cost; }; }; };
+            union { unsigned pending10_word, spill_mask; C2FunctionRegister *pinned_register; };
+            union { C2AllocationRegister *next_active, *float_next; C2Expression *last_use; };
+            union { C2AllocationRegister *previous_active, *float_previous; int reference_cost; }; }; };
     unsigned number;
     C2RegisterSet *available;
     union { unsigned char pending24[8]; struct { int use_count; union { int degree; C2BasicBlock *rewrite_block, *first_block; }; }; };
@@ -35,8 +35,8 @@ struct C2AllocationRegister {
         unsigned char pending30[20];
         struct {
             union { C2BasicBlock *last_block; int remaining_degree; };
-            union { unsigned pending34_word; C2AllocationPreference *preferences; };
-            union { unsigned pending38_word; C2Expression *definition_record; };
+            union { unsigned pending34_word; C2AllocationPreference *preferences; struct C2AllocationMoveLink *float_definitions; };
+            union { unsigned pending38_word; C2Expression *definition_record; struct C2AllocationMoveLink *float_uses; };
             int priority;
             unsigned definition_sequence;
         };
@@ -189,6 +189,7 @@ void __fastcall insert_allocation_register(C2AllocationRegister *reg)
 C2AllocationRegister *__fastcall get_allocation_register(C2FunctionRegister *source)
 {
     C2AllocationRegister *reg;
+    unsigned allocation_class;
 
     if (source->allocation_root) source = source->allocation_root;
     if (free_allocation_registers) {
@@ -203,11 +204,15 @@ C2AllocationRegister *__fastcall get_allocation_register(C2FunctionRegister *sou
     reg->source = source;
     reg->available = new_register_set(6);
     reg->flags |= 1;
-    /* The encountered signed1/unsigned2 DWORD rows both select integer
-     * allocation class0. Other original classes remain unsupported data. */
-    if ((source->type >> 12) != 1 && (source->type >> 12) != 2) { __asm { int 3 } }
-    merge_optimizer_symbol_sets(reg->available, allocation_class_registers[0]);
-    add_register_to_set(allocation_integer_registers, reg->number);
+    /* Original494350 DWORD rows1/2 select integer class0; row4 selects
+     * floating class1. Other original classes remain unmodeled. */
+    switch (source->type >> 12) {
+    case 1: case 2: allocation_class = 0; break;
+    case 4: allocation_class = 1; break;
+    default: __asm { int 3 } return NULL;
+    }
+    merge_optimizer_symbol_sets(reg->available, allocation_class_registers[allocation_class]);
+    add_register_to_set(allocation_register_classes[allocation_class], reg->number);
     insert_allocation_register(reg);
     return reg;
 }
@@ -265,7 +270,13 @@ unsigned __fastcall number_allocation_registers(C2Expression *first)
         for (use = output; use; use = use->next) {
             if ((use->type & 0xfff) == 4) continue;
             if (use->kind == 1) {
-                ALLOCATION_KNOWN_KIND(use->original_register);
+                /* These fixed rows have independently proved kind1 bytes.
+                 * This comparison consumes no allocation/range payload. */
+                if (use->original_register != (C2FunctionRegister *)&machine_registers[9] &&
+                    use->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                    use->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                    use->original_register != (C2FunctionRegister *)&machine_registers[74])
+                    ALLOCATION_KNOWN_KIND(use->original_register);
                 if (use->original_register->kind != 2) continue;
             } else if (use->kind != 2) continue;
             reg = use->value.reg;
@@ -281,7 +292,12 @@ unsigned __fastcall number_allocation_registers(C2Expression *first)
                 root->view_flags |= 0x80;
         }
         if (record->opcode == 0x12) {
-            ALLOCATION_KNOWN_KIND(output->original_register);
+            /* Reached ESI/EDI outputs have their already proved kind1 bytes.
+             * Admit only this local kind comparison; other guarded consumers
+             * and all unrelated static-row fields keep their own limits. */
+            if (output->original_register != (C2FunctionRegister *)&machine_registers[7] &&
+                output->original_register != (C2FunctionRegister *)&machine_registers[8])
+                ALLOCATION_KNOWN_KIND(output->original_register);
             if (output->original_register->kind != 2) continue;
             input = record->left;
             if (input->opcode == 0x122) address = input->aggregate_value;
@@ -438,7 +454,11 @@ void __fastcall finish_allocation_record(C2Expression *record)
     if (!ALLOCATION_PAIRED_OPCODE(record->opcode)) return;
     first = record->left;
     if (first->kind == 1) {
-        ALLOCATION_KNOWN_KIND(first->original_register);
+        /* The reached stack-register row5 already has its proved kind1. */
+        if (first->original_register != (C2FunctionRegister *)&machine_registers[5] &&
+            first->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+            first->original_register != (C2FunctionRegister *)&machine_registers[32])
+            ALLOCATION_KNOWN_KIND(first->original_register);
         if (first->original_register->kind == 2) {
             output = record->tail.right;
             output->location.expression.properties =
@@ -449,7 +469,9 @@ void __fastcall finish_allocation_record(C2Expression *record)
     }
     if (record->opcode == 9 || record->opcode == 0xd9) {
         second = first->next;
-        ALLOCATION_KNOWN_KIND(second->original_register);
+        if (second->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+            second->original_register != (C2FunctionRegister *)&machine_registers[32])
+            ALLOCATION_KNOWN_KIND(second->original_register);
         if (second->original_register->kind == 2) {
             output = record->tail.right->next;
             output->location.expression.properties =
@@ -656,15 +678,72 @@ void __fastcall intersect_block_allocation_sets(C2BasicBlock *block)
         intersect_optimizer_symbol_sets(block->allocation_live_in_after, block->alias_out);
     }
 }
-C2RegisterSet *__fastcall clone_optimizer_dense_set(C2RegisterSet *source)
-{ __asm { int 3 } return NULL; }
-unsigned __fastcall next_allocation_dense_member(C2RegisterSet *set)
-{ __asm { int 3 } return ~0U; }
+C2RegisterSet *__fastcall clone_optimizer_dense_set(C2RegisterSet *source);
+unsigned __fastcall next_allocation_dense_member(C2RegisterSet *set);
+int __fastcall allocation_spill_path_is_available(unsigned number, C2BasicBlock *from,
+    C2BasicBlock *to, C2RegisterSet *visited)
+{
+    C2FlowEdge *edge;
+    C2BasicBlock *predecessor;
+    unsigned block_number;
+
+    for (edge = from->incoming; edge; edge = edge->next_incoming) {
+        predecessor = edge->source;
+        if (predecessor == to) continue;
+        block_number = (unsigned)(int)(short)predecessor->number84;
+        if (optimizer_set_contains(visited, block_number)) continue;
+        if (optimizer_set_contains(predecessor->allocation_definitions, number)) return 0;
+        add_register_to_set(visited, block_number);
+        if (!allocation_spill_path_is_available(number, predecessor, to, visited)) return 0;
+    }
+    return 1;
+}
+
 int __fastcall allocation_spill_is_profitable(unsigned number, C2BasicBlock *from,
-    C2BasicBlock *to) { __asm { int 3 } return 0; }
-C2Expression *__fastcall new_allocation_reload(C2BasicBlock *block,
+    C2BasicBlock *to)
+{
+    C2RegisterSet *visited = new_register_set(6);
+    int available = allocation_spill_path_is_available(number, from, to, visited);
+    release_optimizer_symbol_set(visited);
+    return available;
+}
+/* The provisional new_allocation_reload name was an insertion-point
+ * selector, not a constructor. EAX retains this exact selected record on
+ * every original return path, while ECX supplies only the line source. */
+C2Expression *__fastcall find_allocation_reload_position(C2BasicBlock *block,
     C2FunctionRegister *reg, C2Function *function)
-{ __asm { int 3 } return NULL; }
+{
+    C2Expression *position = (C2Expression *)block->last_record->previous;
+    C2Expression *scan, *output;
+    unsigned short line;
+
+    while (position->kind == 26) position = position->previous;
+    if (position->kind != 14) {
+        if (!((1U << (position->kind & 31)) & 0x50000)) position = position->next;
+        else if (reg->kind == 13) {
+            scan = position->previous;
+            while (scan->opcode == 0x139) scan = scan->previous;
+            output = scan->tail.right;
+            if ((scan->flags & 1) && output && !output->next && output->kind == 1 &&
+                output->value.reg->kind == 3 && output->value.reg->value) position = scan;
+        }
+    }
+    if (position->flags & 1) line = position->location.line;
+    else {
+        scan = position->previous;
+        while (scan && !(scan->flags & 1)) scan = scan->previous;
+        if (!scan) {
+            scan = position->next;
+            while (!(scan->flags & 1)) scan = scan->next;
+        }
+        line = scan->location.line;
+    }
+    if (line) {
+        record_line_delta = line;
+        record_source_line = function->source_line_base + line;
+    }
+    return position;
+}
 C2Expression *__fastcall bind_allocation_spill(C2FunctionRegister *reg,
     C2FunctionRegister *original, C2Expression *replacement)
 {
@@ -688,8 +767,32 @@ C2Expression *__fastcall bind_allocation_spill(C2FunctionRegister *reg,
     return new_binary_expression(0x139, type, temporary, operand,
         prepend_input_record, (C2Record *)replacement);
 }
+void __fastcall propagate_allocation_spill_edges(C2RegisterSet *spills,
+    C2BasicBlock *from, C2BasicBlock *to, C2RegisterSet *visited)
+{
+    C2FlowEdge *edge;
+    C2BasicBlock *predecessor;
+    unsigned number;
+
+    for (edge = from->incoming; edge; edge = edge->next_incoming) {
+        predecessor = edge->source;
+        if (predecessor == to) continue;
+        number = (unsigned)(int)(short)predecessor->number84;
+        if (optimizer_set_contains(visited, number)) continue;
+        merge_optimizer_symbol_sets(predecessor->allocation_live_out, spills);
+        merge_optimizer_symbol_sets(predecessor->allocation_live_in_after, spills);
+        add_register_to_set(visited, number);
+        propagate_allocation_spill_edges(spills, predecessor, to, visited);
+    }
+}
+
 void __fastcall rewrite_allocation_spill_edges(C2RegisterSet *spills,
-    C2BasicBlock *from, C2BasicBlock *to) { __asm { int 3 } }
+    C2BasicBlock *from, C2BasicBlock *to)
+{
+    C2RegisterSet *visited = new_register_set(6);
+    propagate_allocation_spill_edges(spills, from, to, visited);
+    release_optimizer_symbol_set(visited);
+}
 
 void __fastcall prepare_function_register_spills(C2Function *function)
 {
@@ -743,7 +846,7 @@ void __fastcall prepare_function_register_spills(C2Function *function)
                     add_register_to_set(target->allocation_live_in_after, number);
                     add_register_to_set(target->allocation_definitions, number);
                     add_register_to_set(target->allocation_live_in, number);
-                    replacement = new_allocation_reload(target, reg, function);
+                    replacement = find_allocation_reload_position(target, reg, function);
                     bind_allocation_spill(reg,
                         (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT),
                         replacement);
@@ -766,11 +869,63 @@ C2AllocationRegister *__fastcall lookup_allocation_register(unsigned number)
     c2_report_internal("E:\\utc\\src\\\\P2\\color.c", 0x1587);
     return NULL;
 }
+void __fastcall release_function_flow_edge(C2Function *function, C2FlowEdge *edge);
+C2Record *__fastcall new_block_jump(C2Record *label, C2Record *prior);
+C2Expression *__fastcall find_control_target(C2Expression *record, C2Expression *target);
+C2InputSymbol *new_flow_label(void);
+C2Record *__fastcall prepend_flow_label(C2InputSymbol *symbol, C2BasicBlock *block);
+void __fastcall redirect_allocation_branch(C2Expression *branch, C2Record *label, int mode);
 C2BasicBlock *__fastcall split_allocation_edge(C2Function *function,
     C2FlowEdge *edge, C2BasicBlock *predecessor, C2BasicBlock *destination)
-{ __asm { int 3 } return NULL; }
+{
+    C2Record *boundary, *label, *new_label;
+    C2BasicBlock *split;
+    C2Expression *branch, *target, *scan;
+
+    release_function_flow_edge(function, edge);
+    boundary = new_statement_boundary();
+    prepend_input_record(destination->records, boundary);
+    split = create_function_block(function, destination, boundary, destination->records);
+    split->number86 = destination->number86;
+    split->number88 = destination->number88;
+    new_function_edge(function, predecessor, split);
+    new_function_edge(function, split, destination);
+    for (label = destination->records; label && label->kind != 25; label = label->next) {
+    }
+    for (branch = (C2Expression *)predecessor->last_record; branch &&
+         !((1U << (branch->kind & 31)) & 0x50000); branch = branch->previous) {
+    }
+    /* Defined original fallback: if no branch search runs, the predecessor
+     * object pointer is carried as the target. It is not an unwritten local
+     * or a NULL default. The original also assumes this scan finds a record. */
+    target = (C2Expression *)predecessor;
+    while ((1U << (branch->kind & 31)) & 0x50000) {
+        target = find_control_target(branch, (C2Expression *)label);
+        if (target) break;
+        branch = branch->previous;
+        while (branch->kind == 26) branch = branch->previous;
+    }
+    if (target) {
+        new_label = prepend_flow_label(new_flow_label(), split);
+        redirect_allocation_branch(target, new_label, 1);
+        new_block_jump(label, split->last_record);
+    }
+    if (split->records != predecessor->last_record) {
+        scan = (C2Expression *)split->records;
+        while (scan && !(scan->flags & 1) && scan->kind != 25) scan = scan->previous;
+        if (!scan || scan->kind != 16 || scan->detail.data || scan->opcode == 0x15c)
+            new_block_jump(label, split->records);
+    }
+    return split;
+}
 C2Record *__fastcall prepend_flow_label(C2InputSymbol *symbol, C2BasicBlock *block)
-{ __asm { int 3 } return NULL; }
+{
+    C2Record *label = (C2Record *)symbol_input_expression(symbol);
+
+    insert_input_record(block->records, label);
+    label->owner.block = block;
+    return label;
+}
 void __fastcall redirect_switch_branch(C2Expression *branch, C2Record *label, int mode);
 void __fastcall redirect_allocation_branch(C2Expression *branch,
     C2Record *label, int mode)
@@ -876,12 +1031,12 @@ void __fastcall initialize_block_register_regions(C2Function *function,
             if (mode) {
                 assigned = lookup_allocation_register(number);
                 reg = assigned->source;
-                replacement = new_allocation_reload(destination, reg, function);
+                replacement = find_allocation_reload_position(destination, reg, function);
                 record = bind_allocation_spill(reg, (C2FunctionRegister *)assigned, replacement);
                 if ((record->type & 0xfff) == 1) assigned->flags |= 0x80;
             } else {
                 reg = allocation_registers_by_number[number];
-                replacement = new_allocation_reload(destination, reg, function);
+                replacement = find_allocation_reload_position(destination, reg, function);
                 record = bind_allocation_spill(reg,
                     (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT), replacement);
             }
@@ -893,7 +1048,7 @@ void __fastcall initialize_block_register_regions(C2Function *function,
     release_optimizer_symbol_set(needed);
 }
 void __fastcall prepare_final_record_operands(C2Expression *record);
-void __fastcall finish_final_integer_record(C2Expression *record);
+C2Expression *__fastcall finish_final_integer_record(C2Expression *record);
 C2Expression *__fastcall materialize_allocation_input(C2Expression *record,
     C2Expression *operand, C2FunctionRegister *reg);
 int __fastcall can_drop_allocation_definition(C2Expression *record)
@@ -1101,9 +1256,31 @@ resume_region_uses:
     release_optimizer_symbol_set(available);
 }
 int __fastcall region_shares_ancestor_exit(C2FlowRegion *region)
-{ __asm { int 3 } return 0; }
+{
+    C2FlowRegion *ancestor;
+    C2FlowBlockLink *outer, *inner;
+
+    for (ancestor = region->parent; ancestor; ancestor = ancestor->parent)
+        for (outer = ancestor->exits; outer; outer = outer->next)
+            for (inner = region->exits; inner; inner = inner->next)
+                if (outer->block == inner->block) return 1;
+    return 0;
+}
 int __fastcall region_has_early_exit(C2FlowRegion *region)
-{ __asm { int 3 } return 0; }
+{
+    C2FlowBlockLink *exit;
+    C2FlowEdge *edge;
+    short number;
+
+    for (exit = region->exits; exit; exit = exit->next) {
+        number = exit->block->number84;
+        if (number < 0) return 1;
+        for (edge = exit->block->outgoing; edge; edge = edge->next_outgoing)
+            if (edge->destination->block_scope != region &&
+                (short)edge->destination->number84 < number) return 1;
+    }
+    return 0;
+}
 
 void __fastcall allocate_region_registers(C2FlowRegion *region, unsigned count)
 {
@@ -1146,9 +1323,44 @@ void __fastcall allocate_region_registers(C2FlowRegion *region, unsigned count)
     }
     release_optimizer_symbol_set(temporary);
 }
+unsigned __fastcall find_optimizer_set_intersection(C2RegisterSet *first,
+    C2RegisterSet *second);
 C2FunctionRegister *__fastcall seed_allocation_classes(C2FunctionRegister *active,
     C2RegisterSet *numbers, C2RegisterSet *predecessor_numbers, unsigned *count)
-{ __asm { int 3 } return NULL; }
+{
+    C2FunctionRegister *reg;
+    struct C2AllocationInfo *info;
+    C2AllocationClass *part;
+    unsigned number, class_number, next_number = *count;
+
+    for (number = next_optimizer_symbol(numbers); number != ~0U;
+         number = next_optimizer_symbol(NULL)) {
+        reg = allocation_registers_by_number[number];
+        reg->allocation_next = active;
+        if (active) active->allocation->active_next = reg;
+        info = reg->allocation;
+        info->active_next = NULL;
+        part = predecessor_numbers->links.first ? info->classes : NULL;
+        for (; part; part = part->next) {
+            class_number = find_optimizer_set_intersection(part->numbers,
+                predecessor_numbers);
+            if (class_number != ~0U) break;
+        }
+        if (part) info->class_number = class_number;
+        else {
+            add_register_to_set(predecessor_numbers, next_number);
+            part = c2_pool_allocate(4, sizeof(*part));
+            part->numbers = new_register_set(6);
+            add_register_to_set(part->numbers, next_number);
+            part->next = info->classes;
+            info->classes = part;
+            info->class_number = next_number++;
+        }
+        active = reg;
+    }
+    *count = next_number;
+    return active;
+}
 
 unsigned __fastcall split_allocation_registers(C2BasicBlock *first, unsigned count)
 {
@@ -1419,7 +1631,22 @@ void __fastcall finish_region_register_allocation(C2FlowRegion *region)
  * writers and list-removal child are still pending; no node payload is claimed. */
 C2AllocationRegister *active_allocation_registers;
 C2AllocationRegister *__fastcall unlink_active_allocation_register(C2AllocationRegister *reg,
-    C2AllocationRegister *head) { __asm { int 3 } return NULL; }
+    C2AllocationRegister *head)
+{
+    C2AllocationRegister *previous = reg->previous_active, *next;
+
+    if (!previous) {
+        if (head == reg) {
+            head = reg->next_active;
+            if (head) head->previous_active = NULL;
+        }
+    } else {
+        next = reg->next_active;
+        previous->next_active = next;
+        if (next) next->previous_active = previous;
+    }
+    return head;
+}
 
 void __fastcall release_allocation_register(C2AllocationRegister *reg, int remove)
 {
@@ -1481,7 +1708,22 @@ void __fastcall build_allocation_register_map(C2AllocationRegister **map)
 }
 C2Expression *__fastcall spill_allocation_result(C2FunctionRegister *reg,
     C2AllocationRegister *assigned, C2Expression *record)
-{ __asm { int 3 } return NULL; }
+{
+    C2Expression *temporary, *value;
+    unsigned short type;
+    unsigned opcode;
+
+    /* Static machine rows do not yet have a modeled function type at+16. */
+    if ((unsigned)reg >= (unsigned)machine_registers &&
+        (unsigned)reg <= (unsigned)(machine_registers + C2_MACHINE_REGISTER_COUNT)) { __asm { int 3 } }
+    type = reg->type == 0x3004 ? 0x1004 : reg->type;
+    opcode = reg->kind == 3 || reg->kind == 4 || reg->kind == 5 || reg->kind == 6 ? 0x120 : 0x121;
+    temporary = new_temporary_register_expression(0x11f, type, reg,
+        (C2FunctionRegister *)assigned);
+    value = new_typed_register_expression(opcode, type, reg);
+    return new_binary_expression(0x13a, type, value, temporary,
+        insert_input_record, (C2Record *)record);
+}
 
 void __fastcall rewrite_allocated_function(C2Function *function,
     C2AllocationRegister **map)
@@ -1706,7 +1948,12 @@ extern unsigned final_lowering_state;
 int frame_has_parameter_reference; /* Original4910f0: reset by this pass. */
 unsigned frame_reference_cost;     /* Original4910f4: reset by this pass. */
 int __fastcall frame_reference_weight(int base, int depth)
-{ __asm { int 3 } return 0; }
+{
+    unsigned weight = 1;
+    if (depth < 0) return 0;
+    while (depth-- > 0) weight *= (unsigned)base;
+    return (int)weight;
+}
 
 void __fastcall plan_function_frame_pointer(C2Function *function)
 {
@@ -1785,12 +2032,12 @@ void __fastcall plan_function_frame_pointer(C2Function *function)
  * five counters until their producers/consumers are reached. */
 typedef struct C2AllocationMoveLink {
     struct C2AllocationMoveLink *next;
-    C2Expression *record;
+    union { C2Expression *record; C2RegisterSet *registers; };
 } C2AllocationMoveLink;
 typedef char C2AllocationMoveSizeCheck[sizeof(C2AllocationMoveLink) == 8 ? 1 : -1];
-unsigned allocation_state_d8, allocation_state_e0;
+
 C2AllocationMoveLink *free_allocation_moves; /* Original4910dc, reset before use. */
-unsigned allocation_state_e4, allocation_block_count;
+unsigned allocation_block_count;
 int allocation_is_empty;                /* Original4910ec. */
 C2RegisterSet *allocation_deferred_registers; /* Original4910cc. */
 C2RegisterSet *allocation_spilled_registers;  /* Original4910d0. */
@@ -1815,9 +2062,80 @@ void __fastcall release_allocation_moves(C2AllocationMoveLink *head)
     last->next = old;
 }
 int __fastcall allocation_move_is_blocked(C2FunctionRegister *source, C2Expression *move,
-    C2Expression *last, C2AllocationRegister *assigned) { __asm { int 3 } return 0; }
+    C2Expression *last, C2AllocationRegister *assigned)
+{
+    C2Expression *record, *operand;
+    C2FunctionRegister *root, *other, *other_root;
+    C2BasicBlock *block;
+    long source_end, other_end;
+    int live = 1;
+
+    if (move == last || last->previous == move) return 0;
+    /* Rows7/8's kind1, canonical self and32-bit ranges are already modeled.
+     * Admit that known view locally; other allocation consumers retain their
+     * own narrower data domains. */
+    if (source != (C2FunctionRegister *)&machine_registers[7] &&
+        source != (C2FunctionRegister *)&machine_registers[8])
+        ALLOCATION_KNOWN_KIND(source);
+    root = source == (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT)
+        ? machine_register_storage.sentinel.canonical : source->canonical;
+    for (record = last->previous; record != move; record = record->previous) {
+        if (record->flags & 1) {
+            if (!live) {
+                for (operand = record->left; operand; operand = operand->next)
+                    if (operand->kind == 1 &&
+                        (C2AllocationRegister *)operand->original_register == assigned) live = 1;
+            } else {
+                for (operand = record->tail.right; operand; operand = operand->next) {
+                    switch (operand->kind) {
+                    case 1:
+                        if ((C2AllocationRegister *)operand->original_register == assigned) {
+                            live = 0;
+                            break;
+                        }
+                        /* Other register outputs share the range check. */
+                    case 2:
+                        other = operand->value.reg;
+                        if (other != (C2FunctionRegister *)&machine_registers[7] &&
+                            other != (C2FunctionRegister *)&machine_registers[8])
+                            ALLOCATION_KNOWN_KIND(other);
+                        other_root = other == (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT)
+                            ? machine_register_storage.sentinel.canonical : other->canonical;
+                        if (other_root != root) break;
+                        if (other == source) return 1;
+                        /* The sentinel has only a typed12-byte prefix; row3's
+                         * range is outside this consumer's recovered domain. */
+                        if (source == (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT) ||
+                            other == (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT) ||
+                            source == (C2FunctionRegister *)&machine_registers[3] ||
+                            other == (C2FunctionRegister *)&machine_registers[3]) { __asm { int 3 } }
+                        other_end = (long)(other->value_bytes + (unsigned)other->displacement);
+                        source_end = (long)(source->value_bytes + (unsigned)source->displacement);
+                        if (source->displacement < other_end && other->displacement < source_end)
+                            return 1;
+                        break;
+                    case 6:
+                        if (register_may_alias_index(root, operand->allocation_alias_index)) return 1;
+                        break;
+                    case 10:
+                        if (register_may_alias_index(root, operand->value.optimizer_index)) return 1;
+                        break;
+                    }
+                }
+            }
+        } else if (record->kind == 24 && ((C2Record *)record)->owner.block) {
+            block = ((C2Record *)record)->owner.block->next;
+            live = optimizer_set_contains(block->allocation_live_in_after, assigned->number);
+        }
+    }
+    return 0;
+}
 C2BasicBlock *__fastcall allocation_block_for_record(C2Expression *record)
-{ __asm { int 3 } return NULL; }
+{
+    while (record->kind != 24 || !((C2Record *)record)->owner.block)
+        record = record->previous;
+    return ((C2Record *)record)->owner.block;
+}
 
 void __fastcall coalesce_single_use_registers(C2Function *function, C2RegisterSet **classes)
 {
@@ -1968,13 +2286,194 @@ int __fastcall allocation_record_is_rematerializable(C2Expression *record)
     return 0;
 }
 int __fastcall allocation_use_accepts_definition(C2Expression *record, C2Expression *operand)
-{ __asm { int 3 } return 0; }
+{
+    C2AllocationRegister *reg = (C2AllocationRegister *)operand->original_register;
+    C2Expression *definition = reg->definition_record->left;
+    C2Expression *owner = record, *address;
+
+    if (definition->opcode == 0x122) return 1;
+    address = find_aggregate_operand_owner(record, operand, &owner);
+    if (address->opcode != 0x122) return 0;
+    if (definition->tail.right && address->tail.right) return 0;
+    return 1;
+}
 C2Expression *__fastcall allocation_definition_operands(C2Expression *record)
-{ __asm { int 3 } return NULL; }
+{
+    C2Expression *address = record->left, *first;
+
+    if (address->opcode == 0x122) {
+        first = address->aggregate_value;
+        first->allocation_operand_next = NULL;
+    } else if (address->opcode == 0x125) {
+        first = address->aggregate_second;
+        first->allocation_operand_next = NULL;
+    } else {
+        first = address->aggregate_value;
+        first->allocation_operand_next = address->aggregate_second;
+    }
+    return first;
+}
 int __fastcall allocation_rematerialization_is_profitable(C2AllocationRegister *reg,
     C2Expression *definition, C2Expression *last_use) { __asm { int 3 } return 0; }
+extern C2AllocationMoveLink *allocation_current_choices;
+void __fastcall clear_allocation_choice_record(C2AllocationMoveLink *choices,
+    C2Expression *record) { __asm { int 3 } }
+void __fastcall remove_input_operand(C2Expression *owner, C2Expression *operand);
+void __fastcall rewrite_allocation_deferred_operand(C2Expression *record,
+    C2Expression *operand, C2Expression *definition)
+{
+    C2Expression *first = record, *address, *source, *copy, *prior_definition;
+    C2AllocationRegister *assigned;
+    unsigned scale;
+
+    address = find_aggregate_operand_owner(record, operand, &first);
+    operand->location.expression.properties &= ~0x20;
+    remove_input_operand(record, operand);
+    source = definition->left;
+    if (source->aggregate_value) {
+        if (address->aggregate_value == operand) {
+            copy = copy_input_expression(source->aggregate_value);
+            address->aggregate_value = copy;
+            copy->location.expression.properties =
+                (copy->location.expression.properties & ~0x10) | 0x20;
+            copy_input_operand(record, copy);
+        } else {
+            scale = address->location.expression.properties & 15;
+            if (scale)
+                address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement +
+                    ((1U << scale) - 1) * (unsigned)source->detail.aggregate_displacement);
+            copy = copy_input_expression(source->aggregate_value);
+            address->aggregate_second = copy;
+            copy->location.expression.properties =
+                (copy->location.expression.properties & ~0x10) | 0x20;
+            copy_input_operand(record, copy);
+        }
+    } else if (address->aggregate_value == operand) address->aggregate_value = NULL;
+    source = definition->left;
+    if (source->aggregate_second) {
+        copy = address->aggregate_second;
+        if (copy && copy != operand) address->aggregate_value = copy;
+        copy = copy_input_expression(source->aggregate_second);
+        address->aggregate_second = copy;
+        copy->location.expression.properties =
+            (copy->location.expression.properties & ~0x10) | 0x20;
+        copy_input_operand(record, copy);
+        source = definition->left;
+        address->location.expression.properties = (address->location.expression.properties & ~15) |
+            (source->location.expression.properties & 15);
+    }
+    address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement +
+        (unsigned)source->detail.aggregate_displacement);
+    if (source->tail.aggregate_register) address->tail.aggregate_register = source->tail.aggregate_register;
+    if (!address->aggregate_value) {
+        if (address->tail.aggregate_register &&
+            (address->tail.aggregate_register->kind == 3 || address->tail.aggregate_register->kind == 4 ||
+             address->tail.aggregate_register->kind == 5 || address->tail.aggregate_register->kind == 6))
+            address->opcode = 0x124;
+        else address->opcode = 0x125;
+        assigned = (C2AllocationRegister *)address->aggregate_second->original_register;
+        prior_definition = assigned->definition_record;
+        if (prior_definition && prior_definition->opcode == 0x12 && prior_definition->left->opcode != 0x122)
+            assigned->flags |= 4;
+    } else if (!address->aggregate_second) address->opcode = 0x122;
+    else {
+        address->opcode = 0x123;
+        assigned = (C2AllocationRegister *)address->aggregate_value->original_register;
+        prior_definition = assigned->definition_record;
+        if (prior_definition && prior_definition->opcode == 0x12 && prior_definition->left->opcode != 0x122)
+            assigned->flags |= 4;
+        assigned = (C2AllocationRegister *)address->aggregate_second->original_register;
+        prior_definition = assigned->definition_record;
+        if (prior_definition && prior_definition->opcode == 0x12 && prior_definition->left->opcode != 0x122)
+            assigned->flags |= 4;
+    }
+}
+
 void __fastcall rewrite_allocation_definition(C2Expression *definition,
-    C2AllocationRegister *reg, C2Expression *operands) { __asm { int 3 } }
+    C2AllocationRegister *reg, C2Expression *operands)
+{
+    C2AllocationRegister *first = NULL, *second = NULL;
+    C2BasicBlock *block, *cursor;
+    C2Expression *record, *next, *operand, *after, *copy, *result;
+    C2FunctionRegister *output;
+
+    if (operands) {
+        first = (C2AllocationRegister *)operands->original_register;
+        for (cursor = first->last_block; cursor; cursor = cursor->previous)
+            if (cursor == reg->last_block) break;
+        if (cursor) first->last_block = reg->last_block;
+        if (operands->allocation_operand_next) {
+            second = (C2AllocationRegister *)operands->allocation_operand_next->original_register;
+            for (cursor = second->last_block; cursor; cursor = cursor->previous)
+                if (cursor == reg->last_block) break;
+            if (cursor) second->last_block = reg->last_block;
+        }
+    }
+    for (block = reg->first_block; ; block = block->previous) {
+        if (!first) remove_optimizer_symbol(block->allocation_region_uses, reg->number);
+        else {
+            if (optimizer_set_contains(block->allocation_live_out, reg->number)) {
+                add_register_to_set(block->allocation_live_out, first->number);
+                if (second) add_register_to_set(block->allocation_live_out, second->number);
+            }
+            if (optimizer_set_contains(block->allocation_live_in_after, reg->number)) {
+                add_register_to_set(block->allocation_live_in_after, first->number);
+                if (second) add_register_to_set(block->allocation_live_in_after, second->number);
+            }
+        }
+        remove_optimizer_symbol(block->allocation_live_out, reg->number);
+        remove_optimizer_symbol(block->allocation_live_in_after, reg->number);
+        for (record = (C2Expression *)block->records;
+             record != (C2Expression *)block->last_record; record = next) {
+            next = record->next;
+            if (!(record->flags & 1)) {
+                if (record->kind == 26)
+                    remove_optimizer_symbol(((C2Record *)record)->owner.registers, reg->number);
+                continue;
+            }
+            if (record != definition && find_final_register_use((C2FunctionRegister *)reg, record)) {
+                if (allocation_current_choices) clear_allocation_choice_record(allocation_current_choices, record);
+                if (first && !(first->flags & 4) && first->last_use == record) first->last_use = next;
+                if (second && !(second->flags & 4) && second->last_use == record) second->last_use = next;
+                unlink_and_release_input_record((C2Record *)record);
+                continue;
+            }
+            for (operand = record->left; operand; operand = after) {
+                after = operand->next;
+                if (operand->kind != 1 || (C2AllocationRegister *)operand->original_register != reg) continue;
+                if (operand->location.expression.properties & 0x20) {
+                    rewrite_allocation_deferred_operand(record, operand, definition);
+                } else {
+                    copy = copy_input_expression(definition);
+                    replace_input_result(copy, copy->tail.right, record->tail.right);
+                    result = copy->tail.right;
+                    if ((1U << (result->kind & 31)) & 6) {
+                        output = result->value.reg;
+                        if (output->value) {
+                            if (!output->canonical->variant_next) output->value = copy;
+                            else bind_input_temporary(output, copy);
+                        }
+                    }
+                    prepend_input_record((C2Record *)record, (C2Record *)copy);
+                    unlink_and_release_input_record((C2Record *)record);
+                    break;
+                }
+            }
+        }
+        if (block == reg->last_block) break;
+    }
+    if (first && !(first->flags & 4)) {
+        for (record = first->last_use; record; record = record->next)
+            if (record == reg->last_use) break;
+        if (record) first->last_use = record;
+    }
+    if (second && !(second->flags & 4)) {
+        for (record = second->last_use; record; record = record->next)
+            if (record == reg->last_use) break;
+        if (record) second->last_use = record;
+    }
+    unlink_and_release_input_record((C2Record *)definition);
+}
 
 void __fastcall build_allocation_preferences(C2Function *function, C2RegisterSet *registers)
 {
@@ -2085,12 +2584,18 @@ void __fastcall normalize_final_float_opcode(C2Expression *record)
     switch (record->opcode) {
     case 0x62: case 0x63:
         if (output->kind != 1 || (output->type & 0xf000) != 0x4000) return;
-        ALLOCATION_KNOWN_NUMBER(output->original_register);
+        if (output->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+            output->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+            output->original_register != (C2FunctionRegister *)&machine_registers[35])
+            ALLOCATION_KNOWN_NUMBER(output->original_register);
         number = output->original_register->number;
         if (number <= 31) return;
         for (input = record->left; input; input = input->next) {
             if (input->kind == 1) {
-                ALLOCATION_KNOWN_NUMBER(input->original_register);
+                if (input->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                    input->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+                    input->original_register != (C2FunctionRegister *)&machine_registers[35])
+                    ALLOCATION_KNOWN_NUMBER(input->original_register);
                 if (input->original_register->number == number) return;
             }
         }
@@ -2110,7 +2615,10 @@ void __fastcall normalize_final_float_opcode(C2Expression *record)
         output->original_register = (C2FunctionRegister *)(machine_registers + 32);
         output->next->original_register = (C2FunctionRegister *)(machine_registers + 31);
         first = record->left;
-        ALLOCATION_KNOWN_NUMBER(first->original_register);
+        if (first->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+            first->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+                    first->original_register != (C2FunctionRegister *)&machine_registers[35])
+            ALLOCATION_KNOWN_NUMBER(first->original_register);
         if (first->original_register->number == 31) {
             record->left = second = first->next;
             second->next = first;
@@ -2150,8 +2658,28 @@ int __fastcall final_float_stack_effect(C2Expression *record)
     }
     return 0;
 }
-void __fastcall unlink_final_output(C2Expression *record, C2Expression *operand) { __asm { int 3 } }
+void __fastcall unlink_final_output(C2Expression *record, C2Expression *operand)
+{
+    C2Expression *scan, *previous;
 
+    previous = NULL;
+    for (scan = record->tail.right; scan && scan != operand; scan = scan->next)
+        previous = scan;
+    /* The original also splices after the last output if operand is absent. */
+    if (previous) previous->next = operand->next;
+    else record->tail.right = operand->next;
+    operand->next = NULL;
+    if ((1U << (operand->kind & 31)) & 0x7fe)
+        operand->location.expression.properties &= ~0x10;
+}
+
+/* This pass reads the independently proved physical-number column only. */
+#define FINAL_FLOAT_ORDER_NUMBER(reg) do { \
+    if ((reg) != (C2FunctionRegister *)&machine_registers[33] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[34] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[35]) \
+        ALLOCATION_KNOWN_NUMBER(reg); \
+} while (0)
 void __fastcall normalize_final_float_order(C2Expression *record)
 {
     C2Expression *output, *input, *second;
@@ -2161,7 +2689,7 @@ void __fastcall normalize_final_float_order(C2Expression *record)
         if (record->opcode != 0x5c && record->opcode != 0x62) return;
         second = record->tail.right->next;
         if (second && second->kind == 1) {
-            ALLOCATION_KNOWN_NUMBER(second->original_register);
+            FINAL_FLOAT_ORDER_NUMBER(second->original_register);
             if (second->original_register->number == 31) {
                 unlink_final_output(record, second);
                 release_small_node(second);
@@ -2172,17 +2700,17 @@ void __fastcall normalize_final_float_order(C2Expression *record)
     output = record->tail.right;
     switch (record->opcode) {
     case 0x4b: case 0x4c: case 0x4d: case 0x4e: case 0x4f: case 0x50:
-        ALLOCATION_KNOWN_NUMBER(output->original_register);
+        FINAL_FLOAT_ORDER_NUMBER(output->original_register);
         if (output->original_register->number == 31) {
             input = record->left;
-            ALLOCATION_KNOWN_NUMBER(input->original_register);
+            FINAL_FLOAT_ORDER_NUMBER(input->original_register);
             number = input->original_register->number;
             if (number > C2_MACHINE_REGISTER_COUNT) { __asm { int 3 } }
             output->original_register = (C2FunctionRegister *)(machine_registers + number);
         }
         break;
     case 0x86: case 0x91: case 0x92:
-        ALLOCATION_KNOWN_NUMBER(output->original_register);
+        FINAL_FLOAT_ORDER_NUMBER(output->original_register);
         if (output->original_register->number == 31)
             output->original_register = (C2FunctionRegister *)(machine_registers + 32);
         break;
@@ -2194,15 +2722,102 @@ void __fastcall normalize_final_float_order(C2Expression *record)
         (C2FunctionRegister *)(machine_registers + 31),
         (C2FunctionRegister *)(machine_registers + 31)));
 }
+#undef FINAL_FLOAT_ORDER_NUMBER
 void __fastcall fold_final_float_record(C2Expression *record)
 {
     normalize_final_float_opcode(record);
     normalize_final_float_order(record);
 }
-C2Real *__fastcall find_symbol_real(C2Symbol *symbol) { __asm { int 3 } return NULL; }
-void __fastcall normalize_final_move(C2Expression *record) { __asm { int 3 } }
+C2Real *__fastcall find_symbol_real(C2Symbol *symbol);
+C2Real *__fastcall find_final_real_value(C2Expression *operand);
+C2Expression *__fastcall new_final_real_bits(C2Real *value, unsigned short type);
+void __fastcall normalize_final_move(C2Expression *record)
+{
+    unsigned short old_type = record->type, type;
+    C2BranchTarget *entry;
+    C2Expression *input, *operand;
+    C2Real *value;
+
+    if (old_type == 0x4004) type = 0x1004;
+    else if (old_type == 0x4008) {
+        type = 0x1008;
+        if (c2_global_optimize && c2_favor_speed) {
+            entry = (C2BranchTarget *)record;
+            if (entry->kind != 24) entry = get_symbol_branch_target(entry, 24);
+            final_lowering_state += frame_reference_weight(5, (short)entry->block->number86);
+        }
+    } else {
+        /* Original defect: its PUSH ECX local is reused as a type WORD
+         * outside the two floating widths. Preserve the defined low bits of
+         * that Win32 record address, rather than inventing a default type. */
+#ifdef __linux__
+        /* Native addresses cannot represent those original numeric bits. */
+        __asm { int 3 }
+#endif
+        type = (unsigned short)(unsigned long)record;
+    }
+    input = record->left;
+    record->type = type;
+    value = find_final_real_value(input);
+    if (value) attach_input_expression(record, input, new_final_real_bits(value, type));
+    input = record->left->next;
+    if (input) {
+        value = find_final_real_value(input);
+        if (value) attach_input_expression(record, input, new_final_real_bits(value, type));
+    }
+    for (operand = record->left; operand; operand = operand->next)
+        if (operand->type == old_type && !((1U << (operand->kind & 31)) & 0x180))
+            set_input_expression_type(operand, type);
+    for (operand = record->tail.right; operand; operand = operand->next)
+        if (operand->type == old_type) set_input_expression_type(operand, type);
+}
+extern int spill_float_count, spill_float_top;
+extern unsigned spill_float_order[16];
+int __fastcall rewrite_spill_float_block(C2Expression *first, C2Expression *last);
+void finish_spill_float_block(void);
+void __fastcall restore_spill_float_order(C2Expression *first, C2Expression *last);
+void __fastcall finish_spill_float_records(C2Expression *first);
 C2Expression *__fastcall find_final_float_source(C2Expression *record)
-{ __asm { int 3 } return NULL; }
+{
+    C2Expression *output = record->tail.right;
+    C2Expression *input = record->left, *definition, *first, *last, *end, *scan, *operand;
+    C2FunctionRegister *reg;
+    unsigned active = 0, i;
+
+    if (output->kind == 1 || input->kind != 1) return NULL;
+    reg = input->value.reg;
+    if (reg != (C2FunctionRegister *)&machine_registers[31] &&
+        reg != (C2FunctionRegister *)&machine_registers[32] &&
+        reg != (C2FunctionRegister *)&machine_registers[33]) ALLOCATION_KNOWN_KIND(reg);
+    if (reg->kind != 3 || !(definition = reg->value) || record->type != 0x4004 ||
+        output->kind == 6 || definition->opcode != 0x60) return NULL;
+    input = definition->left;
+    if (input->kind == 1 || input->type != output->type ||
+        (input->kind == 6 && input->aggregate_second)) return NULL;
+    first = definition->next;
+    if (first != record) {
+        end = record->previous->next;
+        for (scan = first; scan != end; scan = scan->next) {
+            if (!(scan->flags & 1)) continue;
+            if (active++ > 6) return NULL;
+            for (operand = scan->left; operand; operand = operand->next)
+                if (input_operands_may_alias(operand, output)) return NULL;
+            for (operand = scan->tail.right; operand; operand = operand->next)
+                if (input_operands_may_alias(operand, output)) return NULL;
+        }
+    }
+    spill_float_top = 7;
+    for (i = 0; i < 8; ++i) spill_float_order[7 - i] = i;
+    spill_float_count = 8;
+    last = record->previous;
+    if (rewrite_spill_float_block(first, last) == -1) return NULL;
+    finish_spill_float_block();
+    for (i = 0; i < 8; ++i) spill_float_order[7 - i] = i;
+    spill_float_top = 6;
+    restore_spill_float_order(first, last);
+    finish_spill_float_records(record);
+    return definition;
+}
 C2Expression *__fastcall widen_final_integer_record(C2Expression *record);
 int c2_real_compare(int condition, C2Real *left, C2Real *right);
 
@@ -2300,7 +2915,1762 @@ combine_final_float_move:
         }
     }
 }
-void __fastcall allocate_floating_function(C2Function *function) { __asm { int 3 } }
+void __fastcall apply_allocation_spills(C2Function *function, C2RegisterSet *registers, int mode);
+void __fastcall finish_register_moves(C2Function *function);
+C2Record *__fastcall select_allocation_spill_choice(C2Expression *record,
+    C2RegisterSet *live, C2RegisterSet *first, C2RegisterSet *second);
+void __fastcall insert_float_allocation_barrier(C2Expression *record, C2RegisterSet *registers)
+{
+    if (record->next->opcode == 0x13a) record = record->next;
+    select_allocation_spill_choice(record, NULL, NULL, registers);
+}
+void __fastcall prepare_float_division_operands(C2Expression *record)
+{
+    C2Expression *first = record->left, *other = first->next;
+    C2Expression *load, *start, *scan, *input, *replacement, *branch;
+    C2FunctionRegister *first_register, *loaded_register;
+    unsigned condition;
+
+    /* Only the kind column is read in these fixed-register tests. */
+    if (first->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+        first->original_register != (C2FunctionRegister *)&machine_registers[32])
+        ALLOCATION_KNOWN_KIND(first->original_register);
+    if (first->original_register->kind != 1 || other->kind != 1) return;
+    ALLOCATION_KNOWN_KIND(other->original_register);
+    first_register = other->original_register;
+    if (first_register->kind != 2) return;
+    load = first->value.reg->value;
+    if (load->opcode != 0x60 || load->left->kind != 1) return;
+    loaded_register = load->left->original_register;
+    ALLOCATION_KNOWN_KIND(loaded_register);
+    if (loaded_register->kind != 2 || load->next != record) return;
+    start = record->previous;
+    for (scan = start; scan->flags & 1; scan = scan->previous)
+        if (scan->tail.right && scan->tail.right->kind == 1 &&
+            scan->tail.right->original_register == loaded_register) break;
+    if (!(scan->flags & 1) || scan->opcode != 0x63) return;
+    load = scan->left->value.reg->value;
+    if (load->opcode != 0x60 || load->left->kind != 1) return;
+    input = load->left;
+    ALLOCATION_KNOWN_KIND(input->original_register);
+    if (input->original_register->kind != 2) return;
+    for (scan = start; scan->flags & 1; scan = scan->previous)
+        if (scan->tail.right && scan->tail.right->kind == 1 &&
+            scan->tail.right->original_register == first_register) break;
+    if (!(scan->flags & 1) || scan->opcode != 0x63 ||
+        scan->left->value.reg->value->opcode == 0x60) return;
+    ALLOCATION_KNOWN_KIND(input->value.reg);
+    if (input->value.reg->kind == 3) {
+        for (scan = load->next; scan != record; scan = scan->next) {
+            for (other = scan->tail.right; other; other = other->next)
+                if (((1U << (other->kind & 31)) & 6) &&
+                    other->value.reg->canonical == input->value.reg->canonical) break;
+            if (other) break;
+        }
+        if (scan == record) attach_input_expression(start, start->left, input);
+    }
+    input = start->left;
+    replacement = copy_input_expression(input);
+    attach_input_expression(start, input, first->next);
+    attach_input_expression(record, first->next, replacement);
+    for (branch = record->next; branch->opcode != 0xf; branch = branch->next) {}
+    condition = branch->condition_code;
+    /* Established48d250 BYTE relation swaps ordered comparison operands;
+     * codes0..2 stay,3..10 pair-swap and11..17 map to0. */
+    if (condition > 17) { __asm { int 3 } }
+    if (condition >= 3 && condition <= 10)
+        branch->condition_code = (unsigned char)((condition & 1) ? condition + 1 : condition - 1);
+    else if (condition >= 11) branch->condition_code = 0;
+}
+#define FLOAT_ALLOCATION_KIND(reg) do { \
+    if ((reg) != (C2FunctionRegister *)&machine_registers[9] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[17] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[20] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[31] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[32] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[33] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[74]) ALLOCATION_KNOWN_KIND(reg); \
+} while (0)
+C2RegisterSet *__fastcall prepare_float_allocation(C2Function *function, C2RegisterSet *registers)
+{
+    C2BasicBlock *block;
+    C2Expression *record, *scan, *operand, *output, *input, *result, *inserted;
+    C2FunctionRegister *temporary;
+    C2RegisterSet *live = new_register_set(6), *retry = new_register_set(6), *single;
+    unsigned phase, number;
+    unsigned short type;
+    int depth = 0, pending = 0, barrier;
+
+    for (block = function->flow->last; block; block = block->previous) {
+        /* The genuine allocator requests32 bytes. No fields in this new
+         * per-block state are interpreted until their own consumers. */
+        block->float_allocation = c2_pool_allocate(4, 32);
+        copy_optimizer_symbol_set_into(live, registers);
+        intersect_optimizer_symbol_sets(live, block->allocation_live_in_after);
+        for (record = (C2Expression *)block->last_record->previous;
+             ; record = record->previous) {
+            if (record->location.line) {
+                record_source_line = function->source_line_base + record->location.line;
+                record_line_delta = record->location.line;
+            }
+            if (pending && !depth) {
+                pending = 0;
+                if (live->links.first) {
+                    insert_float_allocation_barrier(record, live);
+                    merge_optimizer_symbol_sets(retry, live);
+                    block->flags |= 0x40000;
+                }
+                for (scan = record->next; scan->kind != 24; scan = scan->next) {
+                    if (!(scan->flags & 1)) continue;
+                    for (phase = 0; phase != 2; ++phase) {
+                        if (!phase && !scan->float_depth_before) continue;
+                        for (operand = phase ? scan->left : scan->tail.right;
+                             operand; operand = operand->next) {
+                            if ((operand->type & 0xf000) != 0x4000 || operand->kind != 1) continue;
+                            FLOAT_ALLOCATION_KIND(operand->original_register);
+                            if (operand->original_register->kind != 2) continue;
+                            ALLOCATION_KNOWN_NUMBER(operand->original_register);
+                            single = new_register_set(6);
+                            add_register_to_set(single, operand->original_register->number);
+                            insert_float_allocation_barrier(scan, single);
+                            insert_float_allocation_barrier(scan->previous, single);
+                            release_optimizer_symbol_set(single);
+                            add_register_to_set(retry, operand->original_register->number);
+                            block->flags |= 0x40000;
+                        }
+                    }
+                    if (!scan->float_depth_before) break;
+                }
+            }
+            if (!(record->flags & 1)) {
+                if (record->kind == 24) break;
+                continue;
+            }
+            barrier = record->kind == 13 &&
+                (record->left->kind != 4 || !(record->left->value.symbol->flags & 0x10000));
+            if (depth && barrier) pending = 1;
+            if ((barrier || record->kind == 20 || record->opcode == 0x15c) && live->links.first) {
+                insert_float_allocation_barrier(record, live);
+                merge_optimizer_symbol_sets(retry, live);
+                block->flags |= 0x40000;
+            }
+            record->float_depth_before = record->float_depth_after = (unsigned char)depth;
+            if (depth == 8) pending = 1;
+            output = record->tail.right;
+            if (output && (output->type & 0xf000) == 0x4000 && output->kind == 1) {
+                FLOAT_ALLOCATION_KIND(output->original_register);
+                if (output->original_register->kind == 2) {
+                    ALLOCATION_KNOWN_NUMBER(output->original_register);
+                    number = output->original_register->number;
+                    remove_optimizer_symbol(live, number);
+                    add_register_to_set(block->allocation_region_uses, number);
+                } else {
+                    FLOAT_ALLOCATION_KIND(output->value.reg);
+                    if (output->value.reg->kind == 1 && record->opcode != 0x63 &&
+                        record->opcode != 0x5f &&
+                        (record->opcode != 0x14c || (record->type & 0xf000) == 0x4000)) {
+                        type = output->type;
+                        temporary = new_temporary_register(type);
+                        temporary->value = record;
+                        input = new_temporary_register_expression(0x11f, type, temporary,
+                            (C2FunctionRegister *)&machine_registers[31]);
+                        result = new_temporary_register_expression(0x11f, type,
+                            (C2FunctionRegister *)&machine_registers[31],
+                            (C2FunctionRegister *)&machine_registers[31]);
+                        inserted = new_binary_expression(0x62, type, result, input,
+                            insert_input_record, (C2Record *)record);
+                        inserted->float_depth_before = inserted->float_depth_after = (unsigned char)depth;
+                        replace_input_result(record, output, inserted->left);
+                        depth = (int)((unsigned)depth + 1U);
+                        record->float_depth_before = record->float_depth_after = (unsigned char)depth;
+                    }
+                }
+            }
+            if (record->opcode == 0x5d) prepare_float_division_operands(record);
+            for (operand = record->left; operand; operand = operand->next) {
+                if (operand->kind == 1) {
+                    operand->previous = NULL;
+                    if ((operand->type & 0xf000) == 0x4000) {
+                        FLOAT_ALLOCATION_KIND(operand->original_register);
+                        if (operand->original_register->kind == 2) {
+                            ALLOCATION_KNOWN_NUMBER(operand->original_register);
+                            number = operand->original_register->number;
+                            if (!optimizer_set_contains(live, number)) {
+                                add_register_to_set(live, number);
+                                operand->location.expression.use_flags |= 0x10;
+                            } else operand->location.expression.use_flags &= ~0x10;
+                        }
+                    }
+                } else if (operand->kind == 2) operand->previous = NULL;
+            }
+            depth = (int)((unsigned)depth - (unsigned)final_float_stack_effect(record));
+        }
+    }
+    release_optimizer_symbol_set(live);
+    if (!retry->links.first) {
+        release_optimizer_symbol_set(retry);
+        retry = NULL;
+    }
+    return retry;
+}
+#undef FLOAT_ALLOCATION_KIND
+int __fastcall float_allocation_store_cost(C2FunctionRegister *reg, C2Function *function)
+{
+    if (!c2_favor_speed) {
+        ALLOCATION_KNOWN_KIND(reg);
+        return reg->kind >= 3 && reg->kind <= 6 ? 3 : 6;
+    }
+    /* The input is a genuine function register; static rows with unknown
+     * size fields remain outside this cost consumer's modeled domain. */
+    if ((unsigned long)reg >= (unsigned long)machine_registers &&
+        (unsigned long)reg <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT)) { __asm { int 3 } }
+    if (reg->value_bytes == 4 || reg->kind == 7 || reg->kind == 8) return 2;
+    if ((function->flags & 0x300000) && reg->kind != 5) return 2;
+    return 4;
+}
+int __fastcall float_allocation_record_needs_reload(C2Expression *record)
+{
+    C2FunctionRegister *reg = record->tail.right->value.reg;
+    C2Expression *next;
+
+    if (reg != (C2FunctionRegister *)&machine_registers[31] &&
+        reg != (C2FunctionRegister *)&machine_registers[32] &&
+        reg != (C2FunctionRegister *)&machine_registers[33]) ALLOCATION_KNOWN_KIND(reg);
+    if (reg->kind != 3 || !reg->value) return 0;
+    next = record->next;
+    if (!(next->flags & 1) || !next->left || next->left->kind != 1 ||
+        next->left->value.reg != reg) return 0;
+    switch (next->opcode) {
+    case 0x5c: case 0x5d: case 0x5e: case 0x62: case 0x63:
+        return 1;
+    }
+    return 0;
+}
+int __fastcall float_allocation_load_cost(C2FunctionRegister *reg, C2Function *function)
+{
+    if (!c2_favor_speed) {
+        ALLOCATION_KNOWN_KIND(reg);
+        return reg->kind >= 3 && reg->kind <= 6 ? 1 : 4;
+    }
+    if ((unsigned long)reg >= (unsigned long)machine_registers &&
+        (unsigned long)reg <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT)) { __asm { int 3 } }
+    if (reg->value_bytes == 4 || reg->kind == 7 || reg->kind == 8) return 0;
+    if ((function->flags & 0x300000) && reg->kind != 5) return 0;
+    return 1;
+}
+int __fastcall float_allocation_reload_cost(C2FunctionRegister *reg, C2Function *function)
+{
+    if (!c2_favor_speed) {
+        ALLOCATION_KNOWN_KIND(reg);
+        return reg->kind >= 3 && reg->kind <= 6 ? 3 : 6;
+    }
+    if ((unsigned long)reg >= (unsigned long)machine_registers &&
+        (unsigned long)reg <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT)) { __asm { int 3 } }
+    if (reg->value_bytes == 4 || reg->kind == 7 || reg->kind == 8) return 1;
+    if ((function->flags & 0x300000) && reg->kind != 5) return 1;
+    return 2;
+}
+void __fastcall move_final_label_after(C2Expression *after, C2Expression *label);
+#define FLOAT_REGION_KIND(reg) do { \
+    if ((reg) != (C2FunctionRegister *)&machine_registers[31] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[32] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[33]) ALLOCATION_KNOWN_KIND(reg); \
+} while (0)
+void __fastcall initialize_float_allocation_regions(C2Function *function, C2RegisterSet *registers)
+{
+    C2RegisterSet *live = new_register_set(6), *leaving = new_register_set(6);
+    C2BasicBlock *block, *successor;
+    C2Expression *record, *next, *operand, *position;
+    C2AllocationRegister *reg;
+    C2AllocationMoveLink *link, *found;
+    C2FlowEdge *edge;
+    unsigned number, weight;
+    int cost, repeated;
+
+    for (block = function->flow->last; block; block = block->previous) {
+        if (!block->float_allocation) {
+            block->float_allocation = c2_pool_allocate(4, 32);
+            /* Exact32-byte runtime state copy from the actual predecessor.
+             * Its individual fields remain opaque at this consumer. */
+            memcpy(block->float_allocation, block->incoming->source->float_allocation, 32);
+        }
+        if (!optimizer_symbol_sets_intersect(block->allocation_region_uses, registers)) continue;
+        copy_optimizer_symbol_set_into(live, registers);
+        intersect_optimizer_symbol_sets(live, block->allocation_live_out);
+        for (number = next_optimizer_symbol(live); number != (unsigned)-1;
+             number = next_optimizer_symbol(NULL)) {
+            reg = lookup_allocation_register(number);
+            if (!reg->first_block) reg->first_block = block;
+            reg->last_block = block;
+        }
+        weight = c2_favor_speed ? 1U << (((unsigned)block->region_depth + 1U) & 31) : 1;
+        for (record = (C2Expression *)block->records;
+             record != (C2Expression *)block->last_record; record = next) {
+            next = record->next;
+            if (!(record->flags & 1) || (record->type & 0xf000) != 0x4000) continue;
+            if (record->location.line) {
+                record_source_line = function->source_line_base + record->location.line;
+                record_line_delta = record->location.line;
+            }
+            for (operand = record->left; operand; operand = operand->next) {
+                if ((operand->type & 0xf000) != 0x4000 || operand->kind != 1) continue;
+                FLOAT_REGION_KIND(operand->original_register);
+                reg = (C2AllocationRegister *)operand->original_register;
+                if (reg->kind != 2 || !(reg->flags & 1)) continue;
+                if (record->opcode == 0x13a) {
+                    if (!c2_favor_speed || !block->block_scope ||
+                        optimizer_set_contains(block->block_scope->allocation_eligible,
+                            operand->value.reg->allocation->number)) {
+                        cost = float_allocation_store_cost(operand->value.reg, function);
+                        reg->weighted_pressure = (int)((unsigned)reg->weighted_pressure - (unsigned)cost * weight);
+                        reg->priority = (int)((unsigned)reg->priority - (unsigned)cost * weight);
+                    }
+                } else if (!(operand->location.expression.use_flags & 0x10) ||
+                           float_allocation_record_needs_reload(record)) {
+                    if (record->opcode == 0x60 && (operand->location.expression.use_flags & 0x10))
+                        cost = float_allocation_reload_cost(operand->value.reg, function);
+                    else cost = float_allocation_load_cost(operand->value.reg, function);
+                    reg->weighted_pressure = (int)((unsigned)reg->weighted_pressure + (unsigned)cost * weight);
+                    reg->priority = (int)((unsigned)reg->priority + (unsigned)cost * weight);
+                }
+                if (!(operand->location.expression.use_flags & 0x10)) continue;
+                repeated = 0;
+                position = record;
+                if (record->opcode != 0x13a) {
+                    for (; position; position = position->next) {
+                        if (!(position->flags & 1)) continue;
+                        if (position->opcode == 0x63 && position->tail.right->kind == 1 &&
+                            position->tail.right->original_register == (C2FunctionRegister *)reg) {
+                            repeated = 1;
+                            operand->location.expression.use_flags &= ~0x10;
+                        }
+                        if (!position->float_depth_after && position->opcode != 0x139 &&
+                            position->opcode != 0x13a) break;
+                    }
+                }
+                if (!repeated) {
+                    link = new_allocation_move();
+                    link->next = reg->float_uses;
+                    link->record = position;
+                    reg->float_uses = link;
+                    remove_optimizer_symbol(live, reg->number);
+                }
+            }
+            for (operand = record->tail.right; operand; operand = operand->next) {
+                if ((operand->type & 0xf000) != 0x4000 || operand->kind != 1) continue;
+                FLOAT_REGION_KIND(operand->original_register);
+                reg = (C2AllocationRegister *)operand->original_register;
+                if (reg->kind != 2 || !(reg->flags & 1)) continue;
+                if (record->opcode == 0x139) {
+                    cost = float_allocation_reload_cost(operand->value.reg, function);
+                    reg->weighted_pressure = (int)((unsigned)reg->weighted_pressure - (unsigned)cost * weight);
+                    reg->priority = (int)((unsigned)reg->priority - (unsigned)cost * weight);
+                    position = record->previous;
+                    while (position->kind != 24 && (!(position->flags & 1) ||
+                           position->opcode == 0x139 || position->opcode == 0x13a)) position = position->previous;
+                    if (position->flags & 1) {
+                        while ((position->flags & 1) && (position->float_depth_after ||
+                               position->opcode == 0x139 || position->opcode == 0x13a)) position = position->previous;
+                        if (position->next->opcode == 0x13a) position = position->next;
+                        move_final_label_after(position, record);
+                    }
+                } else {
+                    cost = float_allocation_store_cost(operand->value.reg, function);
+                    reg->weighted_pressure = (int)((unsigned)reg->weighted_pressure + (unsigned)cost * weight);
+                    reg->priority = (int)((unsigned)reg->priority + (unsigned)cost * weight);
+                }
+                number = reg->number;
+                if (!optimizer_set_contains(live, number)) {
+                    link = new_allocation_move();
+                    link->next = reg->float_definitions;
+                    link->record = record;
+                    reg->float_definitions = link;
+                    if (!reg->first_block) reg->first_block = block;
+                    reg->last_block = block;
+                    add_register_to_set(live, number);
+                }
+            }
+        }
+        if (!live->links.first) continue;
+        for (edge = block->outgoing; edge; edge = edge->next_outgoing) {
+            successor = edge->destination;
+            copy_optimizer_symbol_set_into(leaving, live);
+            subtract_optimizer_symbol_sets(leaving, successor->allocation_live_out);
+            if (!leaving->links.first) continue;
+            if (c2_favor_speed) weight = 1U << (((unsigned)successor->region_depth + 1U) & 31);
+            position = (C2Expression *)successor->records;
+            for (number = next_optimizer_symbol(leaving); number != (unsigned)-1;
+                 number = next_optimizer_symbol(NULL)) {
+                reg = lookup_allocation_register(number);
+                reg->weighted_pressure = (int)((unsigned)reg->weighted_pressure - weight);
+                reg->priority = (int)((unsigned)reg->priority - weight);
+                found = reg->float_uses;
+                while (found && found->record != position) found = found->next;
+                if (!found) {
+                    link = new_allocation_move();
+                    link->record = position;
+                    link->next = reg->float_uses;
+                    reg->float_uses = link;
+                }
+            }
+        }
+    }
+    release_optimizer_symbol_set(live);
+    release_optimizer_symbol_set(leaving);
+}
+#undef FLOAT_REGION_KIND
+
+C2AllocationRegister *__fastcall order_float_allocation_registers(C2RegisterSet *registers,
+    C2AllocationRegister *order)
+{
+    C2AllocationRegister *reg, *position;
+    C2AllocationMoveLink *link;
+    unsigned number;
+
+    if (registers->links.first) {
+        for (number = next_optimizer_symbol(registers); number != (unsigned)-1;
+             number = next_optimizer_symbol(NULL)) {
+            reg = lookup_allocation_register(number);
+            reg->flags &= ~1;
+            if (!reg->float_uses) {
+                link = new_allocation_move();
+                link->next = NULL;
+                link->record = (C2Expression *)reg->last_block->last_record;
+                reg->float_uses = link;
+            }
+            if (!order) {
+                order = reg;
+                reg->float_next = reg->float_previous = NULL;
+            } else if (reg->weighted_pressure > order->weighted_pressure ||
+                       (reg->weighted_pressure == order->weighted_pressure &&
+                        reg->definition_sequence >= order->definition_sequence)) {
+                reg->float_previous = NULL;
+                reg->float_next = order;
+                order->float_previous = reg;
+                order = reg;
+            } else {
+                position = order;
+                while (position->float_next &&
+                       (position->weighted_pressure > reg->weighted_pressure ||
+                        (position->weighted_pressure == reg->weighted_pressure &&
+                         position->definition_sequence > reg->definition_sequence)))
+                    position = position->float_next;
+                if (position->weighted_pressure > reg->weighted_pressure ||
+                    (position->weighted_pressure == reg->weighted_pressure &&
+                     position->definition_sequence > reg->definition_sequence)) {
+                    position->float_next = reg;
+                    reg->float_previous = position;
+                    reg->float_next = NULL;
+                } else {
+                    reg->float_next = position;
+                    reg->float_previous = position->float_previous;
+                    position->float_previous->float_next = reg;
+                    position->float_previous = reg;
+                }
+            }
+        }
+    }
+    clear_register_set(registers);
+    return order;
+}
+void __fastcall move_float_allocation_region(C2Expression *record)
+{ __asm { int 3 } }
+C2AllocationRegister *__fastcall select_float_allocation_register(C2Function *function,
+    C2AllocationRegister *order, C2RegisterSet *retry)
+{
+    C2AllocationRegister *reg, *next;
+    C2BasicBlock *block;
+    C2Expression *record, *next_record, *operand;
+    unsigned number;
+    int side;
+
+    for (reg = order; reg; reg = next) {
+        next = reg->float_next;
+        if (reg->priority > 0 || (retry && optimizer_set_contains(retry, reg->number))) continue;
+        if (reg == order) {
+            order = next;
+            if (next) next->float_previous = NULL;
+        } else {
+            reg->float_previous->float_next = next;
+            if (next) next->float_previous = reg->float_previous;
+        }
+        number = reg->number;
+        for (block = reg->first_block; ; block = block->previous) {
+            if (!optimizer_set_contains(block->allocation_region_uses, number)) continue;
+            remove_optimizer_symbol(block->allocation_region_uses, number);
+            remove_optimizer_symbol(block->allocation_live_out, number);
+            remove_optimizer_symbol(block->allocation_live_in_after, number);
+            for (record = (C2Expression *)block->records;
+                 record != (C2Expression *)block->last_record; record = next_record) {
+                next_record = record->next;
+                if (!(record->flags & 1) || (record->type & 0xf000) != 0x4000) continue;
+                if (record->location.line) {
+                    record_source_line = function->source_line_base + record->location.line;
+                    record_line_delta = record->location.line;
+                }
+                if (record->opcode == 0x139) {
+                    if (record->tail.right->original_register == (C2FunctionRegister *)reg)
+                        unlink_and_release_input_record((C2Record *)record);
+                } else if (record->opcode == 0x13a) {
+                    if (record->left->original_register == (C2FunctionRegister *)reg)
+                        unlink_and_release_input_record((C2Record *)record);
+                } else {
+                    for (side = 0; side != 2; ++side) {
+                        for (operand = side ? record->left : record->tail.right;
+                             operand; operand = operand->next) {
+                            if (operand->kind != 1 ||
+                                operand->original_register != (C2FunctionRegister *)reg) continue;
+                            make_global_register_operand(operand);
+                            if (!side && record->float_depth_after)
+                                move_float_allocation_region(record);
+                        }
+                    }
+                }
+            }
+            if (block == reg->last_block) break;
+        }
+        release_allocation_moves(reg->float_definitions);
+        release_allocation_moves(reg->float_uses);
+        release_allocation_register(reg, 0);
+    }
+    return order;
+}
+C2AllocationRegister *__fastcall update_float_allocation_retry(C2AllocationRegister *order,
+    C2RegisterSet *retry)
+{
+    C2AllocationRegister *reg, *previous, *next;
+    unsigned number;
+
+    for (number = next_optimizer_symbol(retry); number != (unsigned)-1;
+         number = next_optimizer_symbol(NULL)) {
+        reg = lookup_allocation_register(number);
+        reg->flags |= 2;
+        release_allocation_moves(reg->float_definitions);
+        release_allocation_moves(reg->float_uses);
+        if (reg == order) {
+            order = order->float_next;
+            if (order) order->float_previous = NULL;
+        } else {
+            previous = reg->float_previous;
+            next = reg->float_next;
+            previous->float_next = next;
+            if (next) next->float_previous = previous;
+        }
+    }
+    return order;
+}
+C2RegisterSet *__fastcall float_allocation_live_at_record(C2Expression *record,
+    C2RegisterSet *assigned)
+{
+    C2RegisterSet *live = copy_optimizer_symbol_set(assigned);
+    C2BasicBlock *block;
+    C2Expression *position, *operand;
+    C2AllocationRegister *reg;
+
+    if (record->kind == 24) {
+        intersect_optimizer_symbol_sets(live, ((C2Record *)record)->owner.block->allocation_live_out);
+        return live;
+    }
+    block = allocation_block_for_record(record);
+    intersect_optimizer_symbol_sets(live, block->allocation_live_out);
+    for (position = (C2Expression *)block->records; position != record; position = position->next) {
+        if (!(position->flags & 1) || (position->type & 0xf000) != 0x4000) continue;
+        for (operand = position->left; operand; operand = operand->next) {
+            if (operand->kind != 1 || !(operand->location.expression.use_flags & 0x10)) continue;
+            if (operand->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[33])
+                ALLOCATION_KNOWN_KIND(operand->original_register);
+            reg = (C2AllocationRegister *)operand->original_register;
+            if (reg->kind == 2 && reg->pinned_register) remove_optimizer_symbol(live, reg->number);
+        }
+        for (operand = position->tail.right; operand; operand = operand->next) {
+            if (operand->kind != 1) continue;
+            if (operand->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[33])
+                ALLOCATION_KNOWN_KIND(operand->original_register);
+            reg = (C2AllocationRegister *)operand->original_register;
+            if (reg->kind == 2 && reg->pinned_register) add_register_to_set(live, reg->number);
+        }
+    }
+    return live;
+}
+int __fastcall spill_float_allocation_use(C2Expression *record, C2AllocationRegister *reg)
+{
+    C2BasicBlock *block = allocation_block_for_record(record);
+    C2Expression *position, *operand, *output;
+    C2RegisterSet *registers;
+    int live;
+
+    if (!optimizer_set_contains(block->allocation_region_uses, reg->number)) return 0;
+    live = optimizer_set_contains(block->allocation_live_out, reg->number) != 0;
+    for (position = (C2Expression *)block->records; ; position = position->next) {
+        if (position->flags & 1) {
+            if (!live) {
+                if (find_final_register_use((C2FunctionRegister *)reg, position)) live = 1;
+            } else {
+                operand = final_register_has_other_use((C2FunctionRegister *)reg, position);
+                if (operand && (operand->location.expression.use_flags & 0x10)) live = 0;
+            }
+        }
+        if (position == record) break;
+    }
+    if (!live) return 0;
+    registers = new_register_set(6);
+    add_register_to_set(registers, reg->number);
+    insert_float_allocation_barrier(record, registers);
+    output = record->tail.right;
+    if (record->opcode == 0x63 && output->kind == 1) {
+        if (output->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+            output->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+            output->original_register != (C2FunctionRegister *)&machine_registers[33])
+            ALLOCATION_KNOWN_KIND(output->original_register);
+        if (output->original_register->kind == 2 && record->float_depth_after) {
+            for (position = record->next; position->kind != 24; position = position->next) {
+                if (!(position->flags & 1) || position->opcode == 0x139 || position->opcode == 0x13a)
+                    continue;
+                if (!position->float_depth_after) break;
+                if (final_register_has_other_use((C2FunctionRegister *)reg, position)) {
+                    insert_float_allocation_barrier(position, registers);
+                    insert_float_allocation_barrier(position->previous, registers);
+                }
+            }
+        }
+    }
+    release_optimizer_symbol_set(registers);
+    block->flags |= 0x40000;
+    return 1;
+}
+C2Expression *__fastcall move_float_allocation_use(C2AllocationRegister *reg,
+    C2Expression *from, C2Expression *to, C2RegisterSet *registers)
+{ __asm { int 3 } return NULL; }
+/* The32-byte block state is eight opaque register identities. This consumer
+ * counts the populated prefix only; it does not inspect their pointees. */
+struct C2FloatBlockState { C2AllocationRegister *stack[8]; };
+typedef char C2FloatBlockStateSizeCheck[sizeof(struct C2FloatBlockState) == 32 ? 1 : -1];
+int __fastcall float_depth_before_record(C2Expression *record)
+{
+    C2Expression *position;
+    C2AllocationRegister *reg;
+    C2BasicBlock *block;
+    struct C2FloatBlockState *state;
+    unsigned count;
+    int pushed = 0;
+
+    if (record->opcode != 0x139 && record->opcode != 0x13a)
+        return (int)record->float_depth_before - (int)record->float_depth_after;
+    position = record->previous;
+    for (;;) {
+        if (position->kind == 24 && ((C2Record *)position)->owner.block) break;
+        if ((position->flags & 1) &&
+            ((position->type & 0xf000) == 0x4000 || position->kind == 13)) {
+            if (position->opcode == 0x139) {
+                reg = (C2AllocationRegister *)position->tail.right->original_register;
+                if ((unsigned long)reg >= (unsigned long)machine_registers &&
+                    (unsigned long)reg <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT))
+                    { __asm { int 3 } }
+                if (reg->pinned_register) {
+                    ++pushed;
+                    position = position->previous;
+                    continue;
+                }
+            } else if (position->opcode != 0x13a) break;
+        }
+        position = position->previous;
+    }
+    if (position->flags & 1) return (int)position->float_depth_before + pushed;
+    block = ((C2Record *)position)->owner.block;
+    if (!block->incoming) return pushed;
+    state = block->incoming->source->float_allocation;
+    for (count = 0; count < 8 && state->stack[count]; ++count) {}
+    return (int)count + pushed;
+}
+int __fastcall rebalance_float_allocation(C2Function *function, C2AllocationRegister *reg)
+{ __asm { int 3 } return 0; }
+int __fastcall float_allocation_use_conflicts(C2AllocationRegister *reg, C2Expression *record)
+{
+    C2Expression *position, *output;
+    C2AllocationRegister *other;
+    C2RegisterSet *registers;
+    int conflict = 0;
+
+    if (!(record->flags & 1)) return 0;
+    while (!final_register_has_other_use((C2FunctionRegister *)reg, record))
+        record = record->previous;
+    position = record->previous;
+    while ((position->flags & 1) && (position->float_depth_after ||
+           position->opcode == 0x139 || position->opcode == 0x13a)) {
+        output = position->tail.right;
+        if (output && (output->type & 0xf000) == 0x4000 && output->kind == 1) {
+            if (output->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                output->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                output->original_register != (C2FunctionRegister *)&machine_registers[33])
+                ALLOCATION_KNOWN_KIND(output->original_register);
+            other = (C2AllocationRegister *)output->original_register;
+            if (other->kind == 2 && position->opcode != 0x139 && other != reg) {
+                conflict = 1;
+                break;
+            }
+        }
+        position = position->previous;
+    }
+    if (!conflict) return 0;
+    allocation_block_for_record(position)->flags |= 0x40000;
+    registers = new_register_set(6);
+    add_register_to_set(registers, reg->number);
+    insert_float_allocation_barrier(record, registers);
+    insert_float_allocation_barrier(record->previous, registers);
+    release_optimizer_symbol_set(registers);
+    return 1;
+}
+void __fastcall release_float_allocation_adjustment(C2Expression *record)
+{ __asm { int 3 } }
+int __fastcall try_allocate_float_register(C2Function *function, C2AllocationRegister *reg,
+    C2RegisterSet *assigned)
+{
+    C2AllocationMoveLink *definitions = NULL, *definition_records = NULL;
+    C2AllocationMoveLink *uses = NULL, *use_records = NULL;
+    C2AllocationMoveLink *link, *item, *definition, *use, *definition_record, *use_record, *found;
+    C2AllocationRegister *other;
+    C2RegisterSet *difference;
+    C2Expression *record, *common, *adjustment = NULL;
+    unsigned number;
+    int changed = 0, depth;
+
+    for (link = reg->float_definitions; link; link = link->next) {
+        item = new_allocation_move();
+        item->next = definitions;
+        item->registers = float_allocation_live_at_record(link->record, assigned);
+        definitions = item;
+        item = new_allocation_move();
+        item->next = definition_records;
+        item->record = link->record;
+        definition_records = item;
+    }
+    for (link = reg->float_uses; link; link = link->next) {
+        item = new_allocation_move();
+        item->next = uses;
+        item->registers = float_allocation_live_at_record(link->record, assigned);
+        uses = item;
+        item = new_allocation_move();
+        item->next = use_records;
+        item->record = link->record;
+        use_records = item;
+    }
+    difference = new_register_set(6);
+    definition_record = definition_records;
+    for (definition = definitions; definition; definition = definition->next) {
+        use_record = use_records;
+        for (use = uses; use; use = use->next) {
+            copy_optimizer_symbol_set_into(difference, definition->registers);
+            subtract_optimizer_symbol_sets(difference, use->registers);
+            if (difference->links.first) {
+                for (number = next_optimizer_symbol(difference); number != (unsigned)-1;
+                     number = next_optimizer_symbol(NULL)) {
+                    other = lookup_allocation_register(number);
+                    for (found = other->float_uses; found; found = found->next)
+                        if (found->record == use_record->record) break;
+                    if (!found)
+                        for (link = other->float_uses; link; link = link->next)
+                            if (spill_float_allocation_use(link->record, reg)) changed = 1;
+                }
+            }
+            copy_optimizer_symbol_set_into(difference, use->registers);
+            subtract_optimizer_symbol_sets(difference, definition->registers);
+            if (difference->links.first) {
+                if (definition_record->record->opcode == 0x139) {
+                    record = definition_record->record->next;
+                    while (record->opcode == 0x139) {
+                        other = (C2AllocationRegister *)record->tail.right->original_register;
+                        if (other->pinned_register && optimizer_set_contains(difference, other->number)) {
+                            remove_optimizer_symbol(difference, other->number);
+                            add_register_to_set(definition->registers, other->number);
+                            move_final_label_after(record, definition_record->record);
+                            record = definition_record->record;
+                        }
+                        record = record->next;
+                    }
+                }
+                if (difference->links.first) {
+                    if (!use_record->next) {
+                        common = NULL;
+                        for (number = next_optimizer_symbol(difference); number != (unsigned)-1;
+                             number = next_optimizer_symbol(NULL)) {
+                            other = lookup_allocation_register(number);
+                            link = other->float_uses;
+                            if (link->next) break;
+                            if (!common) common = link->record;
+                            else if (common != link->record) break;
+                        }
+                        if (number == (unsigned)-1 && common != use_record->record) {
+                            adjustment = move_float_allocation_use(reg, use_record->record,
+                                common, difference);
+                            if (adjustment) {
+                                use_record->record = common;
+                                reg->float_uses->record = common;
+                                clear_register_set(difference);
+                            }
+                        }
+                    }
+                    if (difference->links.first) {
+                        for (number = next_optimizer_symbol(difference); number != (unsigned)-1;
+                             number = next_optimizer_symbol(NULL)) {
+                            other = lookup_allocation_register(number);
+                            for (found = other->float_uses; found; found = found->next)
+                                if (found->record == use_record->record) break;
+                            if (!found)
+                                for (link = other->float_definitions; link; link = link->next)
+                                    if (spill_float_allocation_use(link->record, reg)) changed = 1;
+                        }
+                    }
+                }
+            }
+            use_record = use_record->next;
+        }
+        for (number = next_optimizer_symbol(definition->registers); number != (unsigned)-1;
+             number = next_optimizer_symbol(NULL)) {
+            other = lookup_allocation_register(number);
+            for (link = other->float_uses; link; link = link->next)
+                if (spill_float_allocation_use(link->record, reg)) changed = 1;
+        }
+        definition_record = definition_record->next;
+    }
+    release_optimizer_symbol_set(difference);
+    for (link = definitions; link; link = link->next)
+        release_optimizer_symbol_set(link->registers);
+    for (link = uses; link; link = link->next)
+        release_optimizer_symbol_set(link->registers);
+    release_allocation_moves(definitions);
+    release_allocation_moves(definition_records);
+    release_allocation_moves(uses);
+    release_allocation_moves(use_records);
+    if (!changed) {
+        link = reg->float_definitions->next;
+        if (link) {
+            depth = float_depth_before_record(reg->float_definitions->record);
+            for (; link; link = link->next)
+                if (depth != float_depth_before_record(link->record)) break;
+            if (link && rebalance_float_allocation(function, reg)) goto failed;
+        }
+        for (link = reg->float_uses; link; link = link->next)
+            if (float_allocation_use_conflicts(reg, link->record)) changed = 1;
+        if (!changed) return 1;
+    }
+failed:
+    if (adjustment) release_float_allocation_adjustment(adjustment);
+    return 0;
+}
+typedef struct C2AllocationSpillBlock {
+    struct C2AllocationSpillBlock *next, *previous;
+    C2BasicBlock *block;
+    C2RegisterSet *saved_uses, *saved_definitions;
+} C2AllocationSpillBlock;
+typedef char C2AllocationSpillBlockSize[sizeof(C2AllocationSpillBlock) == 20 ? 1 : -1];
+C2AllocationSpillBlock *new_allocation_spill_block(void);
+void __fastcall release_allocation_spill_block(C2AllocationSpillBlock *block);
+#define FLOAT_SPILL_KIND(value) do { \
+    if ((value) != (C2FunctionRegister *)&machine_registers[31] && \
+        (value) != (C2FunctionRegister *)&machine_registers[32] && \
+        (value) != (C2FunctionRegister *)&machine_registers[33]) ALLOCATION_KNOWN_KIND(value); \
+} while (0)
+C2RegisterSet *__fastcall spill_float_allocation_register(C2Function *function,
+    C2AllocationRegister *reg, C2RegisterSet *assigned, C2RegisterSet *seen)
+{
+    C2AllocationMoveLink *link;
+    C2AllocationSpillBlock *work = NULL, *tail = NULL, *item;
+    C2BasicBlock *block, *last, *neighbor, *split;
+    C2FlowEdge *edge, *next_edge;
+    C2Expression *record, *position, *scan, *operand, *input, *output, *inserted;
+    C2Expression *resume, *stop = NULL;
+    C2AllocationRegister *other, *stack[8];
+    C2RegisterSet *scratch, *retry, *single;
+    unsigned short type = reg->source->type;
+    unsigned number = reg->number, line;
+    int top, i, selected_live, full = 0, side;
+
+    for (link = reg->float_uses; link; link = link->next) {
+        record = link->record;
+        if (record->kind == 24) continue;
+        while (!(operand = final_register_has_other_use((C2FunctionRegister *)reg, record)))
+            record = record->previous;
+        operand->location.expression.use_flags &= ~0x10;
+        position = record;
+        if (record != link->record) {
+            position = record->next;
+            while (position != link->record) {
+                output = position->tail.right;
+                if (output && (output->type & 0xf000) == 0x4000 && output->kind == 1) {
+                    FLOAT_SPILL_KIND(output->original_register);
+                    if (output->original_register->kind == 2) break;
+                }
+                position = position->next;
+            }
+        }
+        output = position->tail.right;
+        if (output && (output->type & 0xf000) == 0x4000) {
+            position = position->previous;
+            while (position->opcode == 0x63) {
+                FLOAT_SPILL_KIND(position->left->original_register);
+                if (position->left->original_register->kind != 2) break;
+                position = position->previous;
+            }
+        }
+        if (record->opcode == 0x16c) {
+            if (position == record) position = position->previous;
+            unlink_and_release_input_record((C2Record *)record);
+        }
+        line = position->location.line;
+        if (line) {
+            record_source_line = function->source_line_base + line;
+            record_line_delta = (unsigned short)line;
+        }
+        input = new_temporary_register_expression(0x11f, type, reg->source,
+            (C2FunctionRegister *)reg);
+        output = new_temporary_register_expression(0x11f, type,
+            (C2FunctionRegister *)&machine_registers[31],
+            (C2FunctionRegister *)&machine_registers[31]);
+        inserted = new_binary_expression(0x63, type, output, input,
+            insert_input_record, (C2Record *)position);
+        scan = inserted->previous;
+        while ((scan->type & 0xf000) != 0x4000 && scan->kind != 13) scan = scan->previous;
+        inserted->float_depth_before = scan->float_depth_before;
+        inserted->float_depth_after = scan->float_depth_after;
+        inserted->left->location.expression.use_flags |= 0x10;
+    }
+    scratch = new_register_set(6);
+    retry = new_register_set(6);
+    last = reg->last_block;
+    for (block = reg->first_block; ; block = block->previous) {
+        if (optimizer_set_contains(block->allocation_region_uses, number)) {
+            item = new_allocation_spill_block();
+            item->block = block;
+            item->next = NULL;
+            if (tail) tail->next = item;
+            else work = item;
+            tail = item;
+        }
+        if (block == last) break;
+    }
+    while (work) {
+        item = work;
+        block = item->block;
+        work = item->next;
+        release_allocation_spill_block(item);
+        if (optimizer_set_contains(block->allocation_live_out, number)) {
+            for (edge = block->incoming; edge; edge = edge->next_incoming) {
+                for (i = 0; i < 8; ++i)
+                    if (edge->source->float_allocation->stack[i] == reg) break;
+                if (i < 8) break;
+            }
+            if (!edge) {
+                item = new_allocation_spill_block();
+                item->next = NULL;
+                item->block = block;
+                tail->next = item;
+                tail = item;
+                continue;
+            }
+            memcpy(stack, edge->source->float_allocation, 32);
+            selected_live = 1;
+        } else {
+            if (!block->incoming) memset(stack, 0, sizeof(stack));
+            else memcpy(stack, block->incoming->source->float_allocation, 32);
+            selected_live = 0;
+        }
+        /* The original counts until a NULL in its eight local cells, without
+         * a ninth-cell bound. Native stack neighbors are not equivalent if
+         * that fully populated incidental-stack domain is ever encountered. */
+        for (top = 0; ; ++top) {
+#ifdef __linux__
+            if (top == 8) { __asm { int 3 } }
+#endif
+            if (!stack[top]) break;
+        }
+        --top;
+        copy_optimizer_symbol_set_into(scratch, seen);
+        subtract_optimizer_symbol_sets(scratch, assigned);
+        intersect_optimizer_symbol_sets(scratch, block->allocation_live_out);
+        for (record = (C2Expression *)block->records;
+             record != (C2Expression *)block->last_record; record = resume->next) {
+            resume = record;
+            if (!(record->flags & 1) ||
+                ((record->type & 0xf000) != 0x4000 && record->kind != 13)) continue;
+            line = record->location.line;
+            if (line) {
+                record_source_line = function->source_line_base + line;
+                record_line_delta = (unsigned short)line;
+            }
+            for (operand = record->left; operand; operand = operand->next) {
+                if ((operand->type & 0xf000) != 0x4000 || operand->kind != 1 ||
+                    !(operand->location.expression.use_flags & 0x10)) continue;
+                FLOAT_SPILL_KIND(operand->original_register);
+                other = (C2AllocationRegister *)operand->original_register;
+                if (other->kind != 2) continue;
+                if (other != reg) {
+                    if (!other->pinned_register) remove_optimizer_symbol(scratch, other->number);
+                    else stack[top--] = NULL;
+                    continue;
+                }
+                if (stack[top] != reg) {
+                    resume = record->previous;
+                    position = record->next;
+                    i = top - 1;
+                    while (stack[i] != reg) {
+                        position = position->next;
+                        --i;
+                    }
+                    move_final_label_after(position, record);
+                    goto next_float_spill_record;
+                }
+                stack[top--] = NULL;
+                if (!record->float_depth_after) selected_live = 0;
+                else {
+                    position = record->next;
+                    while (position->float_depth_after ||
+                           ((position->type & 0xf000) != 0x4000 && position->kind != 13) ||
+                           position->opcode == 0x139 || position->opcode == 0x13a)
+                        position = position->next;
+                    position = position->previous;
+                    while ((position->type & 0xf000) != 0x4000 && position->kind != 13)
+                        position = position->previous;
+                    if (position == record) selected_live = 0;
+                    else stop = position;
+                }
+            }
+            for (operand = record->tail.right; operand; operand = operand->next) {
+                if ((operand->type & 0xf000) != 0x4000 || operand->kind != 1) continue;
+                FLOAT_SPILL_KIND(operand->original_register);
+                other = (C2AllocationRegister *)operand->original_register;
+                if (other->kind != 2) continue;
+                if (!other->pinned_register) add_register_to_set(scratch, other->number);
+                else {
+                    for (i = 0; i <= top; ++i) if (stack[i] == other) break;
+                    if (i > top) {
+                        stack[i] = other;
+                        ++top;
+                        if (other == reg) selected_live = 1;
+                    }
+                }
+            }
+            if (selected_live) {
+                ++record->float_depth_before;
+                if (record->float_depth_before == 8) full = 1;
+                if (record == stop) {
+                    selected_live = 0;
+                    stop = NULL;
+                }
+            }
+            if (full && !record->float_depth_after &&
+                record->opcode != 0x139 && record->opcode != 0x13a) {
+                full = 0;
+                if (scratch->links.first) {
+                    insert_float_allocation_barrier(record, scratch);
+                    merge_optimizer_symbol_sets(retry, scratch);
+                    block->flags |= 0x40000;
+                }
+                for (scan = record->previous; scan->kind != 24; scan = scan->previous) {
+                    if (!(scan->flags & 1) || scan->opcode == 0x139 || scan->opcode == 0x13a) continue;
+                    for (side = 0; side < 2; ++side) {
+                        if (!side && !scan->float_depth_after) continue;
+                        for (operand = side ? scan->left : scan->tail.right;
+                             operand; operand = operand->next) {
+                            if ((operand->type & 0xf000) != 0x4000 || operand->kind != 1) continue;
+                            FLOAT_SPILL_KIND(operand->original_register);
+                            other = (C2AllocationRegister *)operand->original_register;
+                            if (other->kind != 2 || other->pinned_register || other == reg) continue;
+                            single = new_register_set(6);
+                            add_register_to_set(single, other->number);
+                            insert_float_allocation_barrier(scan, single);
+                            insert_float_allocation_barrier(scan->previous, single);
+                            release_optimizer_symbol_set(single);
+                            add_register_to_set(retry, operand->original_register->number);
+                            block->flags |= 0x40000;
+                        }
+                    }
+                    if (!scan->float_depth_after) break;
+                }
+            }
+next_float_spill_record: ;
+        }
+        if (!selected_live) continue;
+        for (edge = block->outgoing; edge; edge = next_edge) {
+            next_edge = edge->next_outgoing;
+            neighbor = edge->destination;
+            if (optimizer_set_contains(neighbor->allocation_live_out, number)) continue;
+            if (!neighbor->incoming->next_incoming) {
+                position = (C2Expression *)neighbor->records;
+                if (position->kind == 24) {
+                    do {
+                        position = position->next;
+                        if (position == (C2Expression *)neighbor->last_record) {
+                            position = position->previous;
+                            break;
+                        }
+                    } while (position->kind == 24);
+                }
+                if (position->flags & 1) position = position->previous;
+                i = top;
+                while (stack[i] != reg) {
+                    position = position->next;
+                    --i;
+                }
+            } else {
+                split = split_allocation_edge(function, edge, block, neighbor);
+                split->allocation_live_out = copy_optimizer_symbol_set(neighbor->allocation_live_out);
+                split->allocation_live_in_after = copy_optimizer_symbol_set(neighbor->allocation_live_out);
+                split->allocation_region_uses = copy_optimizer_symbol_set(neighbor->allocation_live_out);
+                split->allocation_edge_uses = new_register_set(8);
+                split->allocation_edge_definitions = new_register_set(8);
+                split->allocation_region_input = new_register_set(6);
+                split->block_scope = neighbor->block_scope;
+                split->region_depth = neighbor->region_depth;
+                split->float_allocation = c2_pool_allocate(4, 32);
+                memcpy(split->float_allocation, block->float_allocation, 32);
+                position = (C2Expression *)split->records;
+                if (position->next->kind == 25) position = position->next;
+                neighbor = split;
+            }
+            line = position->location.line;
+            if (line) {
+                record_source_line = function->source_line_base + line;
+                record_line_delta = (unsigned short)line;
+            }
+            input = new_temporary_register_expression(0x11f, type, reg->source,
+                (C2FunctionRegister *)reg);
+            output = new_temporary_register_expression(0x11f, type,
+                (C2FunctionRegister *)&machine_registers[31],
+                (C2FunctionRegister *)&machine_registers[31]);
+            inserted = new_binary_expression(0x63, type, output, input,
+                insert_input_record, (C2Record *)position);
+            inserted->left->location.expression.use_flags |= 0x10;
+            add_register_to_set(neighbor->allocation_live_out, reg->number);
+            add_register_to_set(neighbor->allocation_region_uses, reg->number);
+        }
+        memcpy(block->float_allocation, stack, 32);
+    }
+    release_optimizer_symbol_set(scratch);
+    if (!retry->links.first) {
+        release_optimizer_symbol_set(retry);
+        retry = NULL;
+    }
+    return retry;
+}
+#undef FLOAT_SPILL_KIND
+C2FunctionRegister *__fastcall new_spill_temporary_register(unsigned short type);
+void __fastcall finish_float_allocation_machine(void)
+{
+    C2FlowRegion *region;
+    C2BasicBlock *header, *before, *after;
+    C2FlowEdge *edge;
+    C2AllocationRegister *reg, *index, *allocated;
+    C2AllocationMoveLink *link;
+    C2FunctionRegister *temporary_reg;
+    C2Expression *first, *last, *record, *scan, *move, *definition;
+    C2Expression *operand, *candidate, *temporary, *inserted, *result;
+    unsigned count;
+    unsigned short type;
+
+    for (region = allocation_region_chain; region; region = region->allocation_next) {
+        header = region->header;
+        before = header->next;
+        edge = before->outgoing;
+        if (edge->destination != header || edge->next_outgoing) continue;
+        after = header->previous;
+        edge = after->incoming;
+        if (edge->source != header || edge->next_incoming) continue;
+        edge = header->outgoing;
+        if (edge->destination != header && edge->destination != after) continue;
+        edge = edge->next_outgoing;
+        if (!edge || (edge->destination != header && edge->destination != after)) continue;
+        last = (C2Expression *)header->last_record;
+        for (count = 0; ; ++count) {
+#ifdef __linux__
+            /* The original reads beyond its eight-cell state if every cell is
+             * populated. Native adjacent storage has no equivalent identity. */
+            if (count == 8) { __asm { int 3 } }
+#endif
+            reg = header->float_allocation->stack[count];
+            if (!reg) break;
+            for (link = reg->float_uses; link; link = link->next) {
+                if (allocation_block_for_record(link->record) != header) continue;
+                if (link->record->kind == 24) goto next_float_finish_region;
+                first = (C2Expression *)header->records;
+                for (move = first; move != last; move = move->next) {
+                    operand = move->left;
+                    if (move->opcode == 0x63 && operand->kind == 1 &&
+                        operand->original_register == (C2FunctionRegister *)reg &&
+                        (operand->location.expression.use_flags & 0x10)) break;
+                }
+                for (definition = first; definition != last; definition = definition->next) {
+                    operand = definition->tail.right;
+                    if ((definition->flags & 1) && operand && operand->kind == 1 &&
+                        operand->original_register == (C2FunctionRegister *)reg) break;
+                }
+                if (definition->opcode == 0x139) goto next_float_finish_region;
+                for (scan = move->next; scan != definition; scan = scan->next) {
+                    if (!(scan->flags & 1)) continue;
+                    if ((scan->kind == 13 && (scan->left->kind != 4 ||
+                         !(scan->left->value.symbol->flags & 0x10000))) ||
+                        scan->kind == 20 || scan->float_depth_before == 8) break;
+                }
+                if (scan != definition) goto next_float_finish_region;
+                for (scan = move->next; scan != definition; scan = scan->next)
+                    if (scan->flags & 1) ++scan->float_depth_before;
+                unlink_and_release_input_record((C2Record *)move);
+            }
+        }
+        if (count >= 7) continue;
+        first = (C2Expression *)header->records;
+        for (record = first; record != last; record = record->next) {
+            if (!(record->flags & 1)) continue;
+            candidate = record->tail.right;
+            if (!candidate || candidate->kind != 6 ||
+                (candidate->type & 0xf000) != 0x4000 || candidate->opcode != 0x122) continue;
+            index = (C2AllocationRegister *)candidate->aggregate_value->original_register;
+            if ((unsigned long)index >= (unsigned long)machine_registers &&
+                (unsigned long)index <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT))
+                { __asm { int 3 } }
+            if (index->kind != 2 ||
+                !optimizer_set_contains(header->allocation_live_out, index->number) ||
+                !optimizer_set_contains(header->allocation_live_in_after, index->number)) continue;
+            for (scan = first; scan != last; scan = scan->next) {
+                if (!(scan->flags & 1)) continue;
+                if ((scan->kind == 13 && (scan->left->kind != 4 ||
+                     !(scan->left->value.symbol->flags & 0x10000))) ||
+                    scan->kind == 20 || scan->float_depth_before == 8) break;
+                for (operand = scan->tail.right; operand; operand = operand->next) {
+                    switch (operand->kind) {
+                    case 1:
+                        if (operand->original_register == (C2FunctionRegister *)index)
+                            goto rejected_float_loop_value;
+                        break;
+                    case 2:
+                        if (register_may_alias_index(operand->value.reg, candidate->immediate))
+                            goto rejected_float_loop_value;
+                        break;
+                    case 6:
+                        if (operand != candidate &&
+                            optimizer_indices_overlap(candidate->immediate, operand->immediate))
+                            goto rejected_float_loop_value;
+                        break;
+                    case 10:
+                        if (optimizer_indices_overlap(candidate->immediate, operand->value.optimizer_index))
+                            goto rejected_float_loop_value;
+                        break;
+                    }
+                }
+                for (operand = scan->left; operand; operand = operand->next) {
+                    if (operand->kind == 2) {
+                        if (register_may_alias_index(operand->value.reg, candidate->immediate))
+                            goto rejected_float_loop_value;
+                    } else if (operand->kind == 6) {
+                        if (optimizer_indices_overlap(candidate->immediate, operand->immediate) &&
+                            (operand->opcode != 0x122 ||
+                             operand->aggregate_value->original_register != (C2FunctionRegister *)index ||
+                             (operand->type & 0xf000) != 0x4000 ||
+                             ((operand->type ^ candidate->type) & 0xfff) ||
+                             operand->detail.data != candidate->detail.data ||
+                             operand->tail.right != candidate->tail.right))
+                            goto rejected_float_loop_value;
+                    } else if (operand->kind == 10 &&
+                        optimizer_indices_overlap(candidate->immediate, operand->value.optimizer_index))
+                        goto rejected_float_loop_value;
+                }
+            }
+rejected_float_loop_value:
+            if (scan != last) continue;
+            type = candidate->type;
+            temporary_reg = new_spill_temporary_register(type);
+            allocated = (C2AllocationRegister *)get_allocation_register(temporary_reg);
+            allocated->flags &= ~1;
+            clear_register_set(allocation_float_registers);
+            allocated->pinned_register = (C2FunctionRegister *)&machine_registers[31];
+            temporary = new_temporary_register_expression(0x11f, type, temporary_reg,
+                (C2FunctionRegister *)allocated);
+            record_line_delta = 0;
+            inserted = new_assignment_expression(0x60, type, candidate,
+                prepend_input_record, before->last_record);
+            result = inserted->tail.right;
+            result->original_register = (C2FunctionRegister *)&machine_registers[31];
+            inserted->float_depth_after = 1;
+            inserted->float_depth_before = (unsigned char)count;
+            inserted = new_binary_expression(0x63, type, temporary, result,
+                insert_input_record, (C2Record *)inserted);
+            inserted->float_depth_before = (unsigned char)(count + 1);
+            inserted->tail.right->float_stack_index = 1;
+            inserted = new_assignment_expression(0x60, type, temporary,
+                insert_input_record, after->records);
+            result = inserted->tail.right;
+            inserted->float_depth_after = 1;
+            inserted->float_depth_before = (unsigned char)(count + 2);
+            result->original_register = (C2FunctionRegister *)&machine_registers[31];
+            inserted = new_binary_expression(0x63, type, candidate, result,
+                insert_input_record, (C2Record *)inserted);
+            inserted->float_depth_before = (unsigned char)(count + 1);
+            operand = new_temporary_register_expression(0x11f, type,
+                (C2FunctionRegister *)&machine_registers[31],
+                (C2FunctionRegister *)&machine_registers[31]);
+            inserted = new_binary_expression(0x63, type, operand, temporary,
+                insert_input_record, (C2Record *)inserted);
+            inserted->left->location.expression.use_flags |= 0x10;
+            inserted->float_depth_before = (unsigned char)count;
+            header->float_allocation->stack[count] = allocated;
+            before->float_allocation->stack[count] = allocated;
+            for (scan = first; scan != last; scan = scan->next) {
+                if (!(scan->flags & 1)) continue;
+                for (operand = scan->left; operand; operand = operand->next) {
+                    if (operand->kind == 6 && operand->opcode == 0x122 &&
+                        operand->aggregate_value->original_register == (C2FunctionRegister *)index &&
+                        operand->detail.data == candidate->detail.data) {
+                        attach_input_expression(scan, operand, temporary);
+                        break;
+                    }
+                }
+                ++scan->float_depth_before;
+            }
+            replace_input_result(record, candidate, temporary)->allocation_class_number = 1;
+            if (!optimizer_set_contains(after->allocation_live_out, index->number)) {
+                add_register_to_set(after->allocation_live_out, index->number);
+                add_register_to_set(after->allocation_region_uses, index->number);
+                index->last_block = after;
+            }
+            if (++count >= 7) break;
+        }
+next_float_finish_region: ;
+    }
+}
+void __fastcall move_record_range_before(C2Expression *destination,
+    C2Expression *first, C2Expression *last);
+C2Expression *__fastcall new_fixed_register_operand(unsigned number, unsigned short type);
+void __fastcall move_float_allocation_store_to_exits(C2FlowRegion *region,
+    C2Expression *record, C2FunctionRegister *source, C2RegisterSet *seen, C2Function *function)
+{
+    C2FlowRegion *chosen = region, *parent;
+    C2FlowBlockLink *exit;
+    C2FlowEdge *edge, *next_edge;
+    C2BasicBlock *from, *target, *destination;
+    C2Expression *first, *scan, *operand, *copy, *swap, *left, *right;
+    struct C2FloatBlockState *state;
+    unsigned index, top;
+    unsigned short type;
+    /* The original carries the non-NULL source in its search-result register
+     * until a real operand scan writes it, including across empty exits. */
+    int has_use = source != NULL;
+
+    for (parent = region->parent; parent; parent = parent->parent) {
+        if (optimizer_set_contains(parent->allocation_eligible, source->allocation->number)) break;
+        chosen = parent;
+    }
+    for (exit = chosen->exits; exit; exit = exit->next) {
+        from = exit->block;
+        for (edge = from->outgoing; edge; edge = next_edge) {
+            next_edge = edge->next_outgoing;
+            target = edge->destination;
+            if (target->block_scope == chosen) continue;
+            destination = target;
+            if (target->incoming->next_incoming) {
+                destination = split_allocation_edge(function, edge, from, target);
+                destination->allocation_live_out = copy_optimizer_symbol_set(target->allocation_live_out);
+                subtract_optimizer_symbol_sets(destination->allocation_live_out, seen);
+                destination->allocation_live_in_after = copy_optimizer_symbol_set(target->allocation_live_out);
+                subtract_optimizer_symbol_sets(destination->allocation_live_in_after, seen);
+                destination->allocation_region_uses = copy_optimizer_symbol_set(target->allocation_live_out);
+                subtract_optimizer_symbol_sets(destination->allocation_region_uses, seen);
+                destination->allocation_edge_uses = new_register_set(8);
+                destination->allocation_edge_definitions = new_register_set(8);
+                destination->allocation_region_input = new_register_set(6);
+                destination->region_depth = target->region_depth;
+                destination->block_scope = target->block_scope;
+                destination->float_allocation = c2_pool_allocate(4, 32);
+                memcpy(destination->float_allocation, from->float_allocation, 32);
+            }
+            first = (C2Expression *)destination->records;
+            for (scan = first; scan != (C2Expression *)destination->last_record; scan = scan->next) {
+                if (!(scan->flags & 1)) continue;
+                has_use = 0;
+                for (operand = scan->left; operand; operand = operand->next) {
+                    if (operand->kind == 1 && operand->value.reg == source) {
+                        has_use = 1;
+                        goto found_float_exit_use;
+                    }
+                }
+                for (operand = scan->tail.right; operand; operand = operand->next) {
+                    if (operand->kind == 1 && operand->value.reg == source && scan->opcode != 0x5f)
+                        goto found_float_exit_use;
+                }
+            }
+found_float_exit_use:
+            if (has_use) {
+                if ((scan->opcode == 0x62 || scan->opcode == 0x63) &&
+                    scan->tail.right->kind == 2 && scan->tail.right->value.reg == source) continue;
+                if (scan->opcode == 0x63) {
+                    replace_input_result(scan, scan->tail.right, record->tail.right);
+                    continue;
+                }
+            }
+            state = from->float_allocation;
+            for (index = 0; ; ++index) {
+                /* This consumer owns exactly the eight initialized stack
+                 * cells; absent source identities or the sentinel's unmodeled
+                 * leading DWORD must stop before any unknown payload read. */
+                if (index >= 8 || state->stack[index] ==
+                    (C2AllocationRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT))
+                    { __asm { int 3 } }
+                if (state->stack[index]->source == source) break;
+            }
+            top = index;
+            if (index != 7) {
+                top = index + 1;
+                for (;;) {
+                    if (top >= 8) { __asm { int 3 } }
+                    if (!state->stack[top]) break;
+                    ++top;
+                }
+                --top;
+            }
+            while (!(first->flags & 1) && first->kind != 23 &&
+                   first != (C2Expression *)destination->last_record) first = first->next;
+            copy = copy_input_expression(record);
+            prepend_input_record((C2Record *)first, (C2Record *)copy);
+            if (top != index) {
+                type = copy->type;
+                left = new_temporary_register_expression(0x11f, type, state->stack[top]->source,
+                    (C2FunctionRegister *)&machine_registers[31 + top - index]);
+                right = new_temporary_register_expression(0x11f, type, source,
+                    (C2FunctionRegister *)&machine_registers[31]);
+                swap = new_binary_expression(0x5f, type, right, left,
+                    prepend_input_record, (C2Record *)copy);
+                operand = copy_input_expression(swap);
+                insert_input_record((C2Record *)copy, (C2Record *)operand);
+            }
+        }
+    }
+    unlink_and_release_input_record((C2Record *)record);
+}
+#define FLOAT_REWRITE_KIND(value) do { \
+    if ((value) != (C2FunctionRegister *)&machine_registers[31] && \
+        (value) != (C2FunctionRegister *)&machine_registers[32] && \
+        (value) != (C2FunctionRegister *)&machine_registers[33]) ALLOCATION_KNOWN_KIND(value); \
+} while (0)
+/* These expressions construct only identities within the existing75-row owner,
+ * including its proved one-past sentinel; they read no new row payload. */
+#define FLOAT_REWRITE_PHYSICAL(number) do { \
+    physical = (unsigned)(number); \
+    if (physical > C2_MACHINE_REGISTER_COUNT) { __asm { int 3 } } \
+} while (0)
+void __fastcall rewrite_float_allocation_registers(C2Function *function,
+    C2RegisterSet *seen, C2RegisterSet *assigned)
+{
+    C2BasicBlock *block;
+    C2FlowRegion *region;
+    C2AllocationRegister *reg;
+    C2FunctionRegister *stack[8], *value, *saved;
+    C2FunctionRegister *sentinel = (C2FunctionRegister *)(machine_registers + C2_MACHINE_REGISTER_COUNT);
+    C2FunctionRegister *st0 = (C2FunctionRegister *)&machine_registers[31];
+    C2Expression *record, *next, *operand, *output, *scan, *position, *definition;
+    C2Expression *match, *created, *left, *right;
+    unsigned number, line, physical;
+    int top, position_index, effect, i, anonymous = 0, displaced = 0;
+
+    for (block = function->flow->last; block; block = block->previous) {
+        if (!block->incoming) memset(stack, 0, sizeof(stack));
+        else memcpy(stack, block->incoming->source->float_allocation, 32);
+        for (top = 0; ; ++top) {
+#ifdef __linux__
+            /* Original unbounded prefix counting may read adjacent stack if
+             * all eight cells are occupied; native incidental bytes differ. */
+            if (top == 8) { __asm { int 3 } }
+#endif
+            if (!stack[top]) break;
+        }
+        --top;
+        for (record = (C2Expression *)block->records;
+             record != (C2Expression *)block->last_record; record = next) {
+            next = record->next;
+            record->float_depth_before = 0;
+            if (!(record->flags & 1) ||
+                ((record->type & 0xf000) != 0x4000 && record->kind != 13)) continue;
+            line = record->location.line;
+            if (line) {
+                record_source_line = function->source_line_base + line;
+                record_line_delta = (unsigned short)line;
+            }
+            if (record->float_depth_after == 0x13) continue;
+            for (operand = record->left; operand; operand = operand->next) {
+                if ((operand->type & 0xf000) != 0x4000 || operand->kind != 1) continue;
+                FLOAT_REWRITE_KIND(operand->original_register);
+                value = operand->original_register;
+                if (value->kind != 2) continue;
+                if (record->opcode == 0x63) {
+                    if (stack[top] == value) {
+                        operand->original_register = st0;
+                        continue;
+                    }
+                    for (position_index = 0; stack[position_index] != value; ++position_index) {}
+                    for (i = position_index; i < top; ++i) stack[i] = stack[i + 1];
+                    stack[top--] = NULL;
+                    ++displaced;
+                    goto next_float_rewrite_record;
+                }
+                if (operand->location.expression.use_flags & 0x10) continue;
+                for (position_index = 0; stack[position_index] != value; ++position_index) {}
+                if (record->opcode == 0x60 && position_index == top) {
+                    scan = record->next;
+                    if (scan->flags & 1) {
+                        while (scan->float_depth_after || (scan->type & 0xf000) != 0x4000 ||
+                               scan->opcode == 0x139 || scan->opcode == 0x13a) {
+                            if (final_register_has_other_use(value, scan)) break;
+                            scan = scan->next;
+                            if (!(scan->flags & 1)) break;
+                        }
+                    }
+                    if (scan->opcode == 0x63 && scan->left->original_register == value) {
+                        position = record->next;
+                        if (position == scan) position = position->next;
+                        for (match = position->left; match; match = match->next)
+                            if (match->kind == 1 &&
+                                match->value.reg->canonical == record->tail.right->value.reg->canonical) break;
+                        if (match) {
+                            attach_input_expression(position, match, record->left)->original_register = st0;
+                            unlink_and_release_input_record((C2Record *)record);
+                            if (scan == next) next = scan->next;
+                            unlink_and_release_input_record((C2Record *)scan);
+                            ++anonymous;
+                            stack[top] = sentinel;
+                            goto next_float_rewrite_record;
+                        }
+                    }
+                }
+                FLOAT_REWRITE_PHYSICAL(31U + (unsigned)displaced + (unsigned)(top - position_index));
+                operand->original_register = (C2FunctionRegister *)&machine_registers[physical];
+            }
+            effect = final_float_stack_effect(record);
+            if (effect < 0) {
+                if (stack[top] == sentinel) --anonymous;
+                stack[top--] = NULL;
+                if (effect == -2) {
+                    if (stack[top] == sentinel) --anonymous;
+                    stack[top--] = NULL;
+                }
+            }
+            output = record->tail.right;
+            if (output && output->kind == 1 && (output->type & 0xf000) == 0x4000) {
+                FLOAT_REWRITE_KIND(output->original_register);
+                value = output->original_register;
+            } else value = NULL;
+            if (!value || value->kind != 2) {
+                if (effect > 0) {
+                    stack[++top] = sentinel;
+                    ++anonymous;
+                } else if (record->opcode == 0x62 && output->kind == 1 &&
+                           output->original_register == st0 && output->value.reg == st0) {
+                    stack[top--] = NULL;
+                    --anonymous;
+                }
+                goto reorder_float_rewrite_tail;
+            }
+            for (position_index = 0; position_index <= top; ++position_index)
+                if (stack[position_index] == value) break;
+            if (position_index > top) {
+                stack[++top] = value;
+                output->original_register = st0;
+                record->opcode = record->opcode == 0x63 ? 0x62 : 0x60;
+            } else {
+                FLOAT_REWRITE_PHYSICAL(32U + (unsigned)(top - position_index));
+                output->original_register = (C2FunctionRegister *)&machine_registers[physical];
+            }
+            if (!output->allocation_class_number && record->opcode != 0x60) {
+                for (scan = next; scan->opcode != 0x13a; scan = scan->next) {}
+                operand = scan->left;
+                scan->float_depth_before = 0;
+                scan->opcode = 0x62;
+                operand->original_register = st0;
+                region = block->block_scope;
+                if (region) {
+                    value = operand->value.reg;
+                    if (!optimizer_set_contains(region->allocation_eligible, value->allocation->number) &&
+                        (c2_favor_speed || !region->exits->next)) {
+                        if (scan == next) next = scan->next;
+                        move_float_allocation_store_to_exits(region, scan, value, seen, function);
+                        record->tail.right->allocation_class_number = 1;
+                        goto reorder_float_rewrite;
+                    }
+                }
+                unlink_input_record((C2Record *)scan);
+                prepend_input_record((C2Record *)record, (C2Record *)scan);
+                next = record->next;
+            }
+reorder_float_rewrite:
+            if (!displaced) {
+                if (anonymous < 1 || record->opcode == 0x63) goto reorder_float_rewrite_tail;
+                definition = record->left->value.reg->value;
+                for (scan = record->previous; scan != definition &&
+                     ((scan->type & 0xf000) != 0x4000 || scan->opcode == 0x138);
+                     scan = scan->previous) {}
+                if (scan->opcode == 0x5f &&
+                    (int)(scan->left->original_register->number - 31) == anonymous) {
+                    unlink_and_release_input_record((C2Record *)scan);
+                    created = record;
+                    for (i = anonymous - 1; i > 0; --i) {
+                        left = new_fixed_register_operand((unsigned)i + 31, 0x4008);
+                        right = new_fixed_register_operand(31, 0x4008);
+                        created = new_binary_expression(0x5f, 0x4008, right, left,
+                            insert_input_record, (C2Record *)created);
+                    }
+                    replace_input_result(definition, definition->tail.right, record->tail.right);
+                    if (!record->tail.right->allocation_class_number) {
+                        position = record->previous;
+                        unlink_input_record((C2Record *)position);
+                        insert_input_record((C2Record *)definition, (C2Record *)position);
+                    }
+                } else {
+                    created = record;
+                    for (i = anonymous; i > 0; --i) {
+                        left = new_fixed_register_operand((unsigned)i + 31, 0x4008);
+                        right = new_fixed_register_operand(31, 0x4008);
+                        created = new_binary_expression(0x5f, 0x4008, right, left,
+                            insert_input_record, (C2Record *)created);
+                    }
+                    value = record->left->value.reg;
+                    definition = value->value;
+                    for (match = definition->tail.right; match; match = match->next)
+                        if (match->kind == 1 && match->value.reg->canonical == value->canonical) break;
+                    replace_input_result(definition, match, record->tail.right);
+                }
+                unlink_and_release_input_record((C2Record *)record);
+                saved = stack[top];
+                for (i = 0; i < anonymous; ++i) stack[top - i] = stack[top - i - 1];
+                stack[top - anonymous] = saved;
+                goto next_float_rewrite_record;
+            }
+            if (anonymous < 1) goto reorder_float_rewrite_tail;
+            position = record->previous;
+            if (!record->tail.right->allocation_class_number) position = position->previous;
+            scan = position->previous;
+            position->float_depth_after = 0x13;
+            for (i = displaced - 1; i > 0; --i) {
+                scan->float_depth_after = 0x13;
+                scan = scan->previous;
+            }
+            definition = scan->next;
+            for (scan = next; ; scan = scan->next) {
+                output = scan->tail.right;
+                if (output && (output->type & 0xf000) == 0x4000 && output->kind == 1) {
+                    FLOAT_REWRITE_KIND(output->original_register);
+                    if (output->original_register->kind == 2) break;
+                }
+                if (!scan->float_depth_after && scan->opcode != 0x139 && scan->opcode != 0x13a) break;
+            }
+            move_record_range_before(scan, definition, position);
+            if (record->opcode == 0x63) {
+                FLOAT_REWRITE_PHYSICAL(record->tail.right->original_register->number + (unsigned)displaced);
+                record->tail.right->original_register = (C2FunctionRegister *)&machine_registers[physical];
+            } else {
+                record->opcode = 0x63;
+                FLOAT_REWRITE_PHYSICAL(31U + (unsigned)displaced + (unsigned)anonymous);
+                --displaced;
+                record->tail.right->original_register = (C2FunctionRegister *)&machine_registers[physical];
+                unlink_and_release_input_record((C2Record *)position);
+                saved = stack[top];
+                for (i = 0; i < anonymous; ++i) stack[top - i] = stack[top - i - 1];
+                stack[top - anonymous] = saved;
+            }
+            goto next_float_rewrite_record;
+reorder_float_rewrite_tail:
+            if (displaced && !anonymous) {
+                output = record->tail.right;
+                if ((record->opcode == 0x62 || record->opcode == 0x63) && output->kind == 1) {
+                    FLOAT_REWRITE_PHYSICAL(output->original_register->number + (unsigned)displaced);
+                    output->original_register = (C2FunctionRegister *)&machine_registers[physical];
+                    position = record->previous;
+                    if (position->opcode == 0x62) position = position->previous;
+                    if (record->opcode == 0x62) {
+                        unlink_and_release_input_record((C2Record *)position);
+                        record->opcode = 0x63;
+                        --displaced;
+                    }
+                }
+                position = record->previous;
+                if (position->opcode == 0x62 && position->tail.right->kind != 1)
+                    position = position->previous;
+                for (i = displaced; i; --i) {
+                    position->left->original_register = st0;
+                    scan = position->previous;
+                    move_final_label_after(record, position);
+                    --displaced;
+                    position = scan;
+                }
+            }
+            output = record->tail.right;
+            if (record->opcode == 0x62 && output->kind == 1 && output->original_register == st0) {
+                value = record->left->value.reg;
+                if ((unsigned long)value >= (unsigned long)machine_registers &&
+                    (unsigned long)value <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT))
+                    { __asm { int 3 } }
+                if (value->kind == 3 && (definition = value->value) != NULL) {
+                    for (match = definition->tail.right; match; match = match->next)
+                        if (match->kind == 1 && match->value.reg->canonical == value->canonical) break;
+                    replace_input_result(definition, match, output);
+                }
+                unlink_and_release_input_record((C2Record *)record);
+            }
+next_float_rewrite_record: ;
+        }
+        subtract_optimizer_symbol_sets(block->allocation_live_out, seen);
+        subtract_optimizer_symbol_sets(block->allocation_live_in_after, seen);
+        subtract_optimizer_symbol_sets(block->allocation_region_uses, seen);
+    }
+    for (number = next_optimizer_symbol(assigned); number != (unsigned)-1;
+         number = next_optimizer_symbol(NULL)) {
+        reg = lookup_allocation_register(number);
+        release_allocation_moves(reg->float_definitions);
+        release_allocation_moves(reg->float_uses);
+        release_allocation_register(reg, 0);
+    }
+}
+#undef FLOAT_REWRITE_KIND
+#undef FLOAT_REWRITE_PHYSICAL
+void __fastcall allocate_floating_function(C2Function *function)
+{
+    C2RegisterSet *assigned = new_register_set(6);
+    C2RegisterSet *seen = copy_optimizer_symbol_set(allocation_float_registers);
+    C2RegisterSet *retry = prepare_float_allocation(function, allocation_float_registers);
+    C2AllocationRegister *order, *reg, *next, *restart;
+
+    initialize_float_allocation_regions(function, allocation_float_registers);
+    order = order_float_allocation_registers(allocation_float_registers, NULL);
+    reg = select_float_allocation_register(function, order, retry);
+    while (reg) {
+        if (retry) {
+            restart = update_float_allocation_retry(reg, retry);
+            apply_allocation_spills(function, retry, 1);
+            merge_optimizer_symbol_sets(seen, allocation_float_registers);
+            initialize_float_allocation_regions(function, allocation_float_registers);
+            order = order_float_allocation_registers(allocation_float_registers, restart);
+            reg = select_float_allocation_register(function, order, NULL);
+            if (!reg) break;
+        }
+        next = reg->float_next;
+        if (next) next->float_previous = NULL;
+        if (!try_allocate_float_register(function, reg, assigned)) {
+            reg->float_next = next;
+            if (next) next->float_previous = reg;
+            retry = new_register_set(6);
+            add_register_to_set(retry, reg->number);
+        } else {
+            reg->pinned_register = (C2FunctionRegister *)&machine_registers[31];
+            add_register_to_set(assigned, reg->number);
+            retry = spill_float_allocation_register(function, reg, assigned, seen);
+            reg = next;
+        }
+    }
+    finish_float_allocation_machine();
+    rewrite_float_allocation_registers(function, seen, assigned);
+    release_optimizer_symbol_set(assigned);
+    release_optimizer_symbol_set(seen);
+    finish_register_moves(function);
+}
 unsigned __fastcall allocation_integer_limit(C2Function *function)
 {
     if (function->flags & 0x10) {
@@ -2518,8 +4888,42 @@ int __fastcall allocation_input_is_repeated(C2Expression *operand)
         if (operand->kind == 1 && operand->original_register == original) return 1;
     return 0;
 }
+C2Expression *__fastcall find_final_register_output(C2Expression *, C2FunctionRegister *);
 void __fastcall adjust_allocation_input(C2Expression *record, C2AllocationRegister *reg)
-{ __asm { int 3 } }
+{
+    C2Expression *previous = record->previous, *output, *operand, *address, *first;
+    long amount;
+    unsigned scale;
+
+    if (!(previous->flags & 1) || !(output = previous->tail.right) ||
+        output->kind != 1 || output->original_register != (C2FunctionRegister *)reg) return;
+    switch (previous->opcode) {
+    case 0x1e: amount = -1; break;
+    case 0x21: amount = 1; break;
+    case 0x2d:
+        if (previous->left->kind != 7) return;
+        amount = (long)previous->left->integer.low;
+        break;
+    default: return;
+    }
+    output = find_final_register_output(previous,
+        (C2FunctionRegister *)&machine_registers[66]);
+    if (output && ((1U << (output->kind & 31)) & 6) &&
+        output->value.reg->kind == 3) return;
+    for (operand = record->left; operand; operand = operand->next)
+        if (operand->kind == 1 && operand->original_register == (C2FunctionRegister *)reg &&
+            !(operand->location.expression.properties & 0x20)) return;
+    for (operand = record->left; operand; operand = operand->next) {
+        if (operand->kind != 1 || operand->original_register != (C2FunctionRegister *)reg) continue;
+        address = find_aggregate_operand_owner(record, operand, &first);
+        if (address->aggregate_second == operand &&
+            (scale = address->location.expression.properties & 0xf) != 0)
+            address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement +
+                ((1U << scale) - 1) * (unsigned)amount);
+        address->detail.aggregate_displacement = (long)((unsigned)address->detail.aggregate_displacement + (unsigned)amount);
+    }
+    unlink_and_release_input_record((C2Record *)previous);
+}
 /* Canonical identity has its own proved domain: row18 is a known view of
  * row2, even though row18's kind byte remains unmodeled. */
 #define ALLOCATION_KNOWN_CANONICAL(reg) \
@@ -2591,13 +4995,39 @@ int __fastcall allocation_copy_uses_fixed_register(C2Expression *record,
 }
 C2FunctionRegister *__fastcall spill_allocation_pressure(C2Function *function, int which,
     C2Expression *record) { __asm { int 3 } return NULL; }
-typedef struct C2AllocationSpillChoice {
-    unsigned char pending00[20];
-    C2RegisterSet *registers;
-} C2AllocationSpillChoice;
+/* The spill choice is the actual register-set pseudo record produced below. */
+typedef C2Record C2AllocationSpillChoice;
 C2AllocationSpillChoice *__fastcall select_allocation_spill_choice(C2Expression *record,
     C2RegisterSet *live, C2RegisterSet *first, C2RegisterSet *second)
-{ __asm { int 3 } return NULL; }
+{
+    C2RegisterSet *selected = live ? copy_optimizer_symbol_set(live) : new_register_set(6);
+    C2Expression *operand;
+    C2FunctionRegister *original;
+    C2Record *choice;
+    int side;
+
+    if (live) {
+        for (side = 0; side < 2; ++side)
+            for (operand = side ? record->left : record->tail.right;
+                 operand; operand = operand->next) {
+                if (operand->kind != 1) continue;
+                original = operand->original_register;
+                if (original != (C2FunctionRegister *)&machine_registers[7] &&
+                    original != (C2FunctionRegister *)&machine_registers[8])
+                    ALLOCATION_KNOWN_KIND(original);
+                if (original->kind == 2) remove_optimizer_symbol(selected, original->number);
+            }
+    }
+    if (first) subtract_optimizer_symbol_sets(selected, first);
+    if (second) merge_optimizer_symbol_sets(selected, second);
+    if (!selected->links.first) {
+        release_optimizer_symbol_set(selected);
+        return NULL;
+    }
+    choice = new_global_register_set_record(selected);
+    insert_input_record((C2Record *)record, choice);
+    return choice;
+}
 int __fastcall spill_frame_candidates(C2RegisterSet *retained, int pressure, int *peak)
 { __asm { int 3 } return 0; }
 int __fastcall final_flags_need_register(C2Expression *record);
@@ -2610,6 +5040,12 @@ C2RegisterSet *allocation_byte_exclusions; /* Original493204; real entry writer.
     do { if (((type) >> 12) != 1 && ((type) >> 12) != 2 && \
         ((type) >> 12) != 4 && ((type) >> 12) != 8) { __asm { int 3 } } } while (0)
 
+/* This consumer additionally reaches the already modeled fixed address
+ * rows7/8. Their kind1 bytes grant no unknown payload or other-row defaults. */
+#define SPILL_KNOWN_KIND(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[7] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[8] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[9]) ALLOCATION_KNOWN_KIND(reg); } while (0)
 C2RegisterSet *__fastcall select_allocation_spills(C2Function *function, int which,
     C2RegisterSet *registers, unsigned limit)
 {
@@ -2654,14 +5090,16 @@ C2RegisterSet *__fastcall select_allocation_spills(C2Function *function, int whi
                     ALLOCATION_KNOWN_TYPE_CLASS(operand->type);
                     if (ALLOCATION_TYPE_CLASS(operand->type) != which) continue;
                     original = operand->original_register;
-                    ALLOCATION_KNOWN_KIND(original);
+                    if (original != (C2FunctionRegister *)&machine_registers[5])
+                        SPILL_KNOWN_KIND(original);
                     switch (original->kind) {
                     case 1:
-                        ALLOCATION_KNOWN_NUMBER(original->canonical);
+                        if (original->canonical != (C2FunctionRegister *)&machine_registers[5])
+                            ALLOCATION_KNOWN_NUMBER(original->canonical);
                         number = original->canonical->number;
                         if (optimizer_set_contains(allocation_class_registers[which], number)) {
                             add_register_to_set(block->allocation_region_input, number);
-                            ALLOCATION_KNOWN_KIND(operand->value.reg);
+                            SPILL_KNOWN_KIND(operand->value.reg);
                             if (operand->value.reg->kind == 1) ++out_refs;
                             else if (!final_register_has_other_use(original, record)) {
                                 --fixed_live;
@@ -2686,7 +5124,7 @@ C2RegisterSet *__fastcall select_allocation_spills(C2Function *function, int whi
                             insert_input_record((C2Record *)record, (C2Record *)inserted);
                             operand->allocation_class_number = 0;
                         }
-                        ALLOCATION_KNOWN_KIND(operand->value.reg);
+                        SPILL_KNOWN_KIND(operand->value.reg);
                         if (record->opcode == 0x139 && operand->value.reg->kind == 13 &&
                             optimizer_set_contains(block->allocation_live_out, number)) {
                             removed = record;
@@ -2703,7 +5141,7 @@ C2RegisterSet *__fastcall select_allocation_spills(C2Function *function, int whi
                             ++out_refs;
                             operand->location.expression.use_flags &= ~0x80;
                             if (record->opcode == 1 && record->left->kind == 1) {
-                                ALLOCATION_KNOWN_KIND(record->left->original_register);
+                                SPILL_KNOWN_KIND(record->left->original_register);
                                 if (record->left->original_register->kind == 3 &&
                                     !record->left->next && !record->tail.right->next &&
                                     !optimizer_set_contains(block->allocation_live_out, number)) {
@@ -2751,18 +5189,20 @@ C2RegisterSet *__fastcall select_allocation_spills(C2Function *function, int whi
                     ALLOCATION_KNOWN_TYPE_CLASS(operand->type);
                     if (ALLOCATION_TYPE_CLASS(operand->type) != which) continue;
                     original = operand->original_register;
-                    ALLOCATION_KNOWN_KIND(original);
+                    if (original != (C2FunctionRegister *)&machine_registers[5])
+                        SPILL_KNOWN_KIND(original);
                     switch (original->kind) {
                     case 1:
-                        ALLOCATION_KNOWN_NUMBER(original->canonical);
+                        if (original->canonical != (C2FunctionRegister *)&machine_registers[5])
+                            ALLOCATION_KNOWN_NUMBER(original->canonical);
                         number = original->canonical->number;
                         if (optimizer_set_contains(allocation_class_registers[which], number)) {
-                            ALLOCATION_KNOWN_KIND(operand->value.reg);
+                            SPILL_KNOWN_KIND(operand->value.reg);
                             if (operand->value.reg->kind == 1)
                                 add_register_to_set(block->allocation_region_input, number);
                             else {
                                 use = find_final_register_use(original, record);
-                                if (use) ALLOCATION_KNOWN_KIND(use->value.reg);
+                                if (use) SPILL_KNOWN_KIND(use->value.reg);
                                 if (!use || use->value.reg->kind != 3) {
                                     ++fixed_live;
                                     ++in_refs;
@@ -2780,7 +5220,7 @@ C2RegisterSet *__fastcall select_allocation_spills(C2Function *function, int whi
                             break;
                         }
                         number = assigned->number;
-                        ALLOCATION_KNOWN_KIND(operand->value.reg);
+                        SPILL_KNOWN_KIND(operand->value.reg);
                         if (record->opcode != 0x13a && operand->value.reg->kind != 13) ++in_refs;
                         if (track_frame && !optimizer_set_contains(retained, number)) {
                             add_register_to_set(retained, number);
@@ -2794,7 +5234,7 @@ C2RegisterSet *__fastcall select_allocation_spills(C2Function *function, int whi
                         } else operand->location.expression.use_flags &= ~0x10;
                         output = record->tail.right;
                         if (record->opcode == 1 && operand->value.reg->kind != 13 && output->kind == 1) {
-                            ALLOCATION_KNOWN_KIND(output->original_register);
+                            SPILL_KNOWN_KIND(output->original_register);
                             if (output->original_register->kind == 3 && !output->next && !record->left->next) {
                                 original = output->original_register;
                                 definition = original->allocation_definition_record;
@@ -2828,7 +5268,7 @@ C2RegisterSet *__fastcall select_allocation_spills(C2Function *function, int whi
                         } else operand->location.expression.use_flags &= ~0x10;
                         output = record->tail.right;
                         if (record->opcode == 1 && output->kind == 1) {
-                            ALLOCATION_KNOWN_KIND(output->original_register);
+                            SPILL_KNOWN_KIND(output->original_register);
                             if (output->original_register->kind == 1 && operand == record->left &&
                                 allocation_copy_uses_fixed_register(record, original,
                                     output->original_register->canonical)) {
@@ -2863,7 +5303,7 @@ C2RegisterSet *__fastcall select_allocation_spills(C2Function *function, int whi
             if (pressure == (int)limit) {
                 choice = select_allocation_spill_choice(record, live, NULL, NULL);
                 if (choice) {
-                    merge_optimizer_symbol_sets(spills, choice->registers);
+                    merge_optimizer_symbol_sets(spills, choice->owner.registers);
                     block->flags |= 0x40000;
                 }
             }
@@ -2904,6 +5344,7 @@ previous_spill_record: ;
         lookup_allocation_register(number)->flags |= 2;
     return spills;
 }
+#undef SPILL_KNOWN_KIND
 unsigned __fastcall allocation_use_cost(C2FunctionRegister *reg)
 {
     C2Expression *constant;
@@ -2957,6 +5398,11 @@ C2Expression *__fastcall find_record_constrained_operand(C2Expression *record,
         (opcode >= 0xc8 && opcode <= 0xc9) || opcode == 0xd0 || opcode == 0xe2 || \
         (opcode >= 0x10b && opcode <= 0x11a))
 
+/* The reached copy test reads only the already modeled kind1 byte
+ * from fixed address rows7/8; other static payload remains unavailable. */
+#define COPY_KNOWN_KIND(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[7] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[8]) ALLOCATION_KNOWN_KIND(reg); } while (0)
 int __fastcall allocation_operand_is_copy(C2Expression *record, C2Expression *operand)
 {
     C2Expression *input, *output, *selected, *constrained;
@@ -2964,7 +5410,7 @@ int __fastcall allocation_operand_is_copy(C2Expression *record, C2Expression *op
     unsigned char kind, constraint;
     int binary;
 
-    ALLOCATION_KNOWN_KIND(operand->value.reg);
+    COPY_KNOWN_KIND(operand->value.reg);
     if (operand->value.reg->kind == 13) return 1;
     if (operand->location.expression.properties & 0x20) return 0;
     switch (opcode) {
@@ -2996,8 +5442,8 @@ int __fastcall allocation_operand_is_copy(C2Expression *record, C2Expression *op
             kind = selected->kind;
             if (kind == 2 || ((1U << (kind & 31)) & 0x60)) return 0;
             if (kind == 1) {
-                ALLOCATION_KNOWN_KIND(selected->original_register);
-                ALLOCATION_KNOWN_KIND(selected->value.reg);
+                COPY_KNOWN_KIND(selected->original_register);
+                COPY_KNOWN_KIND(selected->value.reg);
                 if (selected->original_register->kind == 2 && selected->value.reg->kind != 13)
                     selected->location.expression.use_flags |= 0x80;
             }
@@ -3007,7 +5453,7 @@ int __fastcall allocation_operand_is_copy(C2Expression *record, C2Expression *op
             if (kind == 2 || ((1U << (kind & 31)) & 0x60)) return 0;
             if (operand == input->next) return 0;
             if (kind == 1) {
-                ALLOCATION_KNOWN_KIND(selected->original_register);
+                COPY_KNOWN_KIND(selected->original_register);
                 if (selected->original_register->kind == 2)
                     selected->location.expression.use_flags |= 0x80;
             }
@@ -3041,13 +5487,18 @@ int __fastcall allocation_operand_is_copy(C2Expression *record, C2Expression *op
         selected = input->next;
     }
     if (selected && selected->kind == 1) {
-        ALLOCATION_KNOWN_KIND(selected->original_register);
-        ALLOCATION_KNOWN_KIND(selected->value.reg);
-        if (selected->original_register->kind == 2 && selected->value.reg->kind != 13)
-            selected->location.expression.use_flags |= 0x80;
+        /* Reached stack row5 has an independently modeled kind1. */
+        if (selected->original_register != (C2FunctionRegister *)&machine_registers[5])
+            COPY_KNOWN_KIND(selected->original_register);
+        if (selected->original_register->kind == 2) {
+            COPY_KNOWN_KIND(selected->value.reg);
+            if (selected->value.reg->kind != 13)
+                selected->location.expression.use_flags |= 0x80;
+        }
     }
     return 1;
 }
+#undef COPY_KNOWN_KIND
 int __fastcall integer_constant_differs(C2Expression *expression, unsigned __int64 value);
 unsigned __fastcall allocation_copy_cost(C2Expression *record, C2FunctionRegister *reg)
 {
@@ -3113,6 +5564,8 @@ C2AllocationRegister *__fastcall unlink_allocation_live(C2AllocationRegister *he
     previous->next_active = reg->next_active;
     return head;
 }
+
+
 void __fastcall coalesce_fixed_register(C2AllocationRegister *reg,
     C2FunctionRegister *physical)
 {
@@ -3149,7 +5602,13 @@ int __fastcall allocation_definition_is_reusable(C2Expression *record)
     return 1;
 }
 int __fastcall allocation_blocks_are_adjacent(C2BasicBlock *first, C2BasicBlock *last)
-{ __asm { int 3 } return 0; }
+{
+    C2FlowEdge *edge;
+
+    for (edge = first->incoming; edge; edge = edge->next_incoming)
+        if (edge->source == last) return 1;
+    return 0;
+}
 int __fastcall allocation_record_breaks_reuse(C2Expression *record)
 {
     C2Expression *operand;
@@ -3163,6 +5622,16 @@ int __fastcall allocation_record_breaks_reuse(C2Expression *record)
     return 0;
 }
 
+/* Reached fixed rows7/8 already have their kind1 and canonical self
+ * identities. Extend only this consumer's reads of those existing columns. */
+#define COALESCE_KNOWN_KIND(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[7] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[8] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[9]) ALLOCATION_KNOWN_KIND(reg); } while (0)
+#define COALESCE_KNOWN_CANONICAL(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[7] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[8] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[9]) ALLOCATION_KNOWN_CANONICAL(reg); } while (0)
 void __fastcall coalesce_allocation_registers(C2Function *function, int which,
     C2RegisterSet *registers)
 {
@@ -3203,9 +5672,11 @@ void __fastcall coalesce_allocation_registers(C2Function *function, int which,
                 if (operand->kind != 1) continue;
                 ALLOCATION_KNOWN_TYPE_CLASS(operand->type);
                 if (ALLOCATION_TYPE_CLASS(operand->type) != which) continue;
-                ALLOCATION_KNOWN_CANONICAL(operand->original_register);
+                if (operand->original_register != (C2FunctionRegister *)&machine_registers[5])
+                    COALESCE_KNOWN_CANONICAL(operand->original_register);
                 original = operand->original_register->canonical;
-                ALLOCATION_KNOWN_KIND(original);
+                if (original != (C2FunctionRegister *)&machine_registers[5])
+                    COALESCE_KNOWN_KIND(original);
                 if (original->kind == 2) {
                     reg = (C2AllocationRegister *)original;
                     physical = reg->pinned_register;
@@ -3217,12 +5688,14 @@ void __fastcall coalesce_allocation_registers(C2Function *function, int which,
                         }
                         if ((operand->location.expression.use_flags & 0x10) &&
                             !(operand->location.expression.properties & 0x80)) {
-                            ALLOCATION_KNOWN_NUMBER(physical);
+                            if (physical != (C2FunctionRegister *)&machine_registers[4])
+                                if (physical != (C2FunctionRegister *)&machine_registers[6])
+                                    ALLOCATION_KNOWN_NUMBER(physical);
                             remove_optimizer_symbol(fixed, physical->number);
                         }
                         output = record->tail.right;
                         if ((record->opcode == 1 || record->opcode == 0x12) && output->kind == 1) {
-                            ALLOCATION_KNOWN_KIND(output->original_register);
+                            COALESCE_KNOWN_KIND(output->original_register);
                             if (output->original_register->kind == 2)
                                 coalesce_fixed_register((C2AllocationRegister *)output->original_register, physical);
                         }
@@ -3261,10 +5734,11 @@ void __fastcall coalesce_allocation_registers(C2Function *function, int which,
                         }
                     }
                 } else if (original->kind == 1) {
+                    if (original != (C2FunctionRegister *)&machine_registers[5])
                     ALLOCATION_KNOWN_NUMBER(original);
                     number = original->number;
                     if (!optimizer_set_contains(allocation_class_registers[which], number)) continue;
-                    ALLOCATION_KNOWN_KIND(operand->value.reg);
+                    COALESCE_KNOWN_KIND(operand->value.reg);
                     if (operand->value.reg->kind == 3) {
                         if ((operand->location.expression.use_flags & 0x10) &&
                             !(operand->location.expression.properties & 0x80))
@@ -3275,7 +5749,7 @@ void __fastcall coalesce_allocation_registers(C2Function *function, int which,
                     }
                     output = record->tail.right;
                     if (record->opcode == 1 && output->kind == 1) {
-                        ALLOCATION_KNOWN_KIND(output->original_register);
+                        COALESCE_KNOWN_KIND(output->original_register);
                         if (output->original_register->kind == 2)
                             coalesce_fixed_register((C2AllocationRegister *)output->original_register, original);
                     }
@@ -3287,9 +5761,11 @@ void __fastcall coalesce_allocation_registers(C2Function *function, int which,
                 if (operand->kind == 1) {
                     ALLOCATION_KNOWN_TYPE_CLASS(operand->type);
                     if (ALLOCATION_TYPE_CLASS(operand->type) != which) continue;
-                    ALLOCATION_KNOWN_CANONICAL(operand->original_register);
+                    if (operand->original_register != (C2FunctionRegister *)&machine_registers[5])
+                    COALESCE_KNOWN_CANONICAL(operand->original_register);
                     original = operand->original_register->canonical;
-                    ALLOCATION_KNOWN_KIND(original);
+                    if (original != (C2FunctionRegister *)&machine_registers[5])
+                    COALESCE_KNOWN_KIND(original);
                     if (original->kind == 2) {
                         reg = (C2AllocationRegister *)original;
                         physical = reg->pinned_register;
@@ -3299,18 +5775,20 @@ void __fastcall coalesce_allocation_registers(C2Function *function, int which,
                                 reg->next_active = inactive;
                                 inactive = reg;
                             }
-                            ALLOCATION_KNOWN_NUMBER(physical);
+                            if (physical != (C2FunctionRegister *)&machine_registers[4])
+                                if (physical != (C2FunctionRegister *)&machine_registers[6])
+                                    ALLOCATION_KNOWN_NUMBER(physical);
                             number = physical->number;
                             add_register_to_set(fixed, number);
                             input = record->left;
                             if (record->opcode == 0x12 && input->kind == 5 && input->aggregate_value) {
-                                ALLOCATION_KNOWN_KIND(input->aggregate_value->original_register);
+                                COALESCE_KNOWN_KIND(input->aggregate_value->original_register);
                                 if (input->aggregate_value->original_register->kind == 2)
                                     coalesce_fixed_register((C2AllocationRegister *)input->aggregate_value->original_register,
                                         physical);
                             }
                             if (record->opcode == 1 && input->kind == 1) {
-                                ALLOCATION_KNOWN_KIND(input->original_register);
+                                COALESCE_KNOWN_KIND(input->original_register);
                                 other = (C2AllocationRegister *)input->original_register;
                                 if (other->kind == 2 && (other->flags & 1) &&
                                     ((record->type & 0xfff) != 1 ||
@@ -3367,12 +5845,13 @@ void __fastcall coalesce_allocation_registers(C2Function *function, int which,
                             }
                         }
                     } else if (original->kind == 1) {
-                        ALLOCATION_KNOWN_NUMBER(original);
+                        if (original != (C2FunctionRegister *)&machine_registers[5])
+                    ALLOCATION_KNOWN_NUMBER(original);
                         number = original->number;
                         if (!optimizer_set_contains(allocation_class_registers[which], number)) continue;
                         input = record->left;
                         if (record->opcode == 1 && input->kind == 1) {
-                            ALLOCATION_KNOWN_KIND(input->original_register);
+                            COALESCE_KNOWN_KIND(input->original_register);
                             other = (C2AllocationRegister *)input->original_register;
                             if (other->kind == 2 && (other->flags & 1)) {
                                 coalesce_fixed_register(other, original);
@@ -3384,7 +5863,7 @@ void __fastcall coalesce_allocation_registers(C2Function *function, int which,
                         for (reg = active; reg; reg = reg->next_active)
                             remove_optimizer_symbol(reg->available, number);
 fixed_output_recorded:
-                        ALLOCATION_KNOWN_KIND(operand->value.reg);
+                        COALESCE_KNOWN_KIND(operand->value.reg);
                         if (operand->value.reg->kind == 3 &&
                             (operand->location.expression.use_flags & 0x10)) add_register_to_set(fixed, number);
                     }
@@ -3421,7 +5900,13 @@ fixed_output_recorded:
     release_optimizer_symbol_set(live);
     release_optimizer_symbol_set(fixed);
 }
+#undef COALESCE_KNOWN_KIND
+#undef COALESCE_KNOWN_CANONICAL
 void __fastcall spill_allocation_register(C2Function *function, C2AllocationRegister *reg);
+/* Reached fixed address rows7/8 have already modeled kind1 bytes. */
+#define REFRESH_KNOWN_KIND(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[7] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[8]) ALLOCATION_KNOWN_KIND(reg); } while (0)
 void __fastcall refresh_allocation_work(C2Function *function, int which);
 
 /* The former provisional compute_allocation_conflicts label belonged to this
@@ -3469,7 +5954,7 @@ void __fastcall prune_allocation_registers(C2Function *function, int which,
         if (old_bytes != bytes) {
             if (old_bytes < bytes) {
                 if (replacement->kind == 6) continue;
-                ALLOCATION_KNOWN_KIND(replacement->value.reg);
+                REFRESH_KNOWN_KIND(replacement->value.reg);
                 if (replacement->kind == 2 &&
                     (replacement->value.reg->kind == 7 || replacement->value.reg->kind == 8)) continue;
             }
@@ -3553,19 +6038,1205 @@ C2RegisterSet *__fastcall order_allocation_work(C2Function *function, int which,
     return spills;
 }
 C2AllocationRegister *__fastcall sort_allocation_work(C2AllocationRegister *head)
+{
+    C2AllocationRegister *reg, *next, *previous;
+
+    for (reg = head; reg; reg = next) {
+        next = reg->next_active;
+        if (!(reg->flags & 2)) continue;
+        if (reg == head) {
+            head = next;
+            if (next) next->previous_active = NULL;
+        } else {
+            previous = reg->previous_active;
+            previous->next_active = next;
+            if (next) next->previous_active = previous;
+        }
+    }
+    return head;
+}
+C2AllocationSpillBlock *free_allocation_spill_blocks; /* Original4910e0, real reset before use. */
+C2AllocationSpillBlock *new_allocation_spill_block(void)
+{
+    C2AllocationSpillBlock *block = free_allocation_spill_blocks;
+
+    if (block) free_allocation_spill_blocks = block->next;
+    else block = c2_pool_allocate(4, sizeof(*block));
+    return block;
+}
+typedef struct C2AllocationSpillUse {
+    struct C2AllocationSpillUse *next;
+    C2AllocationRegister *reg;
+} C2AllocationSpillUse;
+typedef char C2AllocationSpillUseSize[sizeof(C2AllocationSpillUse) == 8 ? 1 : -1];
+C2AllocationSpillUse *free_allocation_spill_uses; /* Original4910e4, reset before use. */
+C2AllocationSpillUse *new_allocation_spill_use(void)
+{
+    C2AllocationSpillUse *use = free_allocation_spill_uses;
+
+    if (use) free_allocation_spill_uses = use->next;
+    else use = c2_pool_allocate(4, sizeof(*use));
+    return use;
+}
+unsigned __fastcall collect_spill_block_masks(C2AllocationSpillBlock *blocks,
+    C2RegisterSet *spills)
+{
+    C2BasicBlock *block;
+    C2Expression *record, *previous, *operand;
+    C2AllocationRegister *reg;
+    C2AllocationSpillUse *uses, *use;
+    C2RegisterSet *set;
+    unsigned allocated = 0, number, required, live, defined, memory, killed, bits;
+
+    for (; blocks; blocks = blocks->next) {
+        block = blocks->block;
+        required = live = defined = memory = killed = 0;
+        for (record = (C2Expression *)block->last_record;
+             record != (C2Expression *)block->records; record = previous) {
+            previous = record->previous;
+            if (!(record->flags & 1)) {
+                if (record->kind != 26) continue;
+                if (!record->control_flags) {
+                    set = record->value.registers;
+                    intersect_optimizer_symbol_sets(set, spills);
+                    intersect_optimizer_symbol_sets(set, block->allocation_region_uses);
+                    if (!set->links.first) {
+                        /* Original continuation is record->next->previous
+                         * after unlinking, rather than a stale prior link. */
+                        previous = record->next;
+                        unlink_and_release_input_record((C2Record *)record);
+                        release_optimizer_symbol_set(set);
+                        previous = previous->previous;
+                        continue;
+                    }
+                    record->control_flags = 1;
+                    uses = NULL;
+                    for (number = next_optimizer_symbol(set); number != ~0U;
+                         number = next_optimizer_symbol(NULL)) {
+                        use = new_allocation_spill_use();
+                        use->reg = lookup_allocation_register(number);
+                        use->next = uses;
+                        uses = use;
+                    }
+                    record->value.pointer = uses;
+                    release_optimizer_symbol_set(set);
+                }
+                bits = 0;
+                for (use = record->value.pointer; use; use = use->next) bits |= use->reg->spill_mask;
+                record->immediate = bits;
+                defined |= bits;
+                live &= ~bits;
+                memory |= bits;
+                continue;
+            }
+            for (operand = record->tail.right; operand; operand = operand->next) {
+                if (operand->kind != 1) continue;
+                if (operand->original_register != (C2FunctionRegister *)&machine_registers[5] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[7] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[8] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[9] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[67] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[68] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[69] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[70] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[71] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[72] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[73] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[74])
+                    REFRESH_KNOWN_KIND(operand->original_register);
+                reg = (C2AllocationRegister *)operand->original_register;
+                if (reg->kind != 2 || !(reg->flags & 2)) continue;
+                bits = reg->spill_mask;
+                if (!(bits & defined) && !(operand->location.expression.properties & 0xf)) {
+                    required |= bits;
+                    defined |= bits;
+                }
+                live &= ~bits;
+                memory &= ~bits;
+                killed |= bits;
+                allocated |= operand->allocation_class_number;
+            }
+            for (operand = record->left; operand; operand = operand->next) {
+                if (operand->kind == 1) {
+                    if (operand->original_register != (C2FunctionRegister *)&machine_registers[5] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[7] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[8] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[9] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[67] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[68] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[69] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[70] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[71] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[72] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[73] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[74])
+                        REFRESH_KNOWN_KIND(operand->original_register);
+                    reg = (C2AllocationRegister *)operand->original_register;
+                    if (reg->kind != 2 || !(reg->flags & 2)) continue;
+                    bits = reg->spill_mask;
+                    if (!(defined & bits)) required |= bits;
+                    live |= bits;
+                    if (operand->location.expression.use_flags & 0x10) {
+                        killed |= bits;
+                        memory &= ~bits;
+                    }
+                } else if (operand->kind == 2 && operand->allocation_class_number) {
+                    reg = lookup_allocation_register(operand->allocation_class_number);
+                    memory |= reg->spill_mask;
+                }
+            }
+        }
+        block->spill_required_mask = required;
+        block->spill_live_mask = live;
+        block->spill_defined_mask = defined;
+        block->spill_memory_mask = memory;
+        block->spill_killed_mask = killed;
+        block->spill_live_in_mask = live;
+    }
+    return allocated;
+}
+void __fastcall solve_spill_block_masks(C2AllocationSpillBlock *first,
+    C2AllocationSpillBlock *last, unsigned mask)
+{
+    C2AllocationSpillBlock *item;
+    C2BasicBlock *block;
+    C2FlowEdge *edge;
+    unsigned changed, bits, old, value;
+
+    do {
+        changed = 0;
+        for (item = last; item; item = item->previous) {
+            block = item->block;
+            bits = 0;
+            for (edge = block->outgoing; edge; edge = edge->next_outgoing)
+                bits |= edge->destination->spill_live_in_mask;
+            if (bits == block->spill_live_out_mask) continue;
+            old = block->spill_live_in_mask;
+            block->spill_live_out_mask = bits;
+            value = (bits & ~block->spill_defined_mask) | block->spill_live_mask;
+            block->spill_live_in_mask = value;
+            changed |= value ^ old;
+        }
+    } while (changed);
+    for (item = first; item; item = item->next) {
+        block = item->block;
+        block->spill_limit_in_mask = block->spill_live_in_mask;
+        block->spill_live_in_mask = 0;
+        block->spill_limit_out_mask = block->spill_live_out_mask;
+        block->spill_live_out_mask &= block->spill_required_mask;
+    }
+    do {
+        changed = 0;
+        for (item = first; item; item = item->next) {
+            block = item->block;
+            bits = 0;
+            for (edge = block->incoming; edge; edge = edge->next_incoming)
+                bits |= edge->source->spill_live_out_mask;
+            bits &= block->spill_limit_in_mask;
+            if (bits == block->spill_live_in_mask) continue;
+            old = block->spill_live_out_mask;
+            block->spill_live_in_mask = bits;
+            value = ((bits & ~block->spill_defined_mask) | block->spill_required_mask) &
+                block->spill_limit_out_mask;
+            block->spill_live_out_mask = value;
+            changed |= value ^ old;
+        }
+    } while (changed);
+    if (!mask) {
+        for (item = first; item; item = item->next) {
+            block = item->block;
+            block->spill_limit_in_mask = block->spill_live_in_mask;
+            block->spill_live_in_mask = 0;
+            block->spill_limit_out_mask = block->spill_live_out_mask;
+            block->spill_live_out_mask = 0;
+            block->spill_memory_mask = 0;
+        }
+        return;
+    }
+    for (item = first; item; item = item->next) {
+        block = item->block;
+        block->spill_limit_in_mask = block->spill_live_in_mask;
+        block->spill_live_in_mask = block->spill_memory_mask;
+        block->spill_limit_out_mask = block->spill_live_out_mask;
+        block->spill_live_out_mask = 0;
+    }
+    do {
+        changed = 0;
+        for (item = last; item; item = item->previous) {
+            block = item->block;
+            bits = 0;
+            for (edge = block->outgoing; edge; edge = edge->next_outgoing)
+                bits |= edge->destination->spill_live_in_mask;
+            if (bits == block->spill_live_out_mask) continue;
+            old = block->spill_live_in_mask;
+            block->spill_live_out_mask = bits;
+            value = (bits & ~block->spill_killed_mask) | block->spill_memory_mask;
+            block->spill_live_in_mask = value;
+            changed |= value ^ old;
+        }
+    } while (changed);
+    for (item = first; item; item = item->next) {
+        block = item->block;
+        block->spill_live_in_mask = 0;
+        block->spill_memory_mask = block->spill_live_out_mask;
+        block->spill_live_out_mask = 0;
+    }
+}
+typedef struct C2AllocationSpillClass {
+    struct C2AllocationSpillClass *next, *parent;
+    unsigned number;
+} C2AllocationSpillClass;
+typedef char C2AllocationSpillClassSize[sizeof(C2AllocationSpillClass) == 12 ? 1 : -1];
+C2AllocationSpillClass *free_allocation_spill_classes; /* Original4910d8, reset before use. */
+C2AllocationSpillClass *new_allocation_spill_class(void)
+{
+    C2AllocationSpillClass *group = free_allocation_spill_classes;
+
+    if (group) {
+        free_allocation_spill_classes = group->next;
+        group->parent = NULL;
+    } else group = c2_pool_allocate(4, sizeof(*group));
+    return group;
+}
+void __fastcall merge_allocation_spill_classes(C2AllocationSpillClass *first,
+    C2AllocationSpillClass *second)
+{
+    while (first->parent) first = first->parent;
+    while (second->parent) second = second->parent;
+    if (first != second) second->parent = first;
+}
+void __fastcall merge_spill_register_constraints(C2AllocationRegister *registers)
+{
+    C2AllocationRegister *reg, *assigned;
+    C2AllocationSpillClass *classes, *group, *in, *out, *other, *last, *root;
+    C2BasicBlock *block;
+    C2FlowEdge *edge;
+    unsigned mask, in_mask, out_mask;
+
+    for (reg = registers; reg; reg = reg->next_active) {
+        mask = reg->spill_mask;
+        if (!mask) return;
+        classes = NULL;
+        for (block = reg->first_block;; block = block->previous) {
+            if (!(block->flags & 1)) continue;
+            in_mask = block->spill_limit_in_mask;
+            out_mask = block->spill_limit_out_mask;
+            in = out = NULL;
+            if (in_mask & mask) {
+                for (edge = block->incoming; edge; edge = edge->next_incoming) {
+                    other = edge->source->spill_class_out;
+                    if (!other) continue;
+                    if (!in) block->spill_class_in = in = other;
+                    else if (in != other) merge_allocation_spill_classes(in, other);
+                }
+                if (!(out_mask & mask) || (block->spill_defined_mask & mask)) {
+                    if (!in) {
+                        in = new_allocation_spill_class();
+                        in->next = classes;
+                        classes = in;
+                    }
+                } else {
+                    for (edge = block->outgoing; edge; edge = edge->next_outgoing) {
+                        other = edge->destination->spill_class_in;
+                        if (!other) continue;
+                        if (!in) in = other;
+                        else if (in != other) merge_allocation_spill_classes(in, other);
+                    }
+                    out = in;
+                    if (!in) {
+                        out = in = new_allocation_spill_class();
+                        in->next = classes;
+                        classes = in;
+                    }
+                }
+                block->spill_class_in = in;
+            }
+            if ((out_mask & mask) && (!(in_mask & mask) || (block->spill_defined_mask & mask))) {
+                for (edge = block->outgoing; edge; edge = edge->next_outgoing) {
+                    other = edge->destination->spill_class_in;
+                    if (!other) continue;
+                    if (!out) out = other;
+                    else if (out != other) merge_allocation_spill_classes(out, other);
+                }
+                if (!out) {
+                    out = new_allocation_spill_class();
+                    out->next = classes;
+                    classes = out;
+                }
+            }
+            block->spill_class_out = out;
+            if (block == reg->last_block) break;
+        }
+        clear_register_set(reg->available);
+        for (group = classes; group; group = group->next) {
+            if (group->parent) continue;
+            assigned = get_allocation_register(reg->source);
+            assigned->definition_sequence = reg->definition_sequence;
+            group->number = assigned->number;
+            assigned->next_active = reg;
+            add_register_to_set(reg->available, assigned->number);
+        }
+        if (!classes) continue;
+        for (group = classes; group; group = group->next) {
+            if (!group->parent) continue;
+            root = group->parent;
+            while (root->parent) root = root->parent;
+            group->number = root->number;
+        }
+        for (last = classes; last->next; last = last->next) {
+        }
+        last->next = free_allocation_spill_classes;
+        free_allocation_spill_classes = classes;
+        for (block = reg->first_block;; block = block->previous) {
+            in = block->spill_class_in;
+            if (in) {
+                add_register_to_set(block->allocation_live_out, in->number);
+                add_register_to_set(block->allocation_region_uses, in->number);
+                block->spill_class_in = NULL;
+            }
+            out = block->spill_class_out;
+            if (out) {
+                add_register_to_set(block->allocation_live_in_after, out->number);
+                add_register_to_set(block->allocation_region_uses, out->number);
+                block->spill_class_out = NULL;
+            }
+            if (block == reg->last_block) break;
+        }
+    }
+}
+void __fastcall mark_region_allocation_spill(C2FlowRegion *region, C2FunctionRegister *reg);
+void __fastcall increase_allocation_spill_cost(C2Expression *record,
+    C2AllocationRegister *reg, C2BasicBlock *block);
+int __fastcall region_spill_mask_is_available(C2FlowRegion *region, unsigned mask)
+{
+    C2FlowBlockLink *exit;
+
+    if (!(region->header->spill_limit_in_mask & mask)) return 0;
+    for (exit = region->exits; exit; exit = exit->next)
+        if (!(exit->block->spill_limit_out_mask & mask)) return 0;
+    return 1;
+}
+C2Expression *__fastcall rewrite_spill_output(C2Expression *record, C2Expression *operand)
 { __asm { int 3 } return NULL; }
+void __fastcall rewrite_spill_block_records(C2Function *function,
+    C2AllocationSpillBlock *blocks)
+{
+    C2BasicBlock *block;
+    C2Expression *record, *previous, *operand, *inserted, *input;
+    C2AllocationRegister *reg;
+    unsigned live, unavailable, memory, bits;
+    unsigned short line;
+
+    for (; blocks; blocks = blocks->next) {
+        block = blocks->block;
+        live = block->spill_limit_out_mask;
+        unavailable = ~live;
+        memory = block->spill_memory_mask;
+        for (record = (C2Expression *)block->last_record;
+             record != (C2Expression *)block->records; record = previous) {
+            previous = record->previous;
+            if (!(record->flags & 1)) {
+                if (record->kind == 26) {
+                    bits = record->immediate;
+                    live &= ~bits;
+                    unavailable |= bits;
+                    memory |= bits;
+                }
+                continue;
+            }
+            for (operand = record->tail.right; operand; operand = operand->next) {
+                if (operand->kind != 1) continue;
+                if (operand->original_register != (C2FunctionRegister *)&machine_registers[5] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[7] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[8] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[9] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[74] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[67] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[68] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[69] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[70] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[71] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[72] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[73])
+                    REFRESH_KNOWN_KIND(operand->original_register);
+                reg = (C2AllocationRegister *)operand->original_register;
+                if (reg->kind != 2 || !(reg->flags & 2)) continue;
+                bits = reg->spill_mask;
+                if (operand->allocation_class_number && !(reg->flags & 0x10) && (memory & bits)) {
+                    operand->allocation_class_number = 0;
+                    line = record->location.line;
+                    if (line) {
+                        record_source_line = function->source_line_base + line;
+                        record_line_delta = line;
+                    }
+                    inserted = spill_allocation_result(operand->value.reg, reg, record);
+                    input = inserted->left;
+                    if (unavailable & bits) input->location.expression.use_flags &= ~0x40;
+                    else input->location.expression.use_flags |= 0x40;
+                    if (live & bits) input->location.expression.use_flags &= ~0x10;
+                    else input->location.expression.use_flags |= 0x10;
+                }
+                memory &= ~bits;
+                if (block->block_scope && !region_spill_mask_is_available(block->block_scope, bits))
+                    mark_region_allocation_spill(block->block_scope, operand->value.reg);
+                if (!(operand->location.expression.properties & 0xf)) {
+                    if (!(live & bits)) {
+                        if (record->opcode == 0x139) {
+                            unavailable |= bits;
+                            unlink_and_release_input_record((C2Record *)record);
+                            goto previous_spill_block_record;
+                        }
+                        if (!operand->allocation_class_number && (operand->type & 0xf000) != 0x4000 &&
+                            !((operand->value.reg->type ^ operand->type) & 0xfff)) {
+                            unavailable |= bits;
+                            if (operand->location.expression.use_flags & 0x80)
+                                increase_allocation_spill_cost(record, reg, block);
+                            line = record->location.line;
+                            if (line) {
+                                record_source_line = function->source_line_base + line;
+                                record_line_delta = line;
+                            }
+                            operand = rewrite_spill_output(record, operand);
+                            continue;
+                        }
+                    } else live &= ~bits;
+                    if (!(unavailable & bits)) {
+                        unavailable |= bits;
+                        operand->location.expression.use_flags |= 0x40;
+                    } else operand->location.expression.use_flags &= ~0x40;
+                } else {
+                    if (unavailable & bits) operand->location.expression.use_flags &= ~0x40;
+                    else operand->location.expression.use_flags |= 0x40;
+                    live &= ~bits;
+                }
+            }
+            for (operand = record->left; operand; operand = operand->next) {
+                if (operand->kind == 1) {
+                    if (operand->original_register != (C2FunctionRegister *)&machine_registers[5] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[7] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[8] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[9] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[74] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[67] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[68] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[69] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[70] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[71] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[72] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[73])
+                        REFRESH_KNOWN_KIND(operand->original_register);
+                    reg = (C2AllocationRegister *)operand->original_register;
+                    if (reg->kind != 2 || !(reg->flags & 2)) continue;
+                    bits = reg->spill_mask;
+                    if (unavailable & bits) operand->location.expression.use_flags &= ~0x40;
+                    else operand->location.expression.use_flags |= 0x40;
+                    if (operand->location.expression.use_flags & 0x10) memory &= ~bits;
+                    if (!(live & bits) && !allocation_input_is_repeated(operand)) {
+                        live |= bits;
+                        operand->location.expression.use_flags |= 0x10;
+                    } else operand->location.expression.use_flags &= ~0x10;
+                } else if (operand->kind == 2 && operand->allocation_class_number) {
+                    reg = lookup_allocation_register(operand->allocation_class_number);
+                    bits = reg->spill_mask;
+                    if (bits) {
+                        operand->allocation_class_number = 0;
+                        memory |= bits;
+                    }
+                }
+            }
+previous_spill_block_record: ;
+        }
+    }
+}
+void __fastcall release_allocation_spill_block(C2AllocationSpillBlock *block)
+{
+    C2AllocationSpillBlock *old = free_allocation_spill_blocks;
+
+    free_allocation_spill_blocks = block;
+    block->next = old;
+}
+void __fastcall release_allocation_spill_uses(C2AllocationSpillUse *uses)
+{
+    C2AllocationSpillUse *last = uses, *old;
+
+    while (last->next) last = last->next;
+    old = free_allocation_spill_uses;
+    free_allocation_spill_uses = uses;
+    last->next = old;
+}
+C2Expression *__fastcall reload_spill_input(C2Expression *record, C2Expression *operand)
+{
+    C2Expression *replacement;
+
+    operand->allocation_class_number = 0;
+    if (allocation_operand_is_copy(record, operand) &&
+        (record->opcode != 0xd || !c2_favor_speed)) {
+        make_global_register_operand(operand);
+        return operand;
+    }
+    make_global_register_operand(operand);
+    replacement = new_assignment_expression(1, operand->type, operand,
+        prepend_input_record, (C2Record *)record)->tail.right;
+    replacement->location.expression.use_flags |= 0x10;
+    if ((operand->type & 0xfff) == 1) replacement->original_register->view_flags |= 0x80;
+    replacement = attach_input_expression(record, operand, replacement);
+    replacement->location.expression.use_flags |= 0x10;
+    return replacement;
+}
+C2Expression *__fastcall find_spill_constrained_operand(C2Expression *record,
+    unsigned char constraint)
+{
+    C2Expression *operand = record->left;
+
+    while (constraint > 1) {
+        operand = operand->next;
+        --constraint;
+    }
+    return operand;
+}
+void __fastcall finish_spill_block_records(C2Function *function,
+    C2AllocationSpillBlock *blocks, C2RegisterSet *registers)
+{
+    C2RegisterSet *live = new_register_set(6), *scratch = new_register_set(6), *available;
+    C2AllocationSpillBlock *next;
+    C2AllocationSpillUse *use;
+    C2BasicBlock *block;
+    C2Expression *record, *operand, *inserted;
+    C2AllocationRegister *reg, *assigned;
+    unsigned number;
+    unsigned char flags, constraint;
+    unsigned short line;
+
+    for (; blocks; blocks = next) {
+        next = blocks->next;
+        block = blocks->block;
+        release_allocation_spill_block(blocks);
+        initialize_block_register_regions(function, block, 1);
+        copy_optimizer_symbol_set_into(live, registers);
+        intersect_optimizer_symbol_sets(live, block->allocation_live_out);
+        for (record = (C2Expression *)block->records;
+             record != (C2Expression *)block->last_record; record = record->next) {
+            if (!(record->flags & 1)) {
+                if (record->kind == 26) {
+                    for (use = record->value.pointer; use; use = use->next) {
+                        subtract_optimizer_symbol_sets(live, use->reg->available);
+                        if (block->block_scope)
+                            mark_region_allocation_spill(block->block_scope, use->reg->source);
+                    }
+                    release_allocation_spill_uses(record->value.pointer);
+                    record = record->previous;
+                    unlink_and_release_input_record((C2Record *)record->next);
+                }
+                continue;
+            }
+            line = record->location.line;
+            if (line) {
+                record_source_line = function->source_line_base + line;
+                record_line_delta = line;
+            }
+            for (operand = record->left; operand; operand = operand->next) {
+                if (operand->kind != 1) continue;
+                if (operand->original_register != (C2FunctionRegister *)&machine_registers[5] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[7] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[8] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[9] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[74] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[67] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[68] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[69] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[70] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[71] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[72] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[73])
+                    REFRESH_KNOWN_KIND(operand->original_register);
+                reg = (C2AllocationRegister *)operand->original_register;
+                if (reg->kind != 2 || !(reg->flags & 2)) continue;
+                available = reg->available;
+                number = find_optimizer_set_intersection(available, live);
+                if (number == ~0U) {
+                    flags = operand->location.expression.use_flags;
+                    if (!(flags & 0x40)) {
+                        if ((flags & 0x10) && (operand->type & 0xf000) != 0x4000 &&
+                            !(operand->location.expression.properties & 0xf)) {
+                            REFRESH_KNOWN_KIND(operand->value.reg);
+                            if (operand->value.reg->kind == 13)
+                                operand = materialize_allocation_input(record, operand, operand->value.reg);
+                            else {
+                                if (flags & 0x80) increase_allocation_spill_cost(record, reg, block);
+                                operand = reload_spill_input(record, operand);
+                            }
+                            continue;
+                        }
+                        assigned = get_allocation_register(operand->value.reg);
+                        assigned->definition_sequence = reg->definition_sequence;
+                        assigned->next_active = reg;
+                        number = assigned->number;
+                        add_register_to_set(available, number);
+                        add_register_to_set(block->allocation_region_uses, number);
+                        if (!(flags & 0x10)) add_register_to_set(live, number);
+                    } else {
+                        number = find_optimizer_set_intersection(available, block->allocation_live_in_after);
+                        assigned = lookup_allocation_register(number);
+                        number = assigned->number;
+                        add_register_to_set(live, number);
+                    }
+                    operand->original_register = (C2FunctionRegister *)assigned;
+                    inserted = bind_allocation_spill(operand->value.reg,
+                        (C2FunctionRegister *)assigned, record);
+                    if ((inserted->type & 0xfff) == 1) assigned->flags |= 0x80;
+                } else {
+                    assigned = lookup_allocation_register(number);
+                    operand->original_register = (C2FunctionRegister *)assigned;
+                    if (operand->location.expression.use_flags & 0x10)
+                        remove_optimizer_symbol(live, number);
+                }
+                if ((operand->type & 0xfff) == 1) assigned->flags |= 0x80;
+            }
+            for (operand = record->tail.right; operand; operand = operand->next) {
+                if (operand->kind != 1) continue;
+                if (operand->original_register != (C2FunctionRegister *)&machine_registers[5] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[7] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[8] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[9] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[74] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[67] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[68] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[69] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[70] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[71] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[72] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[73])
+                    REFRESH_KNOWN_KIND(operand->original_register);
+                reg = (C2AllocationRegister *)operand->original_register;
+                if (reg->kind != 2 || !(reg->flags & 2)) continue;
+                available = reg->available;
+                subtract_optimizer_symbol_sets(live, available);
+                constraint = operand->location.expression.properties & 0xf;
+                if (!constraint) {
+                    if (!(operand->location.expression.use_flags & 0x40)) {
+                        assigned = get_allocation_register(operand->value.reg);
+                        assigned->definition_sequence = reg->definition_sequence;
+                        assigned->next_active = reg;
+                        number = assigned->number;
+                        add_register_to_set(available, number);
+                        add_register_to_set(block->allocation_region_uses, number);
+                    } else {
+                        number = find_optimizer_set_intersection(available, block->allocation_live_in_after);
+                        assigned = lookup_allocation_register(number);
+                    }
+                } else assigned = (C2AllocationRegister *)
+                    find_spill_constrained_operand(record, constraint)->original_register;
+                operand->original_register = (C2FunctionRegister *)assigned;
+                add_register_to_set(live, assigned->number);
+                if ((operand->type & 0xfff) == 1) assigned->flags |= 0x80;
+            }
+        }
+    }
+    release_optimizer_symbol_set(scratch);
+    release_optimizer_symbol_set(live);
+}
 void __fastcall apply_allocation_spills(C2Function *function, C2RegisterSet *spills,
-    int which) { __asm { int 3 } }
+    int which)
+{
+    C2AllocationRegister *registers, *reg, *last_reg, *batch, *next_batch, *next_reg;
+    C2AllocationSpillBlock *first = NULL, *last = NULL, *item;
+    C2BasicBlock *block;
+    C2Expression *record, *next;
+    unsigned number, mask, used;
+
+    registers = lookup_allocation_register(next_optimizer_symbol(spills));
+    registers->spill_mask = 0;
+    registers->next_active = NULL;
+    last_reg = registers;
+    for (number = next_optimizer_symbol(NULL); number != ~0U;
+         number = next_optimizer_symbol(NULL)) {
+        reg = lookup_allocation_register(number);
+        reg->next_active = NULL;
+        reg->spill_mask = 0;
+        reg->flags &= ~2;
+        last_reg->next_active = reg;
+        last_reg = reg;
+    }
+    for (block = function->flow->last; block; block = block->previous) {
+        if (optimizer_symbol_sets_intersect(block->allocation_region_uses, spills)) {
+            item = new_allocation_spill_block();
+            item->block = block;
+            item->next = NULL;
+            item->previous = last;
+            if (last) last->next = item;
+            else first = item;
+            last = item;
+            block->flags &= ~0x40000;
+            subtract_optimizer_symbol_sets(block->allocation_live_out, spills);
+            subtract_optimizer_symbol_sets(block->allocation_live_in_after, spills);
+            item->saved_uses = block->allocation_edge_uses;
+            item->saved_definitions = block->allocation_edge_definitions;
+            block->flags |= 1;
+        } else {
+            block->flags &= ~1;
+            if (!(block->flags & 0x40000)) continue;
+            block->flags &= ~0x40000;
+            for (record = (C2Expression *)block->records;
+                 record != (C2Expression *)block->last_record; record = next) {
+                next = record->next;
+                if (record->kind != 26) continue;
+                release_optimizer_symbol_set(record->value.registers);
+                unlink_and_release_input_record((C2Record *)record);
+            }
+        }
+    }
+    batch = registers;
+    do {
+        mask = 1;
+        for (reg = batch; reg; reg = reg->next_active) {
+            reg->spill_mask = mask;
+            reg->flags |= 2;
+            mask <<= 1;
+            if (!mask) break;
+        }
+        next_batch = reg ? reg->next_active : NULL;
+        used = collect_spill_block_masks(first, spills);
+        solve_spill_block_masks(first, last, used);
+        merge_spill_register_constraints(batch);
+        rewrite_spill_block_records(function, first);
+        if (!next_batch) break;
+        for (reg = batch; reg != next_batch; reg = reg->next_active) {
+            reg->spill_mask = 0;
+            reg->flags &= ~2;
+        }
+        batch = next_batch;
+    } while (1);
+    for (item = first; item; item = item->next) {
+        block = item->block;
+        block->allocation_edge_uses = item->saved_uses;
+        block->allocation_edge_definitions = item->saved_definitions;
+        subtract_optimizer_symbol_sets(block->allocation_region_uses, spills);
+        block->flags &= ~1;
+    }
+    release_optimizer_symbol_set(spills);
+    for (reg = registers; reg; reg = reg->next_active) reg->flags |= 2;
+    finish_spill_block_records(function, first, allocation_register_classes[which]);
+    for (reg = registers; reg; reg = next_reg) {
+        next_reg = reg->next_active;
+        release_allocation_register(reg, 0);
+    }
+}
 C2AllocationRegister *__fastcall merge_allocation_work(C2RegisterSet *registers,
-    C2AllocationRegister *head) { __asm { int 3 } return NULL; }
-int __fastcall allocation_can_coalesce(C2AllocationRegister *reg) { __asm { int 3 } return 0; }
+    C2AllocationRegister *head)
+{
+    C2AllocationRegister *reg;
+    unsigned number;
+
+    if (!registers->links.first) return head;
+    for (number = next_optimizer_symbol(registers); number != ~0U;
+         number = next_optimizer_symbol(NULL)) {
+        reg = lookup_allocation_register(number);
+        reg->flags |= 0x20;
+        restrict_allocation_register(reg);
+        head = insert_allocation_work(reg, head);
+    }
+    return head;
+}
+int __fastcall allocation_can_coalesce(C2AllocationRegister *reg)
+{
+    C2AllocationPreference *preference;
+    C2FunctionRegister *physical = NULL;
+    C2Expression *definition;
+    int best_count = 0;
+
+    if ((int)(allocation_use_cost(reg->source) + (unsigned)reg->priority) <= 0) return 0;
+    for (preference = reg->preferences; preference; preference = preference->next) {
+        if (preference->physical != (C2FunctionRegister *)&machine_registers[4])
+            ALLOCATION_KNOWN_NUMBER(preference->physical);
+        if (!optimizer_set_contains(reg->available, preference->physical->number)) continue;
+        if (!physical || (int)preference->count > best_count) {
+            physical = preference->physical;
+            best_count = (int)preference->count;
+        }
+    }
+    if (!physical) return 0;
+    if (reg->use_count == 3 && (definition = reg->definition_record) != NULL &&
+        definition->opcode > 0 && definition->opcode < 0x11b &&
+        ALLOCATION_PAIRED_OPCODE(definition->opcode) &&
+        !definition->tail.right->allocation_class_number) return 0;
+    clear_register_set(reg->available);
+    add_register_to_set(reg->available, physical->number);
+    reg->priority = 1;
+    return 1;
+}
 C2AllocationRegister *__fastcall delay_allocation_register(C2AllocationRegister *head,
-    C2AllocationRegister *reg) { __asm { int 3 } return NULL; }
+    C2AllocationRegister *reg)
+{
+    C2AllocationRegister *position, *previous;
+
+    REFRESH_KNOWN_KIND(reg->source);
+    reg->next_active = reg->previous_active = NULL;
+    if (reg->source->kind == 13) {
+        for (position = head; position->next_active; position = position->next_active) {
+        }
+        position->next_active = reg;
+        reg->previous_active = position;
+        reg->weighted_pressure = position->weighted_pressure;
+        return head;
+    }
+    for (position = head; !(position->flags & 0x40) && position->next_active;
+         position = position->next_active) {
+    }
+    if (!(position->flags & 0x40)) goto append_delayed;
+    REFRESH_KNOWN_KIND(position->source);
+    if ((reg->priority <= position->priority || position->source->kind == 13) && position == head) {
+        reg->next_active = head;
+        head->previous_active = reg;
+        reg->weighted_pressure = head->weighted_pressure;
+        return reg;
+    }
+    while (position->priority < reg->priority) {
+        REFRESH_KNOWN_KIND(position->source);
+        if (position->source->kind == 13 || !position->next_active) break;
+        position = position->next_active;
+    }
+    if (position->priority < reg->priority) {
+        REFRESH_KNOWN_KIND(position->source);
+        if (position->source->kind != 13) goto append_delayed;
+    }
+    previous = position->previous_active;
+    reg->next_active = position;
+    reg->previous_active = previous;
+    previous->next_active = reg;
+    position->previous_active = reg;
+    reg->weighted_pressure = position->weighted_pressure;
+    return head;
+append_delayed:
+    position->next_active = reg;
+    reg->previous_active = position;
+    reg->weighted_pressure = position->weighted_pressure;
+    return head;
+}
+void __fastcall increase_allocation_spill_cost(C2Expression *record,
+    C2AllocationRegister *excluded, C2BasicBlock *block)
+{
+    C2Expression *operand, *constant;
+    C2FunctionRegister *source;
+    C2AllocationRegister *reg;
+    unsigned cost;
+
+    operand = record->tail.right;
+    if (operand->kind == 1) {
+        if (operand->original_register != (C2FunctionRegister *)&machine_registers[5])
+            REFRESH_KNOWN_KIND(operand->original_register);
+        if (operand->original_register->kind == 2 &&
+            operand->original_register != (C2FunctionRegister *)excluded) goto found_cost_operand;
+    }
+    operand = record->left;
+    if (operand->kind == 1) {
+        if (operand->original_register != (C2FunctionRegister *)&machine_registers[5])
+            REFRESH_KNOWN_KIND(operand->original_register);
+        if (operand->original_register->kind == 2 &&
+            operand->original_register != (C2FunctionRegister *)excluded) goto found_cost_operand;
+    }
+    operand = operand->next;
+    if (!operand || operand->kind != 1) return;
+    if (operand->original_register != (C2FunctionRegister *)&machine_registers[5])
+        REFRESH_KNOWN_KIND(operand->original_register);
+    if (operand->original_register->kind != 2 ||
+        operand->original_register == (C2FunctionRegister *)excluded) return;
+found_cost_operand:
+    source = operand->value.reg;
+    reg = (C2AllocationRegister *)operand->original_register;
+    REFRESH_KNOWN_KIND(source);
+    if (source->kind == 13) {
+        if (c2_favor_speed) cost = 1U << ((block->number86 + 1) & 31);
+        else {
+            constant = source->allocation_operand;
+            if (constant->kind != 7) return;
+            if (!constant->integer.low) {
+                if (record->opcode != 1 && record->opcode != 0x2f) return;
+                cost = 1;
+            } else {
+                if (!integer_constant_differs(constant, ~(unsigned __int64)0) ||
+                    record->opcode != 1 || (record->type & 0xfff) != 4 ||
+                    (int)(signed char)constant->integer.low != (int)constant->integer.low) return;
+                cost = 2;
+            }
+        }
+    } else {
+        cost = allocation_copy_cost(record, source);
+        cost = allocation_use_cost(source) - cost;
+        if (c2_favor_speed) cost *= 1U << ((block->number86 + 1) & 31);
+    }
+    reg->priority = (int)((unsigned)reg->priority + cost);
+}
 void __fastcall spill_allocation_register(C2Function *function, C2AllocationRegister *reg)
-{ __asm { int 3 } }
-void __fastcall refresh_allocation_work(C2Function *function, int which) { __asm { int 3 } }
-void __fastcall relax_pinned_allocation(C2AllocationRegister *reg) { __asm { int 3 } }
-void __fastcall relax_allocation_candidate(C2AllocationRegister *reg) { __asm { int 3 } }
+{
+    C2BasicBlock *block = reg->first_block;
+    C2Expression *record, *next, *operand, *scan, *temporary, *move;
+    C2FunctionRegister *original;
+    unsigned number = reg->number;
+    unsigned short type, line;
+    int side, prepare = 0, finish = 0;
+
+    for (;;) {
+        if (!optimizer_set_contains(block->allocation_region_uses, number)) {
+            block = block->previous;
+            continue;
+        }
+        remove_optimizer_symbol(block->allocation_region_uses, number);
+        remove_optimizer_symbol(block->allocation_live_out, number);
+        remove_optimizer_symbol(block->allocation_live_in_after, number);
+        for (record = (C2Expression *)block->records;
+             record != (C2Expression *)block->last_record; record = next) {
+            next = record->next;
+            if (!(record->flags & 1)) continue;
+            if (record->opcode == 0x139) {
+                if (record->tail.right->original_register == (C2FunctionRegister *)reg)
+                    unlink_and_release_input_record((C2Record *)record);
+                continue;
+            }
+            if (record->opcode == 0x13a) {
+                if (record->left->original_register == (C2FunctionRegister *)reg)
+                    unlink_and_release_input_record((C2Record *)record);
+                continue;
+            }
+            for (side = 0; side < 2; ++side) {
+                for (operand = side ? record->left : record->tail.right;
+                     operand; operand = operand->next) {
+                    if (operand->kind != 1 ||
+                        operand->original_register != (C2FunctionRegister *)reg) continue;
+                    REFRESH_KNOWN_KIND(operand->value.reg);
+                    if (operand->value.reg->kind == 13) {
+                        operand = materialize_allocation_input(record, operand, operand->value.reg);
+                        continue;
+                    }
+                    if (!side && operand->previous && reg->use_count == 1) {
+                        for (scan = record->left; scan; scan = scan->next) {
+                            if (scan->kind != 1) continue;
+                            original = scan->original_register;
+                            REFRESH_KNOWN_KIND(original);
+                            if (original->kind == 3 && original->value)
+                                unlink_and_release_input_record((C2Record *)original->value);
+                            else if (original->kind == 2 &&
+                                     !((C2AllocationRegister *)original)->pinned_register) {
+                                ALLOCATION_KNOWN_TYPE_CLASS(operand->type);
+                                ALLOCATION_KNOWN_TYPE_CLASS(scan->type);
+                                if (ALLOCATION_TYPE_CLASS(operand->type) !=
+                                    ALLOCATION_TYPE_CLASS(scan->type)) continue;
+                                if (!allocation_deferred_registers)
+                                    allocation_deferred_registers = new_register_set(6);
+                                add_register_to_set(allocation_deferred_registers, original->number);
+                                original->view_flags |= 2;
+                                block->flags |= 0x40000;
+                            }
+                        }
+                        unlink_and_release_input_record((C2Record *)record);
+                        block->flags |= 0x80000;
+                        release_allocation_register(reg, 1);
+                        return;
+                    }
+                    if (operand->location.expression.properties & 0x20) prepare = 1;
+                    else {
+                        if (operand->location.expression.use_flags & 0x80)
+                            increase_allocation_spill_cost(record, reg, block);
+                        finish = 1;
+                    }
+                    make_global_register_operand(operand);
+                    type = operand->value.reg->type;
+                    if (!side && (type & 0xfff) < (operand->type & 0xfff)) {
+                        temporary = new_temporary_operand(operand->type);
+                        temporary->value.reg->value = record;
+                        move = new_binary_expression(1, type, operand, temporary,
+                            insert_input_record, (C2Record *)record);
+                        operand = replace_input_result(record, operand, temporary);
+                        type = move->type;
+                        move->tail.right->type = move->left->type = type;
+                        move->left->value.reg = new_address_register(move->left->value.reg,
+                            type, type & 0xfff, 0);
+                        if ((type & 0xfff) == 1)
+                            temporary->original_register->view_flags |= 0x80;
+                    }
+                }
+            }
+            if (prepare) {
+                prepare = 0;
+                line = record->location.line;
+                if (line) {
+                    record_source_line = function->source_line_base + line;
+                    record_line_delta = line;
+                }
+                prepare_final_record_operands(record);
+                block->flags |= 0x80000;
+            }
+            if (finish) {
+                finish = 0;
+                line = record->location.line;
+                if (line) {
+                    record_source_line = function->source_line_base + line;
+                    record_line_delta = line;
+                }
+                record = finish_final_integer_record(record);
+                block->flags |= 0x80000;
+            }
+            next = record->next;
+        }
+        if (block == reg->last_block) break;
+        block = block->previous;
+    }
+    release_allocation_register(reg, 1);
+}
+void __fastcall refresh_allocation_work(C2Function *function, int which)
+{
+    C2RegisterSet *live = new_register_set(6);
+    C2BasicBlock *block;
+    C2Expression *record, *operand, *use;
+    C2FunctionRegister *original;
+    int needed;
+
+    for (block = function->flow->last; block; block = block->previous) {
+        if (!(block->flags & 0x80000)) continue;
+        block->flags &= ~0x80000;
+        copy_optimizer_symbol_set_into(live, block->allocation_live_in_after);
+        for (record = (C2Expression *)block->last_record;
+             record != (C2Expression *)block->records; record = record->previous) {
+            if (!(record->flags & 1)) continue;
+            for (operand = record->tail.right; operand; operand = operand->next) {
+                if (operand->kind != 1) continue;
+                ALLOCATION_KNOWN_TYPE_CLASS(operand->type);
+                if (ALLOCATION_TYPE_CLASS(operand->type) != which) continue;
+                original = operand->original_register;
+                REFRESH_KNOWN_KIND(original);
+                switch (original->kind) {
+                case 1:
+                    REFRESH_KNOWN_KIND(operand->value.reg);
+                    if (operand->value.reg->kind == 1) break;
+                    needed = !final_register_has_other_use(original, record);
+                    if (needed) operand->location.expression.use_flags |= 0x10;
+                    else operand->location.expression.use_flags &= ~0x10;
+                    break;
+                case 2:
+                    remove_optimizer_symbol(live, original->number);
+                    break;
+                case 3:
+                    needed = !final_register_has_other_use(original, record);
+                    if (needed) operand->location.expression.use_flags |= 0x10;
+                    else operand->location.expression.use_flags &= ~0x10;
+                    if ((operand->type & 0xfff) == 1) original->view_flags |= 0x80;
+                    break;
+                }
+            }
+            for (operand = record->left; operand; operand = operand->next) {
+                if (operand->kind == 2) {
+                    operand->allocation_class_number = 0;
+                    continue;
+                }
+                if (operand->kind != 1) continue;
+                operand->allocation_class_number = 0;
+                ALLOCATION_KNOWN_TYPE_CLASS(operand->type);
+                if (ALLOCATION_TYPE_CLASS(operand->type) != which) continue;
+                original = operand->original_register;
+                REFRESH_KNOWN_KIND(original);
+                switch (original->kind) {
+                case 1:
+                    REFRESH_KNOWN_KIND(operand->value.reg);
+                    if (operand->value.reg->kind == 1) break;
+                    use = find_final_register_use(original, record);
+                    if (use) REFRESH_KNOWN_KIND(use->value.reg);
+                    if (use && use->value.reg->kind == 3)
+                        operand->location.expression.use_flags &= ~0x10;
+                    else operand->location.expression.use_flags |= 0x10;
+                    break;
+                case 2:
+                    if (optimizer_set_contains(live, original->number) ||
+                        allocation_input_is_repeated(operand))
+                        operand->location.expression.use_flags &= ~0x10;
+                    else {
+                        operand->location.expression.use_flags |= 0x10;
+                        add_register_to_set(live, original->number);
+                    }
+                    break;
+                case 3:
+                    use = find_final_register_use(original, record);
+                    if (use) REFRESH_KNOWN_KIND(use->value.reg);
+                    if (use && use->value.reg->kind == 3)
+                        operand->location.expression.use_flags &= ~0x10;
+                    else operand->location.expression.use_flags |= 0x10;
+                    if ((operand->type & 0xfff) == 1) original->view_flags |= 0x80;
+                    break;
+                }
+            }
+        }
+    }
+    release_optimizer_symbol_set(live);
+}
+#undef REFRESH_KNOWN_KIND
+void __fastcall relax_pinned_allocation(C2AllocationRegister *reg)
+{
+    C2RegisterSet *numbers = new_register_set(6);
+    C2BasicBlock *block, *destination;
+    C2FlowEdge *edge;
+    C2Expression *record, *next, *position;
+    unsigned number = reg->number;
+
+    add_register_to_set(numbers, number);
+    for (block = reg->first_block;; block = block->previous) {
+        for (record = (C2Expression *)block->records;
+             record != (C2Expression *)block->last_record; record = next) {
+            next = record->next;
+            if (record->opcode != 0x139 ||
+                record->tail.right->original_register != (C2FunctionRegister *)reg ||
+                !(record->tail.right->location.expression.use_flags & 0x80)) continue;
+            for (edge = block->outgoing; edge; edge = edge->next_outgoing) {
+                destination = edge->destination;
+                if (!optimizer_set_contains(destination->allocation_live_out, number)) continue;
+                position = (C2Expression *)destination->records;
+                if (position->next->kind == 25) position = position->next;
+                select_allocation_spill_choice(position, NULL, NULL, numbers);
+                destination->flags |= 0x40000;
+                /* The original unlinks this same record for every matching
+                 * outgoing edge; it does not move the unlink outside the loop. */
+                unlink_and_release_input_record((C2Record *)record);
+            }
+        }
+        if (block == reg->last_block) break;
+    }
+    release_optimizer_symbol_set(numbers);
+}
+void __fastcall relax_allocation_candidate(C2AllocationRegister *reg)
+{
+    C2RegisterSet *numbers = new_register_set(6);
+    C2BasicBlock *block, *last;
+    C2Expression *position;
+    unsigned number = reg->number;
+
+    add_register_to_set(numbers, number);
+    last = reg->last_block;
+    for (block = reg->first_block;; block = block->previous) {
+        if (optimizer_set_contains(block->allocation_live_out, number)) {
+            position = (C2Expression *)block->records;
+            if (position->next->kind == 25) position = position->next;
+            select_allocation_spill_choice(position, NULL, NULL, numbers);
+            block->flags |= 0x40000;
+        }
+        if (block == last) break;
+    }
+    release_optimizer_symbol_set(numbers);
+}
 int __fastcall try_assign_allocation_register(C2AllocationRegister *reg)
 { __asm { int 3 } return 0; }
 /* Original41b6fa inserts by descending weighted pressure, then sequence.
@@ -3600,8 +7271,223 @@ C2AllocationRegister *__fastcall insert_allocation_work(C2AllocationRegister *re
     return head;
 }
 void __fastcall prepare_clobbered_allocation(C2AllocationRegister *reg) { __asm { int 3 } }
+/* Only the existing kind/canonical columns of fixed integer/flag views
+ * enter this pass. The sentinel has no allocation-register payload. */
+#define CONSTRAIN_KNOWN_REGISTER(reg) \
+    do { if ((unsigned)(reg) >= (unsigned)machine_registers && \
+        (unsigned)(reg) <= (unsigned)(machine_registers + C2_MACHINE_REGISTER_COUNT) && \
+        !((unsigned)(reg) >= (unsigned)&machine_registers[1] && \
+          (unsigned)(reg) <= (unsigned)&machine_registers[8]) && \
+        (reg) != (C2FunctionRegister *)&machine_registers[18] && \
+        !((unsigned)(reg) >= (unsigned)&machine_registers[66] && \
+          (unsigned)(reg) <= (unsigned)&machine_registers[73])) { __asm { int 3 } } } while (0)
+#define CONSTRAIN_KNOWN_NUMBER(reg) \
+    do { if ((unsigned)(reg) >= (unsigned)machine_registers && \
+        (unsigned)(reg) <= (unsigned)(machine_registers + C2_MACHINE_REGISTER_COUNT) && \
+        !((unsigned)(reg) >= (unsigned)&machine_registers[1] && \
+          (unsigned)(reg) <= (unsigned)&machine_registers[8]) && \
+        (reg) != (C2FunctionRegister *)&machine_registers[66]) { __asm { int 3 } } } while (0)
+int __fastcall constrain_spill_block(C2AllocationRegister *reg, C2BasicBlock *block,
+    C2RegisterSet *available, C2RegisterSet *selected, int first, C2RegisterSet *allowed)
+{
+    C2RegisterSet *blocked = copy_optimizer_symbol_set(block->allocation_edge_uses);
+    C2RegisterSet *candidates = copy_optimizer_symbol_set(available);
+    C2Expression *record, *operand;
+    C2AllocationRegister *assigned;
+    C2FunctionRegister *original, *physical;
+    C2Record *position;
+    unsigned number;
+    int result;
+
+    for (record = (C2Expression *)block->records;
+         record != (C2Expression *)block->last_record; record = record->next) {
+        if (!(record->flags & 1)) {
+            if (record->kind == 26 && optimizer_set_contains(((C2Record *)record)->owner.registers, reg->number)) {
+                if (!first) goto failed_spill_block;
+                clear_register_set(candidates);
+            }
+            continue;
+        }
+        if (record->opcode != 0x13a) {
+            for (operand = record->left; operand; operand = operand->next) {
+                if (operand->kind != 1 || (C2AllocationRegister *)operand->original_register != reg) continue;
+                if (!candidates->links.first) {
+                    copy_optimizer_symbol_set_into(candidates, allowed);
+                    subtract_optimizer_symbol_sets(candidates, blocked);
+                    select_allocation_spill_choice(record->previous, NULL, NULL, selected);
+                    block->flags |= 0x40000;
+                    if (!first) goto failed_spill_block;
+                } else copy_optimizer_symbol_set_into(available, candidates);
+            }
+        }
+        for (operand = record->left; operand; operand = operand->next) {
+            if (operand->kind != 1) continue;
+            original = operand->original_register;
+            CONSTRAIN_KNOWN_REGISTER(original);
+            if (original->kind == 2) {
+                assigned = (C2AllocationRegister *)original;
+                if (!assigned->pinned_register || !(operand->location.expression.use_flags & 0x10) ||
+                    (operand->location.expression.properties & 0x80)) continue;
+                physical = assigned->pinned_register;
+                CONSTRAIN_KNOWN_NUMBER(physical);
+                remove_optimizer_symbol(blocked, physical->number);
+            } else if (original->kind == 1) {
+                CONSTRAIN_KNOWN_REGISTER(operand->value.reg);
+                physical = original->canonical;
+                CONSTRAIN_KNOWN_NUMBER(physical);
+                if (operand->value.reg->kind == 3) {
+                    if ((operand->location.expression.use_flags & 0x10) &&
+                        !(operand->location.expression.properties & 0x80))
+                        remove_optimizer_symbol(blocked, physical->number);
+                } else remove_optimizer_symbol(candidates, physical->number);
+            }
+        }
+        if ((record->control_flags & 2) && !(reg->attributes & 2)) {
+            intersect_optimizer_symbol_sets(candidates, allocation_call_preserved);
+            if (!candidates->links.first) {
+                copy_optimizer_symbol_set_into(candidates, allowed);
+                subtract_optimizer_symbol_sets(candidates, blocked);
+                intersect_optimizer_symbol_sets(candidates, allocation_call_preserved);
+                select_allocation_spill_choice(record->previous, NULL, NULL, selected);
+                if (!first) goto failed_spill_block;
+            }
+        }
+        for (operand = record->tail.right; operand; operand = operand->next) {
+            if (operand->kind == 1) {
+                original = operand->original_register;
+                CONSTRAIN_KNOWN_REGISTER(original);
+                if (original->kind == 2) {
+                    physical = ((C2AllocationRegister *)original)->pinned_register;
+                    if (physical) {
+                        CONSTRAIN_KNOWN_NUMBER(physical);
+                        number = physical->number;
+                        remove_optimizer_symbol(candidates, number);
+                        add_register_to_set(blocked, number);
+                    }
+                } else if (original->kind == 1) {
+                    physical = original->canonical;
+                    CONSTRAIN_KNOWN_NUMBER(physical);
+                    number = physical->number;
+                    remove_optimizer_symbol(candidates, number);
+                    CONSTRAIN_KNOWN_REGISTER(operand->value.reg);
+                    if (operand->value.reg->kind == 3) add_register_to_set(blocked, number);
+                }
+            } else if (operand->kind == 9)
+                subtract_optimizer_symbol_sets(candidates, operand->value.registers);
+        }
+        if (record->opcode != 0x139) {
+            for (operand = record->tail.right; operand; operand = operand->next) {
+                if (operand->kind != 1 || (C2AllocationRegister *)operand->original_register != reg) continue;
+                if (operand->location.expression.properties & 15) break;
+                copy_optimizer_symbol_set_into(candidates, allowed);
+                subtract_optimizer_symbol_sets(candidates, blocked);
+                if (!first) goto failed_spill_block;
+            }
+        }
+    }
+    if (!first) block->spill_visit = block->spill_partition;
+    if (!candidates->links.first) {
+        position = block->last_record->previous;
+        if (position->kind == 26) merge_optimizer_symbol_sets(position->owner.registers, selected);
+        else select_allocation_spill_choice((C2Expression *)position, NULL, NULL, selected);
+        block->flags |= 0x40000;
+        result = 0;
+    } else {
+        copy_optimizer_symbol_set_into(available, candidates);
+        result = 1;
+    }
+    goto finish_spill_block;
+failed_spill_block:
+    result = 0;
+finish_spill_block:
+    release_optimizer_symbol_set(blocked);
+    release_optimizer_symbol_set(candidates);
+    return result;
+}
+#undef CONSTRAIN_KNOWN_REGISTER
+#undef CONSTRAIN_KNOWN_NUMBER
+
 void __fastcall force_allocation_register(C2AllocationRegister *reg, C2RegisterSet *available)
-{ __asm { int 3 } }
+{
+    C2RegisterSet *scratch = new_register_set(6), *selected = new_register_set(6);
+    C2AllocationSpillBlock *work, *wave, *item;
+    C2BasicBlock *block, *current, *neighbor;
+    C2FlowEdge *edge, *scan;
+    C2Record *position;
+    unsigned visit = 0;
+
+    add_register_to_set(selected, reg->number);
+    for (block = reg->first_block; ; block = block->previous) {
+        if (!optimizer_set_contains(block->allocation_region_uses, reg->number)) continue;
+        if (!block->spill_visit) {
+            block->spill_visit = ++visit;
+            if (!block->spill_partition) {
+                block->spill_partition = visit;
+                clear_register_set(scratch);
+            } else copy_optimizer_symbol_set_into(scratch, available);
+            work = NULL;
+            if (constrain_spill_block(reg, block, scratch, selected, 1, available) &&
+                optimizer_set_contains(block->allocation_live_in_after, reg->number)) {
+                for (edge = block->outgoing; edge; edge = edge->next_outgoing)
+                    if (edge->destination->spill_partition) break;
+                if (edge) {
+                    position = block->last_record->previous;
+                    if (position->kind == 26) merge_optimizer_symbol_sets(position->owner.registers, selected);
+                    else select_allocation_spill_choice((C2Expression *)position, NULL, NULL, selected);
+                    block->flags |= 0x40000;
+                } else for (edge = block->outgoing; edge; edge = edge->next_outgoing) {
+                    neighbor = edge->destination;
+                    if (!optimizer_set_contains(neighbor->allocation_live_out, reg->number)) continue;
+                    item = new_allocation_spill_block();
+                    item->next = work;
+                    item->block = neighbor;
+                    neighbor->spill_partition = visit;
+                    work = item;
+                }
+            }
+            while (work) {
+                wave = NULL;
+                while (work) {
+                    current = work->block;
+                    item = work;
+                    work = work->next;
+                    release_allocation_spill_block(item);
+                    if (!constrain_spill_block(reg, current, scratch, selected, 0, available) ||
+                        !optimizer_set_contains(current->allocation_live_in_after, reg->number)) continue;
+                    for (scan = current->outgoing; scan; scan = scan->next_outgoing)
+                        if (scan->destination->spill_partition &&
+                            scan->destination->spill_partition != visit) break;
+                    if (scan) {
+                        position = current->last_record->previous;
+                        if (position->kind == 26) merge_optimizer_symbol_sets(position->owner.registers, selected);
+                        else select_allocation_spill_choice((C2Expression *)position, NULL, NULL, selected);
+                        current->flags |= 0x40000;
+                        continue;
+                    }
+                    for (edge = current->outgoing; edge; edge = edge->next_outgoing) {
+                        neighbor = edge->destination;
+                        if (neighbor->spill_partition ||
+                            !optimizer_set_contains(neighbor->allocation_live_out, reg->number)) continue;
+                        item = new_allocation_spill_block();
+                        item->next = wave;
+                        item->block = neighbor;
+                        neighbor->spill_partition = visit;
+                        wave = item;
+                    }
+                }
+                work = wave;
+            }
+        }
+        if (block == reg->last_block) break;
+    }
+    release_optimizer_symbol_set(scratch);
+    release_optimizer_symbol_set(selected);
+    for (block = reg->first_block; ; block = block->previous) {
+        block->spill_partition = 0;
+        block->spill_visit = 0;
+        if (block == reg->last_block) break;
+    }
+}
 /* Width-dependent copies may inspect only the proved static ranges. */
 #define ALLOCATION_KNOWN_DISPLACEMENT(reg) \
     do { if ((unsigned long)(reg) >= (unsigned long)machine_registers && \
@@ -3614,18 +7500,192 @@ void __fastcall force_allocation_register(C2AllocationRegister *reg, C2RegisterS
 void __fastcall prepare_allocation_spill_candidate(C2AllocationRegister *reg)
 { __asm { int 3 } }
 C2AllocationSpillChoice *__fastcall select_allocation_byte_spill(C2Expression *record,
-    C2RegisterSet *live, C2AllocationRegister *reg) { __asm { int 3 } return NULL; }
+    C2RegisterSet *live, C2AllocationRegister *reg)
+{
+    C2Expression *operand;
+    C2AllocationRegister *assigned;
+    C2AllocationSpillChoice *choice;
+    C2RegisterSet *candidates = NULL, *one;
+    unsigned number;
+    int inputs = 0, clobbered;
+
+    for (operand = record->left; operand; operand = operand->next) {
+        if (operand->kind != 1) continue;
+        if (operand->original_register != (C2FunctionRegister *)&machine_registers[7] &&
+            operand->original_register != (C2FunctionRegister *)&machine_registers[8])
+            ALLOCATION_KNOWN_KIND(operand->original_register);
+        assigned = (C2AllocationRegister *)operand->original_register;
+        if (assigned->kind != 2 || assigned == reg || assigned->pinned_register) continue;
+        ALLOCATION_KNOWN_KIND(operand->value.reg);
+        if (operand->value.reg->kind == 13) {
+            if (!candidates) candidates = new_register_set(6);
+            add_register_to_set(candidates, assigned->number);
+            operand = materialize_allocation_input(record, operand, operand->value.reg);
+        } else ++inputs;
+    }
+    for (number = next_optimizer_symbol(live); number != ~0U; number = next_optimizer_symbol(NULL)) {
+        assigned = lookup_allocation_register(number);
+        if (assigned == reg || assigned->pinned_register ||
+            (candidates && optimizer_set_contains(candidates, number))) continue;
+        clobbered = !optimizer_symbol_sets_intersect(assigned->available, allocation_call_preserved);
+        if (!clobbered) {
+            if (inputs > 1 && final_register_has_other_use((C2FunctionRegister *)assigned, record) &&
+                !find_final_register_use((C2FunctionRegister *)assigned, record)) clobbered = 1;
+            else {
+                intersect_optimizer_symbol_sets(assigned->available, allocation_call_preserved);
+                continue;
+            }
+        }
+        assigned->attributes |= 2;
+        if (find_final_register_use((C2FunctionRegister *)assigned, record)) continue;
+        if ((assigned->flags & 0x80) && final_register_has_other_use((C2FunctionRegister *)assigned, record) &&
+            (record->left->type & 0xfff) == 1) continue;
+        if (!candidates) candidates = new_register_set(6);
+        add_register_to_set(candidates, number);
+        if (inputs > 1 && final_register_has_other_use((C2FunctionRegister *)assigned, record)) {
+            one = new_register_set(6);
+            add_register_to_set(one, number);
+            select_allocation_spill_choice(record->previous, NULL, NULL, one);
+            release_optimizer_symbol_set(one);
+        }
+    }
+    if (!candidates) return NULL;
+    if (record->control_flags && record->next->kind == 26) {
+        choice = (C2Record *)record->next;
+        merge_optimizer_symbol_sets(choice->owner.registers, candidates);
+    } else choice = select_allocation_spill_choice(record, NULL, NULL, candidates);
+    release_optimizer_symbol_set(candidates);
+    return choice;
+}
 C2RegisterSet *__fastcall finish_allocation_reuse(C2AllocationMoveLink *moves,
     C2AllocationRegister *reg) { __asm { int 3 } return NULL; }
 void __fastcall restrict_allocation_width(C2AllocationRegister *reg, unsigned bytes)
 { __asm { int 3 } }
 void __fastcall restrict_allocation_constraint(C2AllocationRegister *reg, unsigned char constraint)
 { __asm { int 3 } }
+C2Expression *__fastcall find_allocation_choice_operand(C2Expression *record,
+    C2AllocationRegister *excluded)
+{
+    C2Expression *output, *operand;
+    C2AllocationRegister *reg;
+    unsigned opcode = record->opcode;
+
+    if (!opcode || opcode >= 0x11b || record->kind == 13) return NULL;
+    output = record->tail.right;
+    if (output && (output->kind != 1 || !record->left || !record->left->next)) return NULL;
+    for (operand = record->left; operand; operand = operand->next)
+        if (operand->kind == 2 || ((1U << (operand->kind & 31)) & 0x60)) return NULL;
+    for (operand = record->left; operand; operand = operand->next) {
+        if (operand->kind != 1) continue;
+        if (operand->original_register != (C2FunctionRegister *)&machine_registers[5] &&
+            operand->original_register != (C2FunctionRegister *)&machine_registers[7] &&
+            operand->original_register != (C2FunctionRegister *)&machine_registers[8])
+            ALLOCATION_KNOWN_KIND(operand->original_register);
+        reg = (C2AllocationRegister *)operand->original_register;
+        if (reg->kind != 2 || reg == excluded || reg->pinned_register) continue;
+        ALLOCATION_KNOWN_KIND(operand->value.reg);
+        if (operand->value.reg->kind == 13 || operand->value.reg->kind == 3) continue;
+        if (output && output->original_register == (C2FunctionRegister *)reg) continue;
+        if (opcode == 0xca || opcode == 0xcb) continue;
+        if (opcode == 0x33 && operand != record->left) continue;
+        return operand;
+    }
+    return NULL;
+}
+void __fastcall mark_region_allocation_spill(C2FlowRegion *region,
+    C2FunctionRegister *reg)
+{
+    unsigned number;
+
+    /* Machine-row allocation-info payload is outside the partial static model. */
+    if ((unsigned)reg >= (unsigned)machine_registers &&
+        (unsigned)reg <= (unsigned)(machine_registers + C2_MACHINE_REGISTER_COUNT)) { __asm { int 3 } }
+    if (!reg->allocation || reg->kind == 13) return;
+    if (reg->allocation_root) reg = reg->allocation_root;
+    number = reg->allocation->number;
+    do {
+        add_register_to_set(region->allocation_eligible, number);
+        region = region->parent;
+    } while (region);
+}
 void __fastcall finish_allocation_choices(C2AllocationMoveLink *moves,
-    C2RegisterSet *choices, C2AllocationRegister *reg) { __asm { int 3 } }
+    C2RegisterSet *choices, C2AllocationRegister *reg)
+{
+    C2RegisterSet *profitable = new_register_set(6), *selected, *other_numbers, *remaining;
+    C2AllocationMoveLink *link, *other;
+    C2AllocationRegister *assigned;
+    C2Expression *record, *operand;
+    C2BasicBlock *block;
+    unsigned number;
+
+    for (number = next_optimizer_symbol(choices); number != ~0U;
+         number = next_optimizer_symbol(NULL)) {
+        assigned = lookup_allocation_register(number);
+        ALLOCATION_KNOWN_KIND(assigned->source);
+        if (assigned->source->kind != 13 && assigned->priority > 0)
+            add_register_to_set(profitable, number);
+    }
+    for (link = moves; link; link = link->next) {
+        record = link->record;
+        if (!record) continue;
+        selected = record->next->value.registers;
+        if (!optimizer_symbol_sets_intersect(selected, profitable) ||
+            record->control_flags != 1) continue;
+        operand = find_allocation_choice_operand(record, reg);
+        if (!operand) continue;
+        remaining = copy_optimizer_symbol_set(selected);
+        intersect_optimizer_symbol_sets(remaining, profitable);
+        other_numbers = new_register_set(6);
+        for (other = moves; other; other = other->next) {
+            if (!other->record || other == link) continue;
+            /* Original defect: this loop rereads the current record's choice,
+             * rather than the other move's record. Preserve that exact owner. */
+            selected = record->next->value.registers;
+            if (optimizer_symbol_sets_intersect(selected, remaining))
+                merge_optimizer_symbol_sets(other_numbers, selected);
+        }
+        intersect_optimizer_symbol_sets(other_numbers, remaining);
+        assigned = (C2AllocationRegister *)operand->original_register;
+        if (!other_numbers->links.first || assigned->priority < 1) {
+            subtract_optimizer_symbol_sets(selected, remaining);
+            subtract_optimizer_symbol_sets(remaining, other_numbers);
+            subtract_optimizer_symbol_sets(choices, remaining);
+            record->control_flags = 0;
+            add_register_to_set(selected, assigned->number);
+            add_register_to_set(choices, assigned->number);
+            block = allocation_block_for_record(record);
+            if (block->block_scope)
+                mark_region_allocation_spill(block->block_scope, operand->value.reg);
+            if (operand->location.expression.use_flags & 0x80)
+                increase_allocation_spill_cost(record, assigned, block);
+            make_global_register_operand(operand);
+            operand->allocation_class_number = assigned->number;
+            assigned->flags |= 8;
+        }
+        release_optimizer_symbol_set(remaining);
+        release_optimizer_symbol_set(other_numbers);
+    }
+    release_optimizer_symbol_set(profitable);
+}
 C2AllocationMoveLink *allocation_fixed_moves; /* Original4931c4, initialized NULL. */
 C2AllocationMoveLink *allocation_current_choices; /* Original493200, set before consumer. */
 
+/* Fixed address rows7/8 already have their kind and canonical identity.
+ * This local admission leaves every unmodeled static column unavailable. */
+#define CHOICE_KNOWN_KIND(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[7] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[8] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[9] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[31] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[32] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[33]) ALLOCATION_KNOWN_KIND(reg); } while (0)
+#define CHOICE_KNOWN_CANONICAL(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[7] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[8] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[9]) ALLOCATION_KNOWN_CANONICAL(reg); } while (0)
+/* Row6's original DWORD number is already modeled as6. */
+#define CHOICE_KNOWN_NUMBER(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[6]) ALLOCATION_KNOWN_NUMBER(reg); } while (0)
 C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
     C2AllocationRegister *reg, int which, C2RegisterSet *available, C2RegisterSet *spills,
     C2RegisterSet *excluded, unsigned limit)
@@ -3673,21 +7733,25 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                     ALLOCATION_KNOWN_TYPE_CLASS(operand->type);
                     if (ALLOCATION_TYPE_CLASS(operand->type) != which) continue;
                     original = operand->original_register;
-                    ALLOCATION_KNOWN_KIND(original);
+                    if (original != (C2FunctionRegister *)&machine_registers[5])
+                        CHOICE_KNOWN_KIND(original);
                     if (original->kind == 1) {
-                        ALLOCATION_KNOWN_CANONICAL(original);
+                        if (original != (C2FunctionRegister *)&machine_registers[5])
+                        CHOICE_KNOWN_CANONICAL(original);
                         physical = original->canonical;
-                        ALLOCATION_KNOWN_NUMBER(physical);
+                        if (physical != (C2FunctionRegister *)&machine_registers[5] &&
+                            physical != (C2FunctionRegister *)&machine_registers[4])
+                        CHOICE_KNOWN_NUMBER(physical);
                         physical_number = physical->number;
                         if (!optimizer_set_contains(allocation_class_registers[which], physical_number)) continue;
-                        ALLOCATION_KNOWN_KIND(operand->value.reg);
+                        CHOICE_KNOWN_KIND(operand->value.reg);
                         if (operand->value.reg->kind == 1) {
                             ++out_refs;
                             if (optimizer_set_contains(allocation_call_clobbered, physical_number)) ++byte_out_refs;
                         } else if (operand->location.expression.use_flags & 0x10) {
                             input = record->left;
                             if (record->opcode == 1 && input->kind == 1) {
-                                ALLOCATION_KNOWN_KIND(input->original_register);
+                                CHOICE_KNOWN_KIND(input->original_register);
                                 other = (C2AllocationRegister *)input->original_register;
                                 if (other->kind == 2 && other->pinned_register == physical) continue;
                             }
@@ -3707,13 +7771,15 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                                 remove_optimizer_symbol(live, assigned->number);
                                 input = record->left;
                                 if (record->opcode == 1 && input->kind == 1) {
-                                    ALLOCATION_KNOWN_KIND(input->original_register);
+                                    CHOICE_KNOWN_KIND(input->original_register);
                                     other = (C2AllocationRegister *)input->original_register;
                                     if (other->kind == 2 && other->pinned_register == physical) continue;
                                 }
                                 --total;
                                 ++out_refs;
-                                ALLOCATION_KNOWN_NUMBER(physical);
+                                if (physical != (C2FunctionRegister *)&machine_registers[5] &&
+                            physical != (C2FunctionRegister *)&machine_registers[4])
+                        CHOICE_KNOWN_NUMBER(physical);
                                 physical_number = physical->number;
                                 remove_optimizer_symbol(fixed, physical_number);
                                 if (optimizer_set_contains(allocation_call_clobbered, physical_number)) {
@@ -3732,7 +7798,7 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                                 if (record->opcode == 0x139) max_definition_bytes = record->type & 0xfff;
                                 input = record->left;
                                 if (record->opcode == 1 && input->kind == 1) {
-                                    ALLOCATION_KNOWN_KIND(input->original_register);
+                                    CHOICE_KNOWN_KIND(input->original_register);
                                     other = (C2AllocationRegister *)input->original_register;
                                     if (other->kind == 2 && (record->type & 0xfff) == 1) {
                                         ALLOCATION_KNOWN_DISPLACEMENT(input->value.reg);
@@ -3811,14 +7877,18 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                 ALLOCATION_KNOWN_TYPE_CLASS(operand->type);
                 if (ALLOCATION_TYPE_CLASS(operand->type) != which) continue;
                 original = operand->original_register;
-                ALLOCATION_KNOWN_KIND(original);
+                if (original != (C2FunctionRegister *)&machine_registers[5])
+                        CHOICE_KNOWN_KIND(original);
                 if (original->kind == 1) {
-                    ALLOCATION_KNOWN_CANONICAL(original);
+                    if (original != (C2FunctionRegister *)&machine_registers[5])
+                        CHOICE_KNOWN_CANONICAL(original);
                     physical = original->canonical;
-                    ALLOCATION_KNOWN_NUMBER(physical);
+                    if (physical != (C2FunctionRegister *)&machine_registers[5] &&
+                            physical != (C2FunctionRegister *)&machine_registers[4])
+                        CHOICE_KNOWN_NUMBER(physical);
                     physical_number = physical->number;
                     if (!optimizer_set_contains(allocation_class_registers[which], physical_number)) continue;
-                    ALLOCATION_KNOWN_KIND(operand->value.reg);
+                    CHOICE_KNOWN_KIND(operand->value.reg);
                     if (operand->value.reg->kind != 1 &&
                         (operand->location.expression.use_flags & 0x10) &&
                         !optimizer_set_contains(fixed, physical_number)) {
@@ -3836,7 +7906,9 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                     if (physical) {
                         if (!optimizer_set_contains(live, assigned->number)) {
                             add_register_to_set(live, assigned->number);
-                            ALLOCATION_KNOWN_NUMBER(physical);
+                            if (physical != (C2FunctionRegister *)&machine_registers[5] &&
+                            physical != (C2FunctionRegister *)&machine_registers[4])
+                        CHOICE_KNOWN_NUMBER(physical);
                             physical_number = physical->number;
                             if (!optimizer_set_contains(fixed, physical_number)) {
                                 ++total;
@@ -3856,7 +7928,8 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                             alive = 1;
                             output = record->tail.right;
                             if (record->opcode == 1 && output->kind == 1) {
-                                ALLOCATION_KNOWN_KIND(output->original_register);
+                                if (output->original_register != (C2FunctionRegister *)&machine_registers[5])
+                                CHOICE_KNOWN_KIND(output->original_register);
                                 other = (C2AllocationRegister *)output->original_register;
                                 if (other->kind == 2) add_register_to_set(allocation_spilled_registers, other->number);
                             }
@@ -3864,7 +7937,8 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                         output = record->tail.right;
                         constraint = operand->location.expression.use_flags & 7;
                         if (output && output->kind == 1) {
-                            ALLOCATION_KNOWN_KIND(output->original_register);
+                            if (output->original_register != (C2FunctionRegister *)&machine_registers[5])
+                                CHOICE_KNOWN_KIND(output->original_register);
                             other = (C2AllocationRegister *)output->original_register;
                             if (other->kind == 2 && !(other->flags & 4) && !other->pinned_register &&
                                 other->definition_record == record && !allocation_input_is_repeated(operand)) {
@@ -3876,9 +7950,10 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                         }
                         if (record->opcode == 1 && !(operand->location.expression.use_flags & 0x10) &&
                             operand == record->left && output->kind == 1) {
-                            ALLOCATION_KNOWN_KIND(output->original_register);
+                            if (output->original_register != (C2FunctionRegister *)&machine_registers[5])
+                                CHOICE_KNOWN_KIND(output->original_register);
                             other = (C2AllocationRegister *)output->original_register;
-                            if (other->kind == 1) ALLOCATION_KNOWN_KIND(output->value.reg);
+                            if (other->kind == 1) CHOICE_KNOWN_KIND(output->value.reg);
                             if ((other->kind == 1 && output->value.reg->kind == 3) ||
                                 (other->kind == 2 && other->pinned_register)) {
                                 link = new_allocation_move();
@@ -3901,7 +7976,7 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                             operand->value.reg->allocation_root->displacement < operand->value.reg->displacement &&
                             max_input_bytes == 1) max_input_bytes = 2;
                     } else if (!allocation_input_is_repeated(operand)) {
-                        ALLOCATION_KNOWN_KIND(operand->value.reg);
+                        CHOICE_KNOWN_KIND(operand->value.reg);
                         if (record->opcode != 0x13a && operand->value.reg->kind != 13) {
                             ++in_refs;
                             if (assigned->flags & 0x80) {
@@ -3938,7 +8013,7 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                 discard = new_register_set(6);
                 for (operand = record->left; operand; operand = operand->next) {
                     if (operand->kind != 1) continue;
-                    ALLOCATION_KNOWN_KIND(operand->value.reg);
+                    CHOICE_KNOWN_KIND(operand->value.reg);
                     if (operand->value.reg->kind != 13) continue;
                     ALLOCATION_KNOWN_TYPE_CLASS(operand->type);
                     if (ALLOCATION_TYPE_CLASS(operand->type) != which) continue;
@@ -3954,7 +8029,7 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                         best = NULL;
                         for (operand = record->left; operand; operand = operand->next) {
                             if (operand->kind != 1) continue;
-                            ALLOCATION_KNOWN_KIND(operand->original_register);
+                            CHOICE_KNOWN_KIND(operand->original_register);
                             assigned = (C2AllocationRegister *)operand->original_register;
                             if (assigned->kind != 2 || assigned == reg) continue;
                             ALLOCATION_KNOWN_TYPE_CLASS(operand->type);
@@ -3968,7 +8043,7 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                 choice = select_allocation_spill_choice(record, live, excluded, discard);
                 release_optimizer_symbol_set(discard);
                 if (choice) {
-                    merge_optimizer_symbol_sets(choices, choice->registers);
+                    merge_optimizer_symbol_sets(choices, choice->owner.registers);
                     block->flags |= 0x40000;
                     link = new_allocation_move();
                     link->record = record;
@@ -3985,7 +8060,7 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
                     } else if (byte_pressure >= 3) {
                         choice = select_allocation_byte_spill(record, live, reg);
                         if (choice) {
-                            merge_optimizer_symbol_sets(choices, choice->registers);
+                            merge_optimizer_symbol_sets(choices, choice->owner.registers);
                             block->flags |= 0x40000;
                             link = new_allocation_move();
                             link->record = record;
@@ -4028,12 +8103,59 @@ C2RegisterSet *__fastcall choose_allocation_spill(C2Function *function,
     }
     return choices;
 }
+#undef CHOICE_KNOWN_NUMBER
+#undef CHOICE_KNOWN_KIND
+#undef CHOICE_KNOWN_CANONICAL
 void __fastcall finish_fixed_allocation_copy(C2AllocationRegister *reg,
     C2Expression *record) { __asm { int 3 } }
 void __fastcall finish_coalesced_allocation_copy(C2AllocationRegister *reg,
-    C2Expression *record) { __asm { int 3 } }
+    C2Expression *record)
+{
+    C2AllocationRegister *other = (C2AllocationRegister *)record->tail.right->original_register;
+    C2BasicBlock *block;
+    C2Expression *cursor, *operand;
+    unsigned live, other_live;
+
+    for (block = reg->first_block; ; block = block->previous) {
+        if (!optimizer_set_contains(block->allocation_region_uses, reg->number)) continue;
+        live = optimizer_set_contains(block->allocation_live_in_after, reg->number);
+        other_live = optimizer_set_contains(block->allocation_live_in_after, other->number);
+        for (cursor = (C2Expression *)block->last_record;
+             cursor != (C2Expression *)block->records; cursor = cursor->previous) {
+            if (!(cursor->flags & 1)) continue;
+            for (operand = cursor->tail.right; operand; operand = operand->next) {
+                if (operand->kind != 1) continue;
+                if ((C2AllocationRegister *)operand->original_register == reg) live = 0;
+                else if ((C2AllocationRegister *)operand->original_register == other) other_live = 0;
+            }
+            for (operand = cursor->left; operand; operand = operand->next) {
+                if (operand->kind != 1 || !(operand->location.expression.use_flags & 0x10)) continue;
+                if ((C2AllocationRegister *)operand->original_register == reg) {
+                    live = 1;
+                    if (other_live) operand->location.expression.properties |= 0x80;
+                } else if ((C2AllocationRegister *)operand->original_register == other) {
+                    other_live = 1;
+                    if (live) operand->location.expression.properties |= 0x80;
+                }
+            }
+        }
+        if (block == reg->last_block) break;
+    }
+}
 int allocation_register_costs[9]; /* Original4931d8..4931fc, reset by actual writer. */
 
+/* Reached fixed address rows7/8 retain their already modeled kind1 and
+ * canonical self columns; no other original static payload is claimed. */
+#define UPDATE_KNOWN_KIND(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[7] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[8]) ALLOCATION_KNOWN_KIND(reg); } while (0)
+#define UPDATE_KNOWN_CANONICAL(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[7] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[8]) ALLOCATION_KNOWN_CANONICAL(reg); } while (0)
+/* The actual fixed preference order includes already modeled rows4/6. */
+#define UPDATE_KNOWN_NUMBER(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[4] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[6]) ALLOCATION_KNOWN_NUMBER(reg); } while (0)
 void __fastcall update_allocation_choices(C2AllocationRegister *reg, int which,
     C2RegisterSet *spills)
 {
@@ -4058,7 +8180,8 @@ void __fastcall update_allocation_choices(C2AllocationRegister *reg, int which,
         if (priority <= 0) continue;
         allowed = other->available;
         for (preference = other->preferences; preference; preference = preference->next) {
-            ALLOCATION_KNOWN_NUMBER(preference->physical);
+            if (preference->physical != (C2FunctionRegister *)&machine_registers[4])
+                UPDATE_KNOWN_NUMBER(preference->physical);
             index = preference->physical->number;
             if (optimizer_set_contains(allowed, index)) {
                 if (index > 8) { __asm { int 3 } }
@@ -4073,7 +8196,8 @@ void __fastcall update_allocation_choices(C2AllocationRegister *reg, int which,
         }
     }
     for (preference = reg->preferences; preference; preference = preference->next) {
-        ALLOCATION_KNOWN_NUMBER(preference->physical);
+        if (preference->physical != (C2FunctionRegister *)&machine_registers[4])
+                UPDATE_KNOWN_NUMBER(preference->physical);
         index = preference->physical->number;
         if (index > 8) { __asm { int 3 } }
         allocation_register_costs[index] -= preference->count;
@@ -4106,18 +8230,20 @@ void __fastcall update_allocation_choices(C2AllocationRegister *reg, int which,
         for (move = allocation_fixed_moves; move; move = move->next) {
             record = move->record;
             original = record->tail.right->original_register;
-            ALLOCATION_KNOWN_KIND(original);
+            UPDATE_KNOWN_KIND(original);
             if (original->kind == 1) {
-                ALLOCATION_KNOWN_CANONICAL(original);
+                UPDATE_KNOWN_CANONICAL(original);
                 physical = original->canonical;
-                ALLOCATION_KNOWN_NUMBER(physical);
+                if (physical != (C2FunctionRegister *)&machine_registers[6])
+                    UPDATE_KNOWN_NUMBER(physical);
                 if (physical->number == selected) finish_fixed_allocation_copy(reg, record);
             } else {
                 other = (C2AllocationRegister *)original;
                 source = (C2AllocationRegister *)record->left->original_register;
                 if (source == reg) physical = other->pinned_register;
                 else physical = source->pinned_register;
-                ALLOCATION_KNOWN_NUMBER(physical);
+                if (physical != (C2FunctionRegister *)&machine_registers[6])
+                    UPDATE_KNOWN_NUMBER(physical);
                 if (physical->number == selected) finish_coalesced_allocation_copy(source, record);
             }
         }
@@ -4129,13 +8255,352 @@ void __fastcall update_allocation_choices(C2AllocationRegister *reg, int which,
         coalesce_fixed_register(lookup_allocation_register(number), reg->pinned_register);
     clear_register_set(allocation_spilled_registers);
 }
+#undef UPDATE_KNOWN_NUMBER
+#undef UPDATE_KNOWN_KIND
+#undef UPDATE_KNOWN_CANONICAL
 int __fastcall allocation_can_be_deferred(C2AllocationRegister *reg)
 { __asm { int 3 } return 0; }
 int __fastcall allocation_definition_can_be_reused(C2Expression *record, int spilling)
-{ __asm { int 3 } return 0; }
-void __fastcall prepare_reused_allocation(C2AllocationRegister *reg) { __asm { int 3 } }
+{
+    C2Expression *operand;
+    C2AllocationRegister *reg;
+
+    if (record->opcode == 0x139 || (record->control_flags & 2)) return 0;
+    if (record->tail.right->next) return 0;
+    for (operand = record->left; operand; operand = operand->next) {
+        if (operand->kind != 1) continue;
+        if (operand->original_register != (C2FunctionRegister *)&machine_registers[5])
+            ALLOCATION_KNOWN_KIND(operand->original_register);
+        reg = (C2AllocationRegister *)operand->original_register;
+        if (reg->kind != 2 || (operand->location.expression.use_flags & 0x10)) return 0;
+        if (spilling) {
+            ALLOCATION_KNOWN_KIND(operand->value.reg);
+            if (operand->value.reg->kind != 13 && !reg->pinned_register &&
+                reg->available->links.first) return 0;
+        }
+        if (reg->flags & 0x10) return 0;
+    }
+    return 1;
+}
+void __fastcall prepare_reused_allocation(C2AllocationRegister *reg)
+{
+    C2Expression *definition = reg->definition_record, *memory = NULL;
+    C2Expression *operand, *record, *copy, *scan;
+    C2AllocationRegister *source;
+    C2RegisterSet *dependencies = NULL, *missing;
+    C2BasicBlock *block, *first = reg->first_block, *last = reg->last_block;
+    C2BasicBlock *special = NULL;
+    C2FlowEdge *edge;
+    C2AllocationMoveLink *moves = NULL, *link, *move;
+    unsigned unpinned = 0;
+    int changed, active, source_live;
+
+    for (operand = definition->left; operand; operand = operand->next) {
+        if (operand->kind == 1) {
+            ALLOCATION_KNOWN_KIND(operand->value.reg);
+            if (operand->value.reg->kind == 13) continue;
+            if (!dependencies) dependencies = new_register_set(6);
+            source = (C2AllocationRegister *)operand->original_register;
+            add_register_to_set(dependencies, source->number);
+            if (!source->pinned_register) {
+                if (source->flags & 0x80) goto abandon;
+                ++unpinned;
+            }
+        } else if (operand->kind == 2 || operand->kind == 6) memory = operand;
+    }
+    if (unpinned > 1) goto abandon;
+    if (first == last) first->flags &= ~0x100000;
+    else {
+        for (block = first;; block = block->previous) {
+            block->flags &= 0xff2fffffU;
+            for (record = (C2Expression *)block->records;
+                 record != (C2Expression *)block->last_record; record = record->next) {
+                if (record->flags & 1) {
+                    if (!(block->flags & 0x400000) &&
+                        (find_final_register_use((C2FunctionRegister *)reg, record) ||
+                         (!(block->flags & 0x400000) &&
+                          final_register_has_other_use((C2FunctionRegister *)reg, record))))
+                        block->flags |= 0x400000;
+                } else if (record->kind == 26 &&
+                    optimizer_set_contains(record->value.registers, reg->number))
+                    block->flags = (block->flags & ~0x400000) | 0x800000;
+            }
+            if (block->flags & 0x400000) block->flags |= 0x200000;
+            else block->flags &= ~0x200000;
+            if (block == last) break;
+        }
+        do {
+            changed = 0;
+            for (block = first->previous;; block = block->previous) {
+                if (!(block->flags & 0x100000)) {
+                    for (edge = block->incoming; edge; edge = edge->next_incoming)
+                        if (!(edge->source->flags & 0x200000)) break;
+                    if (!edge) {
+                        block->flags |= 0x100000;
+                        if (!(block->flags & 0x800000)) {
+                            block->flags |= 0x200000;
+                            changed = 1;
+                        }
+                    }
+                }
+                if (block == last) break;
+            }
+        } while (changed);
+    }
+    for (block = first;; block = block->previous) {
+        active = (block->flags & 0x100000) != 0;
+        source_live = optimizer_set_contains(block->allocation_live_out, reg->number) != 0;
+        for (record = (C2Expression *)block->records;
+             record != (C2Expression *)block->last_record; record = record->next) {
+            if (!(record->flags & 1)) {
+                if (record->kind == 26) {
+                    if (optimizer_set_contains(record->value.registers, reg->number)) active = 0;
+                    else if (source_live && dependencies &&
+                        optimizer_symbol_sets_intersect(record->value.registers, dependencies)) goto abandon;
+                }
+                continue;
+            }
+            if (!active) {
+                if (find_final_register_use((C2FunctionRegister *)reg, record)) {
+                    active = source_live = 1;
+                    continue;
+                }
+                for (operand = record->left; operand; operand = operand->next) {
+                    if (operand->kind != 1 ||
+                        operand->original_register != (C2FunctionRegister *)reg) continue;
+                    if (dependencies && optimizer_set_contains(block->allocation_live_out, reg->number)) {
+                        missing = copy_optimizer_symbol_set(dependencies);
+                        subtract_optimizer_symbol_sets(missing, block->allocation_live_out);
+                        if (missing->links.first) {
+                            scan = record->tail.right;
+                            if (special || record != ((C2Expression *)block->records)->next ||
+                                block->incoming->next_incoming ||
+                                !optimizer_symbol_sets_intersect(block->incoming->source->allocation_live_in_after,
+                                    dependencies) || count_optimizer_symbols(dependencies) != 1 ||
+                                !scan || scan->kind != 1) {
+                                release_optimizer_symbol_set(missing);
+                                goto abandon;
+                            }
+                            ALLOCATION_KNOWN_KIND(scan->original_register);
+                            if (scan->original_register->kind != 2 ||
+                                !optimizer_set_contains(dependencies, scan->original_register->number)) {
+                                release_optimizer_symbol_set(missing);
+                                goto abandon;
+                            }
+                            special = block;
+                        }
+                        release_optimizer_symbol_set(missing);
+                    }
+                    move = new_allocation_move();
+                    move->record = record;
+                    move->next = moves;
+                    moves = move;
+                    if (operand->location.expression.use_flags & 0x10) source_live = 0;
+                    else active = 1;
+                }
+            }
+            if (!source_live) continue;
+            if (dependencies) {
+                for (operand = record->tail.right; operand; operand = operand->next) {
+                    if (operand->kind != 1) continue;
+                    if (operand->original_register != (C2FunctionRegister *)&machine_registers[5])
+                        ALLOCATION_KNOWN_KIND(operand->original_register);
+                    if (operand->original_register->kind == 2 &&
+                        optimizer_set_contains(dependencies, operand->original_register->number)) goto abandon;
+                }
+            }
+            if (memory)
+                for (operand = record->tail.right; operand; operand = operand->next)
+                    if (input_operands_may_alias(operand, memory)) goto abandon;
+            for (operand = record->left; operand; operand = operand->next)
+                if (operand->kind == 1 && operand->original_register == (C2FunctionRegister *)reg &&
+                    (operand->location.expression.use_flags & 0x10)) active = source_live = 0;
+        }
+        if (block == last) break;
+    }
+    if (!moves) goto abandon;
+    if (dependencies) {
+        for (link = moves; link; link = link->next) {
+            for (record = link->record->previous; record->kind != 24; record = record->previous) {
+                if (!(record->flags & 1)) continue;
+                for (operand = record->left; operand; operand = operand->next) {
+                    if (operand->kind != 1) continue;
+                    if (operand->original_register != (C2FunctionRegister *)&machine_registers[5])
+                        ALLOCATION_KNOWN_KIND(operand->original_register);
+                    if (operand->original_register->kind == 2 &&
+                        (operand->location.expression.use_flags & 0x10) &&
+                        optimizer_set_contains(dependencies, operand->original_register->number)) goto abandon;
+                }
+            }
+        }
+        release_optimizer_symbol_set(dependencies);
+        dependencies = NULL;
+    }
+    for (link = moves; link; link = link->next) {
+        copy = copy_input_expression(definition);
+        copy->location.line = link->record->location.line;
+        for (operand = copy->left; operand; operand = operand->next) {
+            if (operand->kind != 1) continue;
+            ALLOCATION_KNOWN_KIND(operand->value.reg);
+            if (operand->value.reg->kind == 13)
+                operand = materialize_allocation_input(copy, operand, operand->value.reg);
+        }
+        prepend_input_record((C2Record *)link->record, (C2Record *)copy);
+        allocation_block_for_record(link->record)->flags |= 0x40000;
+    }
+    release_allocation_moves(moves);
+    moves = NULL;
+    reg->flags |= 0x10;
+    if (special) {
+        for (operand = definition->left; operand; operand = operand->next) {
+            if (operand->kind != 1) continue;
+            if (operand->original_register != (C2FunctionRegister *)&machine_registers[5])
+                        ALLOCATION_KNOWN_KIND(operand->original_register);
+            ALLOCATION_KNOWN_KIND(operand->value.reg);
+            if (operand->original_register->kind == 2 && operand->value.reg->kind != 13) break;
+        }
+        /* The original assumes a suitable definition input exists here and
+         * dereferences NULL if that invariant is broken. */
+        source = (C2AllocationRegister *)operand->original_register;
+        add_register_to_set(special->allocation_live_out, source->number);
+        if (source->pinned_register) {
+            ALLOCATION_KNOWN_NUMBER(source->pinned_register);
+            add_register_to_set(special->allocation_edge_uses, source->pinned_register->number);
+        }
+        for (operand = ((C2Expression *)special->records)->next->left;
+             operand; operand = operand->next)
+            if (operand->kind == 1 && operand->original_register == (C2FunctionRegister *)source) {
+                operand->location.expression.use_flags |= 0x10;
+                break;
+            }
+    }
+    return;
+abandon:
+    if (dependencies) release_optimizer_symbol_set(dependencies);
+    if (moves) release_allocation_moves(moves);
+}
+void __fastcall assign_block_spill_register(C2BasicBlock *block,
+    C2AllocationRegister *reg, C2RegisterSet *allowed) { __asm { int 3 } }
+
 void __fastcall assign_allocation_spill_registers(C2Function *function,
-    C2RegisterSet *spills, C2RegisterSet *allowed) { __asm { int 3 } }
+    C2RegisterSet *spills, C2RegisterSet *allowed)
+{
+    C2AllocationMoveLink *groups = NULL, *group, *created;
+    C2BasicBlock *block, *work = NULL, *next, *neighbor;
+    C2FlowEdge *edge;
+    C2RegisterSet *missing, *scratch;
+    C2Record *position;
+    unsigned number, depth = 0, level, identity;
+    int total, same;
+
+    if (count_optimizer_symbols(spills) < 3 || (int)allocation_block_count < 100) {
+        for (number = next_optimizer_symbol(spills); number != ~0U; number = next_optimizer_symbol(NULL))
+            force_allocation_register(lookup_allocation_register(number), allowed);
+        return;
+    }
+    missing = new_register_set(6);
+    scratch = new_register_set(6);
+    for (block = function->flow->last; block; block = block->previous) {
+        if (!optimizer_symbol_sets_intersect(block->allocation_region_uses, spills)) continue;
+        block->spill_partition_next = work;
+        work = block;
+        copy_optimizer_symbol_set_into(missing, allowed);
+        subtract_optimizer_symbol_sets(missing, block->allocation_region_input);
+        if (!missing->links.first) {
+            for (number = next_optimizer_symbol(spills); number != ~0U; number = next_optimizer_symbol(NULL))
+                assign_block_spill_register(block, lookup_allocation_register(number), allowed);
+            continue;
+        }
+        for (edge = block->incoming; edge; edge = edge->next_incoming) {
+            identity = edge->source->spill_partition;
+            if (!identity) continue;
+            group = groups;
+            for (level = depth; level != identity; --level) group = group->next;
+            copy_optimizer_symbol_set_into(scratch, missing);
+            subtract_optimizer_symbol_sets(scratch, group->registers);
+            if (scratch->links.first) goto merge_spill_partition;
+        }
+        for (edge = block->outgoing; edge; edge = edge->next_outgoing) {
+            identity = edge->destination->spill_partition;
+            if (!identity) continue;
+            group = groups;
+            for (level = depth; level != identity; --level) group = group->next;
+            copy_optimizer_symbol_set_into(scratch, missing);
+            subtract_optimizer_symbol_sets(scratch, group->registers);
+            if (scratch->links.first) goto merge_spill_partition;
+        }
+        created = new_allocation_move();
+        created->registers = copy_optimizer_symbol_set(block->allocation_region_input);
+        created->next = groups;
+        groups = created;
+        block->spill_partition = ++depth;
+        continue;
+merge_spill_partition:
+        block->spill_partition = identity;
+        merge_optimizer_symbol_sets(group->registers, block->allocation_region_input);
+    }
+    for (block = work; block; block = block->spill_partition_next) {
+        if (!block->spill_partition) {
+            position = block->records->next;
+            if (position->kind == 26) merge_optimizer_symbol_sets(position->owner.registers, spills);
+            else select_allocation_spill_choice((C2Expression *)block->records, NULL, NULL, spills);
+            position = block->last_record->previous;
+            if (position->kind == 26) merge_optimizer_symbol_sets(position->owner.registers, spills);
+            else select_allocation_spill_choice((C2Expression *)position, NULL, NULL, spills);
+            block->flags |= 0x40000;
+            continue;
+        }
+        total = same = 0;
+        for (edge = block->incoming; edge; edge = edge->next_incoming) {
+            ++total;
+            if (edge->source->spill_partition == block->spill_partition) ++same;
+        }
+        if (same < total) {
+            if (!same) {
+                position = block->records->next;
+                if (position->kind == 26) merge_optimizer_symbol_sets(position->owner.registers, spills);
+                else select_allocation_spill_choice((C2Expression *)block->records, NULL, NULL, spills);
+                block->flags |= 0x40000;
+            } else for (edge = block->incoming; edge; edge = edge->next_incoming) {
+                neighbor = edge->source;
+                if (neighbor->spill_partition == block->spill_partition) continue;
+                position = neighbor->last_record->previous;
+                if (position->kind == 26) merge_optimizer_symbol_sets(position->owner.registers, spills);
+                else select_allocation_spill_choice((C2Expression *)position, NULL, NULL, spills);
+                neighbor->flags |= 0x40000;
+            }
+        }
+        total = same = 0;
+        for (edge = block->outgoing; edge; edge = edge->next_outgoing) {
+            ++total;
+            if (edge->destination->spill_partition == block->spill_partition) ++same;
+        }
+        if (same < total) {
+            if (!same) {
+                position = block->last_record->previous;
+                if (position->kind == 26) merge_optimizer_symbol_sets(position->owner.registers, spills);
+                else select_allocation_spill_choice((C2Expression *)position, NULL, NULL, spills);
+                block->flags |= 0x40000;
+            } else for (edge = block->outgoing; edge; edge = edge->next_outgoing) {
+                neighbor = edge->destination;
+                if (neighbor->spill_partition == block->spill_partition) continue;
+                position = neighbor->records->next;
+                if (position->kind == 26) merge_optimizer_symbol_sets(position->owner.registers, spills);
+                else select_allocation_spill_choice((C2Expression *)neighbor->records, NULL, NULL, spills);
+                neighbor->flags |= 0x40000;
+            }
+        }
+    }
+    while (work) {
+        next = work->spill_partition_next;
+        work->spill_partition = 0;
+        work->spill_partition_next = NULL;
+        work = next;
+    }
+    release_optimizer_symbol_set(missing);
+    release_optimizer_symbol_set(scratch);
+    if (groups) release_allocation_moves(groups);
+}
 
 C2RegisterSet *__fastcall finish_allocation_spill(C2Function *function, int which,
     C2AllocationRegister *reg, C2RegisterSet *spills, C2RegisterSet *selection)
@@ -4145,7 +8610,10 @@ C2RegisterSet *__fastcall finish_allocation_spill(C2Function *function, int whic
     unsigned number, physical_number;
 
     if (spills->links.first) {
-        ALLOCATION_KNOWN_NUMBER(reg->pinned_register);
+        /* Reached rows4/6 have their independently modeled DWORD numbers. */
+        if (reg->pinned_register != (C2FunctionRegister *)&machine_registers[4] &&
+            reg->pinned_register != (C2FunctionRegister *)&machine_registers[6])
+            ALLOCATION_KNOWN_NUMBER(reg->pinned_register);
         physical_number = reg->pinned_register->number;
         for (number = next_optimizer_symbol(spills); number != ~0U;
              number = next_optimizer_symbol(NULL)) {
@@ -4275,7 +8743,26 @@ void __fastcall finish_machine_register_allocation(C2Function *function)
                 operand = side ? record->left : record->tail.right;
                 for (; operand; operand = operand->next) {
                     if (operand->kind != 1) continue;
-                    ALLOCATION_KNOWN_KIND(operand->original_register);
+                    /* These already modeled physical and flag rows have kind 1. */
+                    if (operand->original_register != (C2FunctionRegister *)&machine_registers[4] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[5] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[6] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[7] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[8] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[9] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[35] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[74] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[68] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[69] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[70] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[71] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[72] &&
+                        operand->original_register != (C2FunctionRegister *)&machine_registers[73])
+                        ALLOCATION_KNOWN_KIND(operand->original_register);
                     if (operand->original_register->kind != 2) continue;
                     assigned = (C2AllocationRegister *)operand->original_register;
                     source = operand->value.reg;
@@ -4314,9 +8801,11 @@ void __fastcall assign_machine_registers(C2Function *function)
         return;
     }
     allocation_is_empty = 0;
-    allocation_state_e0 = allocation_state_e4 = 0;
+    free_allocation_spill_blocks = NULL;
+    free_allocation_spill_uses = NULL;
     free_allocation_moves = NULL;
-    allocation_state_d8 = allocation_block_count = 0;
+    free_allocation_spill_classes = NULL;
+    allocation_block_count = 0;
     active_allocation_registers = NULL;
     allocation_spilled_registers = new_register_set(6);
     coalesce_single_use_registers(function, allocation_register_classes);
@@ -4439,6 +8928,13 @@ unsigned *spill_register_cursor; /* Original491120; assigned before consumption.
 C2RegisterSet *spill_register_sets[8]; /* Original491144..491164, all eight written here. */
 C2FunctionRegister *spill_register_values[9]; /* Original491180..4911a4; actual36B clear. */
 extern int c2_global_optimize;
+/* Kind-only admission does not authorize canonical/number payload reads. */
+#define SPILL_PREPARE_KNOWN_KIND(reg) \
+    (SPILL_PREPARE_KNOWN_VIEW(reg) || \
+     (reg) == (C2FunctionRegister *)&machine_registers[33] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[34] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[35])
+
 void __fastcall prepare_spill_register_allocation(C2Function *function);
 void __fastcall optimize_spill_float_order(C2Function *function);
 void __fastcall assign_local_spill_registers(C2Function *function) { __asm { int 3 } }
@@ -4517,7 +9013,15 @@ void initialize_spill_register_costs(void)
         (reg) != (C2FunctionRegister *)&machine_registers[8] && \
         (reg) != (C2FunctionRegister *)&machine_registers[18] && \
         (reg) != (C2FunctionRegister *)&machine_registers[66] && \
-        (reg) != (C2FunctionRegister *)&machine_registers[67]) { __asm { int 3 } } } while (0)
+        (reg) != (C2FunctionRegister *)&machine_registers[67] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[5] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[19] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[68] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[69] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[70] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[71] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[72] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[73]) { __asm { int 3 } } } while (0)
 #define SPILL_KNOWN_NUMBER(reg) \
     do { if ((unsigned long)(reg) >= (unsigned long)machine_registers && \
         (unsigned long)(reg) <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT) && \
@@ -4531,10 +9035,29 @@ void initialize_spill_register_costs(void)
         (reg) != (C2FunctionRegister *)&machine_registers[8] && \
         (reg) != (C2FunctionRegister *)&machine_registers[31] && \
         (reg) != (C2FunctionRegister *)&machine_registers[32] && \
-        (reg) != (C2FunctionRegister *)&machine_registers[66]) { __asm { int 3 } } } while (0)
+        (reg) != (C2FunctionRegister *)&machine_registers[66] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[5]) { __asm { int 3 } } } while (0)
 
 
 
+/* This pass consumes the already modeled kind/canonical/number columns.
+ * Admission here does not expose any other payload of these static rows. */
+#define SPILL_PREPARE_KNOWN_VIEW(reg) \
+    ((reg) == (C2FunctionRegister *)&machine_registers[4] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[5] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[6] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[7] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[8] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[9] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[31] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[32] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[74] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[68] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[69] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[70] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[71] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[72] || \
+     (reg) == (C2FunctionRegister *)&machine_registers[73])
 void __fastcall prepare_spill_register_allocation(C2Function *function)
 {
     C2BasicBlock *block;
@@ -4559,16 +9082,17 @@ void __fastcall prepare_spill_register_allocation(C2Function *function)
             for (operand = record->tail.right; operand; operand = operand->next) {
                 if (operand->kind == 1) {
                     source = operand->value.reg;
-                    ALLOCATION_KNOWN_KIND(source);
+                    if (!SPILL_PREPARE_KNOWN_KIND(source)) ALLOCATION_KNOWN_KIND(source);
                     if (source->kind == 3 && source->value) {
                         reg = operand->original_register;
-                        ALLOCATION_KNOWN_KIND(reg);
+                        if (!SPILL_PREPARE_KNOWN_KIND(reg)) ALLOCATION_KNOWN_KIND(reg);
                         if (reg->kind == 1) {
-                            SPILL_KNOWN_CANONICAL(reg);
+                            if (reg != (C2FunctionRegister *)&machine_registers[19] &&
+                        !SPILL_PREPARE_KNOWN_VIEW(reg)) SPILL_KNOWN_CANONICAL(reg);
                             root = reg->canonical;
                             root->spill_cost = 0x1000000;
                             if (!final_register_has_other_use(reg, record)) {
-                                SPILL_KNOWN_NUMBER(root);
+                                if (!SPILL_PREPARE_KNOWN_VIEW(root)) SPILL_KNOWN_NUMBER(root);
                                 number = root->number;
                                 if (number && number < 9 && number != 5) {
                                     remove_optimizer_symbol(live, number);
@@ -4587,11 +9111,12 @@ void __fastcall prepare_spill_register_allocation(C2Function *function)
                                 remove_optimizer_symbol(values, reg->number);
                                 if (record->opcode == 1 && record->left->kind == 1) {
                                     other = record->left;
-                                    ALLOCATION_KNOWN_KIND(other->original_register);
+                                    if (!SPILL_PREPARE_KNOWN_KIND(other->original_register)) ALLOCATION_KNOWN_KIND(other->original_register);
                                     if (other->original_register->kind == 1) {
-                                        SPILL_KNOWN_CANONICAL(other->original_register);
+                                        if (other->original_register != (C2FunctionRegister *)&machine_registers[19] &&
+                        !SPILL_PREPARE_KNOWN_VIEW(other->original_register)) SPILL_KNOWN_CANONICAL(other->original_register);
                                         root = other->original_register->canonical;
-                                        SPILL_KNOWN_NUMBER(root);
+                                        if (!SPILL_PREPARE_KNOWN_VIEW(root)) SPILL_KNOWN_NUMBER(root);
                                         number = root->number;
                                         if (number && number < 9 && number != 5)
                                             reg->spill_preferred_register = root;
@@ -4600,9 +9125,10 @@ void __fastcall prepare_spill_register_allocation(C2Function *function)
                             }
                         }
                     } else if (source->kind == 1) {
-                        SPILL_KNOWN_CANONICAL(operand->original_register);
+                        if (operand->original_register != (C2FunctionRegister *)&machine_registers[19] &&
+                        !SPILL_PREPARE_KNOWN_VIEW(operand->original_register)) SPILL_KNOWN_CANONICAL(operand->original_register);
                         root = operand->original_register->canonical;
-                        SPILL_KNOWN_NUMBER(root);
+                        if (!SPILL_PREPARE_KNOWN_VIEW(root)) SPILL_KNOWN_NUMBER(root);
                         number = root->number;
                         if (number && number < 9 && number != 5) {
                             merge_optimizer_symbol_sets(spill_register_sets[number - 1], values);
@@ -4610,9 +9136,10 @@ void __fastcall prepare_spill_register_allocation(C2Function *function)
                             machine_registers[number].flags |= 0x10;
                         }
                     } else if ((operand->type & 0xf000) != 0x4000) {
-                        SPILL_KNOWN_CANONICAL(operand->original_register);
+                        if (operand->original_register != (C2FunctionRegister *)&machine_registers[19] &&
+                        !SPILL_PREPARE_KNOWN_VIEW(operand->original_register)) SPILL_KNOWN_CANONICAL(operand->original_register);
                         root = operand->original_register->canonical;
-                        SPILL_KNOWN_NUMBER(root);
+                        if (!SPILL_PREPARE_KNOWN_VIEW(root)) SPILL_KNOWN_NUMBER(root);
                         number = root->number;
                         remove_optimizer_symbol(live, number);
                         SPILL_MACHINE_INDEX(number);
@@ -4641,13 +9168,14 @@ void __fastcall prepare_spill_register_allocation(C2Function *function)
                 source = operand->value.reg;
                 flags = operand->location.expression.use_flags & ~0x10;
                 operand->location.expression.use_flags = flags;
-                ALLOCATION_KNOWN_KIND(source);
+                if (!SPILL_PREPARE_KNOWN_KIND(source)) ALLOCATION_KNOWN_KIND(source);
                 if (source->kind == 3 && source->value) {
                     reg = operand->original_register;
-                    ALLOCATION_KNOWN_KIND(reg);
+                    if (!SPILL_PREPARE_KNOWN_KIND(reg)) ALLOCATION_KNOWN_KIND(reg);
                     if (reg->kind == 1) {
-                        SPILL_KNOWN_CANONICAL(reg);
-                        SPILL_KNOWN_NUMBER(reg->canonical);
+                        if (reg != (C2FunctionRegister *)&machine_registers[19] &&
+                        !SPILL_PREPARE_KNOWN_VIEW(reg)) SPILL_KNOWN_CANONICAL(reg);
+                        if (!SPILL_PREPARE_KNOWN_VIEW(reg->canonical)) SPILL_KNOWN_NUMBER(reg->canonical);
                         number = reg->canonical->number;
                         if (number && number < 9 && number != 5 &&
                             !optimizer_set_contains(live, number)) {
@@ -4677,11 +9205,12 @@ void __fastcall prepare_spill_register_allocation(C2Function *function)
                             if (record->opcode == 1 && record->tail.right->kind == 1 &&
                                 !(operand->location.expression.properties & 0x20)) {
                                 other = record->tail.right;
-                                ALLOCATION_KNOWN_KIND(other->original_register);
+                                if (!SPILL_PREPARE_KNOWN_KIND(other->original_register)) ALLOCATION_KNOWN_KIND(other->original_register);
                                 if (other->original_register->kind == 1) {
-                                    SPILL_KNOWN_CANONICAL(other->original_register);
+                                    if (other->original_register != (C2FunctionRegister *)&machine_registers[19] &&
+                        !SPILL_PREPARE_KNOWN_VIEW(other->original_register)) SPILL_KNOWN_CANONICAL(other->original_register);
                                     root = other->original_register->canonical;
-                                    SPILL_KNOWN_NUMBER(root);
+                                    if (!SPILL_PREPARE_KNOWN_VIEW(root)) SPILL_KNOWN_NUMBER(root);
                                     number = root->number;
                                     if (number && number < 9 && number != 5) {
                                         reg->spill_preferred_register = root;
@@ -4693,9 +9222,10 @@ void __fastcall prepare_spill_register_allocation(C2Function *function)
                         }
                     }
                 } else if (source->kind != 1 && (operand->type & 0xf000) != 0x4000) {
-                    SPILL_KNOWN_CANONICAL(operand->original_register);
+                    if (operand->original_register != (C2FunctionRegister *)&machine_registers[19] &&
+                        !SPILL_PREPARE_KNOWN_VIEW(operand->original_register)) SPILL_KNOWN_CANONICAL(operand->original_register);
                     root = operand->original_register->canonical;
-                    SPILL_KNOWN_NUMBER(root);
+                    if (!SPILL_PREPARE_KNOWN_VIEW(root)) SPILL_KNOWN_NUMBER(root);
                     number = root->number;
                     if (!optimizer_set_contains(live, number)) {
                         SPILL_SET_INDEX(number);
@@ -4718,18 +9248,303 @@ void __fastcall prepare_spill_register_allocation(C2Function *function)
     release_optimizer_symbol_set(live);
 }
 
-/* Original493170/178 and493180..4931a0. These are defined by each block's
- * real stack-order reset; no pre-reset contents are claimed. */
+/* Sixteen cells are the exact493180..4931c0 order owner copied by the
+ * later snapshot leaf. The first eight are defined by each real block reset;
+ * upper cells are UNMODELED until actual appends write them.4931c0 remains
+ * the distinct allocation_call_clobbered owner, not a seventeenth cell. */
 int spill_float_count, spill_float_top;
-unsigned spill_float_order[8];
+unsigned spill_float_order[16];
 int __fastcall rewrite_spill_float_block(C2Expression *first, C2Expression *last)
 {
-    __asm { int 3 }
+    C2Expression *record, *next, *end, *operand, *output;
+    unsigned temporary;
+    int top, position, index, effect, previous_swap = 0, multiple_swaps = 0;
+
+    end = last->next;
+    top = spill_float_top;
+    for (record = first; record != end; record = next) {
+        next = record->next;
+        if (!(record->flags & 1) ||
+            ((record->type & 0xf000) != 0x4000 && record->kind != 13)) continue;
+        switch (record->opcode) {
+        case 0x5f:
+            if ((unsigned)top >= 16) { __asm { int 3 } }
+            temporary = spill_float_order[top];
+            if (record->left->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                    record->left->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+                    record->left->original_register != (C2FunctionRegister *)&machine_registers[35])
+                ALLOCATION_KNOWN_NUMBER(record->left->original_register);
+            position = (int)(record->left->original_register->number - 31);
+            if (position >= 8) {
+                c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x196);
+                top = spill_float_top;
+            }
+            index = top - position;
+            /* The modeled live prefix was written by reset/append. */
+            if ((unsigned)top >= 16 || index < 0 || index > top) { __asm { int 3 } }
+            spill_float_order[top] = spill_float_order[index];
+            spill_float_order[index] = temporary;
+            if (previous_swap || multiple_swaps) multiple_swaps = previous_swap = 1;
+            else previous_swap = 1;
+            break;
+        case 0x8e:
+        case 0x138:
+            break;
+        case 0x13c:
+            return -1;
+        default:
+            previous_swap = 0;
+            output = record->tail.right;
+            for (operand = record->left; operand; operand = operand->next) {
+                if (operand->kind != 1 || (operand->type & 0xf000) != 0x4000) continue;
+                if (operand->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+                    operand->original_register != (C2FunctionRegister *)&machine_registers[35])
+                    ALLOCATION_KNOWN_NUMBER(operand->original_register);
+                position = (int)(operand->original_register->number - 31);
+                index = top - position;
+                if ((unsigned)top >= 16 || index < 0 || index > top) { __asm { int 3 } }
+                operand->float_stack_index = spill_float_order[index];
+            }
+            position = 0;
+            if (output->kind == 1 && (output->type & 0xf000) == 0x4000) {
+                if (output->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                    output->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+                    output->original_register != (C2FunctionRegister *)&machine_registers[35])
+                    ALLOCATION_KNOWN_NUMBER(output->original_register);
+                position = (int)(output->original_register->number - 31);
+            }
+            effect = final_float_stack_effect(record);
+            top = spill_float_top;
+            switch (effect) {
+            case 1:
+                if (top >= 16) {
+                    c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x401);
+                    top = spill_float_top;
+                }
+                /* Original old-top15 appends into a distinct neighboring
+                 * object; that cross-owner domain is not modeled here. */
+                if (top < -1 || top >= 15) { __asm { int 3 } }
+                spill_float_count = (int)((unsigned)spill_float_count + 1);
+                spill_float_top = ++top;
+                spill_float_order[top] = spill_float_count;
+                output->float_stack_index = spill_float_count;
+                break;
+            case 0:
+            case -1:
+            case -2:
+                index = top - position;
+                if ((unsigned)top >= 16 || index < 0 || index > top) { __asm { int 3 } }
+                spill_float_count = (int)((unsigned)spill_float_count + 1);
+                output->float_stack_index = spill_float_count;
+                spill_float_order[index] = spill_float_count;
+                if (effect < 0) spill_float_top = top += effect;
+                break;
+            }
+            break;
+        }
+    }
+    return multiple_swaps ? 1 : -2;
+}
+
+/* Original49a064/49a068: overwritten by this snapshot, with no modeled
+ * initial default. All sixteen order cells are copied as storage; unavailable
+ * upper-cell contents gain no semantic meaning from being saved. */
+int saved_spill_float_top;
+unsigned saved_spill_float_order[16];
+void finish_spill_float_block(void)
+{
+    memcpy(saved_spill_float_order, spill_float_order, sizeof(saved_spill_float_order));
+    saved_spill_float_top = spill_float_top;
+}
+int __fastcall is_spill_float_binary(C2Expression *record)
+{
+    switch (record->opcode) {
+    case 0x5e: case 0x86: case 0x87: case 0x8a:
+    case 0x91: case 0x92: case 0xd4:
+        return 1;
+    }
     return 0;
 }
-void finish_spill_float_block(void) { __asm { int 3 } }
-void __fastcall restore_spill_float_order(C2Expression *first, C2Expression *last) { __asm { int 3 } }
-void __fastcall finish_spill_float_records(C2Expression *first) { __asm { int 3 } }
+int __fastcall find_spill_float_position(long value)
+{
+    int position, top;
+
+    top = spill_float_top;
+    if (top >= 16) { __asm { int 3 } }
+    for (position = 0; position <= top; ++position)
+        if (spill_float_order[top - position] == (unsigned)value) return position;
+    c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x18f);
+    return position;
+}
+void __fastcall exchange_spill_float_top(C2Expression *record, int position)
+{
+    C2Expression *scan, *left, *right;
+    unsigned saved;
+    int top, index;
+    unsigned char kind;
+
+    if (!position) return;
+    top = spill_float_top;
+    if ((unsigned)top >= 16) { __asm { int 3 } }
+    saved = spill_float_order[top];
+    if (position >= 8) {
+        c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x196);
+        top = spill_float_top;
+    }
+    index = top - position;
+    if ((unsigned)top >= 16 || index < 0 || index > top ||
+        (unsigned)position >= 8) { __asm { int 3 } }
+    spill_float_order[top] = spill_float_order[index];
+    spill_float_order[index] = saved;
+    for (scan = record->previous; scan; scan = scan->previous) {
+        kind = scan->kind;
+        if ((scan->type & 0xf000) != 0x4000 &&
+            kind != 13 && kind != 16 && kind != 25 &&
+            kind != 18 && kind != 17 && kind != 24) continue;
+        if (scan->opcode == 0x138) continue;
+        left = new_fixed_register_operand(position + 31, 0x400a);
+        right = new_fixed_register_operand(31, 0x400a);
+        new_binary_expression(0x5f, 0x400a, right, left,
+            insert_input_record, (C2Record *)scan);
+        return;
+    }
+    c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x1af);
+}
+void __fastcall reconcile_spill_float_operands(C2Expression *record, int position, int original_position)
+{ __asm { int 3 } }
+
+#define RESTORE_FLOAT_NUMBER(reg) do { \
+    if ((reg) != (C2FunctionRegister *)&machine_registers[33] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[34] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[35]) \
+        ALLOCATION_KNOWN_NUMBER(reg); \
+} while (0)
+void __fastcall restore_spill_float_order(C2Expression *first, C2Expression *last)
+{
+    C2Expression *record, *next, *end, *output, *operand, *left, *right;
+    int output_position, original_position, position, left_position, right_position;
+    int binary, effect, index, top;
+
+    end = last->next;
+    for (record = first; record != end; record = next) {
+        next = record->next;
+        if (!(record->flags & 1) ||
+            ((record->type & 0xf000) != 0x4000 && record->kind != 13) ||
+            record->opcode == 0x138) continue;
+        if (record->opcode == 0x5f) {
+            unlink_input_record((C2Record *)record);
+            release_small_node(record);
+            continue;
+        }
+        output = record->tail.right;
+        output_position = 0;
+        if (output->kind == 1 && (output->type & 0xf000) == 0x4000) {
+            RESTORE_FLOAT_NUMBER(output->original_register);
+            output_position = (int)(output->original_register->number - 31);
+        }
+        binary = is_spill_float_binary(record);
+        if (binary) {
+            left = record->left;
+            right = left->next;
+            if (!right) c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x442);
+            if (right->kind != 1) c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x443);
+            RESTORE_FLOAT_NUMBER(left->original_register);
+            RESTORE_FLOAT_NUMBER(right->original_register);
+            left_position = (int)(left->original_register->number - 31);
+            right_position = (int)(right->original_register->number - 31);
+            if (!left_position) {
+                if (right_position < 1) c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x447);
+                position = find_spill_float_position(right->float_stack_index);
+                reconcile_spill_float_operands(record, position, right_position);
+                position = find_spill_float_position(left->float_stack_index);
+            } else {
+                if (right_position) c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x44b);
+                position = find_spill_float_position(left->float_stack_index);
+                reconcile_spill_float_operands(record, position, left_position);
+                position = find_spill_float_position(right->float_stack_index);
+            }
+            exchange_spill_float_top(record, position);
+        }
+        for (operand = record->left; operand && !binary; operand = operand->next) {
+            if (operand->kind != 1 || (operand->type & 0xf000) != 0x4000) continue;
+            RESTORE_FLOAT_NUMBER(operand->original_register);
+            original_position = (int)(operand->original_register->number - 31);
+            position = find_spill_float_position(operand->float_stack_index);
+            if (!original_position) {
+                exchange_spill_float_top(record, position);
+            } else if (record->kind == 13) {
+                if (original_position != position) {
+                    exchange_spill_float_top(record, original_position);
+                    exchange_spill_float_top(record, position);
+                    exchange_spill_float_top(record, original_position);
+                }
+            } else {
+                if (!position) {
+                    if (operand != record->left)
+                        c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x462);
+                    right = operand->next;
+                    if (right) {
+                        if (right->kind != 1)
+                            c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x464);
+                        position = find_spill_float_position(right->float_stack_index);
+                        if (position < 1)
+                            c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x466);
+                        exchange_spill_float_top(record, position);
+                        operand->next->original_register = (C2FunctionRegister *)&machine_registers[31];
+                    } else {
+                        if (record->opcode != 0x60)
+                            c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x46b);
+                        position = 0;
+                    }
+                }
+                if ((unsigned)position >= 8) { __asm { int 3 } }
+                operand->original_register = (C2FunctionRegister *)&machine_registers[31 + position];
+                if (output_position == original_position) {
+                    output->original_register = operand->original_register;
+                    output_position = position;
+                }
+            }
+        }
+        effect = final_float_stack_effect(record);
+        top = spill_float_top;
+        switch (effect) {
+        case 1:
+            if (top >= 16) {
+                c2_report_internal("E:\\utc\\src\\\\P2\\x86\\fppeeps.c", 0x47c);
+                top = spill_float_top;
+            }
+            /* Old-top15 writes the distinct neighboring owner, not this array. */
+            if (top < -1 || top >= 15) { __asm { int 3 } }
+            spill_float_top = ++top;
+            spill_float_order[top] = output->float_stack_index;
+            break;
+        case 0: case -1: case -2:
+            index = top - output_position;
+            if ((unsigned)top >= 16 || index < 0 || index > top) { __asm { int 3 } }
+            spill_float_order[index] = output->float_stack_index;
+            if (effect < 0) spill_float_top = top + effect;
+            break;
+        }
+    }
+}
+#undef RESTORE_FLOAT_NUMBER
+void __fastcall finish_spill_float_records(C2Expression *first)
+{
+    int i, position;
+
+    /* Each recovered caller takes finish_spill_float_block's snapshot before
+     * restoring and finishing this same block. No initial snapshot default
+     * or value for an unwritten upper order cell is implied. */
+    for (i = 0; i <= spill_float_top; ++i) {
+        if ((unsigned)spill_float_top >= 16 || i >= 16) { __asm { int 3 } }
+        if (spill_float_order[i] != saved_spill_float_order[i]) {
+            position = find_spill_float_position(saved_spill_float_order[i]);
+            exchange_spill_float_top(first, position);
+            exchange_spill_float_top(first, spill_float_top - i);
+        }
+    }
+}
 
 void __fastcall optimize_spill_float_order(C2Function *function)
 {
@@ -4782,14 +9597,14 @@ void __fastcall lower_spilled_record_inputs(C2Expression *record)
     for (operand = record->left; operand; operand = operand->next) {
         if (operand->kind != 1) continue;
         source = operand->value.reg;
-        ALLOCATION_KNOWN_KIND(source);
+        if (!SPILL_PREPARE_KNOWN_KIND(source)) ALLOCATION_KNOWN_KIND(source);
         if (source->kind != 3 || !source->value) continue;
         reg = operand->original_register;
-        ALLOCATION_KNOWN_KIND(reg);
+        if (!SPILL_PREPARE_KNOWN_VIEW(reg)) ALLOCATION_KNOWN_KIND(reg);
         if (reg->kind == 1) {
-            SPILL_KNOWN_CANONICAL(reg);
+            if (!SPILL_PREPARE_KNOWN_VIEW(reg)) SPILL_KNOWN_CANONICAL(reg);
             root = reg->canonical;
-            SPILL_KNOWN_NUMBER(root);
+            if (!SPILL_PREPARE_KNOWN_VIEW(root)) SPILL_KNOWN_NUMBER(root);
             number = root->number;
             if (number < 9) spill_register_values[number] = NULL;
         } else {
@@ -4799,7 +9614,7 @@ void __fastcall lower_spilled_record_inputs(C2Expression *record)
             operand->original_register = new_bitfield_register(assigned,
                 (operand->type & 0xfff) << 3, displacement);
             if (!find_final_register_use(reg, record)) {
-                SPILL_KNOWN_NUMBER(assigned);
+                if (!SPILL_PREPARE_KNOWN_VIEW(assigned)) SPILL_KNOWN_NUMBER(assigned);
                 number = assigned->number;
                 /* The original lookup returns a physical register index. */
                 if (number >= 9) { __asm { int 3 } }
@@ -4822,14 +9637,14 @@ void __fastcall lower_spilled_record_outputs(C2Expression *record)
     for (operand = record->tail.right; operand; operand = operand->next) {
         if (operand->kind != 1) continue;
         source = operand->value.reg;
-        ALLOCATION_KNOWN_KIND(source);
+        if (!SPILL_PREPARE_KNOWN_KIND(source)) ALLOCATION_KNOWN_KIND(source);
         if (source->kind != 3 || !source->value) continue;
         reg = operand->original_register;
-        ALLOCATION_KNOWN_KIND(reg);
+        if (!SPILL_PREPARE_KNOWN_VIEW(reg)) ALLOCATION_KNOWN_KIND(reg);
         if (reg->kind == 1) {
-            SPILL_KNOWN_CANONICAL(reg);
+            if (!SPILL_PREPARE_KNOWN_VIEW(reg)) SPILL_KNOWN_CANONICAL(reg);
             root = reg->canonical;
-            SPILL_KNOWN_NUMBER(root);
+            if (!SPILL_PREPARE_KNOWN_VIEW(root)) SPILL_KNOWN_NUMBER(root);
             number = root->number;
             if (number < 9) spill_register_values[number] = source;
         } else {
@@ -4846,6 +9661,9 @@ void __fastcall lower_spilled_record_outputs(C2Expression *record)
         }
     }
 }
+
+#undef SPILL_PREPARE_KNOWN_KIND
+#undef SPILL_PREPARE_KNOWN_VIEW
 
 C2FunctionRegister *__fastcall bind_spill_register(unsigned number,
     C2FunctionRegister *reg)
@@ -5112,7 +9930,14 @@ void __fastcall release_unused_spill_register(C2Function *function,
         if (!(record->flags & 1)) continue;
         for (operand = record->tail.right; operand; operand = operand->next) {
             if (operand->kind != 1) continue;
-            SPILL_KNOWN_CANONICAL(operand->original_register);
+            if (operand->original_register != (C2FunctionRegister *)&machine_registers[9] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[35] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[74])
+                SPILL_KNOWN_CANONICAL(operand->original_register);
             if (operand->original_register->canonical == reg) {
                 unlink_and_release_input_record((C2Record *)record);
                 goto next_unused_spill_record;
@@ -5120,7 +9945,14 @@ void __fastcall release_unused_spill_register(C2Function *function,
         }
         for (operand = record->left; operand; operand = operand->next) {
             if (operand->kind != 1) continue;
-            SPILL_KNOWN_CANONICAL(operand->original_register);
+            if (operand->original_register != (C2FunctionRegister *)&machine_registers[9] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[35] &&
+                operand->original_register != (C2FunctionRegister *)&machine_registers[74])
+                SPILL_KNOWN_CANONICAL(operand->original_register);
             if (operand->original_register->canonical == reg)
                 materialize_allocation_input(record, operand, operand->value.reg);
         }
@@ -5177,9 +10009,22 @@ C2Expression *__fastcall find_physical_register_operand(unsigned number,
 
     for (; operands; operands = operands->next) {
         if (operands->kind != 1) continue;
-        SPILL_KNOWN_CANONICAL(operands->original_register);
+        if (operands->original_register != (C2FunctionRegister *)&machine_registers[17] &&
+            operands->original_register != (C2FunctionRegister *)&machine_registers[20] &&
+            operands->original_register != (C2FunctionRegister *)&machine_registers[9] &&
+            operands->original_register != (C2FunctionRegister *)&machine_registers[31] &&
+            operands->original_register != (C2FunctionRegister *)&machine_registers[32] &&
+            operands->original_register != (C2FunctionRegister *)&machine_registers[33] &&
+            operands->original_register != (C2FunctionRegister *)&machine_registers[34] &&
+            operands->original_register != (C2FunctionRegister *)&machine_registers[35] &&
+            operands->original_register != (C2FunctionRegister *)&machine_registers[74])
+            SPILL_KNOWN_CANONICAL(operands->original_register);
         root = operands->original_register->canonical;
-        SPILL_KNOWN_NUMBER(root);
+        if (root != (C2FunctionRegister *)&machine_registers[33] &&
+            root != (C2FunctionRegister *)&machine_registers[34] &&
+            root != (C2FunctionRegister *)&machine_registers[35] &&
+            root != (C2FunctionRegister *)&machine_registers[74])
+            SPILL_KNOWN_NUMBER(root);
         if (root->number == number) return operands;
     }
     return NULL;
@@ -5218,7 +10063,44 @@ unsigned __fastcall choose_spill_scratch_register(C2RegisterSet *used,
     return 0;
 }
 void __fastcall materialize_spill_scratch(C2Expression *record,
-    C2Expression *operand, unsigned number, int output) { __asm { int 3 } }
+    C2Expression *operand, unsigned number, int output)
+{
+    C2FunctionRegister *view;
+    C2Expression *temporary, *move, *first;
+    unsigned short type = operand->type;
+
+    if ((type & 0xfff) == 1) {
+        if (number >= C2_MACHINE_REGISTER_COUNT) { __asm { int 3 } }
+        view = new_bitfield_register((C2FunctionRegister *)&machine_registers[number], 8, 0);
+        SPILL_KNOWN_NUMBER(view);
+        number = view->number;
+    }
+    temporary = new_fixed_register_operand(number, type);
+    move = new_binary_expression(1, type, temporary, operand,
+        prepend_input_record, (C2Record *)record);
+    move->flags |= 4;
+    if (output) {
+        type = operand->type;
+        temporary = new_fixed_register_operand(number, type);
+        move = new_binary_expression(1, type, operand, temporary,
+            insert_input_record, (C2Record *)record);
+        move->flags |= 4;
+    }
+    if (!output) {
+        temporary = new_fixed_register_operand(number, operand->type);
+        attach_input_expression(record, operand, temporary);
+        record->flags |= 4;
+        return;
+    }
+    first = record->left;
+    if (!compare_input_operands(operand, first)) {
+        temporary = new_fixed_register_operand(number, operand->type);
+        attach_input_expression(record, first, temporary);
+    }
+    temporary = new_fixed_register_operand(number, operand->type);
+    replace_input_result(record, operand, temporary);
+    record->flags |= 4;
+}
 
 #define SPILL_KNOWN_KIND(reg) \
     do { if ((unsigned long)(reg) >= (unsigned long)machine_registers && \
@@ -5229,7 +10111,29 @@ void __fastcall materialize_spill_scratch(C2Expression *record,
         (reg) != (C2FunctionRegister *)&machine_registers[6] && \
         (reg) != (C2FunctionRegister *)&machine_registers[18] && \
         (reg) != (C2FunctionRegister *)&machine_registers[8] && \
-        (reg) != (C2FunctionRegister *)&machine_registers[66]) { __asm { int 3 } } } while (0)
+        (reg) != (C2FunctionRegister *)&machine_registers[66] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[4] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[5] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[7] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[67] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[68] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[69] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[70] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[71] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[72] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[73]) { __asm { int 3 } } } while (0)
+/* The current byte views17/20 expose only their proved kind/canonical
+ * columns in addition to their earlier range/address identities. */
+#define SCRATCH_KNOWN_KIND(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[17] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[20] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[9] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[74]) SPILL_KNOWN_KIND(reg); } while (0)
+#define SCRATCH_KNOWN_CANONICAL(reg) \
+    do { if ((reg) != (C2FunctionRegister *)&machine_registers[17] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[20] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[9] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[74]) SPILL_KNOWN_CANONICAL(reg); } while (0)
 void __fastcall materialize_spill_scratch_operands(C2Function *function)
 {
     C2BasicBlock *block;
@@ -5257,21 +10161,23 @@ void __fastcall materialize_spill_scratch_operands(C2Function *function)
             for (operand = record->tail.right; operand; operand = operand->next) {
                 if ((operand->type & 0xf000) == 0x4000 || operand->kind != 1) continue;
                 source = operand->value.reg;
-                SPILL_KNOWN_KIND(source);
+                SCRATCH_KNOWN_KIND(source);
                 reg = operand->original_register;
                 if (source->kind == 3 && source->value) {
-                    SPILL_KNOWN_KIND(reg);
+                    SCRATCH_KNOWN_KIND(reg);
                     if (reg->kind != 1) continue;
-                    SPILL_KNOWN_CANONICAL(reg);
+                    SCRATCH_KNOWN_CANONICAL(reg);
                     root = reg->canonical;
-                    SPILL_KNOWN_NUMBER(root);
+                    if (root != (C2FunctionRegister *)&machine_registers[74])
+                        SPILL_KNOWN_NUMBER(root);
                     number = root->number;
                     if (find_physical_register_operand(number, record->left)) continue;
                     if (operand->next && find_physical_register_operand(number, operand->next)) continue;
                 } else {
-                    SPILL_KNOWN_CANONICAL(reg);
+                    SCRATCH_KNOWN_CANONICAL(reg);
                     root = reg->canonical;
-                    SPILL_KNOWN_NUMBER(root);
+                    if (root != (C2FunctionRegister *)&machine_registers[74])
+                        SPILL_KNOWN_NUMBER(root);
                     number = root->number;
                     if (find_physical_register_operand(number, record->left)) continue;
                 }
@@ -5281,18 +10187,19 @@ void __fastcall materialize_spill_scratch_operands(C2Function *function)
             for (operand = record->left; operand; operand = operand->next) {
                 if ((operand->type & 0xf000) == 0x4000 || operand->kind != 1) continue;
                 source = operand->value.reg;
-                SPILL_KNOWN_KIND(source);
+                SCRATCH_KNOWN_KIND(source);
                 if (source->kind == 3 && source->value) {
                     reg = operand->original_register;
-                    SPILL_KNOWN_KIND(reg);
+                    SCRATCH_KNOWN_KIND(reg);
                     if (reg->kind != 1) continue;
                 } else {
                     if (source->kind == 1) continue;
                     reg = operand->original_register;
                 }
-                SPILL_KNOWN_CANONICAL(reg);
+                SCRATCH_KNOWN_CANONICAL(reg);
                 root = reg->canonical;
-                SPILL_KNOWN_NUMBER(root);
+                if (root != (C2FunctionRegister *)&machine_registers[74])
+                    SPILL_KNOWN_NUMBER(root);
                 number = root->number;
                 if (number && number < 9 && number != 5 && !optimizer_set_contains(live, number))
                     add_register_to_set(live, number);
@@ -5332,6 +10239,8 @@ void __fastcall materialize_spill_scratch_operands(C2Function *function)
 
 /* Fold register copies across the instruction pairs chosen by the scheduler,
  * then remove saves/restores for physical registers no longer written. */
+#undef SCRATCH_KNOWN_KIND
+#undef SCRATCH_KNOWN_CANONICAL
 void __fastcall fold_scheduled_register_moves(C2Function *function)
 {
     C2Expression *first = (C2Expression *)function->flow->last->records;

@@ -5,9 +5,9 @@
 #include <recon.h>
 
 /* Original48d1c0, shared by input and global operand normalization.
- * Only the encountered local3/tracked4/parameter5 rows are modeled. */
+ * Only the encountered local3/tracked4/parameter5 and kind8 rows are modeled. */
 typedef union C2InputRegisterOpcodes {
-    struct { unsigned pending00[3], local, tracked, parameter, pending06[11]; } row;
+    struct { unsigned pending00[3], local, tracked, parameter, pending06[2], kind8, pending09[8]; } row;
     unsigned values[17];
 } C2InputRegisterOpcodes;
 extern C2InputRegisterOpcodes input_register_opcodes;
@@ -43,10 +43,12 @@ typedef struct C2ILToken {
             };
         } scalar;
         C2Real real;
+        C2Real *real_pointer;
         unsigned __int64 integer;
     } value;
 } C2ILToken;
 typedef char C2ILTokenSizeCheck[sizeof(C2ILToken) == 32 ? 1 : -1];
+typedef char C2ILTokenRealPointerWidthCheck[sizeof(C2Real *) == 4 ? 1 : -1];
 typedef char C2ILTokenPayloadCheck[offsetof(C2ILToken, value) == 16 ? 1 : -1];
 
 typedef struct C2InputClause {
@@ -106,7 +108,7 @@ short __fastcall read_counted_input_text(char *text, int capacity);
 char *__fastcall lookup_input_filename(unsigned serial);
 unsigned __int64 read_input_longlong(void);
 unsigned __int64 read_input_qword(void);
-C2Real read_input_real(void);
+C2Real __stdcall read_input_real(void);
 int input_real_kind(C2Real *value);
 int input_real_to_float(C2Real *input, float *output);
 int input_real_to_double(C2Real *input, double *output);
@@ -137,6 +139,8 @@ C2Expression *__fastcall convert_deferred_input_operand(C2InputStack *stack, uns
 C2Expression * __fastcall convert_input_operand(C2InputStack *stack, unsigned short type, unsigned bytes, int flags);
 int __fastcall needs_input_return_storage(unsigned convention, unsigned short type, unsigned bytes);
 C2Expression *__fastcall materialize_input_operand(C2InputStack *stack, unsigned short type);
+int __fastcall aggregate_result_needs_temporary(C2Expression *value);
+int __fastcall is_input_result(C2Expression *owner, C2Expression *value);
 C2Expression *__fastcall extract_aggregate_result(C2Expression *value, C2Expression *owner,
                                                   C2Expression **first, C2Expression **last);
 C2Expression * __fastcall pop_input_expression(C2InputStack *stack);

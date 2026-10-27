@@ -686,6 +686,64 @@ void __fastcall restore_available_global_operand(unsigned short type,
     update_global_available_registers(created);
 }
 
+/* Intrinsic records retain up to four ordered inputs and an optional result. */
+C2Expression *__fastcall new_global_intrinsic_expression(unsigned opcode,
+    unsigned short type, C2Expression *result, C2Expression *first,
+    C2Expression *second, C2Expression *third, C2Expression *fourth,
+    unsigned short intrinsic, C2InputLink link, C2Record *prior)
+{
+    C2Expression *record = (C2Expression *)allocate_small_node(17);
+
+    record->detail.intrinsic = intrinsic;
+    record->opcode = opcode;
+    record->flags |= 1;
+    record->type = type;
+    if (result) {
+        if ((1U << (result->kind & 31)) & 0x7fe) {
+            if (result->location.expression.properties & 0x10)
+                result = copy_input_expression(result);
+            result->location.expression.properties |= 0x10;
+        }
+        record->tail.right = result;
+    }
+    if (first) {
+        if ((1U << (first->kind & 31)) & 0x7fe) {
+            if (first->location.expression.properties & 0x10)
+                first = copy_input_expression(first);
+            first->location.expression.properties |= 0x10;
+        }
+        record->left = first;
+    }
+    if (second) {
+        if ((1U << (second->kind & 31)) & 0x7fe) {
+            if (second->location.expression.properties & 0x10)
+                second = copy_input_expression(second);
+            second->location.expression.properties |= 0x10;
+        }
+        record->left->next = second;
+    }
+    if (third) {
+        if ((1U << (third->kind & 31)) & 0x7fe) {
+            if (third->location.expression.properties & 0x10)
+                third = copy_input_expression(third);
+            third->location.expression.properties |= 0x10;
+        }
+        record->left->next->next = third;
+    }
+    if (fourth) {
+        if ((1U << (fourth->kind & 31)) & 0x7fe) {
+            if (fourth->location.expression.properties & 0x10)
+                fourth = copy_input_expression(fourth);
+            fourth->location.expression.properties |= 0x10;
+        }
+        record->left->next->next->next = fourth;
+    }
+    retain_aggregate_operands(record);
+    if (link) link(prior, (C2Record *)record);
+    record->location.line = record_line_delta;
+    return record;
+}
+
 C2Expression *__fastcall new_global_ternary_expression(unsigned opcode,
     unsigned short type, C2Expression *result, C2Expression *first,
     C2Expression *second, C2InputLink link, C2Record *prior)
@@ -740,4 +798,28 @@ void release_global_expression_cache(void)
             }
         }
     }
+}
+
+void __fastcall merge_global_register_identity(C2FunctionRegister *input, C2FunctionRegister *dependent)
+{
+    C2GlobalDependency *link, *previous;
+    previous = input->global_dependents;
+    for (link = previous; link; link = link->next_dependent)
+        if (link->dependent == dependent) return;
+    link = c2_pool_allocate(13, sizeof(*link));
+    link->dependent = dependent;
+    link->next_dependent = previous;
+    input->global_dependents = link;
+    link->input = input;
+    link->next_input = dependent->global_dependencies;
+    dependent->global_dependencies = link;
+    if (!dependent->global_dependency_set) {
+        dependent->global_dependency_set = new_register_set(13);
+        add_register_to_set(dependent->global_dependency_set, dependent->number);
+    }
+    if (!input->global_dependency_set) {
+        input->global_dependency_set = new_register_set(13);
+        add_register_to_set(input->global_dependency_set, input->number);
+    }
+    propagate_global_dependencies(dependent);
 }

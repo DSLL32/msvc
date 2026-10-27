@@ -35,6 +35,9 @@ BINARY_SOURCES = crt/math-error.c \
     src/final-operands.c \
     src/final-lowering.c \
     src/final-integer.c \
+    src/final-wide.c \
+    src/final-float.c \
+    src/final-intrinsics.c \
     src/final-schedule.c \
     src/final-registers.c \
     src/frame-layout.c src/function-output.c src/instruction-output.c \
@@ -108,4 +111,4 @@ $(ORIGINAL_BUILD)/messages.res: src/messages.rc $(RECON_TOOL)
 
 $(ORIGINAL_BUILD)/obj/src/expression-factors.c.obj $(ORIGINAL_BUILD)/obj/src/global-optimizer.c.obj $(ORIGINAL_BUILD)/obj/src/global-rewrite.c.obj: ORIGINAL_CFLAGS += /Oi
 
-$(ORIGINAL_BUILD)/obj/src/final-lowering.c.obj $(ORIGINAL_BUILD)/obj/src/final-registers.c.obj: ORIGINAL_CFLAGS += /Oi
+$(ORIGINAL_BUILD)/obj/src/final-lowering.c.obj $(ORIGINAL_BUILD)/obj/src/final-registers.c.obj $(ORIGINAL_BUILD)/obj/src/final-schedule.c.obj: ORIGINAL_CFLAGS += /Oi

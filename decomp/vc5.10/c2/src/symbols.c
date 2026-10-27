@@ -147,3 +147,12 @@ C2InputSymbol *new_flow_label(void)
     insert_symbol(&label->symbol, 1);
     return label;
 }
+
+int __fastcall has_local_symbol(unsigned serial)
+{
+    C2Symbol *symbol = local_symbol_table->buckets[serial & 1023];
+    for (; symbol; symbol = symbol->hash_next)
+        if (symbol->serial == serial)
+            return 1;
+    return 0;
+}

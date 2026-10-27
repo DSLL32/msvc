@@ -54,7 +54,7 @@ int register_set_pool_fourteen_initialized;
  * gaps0/2/5/7/9..11 are unmodeled storage, never original default claims. */
 C2RegisterSet *free_register_sets[15];
 C2RegisterSet *last_free_register_sets[15];
-/* Separate node queues. Pool0/1 defaults and real reset-written slots are
+/* Separate node queues. Pool0/1/8 defaults and real reset-written slots are
  * admitted only by their corresponding guarded reader; no gap defaults. */
 C2RegisterSetNode *free_register_set_nodes[15];
 C2RegisterSetNode *last_free_register_set_nodes[15];

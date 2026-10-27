@@ -212,4 +212,10 @@ C2Expression *__fastcall find_final_overlapping_result(C2Expression *record, C2F
 typedef struct C2FinalMultiplyRecipe C2FinalMultiplyRecipe;
 void initialize_final_arithmetic(void);
 C2FinalMultiplyRecipe *__fastcall find_final_multiplier_recipe(int multiplier);
+
+int __fastcall final_condition_allows_narrowing(C2Expression *record);
+int __fastcall final_operand_fits_signed_byte(C2Expression *operand);
+int __fastcall final_operand_fits_signed_word(C2Expression *operand);
+int __fastcall final_operand_canonical_zero_bits(C2Expression *operand);
+
 #endif

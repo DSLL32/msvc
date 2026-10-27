@@ -1250,3 +1250,10 @@ void __fastcall output_callback_4357b8(unsigned offset, C2Symbol *symbol)
     offset += query_coff_position(coff_default_flags);
     write_coff_relocation(symbol->serial, offset, symbol->coff_symbol_index, 7);
 }
+
+void __fastcall output_callback_435af6(unsigned offset, C2Symbol *symbol)
+{
+    offset += query_coff_position(coff_default_flags);
+    write_coff_relocation(symbol->serial, offset, symbol->coff_symbol_index,
+        IMAGE_REL_I386_REL32);
+}
