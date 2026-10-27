@@ -89,4 +89,5 @@ BEGIN
     C1_TEXT_PCH_TIMESTAMP_FAILED                             "unable to preserve the time stamp whilst updating the precompiled header file %s"
     C1_TEXT_REUSE_PCH_NOTE                                   "reusing persistent precompiled header"
     C1_TEXT_MEMORY_RELEASE_NOTE                              "Note: non-fatal system error releasing memory (%d)\n"
+    C1_TEXT_FASTCALL_STACK_CHECK "__fastcall with stack checking is inefficient"
 END

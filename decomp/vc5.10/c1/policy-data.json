@@ -826,6 +826,21 @@
             "path": "message-imports.json",
             "sha256": "b9b6ba6b82f36e265f91df1e9b14c757e758a53b9d777e26eaad39f477683fec"
           }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "toupper"
+            }
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "assembly-imports.json",
+            "sha256": "f5d40274adda58becdfea0d6feeb4ca663e568000797fd13f579a4aabe3522a3"
+          }
         }
       ],
       "virtual_preservation_contracts": [
@@ -1445,11 +1460,11 @@
             [
               {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 16261
+                "offset": 16667
               },
               {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 16530
+                "offset": 16936
               }
             ]
           ],
@@ -1457,228 +1472,228 @@
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 4778
+                "offset": 5184
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 4785
+                  "offset": 5191
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 4846
+                  "offset": 5252
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 4892
+                  "offset": 5298
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 4846
+                  "offset": 5252
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 4901
+                  "offset": 5307
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 5296
+                "offset": 5702
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 5303
+                  "offset": 5709
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 5635
+                  "offset": 6041
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6362
+                  "offset": 6768
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6442
+                  "offset": 6848
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6632
+                  "offset": 7038
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6993
+                  "offset": 7399
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7483
+                  "offset": 7889
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7598
+                  "offset": 8004
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7792
+                  "offset": 8198
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7960
+                  "offset": 8366
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8055
+                  "offset": 8461
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8139
+                  "offset": 8545
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8536
+                  "offset": 8942
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9489
+                  "offset": 9895
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9612
+                  "offset": 10018
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9831
+                  "offset": 10237
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10211
+                  "offset": 10617
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15982
+                  "offset": 16388
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10661
+                  "offset": 11067
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10819
+                  "offset": 11225
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11363
+                  "offset": 11769
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11363
+                  "offset": 11769
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11910
+                  "offset": 12316
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12037
+                  "offset": 12443
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12390
+                  "offset": 12796
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12577
+                  "offset": 12983
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15982
+                  "offset": 16388
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13111
+                  "offset": 13517
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13111
+                  "offset": 13517
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13199
+                  "offset": 13605
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15982
+                  "offset": 16388
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8055
+                  "offset": 8461
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13420
+                  "offset": 13826
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 14635
+                  "offset": 15041
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15362
+                  "offset": 15768
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15982
+                  "offset": 16388
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13298
+                  "offset": 13704
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15548
+                  "offset": 15954
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15982
+                  "offset": 16388
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15711
+                  "offset": 16117
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15881
+                  "offset": 16287
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 6009
+                "offset": 6415
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6016
+                  "offset": 6422
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6026
+                  "offset": 6432
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6037
+                  "offset": 6443
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6087
+                  "offset": 6493
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6096
+                  "offset": 6502
                 }
               ]
             }
@@ -2830,11 +2845,11 @@
             [
               {
                 "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                "offset": 828
+                "offset": 844
               },
               {
                 "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                "offset": 852
+                "offset": 868
               }
             ]
           ],
@@ -2842,32 +2857,32 @@
             {
               "site": {
                 "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                "offset": 397
+                "offset": 414
               },
               "targets": [
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 404
+                  "offset": 421
                 },
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 428
+                  "offset": 445
                 },
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 452
+                  "offset": 469
                 },
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 476
+                  "offset": 493
                 },
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 500
+                  "offset": 517
                 },
                 {
                   "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
-                  "offset": 524
+                  "offset": 541
                 }
               ]
             }
@@ -3311,11 +3326,11 @@
             [
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 4361
+                "offset": 4546
               },
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 4393
+                "offset": 4578
               }
             ]
           ],
@@ -3323,40 +3338,40 @@
             {
               "site": {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 3558
+                "offset": 3743
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3581
+                  "offset": 3766
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3708
+                  "offset": 3893
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3581
+                  "offset": 3766
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3595
+                  "offset": 3780
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3565
+                  "offset": 3750
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3565
+                  "offset": 3750
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3565
+                  "offset": 3750
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3667
+                  "offset": 3854
                 }
               ]
             }
@@ -3408,11 +3423,11 @@
             [
               {
                 "rebuilt_symbol": "_emit_ir_node",
-                "offset": 3762
+                "offset": 3826
               },
               {
                 "rebuilt_symbol": "_emit_ir_node",
-                "offset": 3920
+                "offset": 3984
               }
             ]
           ],
@@ -3420,40 +3435,40 @@
             {
               "site": {
                 "rebuilt_symbol": "_emit_ir_node",
-                "offset": 778
+                "offset": 793
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 785
+                  "offset": 800
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 1508
+                  "offset": 1539
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 1546
+                  "offset": 1578
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 1600
+                  "offset": 1634
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 1861
+                  "offset": 1893
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 1840
+                  "offset": 1872
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 1977
+                  "offset": 2009
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 2939
+                  "offset": 2986
                 }
               ]
             }
@@ -6461,6 +6476,1057 @@
               274761367
             ]
           }
+        }
+      },
+      "_scan_class192_attributes": {
+        "original": {
+          "switches": {
+            "274913251": [
+              274913290,
+              274913258,
+              274913273,
+              274913290,
+              274913276
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_scan_class192_attributes",
+                "offset": 1263
+              },
+              {
+                "rebuilt_symbol": "_scan_class192_attributes",
+                "offset": 1302
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_scan_class192_attributes",
+                "offset": 219
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_scan_class192_attributes",
+                  "offset": 226
+                },
+                {
+                  "rebuilt_symbol": "_scan_class192_attributes",
+                  "offset": 256
+                },
+                {
+                  "rebuilt_symbol": "_scan_class192_attributes",
+                  "offset": 267
+                },
+                {
+                  "rebuilt_symbol": "_scan_class192_attributes",
+                  "offset": 226
+                },
+                {
+                  "rebuilt_symbol": "_scan_class192_attributes",
+                  "offset": 287
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_parse_assembly_statements": {
+        "original": {
+          "switches": {
+            "274824112": [
+              274824119,
+              274933750,
+              274823786,
+              274823786,
+              274824175,
+              274823786,
+              274933816,
+              274823786,
+              274933833,
+              274824186,
+              274824214,
+              274934660,
+              274934272,
+              274933855,
+              274933877,
+              274823786,
+              274823786,
+              274933927,
+              274933950,
+              274823786,
+              274824224,
+              274823786,
+              274824235,
+              274823786,
+              274824274,
+              274933968,
+              274934019,
+              274934019,
+              274934019,
+              274934019,
+              274934019,
+              274934019,
+              274934019,
+              274934019,
+              274934019,
+              274934019,
+              274934019,
+              274934019,
+              274934019,
+              274824305,
+              274824305,
+              274934043,
+              274934147,
+              274934187,
+              274934216,
+              274934243,
+              274934272,
+              274934287,
+              274823786,
+              274934316,
+              274934347,
+              274934370,
+              274934324,
+              274934347,
+              274934370,
+              274824329,
+              274934393,
+              274934419,
+              274934495,
+              274934521,
+              274934558,
+              274934580,
+              274824348,
+              274934617,
+              274824362,
+              274934675,
+              274934701,
+              274824389,
+              274934718,
+              274824412,
+              274934740,
+              274934804,
+              274934901,
+              274934943,
+              274935046,
+              274824465,
+              274824489,
+              274824465,
+              274824489,
+              274935133
+            ],
+            "274933413": [
+              274933456,
+              274933633,
+              274933633,
+              274933420
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_parse_assembly_statements",
+                "offset": 3392
+              },
+              {
+                "rebuilt_symbol": "_parse_assembly_statements",
+                "offset": 3692
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_parse_assembly_statements",
+                "offset": 535
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 542
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 778
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 778
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 963
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_parse_assembly_statements",
+                "offset": 1245
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1252
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1339
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1357
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1377
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1405
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1435
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1445
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1460
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1475
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1546
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1599
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1624
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1644
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1691
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1732
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1821
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1859
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1897
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2035
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2085
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2173
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2085
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 1460
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2085
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2203
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2220
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2251
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2283
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2317
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2415
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2449
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2499
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2552
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2602
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2627
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2700
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2733
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2757
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2782
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2815
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2874
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2943
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 3077
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 3129
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 3231
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 3288
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 3311
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 3288
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 3311
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2085
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 3365
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_emit_assembly_statement": {
+        "original": {
+          "switches": {
+            "274825173": [
+              274935438,
+              274935469,
+              274825180,
+              274825247,
+              274935448
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_emit_assembly_statement",
+                "offset": 186
+              },
+              {
+                "rebuilt_symbol": "_emit_assembly_statement",
+                "offset": 447
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_emit_assembly_statement",
+                "offset": 39
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_emit_assembly_statement",
+                  "offset": 46
+                },
+                {
+                  "rebuilt_symbol": "_emit_assembly_statement",
+                  "offset": 58
+                },
+                {
+                  "rebuilt_symbol": "_emit_assembly_statement",
+                  "offset": 62
+                },
+                {
+                  "rebuilt_symbol": "_emit_assembly_statement",
+                  "offset": 148
+                },
+                {
+                  "rebuilt_symbol": "_emit_assembly_statement",
+                  "offset": 162
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_compare_label_spelling": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_assembly_width_code": {
+        "original": {
+          "switches": {
+            "274826848": [
+              274936325,
+              274936328,
+              274936357,
+              274826858,
+              274936357,
+              274936331,
+              274936357,
+              274826855,
+              274936357,
+              274936334
+            ]
+          }
+        }
+      },
+      "_validate_assembly_operand_count": {
+        "original": {
+          "switches": {
+            "274936595": [
+              274936707,
+              274936602,
+              274936752,
+              274936829,
+              274936727,
+              274936783,
+              274936741
+            ]
+          }
+        }
+      },
+      "_validate_assembly_operand_forms": {
+        "original": {
+          "switches": {
+            "274827506": [
+              274827717,
+              274937535,
+              274937835,
+              274827687,
+              274827622,
+              274937509,
+              274937071,
+              274937758,
+              274937104,
+              274937446,
+              274937472,
+              274937197,
+              274938036,
+              274938083,
+              274827551,
+              274937381,
+              274827706
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_validate_assembly_operand_forms",
+                "offset": 3184
+              },
+              {
+                "rebuilt_symbol": "_validate_assembly_operand_forms",
+                "offset": 3297
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_validate_assembly_operand_forms",
+                "offset": 1019
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 1026
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 1126
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 1404
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 1452
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 1491
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 1782
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 1836
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 1871
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 1944
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 2073
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 2095
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 2152
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 2562
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 2626
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 2791
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 3005
+                },
+                {
+                  "rebuilt_symbol": "_validate_assembly_operand_forms",
+                  "offset": 3172
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_select_assembly_encoding": {
+        "original": {
+          "switches": {
+            "274827891": [
+              274938212,
+              274938241,
+              274938265,
+              274938473,
+              274938452,
+              274938604,
+              274938654,
+              274938707,
+              274938471,
+              274938584,
+              274938427,
+              274938899,
+              274938906,
+              274938899,
+              274938899,
+              274827898,
+              274938918,
+              274938906,
+              274827940
+            ],
+            "274938302": [
+              274938372,
+              274938317,
+              274938382,
+              274938392,
+              274938402,
+              274938317,
+              274938317,
+              274938309
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_select_assembly_encoding",
+                "offset": 1330
+              },
+              {
+                "rebuilt_symbol": "_select_assembly_encoding",
+                "offset": 1475
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_select_assembly_encoding",
+                "offset": 62
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 69
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 100
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 139
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 383
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 399
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 596
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 645
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 700
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 432
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 901
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 926
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 952
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 970
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 952
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 970
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 952
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 983
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 1131
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 970
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_encoding",
+                  "offset": 1174
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_select_assembly_operand_width": {
+        "original": {
+          "switches": {
+            "274828214": [
+              274939262,
+              274939117,
+              274939176,
+              274939232,
+              274939080,
+              274939331,
+              274939706,
+              274939805,
+              274828221
+            ],
+            "274939612": [
+              274939619,
+              274939658,
+              274939699,
+              274939692,
+              274939701
+            ],
+            "274939644": [
+              274939651,
+              274939685,
+              274939699,
+              274939685,
+              274939701
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_select_assembly_operand_width",
+                "offset": 1527
+              },
+              {
+                "rebuilt_symbol": "_select_assembly_operand_width",
+                "offset": 1620
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_select_assembly_operand_width",
+                "offset": 90
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_select_assembly_operand_width",
+                  "offset": 97
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_operand_width",
+                  "offset": 189
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_operand_width",
+                  "offset": 326
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_operand_width",
+                  "offset": 396
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_operand_width",
+                  "offset": 426
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_operand_width",
+                  "offset": 471
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_operand_width",
+                  "offset": 641
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_operand_width",
+                  "offset": 854
+                },
+                {
+                  "rebuilt_symbol": "_select_assembly_operand_width",
+                  "offset": 969
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_write_assembly_instruction": {
+        "original": {
+          "switches": {
+            "274828937": [
+              274940430,
+              274940437,
+              274828944,
+              274940451,
+              274940458,
+              274940444
+            ],
+            "274829175": [
+              274829115,
+              274829132,
+              274829182,
+              274940823,
+              274829142,
+              274829132,
+              274829115,
+              274940842,
+              274829132,
+              274941053,
+              274829149
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_write_assembly_instruction",
+                "offset": 2112
+              },
+              {
+                "rebuilt_symbol": "_write_assembly_instruction",
+                "offset": 2203
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_write_assembly_instruction",
+                "offset": 103
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 110
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 119
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 128
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 137
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 146
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 155
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_write_assembly_instruction",
+                "offset": 1315
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 1322
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 1398
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 1441
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 1529
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 1605
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 1398
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 1322
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 1645
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 1398
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 2031
+                },
+                {
+                  "rebuilt_symbol": "_write_assembly_instruction",
+                  "offset": 2083
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_classify_assembly_operand": {
+        "original": {
+          "switches": {
+            "274829447": [
+              274829454,
+              274829469,
+              274829491,
+              274829479,
+              274941188,
+              274829469,
+              274829469,
+              274941087
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_classify_assembly_operand",
+                "offset": 285
+              },
+              {
+                "rebuilt_symbol": "_classify_assembly_operand",
+                "offset": 317
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_classify_assembly_operand",
+                "offset": 94
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_classify_assembly_operand",
+                  "offset": 101
+                },
+                {
+                  "rebuilt_symbol": "_classify_assembly_operand",
+                  "offset": 270
+                },
+                {
+                  "rebuilt_symbol": "_classify_assembly_operand",
+                  "offset": 130
+                },
+                {
+                  "rebuilt_symbol": "_classify_assembly_operand",
+                  "offset": 144
+                },
+                {
+                  "rebuilt_symbol": "_classify_assembly_operand",
+                  "offset": 163
+                },
+                {
+                  "rebuilt_symbol": "_classify_assembly_operand",
+                  "offset": 270
+                },
+                {
+                  "rebuilt_symbol": "_classify_assembly_operand",
+                  "offset": 270
+                },
+                {
+                  "rebuilt_symbol": "_classify_assembly_operand",
+                  "offset": 182
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_write_language_diagnostic": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
         }
       }
     },

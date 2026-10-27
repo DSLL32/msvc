@@ -135,17 +135,18 @@ static const KeywordDescription keywords[] = {
     { NULL, 0 },
 };
 
-/* Only the name column of the original sixteen-byte declspec records is
- * consumed here. Their other fields belong to later declaration parsing. */
-static const char *declspec_names[] = {
-    "dllimport",
-    "dllexport",
-    "inline",
-    "naked",
-    "thread",
-    "allocate",
-    "selectany",
-    NULL,
+/* The names were encountered during keyword initialization. This scanner
+ * additionally consumes only selectors7/5 and no-argument flags at rows1/4.
+ * Zeros in all other non-name cells are unread representation, not defaults. */
+const CompilerDeclspecKeyword c1_declspec_keywords[8] = {
+    { "dllimport", 0, 0, 0 },
+    { "dllexport", 7, 0, 0 },
+    { "inline", 0, 0, 0 },
+    { "naked", 0, 0, 0 },
+    { "thread", 5, 0, 0 },
+    { "allocate", 0, 0, 0 },
+    { "selectany", 0, 0, 0 },
+    { NULL, 0, 0, 0 }
 };
 
 extern "C" {
@@ -163,7 +164,7 @@ void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
 extern "C" void __cdecl initialize_language_keywords(void)
 {
     const KeywordDescription *entry;
-    const char **attribute;
+    const CompilerDeclspecKeyword *attribute;
     unsigned code;
     c1_data.options.language_extensions =
         c1_data.options.language_extensions || c1_data.options.option_zbe;
@@ -302,8 +303,8 @@ extern "C" void __cdecl initialize_language_keywords(void)
             }
         }
     }
-    for (attribute = declspec_names, code = 0; *attribute; ++attribute, ++code) {
-        intern_identifier(*attribute);
+    for (attribute = c1_declspec_keywords, code = 0; attribute->name; ++attribute, ++code) {
+        intern_identifier(attribute->name);
         c1_data.current_identifier->flags |= 0x800000;
         if (!(c1_data.current_identifier->flags & 0x10000))
             ((CompilerKeywordEntry *)c1_data.current_identifier)->token = (BYTE)code;

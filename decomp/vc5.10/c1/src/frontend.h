@@ -348,6 +348,7 @@ struct CompilerTranslationUnit {
     CompilerScopeTable *RECON_THISCALL DeclarationScope(void);
     CompilerSourceFile *RECON_THISCALL FindSourceFile(const char *name, unsigned hash);
     CompilerSourceFile *RECON_THISCALL LookupSourceFile(CompilerNameEntry *name);
+    CompilerIrSymbol *RECON_THISCALL FindAllocatedSegment(CompilerNameEntry *);
     void RECON_THISCALL PushScope(CompilerScopeTable *);
     void RECON_THISCALL RegisterScope(CompilerScopeTable *);
     void RECON_THISCALL UnregisterScope(void);

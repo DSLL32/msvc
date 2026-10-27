@@ -28,7 +28,7 @@ static const BYTE control_operands[37] = {
  * initial values, producers and wider storage are not modeled here. */
 unsigned control_option_kind; /* RVA5e22c */
 const BYTE *control_option_value; /* RVA5e230 */
-static BYTE control_text[1]; /* Prefix at RVA54fd8; count is not yet supported */
+/* RVA54fd8 is the shared counted assembler record in c1_bss. */
 static BYTE control_byte; /* RVA550f0 */
 static short control_short; /* RVA54b34 */
 WORD control_state_first, control_state_second; /* RVA5f364/5f368 */
@@ -143,10 +143,15 @@ write_record:
             }
         }
     } else if (operand == CONTROL_TEXT) {
-#ifdef RECON_NATIVE_TEST
-        recon_unsupported("control-record counted text has no modeled owner extent");
+        const BYTE *control_text = (const BYTE *)&c1_bss.assembly_record;
+        unsigned count = c1_bss.assembly_record.length;
+        if (count < 3 || count > sizeof(c1_bss.assembly_record)) {
+#ifdef __linux__
+            recon_unsupported("control-record counted text exceeds known assembler prefix");
+#else
+            __asm { int 3 }
 #endif
-        unsigned count = control_text[0];
+        }
         if (CONTROL_RESERVE(count + 4)) {
             if (!buffer->WriteSmall((unsigned)(int)(short)count)) {
                 *buffer->cursor++ = 0x80;

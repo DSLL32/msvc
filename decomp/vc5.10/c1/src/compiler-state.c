@@ -198,7 +198,10 @@ CompilerInitializedState c1_data = {
     NULL, /* void_type_list */
     NULL, /* call_context */
     1, 0, /* Conditional-expression lookahead and parenthesis depth. */
-    0, 100 /* Diagnostic type-text context depth and next handle. */
+    0, 100, /* Diagnostic type-text context depth and next handle. */
+    (struct CompilerParserToken *)&c1_bss.assembly_empty_token, 0, 0,
+    0, 0, NULL /* Diagnostic prefix length, line and source. */
+
 };
 CompilerBss c1_bss;
 int c1_reuse_state;

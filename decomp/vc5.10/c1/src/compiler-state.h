@@ -198,6 +198,12 @@ typedef struct CompilerInitializedState {
     int condition_parentheses; /* RVA5e20c, initial0; expression nesting. */
     unsigned diagnostic_context_depth; /* RVA5f3ac, initial0; nested type-text lifetime. */
     unsigned next_diagnostic_text_handle; /* RVA5f4fc, initial100; monotonically assigned. */
+    struct CompilerParserToken *assembly_lookahead; /* RVA5f988, initial empty token55100. */
+    int assembly_syntax_errors; /* RVA5f98c, actual initial0. */
+    short assembly_recovery_shifts; /* RVA5f990, actual initial0. */
+    unsigned diagnostic_prefix_characters; /* RVA5f8a8, initial0; _mbstrlen of the current prefix. */
+    unsigned diagnostic_line; /* RVA5f8ac, initial0; reported source line. */
+    void *diagnostic_source; /* RVA5f8b0, initialNULL; borrowed reported source owner. */
 } CompilerInitializedState;
 typedef char CompilerInitializedState_fits_snapshot[sizeof(CompilerInitializedState) <= 6548 ? 1 : -1];
 #define abstract_symbol_free symbol_cache.known.head9
@@ -492,6 +498,16 @@ typedef struct CompilerBss {
     void *declaration_contexts[60]; /* RVA54ca8, source indexed bound60 */
     int unevaluated_expression_depth; /* RVA53bd4, BSS0; parser context nesting */
     BYTE parameter_nesting; /* RVA5508c, BSS0; selects parameter allocation arena2 */
+    CompilerAssemblyResetState assembly;
+    char diagnostic_message[256]; /* BSS57e40, LoadStringA writes up to its actual256-byte capacity. */
+    CompilerAssemblyRecord assembly_record; /* Existing control_text owner54fd8; BSS initial0. */
+    /* Independent assembler LR storage. Only150 complete semantic records
+     * precede the operand owner; the original boundary's extra slot overlaps
+     * it and remains unsupported before access. */
+    short assembly_states[151]; /* RVA59078..591a6. */
+    CompilerParserValue assembly_values[150]; /* RVA591a8..59fb8. */
+    struct { BYTE kind, unmodeled_01[31]; } assembly_empty_token; /* RVA55100, kind0 identity only. */
+    int assembly_started; /* RVA5a000, BSS0; inline assembler writes1 after state setup. */
     int declaration_depth; /* RVA5416c, BSS initial0 */
     /* Only records0..4.flags are encountered. The real source has60 records;
      * native code must guard before any other record or unknown byte read. */
@@ -506,6 +522,7 @@ typedef struct CompilerBss {
     struct ParserLabelStack *break_labels; /* RVA54014, BSS NULL */
     struct ParserLabelStack *switch_labels; /* RVA54dd0, BSS NULL */
     struct ParserLabelStack *default_labels; /* RVA54020, BSS NULL */
+    struct ParserLabelStack *exception_labels; /* RVA550c8, BSS NULL; active try-region labels */
     int label_stack_count; /* RVA550a8, BSS0; label pushes/pops balance */
     unsigned call_reference_depth; /* RVA53d6c, BSS0; FindCallSymbol starts at1. */
     unsigned conditional_states[2]; /* RVA518e8: encountered slots0/1 only; real push bound32. */

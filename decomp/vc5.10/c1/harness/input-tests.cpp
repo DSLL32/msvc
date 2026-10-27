@@ -1823,3 +1823,182 @@ extern "C" int c1_test_static_symbol_map_lookup(void)
         !memcmp(&map, &saved, sizeof(map)) && buckets[bucket] == entries &&
         entries[0].next == entries + 1 && entries[1].next == NULL;
 }
+
+extern "C" CompilerAssemblyOperand *__cdecl initialize_assembly_operand(unsigned);
+extern "C" int c1_test_assembly_operand_storage(void)
+{
+    CompilerAssemblyOperand *operand;
+    CompilerAssemblyResetState before;
+    BYTE zeros[12] = {0};
+    unsigned index, other;
+    for (index = 0; index < 2; ++index) {
+        memset(&c1_bss.assembly, 0xa5, sizeof(c1_bss.assembly));
+        c1_bss.assembly.current_operand = &c1_bss.assembly.operands[2];
+        before = c1_bss.assembly;
+        operand = initialize_assembly_operand(index);
+        if (operand != &c1_bss.assembly.operands[index] ||
+            operand->value != &c1_bss.assembly.values[index] ||
+            operand->form != 15 || operand->modifiers != 0 ||
+            operand->unmodeled_06[0] != 0xa5 || operand->unmodeled_06[1] != 0xa5 ||
+            operand->reset_08 || operand->reset_0c ||
+            memcmp(operand->value, zeros, sizeof(zeros))) return 0;
+        for (other = 0; other < 3; ++other)
+            if (other != index &&
+                (memcmp(&c1_bss.assembly.operands[other], &before.operands[other], sizeof(CompilerAssemblyOperand)) ||
+                 memcmp(&c1_bss.assembly.values[other], &before.values[other], sizeof(CompilerAssemblyValue)))) return 0;
+        if (c1_bss.assembly.current_operand != before.current_operand ||
+            c1_bss.assembly.operand_index != before.operand_index ||
+            c1_bss.assembly.reset_54 != before.reset_54 ||
+            c1_bss.assembly.reset_5c != before.reset_5c ||
+            c1_bss.assembly.reset_08 != before.reset_08 ||
+            c1_bss.assembly.reset_60 != before.reset_60 ||
+            c1_bss.assembly.reset_9fc4 != before.reset_9fc4 ||
+            c1_bss.assembly.reset_9ffc != before.reset_9ffc ||
+            c1_bss.assembly.first_form != before.first_form ||
+            c1_bss.assembly.brace_depth != before.brace_depth ||
+            c1_bss.assembly.reset_68 != before.reset_68 ||
+            c1_bss.assembly.reset_04 != before.reset_04 ||
+            c1_bss.assembly.reset_4c != 0) return 0;
+    }
+    return 1;
+}
+
+extern "C" int __cdecl compare_label_spelling(const char *, const char *);
+extern "C" int c1_test_assembly_casefold(void)
+{
+    const char *same = "mov";
+    return compare_label_spelling(NULL, NULL) == 0 &&
+        compare_label_spelling(same, same) == 0 &&
+        compare_label_spelling(NULL, same) == -1 &&
+        compare_label_spelling(same, NULL) == -1 &&
+        compare_label_spelling("mOv", "MOV") == 0 &&
+        compare_label_spelling("A", "b") == -33 &&
+        compare_label_spelling("a", "B") == 31 &&
+        compare_label_spelling("ab", "a") == 98 &&
+        compare_label_spelling("", "A") == -65;
+}
+
+extern "C" CompilerAssemblyExpression *__cdecl make_assembly_register(WORD);
+extern "C" int c1_test_assembly_register_storage(void)
+{
+    union { unsigned alignment; BYTE bytes[32]; } memory;
+    CompilerAssemblyValue value;
+    CompilerAssemblyOperand operand;
+    CompilerAssemblyExpression *expression;
+    unsigned i;
+    memset(memory.bytes, 0xa5, sizeof(memory.bytes));
+    memset(&value, 0xa5, sizeof(value));
+    memset(&operand, 0xa5, sizeof(operand));
+    operand.value = &value;
+    c1_bss.assembly.reset_9fc4 = 0;
+    c1_bss.assembly.current_operand = &operand;
+    c1_bss.arenas[3].cursor = memory.bytes;
+    c1_bss.arenas[3].committed_limit = memory.bytes + sizeof(memory.bytes);
+    expression = make_assembly_register(1);
+    if ((BYTE *)expression != memory.bytes || c1_bss.arenas[3].cursor != memory.bytes + 12 ||
+        expression->kind != 3 || expression->register_code != 1 || operand.value != &value ||
+        operand.form != 2 || operand.modifiers != 0xa5 || operand.reset_08 != 0xa5a5a5a5U ||
+        operand.reset_0c != 0xa5a5a5a5U) return 0;
+    for (i = 0; i < sizeof(memory.bytes); ++i)
+        if (i >= 2 && (i < 8 || i >= 12) && memory.bytes[i] != 0xa5) return 0;
+    for (i = 0; i < sizeof(value); ++i)
+        if (value.unmodeled[i] != (i == 8 ? 4 : i == 10 ? 1 : 0xa5)) return 0;
+    return operand.unmodeled_06[0] == 0xa5 && operand.unmodeled_06[1] == 0xa5;
+}
+
+extern "C" int c1_test_assembly_reference_flags(void)
+{
+    CompilerIrSymbol symbol, expected;
+    unsigned count, epoch;
+    for (count = 0; count < 4; ++count) for (epoch = 0; epoch < 2; ++epoch) {
+        memset(&symbol, 0xa5, sizeof(symbol));
+        symbol.reference_flags = (0xa5a5a5a5U & ~7U) | count | ((epoch ^ 1U) << 2);
+        memcpy(&expected, &symbol, sizeof(symbol));
+        expected.reference_flags = (expected.reference_flags & ~7U) |
+            (count < 3 ? count + 1 : 3) | (epoch << 2);
+        c1_data.ir_reference_epoch = 0xf0U | epoch;
+        symbol.MarkAssemblyReference();
+        if (memcmp(&symbol, &expected, sizeof(symbol))) return 0;
+    }
+    return 1;
+}
+
+extern "C" CompilerAssemblyExpression *__cdecl make_assembly_register_expression(WORD);
+extern "C" void __cdecl emit_assembly_immediate(unsigned);
+extern "C" BYTE __cdecl assembly_width_code(unsigned);
+extern "C" int c1_test_assembly_address_storage(void)
+{
+    union { unsigned alignment; BYTE bytes[32]; } memory;
+    CompilerAssemblyValue value, expected;
+    CompilerAssemblyOperand operand;
+    CompilerAssemblyExpression *expression;
+    unsigned pass, i;
+    for (pass = 0; pass < 2; ++pass) {
+        memset(memory.bytes, 0xa5, sizeof(memory.bytes));
+        memset(&value, 0xa5, sizeof(value));
+        memset(&operand, 0xa5, sizeof(operand));
+        value.operand.register_code = pass ? 1 : 0;
+        value.operand.index_register = 0;
+        value.operand.displacement = 0xfffffffeU;
+        memcpy(&expected, &value, sizeof(value));
+        if (pass) expected.operand.index_register = 6;
+        else expected.operand.register_code = 6;
+        expected.operand.kind_flags = (expected.operand.kind_flags & 0xef) | 0x16;
+        operand.value = &value;
+        c1_bss.assembly.current_operand = &operand;
+        c1_bss.arenas[3].cursor = memory.bytes;
+        c1_bss.arenas[3].committed_limit = memory.bytes + sizeof(memory.bytes);
+        expression = make_assembly_register_expression(6);
+        if ((BYTE *)expression != memory.bytes || expression->kind != 1 ||
+            expression->payload || c1_bss.arenas[3].cursor != memory.bytes + 12 ||
+            memcmp(&value, &expected, sizeof(value))) return 0;
+        for (i = 0; i < sizeof(memory.bytes); ++i)
+            if ((i == 2 || i == 3 || i >= 8) && memory.bytes[i] != 0xa5) return 0;
+        expected.operand.displacement = 1;
+        emit_assembly_immediate(3);
+        if (memcmp(&value, &expected, sizeof(value))) return 0;
+    }
+    return assembly_width_code(1) == 0 && assembly_width_code(2) == 1 &&
+        assembly_width_code(4) == 2 && assembly_width_code(8) == 3 &&
+        assembly_width_code(10) == 4 && assembly_width_code(6) == 5 &&
+        assembly_width_code(0xffff) == 2 && assembly_width_code(0xfffe) == 5 &&
+        assembly_width_code(0) == 15 && assembly_width_code(0xffffffffU) == 15;
+}
+
+extern "C" void __cdecl select_assembly_encoding(void);
+extern "C" void __cdecl write_assembly_instruction(void);
+extern "C" int c1_test_assembly_mov_record(void)
+{
+    unsigned i;
+    static const BYTE expected[12] = {12, 1, 4, 1, 0, 4, 0x44, 0x33, 0x22, 0x11, 5, 0};
+    memset(&c1_bss.assembly, 0xa5, sizeof(c1_bss.assembly));
+    memset(&c1_bss.assembly_record, 0xa5, sizeof(c1_bss.assembly_record));
+    c1_bss.assembly.first_form = 13;
+    c1_bss.assembly.reset_54 = c1_bss.assembly.reset_5c = 1;
+    c1_bss.assembly.operand_index = 2;
+    for (i = 0; i < 2; ++i) {
+        CompilerAssemblyOperand *operand = &c1_bss.assembly.operands[i];
+        CompilerAssemblyOperandValue *value = &c1_bss.assembly.values[i].operand;
+        operand->value = &c1_bss.assembly.values[i];
+        operand->form = 2; operand->modifiers = 0;
+        operand->reset_08 = operand->reset_0c = 0;
+        value->kind_flags = i ? 22 : 4;
+        value->register_code = i ? 6 : 1;
+        value->index_register = value->unmodeled_09 = 0;
+        value->displacement = 0x11223344;
+    }
+    select_assembly_encoding();
+    write_assembly_instruction();
+    if (memcmp(&c1_bss.assembly_record, expected, sizeof(expected))) return 0;
+    for (i = sizeof(expected); i < sizeof(c1_bss.assembly_record); ++i)
+        if (((BYTE *)&c1_bss.assembly_record)[i] != 0xa5) return 0;
+    for (i = 0; i < 2; ++i) {
+        CompilerAssemblyOperandValue *value = &c1_bss.assembly.values[i].operand;
+        if (value->unmodeled_09 != 63 || value->index_register != 63 ||
+            value->register_code != (i ? 5 : 0) || value->displacement != 0x11223344 ||
+            value->symbol != (CompilerIrSymbol *)0xa5a5a5a5U ||
+            c1_bss.assembly.operands[i].unmodeled_06[0] != 0xa5 ||
+            c1_bss.assembly.operands[i].unmodeled_06[1] != 0xa5) return 0;
+    }
+    return 1;
+}

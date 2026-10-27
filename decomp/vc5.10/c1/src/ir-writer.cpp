@@ -457,9 +457,11 @@ extern "C" void __cdecl write_ir_operand(int kind, const CompilerIntegerConstant
         (type->shape && (type->shape->flags & 7) != 1 &&
          !((kind == 39 || kind == 48 || kind == 50 || kind == 62 || kind == 65 || kind == 85) && mode == 2 && type->flags == 0x63 &&
            (!type->attributes || (kind == 62 && type->attributes == 0x10)) &&
-           (type->shape->flags & ~8U) == 3 && type->shape->attributes == 0x10 &&
+           (type->shape->flags & ~8U) == 3 &&
+           (type->shape->attributes == 0x10 || type->shape->attributes == 0x40 ||
+            type->shape->attributes == 0x60) &&
            type->shape->base && type->shape->base->flags == 0x404 &&
-           type->shape->base->attributes == 0x10 && !type->shape->base->base)))
+           type->shape->base->attributes == type->shape->attributes && !type->shape->base->base)))
         recon_unsupported("IR operand type or mode is not yet modeled");
 #endif
     if (type->shape) {

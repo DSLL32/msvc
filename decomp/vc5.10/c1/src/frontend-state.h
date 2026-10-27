@@ -214,6 +214,7 @@ typedef struct CompilerIrSymbol {
         struct CompilerNameEntry *name, unsigned arena);
     void RECON_THISCALL SetDeclarationContext(void *);
     int RECON_THISCALL IsNamed(void);
+    void RECON_THISCALL MarkAssemblyReference(void);
 #endif
 } CompilerIrSymbol;
 /* Initializer frames at57588 have stride20 and a producer depth bound32.
@@ -341,6 +342,68 @@ typedef struct CompilerLexerBackend {
 /* Declaration storage/qualifier flags. Only the encountered bits of the
  * extended WORD have meanings; setters retain all other bits. DWORD4 is also
  * the allocated-segment pointer when extended bit0x100 is present. */
+/* The assembler reset owner establishes these scalar widths/zero writers.
+ * Offset-named cells have no recovered meaning beyond that reset yet; later
+ * parser readers must refine their roles before consuming them. */
+/* Three actual16-byte operand records start at59fc8; their12-byte values
+ * start at5a028 and end at the next reset cell5a04c. The statement producer
+ * starts at0 and increments only below2. The reached path constructs records0/1;
+ * record2 remains storage only and is guarded before access.
+ * The constructor clears12 value bytes. Only kind8/register10 are refined
+ * by the reached register builder; the other semantic roles stay unmodeled. */
+typedef struct CompilerAssemblyOperandValue {
+    struct CompilerIrSymbol *symbol;
+    union { unsigned unmodeled_04, displacement; };
+    BYTE kind_flags, unmodeled_09, register_code;
+    union { BYTE unmodeled_0b, index_register; };
+} CompilerAssemblyOperandValue;
+typedef union CompilerAssemblyValue {
+    BYTE unmodeled[12];
+    CompilerAssemblyOperandValue operand;
+} CompilerAssemblyValue;
+/* This builder writes only kind0 and register8. The other fields are not
+ * initialized here; the payload4 alternative belongs to other builders. */
+typedef struct CompilerAssemblyExpression {
+    WORD kind;
+    BYTE unmodeled_02[2];
+    unsigned payload, register_code;
+} CompilerAssemblyExpression;
+typedef char AssemblyExpression_size[sizeof(CompilerAssemblyExpression) == 12 ? 1 : -1];
+typedef char AssemblyExpression_register[offsetof(CompilerAssemblyExpression, register_code) == 8 ? 1 : -1];
+typedef char AssemblyValue_kind[offsetof(CompilerAssemblyOperandValue, kind_flags) == 8 ? 1 : -1];
+typedef char AssemblyValue_register[offsetof(CompilerAssemblyOperandValue, register_code) == 10 ? 1 : -1];
+typedef struct CompilerAssemblyOperand {
+    CompilerAssemblyValue *value;
+    BYTE form, modifiers;
+    BYTE unmodeled_06[2]; /* Constructor leaves these two bytes untouched. */
+    union { DWORD reset_08; struct CompilerIrSymbol *source_symbol; };
+    union { DWORD reset_0c; struct CompilerIrSymbol *symbol; };
+} CompilerAssemblyOperand;
+typedef char AssemblyOperand_size[sizeof(CompilerAssemblyOperand) == 16 ? 1 : -1];
+typedef char AssemblyValue_size[sizeof(CompilerAssemblyValue) == 12 ? 1 : -1];
+typedef char AssemblyOperand_reset_offset[offsetof(CompilerAssemblyOperand, reset_08) == 8 ? 1 : -1];
+/* Counted record at54fd8: only the reached sixteen-byte prefix is modeled.
+ * Its byte writers establish length/opcode/width plus thirteen operand bytes;
+ * no total scratch-buffer capacity or untouched-tail default is claimed. */
+typedef struct CompilerAssemblyRecord {
+    BYTE length, opcode, width, operands[13];
+} CompilerAssemblyRecord;
+typedef char AssemblyRecord_prefix[sizeof(CompilerAssemblyRecord) == 16 ? 1 : -1];
+typedef struct CompilerAssemblyResetState {
+    unsigned brace_depth, reset_68, reset_04; /* RVA5a058/5a068/5a004; actual parser writes. */
+    WORD reset_54, reset_5c; /* RVA5a054/5a05c */
+    unsigned operand_index; /* RVA5a064, reset0; statement parser advances up to2. */
+    unsigned reset_08, reset_60, reset_9fc4, reset_9ffc; /* RVA5a008/5a060/59fc4/59ffc */
+    unsigned reset_4c; /* RVA5a04c, operand initializer clears it. */
+    unsigned first_form; /* RVA59ff8, setter writes numeric instruction-form index. */
+    struct CompilerAssemblyOperand *current_operand; /* RVA5a050, written from real initializer result. */
+    CompilerAssemblyOperand operands[3]; /* RVA59fc8..59ff8; record2 remains unread. */
+    CompilerAssemblyValue values[3]; /* RVA5a028..5a04c; record2 remains unread. */
+    BYTE encoded_opcode, encoding_flags, implicit_encoding; /* BSS5a014/15/18; written by encoding selection. */
+    CompilerAssemblyValue *output_values[3]; /* BSS5a01c..5a028, published by the authentic writer. */
+    CompilerAssemblyOperand *output_operands[3]; /* BSS59fb8..59fc4, same three operand owners. */
+} CompilerAssemblyResetState;
+
 typedef struct CompilerDeclarationAttributes {
     WORD flags;
     WORD extended_flags;
@@ -409,6 +472,7 @@ typedef union CompilerParserValue {
     __int64 integer;
     struct { unsigned low, high; } words;
     BYTE operation;
+    struct { BYTE unmodeled_00[8]; union { CompilerType *type; unsigned value; }; } assembly;
     BYTE unmodeled_00[24];
 #ifdef __cplusplus
     CompilerParserDeclaration declaration;

@@ -6,7 +6,7 @@ NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -Isrc -Icrt
 NATIVE_CFLAGS = -fms-extensions -fasm-blocks -Wno-ignored-attributes
 NATIVE_CXXFLAGS = -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti
 BINARY_LINKER = $(NATIVE_CC)
-BINARY_SOURCES = src/dllmain.c src/exports.c crt/startup.c src/pass.c src/compiler-state.c src/initializers.c src/buffers.c src/pdb.c src/pools.cpp src/pch-state.cpp src/main.c src/work-buffers.c src/options.c src/arenas.cpp src/command-line.c src/checksums.c src/scanner.c src/option-matcher.c src/packing.cpp src/frontend.cpp src/frontend-init.cpp src/input.cpp src/browser.cpp src/preprocessor.cpp src/keywords.cpp src/ir-output.cpp src/ir-writer.cpp src/intrinsics.cpp src/scopes.cpp src/global-record.cpp src/debug-init.cpp src/parser-grammar.cpp src/parser.cpp src/declarations.cpp src/control-record.cpp src/numeric-token.cpp src/pragma.cpp src/frontend-finish.cpp src/directives.cpp src/string-literals.cpp src/macro-text.cpp src/macro-expansion.cpp src/initializer-record.cpp src/language-diagnostics.cpp
+BINARY_SOURCES = src/dllmain.c src/exports.c crt/startup.c src/pass.c src/compiler-state.c src/initializers.c src/buffers.c src/pdb.c src/pools.cpp src/pch-state.cpp src/main.c src/work-buffers.c src/options.c src/arenas.cpp src/command-line.c src/checksums.c src/scanner.c src/option-matcher.c src/packing.cpp src/frontend.cpp src/frontend-init.cpp src/input.cpp src/browser.cpp src/preprocessor.cpp src/keywords.cpp src/ir-output.cpp src/ir-writer.cpp src/intrinsics.cpp src/scopes.cpp src/global-record.cpp src/debug-init.cpp src/parser-grammar.cpp src/parser.cpp src/declarations.cpp src/control-record.cpp src/numeric-token.cpp src/pragma.cpp src/frontend-finish.cpp src/directives.cpp src/string-literals.cpp src/macro-text.cpp src/macro-expansion.cpp src/initializer-record.cpp src/language-diagnostics.cpp src/inline-assembly.cpp src/assembly-grammar.cpp
 BINARY_SUPPORT_SOURCES = harness/dll-cases.c harness/input-tests.cpp $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 ORIGINAL_TOOLCHAIN = 5.10
 ORIGINAL_SOURCES = $(BINARY_SOURCES)
@@ -67,3 +67,7 @@ build/compiler-messages.res: src/compiler-messages.rc src/compiler-message-ids.h
 .build/compiler-message-resources.bin: scripts/compiler-message-resources.py src/compiler-messages.rc src/compiler-message-ids.h ../../../toolchains/5.10/bin/C1.DLL ../../../lib/recon/resources.py
 	@mkdir -p $(@D)
 	python3 scripts/compiler-message-resources.py $@
+
+# Independent inline-assembler LR grammar, decoded to logical relations.
+src/assembly-grammar.cpp src/assembly-grammar.h &: scripts/assembly-grammar.py ../../../toolchains/5.10/bin/C1.DLL
+	python3 scripts/assembly-grammar.py ../../../toolchains/5.10/bin/C1.DLL --header src/assembly-grammar.h --source src/assembly-grammar.cpp

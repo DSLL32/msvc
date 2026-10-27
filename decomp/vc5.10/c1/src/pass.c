@@ -38,6 +38,12 @@ int __cdecl initialize_compiler_pass(void)
         saved->condition_parentheses = c1_data.condition_parentheses;
         saved->diagnostic_context_depth = c1_data.diagnostic_context_depth;
         saved->next_diagnostic_text_handle = c1_data.next_diagnostic_text_handle;
+        saved->assembly_lookahead = c1_data.assembly_lookahead;
+        saved->assembly_syntax_errors = c1_data.assembly_syntax_errors;
+        saved->assembly_recovery_shifts = c1_data.assembly_recovery_shifts;
+        saved->diagnostic_prefix_characters = c1_data.diagnostic_prefix_characters;
+        saved->diagnostic_line = c1_data.diagnostic_line;
+        saved->diagnostic_source = c1_data.diagnostic_source;
         c1_reuse_state = 0;
     } else {
         saved = c1_bss.saved_data;
@@ -65,6 +71,12 @@ int __cdecl initialize_compiler_pass(void)
         c1_data.condition_parentheses = saved->condition_parentheses;
         c1_data.diagnostic_context_depth = saved->diagnostic_context_depth;
         c1_data.next_diagnostic_text_handle = saved->next_diagnostic_text_handle;
+        c1_data.assembly_lookahead = saved->assembly_lookahead;
+        c1_data.assembly_syntax_errors = saved->assembly_syntax_errors;
+        c1_data.assembly_recovery_shifts = saved->assembly_recovery_shifts;
+        c1_data.diagnostic_prefix_characters = saved->diagnostic_prefix_characters;
+        c1_data.diagnostic_line = saved->diagnostic_line;
+        c1_data.diagnostic_source = saved->diagnostic_source;
         memset(&c1_bss, 0, sizeof(c1_bss));
         c1_bss.saved_data = saved;
         c1_reuse_state = !c1_pass_mode;

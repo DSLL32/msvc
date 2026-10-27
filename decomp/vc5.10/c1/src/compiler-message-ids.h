@@ -89,6 +89,9 @@
 #define C1_TEXT_REUSE_PCH_NOTE                                   908
 #define C1_TEXT_MEMORY_RELEASE_NOTE                              910
 
+/* Reached language warning, separate from the initialized text catalog. */
+#define C1_TEXT_FASTCALL_STACK_CHECK 4124
+
 #define C1_COMPILER_MESSAGE_COUNT 87
 #include <recon.h>
 #endif

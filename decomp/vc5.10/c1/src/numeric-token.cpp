@@ -311,7 +311,14 @@ CompilerType *__cdecl select_signed_wide_literal_type(unsigned __int64 *value)
         return select_extended_integer_type(value);
     return c1_data.builtin_types.type_4044;
 }
-CompilerType *__cdecl select_unsigned_literal_type(unsigned __int64 *) { __asm { int 3 } return NULL; }
+CompilerType *__cdecl select_extended_unsigned_type(unsigned __int64 *);
+CompilerType *__cdecl select_unsigned_literal_type(unsigned __int64 *value)
+{
+    if (*value <= 0xffffffff) return c1_data.builtin_types.type_4063_first;
+    if (c1_data.internal_bm_flags || c1_data.internal_zb_value > 4)
+        return select_extended_unsigned_type(value);
+    return c1_data.builtin_types.type_4044;
+}
 CompilerType *__cdecl select_extended_unsigned_type(unsigned __int64 *);
 CompilerType *__cdecl select_unsigned_wide_literal_type(unsigned __int64 *value)
 {

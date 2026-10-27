@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 684 application functions / 192,837 code bytes and
-7,922 bytes of owned text data. Application code is 59.83% of the original
+The reconstruction contains 733 application functions / 207,603 code bytes and
+9,406 bytes of owned text data. Application code is 64.42% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All eight cached cases complete natively: DLL attach/export lookup/detach, the
+All nine cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, and the declarators workload below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, and the Win32 extensions workload below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -91,8 +91,27 @@ encoding and collision-chain lookup. The case adds 19 application functions,
 2,126 code bytes and 35 bytes of owned text data. It also recovers the finite
 86-string compiler-message catalog using source STRINGTABLE resources and the
 existing native resource loader. Raw artifacts and retained failures are in
-scratch `declarators-case-20261027/`. All eight cached cases and their units
+scratch `declarators-case-20261027/`. At that checkpoint, all eight cached cases and their units
 passed in 0.713 s; the complete graph/ABI audit passed in 1.246 s.
+
+The Win32 extensions case combines stdcall/fastcall callback declarations and
+calls, exported and thread-local objects, volatile unsigned state, inline MOV/INC
+assembly, `__try`/`__except`/`__leave` and nested `__finally` cleanup. Both
+executions exit zero with 525 first entries, the same 78-byte warning stream,
+and exact artifacts: `extensionsex` (2,502 bytes), `extensionsgl` (412),
+`extensionsin` (54), and `extensionssy` (593). The final reference took
+2,117.958 ms; the matching native run took 19.599 ms. Six focused tests cover
+assembler operand construction, register spelling and encoding, symbol reference
+flags, displacement wrapping and record write extent. The case adds 49 App
+functions, 14,766 code bytes and 1,484 owned text-data bytes. Its assembler LR
+generator emits encountered logical grammar relations; unmodeled opcode,
+register, operand and record-capacity domains remain guarded. The diagnostic
+path uses a contextual resource string and shared bounded ASCII `_mbstrlen`
+support, without CRT body credit. Raw artifacts and retained intermediate
+failures remain in scratch `win32-extensions-case-20261027/`. All nine cached
+cases and their units passed in 0.235 s; the final
+original/native build took 4.031 s and the complete graph/ABI
+audit passed in 1.378 s.
 
 The original extended-precision boundary uses ten-byte x87 values that VC5
 cannot express with its ordinary `long double`. Tiny documented assembly
