@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-533 application functions / 191,252 original code bytes are reconstructed
-(46.11% of the 414,810-byte whole `.text` extent, which includes CRT and text
+537 application functions / 193,266 original code bytes are reconstructed
+(46.59% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 41 pending bodies with known extents totaling 4,624 bytes and
-149 entries whose body extents remain unknown; this is not a complete non-CRT
+148 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all twenty-four cached native cases and their narrow checks;
+`make -j4 check unit` runs all twenty-five cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-546-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 528 ordinary application bodies and six CRT bodies. Seven import
+550-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 532 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The five genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -539,3 +539,27 @@ regression/unit/original-build/full-audit batch passed in 4.23 s, covering
 twenty-four fixtures, 546 graph vertices, 534 return contracts and the five
 existing C++ EH-owner checks. Raw artifacts, the failed compiler declaration
 and clock-only comparisons remain in scratch. These are incremental timings.
+
+
+The SH4 Windows CE resource-only DLL case uses genuine RC/CVTRES SH4 output
+with three-language strings, version data, a named payload, COFF debug and a
+map. Both sides exit 0 with 232 application entries and matching 4,096-byte
+DLL and 514-byte map, also equal to the untouched master outside the same
+clock fields. Only the three COFF/debug timestamp DWORDs and map hex/ctime
+text are normalized; the complete remaining artifacts and inventory are strict.
+
+Four bodies / 2,014 original code bytes recover the shared SuperH initializer,
+classifier, reader and processor. The backend's authentic SH3 diagnostic text
+is preserved even for SH4. Private relocation names follow the actual target
+table rather than an unverified SDK declaration. The reached DIRECT32_NB
+resource route is qualified; SuperH instruction execution, other operand
+encodings and section-name fixups are unclaimed. The latter's genuine lookup
+child remains a named pending trap. Current source preserves complete field
+widths, RET8/16/24/28 and debug-fixup call order.
+
+Original completion took 913.0 ms; native comparison took 14.1 ms (8.7 ms setup,
+2.6 ms execution, 2.8 ms checks). The one case-end parallel regression/unit/
+original-build/full-audit batch passed in 3.95 s: twenty-five fixtures, 550
+graph vertices, 538 return contracts and the five existing EH-owner checks.
+Raw originals, native diagnostic artifacts and clock-only failures remain in
+scratch. These are incremental timings, not isolated audit costs.

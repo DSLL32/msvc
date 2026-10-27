@@ -5467,5 +5467,17 @@
       },
       "basis": "Identified stdcall classifier four stack slots/RET16; EDI is ordinary nonvolatile. Existing symbol-name, reference-record and SigForPbCb ordinary ABI contracts reused. No body credit for pending classifier."
     }
+  ],
+  "sh_resource_case_ordinary_abi": [
+    {
+      "owner": "_read_sh_relocations@24",
+      "cached_import": "mspdb50.dll!SigForPbCb IAT401294 in EDI; original45bef5/45bf01/45bf14/45bf61/45bf6d",
+      "normal_return_preservation": {
+        "_classify_sh_relocation@16": [
+          "edi"
+        ]
+      },
+      "basis": "Identified stdcall classifier/four stack slots/RET16 and ordinary EDI nonvolatile ABI. Existing reference-record and checksum contracts reused; pending classifier body gets no credit."
+    }
   ]
 }

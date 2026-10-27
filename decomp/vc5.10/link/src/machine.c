@@ -211,7 +211,35 @@ void __stdcall initialize_alpha_backend(LinkContext *context,BYTE *incremental_s
         context->optional_header.FileAlignment=context->optional_header.SectionAlignment;
     }
 }
-void __stdcall initialize_sh_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
+BYTE __stdcall classify_sh_relocation(Contribution *contribution,WORD type,DWORD mode,BYTE vxd)
+{
+    if(!type)return 1;
+    if(type>16)link_contribution_fatal(contribution,1190,(unsigned)type);
+    return 0;
+}
+void __stdcall process_sh_relocations(Contribution *,IMAGE_RELOCATION *,DWORD,BYTE *,IMAGE_SYMBOL *,LinkContext *,DWORD *);
+void __stdcall initialize_sh_backend(LinkContext *context,BYTE *incremental_supported)
+{
+    if(!(context->specified_switches & 1))context->optional_header.SectionAlignment=0x400;
+    if(context->specified_switches & 8) {
+        link_warning(NULL,4062,"GPSIZE","SH3");
+        context->options.gp_size=0;
+    }
+    if(context->options.rom) {
+        link_warning(NULL,4062,"ROM","SH3");
+        context->options.rom=0;
+    }
+    if(selected_tool_kind==1 && context->optional_header.Subsystem!=9)
+        link_fatal(NULL,1195,"SH3","/SUBSYSTEM:WINDOWSCE");
+    *incremental_supported=0;
+    process_relocations=process_sh_relocations;
+    classify_relocation=classify_sh_relocation;
+    if(context->optional_header.SectionAlignment<0x400) {
+        small_section_alignment=1;
+        context->optional_header.FileAlignment=context->optional_header.SectionAlignment;
+    }
+}
+
 void __stdcall initialize_mac_ppc_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 BYTE __stdcall classify_ppc_relocation(Contribution *contribution,WORD type,DWORD mode,BYTE vxd)
 {
