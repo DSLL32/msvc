@@ -1,7 +1,7 @@
-WLINK 10.0a has forty completed paired CLI cases and two source-backed native
-unit cases. The acceptance ledger contains **1,214 application functions /
-135,114 unique original code bytes**. Paired CLI evidence covers **1,176 /
-131,579 bytes**; **38** further functions have source/static/native-unit
+WLINK 10.0a has forty-one completed paired CLI cases and two source-backed native
+unit cases. The acceptance ledger contains **1,217 application functions /
+135,328 unique original code bytes**. Paired CLI evidence covers **1,179 /
+131,793 bytes**; **38** further functions have source/static/native-unit
 qualification only, owning **3,536 bytes**. Those add **3,535** unique bytes
 because PermShrink shares one genuine RET with an already qualified CLI body.
 Unit-only evidence is not claimed as observed original CLI execution.
@@ -120,6 +120,7 @@ with manual data/explicit stack and a non-DLL LX virtual-device image.
 | `0040-os2-virtual-device` | Exit 0; exact 262-byte stdout, empty stderr, 1,644-byte image and 3,325-byte map |
 | `0041-resource-units` | Native-only typed resource assertions; no original execution/oracle claim |
 | `0042-cache-spill-units` | Native-only cache/dictionary/spill ownership assertions; no original execution/oracle claim |
+| `0043-stdin-overlay-trace` | Exit 0; exact 294-byte stdout, empty stderr, 10,395-byte MZ, 6,516-byte map and 48/32-byte overlays |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -147,7 +148,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,219 source-ready identities, their actual graph,
+The complete audit passes for 1,222 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -856,3 +857,36 @@ invocations took **16.486–56.239 ms**. No original application run or Wine
 fixture was needed. Authoring/analysis/diagnostics and the exact union ledger
 remain in scratch wlink-cache-spill-units; the case contains only case.c,
 direct.c and capture.bin.
+
+
+The stdin-overlay case supplies complete real directive lines through a regular
+stdin file with an empty command tail, reusing the genuine assembler/archive/
+WOVL-manager inputs. A trace of ovla.obj exercises the actual overlay-section
+CheckFileTrace callback; the original still intentionally excludes Root from
+that walk. OutPutPrompt and QReadStr preserve the device test, real reads,
+CR suppression, LF/NUL termination and EOF behavior. The valid redirected-file
+case does not claim console-device prompting. CheckFileTrace retains its actual
+16-bit 0x0400 module-trace flag and the older missing name-free edge, rather than
+importing the later source's graph. Three new CLI-qualified App bodies complete
+with 569 matching first entries and exact executable/overlay bytes, streams and
+status. Only the six established map-clock digit fields are excluded.
+
+The original rejects VERBOSE together with module tracing; the first failed
+input/output remains separately preserved. The valid baseline explicitly uses
+regular-file stdin and took **525.515 ms**. A full comparison then detected a
+wrong new field mask before acceptance: 4 affected the low byte, whereas the
+actual OR instruction updates the high byte of the status word. Correcting to
+0x0400 and reusing the retained original restored the genuine TraceSymList
+entry and complete output match. No synthetic entry, trace seeding or diagnostic
+original replay was used.
+
+The stdin-reader build/scoped check took **1.819 s / 389.590 ms**, and trace
+callback build/check **1.080 s / 380.922 ms**. The necessary field-width correction
+build took **1.554 s**. Final original capture took **1,140.877 ms** (owned
+execution **1,129.913 ms**); corrected native comparison took **33.751 ms**,
+split **19.130 / 6.612 / 8.009 ms** for setup/execution/checks. Final full
+build/regression/unit/audit took **1.920 s**, passing forty-one CLI cases, both
+unit cases and all 1,222 source-ready graph/ABI identities; its 86 native
+invocations took **16.409–56.571 ms**. Authoring, exact stdin inputs, failed
+comparisons and raw artifact files remain in scratch wlink-stdin-overlays.
+The new case contains only case.c and capture.bin.

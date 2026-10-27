@@ -174,3 +174,17 @@ unsigned char AddSymTrace( void )
     sym->info |= 0x0400;
     return 1;
 }
+
+void CheckFileTrace( section *sect )
+{
+    file_list *file;
+    if( CurrTrace->found ) return;
+    for( file = sect->files; file != 0; file = file->next_file ) {
+        if( stricmp( file->file->name, CurrTrace->u.name ) == 0 ) {
+            CurrTrace->found = 1;
+            /* Actual1994 body does not free the matching trace name. */
+            file->status |= 0x0400;
+            return;
+        }
+    }
+}

@@ -6091,6 +6091,21 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "OutPutPrompt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QReadStr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckFileTrace": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

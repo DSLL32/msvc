@@ -88,7 +88,7 @@ void ExecSystem( char *name ) { TRAP(); }
 
 
 
-void CheckFileTrace( section *sect ) { sect=sect; TRAP(); }
+
 
 
 
@@ -159,9 +159,8 @@ unsigned char ProcLanguage( void ) { TRAP(); return 0; }
 
 
 
-unsigned char QReadStr( int file, char *buff, unsigned len, char *name )
-{ file=file; buff=buff; len=len; name=name; TRAP(); return 0; }
-void OutPutPrompt( char *text ) { text=text; TRAP(); }
+
+
 
 
 

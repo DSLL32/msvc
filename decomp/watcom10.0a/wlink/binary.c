@@ -1040,9 +1040,11 @@ static const ReconFunction functions[] = {
 
     { .name = "strlwr", .entry_rva = 0x33a18, .definition = RECON_CRT, .original_symbol = "strlwr_" },
     { .name = "QReadStr", .entry_rva = 0x24f24, .definition = RECON_APP,
-      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "QReadStr", .original_symbol = "QReadStr_" },
+      .code = (const ReconExtent[]) { {0x24f24, 0x24f7e} }, .code_count = 1,
+      .implementation = RECON_IMPLEMENTED, .native_symbol = "QReadStr", .original_symbol = "QReadStr_" },
     { .name = "OutPutPrompt", .entry_rva = 0x14634, .definition = RECON_APP,
-      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "OutPutPrompt", .original_symbol = "OutPutPrompt_" },
+      .code = (const ReconExtent[]) { {0x14634, 0x1466a} }, .code_count = 1,
+      .implementation = RECON_IMPLEMENTED, .native_symbol = "OutPutPrompt", .original_symbol = "OutPutPrompt_" },
 
     { .name = "QFileSize", .entry_rva = 0x24eb4, .definition = RECON_APP,
       .code = (const ReconExtent[]) { {0x24eb4, 0x24ee5} }, .code_count = 1,
@@ -1789,7 +1791,8 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]) { {0x14ed8, 0x1506b} }, .code_count = 1,
       .implementation = RECON_IMPLEMENTED, .native_symbol = "FileName", .original_symbol = "FileName_" },
     { .name = "CheckFileTrace", .entry_rva = 0x2411c, .definition = RECON_APP,
-      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "CheckFileTrace", .original_symbol = "CheckFileTrace_" },
+      .code = (const ReconExtent[]) { {0x2411c, 0x24162} }, .code_count = 1,
+      .implementation = RECON_IMPLEMENTED, .native_symbol = "CheckFileTrace", .original_symbol = "CheckFileTrace_" },
     { .name = "CheckTraces", .entry_rva = 0x24070, .definition = RECON_APP,
       .code = (const ReconExtent[]) { {0x24070, 0x2411b} }, .code_count = 1,
       .implementation = RECON_IMPLEMENTED, .native_symbol = "CheckTraces", .original_symbol = "CheckTraces_" },

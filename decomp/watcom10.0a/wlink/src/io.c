@@ -282,3 +282,20 @@ void QDelete( char *name )
     if( remove( name ) == -1 && errno != ENOENT )
         LnkMsg( 0x330a, "12", name, strerror( errno ) );
 }
+
+unsigned char QReadStr( int file, char *buffer, unsigned size, char *name )
+{
+    unsigned char eof;
+    char ch;
+    eof = 0;
+    while( --size > 0 ) {
+        if( QRead( file, &ch, 1, name ) == 0 ) {
+            eof = 1;
+            break;
+        }
+        if( ch != '\r' ) *buffer++ = ch;
+        if( ch == '\n' ) break;
+    }
+    *buffer = 0;
+    return eof;
+}

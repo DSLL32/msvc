@@ -1082,3 +1082,9 @@ unsigned char CheckFence( void )
     }
     return GetToken( SEP_RCURLY, 0 );
 }
+
+void OutPutPrompt( char *text )
+{
+    if( QIsADevice( CmdFile->file ) )
+        QWrite( fileno(stdout), text, strlen(text), 0 );
+}
