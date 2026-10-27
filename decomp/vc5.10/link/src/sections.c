@@ -12,8 +12,7 @@ OutputSection *delay_import_section,*architecture_section,*ppc_loader_section;
 ContributionGroup *export_group,*debug_symbol_group,*debug_type_group;
 ContributionGroup *debug_precompiled_group,*debug_fixup_group;
 
-extern BYTE incremental_enabled;
-BYTE initialize_bss;
+extern BYTE incremental_enabled,small_section_alignment;
 char *__stdcall duplicate_link_string(const char *);
 MemoryArena *output_section_arena;
 MemoryArena *contribution_group_arena;
@@ -117,7 +116,7 @@ void __stdcall adjust_output_section_flags(DWORD *flags,const char *name,IMAGE_O
 {
     DWORD value=*flags & 0xfe0feff7;
     if (!strcmp(name,".debug")) value|=0x02000000;
-    if (initialize_bss && (value & 0x80)) {
+    if (small_section_alignment && (value & 0x80)) {
         value&=~0x80;
         value|=0x40;
     }

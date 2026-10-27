@@ -2376,7 +2376,29 @@ static int section_partition_order(void)
 
 extern void RECON_THISCALL native_layout_sections(LinkContext *,DWORD *,DWORD *,DWORD *)
     __asm__("_ZN11LinkContext14LayoutSectionsEPmS0_S0_");
-extern BYTE initialize_bss,pdb_enabled,incremental_enabled,mac_target;
+extern BYTE small_section_alignment,pdb_enabled,incremental_enabled,mac_target;
+static int small_alignment_owner(void)
+{
+    IMAGE_OPTIONAL_HEADER header;
+    DWORD flags;
+    BYTE old=small_section_alignment;
+    int pass;
+    memset(&header,0,sizeof(header));
+    header.Subsystem=IMAGE_SUBSYSTEM_WINDOWS_GUI;
+    small_section_alignment=0;
+    flags=IMAGE_SCN_CNT_UNINITIALIZED_DATA|IMAGE_SCN_MEM_READ|IMAGE_SCN_MEM_WRITE;
+    adjust_output_section_flags(&flags,".bss",&header);
+    pass=(flags & (IMAGE_SCN_CNT_INITIALIZED_DATA|IMAGE_SCN_CNT_UNINITIALIZED_DATA))==
+        IMAGE_SCN_CNT_UNINITIALIZED_DATA;
+    small_section_alignment=1;
+    flags=IMAGE_SCN_CNT_UNINITIALIZED_DATA|IMAGE_SCN_MEM_READ|IMAGE_SCN_MEM_WRITE;
+    adjust_output_section_flags(&flags,".bss",&header);
+    pass=pass && (flags & (IMAGE_SCN_CNT_INITIALIZED_DATA|IMAGE_SCN_CNT_UNINITIALIZED_DATA))==
+        IMAGE_SCN_CNT_INITIALIZED_DATA;
+    small_section_alignment=old;
+    return pass;
+}
+
 static int section_layout_offsets(void)
 {
     LinkContext context;
@@ -2385,7 +2407,7 @@ static int section_layout_offsets(void)
     Contribution contributions[5];
     OutputSection *old_read_only=read_only_section;
     BYTE old_pdb=pdb_enabled,old_incremental=incremental_enabled;
-    BYTE old_mac=mac_target,old_bss=initialize_bss;
+    BYTE old_mac=mac_target,old_bss=small_section_alignment;
     DWORD rva=0x1000,file=0x200,lines=0;
     unsigned i;
     int pass;
@@ -2424,7 +2446,7 @@ static int section_layout_offsets(void)
     contributions[3].raw_size=11;
     contributions[4].raw_size=17;
     read_only_section=sections+1;
-    pdb_enabled=incremental_enabled=mac_target=initialize_bss=0;
+    pdb_enabled=incremental_enabled=mac_target=small_section_alignment=0;
     native_layout_sections(&context,&rva,&file,&lines);
     pass=rva==0x4000 && file==0x600 && !lines &&
         context.optional_header.BaseOfData==0x2000 &&
@@ -2443,7 +2465,7 @@ static int section_layout_offsets(void)
         !sections[2].file_offset && !sections[2].initialized_file_size;
     read_only_section=old_read_only;
     pdb_enabled=old_pdb; incremental_enabled=old_incremental;
-    mac_target=old_mac; initialize_bss=old_bss;
+    mac_target=old_mac; small_section_alignment=old_bss;
     return pass;
 }
 
@@ -2688,6 +2710,7 @@ const ReconTest hello_tests[]={
     {"import-hint-alignment",1,import_hint_alignment},
     {"mapped-output-cursor",1,mapped_output_cursor},
     {"section-layout-offsets",1,section_layout_offsets},
+    {"small-alignment-owner",1,small_alignment_owner},
     {"section-partition-order",1,section_partition_order},
     {"fold-input-cache",1,fold_input_cache},
     {"fold-recursion-marker",1,fold_recursion_marker},

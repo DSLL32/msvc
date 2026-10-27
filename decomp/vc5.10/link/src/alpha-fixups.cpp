@@ -24,7 +24,7 @@ void __stdcall count_relocation_error(LinkContext *context) { __asm { int 3 } }
 DWORD __stdcall find_alpha_branch_target(LinkContext *context,DWORD site,
     DWORD absolute,DWORD section,DWORD value) { __asm { int 3 } return 0; }
 }
-BYTE RECON_THISCALL LinkAuxiliaryData::RecordFixup(DWORD value,WORD type,
+BYTE RECON_THISCALL LinkAuxiliaryData::RecordFixup(DWORD virtual_address,WORD type,
     Contribution *contribution,DWORD input_rva,SHORT section)
 { __asm { int 3 } return 0; }
 
@@ -105,7 +105,7 @@ extern "C" void __stdcall process_alpha_relocations(Contribution *contribution,
         case IMAGE_REL_ALPHA_REFLONG:
             *(DWORD *)fixup+=absolute_value;
             if(!absolute) {
-                if(small_data)context->auxiliary->RecordFixup(*(DWORD *)fixup,3,contribution,input_rva,section);
+                if(small_data)context->auxiliary->RecordFixup(relocation->VirtualAddress,3,contribution,input_rva,section);
                 else if(!fixed)APPEND_BASE_RELOCATION(3,site,section,0);
             }
             break;

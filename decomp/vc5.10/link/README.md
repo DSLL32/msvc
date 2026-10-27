@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-525 application functions / 186,568 original code bytes are reconstructed
-(44.98% of the 414,810-byte whole `.text` extent, which includes CRT and text
+529 application functions / 187,803 original code bytes are reconstructed
+(45.27% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 41 pending bodies with known extents totaling 4,624 bytes and
-152 entries whose body extents remain unknown; this is not a complete non-CRT
+150 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all twenty-two cached native cases and their narrow checks;
+`make -j4 check unit` runs all twenty-three cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-538-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 520 ordinary application bodies and six CRT bodies. Seven import
+542-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 524 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The five genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -478,3 +478,37 @@ twenty-two fixtures, 538 graph vertices, 526 return contracts and the five
 existing C++ EH-owner checks. Raw artifacts and failed clock comparisons are
 retained in scratch. Batch timing is incremental, not a clean-build or
 isolated audit benchmark.
+
+
+The ARM Windows CE resource-only DLL case uses genuine original RC/CVTRES
+output with three-language strings, version information and a named payload,
+COFF debug and a map. Both sides exit 0 with 232 application entries and
+matching 4,096-byte DLL and 514-byte map. The masked result also matches the
+retained untouched master outside the same clock fields. Only the COFF and
+two debug-directory TimeDateStamp DWORDs, and the map hex/ctime rendering,
+are normalized; all resource, relocation, section-header, padding and inventory
+bytes remain strict. The reached /ALIGN warning uses its authentic resource.
+
+Four bodies / 1,235 original code bytes recover ARM initialization,
+classification, relocation reading and processing with their actual stack
+cleanups and checksum sites. Private relocation names follow the encountered
+target table; this period's shipped SDK does not declare ARM relocation constants.
+The resource ADDR32NB route is qualified, without ARM instruction execution,
+branch encoding, small-data or incremental-domain claims. Pending auxiliary
+and debug-fixup children retain genuine named entry traps.
+
+The case repaired a split global with zero credit: original 47f100 is one
+small-section-alignment BYTE written by backend initialization and read by
+section layout and BSS flag conversion. Its formerly separate source owners
+caused a real .reloc VirtualSize mismatch; the failed raw output is retained.
+One shared owner, a distinct-state unit and the unchanged-original native
+comparison close that repair. Cold Alpha/MIPS auxiliary calls also now forward
+the actual relocation VirtualAddress, rather than patched payload data; earlier
+resource observations did not reach that small-data domain.
+
+The completion original took 1,114.4 ms; native comparison took 16.3 ms
+(10.2 ms setup, 3.2 ms execution, 2.9 ms checks). The single case-end parallel
+regression/unit/original-build/full-audit batch passed in 3.75 s, covering
+twenty-three fixtures, 542 graph vertices, 530 return contracts and the five
+existing C++ EH-owner checks. Raw artifacts and failed comparisons remain in
+scratch. These are incremental timings, not clean-build or isolated audit costs.

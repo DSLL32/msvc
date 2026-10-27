@@ -92,7 +92,7 @@ extern "C" void __stdcall process_mips_relocations(Contribution *contribution,
         case IMAGE_REL_MIPS_REFWORD: /* REFWORD */
             *(DWORD *)fixup+=absolute_value;
             if(!absolute) {
-                if(small_data)context->auxiliary->RecordFixup(*(DWORD *)fixup,3,contribution,input_rva,section);
+                if(small_data)context->auxiliary->RecordFixup(relocation->VirtualAddress,3,contribution,input_rva,section);
                 else if(!fixed)APPEND_BASE_RELOCATION(3,site,section,0);
             }
             break;

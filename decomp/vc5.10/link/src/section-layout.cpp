@@ -11,7 +11,7 @@
 #include <recon.h>
 
 extern "C" {
-extern BYTE pdb_enabled,mac_target,incremental_enabled,initialize_bss;
+extern BYTE pdb_enabled,mac_target,incremental_enabled,small_section_alignment;
 extern BYTE no_base_relocations,large_alpha_image,large_ppc_image;
 extern OutputModule *output_module;
 extern OutputSection *relocation_section;
@@ -62,7 +62,7 @@ void RECON_THISCALL LinkContext::LayoutSections(DWORD *rva,DWORD *file_offset,DW
             DWORD relocation_count=optional_header.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size;
             relocation_section->raw_size=relocation_count*2;
             if(pages>relocation_count)pages=relocation_count;
-            if(initialize_bss && optional_header.BaseOfCode<0x1000)++pages;
+            if(small_section_alignment && optional_header.BaseOfCode<0x1000)++pages;
             relocation_section->raw_size+=pages*10;
             if(options.new_relocations)
                 relocation_section->raw_size+=file_header.NumberOfSections*pages*2;
@@ -158,7 +158,7 @@ void RECON_THISCALL LinkContext::LayoutSections(DWORD *rva,DWORD *file_offset,DW
                 cursor+=contribution->raw_size;
                 address+=contribution->raw_size;
                 section_size+=contribution->raw_size;
-                if(initialize_bss || (contribution->characteristics & 0x1e0)!=0x80)
+                if(small_section_alignment || (contribution->characteristics & 0x1e0)!=0x80)
                     initialized_end=address;
                 if(options.debug_level==2 || options.debug_level==3) {
                     WORD lines=contribution->module==output_module ? 0 : contribution->line_number_count;
