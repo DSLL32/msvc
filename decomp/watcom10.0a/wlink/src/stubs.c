@@ -162,8 +162,8 @@ unsigned char GetWlibImports( void ) { TRAP(); return 0; }
 
 unsigned char ProcFixedLib( void ) { TRAP(); return 0; }
 unsigned char ProcNoVector( void ) { TRAP(); return 0; }
-unsigned char ProcVector( void ) { TRAP(); return 0; }
-unsigned char ProcForceVector( void ) { TRAP(); return 0; }
+
+
 
 unsigned char ProcNewSegment( void ) { TRAP(); return 0; }
 
@@ -234,11 +234,11 @@ unsigned char ProcExportsDBI( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcArea( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcDynamic( void ) { TRAP(); return 0; }
+
+
 
 
 unsigned char ProcInternalRelocs( void ) { TRAP(); return 0; }
@@ -252,7 +252,7 @@ unsigned char ProcNameLen( void ) { TRAP(); return 0; }
 unsigned char ProcNoCache( void ) { TRAP(); return 0; }
 unsigned char ProcNoCaseExact( void ) { TRAP(); return 0; }
 
-unsigned char ProcNoIndirect( void ) { TRAP(); return 0; }
+
 unsigned char ProcNoRedefs( void ) { TRAP(); return 0; }
 unsigned char ProcNoRelocs( void ) { TRAP(); return 0; }
 unsigned char ProcNone( void ) { TRAP(); return 0; }
@@ -571,7 +571,6 @@ unsigned char ProcFixed( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcAutoSection( void ) { TRAP(); return 0; }
 
 
 
@@ -579,7 +578,8 @@ unsigned char ProcAutoSection( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcInto( void ) { TRAP(); return 0; }
+
+
 
 
 
@@ -692,7 +692,3 @@ void WritePharSimple( unsigned long start ) { TRAP(); }
 unsigned char ProcELFDLL( void ) { TRAP(); return 0; }
 
 unsigned char ProcOS2Alignment( void ) { TRAP(); return 0; }
-
-
-
-int SymAddrCompare( const void *a, const void *b ) { TRAP(); return 0; }

@@ -216,3 +216,79 @@ unsigned char ProcCom( void )
     Extension = 12;
     return 1;
 }
+
+unsigned char ProcDynamic( void )
+{
+    LinkFlags |= 0x0400UL;
+    return 1;
+}
+
+extern unsigned short AreaSize;
+unsigned char ProcArea( void )
+{
+    unsigned long value;
+    unsigned char ret;
+
+    ret = GetLong( &value );
+    if( ret ) AreaSize = (value + 15) >> 4;
+    return ret;
+}
+
+unsigned char ProcNoIndirect( void )
+{
+    LinkFlags |= 0x0080UL;
+    return 1;
+}
+
+unsigned char ProcVector( void )
+{
+    return ProcArgList( AddVector, 1 );
+}
+
+unsigned char AddVector( void )
+{
+    Vectorize( SymXOp( 0x12, Token.this, Token.len ) );
+    return 1;
+}
+
+unsigned char ProcForceVector( void )
+{
+    return ProcArgList( AddForceVector, 1 );
+}
+
+unsigned char AddForceVector( void )
+{
+    symbol *sym;
+
+    sym = SymXOp( 0x12, Token.this, Token.len );
+    Vectorize( sym );
+    sym->u.value |= 0x40000000UL;
+    return 1;
+}
+
+unsigned char ProcInto( void )
+{
+    unsigned char ret;
+
+    ret = GetToken( SEP_NO, TOK_INCLUDE_DOT | TOK_IS_FILENAME );
+    if( ret ) {
+        CurrSect->outfile = NewOutFile( FileName( Token.this, Token.len, 5, 0 ) );
+    } else {
+        LnkMsg( 0x7a21, "s", "into" );
+    }
+    return ret;
+}
+
+unsigned char ProcAutoSection( void )
+{
+    if( OvlLevel == 0 ) {
+        LnkMsg( 0x7a48, 0 );
+    } else {
+        MakeNewSection();
+        ProcOne( SectOptions, SEP_NO, 0 );
+        CmdFlags |= 0x0300;
+        while( ProcOne( Directives, SEP_NO, 0 ) ) {}
+        CmdFlags &= ~0x0100;
+    }
+    return 1;
+}

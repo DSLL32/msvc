@@ -5311,6 +5311,56 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcDynamic": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcArea": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNoIndirect": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcForceVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddForceVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcInto": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcAutoSection": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SymAddrCompare": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

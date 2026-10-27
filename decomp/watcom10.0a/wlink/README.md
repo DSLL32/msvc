@@ -1,5 +1,5 @@
-WLINK 10.0a has sixteen completed native regression cases. The acceptance ledger
-contains **1,059 application functions / 123,570 unique original code bytes**.
+WLINK 10.0a has seventeen completed native regression cases. The acceptance ledger
+contains **1,069 application functions / 124,038 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -37,6 +37,8 @@ The fifteenth performs a self-contained PE DLL ordinal upgrade from genuine
 USE32 OMF code/data, using old PE header mode and the native subsystem.
 The sixteenth combines C++ virtual dispatch, templates, array types, COMDAT
 dead-code removal, selected Watcom debug records and an alphabetically sorted map.
+The seventeenth links dynamic DOS overlays with external section files, automatic
+sections, explicit area size, indirect-call policy and forced vectors.
 
 | Case | Result |
 | --- | --- |
@@ -56,6 +58,7 @@ dead-code removal, selected Watcom debug records and an alphabetically sorted ma
 | `0013-os2-upgrade` | Exit 0; exact 267-byte stdout, empty stderr, 5,113-byte LX DLL and 4,268-byte map |
 | `0015-pe-ordinal-upgrade` | Exit 0; exact 232-byte stdout, empty stderr, 11,776-byte PE DLL and 3,038-byte map |
 | `0016-cpp-vf` | Exit 0; exact 253-byte stdout, empty stderr, 46,257-byte PE DLL and 60,582-byte map |
+| `0017-dynamic-overlay` | Exit 0; exact 254-byte stdout, empty stderr, 10,395-byte MZ, 48/32-byte overlays and 9,126-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -83,7 +86,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,063 source-ready identities, their actual graph,
+The complete audit passes for 1,073 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -289,3 +292,23 @@ setup/execution/checks. The successful baseline took **519.543 ms**; main/worker
 helper compilation and archive production took **497.620 / 537.919 / 656.351 /
 542.296 ms**. All raw outputs, producer inputs and failed comparisons remain in
 scratch under wlink-cpp-vf; the case contains only source and capture data.
+
+
+The dynamic DOS overlay case matches 573 first entries, every MZ/external-overlay
+byte and all map bytes except the six established clock digit fields. Genuine
+USE16 modules, an archive and the shipped overlay manager exercise dynamic area
+allocation, explicit 64 KiB area size, NOINDIRECT, VECTOR/FORCEVECTOR, automatic
+section parsing and separate INTO files. The global map uses the authentic
+unsigned segment/offset comparator. This complements the prior standard-overlay
+workload; it does not qualify the separate short-vector emitter or unexecuted
+external-file reopen helper.
+
+The final parallel build/regression/unit/audit batch took **1.361 s**. All seventeen
+cases and 1,073 source-ready graph/ABI identities pass. The 34 native regression
+runs took **17.798–56.888 ms**. The genuine final capture command took
+**1,994.917 ms** (owned target **1,978.188 ms**); its native pair took **29.469 ms**.
+The clock-derived replay reused that capture and took **32.157 ms**, split
+**17.900 / 6.879 / 7.379 ms** for setup/execution/checks. The clean original baseline
+took **418.469 ms**, reusing previously captured genuine objects/archive/manager.
+Producer inputs and complete raw artifacts remain in scratch under
+wlink-dynamic-overlay; the numbered case remains source plus capture only.

@@ -303,6 +303,8 @@ extern int SymAddrCompare( const void *a, const void *b );
 extern int __unmangled_name( const char *name, unsigned len, const char **base, unsigned *size );
 extern unsigned char_to_digit( char c );
 extern unsigned demangle_recursive( const char *input, char *output, unsigned size );
+extern unsigned char AddVector( void );
+extern unsigned char AddForceVector( void );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

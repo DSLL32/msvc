@@ -641,3 +641,16 @@ void WriteSymArray( symbol **syms, unsigned num )
         --num;
     } while( num > 0 );
 }
+
+int SymAddrCompare( const void *a, const void *b )
+{
+    symbol *s1, *s2;
+
+    s1 = *(symbol **)a;
+    s2 = *(symbol **)b;
+    if( s1->addr.seg < s2->addr.seg ) return -1;
+    if( s1->addr.seg > s2->addr.seg ) return 1;
+    if( s1->addr.off < s2->addr.off ) return -1;
+    if( s1->addr.off > s2->addr.off ) return 1;
+    return 0;
+}
