@@ -5831,6 +5831,16 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcRunOS2": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CleanCachedHandles": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

@@ -949,3 +949,9 @@ unsigned char ProcRunPosix( void )
     FmtData.u.pe.subsystem = 7;
     return 1;
 }
+
+unsigned char ProcRunOS2( void )
+{
+    FmtData.u.pe.subsystem = 5;
+    return 1;
+}

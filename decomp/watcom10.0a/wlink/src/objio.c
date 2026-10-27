@@ -181,3 +181,17 @@ unsigned long CalcAlign( unsigned long loc, unsigned short align )
     if( modulus != 0 ) modulus = align - modulus;
     return modulus;
 }
+
+unsigned char CleanCachedHandles( void )
+{
+    infilelist *file;
+
+    for( file = CachedFiles; file != 0; file = file->next ) {
+        if( !(file->flags & 8) && file->handle != -1 ) break;
+    }
+    if( file == 0 ) return 0;
+    QClose( file->handle, file->name );
+    file->currpos = 0;
+    file->handle = -1;
+    return 1;
+}

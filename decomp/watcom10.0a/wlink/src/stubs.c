@@ -85,7 +85,6 @@ unsigned char ProcNovellHelp( void ) { TRAP(); return 0; }
 unsigned char ProcQNXHelp( void ) { TRAP(); return 0; }
 unsigned char ProcELFHelp( void ) { TRAP(); return 0; }
 
-unsigned char CleanCachedHandles( void ) { TRAP(); return 0; }
 
 
 
@@ -206,7 +205,6 @@ unsigned char ProcVirtDevice( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcRunOS2( void ) { TRAP(); return 0; }
 
 
 

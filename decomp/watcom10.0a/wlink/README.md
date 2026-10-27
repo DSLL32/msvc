@@ -1,5 +1,5 @@
-WLINK 10.0a has twenty-nine completed native regression cases. The acceptance ledger
-contains **1,163 application functions / 131,038 unique original code bytes**.
+WLINK 10.0a has thirty completed native regression cases. The acceptance ledger
+contains **1,165 application functions / 131,124 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -65,6 +65,8 @@ The twenty-eighth combines Windows NE implicit-stack selection, reserved BSS
 boundaries, brace lists and real unordered16/32-bit line metadata.
 The twenty-ninth combines old ELF DLL policy, dead-code selection and DWARF
 line accounting with real imports/exports and a dependency module.
+The thirtieth uses seventeen genuine OMF files to exercise ordinary cache-handle
+cleanup in a PE OS/2-character-subsystem link.
 
 | Case | Result |
 | --- | --- |
@@ -97,6 +99,7 @@ line accounting with real imports/exports and a dependency module.
 | `0027-qnx-float` | Exit 0; empty stdout/stderr, 670-byte QNX16 image and 3,658-byte map |
 | `0028-ne-lines` | Exit 0; exact 248-byte stdout, empty stderr, 771-byte NE executable and 3,212-byte map |
 | `0029-elf-dll` | Exit 0; exact 255-byte stdout, empty stderr, 32,848-byte ELF image and 3,126-byte map |
+| `0030-pe-modules` | Exit 0; exact 222-byte stdout, empty stderr, 4,576-byte PE and 4,290-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -581,7 +584,7 @@ The export records are genuine WCC386 output and the import member is produced
 by WLIB. This does not claim compiler-produced V/P/R records.
 
 Only the six established map-clock fields and the outer VeRsIoN# year/month/day
-DWORDs227..239 are excluded; the actual signature is at207. All other image,
+DWORDs 227..239 are excluded; the actual signature is at 207. All other image,
 debug, relocation, symbol and map bytes remain strict. The existing bounded
 module-tail zero correction needs no additional comparison exclusion here.
 The final parallel build/regression/unit/audit batch took **1.588 s**; all
@@ -593,8 +596,8 @@ regression runs took **17.825–58.409 ms**. Final original capture took **1,428
 The successful original baseline took **506.467 ms**. C compilation/import
 production took **603.171 / 599.941 ms**; the real vtable archive took
 **299.910 ms**. Earlier missing-real-vtable baselines remain failed in scratch.
-A long module name also exposed the original fixed13-byte NLM-name storage; the
-valid workload uses cond.dsk. The hyphenated WLIB member invocation stalled and was stopped after48.824 s;
+A long module name also exposed the original fixed 13-byte NLM-name storage; the
+valid workload uses cond.dsk. The hyphenated WLIB member invocation stalled and was stopped after 48.824 s;
 the distinct realvt.obj producer
 then succeeded. All authored source, record manifests, commands, raw artifacts
 and failed setup results remain in scratch wlink-omf-conditional. The numbered
@@ -615,11 +618,11 @@ The aliased constant-zero ORL member/provider branch remains trapped/unqualified
 
 The retained original exposed a previously guarded output defect: with only
 eight initialized data bytes, no eligible data group initializes rw_end.verify.
-The original nevertheless emits that stack word in its type7 six-byte payload.
+The original nevertheless emits that stack word in its type 7 six-byte payload.
 Both reconstruction builds now emit zero for only that undefined field; normal
 initialized verification still uses the original XORffff. Comparison excludes
-only the structurally validated original bytes88..90, plus the six established
-map-clock fields. The type7 header, following signature DWORD, all floating
+only the structurally validated original bytes 88..90, plus the six established
+map-clock fields. The type 7 header, following signature DWORD, all floating
 relocation records and every other executable/debug/map byte remain strict.
 No extra original capture or input padding was used to correct the mismatch.
 
@@ -640,9 +643,9 @@ numbered case contains only source and capture data.
 The NE-line case matches 514 first entries and every executable/debug byte.
 Genuine WASM startup/archive inputs define the reserved BSS bounds in the entry
 module. Explicitly authored OMF LINNUM16/32 records name real MOV instruction
-offsets0/4/8 in valid USE16 segments, deliberately arrive out of order, and
-produce the exact sorted line tables. The header uses autodata/SS2 with an
-explicit4096-byte stack and no physical STACK input segment. Five new bodies
+offsets 0/4/8 in valid USE16 segments, deliberately arrive out of order, and
+produce the exact sorted line tables. The header uses autodata/SS 2 with an
+explicit 4096-byte stack and no physical STACK input segment. Five new bodies
 cover brace fences, startup-module BSS ownership, implicit-stack policy and
 both line comparators. CheckFence/EatWhite share only their actual POP EDX/RET;
 CheckBSSInStart/DefABSSSym share only POP ECX/POP EBX/RET. Both identities/edges
@@ -659,19 +662,48 @@ baseline took **666.892 ms**; assembly/archive production took **445.609 /
 remain in scratch wlink-ne-lines; only source/capture data are in the case.
 
 
-The ELF-DLL case matches507 first entries and complete output, qualifying
+The ELF-DLL case matches 507 first entries and complete output, qualifying
 ProcELFDLL and the real saved-line-size addition in DwarfAddModLines under
 dead-code selection. Inputs reuse genuine USE32 assembly objects and an archive
 with line records, imports/exports and a dependency module. The old writer
-announces a DLL but still emits ET_EXEC2; that actual1994 behavior remains strict,
+announces a DLL but still emits ET_EXEC 2; that actual 1994 behavior remains strict,
 without a later shared-object ABI claim. Only six known map-clock fields are
 excluded; every ELF/code/relocation/debug byte is checked.
 
 Full parallel build/regression/unit/audit took **2.670 s**; all twenty-nine cases
-and1,167 source-ready graph/ABI identities pass. The58 native regression runs
+and 1,167 source-ready graph/ABI identities pass. The 58 native regression runs
 took **18.471–56.220 ms**. Final original capture took **1,173.228 ms** (owned
 target **1,159.992 ms**); clock-adjusted replay took **34.228 ms**, split
 **18.032 / 8.877 / 7.319 ms** for setup/execution/checks. The clean original
 baseline took **580.618 ms**, with existing producer bytes reused rather than
 recompiled. Authoring/raw diagnostics remain in scratch wlink-elf-dll; the case
 contains only source and capture data.
+
+
+The many-module PE case matches 501 first entries and complete output. Sixteen
+genuine assembler functions are called by startup and referenced by a real
+data pointer table. Opening seventeen input objects crosses the normal twelve-
+handle threshold: CleanCachedHandles closes an inactive cached handle, clears
+its saved position and leaves it ready for real reopening. No fd/malloc limits,
+private allocator state or captured API responses force that outcome. The
+subsystem is the actual OS/2 character value 5; the 40-byte relocation directory
+remains present. Two new application bodies are qualified.
+
+The old runtime handler accepts `runtime os2`, without the later version suffix.
+There is no English entry in its language table, and the inherited NORELOCS
+option does not reach the PE-only helper; neither unsupported feature is claimed.
+Only the actual four-byte COFF timestamp at e_lfanew 112+8=120..124 and six map-
+clock fields are excluded. All other image/debug/relocation bytes are strict.
+
+Full parallel build/regression/unit/audit took **2.535 s**; all thirty cases and
+1,169 source-ready graph/ABI identities pass. The 60 native runs took
+**17.695–58.539 ms**. Final original capture took **1,818.211 ms** (owned target
+**1,499.248 ms**); final clock-adjusted replay reused it and took **26.952 ms**,
+split **15.406 / 5.048 / 6.497 ms** for setup/execution/checks. The clean baseline
+took **576.446 ms**. Sixteen helper assemblies took **170.146–382.753 ms** each
+with four producer jobs; main took **655.324 ms** after splitting declarations
+and pointer entries into ordinary short lines. The earlier long-line assembler
+invocation timed out after 30 s and its owned process was killed/waited; the
+failed runtime-version baseline and first raw timestamp mismatch are preserved.
+Authoring, commands and raw artifacts remain in scratch wlink-pe-modules; the
+case contains only source and capture data.
