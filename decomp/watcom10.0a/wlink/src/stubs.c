@@ -176,16 +176,6 @@ void OutPutPrompt( char *text ) { text=text; TRAP(); }
 
 
 
-unsigned char ProcFullScreen( void ) { TRAP(); return 0; }
-
-
-
-
-
-
-
-
-unsigned char ProcVirtDevice( void ) { TRAP(); return 0; }
 
 
 
@@ -233,7 +223,17 @@ unsigned char ProcVirtDevice( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcNone( void ) { TRAP(); return 0; }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

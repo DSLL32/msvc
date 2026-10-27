@@ -5881,6 +5881,21 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcFullScreen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNone": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcVirtDevice": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

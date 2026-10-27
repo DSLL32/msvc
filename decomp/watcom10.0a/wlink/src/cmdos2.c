@@ -955,3 +955,23 @@ unsigned char ProcRunOS2( void )
     FmtData.u.pe.subsystem = 5;
     return 1;
 }
+
+unsigned char ProcFullScreen( void )
+{
+    FmtData.u.os2.flags |= 0x4000;
+    return 1;
+}
+
+unsigned char ProcNone( void )
+{
+    if( CmdFlags & 0x20 ) LnkMsg( 0x7a30, 0 );
+    FmtData.u.os2.flags &= ~3;
+    CmdFlags |= 0x20;
+    return 1;
+}
+
+unsigned char ProcVirtDevice( void )
+{
+    FmtData.u.os2.flags |= 0x0800;
+    return 1;
+}

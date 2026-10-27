@@ -1,5 +1,5 @@
-WLINK 10.0a has thirty-eight completed native regression cases. The acceptance ledger
-contains **1,173 application functions / 131,484 unique original code bytes**.
+WLINK 10.0a has forty completed native regression cases. The acceptance ledger
+contains **1,176 application functions / 131,579 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -68,7 +68,8 @@ line accounting with real imports/exports and a dependency module.
 The thirtieth uses seventeen genuine OMF files to exercise ordinary cache-handle
 cleanup in a PE OS/2-character-subsystem link.
 Eight further cases cover the terminal format-help selectors, one actual
-invocation per format.
+invocation per format. Two OS/2 policy cases add a fullscreen NE executable
+with manual data/explicit stack and a non-DLL LX virtual-device image.
 
 | Case | Result |
 | --- | --- |
@@ -110,6 +111,8 @@ invocation per format.
 | `0036-help-novell` | Exit 0; exact 2,783-byte stdout, empty stderr, no artifacts |
 | `0037-help-qnx` | Exit 0; exact 2,502-byte stdout, empty stderr, no artifacts |
 | `0038-help-elf` | Exit 0; exact 2,270-byte stdout, empty stderr, no artifacts |
+| `0039-os2-fullscreen` | Exit 0; exact 246-byte stdout, empty stderr, 615-byte image and 2,983-byte map |
+| `0040-os2-virtual-device` | Exit 0; exact 262-byte stdout, empty stderr, 1,644-byte image and 3,325-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -737,3 +740,29 @@ artifacts and commands remain in scratch wlink-format-help. Only the actual
 selector invoked to completion gains ledger credit; the seven other prepared
 wrappers remained explicitly unaccepted until their own comparisons passed.
 All eight case folders contain only source and capture data.
+
+
+The paired OS/2 policy batch qualifies fullscreen, NOAUTODATA and virtual-device
+handlers through separate genuine invocations. The NE executable supplies its own
+DGROUP setup, explicit 4,096-byte stack, a real archive helper and named far
+DOSCALLS import. The emitted NE header has no automatic data segment. The LX
+non-DLL virtual-device variant preserves the existing real object/archive and
+relocation workload. These are linker-output tests; neither emitted OS/2 image
+is executed. They match 526 and 547 first entries respectively, complete executable
+bytes, streams and status. Only the six established map-clock digit fields are
+excluded; no new resource-reader owner or trace exception is introduced.
+
+The necessary final family build took **1.506 s**, its scoped graph/ABI check
+**352.670 ms**. The complete forty-case regression/unit/audit pass took
+**1.826 s**, with all 1,180 source-ready graph/ABI identities passing; its 80
+native runs took **17.799–56.236 ms**. Final original captures took
+**1,914.190 / 2,084.880 ms** (owned execution **1,899.847 / 2,069.726 ms**).
+Clock-adjusted native replays reused those originals and took **28.723 / 29.675 ms**,
+split **17.360 / 4.824 / 6.537 ms** and **17.774 / 4.772 / 7.128 ms** for
+setup/execution/checks. The fullscreen assembly took **662.561 ms**; clean original
+baselines took **622.109 / 483.564 ms**. Earlier exact-clock regression failures
+and untouched originals remain in scratch wlink-os2-fullscreen, alongside the
+explicit offline comparison derivations. The intermediate family ledger was
+corrected to exclude the prepared virtual-device body until its separate actual
+execution passed; no original observation was relabeled. Both new case folders
+contain only source and capture data.
