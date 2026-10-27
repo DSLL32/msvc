@@ -3533,11 +3533,11 @@
             [
               {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1795
+                "offset": 1801
               },
               {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1909
+                "offset": 1915
               }
             ]
           ],
@@ -3545,88 +3545,88 @@
             {
               "site": {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 719
+                "offset": 725
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 726
+                  "offset": 732
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 735
+                  "offset": 741
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 744
+                  "offset": 750
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 753
+                  "offset": 759
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 753
+                  "offset": 759
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 760
+                  "offset": 766
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1208
+                "offset": 1214
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1337
+                  "offset": 1343
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1374
+                  "offset": 1380
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1411
+                  "offset": 1417
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1448
+                  "offset": 1454
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1281
+                "offset": 1287
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1499
+                  "offset": 1505
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1518
+                  "offset": 1524
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1531
+                  "offset": 1537
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1548
+                  "offset": 1554
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1564
+                  "offset": 1570
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1579
+                  "offset": 1585
                 }
               ]
             }
@@ -6654,11 +6654,11 @@
             [
               {
                 "rebuilt_symbol": "_parse_assembly_statements",
-                "offset": 3392
+                "offset": 3446
               },
               {
                 "rebuilt_symbol": "_parse_assembly_statements",
-                "offset": 3692
+                "offset": 3746
               }
             ]
           ],
@@ -6763,23 +6763,23 @@
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 1897
+                  "offset": 1899
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2035
+                  "offset": 2037
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2085
+                  "offset": 2087
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2173
+                  "offset": 2177
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2085
+                  "offset": 2087
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
@@ -6787,115 +6787,115 @@
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2085
+                  "offset": 2087
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2203
+                  "offset": 2207
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2220
+                  "offset": 2224
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2251
+                  "offset": 2255
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2283
+                  "offset": 2287
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2317
+                  "offset": 2321
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2415
+                  "offset": 2419
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2449
+                  "offset": 2477
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2499
+                  "offset": 2527
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2552
+                  "offset": 2580
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2602
+                  "offset": 2630
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2627
+                  "offset": 2655
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2700
+                  "offset": 2728
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2733
+                  "offset": 2761
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2757
+                  "offset": 2785
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2782
+                  "offset": 2810
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2815
+                  "offset": 2843
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2874
+                  "offset": 2928
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2943
+                  "offset": 2997
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 3077
+                  "offset": 3131
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 3129
+                  "offset": 3183
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 3231
+                  "offset": 3285
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 3288
-                },
-                {
-                  "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 3311
-                },
-                {
-                  "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 3288
-                },
-                {
-                  "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 3311
-                },
-                {
-                  "rebuilt_symbol": "_parse_assembly_statements",
-                  "offset": 2085
+                  "offset": 3342
                 },
                 {
                   "rebuilt_symbol": "_parse_assembly_statements",
                   "offset": 3365
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 3342
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 3365
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 2087
+                },
+                {
+                  "rebuilt_symbol": "_parse_assembly_statements",
+                  "offset": 3419
                 }
               ]
             }
@@ -7026,11 +7026,11 @@
             [
               {
                 "rebuilt_symbol": "_validate_assembly_operand_forms",
-                "offset": 3184
+                "offset": 3906
               },
               {
                 "rebuilt_symbol": "_validate_assembly_operand_forms",
-                "offset": 3297
+                "offset": 4019
               }
             ]
           ],
@@ -7038,76 +7038,76 @@
             {
               "site": {
                 "rebuilt_symbol": "_validate_assembly_operand_forms",
-                "offset": 1019
+                "offset": 1477
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 1026
+                  "offset": 1484
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 1126
+                  "offset": 1584
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 1404
+                  "offset": 1862
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 1452
+                  "offset": 1910
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 1491
+                  "offset": 1949
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 1782
+                  "offset": 2300
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 1836
+                  "offset": 2354
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 1871
+                  "offset": 2389
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 1944
+                  "offset": 2462
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 2073
+                  "offset": 2621
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 2095
+                  "offset": 2643
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 2152
+                  "offset": 2700
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 2562
+                  "offset": 3204
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 2626
+                  "offset": 3268
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 2791
+                  "offset": 3433
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 3005
+                  "offset": 3687
                 },
                 {
                   "rebuilt_symbol": "_validate_assembly_operand_forms",
-                  "offset": 3172
+                  "offset": 3894
                 }
               ]
             }
@@ -7155,11 +7155,11 @@
             [
               {
                 "rebuilt_symbol": "_select_assembly_encoding",
-                "offset": 1330
+                "offset": 1394
               },
               {
                 "rebuilt_symbol": "_select_assembly_encoding",
-                "offset": 1475
+                "offset": 1539
               }
             ]
           ],
@@ -7192,63 +7192,63 @@
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 596
+                  "offset": 613
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 645
+                  "offset": 663
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 700
+                  "offset": 719
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 432
+                  "offset": 448
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 901
+                  "offset": 921
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 926
+                  "offset": 946
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 952
+                  "offset": 988
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 970
+                  "offset": 1006
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 952
+                  "offset": 988
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 970
+                  "offset": 1006
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 952
+                  "offset": 988
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 983
+                  "offset": 1019
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 1131
+                  "offset": 1192
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 970
+                  "offset": 1006
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_encoding",
-                  "offset": 1174
+                  "offset": 1240
                 }
               ]
             }
@@ -7290,11 +7290,11 @@
             [
               {
                 "rebuilt_symbol": "_select_assembly_operand_width",
-                "offset": 1527
+                "offset": 1787
               },
               {
                 "rebuilt_symbol": "_select_assembly_operand_width",
-                "offset": 1620
+                "offset": 1880
               }
             ]
           ],
@@ -7315,31 +7315,31 @@
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_operand_width",
-                  "offset": 326
+                  "offset": 350
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_operand_width",
-                  "offset": 396
+                  "offset": 420
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_operand_width",
-                  "offset": 426
+                  "offset": 450
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_operand_width",
-                  "offset": 471
+                  "offset": 495
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_operand_width",
-                  "offset": 641
+                  "offset": 689
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_operand_width",
-                  "offset": 854
+                  "offset": 926
                 },
                 {
                   "rebuilt_symbol": "_select_assembly_operand_width",
-                  "offset": 969
+                  "offset": 1041
                 }
               ]
             }
@@ -7377,11 +7377,11 @@
             [
               {
                 "rebuilt_symbol": "_write_assembly_instruction",
-                "offset": 2112
+                "offset": 2205
               },
               {
                 "rebuilt_symbol": "_write_assembly_instruction",
-                "offset": 2203
+                "offset": 2296
               }
             ]
           ],
@@ -7421,52 +7421,52 @@
             {
               "site": {
                 "rebuilt_symbol": "_write_assembly_instruction",
-                "offset": 1315
+                "offset": 1408
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_assembly_instruction",
-                  "offset": 1322
+                  "offset": 1415
                 },
                 {
                   "rebuilt_symbol": "_write_assembly_instruction",
-                  "offset": 1398
+                  "offset": 1491
                 },
                 {
                   "rebuilt_symbol": "_write_assembly_instruction",
-                  "offset": 1441
+                  "offset": 1534
                 },
                 {
                   "rebuilt_symbol": "_write_assembly_instruction",
-                  "offset": 1529
+                  "offset": 1622
                 },
                 {
                   "rebuilt_symbol": "_write_assembly_instruction",
-                  "offset": 1605
+                  "offset": 1698
                 },
                 {
                   "rebuilt_symbol": "_write_assembly_instruction",
-                  "offset": 1398
+                  "offset": 1491
                 },
                 {
                   "rebuilt_symbol": "_write_assembly_instruction",
-                  "offset": 1322
+                  "offset": 1415
                 },
                 {
                   "rebuilt_symbol": "_write_assembly_instruction",
-                  "offset": 1645
+                  "offset": 1738
                 },
                 {
                   "rebuilt_symbol": "_write_assembly_instruction",
-                  "offset": 1398
+                  "offset": 1491
                 },
                 {
                   "rebuilt_symbol": "_write_assembly_instruction",
-                  "offset": 2031
+                  "offset": 2124
                 },
                 {
                   "rebuilt_symbol": "_write_assembly_instruction",
-                  "offset": 2083
+                  "offset": 2176
                 }
               ]
             }
@@ -7493,11 +7493,11 @@
             [
               {
                 "rebuilt_symbol": "_classify_assembly_operand",
-                "offset": 285
+                "offset": 297
               },
               {
                 "rebuilt_symbol": "_classify_assembly_operand",
-                "offset": 317
+                "offset": 329
               }
             ]
           ],
@@ -7505,40 +7505,40 @@
             {
               "site": {
                 "rebuilt_symbol": "_classify_assembly_operand",
-                "offset": 94
+                "offset": 106
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_classify_assembly_operand",
-                  "offset": 101
+                  "offset": 113
                 },
                 {
                   "rebuilt_symbol": "_classify_assembly_operand",
-                  "offset": 270
+                  "offset": 282
                 },
                 {
                   "rebuilt_symbol": "_classify_assembly_operand",
-                  "offset": 130
+                  "offset": 142
                 },
                 {
                   "rebuilt_symbol": "_classify_assembly_operand",
-                  "offset": 144
+                  "offset": 156
                 },
                 {
                   "rebuilt_symbol": "_classify_assembly_operand",
-                  "offset": 163
+                  "offset": 175
                 },
                 {
                   "rebuilt_symbol": "_classify_assembly_operand",
-                  "offset": 270
+                  "offset": 282
                 },
                 {
                   "rebuilt_symbol": "_classify_assembly_operand",
-                  "offset": 270
+                  "offset": 282
                 },
                 {
                   "rebuilt_symbol": "_classify_assembly_operand",
-                  "offset": 182
+                  "offset": 194
                 }
               ]
             }

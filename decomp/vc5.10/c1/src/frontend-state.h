@@ -172,7 +172,8 @@ typedef struct CompilerIrSymbol {
     BYTE kind;
     BYTE flags, scope_bits;
     BYTE declaration_flags;
-    union { CompilerType *type; unsigned qualifier_flags; };
+    union { CompilerType *type; unsigned qualifier_flags;
+            BYTE label_flags; /* Kind9 lowBYTE+4; assembly-definition bit0x10. */ };
     CompilerSymbolBinding binding;
     union {
         struct CompilerAbstractType *abstract_type;
@@ -221,6 +222,7 @@ typedef struct CompilerIrSymbol {
     void RECON_THISCALL MarkAssemblyReference(void);
 #endif
 } CompilerIrSymbol;
+typedef char IrSymbol_label_flags_offset[offsetof(CompilerIrSymbol, label_flags) == 4 ? 1 : -1];
 /* Initializer frames at57588 have stride20 and a producer depth bound32.
  * Only encountered frames0..5 have semantic support; other rows and the
  * named storage gaps remain unmodeled even within the reserved span. */
@@ -351,14 +353,15 @@ typedef struct CompilerLexerBackend {
  * parser readers must refine their roles before consuming them. */
 /* Three actual16-byte operand records start at59fc8; their12-byte values
  * start at5a028 and end at the next reset cell5a04c. The statement producer
- * starts at0 and increments only below2. The reached path constructs records0/1;
- * record2 remains storage only and is guarded before access.
+ * starts at0 and increments only below2. The reached IMUL path constructs
+ * all three records with the same constructor and known fields;
+ * wider indexes and unencountered transformations remain guarded.
  * The constructor clears12 value bytes. Only kind8/register10 are refined
  * by the reached register builder; the other semantic roles stay unmodeled. */
 typedef struct CompilerAssemblyOperandValue {
     struct CompilerIrSymbol *symbol;
     union { unsigned unmodeled_04, displacement; };
-    BYTE kind_flags, unmodeled_09, register_code;
+    BYTE kind_flags, segment_and_scale, register_code;
     union { BYTE unmodeled_0b, index_register; };
 } CompilerAssemblyOperandValue;
 typedef union CompilerAssemblyValue {
@@ -376,6 +379,7 @@ typedef char AssemblyExpression_size[sizeof(CompilerAssemblyExpression) == 12 ? 
 typedef char AssemblyExpression_register[offsetof(CompilerAssemblyExpression, register_code) == 8 ? 1 : -1];
 typedef char AssemblyValue_kind[offsetof(CompilerAssemblyOperandValue, kind_flags) == 8 ? 1 : -1];
 typedef char AssemblyValue_register[offsetof(CompilerAssemblyOperandValue, register_code) == 10 ? 1 : -1];
+typedef char AssemblyValue_segment_scale[offsetof(CompilerAssemblyOperandValue, segment_and_scale) == 9 ? 1 : -1];
 typedef struct CompilerAssemblyOperand {
     CompilerAssemblyValue *value;
     BYTE form, modifiers;

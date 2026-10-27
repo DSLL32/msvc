@@ -1984,7 +1984,7 @@ extern "C" int c1_test_assembly_mov_record(void)
         operand->reset_08 = operand->reset_0c = 0;
         value->kind_flags = i ? 22 : 4;
         value->register_code = i ? 6 : 1;
-        value->index_register = value->unmodeled_09 = 0;
+        value->index_register = value->segment_and_scale = 0;
         value->displacement = 0x11223344;
     }
     select_assembly_encoding();
@@ -1994,7 +1994,7 @@ extern "C" int c1_test_assembly_mov_record(void)
         if (((BYTE *)&c1_bss.assembly_record)[i] != 0xa5) return 0;
     for (i = 0; i < 2; ++i) {
         CompilerAssemblyOperandValue *value = &c1_bss.assembly.values[i].operand;
-        if (value->unmodeled_09 != 63 || value->index_register != 63 ||
+        if (value->segment_and_scale != 63 || value->index_register != 63 ||
             value->register_code != (i ? 5 : 0) || value->displacement != 0x11223344 ||
             value->symbol != (CompilerIrSymbol *)0xa5a5a5a5U ||
             c1_bss.assembly.operands[i].unmodeled_06[0] != 0xa5 ||

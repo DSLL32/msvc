@@ -27,7 +27,17 @@ typedef char AssemblyExpression_payload[offsetof(CompilerAssemblyExpression, pay
  * representation only; every read is preceded by an unconditional semantic
  * guard in both builds. No zero/default or whole-column equality is claimed. */
 static struct { WORD flags; BYTE unmodeled_02[2]; } unmodeled_assembly_type_properties[256]; /* RVA63e68 */
-static BYTE unmodeled_assembly_register_widths[1]; /* RVA67622, bound unknown. */
+/* Only the reached DWORD selector55 has a width relation. Prefix storage is
+ * opaque representation; this does not establish the original table bound. */
+static const union AssemblyRegisterWidths {
+    struct { BYTE unmodeled_0_54[55], dword; } known;
+    BYTE indexed[56];
+} assembly_register_widths = { { {0}, 2 } };
+#define ASM_REGISTER_WIDTH(code, result) do { \
+    int code_ = (short)(code); \
+    if (code_ != 55) { ASM_UNSUPPORTED("assembler register width column is unmodeled"); } \
+    (result) = assembly_register_widths.indexed[code_]; \
+} while (0)
 static const char *unmodeled_assembly_spellings[256]; /* RVA67780 */
 extern const signed char c1_primitive_widths[16];
 CompilerParserToken *__cdecl read_assembly_token(void);
@@ -35,7 +45,9 @@ void __cdecl report_assembly_expected(CompilerParserToken *, int);
 CompilerParserValue *__cdecl make_assembly_recovery_value(CompilerParserValue *, int);
 void __cdecl report_assembly_parse_error(const char *);
 int __cdecl emit_assembly_statement(BYTE);
-void __cdecl publish_assembly_label(CompilerIrSymbol *);
+void __cdecl publish_assembly_label(CompilerNameEntry *);
+CompilerParserNode *__cdecl make_symbol_node(BYTE, CompilerIrSymbol *, CompilerType *);
+void __cdecl emit_ir_label(CompilerParserNode *);
 void __cdecl emit_assembly_prefix(WORD, unsigned);
 void __cdecl set_assembly_opcode(WORD);
 void __cdecl finish_assembly_operands(void);
@@ -59,7 +71,7 @@ int __cdecl assembly_immediate_fits(unsigned, unsigned);
 void __cdecl emit_assembly_immediate(unsigned);
 CompilerAssemblyExpression *__cdecl make_assembly_binary(BYTE, CompilerAssemblyExpression *, CompilerAssemblyExpression *);
 CompilerAssemblyExpression *__cdecl combine_assembly_values(BYTE, CompilerAssemblyExpression *, CompilerAssemblyExpression *);
-CompilerAssemblyExpression *__cdecl make_assembly_address(BYTE, void *, CompilerAssemblyExpression *);
+CompilerAssemblyExpression *__cdecl make_assembly_address(short, CompilerAssemblyExpression *, CompilerAssemblyExpression *);
 CompilerAssemblyExpression *__cdecl make_assembly_selector(WORD, CompilerAssemblyExpression *);
 CompilerAssemblyExpression *__cdecl make_assembly_integer(unsigned);
 CompilerAssemblyExpression *__cdecl make_assembly_symbol(CompilerNameEntry *);
@@ -91,7 +103,14 @@ short __cdecl lookup_assembly_register(CompilerNameEntry *);
 int __cdecl compare_label_spelling(const char *, const char *);
 /* Only the source-level indexed role is established. No instruction
  * encoding row/default is modeled until encountered; reads trap first. */
-static struct { BYTE encoding, operand_encoding; } unmodeled_assembly_encodings[394]; /* RVA6746c */
+struct AssemblyInstructionEncoding { BYTE encoding, operand_encoding; };
+/* Reached JLE row265: canonical opcode15 and condition selector14. The
+ * preceding storage is opaque; no whole-column capacity/default is claimed. */
+static const union AssemblyEncodingPrefix {
+    struct { BYTE unmodeled_0_264[265 * 2]; AssemblyInstructionEncoding jle;
+             BYTE unmodeled_266_388[123 * 2]; AssemblyInstructionEncoding setz; } known;
+    AssemblyInstructionEncoding indexed[390];
+} assembly_encoding_prefix = { { {0}, {15, 14}, {0}, {189, 4} } };
 CompilerNameEntry *__cdecl find_or_create_identifier(const char *);
 void __cdecl handle_assembly_separator(void);
 CompilerParserToken *__cdecl allocate_assembly_token(unsigned, unsigned);
@@ -250,7 +269,7 @@ read_action:
             initialize_assembly_state();
             break;
         case 7: ++c1_bss.assembly.brace_depth; break;
-        case 9: publish_assembly_label(right[-1].symbol); break;
+        case 9: publish_assembly_label(right[-1].name); break;
         case 11: emit_assembly_prefix((WORD)right[-1].words.low, right[0].assembly.value); break;
         case 12:
             c1_bss.assembly.reset_08 = 1;
@@ -303,7 +322,7 @@ read_action:
             break;
         case 42: case 43:
             c1_bss.parser_value.pointer = make_assembly_address((BYTE)right[-1].operation,
-                right[-2].pointer, (CompilerAssemblyExpression *)right[0].pointer);
+                (CompilerAssemblyExpression *)right[-2].pointer, (CompilerAssemblyExpression *)right[0].pointer);
             break;
         case 44:
             c1_bss.assembly.reset_68 = c1_bss.assembly.reset_04 = 1;
@@ -323,7 +342,7 @@ read_action:
         case 46: case 48: case 50: case 82:
             if (rule != 82) c1_bss.assembly.reset_60 = 0;
             c1_bss.parser_value.pointer = make_assembly_address((BYTE)right[-2].operation,
-                right[(rule == 50 || rule == 82) ? -3 : -4].pointer,
+                (CompilerAssemblyExpression *)right[(rule == 50 || rule == 82) ? -3 : -4].pointer,
                 (CompilerAssemblyExpression *)right[0].pointer);
             break;
         case 47:
@@ -350,9 +369,8 @@ read_action:
             c1_bss.parser_value.pointer = make_assembly_integer(width);
             break;
         case 61:
-            ASM_UNSUPPORTED("assembler register width column is unmodeled");
-            c1_bss.parser_value.pointer = make_assembly_integer(
-                unmodeled_assembly_register_widths[(short)right[0].words.low]);
+            ASM_REGISTER_WIDTH(right[0].words.low, width);
+            c1_bss.parser_value.pointer = make_assembly_integer(width);
             break;
         case 62:
             symbol = resolve_assembly_symbol(right[0].name, 1);
@@ -388,9 +406,9 @@ read_action:
             c1_bss.parser_value.pointer = qualify_assembly_register((WORD)right[-3].words.low, right[-1].assembly.type);
             break;
         case 72:
-            ASM_UNSUPPORTED("assembler register width column is unmodeled");
+            ASM_REGISTER_WIDTH(right[-2].words.low, width);
             c1_bss.assembly.reset_68 = 1; c1_bss.assembly.reset_04 = 0;
-            select_assembly_width(unmodeled_assembly_register_widths[(short)right[-2].words.low]);
+            select_assembly_width(width);
             c1_bss.parser_value.pointer = right[0].pointer;
             break;
         case 73:
@@ -446,9 +464,9 @@ push_state: ;
 CompilerAssemblyOperand *__cdecl initialize_assembly_operand(unsigned index)
 {
     CompilerAssemblyOperand *operand;
-    if (index > 1) {
+    if (index > 2) {
 #ifdef __linux__
-        recon_unsupported("assembler operand index outside the encountered records0/1");
+        recon_unsupported("assembler operand index outside the encountered records0/1/2");
 #else
         __asm { int 3 }
 #endif
@@ -470,8 +488,13 @@ CompilerAssemblyOperand *__cdecl initialize_assembly_operand(unsigned index)
  * Unknown rows are unsupported before lookup in both builds. */
 static const struct AssemblyLexicalClass { BYTE token, classification; } assembly_lexical_classes[] = {
     { 0, ASSEMBLY_CLASS_37 }, { 6, ASSEMBLY_CLASS_44 },
-    { 17, ASSEMBLY_CLASS_42 }, { 55, ASSEMBLY_CLASS_27 },
+    { 17, ASSEMBLY_CLASS_42 }, { 54, ASSEMBLY_CLASS_26 }, { 55, ASSEMBLY_CLASS_27 },
+    { 65, ASSEMBLY_CLASS_28 },
+    { 74, ASSEMBLY_CLASS_24 },
+    { 81, ASSEMBLY_CLASS_22 },
+    { 101, ASSEMBLY_CLASS_45 },
     { 117, ASSEMBLY_CLASS_32 }, { 118, ASSEMBLY_CLASS_30 },
+    { 122, ASSEMBLY_CLASS_29 },
     { 123, ASSEMBLY_CLASS_34 }, { 126, ASSEMBLY_CLASS_31 },
     { 127, ASSEMBLY_CLASS_33 }, { 240, ASSEMBLY_CLASS_34 }
 };
@@ -563,25 +586,59 @@ int __cdecl emit_assembly_statement(BYTE separator)
         separator = c1_bss.current_context.ReadToken()->kind;
     }
 }
-void __cdecl publish_assembly_label(CompilerIrSymbol *) { __asm { int 3 } }
+void __cdecl publish_assembly_label(CompilerNameEntry *name)
+{
+    CompilerIrSymbol *symbol;
+    int found = 0;
+    for (symbol = c1_data.label_symbols; symbol; symbol = symbol->binding.next ?
+        (CompilerIrSymbol *)((BYTE *)symbol->binding.next - 8) : NULL) {
+        if (symbol->symbol_value || compare_label_spelling(name->name, symbol->binding.name->name)) continue;
+        symbol->label_flags |= 0x10;
+        found = 1;
+        if (symbol->flags & 1) compiler_warning(412, symbol);
+        else emit_ir_label(make_symbol_node(6, symbol, NULL));
+    }
+    if (!found) {
+        symbol = make_statement_label(name);
+        symbol->label_flags |= 0x10;
+        record_label_reference(symbol);
+        emit_ir_label(make_symbol_node(6, symbol, NULL));
+    }
+}
 void __cdecl emit_assembly_prefix(WORD, unsigned) { __asm { int 3 } }
 struct AssemblyOpcodeDescription {
     unsigned first_form;
     BYTE processor_mask, unmodeled_05[3];
 };
 typedef char AssemblyOpcodeDescription_size[sizeof(AssemblyOpcodeDescription) == 8 ? 1 : -1];
-/* Prefix view of the actual8-byte opcode relation at66e68. Only row1
- * (mov) and row33 (inc) are known. Other rows and each mask's three
- * following bytes are gaps, not defaults or original table capacity. */
+/* Encountered8-byte opcode relations at66e68. Named rows expose first-form
+ * and processor-mask fields only. Gaps and the remaining bytes are unmodeled;
+ * every indexed read is guarded, without an original capacity/default claim. */
 static const union AssemblyOpcodePrefix {
     struct { BYTE unmodeled_00[8]; AssemblyOpcodeDescription mov;
-             BYTE unmodeled_2_32[31 * 8]; AssemblyOpcodeDescription inc; } known;
-    AssemblyOpcodeDescription indexed[34];
-} assembly_opcode_prefix = { { {0}, {13, 0x1f, {0}}, {0}, {18, 0x1f, {0}} } };
+             BYTE unmodeled_2_5[4 * 8]; AssemblyOpcodeDescription imul;
+             BYTE unmodeled_7_11[5 * 8]; AssemblyOpcodeDescription pop, push;
+             BYTE unmodeled_14[8]; AssemblyOpcodeDescription conditional_jump;
+             BYTE unmodeled_16_17[2 * 8]; AssemblyOpcodeDescription lea;
+             BYTE unmodeled_19_32[14 * 8]; AssemblyOpcodeDescription inc;
+             BYTE unmodeled_34_41[8 * 8]; AssemblyOpcodeDescription shift_left;
+             BYTE unmodeled_43_44[2 * 8]; AssemblyOpcodeDescription add_instruction, and_instruction;
+             AssemblyOpcodeDescription compare;
+             BYTE unmodeled_48_49[2 * 8]; AssemblyOpcodeDescription subtract;
+             AssemblyOpcodeDescription test, exclusive_or;
+             BYTE unmodeled_53_162[110 * 8]; AssemblyOpcodeDescription imul_three;
+             BYTE unmodeled_164_188[25 * 8]; AssemblyOpcodeDescription set_condition; } known;
+    AssemblyOpcodeDescription indexed[190];
+} assembly_opcode_prefix = { { {0}, {13, 0x1f, {0}}, {0}, {9, 0x1f, {0}}, {0}, {12, 0x1f, {0}}, {11, 0x1f, {0}}, {0}, {16, 0x1f, {0}}, {0}, {7, 0x1f, {0}}, {0}, {18, 0x1f, {0}}, {0}, {8, 0x1f, {0}}, {0}, {6, 0x1f, {0}}, {6, 0x1f, {0}}, {6, 0x1f, {0}}, {0}, {6, 0x1f, {0}}, {5, 0x1f, {0}}, {6, 0x1f, {0}}, {0}, {20, 0x1e, {0}}, {0}, {30, 0x18, {0}} } };
+typedef char AssemblyOpcode_known_offsets[
+    offsetof(AssemblyOpcodePrefix, known.conditional_jump) == 15 * 8 &&
+    offsetof(AssemblyOpcodePrefix, known.compare) == 47 * 8 &&
+    offsetof(AssemblyOpcodePrefix, known.imul_three) == 163 * 8 &&
+    offsetof(AssemblyOpcodePrefix, known.set_condition) == 189 * 8 ? 1 : -1];
 void __cdecl set_assembly_opcode(WORD opcode)
 {
     const AssemblyOpcodeDescription *description;
-    if (opcode != 1 && opcode != 33) {
+    if (opcode != 1 && opcode != 6 && opcode != 12 && opcode != 13 && opcode != 15 && opcode != 18 && opcode != 33 && opcode != 42 && opcode != 45 && opcode != 46 && opcode != 47 && opcode != 50 && opcode != 51 && opcode != 52 && opcode != 189) {
         ASM_UNSUPPORTED("assembler opcode description row is unmodeled");
     }
     description = &assembly_opcode_prefix.indexed[opcode];
@@ -606,53 +663,56 @@ void __cdecl finish_assembly_operands(void)
     write_assembly_instruction();
     emit_control_record(22);
 }
-/* Encountered EAX/EBP relation cells and their machine register encodings.
- * The no-register row0 exposes only its low-byte code63. Gaps reserve the
- * real indexed positions, not defaults or table capacity. High row0 bits
- * remain unmodeled and are never used as register properties. */
+/* Encountered EAX/ECX/EBX/EBP properties and their machine register encodings.
+ * Row0 is the authentic no-register WORD003f, including its property bits.
+ * Gaps reserve actual indexed positions without assigning defaults/capacity. */
 static const union AssemblyRegisterPropertyPrefix {
-    struct { WORD no_register, eax, unmodeled_2_5[4], ebp; } known;
-    WORD indexed[7];
-} assembly_register_properties = { {0x003f, 0x7200, {0}, 0x6205} };
-/* MOV form13: two operands, class combinations1..5, width constraint0x40,
- * and accepted width codes0/1/2. INC form18 accepts one operand of class0/1
- * and the same three width codes. Other form cells remain unmodeled. */
+    struct { WORD no_register, eax, ecx, edx, ebx, unmodeled_5, ebp, unmodeled_7_18[12], dl; } known;
+    WORD indexed[20];
+} assembly_register_properties = { {0x003f, 0x7200, 0x6201, 0x6202, 0x6203, 0, 0x6205, {0}, 0x0002} };
+/* Encountered form rows expose operand count, allowed class combinations,
+ * segment constraints and width bits. Unnamed rows have no semantic default. */
 static const union AssemblyFormPrefix {
-    struct { WORD unmodeled_0_12[13], mov, unmodeled_14_17[4], inc; } known;
-    WORD indexed[19];
-} assembly_form_prefix = { { {0}, (2U << 14) | 0x3e | 0x40 | (7U << 8),
-    {0}, (1U << 14) | 3 | (7U << 8) } };
+    struct { WORD unmodeled_0_4[5], test, arithmetic, lea, shift, imul, unmodeled_10, push, pop, mov, unmodeled_14_15[2], conditional_jump, unmodeled_17, inc, unmodeled_19, imul_three, unmodeled_21_29[9], set_condition; } known;
+    WORD indexed[31];
+} assembly_form_prefix = { { {0}, (2U << 14) | 0x3e | (7U << 8), (2U << 14) | 0x3e | (7U << 8), 0x8608, (2U << 14) | 0x36 | (7U << 8), (1U << 14) | 3 | (7U << 8), 0, (1U << 14) | 7 | 0x40 | (6U << 8), (1U << 14) | 3 | 0x40 | (6U << 8), (2U << 14) | 0x3e | 0x40 | (7U << 8),
+    {0}, (1U << 14) | 4 | (7U << 8), 0, (1U << 14) | 3 | (7U << 8), 0, (3U << 14) | 0x38 | (6U << 8), {0}, (1U << 14) | 3 | (1U << 8) } };
+typedef char AssemblyForm_known_offsets[
+    offsetof(AssemblyFormPrefix, known.test) == 5 * 2 &&
+    offsetof(AssemblyFormPrefix, known.conditional_jump) == 16 * 2 &&
+    offsetof(AssemblyFormPrefix, known.set_condition) == 30 * 2 ? 1 : -1];
 /* Exact encountered relations: register flags4 -> class1 -> group1;
+ * direct-address flags19 -> class3 -> group0;
  * address flags22 -> class4 -> group0, immediate flags2 -> class2 -> group2.
  * The two tables keep separate owners
  * and guards. Reserved positions are not initialized semantic defaults. */
 static const union AssemblyOperandClasses {
-    struct { BYTE unmodeled_0_1[2], immediate_class, unmodeled_3, register_class, unmodeled_5_21[17], address_class; } known;
+    struct { BYTE unmodeled_0_1[2], immediate_class, symbolic_immediate_class, register_class, unmodeled_5_18[14], direct_address_class, unmodeled_20_21[2], address_class; } known;
     BYTE indexed[23];
-} assembly_operand_classes = { { {0}, 2, 0, 1, {0}, 4 } };
+} assembly_operand_classes = { { {0}, 2, 8, 1, {0}, 3, {0}, 4 } };
 static const union AssemblyClassGroups {
-    struct { BYTE unmodeled_0, register_group, immediate_group, unmodeled_3, address_group; } known;
-    BYTE indexed[5];
-} assembly_class_groups = { { 0, 1, 2, 0, 0 } };
+    struct { BYTE unmodeled_0, register_group, immediate_group, direct_address_group, address_group, unmodeled_5_7[3], symbolic_immediate_group; } known;
+    BYTE indexed[9];
+} assembly_class_groups = { { 0, 1, 2, 0, 0, {0}, 2 } };
 #define ASM_OPERAND_CLASS(value, result) do { \
     unsigned flags_ = (value)->kind_flags & 31; unsigned class_; \
-    if (flags_ != 2 && flags_ != 4 && flags_ != 22) { ASM_UNSUPPORTED("assembler operand class relation is unmodeled"); } \
+    if (flags_ != 2 && flags_ != 3 && flags_ != 4 && flags_ != 19 && flags_ != 22) { ASM_UNSUPPORTED("assembler operand class relation is unmodeled"); } \
     class_ = assembly_operand_classes.indexed[flags_]; \
-    if (class_ != 1 && class_ != 2 && class_ != 4) { ASM_UNSUPPORTED("assembler class group relation is unmodeled"); } \
+    if (class_ != 1 && class_ != 2 && class_ != 3 && class_ != 4 && class_ != 8) { ASM_UNSUPPORTED("assembler class group relation is unmodeled"); } \
     (result) = assembly_class_groups.indexed[class_]; \
 } while (0)
 #define ASM_FORM_FLAGS(result) do { \
-    if (c1_bss.assembly.first_form != 13 && c1_bss.assembly.first_form != 18) { ASM_UNSUPPORTED("assembler form property relation is unmodeled"); } \
+    if (c1_bss.assembly.first_form != 5 && c1_bss.assembly.first_form != 6 && c1_bss.assembly.first_form != 7 && c1_bss.assembly.first_form != 8 && c1_bss.assembly.first_form != 9 && c1_bss.assembly.first_form != 11 && c1_bss.assembly.first_form != 12 && c1_bss.assembly.first_form != 13 && c1_bss.assembly.first_form != 16 && c1_bss.assembly.first_form != 18 && c1_bss.assembly.first_form != 20 && c1_bss.assembly.first_form != 30) { ASM_UNSUPPORTED("assembler form property relation is unmodeled"); } \
     (result) = assembly_form_prefix.indexed[c1_bss.assembly.first_form]; \
 } while (0)
 #define ASM_REGISTER_PROPERTIES(code, result) do { \
     unsigned code_ = (code); \
-    if (code_ != 1 && code_ != 6) { ASM_UNSUPPORTED("assembler register property relation is unmodeled"); } \
+    if (code_ != 0 && code_ != 1 && code_ != 2 && code_ != 3 && code_ != 4 && code_ != 6 && code_ != 19) { ASM_UNSUPPORTED("assembler register property relation is unmodeled"); } \
     (result) = assembly_register_properties.indexed[code_]; \
 } while (0)
 #define ASM_REGISTER_ENCODING(code, result) do { \
     unsigned code_ = (code); \
-    if (code_ != 0 && code_ != 1 && code_ != 6) { ASM_UNSUPPORTED("assembler register encoding relation is unmodeled"); } \
+    if (code_ != 0 && code_ != 1 && code_ != 2 && code_ != 3 && code_ != 4 && code_ != 6 && code_ != 19) { ASM_UNSUPPORTED("assembler register encoding relation is unmodeled"); } \
     (result) = (BYTE)assembly_register_properties.indexed[code_]; \
 } while (0)
 int __cdecl validate_assembly_operand_count(void)
@@ -661,7 +721,7 @@ int __cdecl validate_assembly_operand_count(void)
     int count = c1_bss.assembly.operand_index;
     WORD opcode = c1_bss.assembly.reset_54;
     unsigned classification;
-    if (form != 13 && form != 18) {
+    if (form != 5 && form != 6 && form != 7 && form != 8 && form != 9 && form != 11 && form != 12 && form != 13 && form != 16 && form != 18 && form != 20 && form != 30) {
         ASM_UNSUPPORTED("assembler form operand-count relation is unmodeled");
     }
     if ((short)count == (assembly_form_prefix.indexed[form] >> 14)) return 1;
@@ -675,7 +735,7 @@ int __cdecl validate_assembly_operand_count(void)
             opcode = assembly_class_groups.indexed[classification] == 2 ? 163 : 193;
         }
         c1_bss.assembly.reset_54 = opcode;
-        ASM_UNSUPPORTED("assembler alternate opcode form relation is unmodeled");
+        if (opcode != 163) ASM_UNSUPPORTED("assembler alternate opcode form relation is unmodeled");
         c1_bss.assembly.first_form = assembly_opcode_prefix.indexed[(short)opcode].first_form;
         return 1;
     }
@@ -755,15 +815,15 @@ int __cdecl validate_assembly_operand_forms(void)
         left = first; right = second;
         if (opcode == 57 || opcode == 53) { left = second; right = first; }
         if (opcode != 57 && opcode != 55) {
-            selector = left->unmodeled_09 & 63;
+            selector = left->segment_and_scale & 63;
             if (selector) {
                 if (selector != 25) return 0;
-                left->unmodeled_09 &= 0xc0;
+                left->segment_and_scale &= 0xc0;
             }
         }
-        if ((left->unmodeled_09 & 63) == 28) left->unmodeled_09 &= 0xc0;
+        if ((left->segment_and_scale & 63) == 28) left->segment_and_scale &= 0xc0;
         if (count != 2) return 1;
-        if ((right->unmodeled_09 & 63) == 28) right->unmodeled_09 &= 0xc0;
+        if ((right->segment_and_scale & 63) == 28) right->segment_and_scale &= 0xc0;
         if (opcode != 57 && opcode != 54) return 1;
         return right->register_code == 11;
     case 11:
@@ -853,7 +913,7 @@ void __cdecl select_assembly_encoding(void)
         break;
     case 2:
         value = &c1_bss.assembly.operands[0].value->operand;
-        if ((value->unmodeled_09 & 63) == 28) value->unmodeled_09 &= 0xc0;
+        if ((value->segment_and_scale & 63) == 28) value->segment_and_scale &= 0xc0;
         /* Falls through to the optional operand/opcode normalization. */
     case 10:
         if ((int)c1_bss.assembly.operand_index <= 0) break;
@@ -865,9 +925,9 @@ void __cdecl select_assembly_encoding(void)
         else if (opcode == 57) replacement = 227;
         else if (opcode == 60) replacement = 228;
         value = &c1_bss.assembly.operands[0].value->operand;
-        if (!(value->unmodeled_09 & 63) && (int)c1_bss.assembly.operand_index > 1)
+        if (!(value->segment_and_scale & 63) && (int)c1_bss.assembly.operand_index > 1)
             value = &c1_bss.assembly.operands[1].value->operand;
-        if ((value->unmodeled_09 & 63) && opcode != replacement)
+        if ((value->segment_and_scale & 63) && opcode != replacement)
             c1_bss.assembly.reset_54 = replacement;
         else c1_bss.assembly.operand_index = 0;
         break;
@@ -875,8 +935,8 @@ void __cdecl select_assembly_encoding(void)
         disable_relocation = initial_flags;
         goto check_relocation;
     case 16:
-        ASM_UNSUPPORTED("assembler implicit encoding column is unmodeled");
-        c1_bss.assembly.implicit_encoding = unmodeled_assembly_encodings[
+        if (c1_bss.assembly.reset_5c != 265) ASM_UNSUPPORTED("assembler implicit encoding column is unmodeled");
+        c1_bss.assembly.implicit_encoding = assembly_encoding_prefix.indexed[
             (short)c1_bss.assembly.reset_5c].operand_encoding;
         disable_relocation = 0;
         goto check_relocation;
@@ -925,8 +985,8 @@ check_relocation:
         swap = c1_bss.assembly.reset_54 == 10;
         break;
     case 30:
-        ASM_UNSUPPORTED("assembler implicit encoding column is unmodeled");
-        c1_bss.assembly.implicit_encoding = unmodeled_assembly_encodings[
+        if (c1_bss.assembly.reset_5c != 389) ASM_UNSUPPORTED("assembler implicit encoding column is unmodeled");
+        c1_bss.assembly.implicit_encoding = assembly_encoding_prefix.indexed[
             (short)c1_bss.assembly.reset_5c].operand_encoding;
         break;
     case 31: case 33: case 34: case 35: case 36: case 37: case 43: case 44:
@@ -1027,7 +1087,7 @@ BYTE __cdecl select_assembly_operand_width(void)
         if (form_flags & (1U << ((width + 8) & 31))) {
             if (opcode != original_opcode && original_opcode >= 286 && original_opcode <= 359) {
                 ASM_UNSUPPORTED("assembler width override column is unmodeled");
-                encoded = unmodeled_assembly_encodings[original_opcode].operand_encoding;
+                encoded = assembly_encoding_prefix.indexed[original_opcode].operand_encoding;
                 if (encoded & 0x30) width = encoded & 15;
             }
             return width;
@@ -1040,7 +1100,7 @@ BYTE __cdecl select_assembly_operand_width(void)
     while (!(allowed & (1U << ((width + 8) & 31)))) ++width;
     if (opcode != original_opcode && original_opcode >= 286 && original_opcode <= 359) {
         ASM_UNSUPPORTED("assembler fallback width override column is unmodeled");
-        encoded = unmodeled_assembly_encodings[original_opcode].operand_encoding;
+        encoded = assembly_encoding_prefix.indexed[original_opcode].operand_encoding;
         if (encoded & 0x30) width = encoded & 15;
     }
     if (form == 0) {
@@ -1062,7 +1122,7 @@ BYTE __cdecl common_assembly_operand_width(void)
     BYTE first, second, encoding;
     if (opcode != original_opcode && original_opcode >= 286 && original_opcode <= 359) {
         ASM_UNSUPPORTED("assembler explicit width column is unmodeled");
-        encoding = unmodeled_assembly_encodings[original_opcode].operand_encoding;
+        encoding = assembly_encoding_prefix.indexed[original_opcode].operand_encoding;
         if (!(encoding & 0x30)) return encoding & 15;
     }
     count = c1_bss.assembly.operand_index;
@@ -1099,7 +1159,7 @@ void __cdecl resolve_assembly_address_size(void)
     CompilerAssemblyOperand *operand;
     CompilerAssemblyOperandValue *value;
     for (index = 0; (int)index < (int)c1_bss.assembly.operand_index; ++index) {
-        if (index >= 2) { ASM_UNSUPPORTED("assembler third address operand is unmodeled"); }
+        if (index >= 3) { ASM_UNSUPPORTED("assembler address operand index is unmodeled"); }
         operand = &c1_bss.assembly.operands[index];
         value = &operand->value->operand;
         if (operand->modifiers & 1) {
@@ -1107,15 +1167,15 @@ void __cdecl resolve_assembly_address_size(void)
             if (classification == 1) report_assembly_operand_error(421, index);
         }
         if (value->index_register == 5) {
-            if ((value->unmodeled_09 & 0xc0) || value->register_code == 5)
+            if ((value->segment_and_scale & 0xc0) || value->register_code == 5)
                 report_assembly_operand_error(431, index);
             else {
                 value->index_register = value->register_code;
                 value->register_code = 5;
             }
         }
-        ASM_REGISTER_ENCODING(value->unmodeled_09 & 63, encoded);
-        value->unmodeled_09 = (value->unmodeled_09 & 0xc0) | (encoded & 63);
+        ASM_REGISTER_ENCODING(value->segment_and_scale & 63, encoded);
+        value->segment_and_scale = (value->segment_and_scale & 0xc0) | (encoded & 63);
         ASM_REGISTER_ENCODING(value->index_register, encoded);
         value->index_register = encoded;
         if (value->kind_flags & 0x20) value->register_code += 40;
@@ -1123,7 +1183,7 @@ void __cdecl resolve_assembly_address_size(void)
             ASM_REGISTER_PROPERTIES(value->register_code, properties);
             ASM_REGISTER_ENCODING(value->register_code, encoded);
             value->register_code = (properties & 0x80c0) == 0x8080 ? encoded + 40 : encoded;
-        } else if (value->unmodeled_09 & 0xc0) {
+        } else if (value->segment_and_scale & 0xc0) {
             ASM_REGISTER_ENCODING(value->register_code, encoded);
             value->register_code = encoded;
         } else {
@@ -1137,10 +1197,8 @@ void __cdecl report_assembly_operand_error(unsigned, unsigned) { __asm { int 3 }
 int __cdecl assembly_should_swap_operands(void) { __asm { int 3 } }
 void __cdecl swap_assembly_pointer(void **, void **) { __asm { int 3 } }
 
-/* Exact reached record prefix: three header bytes, EAX format mr (two
- * bytes), EBP-relative format mdbg (seven bytes), and its reached four-byte
- * local-symbol relocation. Sixteen is a supported prefix extent, not the
- * original scratch buffer's total capacity. */
+/* Encountered operand formats and symbol relocations fit this16-byte scratch
+ * prefix. This is a supported extent, not the original buffer's full capacity. */
 #define ASM_RECORD_RESERVE(n) do { \
     if ((unsigned)(cursor - begin) > sizeof(c1_bss.assembly_record) - (n)) { \
         ASM_UNSUPPORTED("assembler record exceeds its established prefix"); \
@@ -1190,7 +1248,7 @@ void __cdecl write_assembly_instruction(void)
         }
     }
     for (index = 0; (int)index < (int)c1_bss.assembly.operand_index; ++index) {
-        if (index >= 2) { ASM_UNSUPPORTED("assembler third output operand is unmodeled"); }
+        if (index >= 3) { ASM_UNSUPPORTED("assembler output operand index is unmodeled"); }
         operand = c1_bss.assembly.output_operands[index];
         value = &c1_bss.assembly.output_values[index]->operand;
         if (operand->source_symbol) {
@@ -1212,7 +1270,10 @@ void __cdecl write_assembly_instruction(void)
         mode = classify_assembly_operand((CompilerAssemblyValue *)value);
         if (mode == 1) format = "mr";
         else if (mode == 2) format = "mv";
+        else if (mode == 3) format = "msog";
         else if (mode == 4) format = "mdbg";
+        else if (mode == 6) format = "mdibxg";
+        else if (mode == 8) format = "mso";
         else { ASM_UNSUPPORTED("assembler output operand format is unmodeled"); format = ""; }
         for (; *format; ++format) {
             switch ((signed char)*format) {
@@ -1224,7 +1285,7 @@ void __cdecl write_assembly_instruction(void)
                 ASM_RECORD_RESERVE(4); *(unsigned *)cursor = value->displacement; cursor += 4;
                 break;
             case 'g':
-                ASM_RECORD_RESERVE(1); encoding = value->unmodeled_09 & 63;
+                ASM_RECORD_RESERVE(1); encoding = value->segment_and_scale & 63;
                 *cursor++ = encoding == 63 ? 0 : encoding;
                 break;
             case 'i':
@@ -1244,7 +1305,7 @@ void __cdecl write_assembly_instruction(void)
                 }
                 break;
             case 'x':
-                ASM_RECORD_RESERVE(1); *cursor++ = (BYTE)(1U << (value->unmodeled_09 >> 6));
+                ASM_RECORD_RESERVE(1); *cursor++ = (BYTE)(1U << (value->segment_and_scale >> 6));
                 break;
             }
         }
@@ -1256,7 +1317,7 @@ unsigned __cdecl classify_assembly_operand(CompilerAssemblyValue *operand)
     CompilerAssemblyOperandValue *value = &operand->operand;
     unsigned flags = value->kind_flags & 31;
     BYTE classification;
-    if (flags != 2 && flags != 4 && flags != 22) {
+    if (flags != 2 && flags != 3 && flags != 4 && flags != 19 && flags != 22) {
         ASM_UNSUPPORTED("assembler output classification row is unmodeled");
     }
     classification = assembly_operand_classes.indexed[flags];
@@ -1286,18 +1347,103 @@ unsigned __cdecl classify_assembly_operand(CompilerAssemblyValue *operand)
     }
     return classification;
 }
-int __cdecl assembly_immediate_fits(unsigned, unsigned) { __asm { int 3 } }
+int __cdecl assembly_immediate_fits(unsigned bits, unsigned value)
+{
+    unsigned magnitude = value;
+    if ((int)magnitude < 0) magnitude = 0U - magnitude;
+    /* Original NEG preserves the INT_MIN bit pattern, and SETL compares
+     * signed DWORDs. CL supplies the hardware's low-five-bit shift count. */
+    return (int)magnitude < (int)(1U << (bits & 31));
+}
 void __cdecl emit_assembly_immediate(unsigned displacement)
 {
     CompilerAssemblyOperandValue *value = &c1_bss.assembly.current_operand->value->operand;
     value->displacement += displacement;
     value->kind_flags |= 2;
 }
-CompilerAssemblyExpression * __cdecl make_assembly_binary(BYTE, CompilerAssemblyExpression *, CompilerAssemblyExpression *) { __asm { int 3 } }
+unsigned __cdecl assembly_scale_code(unsigned scale)
+{
+    unsigned code = 0;
+    if (scale > 8 || (scale & (scale - 1))) compiler_warning(423, scale);
+    while ((scale >>= 1) != 0) ++code;
+    return code;
+}
+CompilerAssemblyExpression *__cdecl make_assembly_binary(BYTE operation,
+    CompilerAssemblyExpression *left, CompilerAssemblyExpression *right)
+{
+    CompilerAssemblyOperandValue *value;
+    BYTE scale;
+    if (!c1_bss.assembly.reset_9fc4 || left->kind != 1 || right->kind != 0)
+        return combine_assembly_values(operation, left, right);
+    value = &c1_bss.assembly.current_operand->value->operand;
+    if (value->segment_and_scale & 0xc0)
+        compiler_warning(430, current_assembly_mnemonic());
+    scale = (BYTE)assembly_scale_code(right->payload);
+    value = &c1_bss.assembly.current_operand->value->operand;
+    value->segment_and_scale = (value->segment_and_scale & 63) | (BYTE)(scale << 6);
+    if (value->segment_and_scale & 0xc0) {
+        if (!value->register_code) compiler_warning(431, current_assembly_mnemonic());
+        else if (!value->index_register) {
+            value->index_register = value->register_code;
+            value->register_code = 0;
+        }
+    }
+    return left;
+}
 CompilerAssemblyExpression * __cdecl combine_assembly_values(BYTE, CompilerAssemblyExpression *, CompilerAssemblyExpression *) { __asm { int 3 } }
-CompilerAssemblyExpression * __cdecl make_assembly_address(BYTE, void *, CompilerAssemblyExpression *) { __asm { int 3 } }
+CompilerAssemblyExpression *__cdecl make_assembly_address(short operation,
+    CompilerAssemblyExpression *left, CompilerAssemblyExpression *right)
+{
+    CompilerArena *arena;
+    CompilerAssemblyExpression *result;
+    const char *spelling;
+    if (operation != 22 && operation != 23 && operation != 28 && operation != 35)
+        ASM_UNSUPPORTED("assembler address operator return domain is unmodeled");
+    if (left->kind > 3 || right->kind > 3)
+        ASM_UNSUPPORTED("assembler address node kind is unmodeled");
+    if (operation == 23) {
+        if (right->kind) {
+            compiler_warning(425, "-", current_assembly_mnemonic());
+            return left;
+        }
+        if (left->kind == 3)
+            ASM_UNSUPPORTED("assembler subtraction register payload has no established writer");
+        arena = &c1_bss.arenas[3];
+        result = (CompilerAssemblyExpression *)arena->cursor;
+        arena->cursor += 12;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        result->payload = left->payload - right->payload;
+        result->kind = left->kind;
+        return result;
+    }
+    if (left->kind == 3 || right->kind == 3 || (left->kind == 2 && right->kind == 2)) {
+        switch (operation) {
+        case 22: spelling = "+"; break;
+        case 28: spelling = "["; break;
+        default: spelling = "."; break;
+        }
+        compiler_warning(424, spelling, current_assembly_mnemonic());
+        return left;
+    }
+    arena = &c1_bss.arenas[3];
+    result = (CompilerAssemblyExpression *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    result->payload = left->payload + right->payload;
+    result->kind = (short)left->kind > (short)right->kind ? left->kind : right->kind;
+    return result;
+}
 CompilerAssemblyExpression * __cdecl make_assembly_selector(WORD, CompilerAssemblyExpression *) { __asm { int 3 } }
-CompilerAssemblyExpression * __cdecl make_assembly_integer(unsigned) { __asm { int 3 } }
+CompilerAssemblyExpression *__cdecl make_assembly_integer(unsigned value)
+{
+    CompilerArena *arena = &c1_bss.arenas[3];
+    CompilerAssemblyExpression *expression = (CompilerAssemblyExpression *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    expression->kind = 0;
+    expression->payload = value;
+    return expression;
+}
 CompilerAssemblyExpression *__cdecl make_assembly_symbol(CompilerNameEntry *name)
 {
     CompilerIrSymbol *symbol = resolve_assembly_symbol(name, 1);
@@ -1357,7 +1503,7 @@ CompilerAssemblyExpression *__cdecl make_assembly_register(WORD register_code)
     CompilerArena *arena;
     if (c1_bss.assembly.reset_9fc4)
         return make_assembly_register_expression(register_code);
-    if (register_code != 1) {
+    if (register_code != 1 && register_code != 2 && register_code != 3 && register_code != 4 && register_code != 19) {
         ASM_UNSUPPORTED("assembler register property row is unmodeled");
     }
     properties = assembly_register_properties.indexed[(short)register_code];
@@ -1378,7 +1524,26 @@ CompilerAssemblyExpression *__cdecl make_assembly_register(WORD register_code)
     expression->register_code = (int)(short)register_code;
     return expression;
 }
-void __cdecl select_assembly_width(BYTE) { __asm { int 3 } }
+void __cdecl select_assembly_width(BYTE width)
+{
+    CompilerAssemblyOperand *operand = c1_bss.assembly.current_operand;
+    CompilerAssemblyOperandValue *value;
+    if (operand->modifiers & 1) compiler_warning(408, current_assembly_mnemonic());
+    else {
+        operand->form = width;
+        if (width == 15) compiler_warning(408, current_assembly_mnemonic());
+    }
+    operand = c1_bss.assembly.current_operand;
+    if (!c1_bss.assembly.reset_04) {
+        value = &operand->value->operand;
+        if (value->symbol) {
+            if (value->symbol == c1_data.anonymous_global_symbol && !(value->segment_and_scale & 63))
+                value->segment_and_scale = (value->segment_and_scale & 0xda) | 0x1a;
+            c1_bss.assembly.current_operand->value->operand.kind_flags |= 0x10;
+        }
+    }
+    c1_bss.assembly.current_operand->modifiers |= 1;
+}
 void __cdecl set_assembly_address_mode(WORD) { __asm { int 3 } }
 const char * __cdecl current_assembly_mnemonic(void) { __asm { int 3 } }
 CompilerIrSymbol *__cdecl resolve_assembly_symbol(CompilerNameEntry *name, int allow_labels)
@@ -1489,9 +1654,9 @@ CompilerParserToken *__cdecl scan_assembly_identifier(CompilerParserToken *token
             token->kind = (code >= 181 && code <= 184) ? 47 : 48;
             token->value.words.low = (token->value.words.low & ~0xffffU) | (unsigned short)code;
         } else if (code >= 254 && code <= 393) {
-            ASM_UNSUPPORTED("assembler instruction encoding row is unmodeled");
+            if (code != 265 && code != 389) ASM_UNSUPPORTED("assembler instruction encoding row is unmodeled");
             c1_bss.assembly.reset_5c = (WORD)code;
-            encoding = unmodeled_assembly_encodings[code].encoding;
+            encoding = assembly_encoding_prefix.indexed[code].encoding;
             token->kind = (code <= 255) ? 47 : 48;
             token->value.words.low = (token->value.words.low & ~0xffffU) | encoding;
         } else {
@@ -1522,7 +1687,84 @@ static const AssemblyOpcodeSpec assembly_i_opcodes[] = {
     { "nsb", 289 }, { "ns", 54 }, { "nc", 33 }, { "n", 10 },
     { "mul", 6 }, { "div", 32 }
 };
+/* All nine a suffix/selector relations, in the original search order. */
+static const AssemblyOpcodeSpec assembly_a_opcodes[] = {
+    { "rpl", 2 }, { "nd", 46 }, { "lign", 394 }, { "dd", 45 },
+    { "dc", 44 }, { "as", 152 }, { "am", 151 }, { "ad", 150 }, { "aa", 149 }
+};
 static const AssemblyOpcodeSpec assembly_v_opcodes[] = { { "erw", 68 }, { "err", 67 } };
+/* Encountered p relations in their authentic relative search order. The wider
+ * SIMD/flags bucket is not recovered; an unmatched suffix traps below. */
+static const AssemblyOpcodeSpec assembly_p_opcodes[] = { { "ush", 13 }, { "op", 12 } };
+static const AssemblyOpcodeSpec assembly_l_opcodes[] = { { "ea", 18 } };
+/* All55 S relations are traversed for the reached non-opcode label. */
+static const AssemblyOpcodeSpec assembly_s_opcodes[] = {
+    { "ub", 50 },
+    { "tr", 66 },
+    { "tosw", 305 },
+    { "tosd", 306 },
+    { "tosb", 304 },
+    { "tos", 59 },
+    { "ti", 178 },
+    { "td", 177 },
+    { "tc", 176 },
+    { "msw", 65 },
+    { "ldt", 64 },
+    { "idt", 29 },
+    { "hrd", 203 },
+    { "hr", 43 },
+    { "hld", 202 },
+    { "hl", 42 },
+    { "gdt", 28 },
+    { "etz", 389 },
+    { "ets", 388 },
+    { "etpo", 386 },
+    { "etpe", 385 },
+    { "etp", 387 },
+    { "eto", 384 },
+    { "etnz", 383 },
+    { "etns", 382 },
+    { "etnp", 381 },
+    { "etno", 380 },
+    { "etnle", 379 },
+    { "etnl", 378 },
+    { "etnge", 377 },
+    { "etng", 376 },
+    { "etne", 375 },
+    { "etnc", 374 },
+    { "etnbe", 373 },
+    { "etnb", 372 },
+    { "etnae", 371 },
+    { "etna", 370 },
+    { "etle", 369 },
+    { "etl", 368 },
+    { "etge", 367 },
+    { "etg", 366 },
+    { "ete", 365 },
+    { "etc", 364 },
+    { "etbe", 363 },
+    { "etb", 362 },
+    { "etae", 361 },
+    { "eta", 360 },
+    { "casw", 302 },
+    { "casd", 303 },
+    { "casb", 301 },
+    { "cas", 58 },
+    { "bb", 49 },
+    { "ar", 41 },
+    { "al", 391 },
+    { "ahf", 174 },
+};
+static const AssemblyOpcodeSpec assembly_c_opcodes[] = { { "mp", 47 } };
+static const AssemblyOpcodeSpec assembly_j_opcodes[] = { { "le", 265 } };
+static const AssemblyOpcodeSpec assembly_x_opcodes[] = { { "or", 52 } };
+static const AssemblyOpcodeSpec assembly_t_opcodes[] = { { "est", 51 } };
+/* The reached C variable result traverses every R relation before no match. */
+static const AssemblyOpcodeSpec assembly_r_opcodes[] = {
+    { "or", 40 }, { "ol", 39 }, { "etn", 316 }, { "etf", 317 }, { "et", 8 },
+    { "epz", 184 }, { "epnz", 183 }, { "epne", 255 }, { "epe", 254 }, { "ep", 181 },
+    { "cr", 38 }, { "cl", 37 }
+};
 short __cdecl lookup_assembly_opcode(CompilerNameEntry *name)
 {
     const char *text = name->name;
@@ -1530,7 +1772,34 @@ short __cdecl lookup_assembly_opcode(CompilerNameEntry *name)
     int initial;
     if (*text == '$') return -1;
     initial = (tolower)((signed char)*text++);
-    if (initial == 'm') {
+    if (initial == 'x') {
+        first = assembly_x_opcodes;
+        last = first + sizeof(assembly_x_opcodes) / sizeof(assembly_x_opcodes[0]);
+    } else if (initial == 't') {
+        first = assembly_t_opcodes;
+        last = first + sizeof(assembly_t_opcodes) / sizeof(assembly_t_opcodes[0]);
+    } else if (initial == 'r') {
+        first = assembly_r_opcodes;
+        last = first + sizeof(assembly_r_opcodes) / sizeof(assembly_r_opcodes[0]);
+    } else if (initial == 'c') {
+        first = assembly_c_opcodes;
+        last = first + sizeof(assembly_c_opcodes) / sizeof(assembly_c_opcodes[0]);
+    } else if (initial == 'j') {
+        first = assembly_j_opcodes;
+        last = first + sizeof(assembly_j_opcodes) / sizeof(assembly_j_opcodes[0]);
+    } else if (initial == 'a') {
+        first = assembly_a_opcodes;
+        last = first + sizeof(assembly_a_opcodes) / sizeof(assembly_a_opcodes[0]);
+    } else if (initial == 'p') {
+        first = assembly_p_opcodes;
+        last = first + sizeof(assembly_p_opcodes) / sizeof(assembly_p_opcodes[0]);
+    } else if (initial == 's') {
+        first = assembly_s_opcodes;
+        last = first + sizeof(assembly_s_opcodes) / sizeof(assembly_s_opcodes[0]);
+    } else if (initial == 'l') {
+        first = assembly_l_opcodes;
+        last = first + sizeof(assembly_l_opcodes) / sizeof(assembly_l_opcodes[0]);
+    } else if (initial == 'm') {
         first = assembly_m_opcodes;
         last = first + sizeof(assembly_m_opcodes) / sizeof(assembly_m_opcodes[0]);
     } else if (initial == 'i') {
@@ -1544,6 +1813,7 @@ short __cdecl lookup_assembly_opcode(CompilerNameEntry *name)
     }
     for (; first != last; ++first)
         if (!compare_label_spelling(first->suffix, text)) return first->code;
+    if (initial == 'p' || initial == 'l' || initial == 'c' || initial == 'j' || initial == 'x') ASM_UNSUPPORTED("assembler suffix relation is unmodeled");
     return -1;
 }
 /* Encountered e bucket in original search order. The relation also includes
@@ -1553,21 +1823,42 @@ static const struct AssemblyRegisterSpec { const char *suffix; short code; } ass
     { "dx", 3 }, { "di", 8 }, { "cx", 2 }, { "bx", 4 },
     { "bp", 6 }, { "ax", 1 }
 };
+static const AssemblyRegisterSpec assembly_d_registers[] = {
+    { "x", 11 }, { "word", 55 }, { "s", 28 }, { "r7", 48 }, { "r6", 47 },
+    { "r3", 46 }, { "r2", 45 }, { "r1", 44 }, { "r0", 43 },
+    { "l", 19 }, { "i", 16 }, { "h", 23 }
+};
+static const AssemblyRegisterSpec assembly_p_registers[] = { { "tr", 80 } };
+static const AssemblyRegisterSpec assembly_s_registers[] = {
+    { "t", 31 }, { "s", 27 }, { "p", 13 }, { "ize", 82 }, { "i", 15 },
+    { "hr", 74 }, { "hort", 60 }, { "hl", 73 }, { "eg", 81 }
+};
 short __cdecl lookup_assembly_register(CompilerNameEntry *name)
 {
     const char *text = name->name;
-    unsigned i;
+    const AssemblyRegisterSpec *first, *last;
     int initial;
     if (*text == '$') return -1;
     initial = (tolower)((signed char)*text++);
-    /* The original v boundary pair is82/82: a genuinely empty bucket. */
-    if (initial == 'v') return -1;
-    if (initial != 'e') {
+    /* The original i and v boundary pairs are genuinely empty buckets. */
+    if (initial == 'i' || initial == 'r' || initial == 'v') return -1;
+    if (initial == 'e') {
+        first = assembly_e_registers;
+        last = first + sizeof(assembly_e_registers) / sizeof(assembly_e_registers[0]);
+    } else if (initial == 's') {
+        first = assembly_s_registers;
+        last = first + sizeof(assembly_s_registers) / sizeof(assembly_s_registers[0]);
+    } else if (initial == 'd') {
+        first = assembly_d_registers;
+        last = first + sizeof(assembly_d_registers) / sizeof(assembly_d_registers[0]);
+    } else if (initial == 'p') {
+        first = assembly_p_registers;
+        last = first + sizeof(assembly_p_registers) / sizeof(assembly_p_registers[0]);
+    } else {
         ASM_UNSUPPORTED("assembler register initial-letter bucket is unmodeled");
     }
-    for (i = 0; i < sizeof(assembly_e_registers) / sizeof(assembly_e_registers[0]); ++i)
-        if (!compare_label_spelling(assembly_e_registers[i].suffix, text))
-            return assembly_e_registers[i].code;
+    for (; first != last; ++first)
+        if (!compare_label_spelling(first->suffix, text)) return first->code;
     return -1;
 }
 /* Shared by label and assembler spelling lookup. On an unequal pair whose
@@ -1604,7 +1895,7 @@ CompilerAssemblyExpression *__cdecl make_assembly_register_expression(WORD regis
         compiler_warning(404, c1_data.current_identifier, current_assembly_mnemonic());
         return expression;
     }
-    if (register_code != 1 && register_code != 6) {
+    if (register_code != 1 && register_code != 2 && register_code != 4 && register_code != 6) {
         ASM_UNSUPPORTED("assembler base/index register property row is unmodeled");
     }
     properties = assembly_register_properties.indexed[(short)register_code];

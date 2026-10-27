@@ -65,10 +65,10 @@ CompilerParserToken *__cdecl scan_numeric_token(unsigned input, int alternate_ba
     unsigned __int64 value;
     CompilerType *type = c1_data.builtin_types.type_0063;
     CompilerNumericToken *token;
-    if (input < '0' || input > '9' || alternate_base ||
+    if (input < '0' || input > '9' || alternate_base < 0 || alternate_base > 1 ||
         (c1_data.lexer_flags & 0x800000)) {
 #ifdef __linux__
-        recon_unsupported("numeric token mode is outside ordinary integer literals");
+        recon_unsupported("numeric token mode is outside the recovered integer scanner");
 #else
         __asm { int 3 }
 #endif
