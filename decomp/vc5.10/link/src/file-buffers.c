@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include "files.h"
 #include "arguments.h"
+#include "memory.h"
 #include "link.h"
 #include <recon.h>
 
@@ -85,9 +86,30 @@ int __stdcall open_buffered_file(FileRecord *record,int flags,int mode,BYTE crea
 
 /* Original467550 counts physical page fills, separately from file accesses. */
 DWORD buffered_page_reads;
-void __stdcall extend_buffered_page_table(FileRecord *record) { __asm { int 3 } }
-FileBufferHeader *__cdecl evict_file_buffer(void) { __asm { int 3 } return NULL; }
-/* Original48a738 is initially zero and set by the still-pending fatal
+#pragma intrinsic(memset)
+void __stdcall extend_buffered_page_table(FileRecord *record)
+{
+    unsigned old_pages=record->file_size/4096;
+    unsigned new_pages=old_pages*2;
+    FileBufferHeader **pages=(FileBufferHeader **)reallocate_memory(record->view,
+        new_pages*sizeof(*pages));
+    record->view=pages;
+    memset(pages+old_pages,0,(new_pages-old_pages)*sizeof(*pages));
+    record->file_size=new_pages*4096;
+}
+FileBufferHeader *__cdecl evict_file_buffer(void)
+{
+    FileBufferHeader *buffer=oldest_file_buffer;
+    while(buffer && (buffer->flags&0x10))buffer=buffer->newer;
+    /* Like the original caller, this path requires an unlocked LRU entry. */
+    if(buffer==oldest_file_buffer)oldest_file_buffer=buffer->newer;
+    else buffer->older->newer=buffer->newer;
+    if(buffer==newest_file_buffer)newest_file_buffer=buffer->older;
+    else buffer->newer->older=buffer->older;
+    buffer->older=buffer->newer=NULL;
+    return buffer;
+}
+/* Original48a738 is initially zero and set by the fatal
  * diagnostic exit owner at30160. Normal cleanup must flush each active buffer. */
 BYTE link_diagnostic_exiting;
 void __stdcall flush_file_buffer(FileBufferHeader *buffer)

@@ -1,10 +1,10 @@
 # VC5.10 LINK
 
-627 application functions / 236,712 original code bytes are reconstructed
-(57.07% of the 414,810-byte whole `.text` extent, which includes CRT and text
+629 application functions / 236,927 original code bytes are reconstructed
+(57.12% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 40 pending bodies with known extents totaling 4,281 bytes and
+registry has 38 pending bodies with known extents totaling 4,066 bytes and
 176 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all thirty-four cached native cases and their narrow checks;
+`make -j4 check unit` runs all thirty-five cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-640-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 620 ordinary application bodies and six CRT bodies. Seven import
+642-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 622 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The seven genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -824,3 +824,31 @@ ownership for the unchanged merge body and new ROM helper corrected that
 metadata; the audit-only retry passed in 3.93 s, without another case campaign.
 The current full graph has 640 vertices, 626 scoped return contracts and seven
 separate EH-owner checks. These are incremental measurements.
+
+The buffered-pressure case links 33 genuine original-compiled cross-referencing
+COFF modules with an original RC/CVTRES resource object containing a 5,243,003-byte
+binary payload. The ordinary `/include` root retains the module graph without
+claiming a client call or executing image code. Buffered mode exhausts the real
+30-page pool and grows the output page table beyond its initial 4 MiB estimate.
+The completed 5,517,824-byte DLL contains the complete payload unchanged; its
+7,708-byte map, streams, status and full inventory also match the untouched
+master outside only the identified COFF/debug timestamp DWORDs and map time
+fields. Both executions exit 0 with 262 application first entries.
+
+Two whole bodies / 215 code bytes recover page-table doubling and LRU removal.
+Reallocation retains existing page pointers and zeroes only the newly added
+slots. Eviction skips pinned entries, removes the actual candidate from both
+ends/neighbors as needed, clears only its LRU links and returns it to the
+existing release/reassignment caller. Empty/all-pinned invalid internal states
+remain outside the observed domain. Sequential resource copying alone reused
+a buffer and reached only growth; that earlier input/master/prefix remains
+separate from the expanded module-pressure oracle. No synthetic cache state or
+allocator change was used.
+
+Completion replay took 92.5 ms (18.1 ms setup, 22.5 ms execution, 51.8 ms checks);
+the original took 1,856.6 ms. The raw-file GDB diagnostic is separate from those
+measurements. The single parallel case-end regression, unit, original-build
+and full graph/RET/EH batch passed in 4.27 s: 35 cases, 642 graph vertices,
+628 scoped return contracts and seven distinct EH-owner checks. Raw references,
+failed timestamp comparisons and earlier compiled input variants remain in
+scratch. These are incremental measurements.

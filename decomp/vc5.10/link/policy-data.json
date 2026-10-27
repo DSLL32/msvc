@@ -19271,6 +19271,16 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_extend_buffered_page_table@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_evict_file_buffer": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
