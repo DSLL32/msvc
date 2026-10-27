@@ -5361,6 +5361,31 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcSmall": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcFixedLib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNoVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddNoVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ShortVectors": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

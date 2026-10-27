@@ -448,3 +448,42 @@ void PadOvlFiles( void )
         }
     }
 }
+
+#pragma pack(1)
+typedef struct svec {
+    unsigned char call;
+    unsigned short loader, sec_num;
+    unsigned char jmpto;
+    unsigned short target;
+} svec;
+#pragma pack()
+typedef char old_short_vector_is_8[(sizeof(svec) == 8) ? 1 : -1];
+
+void ShortVectors( symbol *loadsym )
+{
+    vecnode *vec;
+    unsigned off, num;
+    unsigned long loader;
+    long diff;
+    svec entry;
+
+    off = OvlvecAddr.off;
+    loader = (unsigned long)loadsym->addr.seg * 16 + loadsym->addr.off;
+    entry.call = 0xe8;
+    entry.jmpto = 0xe9;
+    num = 1;
+    for( vec = OvlVectors; vec != 0; vec = vec->next ) {
+        diff = (long)(loader - (off + 3));
+        if( diff < -32768 || diff > 32767 ) LnkMsg( 0x3319, "d", num );
+        entry.loader = diff;
+        loadsym = vec->entry;
+        entry.sec_num = loadsym->p.leader->section->ovl_num;
+        diff = (long)((unsigned long)loadsym->addr.seg * 16
+                    + loadsym->addr.off - (off + 8));
+        if( diff < -32768 || diff > 32767 ) LnkMsg( 0x3319, "d", num );
+        entry.target = diff;
+        PutOvlInfo( off, &entry, sizeof(entry) );
+        off += sizeof(entry);
+        ++num;
+    }
+}

@@ -160,8 +160,8 @@ unsigned char ProcAnonExport( void ) { TRAP(); return 0; }
 unsigned char GetWlibImports( void ) { TRAP(); return 0; }
 
 
-unsigned char ProcFixedLib( void ) { TRAP(); return 0; }
-unsigned char ProcNoVector( void ) { TRAP(); return 0; }
+
+
 
 
 
@@ -267,7 +267,7 @@ unsigned char ProcSelfRelative( void ) { TRAP(); return 0; }
 unsigned char ProcSharelib( void ) { TRAP(); return 0; }
 
 unsigned char ProcSingle( void ) { TRAP(); return 0; }
-unsigned char ProcSmall( void ) { TRAP(); return 0; }
+
 
 
 
@@ -627,7 +627,7 @@ unsigned char ProcFixed( void ) { TRAP(); return 0; }
 
 
 
-void ShortVectors( symbol *sym ) { TRAP(); }
+
 
 
 

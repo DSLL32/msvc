@@ -292,3 +292,33 @@ unsigned char ProcAutoSection( void )
     }
     return 1;
 }
+
+unsigned char ProcSmall( void )
+{
+    LinkFlags |= 0x1000UL;
+    return 1;
+}
+
+unsigned char ProcFixedLib( void )
+{
+    unsigned char ret;
+
+    CmdFlags |= 2;
+    ret = ProcLibrary();
+    CmdFlags &= ~2;
+    return ret;
+}
+
+unsigned char ProcNoVector( void )
+{
+    return ProcArgList( AddNoVector, 1 );
+}
+
+unsigned char AddNoVector( void )
+{
+    symbol *sym;
+
+    sym = SymXOp( 0x12, Token.this, Token.len );
+    sym->u.value |= 0x30000000UL;
+    return 1;
+}

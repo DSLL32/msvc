@@ -1,5 +1,5 @@
-WLINK 10.0a has seventeen completed native regression cases. The acceptance ledger
-contains **1,069 application functions / 124,038 unique original code bytes**.
+WLINK 10.0a has eighteen completed native regression cases. The acceptance ledger
+contains **1,074 application functions / 124,382 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -39,6 +39,8 @@ The sixteenth combines C++ virtual dispatch, templates, array types, COMDAT
 dead-code removal, selected Watcom debug records and an alphabetically sorted map.
 The seventeenth links dynamic DOS overlays with external section files, automatic
 sections, explicit area size, indirect-call policy and forced vectors.
+The eighteenth complements it with standard short overlay vectors, fixed library
+placement and an explicit NOVECTOR symbol.
 
 | Case | Result |
 | --- | --- |
@@ -59,6 +61,7 @@ sections, explicit area size, indirect-call policy and forced vectors.
 | `0015-pe-ordinal-upgrade` | Exit 0; exact 232-byte stdout, empty stderr, 11,776-byte PE DLL and 3,038-byte map |
 | `0016-cpp-vf` | Exit 0; exact 253-byte stdout, empty stderr, 46,257-byte PE DLL and 60,582-byte map |
 | `0017-dynamic-overlay` | Exit 0; exact 254-byte stdout, empty stderr, 10,395-byte MZ, 48/32-byte overlays and 9,126-byte map |
+| `0018-short-overlay` | Exit 0; exact 254-byte stdout, empty stderr, 8,223-byte MZ and 9,063-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -86,7 +89,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,073 source-ready identities, their actual graph,
+The complete audit passes for 1,078 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -312,3 +315,22 @@ The clock-derived replay reused that capture and took **32.157 ms**, split
 took **418.469 ms**, reusing previously captured genuine objects/archive/manager.
 Producer inputs and complete raw artifacts remain in scratch under
 wlink-dynamic-overlay; the numbered case remains source plus capture only.
+
+
+The standard short-overlay case matches 595 first entries, every executable byte
+and all map bytes except six established clock digit fields. Its genuine USE16
+modules/archive and shipped manager exercise SMALL vectors, fixed library
+placement and explicit NOVECTOR/VECTOR/FORCEVECTOR policies. The actual packed
+eight-byte record contains near CALL/JMP opcodes, two signed displacement fields
+and the section number; both displacement ranges retain their real diagnostics.
+This is distinct from the previously qualified long and dynamic vector formats.
+
+The final parallel build/regression/unit/audit batch took **1.406 s**. All eighteen
+cases and 1,078 source-ready graph/ABI identities pass. The 36 native regression
+runs took **17.740–55.883 ms**. The genuine final capture command took
+**1,426.042 ms** (owned target **1,409.869 ms**); its native pair took **27.559 ms**.
+The clock-derived replay reused that capture and took **30.001 ms**, split
+**16.888 / 5.800 / 7.312 ms** for setup/execution/checks. The clean baseline took
+**647.404 ms**, reusing genuine prior objects/archive/manager. Producer inputs,
+raw outputs and diagnostics remain under scratch wlink-short-overlay; the case
+contains only source and capture data.
