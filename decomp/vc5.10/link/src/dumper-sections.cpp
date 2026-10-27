@@ -1303,12 +1303,192 @@ const char *__stdcall x86_dumper_relocation_name(DWORD raw_type,WORD *bytes,BYTE
     *has_symbol=(width!=0);
     return name;
 }
-const char *__stdcall mips_dumper_relocation_name(DWORD,WORD *,BYTE *) { __asm { int 3 } return NULL; }
-const char *__stdcall alpha_dumper_relocation_name(DWORD,WORD *,BYTE *) { __asm { int 3 } return NULL; }
-const char *__stdcall sh_dumper_relocation_name(DWORD,WORD *,BYTE *) { __asm { int 3 } return NULL; }
+const char *__stdcall mips_dumper_relocation_name(DWORD raw_type,WORD *bytes,BYTE *has_symbol)
+{
+    const char *name;
+    WORD width=0;
+    switch((WORD)raw_type) {
+    case IMAGE_REL_MIPS_ABSOLUTE:name="ABS";break;
+    case IMAGE_REL_MIPS_PAIR:name="PAIR";break;
+    case IMAGE_REL_MIPS_REFHALF:name="REFHALF";width=2;break;
+    case IMAGE_REL_MIPS_REFWORD:name="REFWORD";width=4;break;
+    case IMAGE_REL_MIPS_REFWORDNB:name="REFWORDNB";width=4;break;
+    case IMAGE_REL_MIPS_JMPADDR:name="JMPADDR";width=4;break;
+    case IMAGE_REL_MIPS_REFHI:name="REFHI";width=2;break;
+    case IMAGE_REL_MIPS_REFLO:name="REFLO";width=2;break;
+    case IMAGE_REL_MIPS_GPREL:name="GPREL";width=2;break;
+    case IMAGE_REL_MIPS_LITERAL:name="LITERAL";width=2;break;
+    case IMAGE_REL_MIPS_SECTION:name="SECTION";width=2;break;
+    case IMAGE_REL_MIPS_SECREL:name="SECREL";width=4;break;
+    case IMAGE_REL_MIPS_SECRELLO:name="SECRELLO";width=2;break;
+    case IMAGE_REL_MIPS_SECRELHI:name="SECRELHI";width=2;break;
+    default:name=NULL;break;
+    }
+    *bytes=width;
+    *has_symbol=(width!=0);
+    return name;
+}
+const char *__stdcall alpha_dumper_relocation_name(DWORD raw_type,WORD *bytes,BYTE *has_symbol)
+{
+    const char *name;
+    WORD width=0;
+    BYTE symbol=1;
+    switch((WORD)raw_type) {
+    case IMAGE_REL_ALPHA_ABSOLUTE:name="ABS";symbol=0;break;
+    case IMAGE_REL_ALPHA_REFLONG:name="REFLONG";width=4;break;
+    case IMAGE_REL_ALPHA_REFQUAD:name="REFQUAD";width=8;break;
+    case IMAGE_REL_ALPHA_GPREL32:name="GPREL32";width=4;break;
+    case IMAGE_REL_ALPHA_LITERAL:name="LITERAL";width=2;break;
+    case IMAGE_REL_ALPHA_LITUSE:name="LITUSE";width=2;break;
+    case IMAGE_REL_ALPHA_GPDISP:name="GPDISP";break;
+    case IMAGE_REL_ALPHA_BRADDR:name="BRADDR";width=4;break;
+    case IMAGE_REL_ALPHA_HINT:name="HINT";width=4;break;
+    case IMAGE_REL_ALPHA_INLINE_REFLONG:name="INLINE_REFLONG";width=2;break;
+    case IMAGE_REL_ALPHA_REFHI:name="REFHI";width=2;break;
+    case IMAGE_REL_ALPHA_REFLO:name="REFLO";width=2;break;
+    case IMAGE_REL_ALPHA_PAIR:name="PAIR";symbol=0;break;
+    case IMAGE_REL_ALPHA_MATCH:name="MATCH";symbol=0;break;
+    case IMAGE_REL_ALPHA_SECTION:name="SECTION";width=2;break;
+    case IMAGE_REL_ALPHA_SECREL:name="SECREL";width=4;break;
+    case IMAGE_REL_ALPHA_REFLONGNB:name="REFLONGNB";width=4;break;
+    case IMAGE_REL_ALPHA_SECRELLO:name="SECRELLO";width=2;break;
+    case IMAGE_REL_ALPHA_SECRELHI:name="SECRELHI";width=2;break;
+    default:name=NULL;symbol=0;break;
+    }
+    *bytes=width;
+    *has_symbol=symbol;
+    return name;
+}
+const char *__stdcall sh_dumper_relocation_name(DWORD raw_type,WORD *bytes,BYTE *has_symbol)
+{
+    const char *name;
+    WORD width;
+    /* The period desktop SDK lacks these SH relocation spellings. */
+    switch((WORD)raw_type) {
+    case 0:name="ABS";width=0;break;
+    case 1:name="DIRECT16";width=2;break;
+    case 2:name="DIRECT32";width=4;break;
+    case 3:name="DIRECT8";width=1;break;
+    case 4:name="DIRECT8_WORD";width=1;break;
+    case 5:name="DIRECT8_LONG";width=1;break;
+    case 6:name="DIRECT4";width=1;break;
+    case 7:name="DIRECT4_WORD";width=1;break;
+    case 8:name="DIRECT4_LONG";width=1;break;
+    case 9:name="PCREL8_WORD";width=1;break;
+    case 10:name="PCREL8_LONG";width=1;break;
+    case 11:name="PCREL12_WORD";width=1;break;
+    case 12:name="STARTOF_SECT";width=4;break;
+    case 13:name="SIZEOF_SECT";width=4;break;
+    case 14:name="SECTION";width=4;break;
+    case 15:name="SECREL";width=4;break;
+    case 16:name="DIRECT32_NB";width=4;break;
+    default:name=NULL;width=0;break;
+    }
+    *bytes=width;
+    *has_symbol=(width!=0);
+    return name;
+}
 const char *__stdcall mppc_dumper_relocation_name(DWORD,WORD *,BYTE *) { __asm { int 3 } return NULL; }
-const char *__stdcall ppc_dumper_relocation_name(DWORD,WORD *,BYTE *) { __asm { int 3 } return NULL; }
-const char *__stdcall arm_dumper_relocation_name(DWORD,WORD *,BYTE *) { __asm { int 3 } return NULL; }
+/* Original4946c8: supported output extent from the complete fixed names and
+ * suffixes, not a claim about the original array capacity. */
+char ppc_relocation_text[45];
+#pragma intrinsic(strcpy,strcat)
+#ifdef __linux__
+#define PPC_TEXT_ROOM(addition) do { \
+    if(strlen(ppc_relocation_text)+strlen(addition)>=sizeof(ppc_relocation_text)) \
+        { __asm { int 3 } } \
+} while(0)
+#else
+#define PPC_TEXT_ROOM(addition) ((void)0)
+#endif
+const char *__stdcall ppc_dumper_relocation_name(DWORD raw_type,WORD *bytes,BYTE *has_symbol)
+{
+    const char *name;
+    WORD width=2,flags=(WORD)(raw_type&0xff00);
+    BYTE symbol=1;
+    switch((WORD)raw_type&0xff) {
+    case IMAGE_REL_PPC_ABSOLUTE:name="ABS";width=0;symbol=0;break;
+    case IMAGE_REL_PPC_ADDR64:name="ADDR64";width=8;break;
+    case IMAGE_REL_PPC_ADDR32:name="ADDR32";width=4;break;
+    case IMAGE_REL_PPC_ADDR24:name="ADDR24";width=4;break;
+    case IMAGE_REL_PPC_ADDR16:name="ADDR16";break;
+    case IMAGE_REL_PPC_ADDR14:name="ADDR14";break;
+    case IMAGE_REL_PPC_REL24:name="REL24";width=4;break;
+    case IMAGE_REL_PPC_REL14:name="REL14";break;
+    case IMAGE_REL_PPC_TOCREL16:name="TOCREL16";break;
+    case IMAGE_REL_PPC_TOCREL14:name="TOCREL14";break;
+    case IMAGE_REL_PPC_ADDR32NB:name="ADDR32NB";width=4;break;
+    case IMAGE_REL_PPC_SECREL:name="SECREL";width=4;break;
+    case IMAGE_REL_PPC_SECTION:name="SECTION";break;
+    case IMAGE_REL_PPC_IFGLUE:name="IFGLUE";width=4;break;
+    case IMAGE_REL_PPC_IMGLUE:name="IMGLUE";width=0;break;
+    case IMAGE_REL_PPC_SECREL16:name="SECREL16";break;
+    case IMAGE_REL_PPC_REFHI:name="REFHI";break;
+    case IMAGE_REL_PPC_REFLO:name="REFLO";break;
+    case IMAGE_REL_PPC_PAIR:name="PAIR";width=0;symbol=0;break;
+    case IMAGE_REL_PPC_SECRELLO:name="SECRELLO";break;
+    case IMAGE_REL_PPC_SECRELHI:name="SECRELHI";break;
+    case 21:name="GPREL";break; /* Target-only type, absent in the period SDK. */
+    default:*bytes=0;*has_symbol=0;return NULL;
+    }
+    *bytes=width;
+    *has_symbol=symbol;
+    if(flags) {
+#ifdef __linux__
+        if(strlen(name)>=sizeof(ppc_relocation_text)) { __asm { int 3 } }
+#endif
+        strcpy(ppc_relocation_text,name);
+        name=ppc_relocation_text;
+        if(flags&IMAGE_REL_PPC_NEG) {
+            PPC_TEXT_ROOM(",NEG");
+            strcat(ppc_relocation_text,",NEG");
+            flags&=~IMAGE_REL_PPC_NEG;
+        }
+        if(flags&IMAGE_REL_PPC_BRTAKEN) {
+            PPC_TEXT_ROOM(",BRTAKEN");
+            strcat(ppc_relocation_text,",BRTAKEN");
+            flags&=~IMAGE_REL_PPC_BRTAKEN;
+        }
+        if(flags&IMAGE_REL_PPC_BRNTAKEN) {
+            PPC_TEXT_ROOM(",BRNTAKEN");
+            strcat(ppc_relocation_text,",BRNTAKEN");
+            flags&=~IMAGE_REL_PPC_BRNTAKEN;
+        }
+        if(flags&IMAGE_REL_PPC_TOCDEFN) {
+            PPC_TEXT_ROOM(",TOCDEFN");
+            strcat(ppc_relocation_text,",TOCDEFN");
+            flags&=~IMAGE_REL_PPC_TOCDEFN;
+        }
+        if(flags) {
+#ifdef __linux__
+            if(strlen(ppc_relocation_text)+7>=sizeof(ppc_relocation_text)) { __asm { int 3 } }
+#endif
+            sprintf(ppc_relocation_text+strlen(ppc_relocation_text),",0x%04X",flags);
+        }
+    }
+    return name;
+}
+#undef PPC_TEXT_ROOM
+const char *__stdcall arm_dumper_relocation_name(DWORD raw_type,WORD *bytes,BYTE *has_symbol)
+{
+    const char *name;
+    WORD width=4;
+    /* The period SDK lacks these ARM spellings. These are the actual
+     * target decoder's type values, including its DWORD SECTION width. */
+    switch((WORD)raw_type) {
+    case 0:name="ABS";width=0;break;
+    case 1:name="ADDR32";break;
+    case 2:name="ADDR32NB";break;
+    case 3:name="BRANCH24";break;
+    case 4:name="BRANCH11";break;
+    case 14:name="SECTION";break;
+    case 15:name="SECREL";break;
+    default:name=NULL;width=0;break;
+    }
+    *bytes=width;
+    *has_symbol=(width!=0);
+    return name;
+}
 }
 #define SECTION_RELOCATION_READ(data,count) do { \
     if(file_access_statistics)record_file_access(); \

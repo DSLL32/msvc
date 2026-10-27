@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-621 application functions / 234,675 original code bytes are reconstructed
-(56.57% of the 414,810-byte whole `.text` extent, which includes CRT and text
+626 application functions / 236,456 original code bytes are reconstructed
+(57.00% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 40 pending bodies with known extents totaling 4,281 bytes and
-182 entries whose body extents remain unknown; this is not a complete non-CRT
+177 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all thirty-two cached native cases and their narrow checks;
+`make -j4 check unit` runs all thirty-three cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-634-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 614 ordinary application bodies and six CRT bodies. Seven import
+639-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 619 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The seven genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -768,3 +768,33 @@ regression, unit, original-build and full graph/RET/EH batch passed in 4.17 s:
 EH-owner checks. Earlier single-reference inputs/prefixes, rejected producer
 flags and failed static metadata remain separately retained in scratch. These
 are incremental measurements, not clean-build timings.
+
+The architecture-inspection case dumps all records from the five unchanged
+original RC/CVTRES resource objects used by the Alpha, MIPS, ARM, PowerPC and
+SH4 link cases. It completes with 107 application first entries and exactly
+48,640 stdout bytes. Status, streams, all input bytes and complete inventory
+equal the untouched master; the final capture itself is byte-identical to that
+master. No normalization, disassembly or input-code execution is involved.
+
+Five whole bodies / 1,781 code bytes recover the architecture relocation-name,
+width and symbol-presence decoders. Physical DWORD inputs retain their actual
+WORD interpretation; PowerPC separately consumes the low type BYTE and next
+flag BYTE. Its formatter has one mutable owner with a guarded 45-byte supported
+output extent derived from all fixed names and suffixes, not an assertion of
+original capacity. This input exercises unflagged resource relocations; dormant
+flag combinations, other relocation variants and the Mac decoder remain
+unqualified. Original and rebuilt switch tables retain exact ownership and
+RET12 checks.
+
+The first failed pair exposed one shared CRT difference: timestamp zero was
+rendered as `Jan 01` by the original and `Jan  1` by host libc. The ordinary
+explicit-5.10 ctime boundary now preserves the Microsoft day formatting, and
+the saved deeper reference passed without another original. Failed streams
+and the separate native GDB diagnostic remain in scratch; no clock field was
+masked. Historical DST and cross-API time-buffer aliasing are not claimed.
+
+Completion took 1,575.8 ms in the original and 21.0 ms natively (11.0 ms setup,
+6.8 ms execution, 3.2 ms checks). The single parallel case-end regression, unit,
+original-build and full graph/RET/EH batch passed in 4.85 s: 33 cases, 639 graph
+vertices, 625 scoped return contracts and seven separate EH-owner checks.
+These are incremental measurements.

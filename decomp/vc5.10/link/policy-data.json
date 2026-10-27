@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 220064
+              "offset": 222416
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 220075
+              "offset": 222427
             }
           ]
         },
@@ -7739,11 +7739,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 159696
+              "offset": 162048
             },
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 159707
+              "offset": 162059
             }
           ]
         }
@@ -8216,11 +8216,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 158736
+              "offset": 161088
             },
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 158747
+              "offset": 161099
             }
           ]
         }
@@ -13056,6 +13056,460 @@
               "other_unresolved_calls": []
             }
           }
+        }
+      },
+      "_alpha_dumper_relocation_name@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                "offset": 388
+              },
+              {
+                "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                "offset": 464
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                "offset": 40
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 47
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 63
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 81
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 99
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 135
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 153
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 165
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 183
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 201
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 219
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 234
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 249
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 262
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 275
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 290
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 305
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 320
+                },
+                {
+                  "rebuilt_symbol": "_alpha_dumper_relocation_name@12",
+                  "offset": 335
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_mips_dumper_relocation_name@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                "offset": 310
+              },
+              {
+                "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                "offset": 408
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                "offset": 44
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 51
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 75
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 93
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 129
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 144
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 159
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 174
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 189
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 204
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 219
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 234
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 249
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 111
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 63
+                },
+                {
+                  "rebuilt_symbol": "_mips_dumper_relocation_name@12",
+                  "offset": 264
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_arm_dumper_relocation_name@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_arm_dumper_relocation_name@12",
+                "offset": 168
+              },
+              {
+                "rebuilt_symbol": "_arm_dumper_relocation_name@12",
+                "offset": 216
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_arm_dumper_relocation_name@12",
+                "offset": 40
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_arm_dumper_relocation_name@12",
+                  "offset": 47
+                },
+                {
+                  "rebuilt_symbol": "_arm_dumper_relocation_name@12",
+                  "offset": 62
+                },
+                {
+                  "rebuilt_symbol": "_arm_dumper_relocation_name@12",
+                  "offset": 71
+                },
+                {
+                  "rebuilt_symbol": "_arm_dumper_relocation_name@12",
+                  "offset": 80
+                },
+                {
+                  "rebuilt_symbol": "_arm_dumper_relocation_name@12",
+                  "offset": 89
+                },
+                {
+                  "rebuilt_symbol": "_arm_dumper_relocation_name@12",
+                  "offset": 98
+                },
+                {
+                  "rebuilt_symbol": "_arm_dumper_relocation_name@12",
+                  "offset": 107
+                },
+                {
+                  "rebuilt_symbol": "_arm_dumper_relocation_name@12",
+                  "offset": 116
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_ppc_dumper_relocation_name@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                "offset": 818
+              },
+              {
+                "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                "offset": 906
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                "offset": 61
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 68
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 90
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 108
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 126
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 144
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 156
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 168
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 186
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 198
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 210
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 222
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 240
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 258
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 267
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 282
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 297
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 306
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 315
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 324
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 343
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 352
+                },
+                {
+                  "rebuilt_symbol": "_ppc_dumper_relocation_name@12",
+                  "offset": 361
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_sh_dumper_relocation_name@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                "offset": 371
+              },
+              {
+                "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                "offset": 439
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                "offset": 30
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 37
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 55
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 73
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 91
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 109
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 127
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 145
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 163
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 181
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 199
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 214
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 229
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 244
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 259
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 274
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 289
+                },
+                {
+                  "rebuilt_symbol": "_sh_dumper_relocation_name@12",
+                  "offset": 304
+                }
+              ]
+            }
+          ]
         }
       }
     },
@@ -18647,6 +19101,31 @@
         "expected_cleanup": [
           20
         ]
+      },
+      "_alpha_dumper_relocation_name@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_mips_dumper_relocation_name@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_arm_dumper_relocation_name@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_ppc_dumper_relocation_name@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_sh_dumper_relocation_name@12": {
+        "expected_cleanup": [
+          12
+        ]
       }
     }
   },
@@ -18680,21 +19159,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 220064
+            "offset": 222416
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 220075
+            "offset": 222427
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 220075
+            "offset": 222427
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 220085
+            "offset": 222437
           }
         ]
       ]
@@ -18776,21 +19255,21 @@
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 159696
+            "offset": 162048
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 159707
+            "offset": 162059
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 159707
+            "offset": 162059
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 159717
+            "offset": 162069
           }
         ]
       ]
@@ -18800,21 +19279,21 @@
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 158736
+            "offset": 161088
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 158747
+            "offset": 161099
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 158747
+            "offset": 161099
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 158757
+            "offset": 161109
           }
         ]
       ]
