@@ -543,7 +543,7 @@ extern "C" void __cdecl finish_aggregate_initializer(CompilerParserNode *input)
     if (!input || c1_data.initializer_depth < 0 || (c1_bss.initializer_frame->flags & 0x20)) return;
     original = strip_value_wrappers(input);
     value = original;
-    if (value->kind != 101) {
+    if (value->kind != 101 && value->kind != 6 && value->kind != 7) {
 #ifdef __linux__
         recon_unsupported("initializer expression classification cell is not yet modeled");
 #else
@@ -696,8 +696,50 @@ extern "C" int __cdecl check_initializer_expression(CompilerIrSymbol *symbol, Co
     if ((referenced->linkage_flags & 8) && referenced->kind != 7 && referenced->kind != 8) return 0;
     return 1;
 }
-extern "C" int __cdecl get_static_initializer_reference(CompilerParserNode *, CompilerIrSymbol **, int *)
-{ __asm { int 3 } return 0; }
+extern "C" CompilerParserNode *__cdecl lower_ir_node(CompilerParserNode *);
+extern "C" int __cdecl get_static_initializer_reference(CompilerParserNode *value,
+    CompilerIrSymbol **symbol, int *displacement)
+{
+    CompilerParserNode *offset, *left;
+    unsigned amount;
+    value = strip_value_wrappers(value);
+    for (;;) {
+        switch (value->flags & 7) {
+        case 2:
+            switch (value->kind) {
+            case 81:
+                left = value->left;
+                if ((left->flags & 7) == 3) {
+                    value->left = value->right;
+                    value->right = left;
+                }
+                /* Addition accepts the constant on either side. */
+            case 65: case 70: case 80: case 83:
+                offset = value->right;
+                if ((offset->flags & 7) != 3 || !(offset->type->flags & 0x40)) return 0;
+                amount = offset->low;
+                if (value->kind == 70) amount = 0U - amount;
+                *displacement = (int)((unsigned)*displacement + amount);
+                value = strip_value_wrappers(value->left);
+                break;
+            default:
+                return 0;
+            }
+            break;
+        case 3:
+            *displacement = (int)((unsigned)*displacement + value->low);
+            return 1;
+        case 5:
+            value = lower_ir_node(value);
+            /* Lowering yields the same symbol alternative as class4. */
+        case 4:
+            *symbol = value->symbol;
+            return 1;
+        default:
+            return 0;
+        }
+    }
+}
 extern "C" void __cdecl convert_initializer_expression(CompilerIrSymbol *symbol, CompilerParserNode *value)
 {
     CompilerIrSymbol *referenced = NULL;

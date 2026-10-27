@@ -272,11 +272,11 @@ int RECON_THISCALL CompilerParser::Run(void)
             value_top->value.string_attributes = c1_bss.parser_value.string_attributes;
         else if (state == 16 || state == 15 || state == 12 || state == 10 || state == 22 || state == 17 || state == 20 || state == 18 || state == 176 || state == 245)
             value_top->value.declaration = c1_bss.parser_value.declaration;
-        else if (state == 254)
+        else if (state == 254 || state == 31 || state == 149)
             value_top->value.attributes = c1_bss.parser_value.attributes;
         else if (state == 103 || state == 104 || state == 268)
             value_top->value.integer = c1_bss.parser_value.integer;
-        else if (state == 27 || state == 101 || state == 211 || state == 212 || state == 213 || state == 150 || state == 218 || state == 222 || state == 219 || state == 277 || state == 223)
+        else if (state == 27 || state == 101 || state == 211 || state == 212 || state == 213 || state == 150 || state == 218 || state == 222 || state == 219 || state == 277 || state == 223 || state == 205 || state == 86 || state == 33)
             value_top->value.declarator_symbol = c1_bss.parser_value.declarator_symbol;
         else value_top->value.declaration_flags = c1_bss.parser_value.declaration_flags;
 #else
@@ -454,7 +454,7 @@ read_action:
                 recon_unsupported("bitfield declarator and integer source are not yet modeled");
             c1_bss.parser_value.declarator_symbol = value_top[1].value.declarator_symbol;
         } else if (rule == 78 || rule == 77) {
-            if ((rule == 78 && state_top[1] != 27) || (rule == 77 && ((state_top[1] != 27 && state_top[1] != 212) || state_top[2] != 55 ||
+            if ((rule == 78 && state_top[1] != 27) || (rule == 77 && ((state_top[1] != 27 && state_top[1] != 212 && state_top[1] != 150 && state_top[1] != 101) || state_top[2] != 55 ||
                     state_top[3] != 103 || state_top[4] != 169)))
                 recon_unsupported("declarator pair reduction source state is not yet modeled");
             c1_bss.parser_value.declarator_symbol = value_top[1].value.declarator_symbol;
@@ -536,9 +536,11 @@ read_action:
         case 71: /* No semantic operand; enters the genuine initializer-element helper. */
         case 72: /* No semantic operand; enters genuine element completion. */
         case 73:
+        case 76: /* Calling-convention/pointer qualifiers and the same declarator pair. */
         case 75: /* Pointer prefix consumes the established empty qualifier record and declarator pair. */
         case 118: /* Abstract pointer uses the same established qualifier/pair roles. */
         case 77: /* Established declarator plus integer bound, then real AppendArrayBound. */
+        case 80: /* Parenthesized declarator preserves its pair and closes one level. */
         case 78:
         case 79:
         case 81:
@@ -555,6 +557,7 @@ read_action:
         case 99: /* Abstract parameter uses the explicitly written declarator/symbol pair. */
         case 114: /* Genuine abstract symbol plus48-byte declarator constructor. */
         case 98: /* Established parameter declaration and pointer declarator. */
+        case 103: /* Calling-convention BYTE uses its recovered qualifier relation. */
         case 100:
         case 105: /* Explicitly writes both qualifier DWORDs before any consumer. */
         case 106:
@@ -616,7 +619,9 @@ read_action:
         case 199: /* Established operand node, then genuine unary-minus helper. */
         case 201: /* Logical negation consumes the established operand node. */
         case 203: /* Parenthesized expression reuses its node and closes one control level. */
+        case 204: /* Dereference retains the actual operand node and enters unary conversion. */
         case 202: /* Prefix increment/decrement writes constant1 and its operation byte. */
+        case 205: /* Address-of enters the existing unary/lvalue conversion owners. */
         case 206: /* Known expression node reaches its genuine sizeof helper. */
         case 207: /* Known abstract declaration supplies its established type. */
         case 208:
@@ -634,6 +639,7 @@ read_action:
         case 224: /* Existing declaration record and abstract declarator/symbol pair. */
         case 210: /* Two established nodes reach the genuine right-typed owner. */
         case 225: /* Established expression node enters the genuine pending conversion. */
+        case 226: /* Actual call-target node enters the existing call-context setup. */
         case 227: /* First call argument enters its genuine node-list constructor. */
         case 228: /* Subsequent actual arguments retain the same list/node owners. */
         case 213: /* Complete call target plus its established argument list. */
@@ -1059,7 +1065,9 @@ case 118: {
     if (!((rule == 75 && state_top[3] == 150 &&
            ((state_top[1] == 221 && state_top[2] == 254) ||
             (state_top[1] == 32 && state_top[2] == 83))) ||
-          (rule == 118 && state_top[1] == 221 && state_top[2] == 254 && state_top[3] == 277)) ||
+          (rule == 118 && state_top[3] == 277 &&
+           ((state_top[1] == 221 && state_top[2] == 254) ||
+            (state_top[1] == 236 && state_top[2] == 264)))) ||
         !right[0].value.declarator_symbol.declarator || !right[0].value.declarator_symbol.symbol)
         recon_unsupported("pointer declarator semantic source states are not yet modeled");
 #endif
@@ -2723,14 +2731,17 @@ extern "C" CompilerIrSymbol *__cdecl lookup_cached_symbol_record(unsigned kind,
     if (!((kind == 5 && c1_data.enumerator_symbol_cache_index == 5 &&
            c1_data.record_sizes.known.enumerator_symbol_bytes == 40) ||
           (kind == 12 && c1_data.parameter_symbol_cache_index == 9 &&
-           c1_data.record_sizes.known.parameter_symbol_bytes == 52))) {
+           c1_data.record_sizes.known.parameter_symbol_bytes == 52) ||
+          (kind == 10 && c1_data.static_symbol_cache_index == 9 &&
+           c1_data.record_sizes.known.static_symbol_bytes == 52))) {
 #ifdef __linux__
         recon_unsupported("symbol cache kind/configuration is not yet recovered");
 #else
         __asm { int 3 }
 #endif
     }
-    unsigned index = kind == 5 ? c1_data.enumerator_symbol_cache_index : c1_data.parameter_symbol_cache_index;
+    unsigned index = kind == 5 ? c1_data.enumerator_symbol_cache_index :
+        kind == 10 ? c1_data.static_symbol_cache_index : c1_data.parameter_symbol_cache_index;
     binding = c1_data.symbol_cache.indexed[index];
     if (!binding) return NULL;
     c1_data.symbol_cache.indexed[index] = binding->next;
@@ -3401,6 +3412,8 @@ CompilerParserNode *__cdecl make_ir_operation(unsigned code, CompilerParserNode 
  * equality59=31@63f54/clear@6427b; subscript65=40@63f6c/clear@64281;
  * conditional86=66@63fc0/clear@64296; conversion100=44@63ff8/set80@642a4.
  * Bitfield53=55@63f3c/clear80@64275; dot-member80=39@63fa8/clear80@64290.
+ * Subtraction70=3@63f80/clear80@64286; inequality76=32@63f98/clear80@6428c.
+ * Right shift88=10@63fc8/clear80@64298.
  * Left shift67=9@63f74/clear80@64283; bitwise-or77=12@63f9c/clear80@6428d. */
 static const union CompilerIrOpcodeColumn {
     struct {
@@ -3423,11 +3436,13 @@ static const union CompilerIrOpcodeColumn {
         BYTE unmodeled_108[4];
         unsigned shift;
         unsigned less;
-        BYTE unmodeled_114[8];
+        BYTE unmodeled_114[4];
+        unsigned subtraction;
         unsigned subtract_assign;
         BYTE unmodeled_120[8];
         unsigned multiplication;
-        BYTE unmodeled_12c[8];
+        BYTE unmodeled_12c[4];
+        unsigned not_equal;
         unsigned bitwise_or;
         BYTE unmodeled_138[8];
         unsigned dot_member;
@@ -3437,7 +3452,9 @@ static const union CompilerIrOpcodeColumn {
         BYTE unmodeled_150[4];
         unsigned increment;
         unsigned conditional;
-        BYTE unmodeled_15c[52];
+        BYTE unmodeled_15c[4];
+        unsigned right_shift;
+        BYTE unmodeled_164[44];
         unsigned conversion;
         unsigned integer;
         BYTE unmodeled_198[24];
@@ -3451,7 +3468,7 @@ static const union CompilerIrOpcodeColumn {
         unsigned switch_value;
     } known;
     unsigned indexed[1];
-} ir_node_opcodes = { { {0}, 38, {0}, 11, 28, {0}, 50, 55, 67, {0}, 31, 26, 48, 36, {0}, 40, {0}, 9, 34, {0}, 16, {0}, 4, {0}, 12, {0}, 39, 2, 15, 39, {0}, 15, 66, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 60, 59 } };
+} ir_node_opcodes = { { {0}, 38, {0}, 11, 28, {0}, 50, 55, 67, {0}, 31, 26, 48, 36, {0}, 40, {0}, 9, 34, {0}, 3, 16, {0}, 4, {0}, 32, 12, {0}, 39, 2, 15, 39, {0}, 15, 66, {0}, 10, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 60, 59 } };
 static const union CompilerIrPropertyColumn {
     struct {
         BYTE unmodeled_000[6];
@@ -3473,11 +3490,13 @@ static const union CompilerIrPropertyColumn {
         BYTE unmodeled_042[1];
         BYTE shift;
         BYTE less;
-        BYTE unmodeled_045[2];
+        BYTE unmodeled_045[1];
+        BYTE subtraction;
         BYTE subtract_assign;
         BYTE unmodeled_048[2];
         BYTE multiplication;
-        BYTE unmodeled_04b[2];
+        BYTE unmodeled_04b[1];
+        BYTE not_equal;
         BYTE bitwise_or;
         BYTE unmodeled_04e[2];
         BYTE dot_member;
@@ -3487,7 +3506,9 @@ static const union CompilerIrPropertyColumn {
         BYTE unmodeled_054[1];
         BYTE increment;
         BYTE conditional;
-        BYTE unmodeled_057[13];
+        BYTE unmodeled_057[1];
+        BYTE right_shift;
+        BYTE unmodeled_059[11];
         BYTE conversion;
         BYTE integer;
         BYTE unmodeled_066[6];
@@ -3501,7 +3522,7 @@ static const union CompilerIrPropertyColumn {
         BYTE switch_value;
     } known;
     BYTE indexed[1];
-} ir_node_properties = { { {0}, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 128, 0, {0}, 0, {0}, 0, 0, {0}, 0, {0}, 0, {0}, 0, {0}, 0, 0, 0, 0, {0}, 0, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 128, 0 } };
+} ir_node_properties = { { {0}, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 128, 0, {0}, 0, {0}, 0, 0, {0}, 0, 0, {0}, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 128, 0 } };
 typedef char IrShiftOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.shift) == 67 * 4 ? 1 : -1];
 typedef char IrOrOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.bitwise_or) == 77 * 4 ? 1 : -1];
 typedef char IrShiftPropertyOffset[offsetof(CompilerIrPropertyColumn, known.shift) == 67 ? 1 : -1];
@@ -3510,7 +3531,7 @@ typedef char IrBitfieldOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.bitfi
 typedef char IrDotOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.dot_member) == 80 * 4 ? 1 : -1];
 typedef char IrBitfieldPropertyOffset[offsetof(CompilerIrPropertyColumn, known.bitfield) == 53 ? 1 : -1];
 typedef char IrDotPropertyOffset[offsetof(CompilerIrPropertyColumn, known.dot_member) == 80 ? 1 : -1];
-#define IR_KIND_MODELED(k) ((k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
+#define IR_KIND_MODELED(k) ((k) == 88 || (k) == 76 || (k) == 70 || (k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
 #ifdef __linux__
 #define REQUIRE_IR_KIND(k) do { if (!IR_KIND_MODELED(k)) \
     recon_unsupported("IR node column is not modeled for this kind"); } while (0)
@@ -3633,7 +3654,118 @@ void __cdecl emit_ir_node(CompilerParserNode *node)
     }
 }
 #undef REQUIRE_IR_KIND
-CompilerParserNode *__cdecl lower_ir_node(CompilerParserNode *) { __asm { int 3 } return NULL; }
+extern "C" {
+int __cdecl omit_inline_expression_record(void);
+int __cdecl uses_global_function_record(CompilerIrSymbol *);
+char *__cdecl make_string_literal_name(const CompilerStringValue *, int);
+char *__cdecl make_local_string_name(void);
+CompilerNameEntry *__cdecl find_or_create_identifier(const char *);
+CompilerParserNode *__cdecl create_string_literal_reference(CompilerParserNode *, CompilerNameEntry *, int, int);
+void __cdecl apply_symbol_segment(CompilerIrSymbol *, CompilerIrSymbol *);
+void __cdecl write_string_literal_initializer(CompilerIrSymbol *, CompilerParserNode *);
+void __cdecl write_global_reference(CompilerSymbolBinding *);
+}
+CompilerParserNode *__cdecl lower_ir_node(CompilerParserNode *value)
+{
+    CompilerNameEntry *name = NULL;
+    CompilerIrSymbol **found;
+    CompilerIrSymbol *existing = NULL;
+    const char *spelling = NULL;
+    int pooled = omit_inline_expression_record();
+    int global = 0;
+    if (c1_bss.declaration_scope_active && c1_bss.current_scope_symbol &&
+        uses_global_function_record(c1_bss.current_scope_symbol))
+        global = 1;
+    ++function_reset_value;
+    if (pooled)
+        spelling = make_string_literal_name((const CompilerStringValue *)&value->text,
+            value->string_flags & 1);
+    else if (!c1_data.c9_il && global)
+        spelling = make_local_string_name();
+    if (spelling) {
+        name = find_or_create_identifier(spelling);
+        if (pooled) {
+            found = (CompilerIrSymbol **)c1_data.translation_unit->root->Find(name);
+            if (found) existing = *found;
+            if (existing) return make_label_expression(existing, 0);
+        }
+    }
+    return create_string_literal_reference(value, name, pooled, global);
+}
+extern "C" char *__cdecl make_string_literal_name(const CompilerStringValue *, int)
+{ __asm { int 3 } return NULL; }
+extern "C" char *__cdecl make_local_string_name(void)
+{ __asm { int 3 } return NULL; }
+extern "C" CompilerParserNode *__cdecl create_string_literal_reference(
+    CompilerParserNode *value, CompilerNameEntry *name, int pooled, int global)
+{
+    BYTE saved_scope = c1_bss.declaration_scope_active;
+    BYTE saved_nesting = parameter_nesting;
+    CompilerIrSymbol *symbol = lookup_cached_symbol_record(10, NULL, 0);
+    CompilerIrSymbol *segment = NULL;
+    CompilerIrSymbol *function;
+    CompilerParserNode *result;
+    CompilerType *type = value->type;
+    unsigned storage;
+    if (!symbol) {
+        symbol = (CompilerIrSymbol *)c1_bss.arenas[1].AllocateBytes(
+            (c1_data.record_sizes.known.static_symbol_bytes + 3) & ~3U);
+        if (symbol) symbol->Initialize(10, NULL, 0);
+    }
+    if (c1_data.next_symbol_record_id >= 0x7fffffffU) compiler_fatal(55);
+    symbol->record_id = (symbol->record_id & 0xff000000U) |
+        (c1_data.next_symbol_record_id++ & 0xffffffU);
+    if (type->shape && (type->shape->flags & 7) == 1)
+        type = type->WithoutOuterShape();
+    symbol->value_type = type;
+    if ((symbol->reference_flags & 3) < 3) ++symbol->reference_flags;
+    symbol->reference_flags = (symbol->reference_flags & ~4U) |
+        ((c1_data.ir_reference_epoch & 1) << 2);
+    symbol->declaration_flags |= 8;
+    storage = symbol->storage_class & 7;
+    symbol->intrinsic_flags = storage;
+    symbol->qualifier_flags |= 4;
+    symbol->declaration_flags |= 4;
+    symbol->flags |= 1;
+    if (pooled || (!c1_data.c9_il && global)) {
+        symbol->storage_class = (symbol->storage_class & ~0x47U) |
+            ((pooled & 1) << 6) | (pooled ? 2 : 3);
+        symbol->binding.name = name;
+    } else symbol->storage_class = (symbol->storage_class & ~7U) | 3;
+    if (pooled || global) {
+        symbol->scope_bits = (symbol->scope_bits & ~4U) | (!c1_data.c9_il << 2);
+        if ((symbol->scope_bits & 4) && !c1_bss.debug_module->Slot48())
+            compiler_error(73, "p1inl.inl", 648);
+    }
+    c1_bss.declaration_scope_active = 0;
+    parameter_nesting = 0;
+    if (c1_data.normalized_readonly_strings && pooled)
+        segment = c1_data.segment_defaults.type_context;
+    else segment = c1_data.segment_defaults.definition;
+    if (segment) {
+        if (pooled) apply_function_context(symbol, segment);
+        else apply_symbol_segment(symbol, segment);
+    }
+    function = c1_bss.current_scope_symbol;
+    if (function && (function->linkage_flags & 12) &&
+        ((function->symbol_qualifiers & 1) || (lexer_flags & 0x200)) &&
+        (function->linkage_flags & 4)) symbol->linkage_flags |= 4;
+    if (pooled) c1_data.translation_unit->root->Insert(symbol);
+    else symbol->scope_bits = (symbol->scope_bits & ~2U) | ((parameter_nesting != 0) << 1);
+    result = make_label_expression(symbol, 0);
+    result->type = symbol->value_type;
+    write_string_literal_initializer(symbol, value);
+    write_global_reference(&symbol->binding);
+    result->flags = 4;
+    result->kind = 6;
+    c1_bss.declaration_scope_active = saved_scope;
+    parameter_nesting = saved_nesting;
+    return result;
+}
+CompilerType *RECON_THISCALL CompilerType::WithoutOuterShape(void)
+{ __asm { int 3 } return NULL; }
+extern "C" void __cdecl apply_symbol_segment(CompilerIrSymbol *, CompilerIrSymbol *)
+{ __asm { int 3 } }
 int __cdecl suppress_ir_call(CompilerParserNode *) { __asm { int 3 } return 0; }
 CompilerParserNode *__cdecl make_typed_unary_operation(unsigned operation, CompilerType *type,
     CompilerParserNode *operand)
@@ -3913,7 +4045,7 @@ void __cdecl check_finished_function(CompilerIrSymbol *function)
         c1_data.saved_pch_mode ||
         !((c1_data.function_directory_index == 19 && !c1_data.function_directory_head &&
            !c1_data.function_directory_current) ||
-          (c1_data.function_directory_index == 0 && c1_data.function_directory_head &&
+          (c1_data.function_directory_index < 20 && c1_data.function_directory_head &&
            c1_data.function_directory_current == c1_data.function_directory_head)))
         recon_unsupported("alternate function-directory finalization is not yet modeled");
 #endif
@@ -3994,7 +4126,16 @@ void __cdecl check_finished_function(CompilerIrSymbol *function)
     c1_data.emit_global_locations = 0;
 }
 extern "C" int __cdecl uses_global_function_record(CompilerIrSymbol *) { __asm { int 3 } return 0; }
-extern "C" int __cdecl omit_inline_expression_record(void) { __asm { int 3 } return 0; }
+extern "C" int __cdecl omit_inline_expression_record(void)
+{
+    CompilerIrSymbol *function = c1_bss.current_scope_symbol;
+    /* The original -cbstring option row addresses the same RVA5ef80 cell. */
+    if (c1_data.normalized_pool_strings || c1_data.normalized_readonly_strings) {
+        if (!function || c1_data.options.code_based_strings) return 1;
+    }
+    return function && (function->symbol_qualifiers & 1) &&
+        (function->storage_class & 7) != 3;
+}
 
 void __cdecl finish_function_label_context(void)
 { c1_data.debug_symbol_index = 0; }
@@ -4915,13 +5056,17 @@ CompilerParserNode *__cdecl validate_assignment_target(CompilerParserNode *value
     if (c1_expression_classes.indexed[value->kind] != 61) return NULL;
     constant = (declared_type_flags(value->type) >> 8) & 1;
     if ((mode & 1) && (value->type->flags & 0x400) && !value->type->shape) {
-        /* This bit feeds only the mode1 diagnostic below. Keep its unknown
-         * aggregate-owner domain held before that read; mode2 never uses it. */
+        /* Complete record definitions initialize this flag word. Other owner
+         * shapes remain unsupported before the mode1 diagnostic reads it. */
+        if (value->type->flags != 0x402 || value->type->attributes ||
+            !value->type->symbol_owner || value->type->symbol_owner->kind != 4 ||
+            !(value->type->symbol_owner->flags & 1)) {
 #ifdef __linux__
-        recon_unsupported("aggregate assignment type-owner flags are not yet supported");
+            recon_unsupported("aggregate assignment type-owner flags are not yet supported");
 #else
-        __asm { int 3 }
+            __asm { int 3 }
 #endif
+        }
         constant |= (value->type->symbol_owner->tag_definition_flags >> 10) & 1;
     }
     value = value->left;
@@ -5253,8 +5398,40 @@ extern "C" CompilerParserNode *__cdecl make_conversion_expression(CompilerType *
 }
 extern "C" CompilerParserNode *__cdecl make_shaped_conversion(unsigned, CompilerType *, CompilerParserNode *)
 { __asm { int 3 } return NULL; }
-CompilerType *__cdecl dereference_expression_type(CompilerType *) { __asm { int 3 } return NULL; }
-CompilerType *__cdecl adjust_reference_type(CompilerType *, unsigned) { __asm { int 3 } return NULL; }
+CompilerType *__cdecl dereference_expression_type(CompilerType *type)
+{
+    unsigned attributes = type->shape->attributes & 3;
+    CompilerType *result;
+    if (attributes == 1) compiler_warning(214);
+    c1_bss.dereferenced_shape_value = type->shape->value;
+    result = get_function_return_type(type);
+    result->attributes = (WORD)((result->attributes & ~3) | attributes);
+    return intern_type(result);
+}
+CompilerType *__cdecl adjust_reference_type(CompilerType *type, unsigned mode)
+{
+    CompilerTypeShape *shape = make_type_shape(mode == 1 ? 11 : 0x403,
+        type->shape->attributes, NULL);
+    CompilerType *copy;
+    CompilerArena *arena;
+    shape->base = type->shape->base;
+    shape = intern_type_shape(shape);
+    if (c1_data.expression_arena_kind >= 6) {
+#ifdef __linux__
+        recon_unsupported("reference type arena is outside encountered storage");
+#else
+        __asm { int 3 }
+#endif
+    }
+    arena = &c1_bss.arenas[c1_data.expression_arena_kind];
+    copy = (CompilerType *)arena->cursor;
+    arena->cursor += 16;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    /* Preserve the full type storage, including its uninterpreted cache. */
+    memcpy(copy, type, 16);
+    copy->shape = shape;
+    return copy;
+}
 CompilerIrSymbol *__cdecl find_referenced_symbol(CompilerParserNode *);
 CompilerParserNode *__cdecl convert_unary_operand(CompilerParserNode *value, unsigned mode)
 {
@@ -5629,10 +5806,25 @@ unsigned __cdecl classify_type_shapes(CompilerType *destination, CompilerType *s
 }
 unsigned __cdecl classify_shape_pair(unsigned, CompilerTypeShape *, CompilerTypeShape *)
 { __asm { int 3 } return 0; }
-unsigned __cdecl classify_qualifier_conversion(unsigned, unsigned, unsigned, unsigned)
-{ __asm { int 3 } return 0; }
-unsigned __cdecl classify_pointer_attributes(unsigned, unsigned, unsigned, CompilerTypeShape *)
-{ __asm { int 3 } return 0; }
+unsigned __cdecl classify_qualifier_conversion(unsigned, unsigned result,
+    unsigned destination, unsigned source)
+{
+    if ((WORD)destination == (WORD)source) return result;
+    if (destination & 0x100) {
+        if (!(source & 0x100)) result |= 8;
+    } else if (source & 0x100) return 0x2005;
+    if (destination & 0x200) {
+        if (!(source & 0x200)) result |= 8;
+    } else if (source & 0x200) return 0x2006;
+    return result;
+}
+unsigned __cdecl classify_pointer_attributes(unsigned result, unsigned destination,
+    unsigned source, CompilerTypeShape *)
+{
+    if (!((destination ^ source) & 3)) return result;
+    if ((destination & 1) || (source & 3) == 1) return 0x2000;
+    return result | 0x10;
+}
 /* RVA1ce98 */
 CompilerParserNode *__cdecl make_type_size_expression(CompilerType *type)
 {
@@ -5817,20 +6009,63 @@ void __cdecl emit_return_statement(CompilerParserNode *value, int explicit_retur
 }
 int __cdecl check_assignment_types(unsigned, CompilerType *, CompilerType *);
 void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerType *);
+#define CDECL_CALLBACK_ASSIGNMENT(d,s) ((d)->flags == 0x63 && (s)->flags == 0x63 && \
+    !(d)->attributes && (s)->attributes == 0x10 && (d)->shape && (s)->shape && \
+    (d)->shape->flags == 3 && (s)->shape->flags == 11 && \
+    (d)->shape->attributes == 0x10 && (s)->shape->attributes == 0x10 && \
+    (d)->shape->base && (d)->shape->base == (s)->shape->base && \
+    (d)->shape->base->flags == 0x404 && (d)->shape->base->attributes == 0x10 && \
+    !(d)->shape->base->base)
+#define CHAR_POINTER_ASSIGNMENT(d,s) ((d)->flags == 0x61 && (s)->flags == 0x61 && \
+    (d)->attributes == 0x100 && !(s)->attributes && (d)->shape && (s)->shape && \
+    (d)->shape->flags == 1 && (s)->shape->flags == 2 && \
+    !(d)->shape->attributes && !(s)->shape->attributes && \
+    !(d)->shape->base && !(s)->shape->base)
+#define RECORD_POINTER_ASSIGNMENT(d,s) ((d)->flags == 0x402 && (s)->flags == 0x402 && \
+    (d)->attributes == 0x100 && !(s)->attributes && (d)->shape && (s)->shape && \
+    (d)->shape->flags == 1 && (s)->shape->flags == 1 && !(d)->shape->attributes && \
+    (s)->shape->attributes == 0x100 && !(d)->shape->base && !(s)->shape->base && \
+    (d)->symbol_owner && (d)->symbol_owner == (s)->symbol_owner && \
+    (d)->symbol_owner->kind == 4 && ((d)->symbol_owner->flags & 1))
+#define VOID_FROM_RECORD_POINTER(d,s) ((d)->flags == 0x80 && (s)->flags == 0x402 && \
+    !(d)->attributes && !(s)->attributes && (d)->shape && (d)->shape == (s)->shape && \
+    (d)->shape->flags == 1 && !(d)->shape->attributes && !(d)->shape->base && \
+    (s)->symbol_owner && (s)->symbol_owner->kind == 4 && ((s)->symbol_owner->flags & 1))
+#define RECORD_VALUE_ASSIGNMENT(d,s) ((d)->flags == 0x402 && (s)->flags == 0x402 && \
+    !(d)->attributes && !((s)->attributes & ~0x10U) && !(d)->shape && !(s)->shape && \
+    (d)->symbol_owner && (d)->symbol_owner == (s)->symbol_owner && \
+    (d)->symbol_owner->kind == 4 && ((d)->symbol_owner->flags & 1))
 int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
     CompilerParserNode *value)
 {
+    /* The genuine NULL-constant fast path consumes no operand type data. */
+    if ((value->flags & 0x80) && type->shape && (type->shape->flags & 3))
+        return 1;
     /* Scalar integers use the authentic diagnostics below. Identical shaped
      * types take the genuine compatibility fast path and skip scalar checks. */
     if (!((operation == 116 || operation == 62) && !type->shape && !value->type->shape &&
           type->flags == 0x107 && value->type->flags == 0x107 &&
           !type->attributes && value->type->attributes == 0x100) &&
         !(type == value->type && type->shape) &&
+        !((operation == 125 || operation == 112) && type == value->type && !type->shape &&
+          type->flags == 0x402 && !type->attributes && type->symbol_owner &&
+          type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) &&
+        !(operation == 116 && CDECL_CALLBACK_ASSIGNMENT(type, value->type)) &&
+        !(operation == 116 && CHAR_POINTER_ASSIGNMENT(type, value->type)) &&
+        !(operation == 52 && RECORD_POINTER_ASSIGNMENT(type, value->type)) &&
+        !(operation == 52 && RECORD_VALUE_ASSIGNMENT(type, value->type)) &&
+        !(operation == 116 && VOID_FROM_RECORD_POINTER(type, value->type)) &&
+        !(operation == 116 && type->flags == 0x402 && value->type->flags == 0x402 &&
+          !type->attributes && !value->type->attributes &&
+          type->shape && type->shape == value->type->shape &&
+          type->shape->flags == 1 && !type->shape->attributes && !type->shape->base &&
+          type->symbol_owner && type->symbol_owner == value->type->symbol_owner &&
+          type->symbol_owner->kind == 4) &&
         !(operation == 112 && type->flags == 0x402 && value->type->flags == 0x402 &&
           type->attributes == 0x100 && !(value->type->attributes & ~0x100U) &&
           type->symbol_owner == value->type->symbol_owner && type->symbol_owner &&
           type->symbol_owner->kind == 4 && type->shape && value->type->shape &&
-          type->shape->flags == 1 && value->type->shape->flags == 2 &&
+          type->shape->flags == 1 && (value->type->shape->flags == 1 || value->type->shape->flags == 2) &&
           !type->shape->base && !value->type->shape->base &&
           !type->shape->attributes && !value->type->shape->attributes) &&
         (type->shape || value->type->shape ||
@@ -5841,8 +6076,6 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
         __asm { int 3 }
 #endif
     }
-    if ((value->flags & 0x80) && type->shape && (type->shape->flags & 3))
-        return 1;
     int result = check_assignment_types(operation, type, value->type);
     if (!type->shape && !value->type->shape) {
         unsigned pointer_count = ((type->flags >> 7) & 1) +
@@ -5887,11 +6120,22 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
     if (!((operation == 116 || operation == 62) && !destination->shape && !source->shape &&
           destination->flags == 0x107 && source->flags == 0x107 &&
           !destination->attributes && source->attributes == 0x100) &&
+        !(operation == 116 && CDECL_CALLBACK_ASSIGNMENT(destination, source)) &&
+        !(operation == 116 && CHAR_POINTER_ASSIGNMENT(destination, source)) &&
+        !(operation == 52 && RECORD_POINTER_ASSIGNMENT(destination, source)) &&
+        !(operation == 52 && RECORD_VALUE_ASSIGNMENT(destination, source)) &&
+        !(operation == 116 && VOID_FROM_RECORD_POINTER(destination, source)) &&
+        !(operation == 116 && destination->flags == 0x402 && source->flags == 0x402 &&
+          !destination->attributes && !source->attributes && destination->shape &&
+          destination->shape == source->shape && destination->shape->flags == 1 &&
+          !destination->shape->attributes && !destination->shape->base &&
+          destination->symbol_owner && destination->symbol_owner == source->symbol_owner &&
+          destination->symbol_owner->kind == 4) &&
         !(operation == 112 && destination->flags == 0x402 && source->flags == 0x402 &&
           destination->attributes == 0x100 && !(source->attributes & ~0x100U) &&
           destination->symbol_owner == source->symbol_owner && destination->symbol_owner &&
           destination->symbol_owner->kind == 4 && destination->shape && source->shape &&
-          destination->shape->flags == 1 && source->shape->flags == 2 &&
+          destination->shape->flags == 1 && (source->shape->flags == 1 || source->shape->flags == 2) &&
           !destination->shape->base && !source->shape->base &&
           !destination->shape->attributes && !source->shape->attributes) &&
         (destination->shape || source->shape ||
@@ -6066,7 +6310,7 @@ int __cdecl check_type_qualifiers(unsigned operation, unsigned destination,
     unsigned source, int first, int character_type)
 {
     operation &= 255;
-    if (operation != 112) {
+    if (operation != 112 && operation != 116 && operation != 52) {
 #ifdef __linux__
         recon_unsupported("conversion qualifier operation column is not yet recovered");
 #else
@@ -6094,7 +6338,14 @@ int __cdecl check_type_qualifiers(unsigned operation, unsigned destination,
         return 2;
     }
 }
-int __cdecl compatible_function_conventions(unsigned, unsigned) { __asm { int 3 } return 0; }
+int __cdecl compatible_function_conventions(unsigned left, unsigned right)
+{
+    unsigned difference;
+    if (function_output_mode) return 1;
+    difference = left ^ right;
+    if (difference & 3) return 0;
+    return (difference & 0x70) == 0;
+}
 int __cdecl compare_parameter_types(CompilerType *, CompilerType *) { __asm { int 3 } return 0; }
 int __cdecl incompatible_shape_conversion(unsigned, CompilerType *, CompilerType *)
 { __asm { int 3 } return 0; }
@@ -6201,7 +6452,7 @@ int __cdecl returns_local_address(CompilerParserNode *value)
     return 0;
 }
 /* Shared BYTE column at63c78: two encountered semantic relations only. */
-CompilerExpressionClasses c1_expression_classes = { { {0}, 6, {0}, 1, {0}, 50, {0}, 110, {0}, 61, {0}, 65, {0}, 101, {0}, 112 } };
+CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, {0}, 61, {0}, 65, {0}, 101, {0}, 112, {0}, 116 } };
 CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *value)
 {
     for (;;) {
@@ -9059,8 +9310,122 @@ extern "C" CompilerIrSymbol *__cdecl match_tag_type(CompilerIrSymbol *symbol, WO
 }
 extern "C" const char *__cdecl tag_type_name(WORD)
 { __asm { int 3 } return NULL; }
-CompilerParserToken *RECON_THISCALL CompilerTagSpecifier::Finish(CompilerParserToken *)
-{ __asm { int 3 } return NULL; }
+extern "C" CompilerIrSymbol *__cdecl lookup_tag_reference(CompilerNameEntry *, WORD,
+    CompilerDeclarationApply *);
+extern "C" CompilerIrSymbol *__cdecl validate_tag_reference(CompilerIrSymbol *, WORD);
+extern "C" void __cdecl merge_tag_reference_attributes(CompilerIrSymbol *,
+    CompilerDeclarationAttributes *);
+CompilerParserToken *RECON_THISCALL CompilerTagSpecifier::Finish(CompilerParserToken *token)
+{
+    CompilerIrSymbol *previous = NULL;
+    CompilerParserToken *result;
+    CompilerArena *arena;
+    CompilerPool *pool;
+    if (symbol) {
+        previous = symbol;
+        symbol = validate_tag_reference(symbol, type_flags);
+    } else {
+        apply = &CompilerTranslationUnit::InsertDeclaration;
+        if (c1_constant_diagnostic_mode < 0 || token->kind == 127)
+            symbol = lookup_tag_reference(name, type_flags, &apply);
+        else
+            symbol = lookup_tag_reference(name, type_flags, &apply);
+    }
+    c1_bss.literal.declaration.unmodeled_0c = symbol;
+    if (!symbol) {
+        compiler_warning(649, previous->binding.name->name, tag_type_name(type_flags));
+        return (CompilerParserToken *)c1_data.predefined_tokens[1];
+    }
+    merge_tag_reference_attributes(symbol, &attributes);
+    c1_bss.literal.declaration.apply = apply;
+    if (c1_bss.symbol_arena_kind) {
+        if (c1_bss.symbol_arena_kind >= 6) {
+#ifdef __linux__
+            recon_unsupported("tag reference token arena is not yet modeled");
+#else
+            __asm { int 3 }
+#endif
+        }
+        arena = &c1_bss.arenas[c1_bss.symbol_arena_kind];
+        result = (CompilerParserToken *)arena->cursor;
+        arena->cursor += 32;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    } else {
+        pool = &c1_bss.pools[6];
+        if (pool->remaining < 32) pool->Refill(32);
+        result = (CompilerParserToken *)pool->cursor;
+        pool->cursor += 32;
+        pool->remaining -= 32;
+    }
+    if (result) {
+        result->kind = 36;
+        /* The existing literal and token owners retain the authentic24-byte
+         * transfer, including opaque bytes, without assigning new defaults. */
+        memcpy(&result->value, &c1_bss.literal, 24);
+    }
+    return result;
+}
+extern "C" CompilerIrSymbol *__cdecl lookup_tag_reference(CompilerNameEntry *name, WORD flags,
+    CompilerDeclarationApply *apply)
+{
+    CompilerIrSymbol **found = c1_data.translation_unit->FindVisibleTag(name);
+    CompilerIrSymbol *symbol;
+    if (found) {
+        symbol = *found;
+        *apply = 0;
+    } else symbol = create_tag_symbol(name, flags, apply, 0);
+    return validate_tag_reference(symbol, flags);
+}
+CompilerIrSymbol **RECON_THISCALL CompilerTranslationUnit::FindVisibleTag(CompilerNameEntry *name)
+{
+    BYTE index;
+    CompilerIrSymbol **result;
+    if (!name || name == c1_data.builtin_names.unnamed) return NULL;
+    index = depth;
+    do {
+        if (index >= 128) {
+#ifdef __linux__
+            recon_unsupported("tag lookup exceeds the actual scope stack");
+#else
+            __asm { int 3 }
+#endif
+        }
+        result = (CompilerIrSymbol **)scopes[index]->Lookup(name);
+        if (result) {
+            c1_bss.tag_declaration_seen = index == depth;
+            return result;
+        }
+    } while (index-- != 0);
+    c1_bss.tag_declaration_seen = 0;
+    return NULL;
+}
+extern "C" CompilerIrSymbol *__cdecl validate_tag_reference(CompilerIrSymbol *symbol, WORD flags)
+{
+    if (!symbol) return NULL;
+    symbol = match_tag_type(symbol, flags);
+    if (c1_bss.browser_filename) {
+        if (parameter_nesting) {
+#ifdef __linux__
+            recon_unsupported("nested tag-reference browser suppression is not yet modeled");
+#else
+            __asm { int 3 }
+#endif
+        }
+        if (!parameter_nesting || parameter_browser_suppressed)
+            c1_data.backend->Slot1c(symbol);
+    }
+    return symbol;
+}
+extern "C" void __cdecl merge_tag_reference_attributes(CompilerIrSymbol *symbol,
+    CompilerDeclarationAttributes *attributes)
+{
+    if (attributes->extended_flags & 12) {
+        symbol->linkage_flags = (BYTE)((symbol->linkage_flags & ~4U) |
+                                      (attributes->extended_flags & 4));
+        symbol->linkage_flags = (BYTE)((symbol->linkage_flags & ~8U) |
+                                      (attributes->extended_flags & 8));
+    }
+}
 extern "C" CompilerType *__cdecl tag_value_type(CompilerIrSymbol *);
 extern "C" CompilerType *__cdecl reference_tag_type(CompilerIrSymbol *symbol)
 {
@@ -9381,10 +9746,20 @@ CompilerType *RECON_THISCALL CompilerType::WithAttributes(unsigned added)
     replacement.attributes |= (WORD)added;
     return WithShape(shape->Replace(selected, &replacement));
 }
-CompilerType *RECON_THISCALL CompilerType::WithShape(CompilerTypeShape *)
-{ __asm { int 3 } return NULL; }
-CompilerTypeShape *RECON_THISCALL CompilerTypeShape::Replace(CompilerTypeShape *, const CompilerTypeShape *)
-{ __asm { int 3 } return NULL; }
+CompilerType *RECON_THISCALL CompilerType::WithShape(CompilerTypeShape *replacement)
+{
+    CompilerType copy = *this;
+    copy.shape = replacement;
+    return intern_type(&copy);
+}
+CompilerTypeShape *RECON_THISCALL CompilerTypeShape::Replace(CompilerTypeShape *selected,
+    const CompilerTypeShape *replacement)
+{
+    if (this == selected) return intern_type_shape((CompilerTypeShape *)replacement);
+    CompilerTypeShape copy = *this;
+    copy.base = base->Replace(selected, replacement);
+    return intern_type_shape(&copy);
+}
 CompilerParserToken *RECON_THISCALL CompilerDeclarationScanner::BuildToken(unsigned kind)
 {
     CompilerArena *arena;

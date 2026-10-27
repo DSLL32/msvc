@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 612 application functions / 179,276 code bytes and
-6,876 bytes of owned text data. Application code is 55.63% of the original
+The reconstruction contains 630 application functions / 182,177 code bytes and
+6,949 bytes of owned text data. Application code is 56.53% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All four cached cases complete natively: DLL attach/export lookup/detach, the
+All five cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, and the declarations workload described next. The minimal invocation forwards the actual
+below, the declarations workload described next, and the types workload below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -41,6 +41,18 @@ cover conditional arithmetic, promotions, dirty bitfield/label storage,
 adjacent literal ownership and finite extended-precision edges/status. Raw
 artifacts and preserved intermediate failures remain in scratch
 `declarations-case-20261026/`.
+
+The types case combines explicit cdecl callback typedefs, indirect calls,
+multidimensional arrays, pointer differences and casts, linked record types,
+static address initializers, aggregate parameters/returns and record copies.
+Both executions exit zero with 537 first entries and exact artifacts:
+`typesex` (2,073 bytes), `typesgl` (404), `typesin` (134), and `typessy` (512).
+The final reference took 1,587.743 ms; the matching native run took 20.877 ms.
+Two focused tests cover tag-attribute write extent and deferred literal-buffer
+ownership. The latter also verifies that literal output leaves pending ordinary
+initialization untouched. Raw artifacts and intermediate failures remain in
+scratch `types-case-20261027/`. This case adds 18 application functions and
+2,901 code bytes; wider semantic and option domains remain guarded.
 
 The original extended-precision boundary uses ten-byte x87 values that VC5
 cannot express with its ordinary `long double`. Tiny documented assembly

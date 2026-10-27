@@ -25,13 +25,16 @@ struct CompilerNameEntry;
 typedef union CompilerExpressionClasses {
     struct {
         BYTE unmodeled_00[6], symbol;
-        BYTE unmodeled_07[38], end_of_line; /* kind45, RVA63ca5 ->1 */
+        BYTE string; /* kind7, RVA63c7f ->7 */
+        BYTE unmodeled_08[37], end_of_line; /* kind45, RVA63ca5 ->1 */
         BYTE unmodeled_2e[4], logical_and; /* kind50, RVA63caa ->50 */
-        BYTE unmodeled_33[8], equality; /* kind59, RVA63cb3 ->110 */
+        BYTE unmodeled_33[1], simple_assignment; /* kind52, RVA63cac ->52 */
+        BYTE unmodeled_35[6], equality; /* kind59, RVA63cb3 ->110 */
         BYTE unmodeled_3c[1], indirection;
         BYTE unmodeled_3e[3], subscript; /* kind65, RVA63cb9 ->65 */
         BYTE unmodeled_42[35], integer;
         BYTE unmodeled_66[10], call_argument;
+        BYTE unmodeled_71[3], assignment; /* kind116, RVA63cec ->116 */
     } known;
     BYTE indexed[1];
 } CompilerExpressionClasses;
@@ -77,6 +80,7 @@ typedef struct CompilerType {
     struct CompilerType *RECON_THISCALL AddressType(unsigned);
     struct CompilerType *RECON_THISCALL WithShapeFlags(unsigned);
     struct CompilerType *RECON_THISCALL WithFunctionConvention(unsigned);
+    struct CompilerType *RECON_THISCALL WithoutOuterShape(void);
 #endif
 } CompilerType;
 typedef char CompilerType_size[sizeof(CompilerType) == 16 ? 1 : -1];

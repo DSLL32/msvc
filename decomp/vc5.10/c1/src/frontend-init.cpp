@@ -1145,7 +1145,19 @@ void RECON_THISCALL CompilerDeclarator::ApplyBaseAttributes(void)
     }
 }
 WORD RECON_THISCALL CompilerDeclarator::ApplyCallingConvention(CompilerTypeShape *shape,
-    unsigned convention) { __asm { int 3 } return 0; }
+    unsigned convention)
+{
+    if (!(shape->flags & 0x8000)) return (WORD)convention;
+    switch (convention & 0x70) {
+    case 0x10: case 0x50:
+        return (WORD)convention;
+    case 0x40: case 0x60:
+        return 0x10;
+    default:
+        compiler_warning(217, 37, 106);
+        return 0x10;
+    }
+}
 extern "C" void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
 WORD RECON_THISCALL CompilerDeclarator::ResolveFunctionAttributes(CompilerTypeShape *shape)
 {

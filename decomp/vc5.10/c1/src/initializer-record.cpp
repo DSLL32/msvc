@@ -43,6 +43,19 @@ static const char *initializer_formats[9] = {
     "mdox", "tpzv", "tsfz", "tl", "ti", "tr", "t", "t", "tn"
 };
 
+extern "C" void __cdecl write_string_literal_initializer(CompilerIrSymbol *symbol,
+    CompilerParserNode *value)
+{
+    /* RVA547f8 collects literal records separately; run_compiler appends
+     * them after ordinary initializer and function records. */
+    CompilerOutputBuffer *output = &c1_bss.output_buffers[5];
+    int available;
+    write_initializer_symbol(symbol, value, output);
+    available = output->cursor + 2 <= output->data + output->capacity ? 1 : output->Grow(2);
+    output->good &= available;
+    if (output->good) *output->cursor++ = 7;
+}
+
 /* These are genuinely inlined buffer operations. Calling a new convenience
  * function here would introduce an application edge absent from the target. */
 #define INIT_RESERVE(n) \

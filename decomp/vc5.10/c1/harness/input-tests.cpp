@@ -1455,3 +1455,59 @@ extern "C" int c1_test_statement_label_storage(void)
     return find_statement_label(&name) == symbol && !find_statement_label(&other) &&
         !memcmp(storage, expected, sizeof(storage));
 }
+
+extern "C" void __cdecl write_string_literal_initializer(CompilerIrSymbol *, struct CompilerParserNode *);
+extern "C" int c1_test_deferred_literal_buffer(void)
+{
+    BYTE ordinary[64], deferred[64], saved_ordinary[64];
+    static const BYTE expected[] = { 0, 37, 0, 0, 3, 4, 'a', 'b', 'c', 0, 7 };
+    CompilerOutputBuffer saved_buffer;
+    CompilerIrSymbol symbol, pending;
+    CompilerType type;
+    struct CompilerTypeShape shape;
+    struct CompilerParserNode value;
+    unsigned i;
+    memset(ordinary, 0xa5, sizeof(ordinary));
+    memcpy(saved_ordinary, ordinary, sizeof(ordinary));
+    memset(deferred, 0x5a, sizeof(deferred));
+    memset(&symbol, 0, sizeof(symbol));
+    memset(&type, 0, sizeof(type));
+    memset(&shape, 0, sizeof(shape));
+    memset(&value, 0, sizeof(value));
+    c1_bss.output_buffers[4].data = ordinary;
+    c1_bss.output_buffers[4].cursor = ordinary + 7;
+    c1_bss.output_buffers[4].capacity = sizeof(ordinary);
+    c1_bss.output_buffers[4].good = 1;
+    saved_buffer = c1_bss.output_buffers[4];
+    c1_bss.output_buffers[5].data = deferred;
+    c1_bss.output_buffers[5].cursor = deferred + 1;
+    c1_bss.output_buffers[5].capacity = sizeof(deferred);
+    c1_bss.output_buffers[5].good = 1;
+    c1_data.c9_il = 1;
+    c1_data.function_record_flags = 0;
+    c1_data.last_initializer_symbol = &pending;
+    type.flags = 0x61;
+    type.attributes = 0x100;
+    type.shape = &shape;
+    shape.flags = 2;
+    shape.value = 4;
+    symbol.kind = 10;
+    symbol.qualifier_flags = 4;
+    symbol.record_id = 37;
+    symbol.value_type = &type;
+    value.kind = 7;
+    value.flags = 5;
+    value.type = &type;
+    value.text = "abc";
+    value.string_length = 4;
+    write_string_literal_initializer(&symbol, &value);
+    if (memcmp(&saved_buffer, &c1_bss.output_buffers[4], sizeof(saved_buffer)) ||
+        memcmp(ordinary, saved_ordinary, sizeof(ordinary)) ||
+        c1_data.last_initializer_symbol != &pending ||
+        c1_bss.output_buffers[5].cursor != deferred + 1 + sizeof(expected) ||
+        memcmp(deferred + 1, expected, sizeof(expected)) || deferred[0] != 0x5a)
+        return 0;
+    for (i = 1 + sizeof(expected); i < sizeof(deferred); ++i)
+        if (deferred[i] != 0x5a) return 0;
+    return 1;
+}

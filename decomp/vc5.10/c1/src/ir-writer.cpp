@@ -449,8 +449,15 @@ extern "C" void __cdecl write_ir_operand(int kind, const CompilerIntegerConstant
 #ifdef RECON_NATIVE_TEST
     if ((mode != 1 && mode != 2) ||
         (!type->shape && !(type->flags & 0x40) &&
-         !(type->flags == 0x107 && !(type->attributes & ~0x100U))) ||
-        (type->shape && (type->shape->flags & 7) != 1))
+         !(type->flags == 0x107 && !(type->attributes & ~0x100U)) &&
+         !(type->flags == 0x402 && (!type->attributes ||
+           (kind == 62 && mode == 2 && type->attributes == 0x10)) && type->symbol_owner &&
+           type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1))) ||
+        (type->shape && (type->shape->flags & 7) != 1 &&
+         !((kind == 48 || kind == 50 || kind == 85) && mode == 2 && type->flags == 0x63 && !type->attributes &&
+           (type->shape->flags & ~8U) == 3 && type->shape->attributes == 0x10 &&
+           type->shape->base && type->shape->base->flags == 0x404 &&
+           type->shape->base->attributes == 0x10 && !type->shape->base->base)))
         recon_unsupported("IR operand type or mode is not yet modeled");
 #endif
     if (type->shape) {

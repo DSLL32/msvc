@@ -463,6 +463,7 @@ typedef struct CompilerBss {
     unsigned function_storage_class; /* RVA55088, BSS; captured parameter kind */
     unsigned function_reset_value; /* RVA54dd8, BSS; reset on function entry */
     unsigned nonil_type_index; /* RVA54c80, BSS; current context value at function entry */
+    unsigned dereferenced_shape_value; /* RVA54c70, BSS; saved outer-shape payload, uninterpreted here. */
     void *function_cleanup_context; /* RVA550c4, BSSNULL; function exit clears it */
     int token_input_finished; /* RVA54f24, BSS0; final token consumer writes1 */
     unsigned parameter_storage_class; /* RVA53d78, BSS0; function declarator copies parameter kind */

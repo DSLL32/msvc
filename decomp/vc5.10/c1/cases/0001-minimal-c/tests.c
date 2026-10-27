@@ -548,6 +548,7 @@ static int type_arena_snapshot(void)
     c1_data.pch_record_name = NULL;
     c1_data.global_options = NULL;
     c1_bss.token_input_finished = 19;
+    c1_bss.dereferenced_shape_value = 0x87654321;
     c1_data.function_scope_cache = &owned_symbols[0];
     c1_bss.function_cleanup_context = &owned_symbols[1];
     c1_data.try_depth = 17;
@@ -593,7 +594,7 @@ static int type_arena_snapshot(void)
             saved->predefined_time_text[i] != 0x37) return 0;
     for (i = 0; i < sizeof(c1_bss.declaration_specs[0]); ++i)
         if (c1_bss.declaration_specs[0][i]) return 0;
-    if (c1_bss.token_input_finished || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_bss.function_entry_label || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting ||
+    if (c1_bss.dereferenced_shape_value || c1_bss.token_input_finished || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_bss.function_entry_label || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting ||
         c1_bss.declaration_control[1].flags || c1_bss.declaration_depth || c1_bss.declaration_control[0].flags ||
         c1_bss.pending_scope_symbols || c1_data.try_depth || c1_data.finally_depth || c1_data.exception_filter_depth ||
         c1_bss.type_description_depth || c1_bss.type_descriptions[1].flags ||
