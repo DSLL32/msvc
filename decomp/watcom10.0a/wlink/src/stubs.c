@@ -58,19 +58,15 @@ void SpillRead( unsigned long loc, unsigned long off, void *buffer, unsigned siz
 
 unsigned char FreeUpMemory( void ) { TRAP(); return 0; }
 
-int WResReadExtraWResID( WResID *id, int file ) { id = id; file = file; TRAP(); return 0; }
-int WResReadFixedResRecord( WResResInfo *info, int file )
-{ info = info; file = file; TRAP(); return 0; }
-int readLangInfoList( int file, WResResNode *node )
-{ file = file; node = node; TRAP(); return 0; }
-int readMResDir( int file, WResDir dir, int *duplicates )
-{ file = file; dir = dir; duplicates = duplicates; TRAP(); return 0; }
-int WResIDNameCmp( const WResIDName *first, const WResIDName *second )
-{ first = first; second = second; TRAP(); return 0; }
 
 
 
-void WresRecordError( int status ) { status = status; TRAP(); }
+
+
+
+
+
+
 
 
 

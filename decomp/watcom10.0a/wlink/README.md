@@ -1,5 +1,8 @@
-WLINK 10.0a has forty completed native regression cases. The acceptance ledger
-contains **1,176 application functions / 131,579 unique original code bytes**.
+WLINK 10.0a has forty completed paired CLI cases and one source-backed native
+resource-unit case. The acceptance ledger contains **1,199 application functions /
+133,977 unique original code bytes**: **1,176 / 131,579 bytes** have paired CLI
+evidence, and **23 / 2,398 bytes** have source/static/native-unit qualification
+only. The latter are not claimed as observed original CLI execution.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -113,6 +116,7 @@ with manual data/explicit stack and a non-DLL LX virtual-device image.
 | `0038-help-elf` | Exit 0; exact 2,270-byte stdout, empty stderr, no artifacts |
 | `0039-os2-fullscreen` | Exit 0; exact 246-byte stdout, empty stderr, 615-byte image and 2,983-byte map |
 | `0040-os2-virtual-device` | Exit 0; exact 262-byte stdout, empty stderr, 1,644-byte image and 3,325-byte map |
+| `0041-resource-units` | Native-only typed resource assertions; no original execution/oracle claim |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -140,7 +144,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,114 source-ready identities, their actual graph,
+The complete audit passes for 1,203 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -766,3 +770,42 @@ explicit offline comparison derivations. The intermediate family ledger was
 corrected to exclude the prepared virtual-device body until its separate actual
 execution passed; no original observation was relabeled. Both new case folders
 contain only source and capture data.
+
+
+The combined resource-version unit case qualifies valid named WRes v2 and Win16
+Microsoft resource files that the linker's immutable self-resource input cannot
+select through ordinary CLI arguments. Typed tests use real open/read/seek/close
+and the genuine WResRtns allocation/free owners. They verify fixed record bytes,
+counted-name continuation and case folding, exact file positions, directory/type/
+resource/language counts and links, language lookup, duplicate-resource handling,
+payload bytes and complete directory cleanup. The error hook is the actual typed
+one-byte RET and acquires no fabricated error side effects. There is no original
+DIRECT controller, saved original trace, provider response replay or CRT credit.
+Allocation failure, malformed records and other unknown error domains remain
+unqualified. Existing valid authored resource bytes and source algorithms from
+WASM were reused only after checking WLINK's own packed layouts, body boundaries,
+control edges and original ABI; WResAddResource retains its real RET16 cleanup.
+
+The 23 unit-only identities are WresRecordError, WResReadFixedResRecord,
+WResReadExtraWResID, WResIDNameCmp, readLangInfoList, readMResDir,
+MResReadResourceHeader, MResFreeResourceHeader, WResIDFromNameOrOrd,
+WResIDFromNum, WResIDFromStr, newTypeNode, newResNode, newLangNode,
+WResAddResource, ResReadUint8, ResReadUint16, ResReadNameOrOrdinal,
+VarStringStart, VarStringAddChar, ComputeVarStringLen, VarStringEnd and
+ResReadString. Their ordinary CLI reach is not established by these native tests.
+The shared resource declarations now live in src/resource.h with exact original
+packed owners, rather than duplicating private layouts in test glue. The actual
+inline strlen instruction sequence required the period compiler's strlen
+intrinsic setting; the initial extra-call audit failure remains in scratch.
+
+Final full build/regression/unit/audit took **1.878 s**; all forty CLI cases and the
+resource DIRECT case pass, including four focused valid-file/state tests and
+1,203 source-ready graph/ABI identities. The 82 native invocations took
+**14.535–58.819 ms**. The initial finite build took **1.384 s**; the MRes closure build
+**1.347 s**, and the required strlen graph correction build **1.463 s**. Its scoped
+23-function graph/ABI check took **387.707 ms**. The final standalone resource DIRECT
+run took **17.639 ms** (setup/execution/checks **11.281 / 2.259 / 4.099 ms**), and
+its four-test run **19.567 ms** (**8.819 / 6.605 / 4.143 ms**). No new original
+application invocation or Wine fixture was used. Commands, static analysis and
+explicit split acceptance ledger remain in scratch wlink-resource-units; the
+case contains only case.c, direct.c and capture.bin.
