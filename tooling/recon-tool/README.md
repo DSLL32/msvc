@@ -13,6 +13,8 @@ target/i686-unknown-linux-gnu/debug/recon-tool capture pack ~/.ai-tmp/case.json 
 target/i686-unknown-linux-gnu/debug/recon-tool capture unpack /path/to/case/capture.bin
 ```
 
+`capture unpack INPUT` prints JSON to stdout; use `--output FILE` to save it.
+
 `run`/`test` accept multiple case directories or `case.so` paths. `--capture` overrides
 the inferred fixture for a single case. `--report` writes timing/results outside
 the ephemeral workspace; keep authoring JSON and reports outside case folders.
@@ -399,8 +401,15 @@ remapped. The launcher sets toolchain include/library/search paths, clears
 inherited compiler option variables and preserves cwd, arguments, streams, exit
 status and signals. It adds no ASCII restriction to tool arguments.
 
-Profiles cover `1.0-nt`, `5.10` (native MSVCRT override), and `watcom10.0a`
+Profiles cover `1.0-nt`, `5.10` (native MSVCRT override), `bc4.0`
+(`BC4/BIN`, `BC4/INCLUDE`, `BC4/LIB`), and `watcom10.0a`
 (Win32 binnt stubs, WATCOM root and the documented hash-verified GS-patched WLINK).
+BC4.0 build invocations prepend installed include/library paths before the caller's
+arguments to override the shipped CFG files' `D:\BC4` defaults. No-argument
+invocations remain argument-free, and original CFG files are never edited.
+A header-using BCC32 compile-only smoke passes. The shipped TLINK32 currently
+faults under Wine even without arguments, so a complete Borland-linked original
+build is not yet qualified.
 Selecting `WASM` or `WASM.EXE` uses the already-qualified
 `.patched/binnt/WASM.EXE` loader and verifies both that loader and its sibling
 `.patched/binb/WASM.EXE` payload before execution. The payload includes the
@@ -414,11 +423,16 @@ uses the same shared toolchain setup.
 ## Explicit original capture
 
 ```sh
-recon-tool original build-helper --repo /root/msvc2
-recon-tool original capture /path/to/case --repo /root/msvc2 \
+recon-tool original build-helper
+recon-tool original capture /path/to/case \
     --capture ~/.ai-tmp/inputs.bin --output /path/to/case/capture.bin \
     --report ~/.ai-tmp/original-result.json
 ```
+
+Capture and helper commands infer the repository the same way as `original tool`;
+`--repo` is only needed to override discovery. Discovery walks ancestors of the
+current directory, then the executable, looking for `toolchains/` and
+`tooling/recon-tool/Cargo.toml`; it also works in source copies without `.git`.
 
 The helper is compiled with the existing VC1.0 original compiler. Its sources and
 build outputs live under this tool; no Python program is needed per binary/case.
@@ -799,11 +813,11 @@ empty directory membership is outside this file-set contract. This adds an optio
 version-2 capture field without changing the C descriptor ABI.
 
 
-`original build-cf-helper --repo ROOT` builds the private CF debugger transport.
+`original build-cf-helper` builds the private CF debugger transport.
 Ordinary CF original capture uses the common command:
 
 ```sh
-recon-tool original capture CASE --repo ROOT --capture INPUT \
+recon-tool original capture CASE --capture INPUT \
   --cf-profile harness/cf-profile.json --progress --helper CF_BROKER \
   --output CAPTURE --report REPORT
 ```

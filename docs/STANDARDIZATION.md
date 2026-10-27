@@ -415,8 +415,10 @@ owning ELF function range, and compare its original entry RVA. This checks
 function ownership rather than assuming the last first-entry function trapped;
 it does not claim matching original/native instruction offsets.
 
-`original build-helper --repo REPO` explicitly builds the common Win32 helper.
-`original capture CASE --output capture.bin` saves an untouched original oracle;
+`original build-helper` explicitly builds the common Win32 helper.
+Original/helper commands infer the repository root; `--repo` is an optional
+override. `original capture CASE --output capture.bin` saves an untouched
+original oracle;
 `--progress` masks code sections and restores classified CRT/import boundaries
 and implemented App code plus owned text data, then stops at the next unknown
 App INT3. Final oracles and partial observations remain separate. The tool reports

@@ -118,12 +118,14 @@ enum OriginalCommand {
     Tool(toolchain::Tool),
     Capture(original::Capture),
     BuildCfHelper {
-        #[arg(long, default_value = ".")]
-        repo: PathBuf,
+        /// Repository root; inferred from cwd or recon-tool's location by default.
+        #[arg(long)]
+        repo: Option<PathBuf>,
     },
     BuildHelper {
-        #[arg(long, default_value = ".")]
-        repo: PathBuf,
+        /// Repository root; inferred from cwd or recon-tool's location by default.
+        #[arg(long)]
+        repo: Option<PathBuf>,
     },
 }
 #[derive(Subcommand)]
@@ -181,9 +183,11 @@ fn execute() -> Result<()> {
             OriginalCommand::Tool(options) => toolchain::run(options)?,
             OriginalCommand::Capture(options) => original::capture(options)?,
             OriginalCommand::BuildCfHelper { repo } => {
+                let repo = toolchain::repository(repo.as_deref())?;
                 println!("{}", original_cf::build_helper(&repo)?.display())
             }
             OriginalCommand::BuildHelper { repo } => {
+                let repo = toolchain::repository(repo.as_deref())?;
                 println!("{}", original::build_helper(&repo)?.display())
             }
         },

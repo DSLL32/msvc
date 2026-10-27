@@ -107,8 +107,8 @@ fn watcom_executable(root: &Path, tool: &str) -> Result<PathBuf> {
 
 pub fn command(repo: &Path, name: &str, tool: &str) -> Result<Command> {
     anyhow::ensure!(
-        matches!(name, "1.0-nt" | "5.10" | "watcom10.0a"),
-        "unknown toolchain {name}; supported: 1.0-nt, 5.10, watcom10.0a"
+        matches!(name, "1.0-nt" | "5.10" | "watcom10.0a" | "bc4.0"),
+        "unknown toolchain {name}; supported: 1.0-nt, 5.10, watcom10.0a, bc4.0"
     );
     let root = repo.join("toolchains").join(name);
     let mut command = crate::wine::command(repo)?;
@@ -130,6 +130,16 @@ pub fn command(repo: &Path, name: &str, tool: &str) -> Result<Command> {
         command
             .env("WATCOM", crate::wine::windows(&root, repo)?)
             .env("WINEPATH", crate::wine::windows(&root.join("binnt"), repo)?);
+    } else if name == "bc4.0" {
+        let root = root.join("BC4");
+        program = executable(&root.join("BIN"), tool)?;
+        command
+            .env(
+                "INCLUDE",
+                crate::wine::windows(&root.join("INCLUDE"), repo)?,
+            )
+            .env("LIB", crate::wine::windows(&root.join("LIB"), repo)?)
+            .env("WINEPATH", crate::wine::windows(&root.join("BIN"), repo)?);
     } else {
         program = executable(&root.join("bin"), tool)?;
         command
@@ -147,10 +157,35 @@ pub fn command(repo: &Path, name: &str, tool: &str) -> Result<Command> {
     Ok(command)
 }
 
+fn command_with_args(repo: &Path, name: &str, tool: &str, args: &[OsString]) -> Result<Command> {
+    let mut command = command(repo, name, tool)?;
+    if name == "bc4.0" && !args.is_empty() {
+        let tool = tool.to_ascii_uppercase();
+        let tool = tool.strip_suffix(".EXE").unwrap_or(&tool);
+        let root = repo.join("toolchains/bc4.0/BC4");
+        // Shipped CFG files contain D:\BC4 paths. Override those defaults
+        // without changing the files or overriding the caller's later flags.
+        // Leave a no-argument help invocation genuinely argument-free.
+        if matches!(tool, "BCC32" | "CPP32") {
+            command.arg(format!(
+                "-I{}",
+                crate::wine::windows(&root.join("INCLUDE"), repo)?
+            ));
+        }
+        if matches!(tool, "BCC32" | "TLINK32") {
+            command.arg(format!(
+                "-L{}",
+                crate::wine::windows(&root.join("LIB"), repo)?
+            ));
+        }
+    }
+    command.args(args);
+    Ok(command)
+}
+
 pub fn run(options: Tool) -> Result<()> {
     let repo = repository(options.repo.as_deref())?;
-    let mut command = command(&repo, &options.toolchain, &options.tool)?;
-    command.args(options.args);
+    let mut command = command_with_args(&repo, &options.toolchain, &options.tool, &options.args)?;
     // Replace the launcher, preserving the tool's streams, status and signals.
     Err(command.exec()).context("execute original tool through Wine")
 }
@@ -158,6 +193,42 @@ pub fn run(options: Tool) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn borland_launch_preserves_arguments_and_selects_its_installation() -> Result<()> {
+        let repo = repository(None)?;
+        let tail = ["-c", "-v", "test.c"];
+        let tail_args: Vec<_> = tail.iter().map(OsString::from).collect();
+        let launch = command_with_args(&repo, "bc4.0", "bcc32", &tail_args)?;
+        let args: Vec<_> = launch.get_args().map(|v| v.to_str().unwrap()).collect();
+        assert_eq!(
+            args,
+            [
+                r"R:\toolchains\bc4.0\BC4\BIN\BCC32.EXE",
+                r"-IR:\toolchains\bc4.0\BC4\INCLUDE",
+                r"-LR:\toolchains\bc4.0\BC4\LIB",
+                tail[0],
+                tail[1],
+                tail[2]
+            ]
+        );
+        let env: std::collections::HashMap<_, _> = launch.get_envs().collect();
+        for (key, value) in [
+            ("INCLUDE", r"R:\toolchains\bc4.0\BC4\INCLUDE"),
+            ("LIB", r"R:\toolchains\bc4.0\BC4\LIB"),
+            ("WINEPATH", r"R:\toolchains\bc4.0\BC4\BIN"),
+        ] {
+            assert_eq!(
+                env[std::ffi::OsStr::new(key)],
+                Some(std::ffi::OsStr::new(value))
+            );
+        }
+        assert!(launch.get_current_dir().is_none());
+        assert!(command(&repo, "bc4.0", "../BCC32").is_err());
+        let help = command_with_args(&repo, "bc4.0", "BCC32.EXE", &[])?;
+        assert_eq!(help.get_args().count(), 1);
+        Ok(())
+    }
+
     fn shipped_root() -> PathBuf {
         Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("../../toolchains/watcom10.0a")

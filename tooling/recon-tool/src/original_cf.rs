@@ -286,6 +286,7 @@ pub(crate) fn graph_image(path: &Path, info: &crate::abi::Info) -> Result<serde_
 
 pub fn capture(
     options: &crate::original::Capture,
+    repo: &Path,
     info: &crate::abi::Info,
     f: &crate::fixture::Fixture,
     root: &Path,
@@ -319,12 +320,12 @@ pub fn capture(
         profile.mode == "debugger",
         "CF capture needs debugger mode with a code layout; identity-only profiles are static projection inputs"
     );
-    let target = options.repo.join(&profile.target.path).canonicalize()?;
+    let target = repo.join(&profile.target.path).canonicalize()?;
     ensure!(
         target == program,
         "CF loader derives its sibling binb payload; --program cannot relocate it"
     );
-    let loader = options.repo.join(&profile.loader.path).canonicalize()?;
+    let loader = repo.join(&profile.loader.path).canonicalize()?;
     ensure!(
         hash(&fs::read(&loader)?) == profile.loader.sha256,
         "CF loader SHA256 differs from profile"
@@ -332,9 +333,9 @@ pub fn capture(
     let helper = options
         .helper
         .clone()
-        .unwrap_or_else(|| options.repo.join("tooling/recon-tool/.build/cf-broker.exe"))
+        .unwrap_or_else(|| repo.join("tooling/recon-tool/.build/cf-broker.exe"))
         .canonicalize()
-        .context("build explicit CF helper first: original build-cf-helper --repo REPO")?;
+        .context("build explicit CF helper first: original build-cf-helper")?;
     let stdin = root.join("original-stdin");
     fs::write(&stdin, f.stdin.as_ref().map_or(&[][..], |b| b.0.as_slice()))?;
     let args = f
@@ -349,12 +350,12 @@ pub fn capture(
         "CF ANSI command tail invalid/too large"
     );
     let raw_command_line = raw_command_line(
-        &crate::wine::windows(&loader, &options.repo)?,
+        &crate::wine::windows(&loader, repo)?,
         &args,
         f.raw_command_line.as_deref(),
     )?;
     // Copy shared Wine host transport only; case env is the separate Win32 block.
-    let wine = crate::wine::command(&options.repo)?;
+    let wine = crate::wine::command(repo)?;
     let mut command = Command::new("python3");
     for (key, value) in wine.get_envs() {
         if let Some(value) = value {
@@ -383,11 +384,11 @@ pub fn capture(
         "helper".into(),
         serde_json::json!({"path":helper,"sha256":hash(&fs::read(&helper)?)}),
     );
-    let request = serde_json::json!({"repo":options.repo,"profile":profile,"profile_sha256":hash(&raw),
+    let request = serde_json::json!({"repo":repo,"profile":profile,"profile_sha256":hash(&raw),
         "target_env":f.env,"registry":info.functions,"first_entry_seen":info.first_entry_seen,"sources":sources,"root":root,"cwd":cwd,"target":target,"loader":loader,"helper":helper,
         "wine":launch_executable(&wine)?,"environment":environment,"arguments":args,
         "raw_command_line":raw_command_line,
-        "stdin":if f.stdin_kind==crate::fixture::StdinKind::Null {"NUL".into()}else{crate::wine::windows(&stdin,&options.repo)?},
+        "stdin":if f.stdin_kind==crate::fixture::StdinKind::Null {"NUL".into()}else{crate::wine::windows(&stdin,repo)?},
         "timeout_ms":f.timeout_ms,"seconds":(f.timeout_ms as f64/1000.+1.).min(300.)});
     let request_path = root.join("cf-request");
     fs::write(&request_path, serde_json::to_vec(&request)?)?;

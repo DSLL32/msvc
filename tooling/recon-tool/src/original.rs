@@ -197,8 +197,9 @@ pub struct Capture {
     #[arg(long, requires = "cf_profile")]
     pub entry_stop: bool,
     pub case: PathBuf,
-    #[arg(long, default_value = ".")]
-    pub repo: PathBuf,
+    /// Repository root; inferred from cwd or recon-tool's location by default.
+    #[arg(long)]
+    pub repo: Option<PathBuf>,
     #[arg(long = "capture")]
     pub io: Option<PathBuf>,
     #[arg(long)]
@@ -1296,12 +1297,13 @@ mod typed_tests {
 
 fn capture_executor(
     options: &Capture,
+    repo: &Path,
     f: &Fixture,
     root: &Path,
     cwd: &Path,
     artifacts_dir: Option<&Path>,
 ) -> Result<(Option<Fixture>, CaptureReport)> {
-    let result = capture_executor_inner(options, f, root, cwd, artifacts_dir);
+    let result = capture_executor_inner(options, repo, f, root, cwd, artifacts_dir);
     if options.pe_self_child || options.process_os_environment {
         result.with_context(|| {
             let log = fs::read(root.join("wine-diagnostics")).unwrap_or_default();
@@ -1317,6 +1319,7 @@ fn capture_executor(
 
 fn capture_executor_inner(
     options: &Capture,
+    repo: &Path,
     f: &Fixture,
     root: &Path,
     cwd: &Path,
@@ -1353,7 +1356,7 @@ fn capture_executor_inner(
     let program = options
         .program
         .clone()
-        .unwrap_or_else(|| options.repo.join(&loaded.info.original_path))
+        .unwrap_or_else(|| repo.join(&loaded.info.original_path))
         .canonicalize()?;
     let original = fs::read(&program)?;
     anyhow::ensure!(
@@ -1365,6 +1368,7 @@ fn capture_executor_inner(
         fs::write(&environment, target_environment(&f.env)?)?;
         let backend = crate::original_cf::capture(
             options,
+            repo,
             &loaded.info,
             f,
             root,
@@ -1489,14 +1493,13 @@ fn capture_executor_inner(
         !options.progress || loaded.info.execution == 0 || options.direct_helper.is_some(),
         "masked DIRECT progress requires the typed original helper"
     );
-    let helper = options.helper.clone().unwrap_or_else(|| {
-        options
-            .repo
-            .join("tooling/recon-tool/.build/wine-broker.exe")
-    });
+    let helper = options
+        .helper
+        .clone()
+        .unwrap_or_else(|| repo.join("tooling/recon-tool/.build/wine-broker.exe"));
     anyhow::ensure!(
         helper.is_file(),
-        "build explicit Wine helper first: original build-helper --repo REPO"
+        "build explicit Wine helper first: original build-helper"
     );
     // Configure only the private on-disk helper and executable, before launch.
     // The Windows loader loads the import; the DLL owns its local VEH/callback.
@@ -1606,12 +1609,9 @@ fn capture_executor_inner(
         program.clone()
     };
     let host = options.host.as_ref().unwrap_or(&target).canonicalize()?;
-    let declared = options
-        .repo
-        .join(&loaded.info.original_path)
-        .canonicalize()?;
+    let declared = repo.join(&loaded.info.original_path).canonicalize()?;
     let staged = crate::original_stage::prepare(
-        &options.repo,
+        repo,
         &declared,
         &program,
         &target,
@@ -1631,7 +1631,7 @@ fn capture_executor_inner(
     fs::write(&stdin, f.stdin.as_ref().map_or(&[][..], |b| b.0.as_slice()))?;
     let stdout = root.join("original-stdout");
     let stderr = root.join("original-stderr");
-    let program_windows = windows(&host, &options.repo)?;
+    let program_windows = windows(&host, repo)?;
     let args = if f.args.is_empty() {
         vec![loaded.info.binary.clone()]
     } else {
@@ -1648,7 +1648,7 @@ fn capture_executor_inner(
         "original ANSI transport currently requires ASCII environment entries"
     );
     let commandline = capture_command_line(&args, f.raw_command_line.as_deref())?;
-    let mut command = command(&options.repo)?;
+    let mut command = command(repo)?;
     if options.native_msvcrt {
         command.env("WINEDLLOVERRIDES", "msvcrt=n");
     }
@@ -1656,24 +1656,24 @@ fn capture_executor_inner(
         .arg(helper.canonicalize()?)
         .arg(&commandline)
         .arg(image.entry.to_string())
-        .arg(windows(cwd, &options.repo)?)
+        .arg(windows(cwd, repo)?)
         .arg(if f.stdin_kind == fixture::StdinKind::Null {
             "NUL".to_owned()
         } else {
-            windows(&stdin, &options.repo)?
+            windows(&stdin, repo)?
         })
-        .arg(windows(&stdout, &options.repo)?)
-        .arg(windows(&stderr, &options.repo)?)
+        .arg(windows(&stdout, repo)?)
+        .arg(windows(&stderr, repo)?)
         .arg(program_windows)
         .arg(f.timeout_ms.to_string())
         .arg(if image.dll {
-            windows(&target, &options.repo)?
+            windows(&target, repo)?
         } else {
             "-".into()
         });
     if let Some((helper, state, complete, marker, callback)) = &typed {
         command
-            .arg(windows(helper, &options.repo)?)
+            .arg(windows(helper, repo)?)
             .arg(state.to_string())
             .arg(complete.to_string())
             .arg(marker.to_string())
@@ -1685,10 +1685,7 @@ fn capture_executor_inner(
         .stderr(Stdio::from(File::create(root.join("wine-diagnostics"))?))
         .env(
             "WINEPATH",
-            windows(
-                program.parent().context("original directory")?,
-                &options.repo,
-            )?,
+            windows(program.parent().context("original directory")?, repo)?,
         )
         .current_dir(cwd);
     let program_image_input = if options.watcom_main_argv && private_image {
@@ -1696,7 +1693,7 @@ fn capture_executor_inner(
             &program,
             &original,
             &fs::read(&target)?,
-            windows(&target, &options.repo)?,
+            windows(&target, repo)?,
         )?)
     } else {
         None
@@ -1715,10 +1712,7 @@ fn capture_executor_inner(
             .keys()
             .any(|key| key.eq_ignore_ascii_case("RECON_ORIGINAL_DLL"))
     {
-        target_env.insert(
-            "RECON_ORIGINAL_DLL".into(),
-            Some(windows(&target, &options.repo)?),
-        );
+        target_env.insert("RECON_ORIGINAL_DLL".into(), Some(windows(&target, repo)?));
     }
     let environment = root.join("original-environment");
     fs::write(&environment, target_environment(&target_env)?)?;
@@ -1744,9 +1738,9 @@ fn capture_executor_inner(
     } else {
         None
     };
-    command.arg(windows(&environment, &options.repo)?);
+    command.arg(windows(&environment, repo)?);
     if let Some(provider) = &staged.provider {
-        command.arg(windows(provider, &options.repo)?);
+        command.arg(windows(provider, repo)?);
     }
     anyhow::ensure!(
         !options.pe_self_child || !image.dll,
@@ -1758,7 +1752,7 @@ fn capture_executor_inner(
     if options.process_os_environment {
         command.arg(format!(
             "process-os-environment={}",
-            windows(&process_environment_receipt, &options.repo)?
+            windows(&process_environment_receipt, repo)?
         ));
     }
     let mut child = command.spawn().context("launch explicit Wine debugger")?;
@@ -2169,7 +2163,7 @@ fn canonical_capture_cwd(
         Ok(root.join("work"))
     }
 }
-fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
+fn supervise_capture(options: &Capture, repo: &Path, f: &Fixture) -> Result<CaptureReport> {
     native::signals();
     anyhow::ensure!(
         f.input_files
@@ -2207,7 +2201,7 @@ fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
         if unsafe { libc::flock(lease.as_raw_fd(), libc::LOCK_EX) } < 0 {
             bail!("lock original capture")
         }
-        let cwd = canonical_capture_cwd(f, &root, &options.repo, "")?;
+        let cwd = canonical_capture_cwd(f, &root, repo, "")?;
         if let Some(parent) = cwd.parent() {
             fs::create_dir_all(parent)?
         }
@@ -2231,7 +2225,7 @@ fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
         native::dependencies(f)?;
         let pid = native::fork()?;
         if pid == 0 {
-            let result = capture_executor(options, f, &root, &cwd, artifacts_dir.as_deref());
+            let result = capture_executor(options, repo, f, &root, &cwd, artifacts_dir.as_deref());
             let status = match result {
                 Ok((fixture, mut report)) => {
                     let write = (|| -> Result<()> {
@@ -2333,7 +2327,7 @@ pub fn capture(mut options: Capture) -> Result<()> {
         "CF entry-stop does not export artifacts or write a fixture oracle"
     );
     native::signals();
-    options.repo = options.repo.canonicalize()?;
+    let repo = crate::toolchain::repository(options.repo.as_deref())?;
     options.case = if options.case.is_dir() {
         options.case.join(".build/case.so")
     } else {
@@ -2382,7 +2376,7 @@ pub fn capture(mut options: Capture) -> Result<()> {
     let pid = native::fork()?;
     if pid == 0 {
         drop(reader);
-        let result = supervise_capture(&options, &fixture);
+        let result = supervise_capture(&options, &repo, &fixture);
         let value = match result {
             Ok(report) => serde_json::to_value(report)?,
             Err(e) => serde_json::to_value(CaptureFailure::from_error(&e))?,
