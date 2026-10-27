@@ -2,8 +2,6 @@
 #include "full-link-functions.h"
 #include <recon.h>
 extern "C" void __cdecl finish_alpha_branches(void) { __asm { int 3 } }
-extern "C" unsigned __stdcall buffered_read(FileRecord *file,void *buffer,unsigned bytes) { __asm { int 3 } return 0; }
-extern "C" unsigned __stdcall buffered_write(FileRecord *file,const void *buffer,unsigned bytes) { __asm { int 3 } return 0; }
 extern "C" void __cdecl record_file_access(void) { __asm { int 3 } }
 extern "C" void __stdcall move_contribution_to_end(Contribution *contribution) { __asm { int 3 } }
 extern "C" void __stdcall initialize_pdb(BYTE mppc32_types,const char *name) { __asm { int 3 } }

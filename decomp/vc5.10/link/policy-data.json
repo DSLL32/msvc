@@ -18447,6 +18447,81 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_initialize_file_buffers": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_file_buffer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_open_buffered_file@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_seek_buffered_file@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_acquire_file_buffer@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_assign_file_buffer@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_touch_file_buffer@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_read_buffered_page@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_buffered_read@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_buffered_write@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_close_buffered_file@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_release_file_buffer@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_flush_file_buffer@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_set_buffered_file_length@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_advance_buffered_page@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },

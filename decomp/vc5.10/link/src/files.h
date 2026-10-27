@@ -13,7 +13,8 @@ typedef struct FileRecord {
     unsigned flags;
     unsigned index;
     long size;
-    HANDLE file;
+    /* Mapped files own a Win32 handle; buffered files own a CRT descriptor. */
+    union { HANDLE file; int descriptor; };
     void *view;
     long mapping_size, file_size; /* file_size is the mapped cursor used by TELL_FILE. */
     void *base;
@@ -25,14 +26,19 @@ typedef char FileRecordLayoutCheck[(sizeof(FileRecord)==40 &&
     offsetof(FileRecord,view)==20 && offsetof(FileRecord,mapping_size)==24 &&
     offsetof(FileRecord,file_size)==28 && offsetof(FileRecord,base)==32 &&
     offsetof(FileRecord,previous)==36)?1:-1];
-/* Encountered buffered-file prefix: the cursor and flags retain one owner. */
+/* Original 0x1028-byte cache buffer: one 4096-byte page plus metadata. */
 typedef struct FileBufferHeader {
-    BYTE reserved00[12];
-    LONG cursor;
-    DWORD reserved10,flags;
+    LONG file_index,page_start,page_end,cursor,valid_end;
+    DWORD flags;
+    BYTE data[4096];
+    BYTE *current;
+    struct FileBufferHeader *next,*older,*newer;
 } FileBufferHeader;
+typedef char FileBufferSize[(sizeof(FileBufferHeader)==0x1028)?1:-1];
 typedef char FileBufferCursorAt0c[(offsetof(FileBufferHeader,cursor)==12)?1:-1];
 typedef char FileBufferFlagsAt14[(offsetof(FileBufferHeader,flags)==20)?1:-1];
+typedef char FileBufferDataAt18[(offsetof(FileBufferHeader,data)==24)?1:-1];
+typedef char FileBufferNextAt101c[(offsetof(FileBufferHeader,next)==0x101c)?1:-1];
 struct OutputModule;
 int __stdcall open_file_view(const char *,int,int,void **,DWORD *,DWORD *);
 int __stdcall open_module_file(struct OutputModule *,int,int);

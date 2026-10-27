@@ -24,11 +24,6 @@ LONG __stdcall seek_file(int file,LONG offset,int origin,DWORD *error)
     if (record->flags & 8) return seek_mapped_file(record,offset,origin,error);
     return seek_buffered_file(record,offset,origin);
 }
-LONG __stdcall seek_buffered_file(FileRecord *record,LONG offset,int origin)
-{
-    __asm { int 3 }
-    return -1;
-}
 LONG __stdcall get_file_length(int file)
 {
     LONG position,length;
@@ -87,11 +82,7 @@ int __stdcall set_mapped_file_length(FileRecord *record,LONG length)
     record->size=length;
     return 0;
 }
-int __stdcall set_buffered_file_length(FileRecord *record,LONG length)
-{
-    __asm { int 3 }
-    return 0;
-}
+int __stdcall set_buffered_file_length(FileRecord *,LONG);
 int __stdcall set_output_file_length(int file,LONG length)
 {
     FileRecord *record;
@@ -266,7 +257,6 @@ FileRecord *__cdecl get_available_file_record(void)
     move_file_record(record,&file_newest,NULL,&pending_files,NULL,0);
     return record;
 }
-int __stdcall close_buffered_file(FileRecord *record) { __asm { int 3 } return -1; }
 BOOL __stdcall close_mapped_file(FileRecord *record)
 {
     BOOL result;
@@ -374,8 +364,6 @@ int __stdcall open_mapped_file(FileRecord *record,int flags,unsigned char create
     record->flags|=8;
     return 0;
 }
-void __cdecl initialize_file_buffers(void) { __asm { int 3 } }
-int __stdcall open_buffered_file(FileRecord *record,int flags,int mode,unsigned char created) { __asm { int 3 } return -1; }
 
 void *__stdcall map_file_range(int file,LONG offset,unsigned bytes)
 {

@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-600 application functions / 231,704 original code bytes are reconstructed
-(55.86% of the 414,810-byte whole `.text` extent, which includes CRT and text
+615 application functions / 234,136 original code bytes are reconstructed
+(56.44% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 40 pending bodies with known extents totaling 4,219 bytes and
-192 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 42 pending bodies with known extents totaling 4,434 bytes and
+185 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all thirty cached native cases and their narrow checks;
+`make -j4 check unit` runs all thirty-one cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-613-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 593 ordinary application bodies and six CRT bodies. Seven import
+628-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 608 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The seven genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -708,3 +708,36 @@ whole bodies and 828 code bytes; the current 30-case graph has 613 vertices,
 separate-debug input producer remains separately blocked: shipped REBASE
 returned error 120 while splitting symbols, so no `.DBG` fixture or decoder
 success was invented.
+
+The buffered-file case uses the original `-db44` control with the genuine
+cross-module COFF-debug/map/order/merge link inputs. It completes with 323
+application first entries and produces the matching 4,480-byte executable and
+1,595-byte map. Its 15 whole bodies / 2,432 code bytes recover the 30-buffer
+pool, ordinary CRT open/stat, seek, page assignment and LRU update, physical
+read, chunked copy/write, flush/release/close, resize and sequential page advance.
+The 4,136-byte cache record contains one 4,096-byte data page plus its authentic
+metadata and links. FileRecord's existing offset 16 storage has explicit Win32
+handle and CRT descriptor views; its 40-byte layout is unchanged.
+
+The original page-boundary transition occurs even when a request ends exactly
+there. Sequential buffer reuse retains its existing bytes, and the write path
+marks the next page dirty before decrementing the remaining count. The fatal
+exit flag is one original owner at 48a738; its initially zero normal-cleanup path
+is observed, while its pending fatal writer retains no new qualification.
+Cache eviction under pressure and page-table growth remain genuine named
+traps. This case does not qualify malformed ranges, IO failures, or every
+unvisited branch merely because its complete source is present.
+
+Raw original and native artifacts differ only at the already-identified COFF
+and three debug-directory timestamp DWORDs and the map's hex timestamp/ctime
+rendering. All other bytes and complete inventory also equal the untouched
+master. The derived comparison keeps the genuine original report and capture
+unchanged; the master retains its historical 315-entry trace from the earlier registry,
+while the final reference observes the eight newly registered reached helpers as part of 323.
+Normal completion replay took 17.7 ms (10.6 ms setup, 3.8 ms execution, 3.3 ms
+checks). The separate native GDB raw-file diagnostic took 202.3 ms and is not a
+fixture benchmark. The single parallel case-end regression, unit,
+original-build and full graph/RET/EH batch passed in 4.66 s. Two missing
+stdcall declarations during the source split were caught by original linking
+before execution; those failed candidates remain excluded and retained in
+scratch.
