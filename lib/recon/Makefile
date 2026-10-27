@@ -1122,3 +1122,11 @@ build/watcom-strerror-unselected: tests/watcom-strerror-probe.c $(SOURCES) $(HEA
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DTEST_UNSELECTED $< $(SOURCES) -o $@
 watcom-strerror-check: build/watcom-strerror-probe build/watcom-strerror-generic build/watcom-strerror-shim build/watcom-strerror-unselected
 	$(PYTHON) tests/check-watcom-strerror.py $^
+
+.PHONY: fsopen-read-cache-check
+build/fsopen-read-cache-probe: tests/fsopen-read-cache-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/fsopen-read-cache-generic: tests/fsopen-read-cache-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+fsopen-read-cache-check: build/fsopen-read-cache-probe build/fsopen-read-cache-generic
+	$(PYTHON) tests/check-fsopen-read-cache.py $^

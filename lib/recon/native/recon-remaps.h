@@ -426,6 +426,8 @@ int recon_isatty(int);
 int recon_fsopen_restricted(HANDLE);
 void recon_fsopen_check_path(const char *);
 void recon_fsopen_check_mappings(void);
+void recon_fsopen_check_read_mappings(void);
+int recon_fsopen_read_alias(int);
 void recon_unsupported(const char *);
 
 int __cdecl recon_wsprintfA(LPSTR,LPCSTR,...);

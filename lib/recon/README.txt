@@ -775,9 +775,22 @@ requirements. Four affected LINK mapping/editor cached cases pass unchanged.
 
 _fsopen supports the observed isolated rb/share20 and wb/share10 success pair.
 The actual Win32 share requests are READ and zero; recon_fsopen_shares retains
-that descriptor provenance for debugger inspection. Existing inode aliases,
+that descriptor provenance for debugger inspection. Unqualified inode aliases,
 conflicting opens, dup/dup2 and mappings are outside this single-process scope
-and fail before truncation. An active mapping/view also excludes _fsopen.
+and fail before truncation. Writable or unknown mapping/view leases exclude
+_fsopen. Explicit510 rb/share20 additionally admits prior actual CreateFileA
+GENERIC_READ/FILE_SHARE_READ/OPEN_EXISTING regular handles and their readonly
+mapping/view references. These facts are retained at handle publication, retired
+on close/reuse and revalidated against fd identity/access; mode alone cannot
+qualify an unknown alias. The readonly mapping/view fact survives mapping-handle
+close. Prior share-none/writable/unknown aliases, later writers and restricted
+stream duplication/mapping remain denied. wb/share10 retains its strict isolated
+lease. No general sharing engine or cross-process Windows sharing is claimed.
+The old tracked prior-read-alias scope control is now explicitly a positive;
+all remaining controls retain their denials. New focused tests check readonly
+cache/view lifetimes, raw/stream cursor independence, twelve close/reopen cycles,
+fd retirement/reuse/stale identity and writer/unknown denials. LINK caller
+adoption is pending; original per-call error state remains unmeasured.
 No cross-process sharing or HANDLE-inheritance equivalence is claimed. Under
 RECON_CRT_PROFILE_MSVCRT_510, reopening a FILE retains _bufsiz/_charbuf as the
 canonical provider does. Binary bytes, FILE state and error transitions have

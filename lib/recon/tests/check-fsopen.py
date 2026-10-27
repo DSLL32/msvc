@@ -11,5 +11,10 @@ with tempfile.TemporaryDirectory() as tmp:
         assert (root/name).read_bytes()==bytes.fromhex(digest)
     for mode in ('alias','mode','share','dup','dup2','mapping','rawalias','prioralias','priormap'):
         p=subprocess.run([binary,mode],cwd=tmp,capture_output=True)
-        assert p.returncode==125,(mode,p.returncode,p.stderr)
-    print('canonical binary fsopen streams/files/retained FILE fields exact; nine scope controls pass (%.3fs)'%(time.monotonic()-start))
+        # The exact tracked READ/share-READ prior handle is now a supported
+        # compatible alias. All remaining controls retain their prior denial.
+        expected=0 if mode=='prioralias' else 125
+        assert p.returncode==expected,(mode,p.returncode,p.stderr)
+        if not expected:
+            assert not p.stderr and p.stdout==bytes.fromhex(v['stdout_hex'])
+    print('canonical binary fsopen streams/files/retained FILE fields exact; eight scope denials and tracked-read alias positive pass (%.3fs)'%(time.monotonic()-start))

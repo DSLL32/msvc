@@ -139,7 +139,7 @@ void recon_fsopen_check_path(const char *path)
             recon_unsupported("CreateFile alias of restricted _fsopen file");
     errno=saved_errno;
 }
-static void fsopen_preflight(const char *name)
+static void fsopen_preflight(const char *name,int readonly_aliases)
 {
     char path[PATH_MAX]; struct stat wanted,opened; DIR *directory;
     struct dirent *entry; int saved_errno=errno,fd; char *end;
@@ -151,8 +151,9 @@ static void fsopen_preflight(const char *name)
         while ((entry=readdir(directory))!=NULL) {
             fd=(int)strtol(entry->d_name,&end,10);
             if (*end || fd==dirfd(directory)) continue;
-            if (!fstat(fd,&opened) && wanted.st_dev==opened.st_dev && wanted.st_ino==opened.st_ino)
-                recon_unsupported("_fsopen existing open/mapped inode alias");
+            if (!fstat(fd,&opened) && wanted.st_dev==opened.st_dev && wanted.st_ino==opened.st_ino &&
+                (!readonly_aliases || !recon_fsopen_read_alias(fd)))
+                recon_unsupported("_fsopen existing incompatible/unknown inode alias");
         }
         closedir(directory);
     } else if (errno!=ENOENT) recon_unsupported("_fsopen unavailable file identity");
@@ -655,16 +656,20 @@ WEAK void recon_cpp_delete(void *pointer)
     recon_SetLastError(saved_error);errno=saved_errno;
 }
 
-/* Canonical VC5 CVTRES: isolated rb/deny-write and wb/exclusive files.
- * Other opens, aliases, mappings and failure paths need separate evidence.
+/* Binary rb/deny-write and wb/exclusive files. Explicit510 additionally
+ * accepts tracked prior readonly cache handles/views; other aliases deny.
  * HANDLE inheritance remains the explicitly bounded no-child native model. */
 WEAK ShimFILE *recon_fsopen(const char *path,const char *mode,int sharing)
 {
-    int n,saved_errno=errno; ShimFILE *result;
+    int n,saved_errno=errno,readonly_aliases=0; ShimFILE *result;
     if (!path || !mode || !((!strcmp(mode,"rb") && sharing==0x20) ||
         (!strcmp(mode,"wb") && sharing==0x10))) recon_unsupported("unreviewed _fsopen mode/share");
-    recon_fsopen_check_mappings();
-    fsopen_preflight(path);
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    readonly_aliases=!strcmp(mode,"rb") && sharing==0x20;
+#endif
+    if(readonly_aliases)recon_fsopen_check_read_mappings();
+    else recon_fsopen_check_mappings();
+    fsopen_preflight(path,readonly_aliases);
     for (n=3;n<20;++n) if (!recon_iob[n]._flag) break;
     if (n==20 || fsopen_active) recon_unsupported("_fsopen stream exhaustion/reentry");
     fsopen_active=1;
@@ -986,7 +991,7 @@ WEAK int recon_sopen(const char *name,int mode,int sharing,...)
             recon_unsupported("noinherit _sopen requires absent path");
         /* An isolated single-process lease reuses the existing inode guard;
          * later aliases, dup and mappings remain explicit unsupported paths. */
-        fsopen_preflight(name);errno=saved_errno;share=0;restricted=1;
+        fsopen_preflight(name,0);errno=saved_errno;share=0;restricted=1;
 #else
         recon_unsupported("noinherit _sopen requires MSVCRT510 profile");
 #endif

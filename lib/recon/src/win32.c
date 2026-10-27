@@ -173,16 +173,84 @@ static unsigned static_modules_configured,fixture_module_providers;
 static int imagehlp_loaded;
 static HANDLE standard_handles[3]={(HANDLE)1,(HANDLE)2,(HANDLE)3};
 typedef struct Mapping {
-    struct Mapping *next; int fd,writable; size_t length;
+    struct Mapping *next; int fd,writable,readonly_shared; size_t length;
 } Mapping;
 typedef struct View {
     struct View *next; void *address; size_t length;
     dev_t file_device; ino_t file_inode;
-    int decommit_eligible,decommitted;size_t committed_prefix;
+    int decommit_eligible,decommitted,readonly_shared;size_t committed_prefix;
 } View;
 static Mapping *mappings;
 static View *views,*allocations;
 static BOOL (WINAPI *console_handler)(DWORD);
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+/* Actual qualifying CreateFile access/share facts, not inferred from an fd's
+ * access mode. Other handles remain unknown to the finite readonly lease. */
+typedef struct FileAccessFact {
+    struct FileAccessFact *next;int fd;dev_t device;ino_t inode;DWORD access,share;
+} FileAccessFact;
+static FileAccessFact *file_access_facts;
+static void forget_file_access(int fd)
+{
+    FileAccessFact **link,*fact;
+    for(link=&file_access_facts;(fact=*link)!=NULL;link=&fact->next)
+        if(fact->fd==fd) {*link=fact->next;free(fact);return;}
+}
+static int remember_file_access(int fd,DWORD access,DWORD share,DWORD disposition,DWORD attributes)
+{
+    FileAccessFact *fact;struct stat identity;
+    forget_file_access(fd);
+    if(access!=GENERIC_READ || share!=FILE_SHARE_READ || disposition!=OPEN_EXISTING ||
+       (attributes&~FILE_ATTRIBUTE_NORMAL)) return 1;
+    if(fstat(fd,&identity) || !S_ISREG(identity.st_mode)) return 1;
+    fact=malloc(sizeof(*fact));if(!fact)return 0;
+    fact->fd=fd;fact->device=identity.st_dev;fact->inode=identity.st_ino;
+    fact->access=access;fact->share=share;fact->next=file_access_facts;file_access_facts=fact;
+    return 1;
+}
+static int file_shared_reader(int fd)
+{
+    FileAccessFact *fact;struct stat identity;int flags,saved_errno=errno,result=0;
+    for(fact=file_access_facts;fact && fact->fd!=fd;fact=fact->next) ;
+    if(fact) {
+        flags=fcntl(fd,F_GETFL);
+        if(fstat(fd,&identity) || flags<0 || !S_ISREG(identity.st_mode) ||
+           identity.st_dev!=fact->device || identity.st_ino!=fact->inode ||
+           (flags&O_ACCMODE)!=O_RDONLY) forget_file_access(fd);
+        else result=fact->access==GENERIC_READ && fact->share==FILE_SHARE_READ;
+    }
+    errno=saved_errno;return result;
+}
+#endif
+int recon_fsopen_read_alias(int fd)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    Mapping *mapping;int flags,saved_errno=errno,result=0;
+    if(recon_fsopen_restricted((HANDLE)(uintptr_t)(fd+1)))return 0;
+    if(file_shared_reader(fd))return 1;
+    for(mapping=mappings;mapping;mapping=mapping->next)
+        if(mapping->fd==fd && mapping->readonly_shared) {
+            flags=fcntl(fd,F_GETFL);result=flags>=0 && (flags&O_ACCMODE)==O_RDONLY;break;
+        }
+    errno=saved_errno;return result;
+#else
+    (void)fd;return 0;
+#endif
+}
+void recon_fsopen_check_read_mappings(void)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    Mapping *mapping;View *view;
+    for(mapping=mappings;mapping;mapping=mapping->next)
+        if(!mapping->readonly_shared || !recon_fsopen_read_alias(mapping->fd))
+            recon_unsupported("_fsopen writable/unknown mapping lease");
+    for(view=views;view;view=view->next)
+        if(!view->readonly_shared)recon_unsupported("_fsopen writable/unknown view lease");
+#else
+    recon_fsopen_check_mappings();
+#endif
+}
+
 void recon_fsopen_check_mappings(void)
 {
     if (mappings || views) recon_unsupported("_fsopen with active mappings/views");
@@ -1174,6 +1242,11 @@ HANDLE WINAPI recon_CreateFileA(LPCSTR name,DWORD access,DWORD share,LPSECURITY_
                 close(fd);last_error=ERROR_ACCESS_DENIED;errno=saved_errno;return INVALID_HANDLE_VALUE;
             }
             if(security && security->bInheritHandle)fcntl(fd,F_SETFD,0);
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+            if(!remember_file_access(fd,access,share,disposition,attributes)) {
+                close(fd);last_error=ERROR_NOT_ENOUGH_MEMORY;errno=saved_errno;return INVALID_HANDLE_VALUE;
+            }
+#endif
             last_error=disposition==OPEN_ALWAYS?ERROR_ALREADY_EXISTS:0;
             errno=saved_errno;return (HANDLE)(uintptr_t)(fd+1);
         }
@@ -1204,6 +1277,11 @@ HANDLE WINAPI recon_CreateFileA(LPCSTR name,DWORD access,DWORD share,LPSECURITY_
         }
         last_error=code;errno=saved_errno;return INVALID_HANDLE_VALUE;
     }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(!remember_file_access(fd,access,share,disposition,attributes)) {
+        close(fd);last_error=ERROR_NOT_ENOUGH_MEMORY;errno=saved_errno;return INVALID_HANDLE_VALUE;
+    }
+#endif
     if (attributes&FILE_FLAG_DELETE_ON_CLOSE) unlink(path);
     last_error=0; errno=saved_errno; return (HANDLE)(uintptr_t)(fd+1);
 }
@@ -1341,6 +1419,9 @@ BOOL WINAPI recon_CloseHandle(HANDLE handle)
         *p=m->next; close(m->fd); free(m); return TRUE;
     }
     fd=handle_fd(handle); if (fd<0) return FALSE;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    {int saved_errno=errno;forget_file_access(fd);errno=saved_errno;}
+#endif
     if (close(fd)<0) { last_error=error_code(errno); return FALSE; }
     return TRUE;
 }
@@ -1666,7 +1747,12 @@ HANDLE WINAPI recon_CreateFileMappingA(HANDLE file,LPSECURITY_ATTRIBUTES securit
     m=calloc(1,sizeof(*m)); if (!m) { last_error=ERROR_NOT_ENOUGH_MEMORY; return NULL; }
     m->fd=dup(fd); if (m->fd<0) { last_error=error_code(errno); free(m); return NULL; }
     fcntl(m->fd,F_SETFD,FD_CLOEXEC);
-    m->length=length; m->writable=protection==PAGE_READWRITE; m->next=mappings; mappings=m;
+    m->length=length;m->writable=protection==PAGE_READWRITE;m->readonly_shared=0;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    forget_file_access(m->fd); /* dup can reuse a stale externally closed fd. */
+    m->readonly_shared=!m->writable && file_shared_reader(fd);
+#endif
+    m->next=mappings;mappings=m;
     last_error=0; return m;
 }
 LPVOID WINAPI recon_MapViewOfFile(HANDLE handle,DWORD access,DWORD high,DWORD low,DWORD bytes)
@@ -1682,6 +1768,7 @@ LPVOID WINAPI recon_MapViewOfFile(HANDLE handle,DWORD access,DWORD high,DWORD lo
     if (address==MAP_FAILED) { last_error=error_code(errno); return NULL; }
     v=malloc(sizeof(*v)); if (!v) { munmap(address,length); last_error=ERROR_NOT_ENOUGH_MEMORY; return NULL; }
     v->address=address; v->length=length;v->file_device=identity.st_dev;v->file_inode=identity.st_ino;
+    v->readonly_shared=m->readonly_shared && access==FILE_MAP_READ;
     v->decommit_eligible=0;v->decommitted=0;v->committed_prefix=0;
     v->next=views; views=v; last_error=0; return address;
 }
@@ -1773,6 +1860,7 @@ LPVOID WINAPI recon_MapViewOfFileEx(HANDLE handle,DWORD access,DWORD high,DWORD 
         if(!view) {munmap(address,bytes);errno=saved_errno;last_error=ERROR_NOT_ENOUGH_MEMORY;return NULL;}
         view->address=address;view->length=bytes;
         view->file_device=identity.st_dev;view->file_inode=identity.st_ino;
+        view->readonly_shared=0;
         view->decommit_eligible=0;view->decommitted=0;view->committed_prefix=0;
         view->next=views;views=view;
         errno=saved_errno;last_error=saved_error;return address;
@@ -1897,7 +1985,7 @@ LPVOID WINAPI recon_VirtualAlloc(LPVOID address,DWORD bytes,DWORD kind,DWORD pro
             recon_unsupported("VirtualAlloc top-down reservation trim");
         v=malloc(sizeof(*v));
         if (!v) recon_unsupported("VirtualAlloc top-down ownership record");
-        v->address=(void *)aligned;v->length=bytes;v->decommit_eligible=0;v->decommitted=0;v->committed_prefix=0;
+        v->address=(void *)aligned;v->length=bytes;v->readonly_shared=0;v->decommit_eligible=0;v->decommitted=0;v->committed_prefix=0;
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
         v->decommit_eligible=2; /* separately reserved, contiguous RW commits */
 #endif
@@ -1934,7 +2022,7 @@ LPVOID WINAPI recon_VirtualAlloc(LPVOID address,DWORD bytes,DWORD kind,DWORD pro
     result=mmap(address,bytes,prot,flags,-1,0);
     if (result==MAP_FAILED) { last_error=error_code(errno); return NULL; }
     v=malloc(sizeof(*v)); if (!v) { munmap(result,bytes); last_error=ERROR_NOT_ENOUGH_MEMORY; return NULL; }
-    v->address=result; v->length=bytes;
+    v->address=result; v->length=bytes;v->readonly_shared=0;
     v->decommit_eligible=!address && kind==(MEM_COMMIT|MEM_RESERVE) && protection==PAGE_READWRITE;
     v->decommitted=0;v->committed_prefix=0;
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
