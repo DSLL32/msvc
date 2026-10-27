@@ -324,6 +324,7 @@ extern void AddSymEdge( symbol *src, symbol *targ );
 extern void DefineVFReference( void *src, symbol *targ, unsigned char issym );
 extern list_of_names *GetNewName( void );
 extern void SaveBakPat( segnode *seg, unsigned char type );
+extern void ConvertVFSym( symbol *sym );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

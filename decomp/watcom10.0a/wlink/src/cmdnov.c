@@ -310,3 +310,17 @@ unsigned char ProcNAM( void )
     FmtData.u.nov.moduletype = 3;
     return 1;
 }
+
+unsigned char ProcDSK( void )
+{
+    Extension = 10;
+    FmtData.u.nov.moduletype = 2;
+    return 1;
+}
+
+unsigned char ProcExportsDBI( void )
+{
+    DBIFlag |= 8;
+    FmtData.u.nov.flags |= 0x40;
+    return 1;
+}

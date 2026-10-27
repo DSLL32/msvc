@@ -5711,6 +5711,51 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcDSK": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcExportsDBI": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefineVirtualFunction": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetVFListStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeWeakExtdef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcExportKeyword": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcImportKeyword": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckVFList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ConvertVFSym": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

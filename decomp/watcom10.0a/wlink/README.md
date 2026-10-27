@@ -1,5 +1,5 @@
-WLINK 10.0a has twenty-five completed native regression cases. The acceptance ledger
-contains **1,139 application functions / 129,831 unique original code bytes**.
+WLINK 10.0a has twenty-six completed native regression cases. The acceptance ledger
+contains **1,148 application functions / 130,376 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -55,6 +55,9 @@ The twenty-fourth combines compiler-generated OMF export definitions and iterate
 data, a WLIB import-definition member, DWARF and POSIX PE subsystem metadata.
 The twenty-fifth combines explicitly format-authored virtual-table metadata, nested
 iterated COMDATs, additive backpatches and legacy debug names in a NetWare NAM.
+The twenty-sixth resolves conditional weak/pure virtual references through a real
+vtable archive member, alongside compiler exports and an import-definition
+member, in a NetWare DSK image.
 
 | Case | Result |
 | --- | --- |
@@ -83,6 +86,7 @@ iterated COMDATs, additive backpatches and legacy debug names in a NetWare NAM.
 | `0023-wlib-exports` | Exit 0; exact 483-byte stdout, empty stderr, 935-byte NE DLL and 3,730-byte map |
 | `0024-omf-directives` | Exit 0; exact 253-byte stdout, empty stderr, 10,369-byte PE DLL and 3,276-byte map |
 | `0025-omf-records` | Exit 0; exact 255-byte stdout, empty stderr, 2,232-byte NAM and 3,860-byte map |
+| `0026-omf-conditional` | Exit 0; exact 255-byte stdout, empty stderr, 2,505-byte DSK and 4,713-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -532,8 +536,8 @@ are qualified, including recursive length counting, conditional graph edges,
 implicit COMDAT naming/grouping/restoration and backpatch storage. The existing
 qualified base36 conversion supplies COMDAT_SEG names; no shared edit was needed.
 The table/reference helpers retain their real shared terminal C3 and distinct
-identities, counting that instruction only once. Unreached alternative virtual
-list generation/weak-definition bodies remain trapped.
+identities, counting that instruction only once. That case does not exercise virtual-list generation or weak definitions; the
+following conditional-symbol case qualifies those paths.
 
 Complete-output comparison exposed an original debug-output defect. Its module
 region reserves 131 bytes, but four structurally complete name records consume
@@ -554,3 +558,34 @@ The clean supported original baseline took **591.340 ms**. The explicit generato
 field manifest, semantic patch assertions, source review, failed comparison and
 raw artifacts remain in scratch wlink-omf-records. The numbered case contains only
 source and capture data.
+
+
+The conditional-OMF case matches 581 first entries and complete output. Its
+explicitly format-authored supplement provides real default/method relocations,
+consistent repeated V records, a pure P record and an R reference. A later
+module defines the conditional class token; the non-pure reference becomes a
+regular library search and extracts an actual vtable member, while the pure
+reference becomes lazy. Nine new bodies include list rewind, weak creation,
+conditional conversion, DSK selection and Novell export/import-comment readers.
+The export records are genuine WCC386 output and the import member is produced
+by WLIB. This does not claim compiler-produced V/P/R records.
+
+Only the six established map-clock fields and the outer VeRsIoN# year/month/day
+DWORDs227..239 are excluded; the actual signature is at207. All other image,
+debug, relocation, symbol and map bytes remain strict. The existing bounded
+module-tail zero correction needs no additional comparison exclusion here.
+The final parallel build/regression/unit/audit batch took **1.588 s**; all
+twenty-six cases and 1,152 source-ready graph/ABI identities pass. The 52 native
+regression runs took **17.825–58.409 ms**. Final original capture took **1,428.501 ms**
+(owned target **1,413.299 ms**); replay with the final clock policy took
+**29.819 ms**, split **17.687 / 5.046 / 7.087 ms** for setup/execution/checks.
+
+The successful original baseline took **506.467 ms**. C compilation/import
+production took **603.171 / 599.941 ms**; the real vtable archive took
+**299.910 ms**. Earlier missing-real-vtable baselines remain failed in scratch.
+A long module name also exposed the original fixed13-byte NLM-name storage; the
+valid workload uses cond.dsk. The hyphenated WLIB member invocation stalled and was stopped after48.824 s;
+the distinct realvt.obj producer
+then succeeded. All authored source, record manifests, commands, raw artifacts
+and failed setup results remain in scratch wlink-omf-conditional. The numbered
+case contains only source and capture data.

@@ -675,3 +675,38 @@ void DefineVFReference( void *src, symbol *targ, unsigned char issym )
     else if( ((segnode *)src)->info & 0x0100 )
         AddEdge( ((segnode *)src)->entry, targ );
 }
+
+void DefineVirtualFunction( symbol *sym, symbol *defsym,
+                            unsigned char ispure )
+{
+    symbol **symlist;
+
+    symlist = GetVFList( defsym, sym, 1 );
+    sym->info |= 0x8000;
+    if( symlist != 0 ) {
+        sym->e.def = (symbol *)symlist;
+        sym->info = (sym->info & 0xfff0) | (ispure ? 11 : 10);
+    } else if( LinkFlags & 0x10000UL ) {
+        sym->e.def = defsym;
+    }
+    if( LinkFlags & 0x10000UL ) DataRef( defsym );
+}
+
+unsigned char CheckVFList( symbol *sym )
+{
+    symbol **symlist;
+
+    if( sym->info & 0x2000 ) {
+        ConvertVFSym( sym );
+        return 1;
+    }
+    symlist = (symbol **)sym->e.def + 1;
+    while( *symlist != 0 ) {
+        if( (*symlist)->info & 0x3000 ) {
+            ConvertVFSym( sym );
+            return 1;
+        }
+        ++symlist;
+    }
+    return 0;
+}

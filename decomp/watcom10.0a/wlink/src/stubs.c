@@ -26,7 +26,6 @@ void TrapBreak( int value ) { value = value; TRAP(); }
 void ExecSystem( char *name ) { TRAP(); }
 
 
-unsigned char CheckVFList( symbol *sym ) { TRAP(); return 0; }
 
 
 
@@ -217,7 +216,6 @@ unsigned char ProcRunOS2( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcExportsDBI( void ) { TRAP(); return 0; }
 
 
 
@@ -349,8 +347,6 @@ void BadObject( void ) { TRAP(); }
 
 
 
-void ProcExportKeyword( void ) { TRAP(); }
-void ProcImportKeyword( void ) { TRAP(); }
 
 
 
@@ -646,7 +642,6 @@ void OpenOvlFile( outfilelist *file ) { TRAP(); }
 
 
 
-unsigned char ProcDSK( void ) { TRAP(); return 0; }
 
 
 
@@ -676,14 +671,3 @@ unsigned char ProcELFDLL( void ) { TRAP(); return 0; }
 
 
 unsigned char ProcPENoRelocs( void ) { TRAP(); return 0; }
-
-
-
-void DefineVirtualFunction( symbol *sym, symbol *defsym, unsigned char ispure ) { TRAP(); }
-
-
-void SetVFListStart( unsigned char *start ) { TRAP(); }
-
-
-
-symbol *MakeWeakExtdef( char *name, symbol *defsym ) { TRAP(); return 0; }

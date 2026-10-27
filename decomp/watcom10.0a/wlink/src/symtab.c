@@ -702,3 +702,29 @@ void ReportMultiple( symbol *sym, char *name, int len )
         }
     }
 }
+
+symbol *MakeWeakExtdef( char *name, symbol *defsym )
+{
+    symbol *sym;
+
+    sym = SymOp( 2, name, strlen( name ) );
+    sym->e.def = defsym;
+    sym->info = (sym->info & 0xfff0) | 9;
+    return sym;
+}
+
+/* A referenced ordinary virtual is searched in libraries; a pure virtual
+ * becomes lazy and retains its default when no real definition is found. */
+void ConvertVFSym( symbol *sym )
+{
+    symbol *defsym;
+
+    defsym = *(symbol **)sym->e.def;
+    _LnkFree( sym->e.def );
+    sym->e.def = defsym;
+    if( (sym->info & 15) == 11 )
+        sym->info = (sym->info & 0xfff0) | 7;
+    else
+        sym->info = (sym->info & 0xfff0) | 4;
+    sym->info &= ~0x80;
+}

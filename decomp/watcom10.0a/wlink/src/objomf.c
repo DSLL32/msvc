@@ -850,3 +850,39 @@ void ProcVFReference( void )
     }
     if( !(ext->entry->info & 0x1000) ) ext->entry->info |= 0x2000;
 }
+
+void SetVFListStart( unsigned char *start )
+{
+    ObjBuff = start;
+}
+
+/* The1994 Novell/ELF comments use only the internal name.  Their other
+ * length-prefixed DLL fields remain ignored, as in the original reader. */
+void ProcExportKeyword( void )
+{
+    unsigned len;
+
+    ++ObjBuff;
+    len = *ObjBuff++;
+    SymXOp( 0x12, (char *)ObjBuff, len );
+    AddNameTable( (char *)ObjBuff, len, 1, &FmtData.u.nov.exports );
+}
+
+void ProcImportKeyword( void )
+{
+    unsigned len;
+    char *name;
+    symbol *sym;
+
+    ++ObjBuff;
+    len = *ObjBuff++;
+    name = (char *)ObjBuff;
+    ObjBuff += len;
+    sym = SymXOp( 2, name, len );
+    if( !(sym->info & 0x1000) ) {
+        sym->info |= 0x5000;
+        sym->info = (sym->info & 0xfff0) | 6;
+        if( FmtData.type & 0x100 ) SetNovImportSymbol( sym );
+        else SetELFImportSymbol( sym );
+    }
+}
