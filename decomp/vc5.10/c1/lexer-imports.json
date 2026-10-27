@@ -138,5 +138,34 @@
     "cached_import": "msvcrt.dll!fputc",
     "register": "esi",
     "basis": "Identified ordinary i386 cdecl no-arg process_special_character/read_multibyte_character preserve ESI on normal return; no custom ABI, nonlocal return or body credit."
+  },
+  "retained_comment_caller": {
+    "registers": [
+      "ebx",
+      "edi"
+    ],
+    "basis": "Normal-return Microsoft i386 cdecl ABI for the identified declarations; only cached function addresses are retained, without provider-body coverage.",
+    "functions": [
+      "_resolve_special_character",
+      "_process_trigraph",
+      "_process_special_character",
+      "_splice_input_line"
+    ],
+    "imports": [
+      {
+        "dll": "msvcrt.dll",
+        "name": "fputc",
+        "declaration": "int __cdecl fputc(int, FILE *);"
+      },
+      {
+        "dll": "msvcrt.dll",
+        "name": "putchar",
+        "declaration": "int __cdecl putchar(int);"
+      }
+    ],
+    "owners": [
+      "_skip_preserved_macro_comment",
+      "_skip_preserved_line_comment"
+    ]
   }
 }

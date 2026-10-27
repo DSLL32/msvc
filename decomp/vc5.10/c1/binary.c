@@ -3385,8 +3385,15 @@ static const ReconFunction functions[] = {
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "read_unspliced_character" },
 
     { .name = "_skip_line_comment", .entry_rva = 0x4468,
-      .code = (const ReconExtent[]){{0x4468, 0x4469}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "skip_line_comment" },
+      .code = (const ReconExtent[]){{0x4468, 0x4518}, {0x27fef, 0x28016}}, .code_count = 2,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "skip_line_comment" },
+
+    { .name = "_skip_preserved_line_comment", .entry_rva = 0x3e3ec,
+      .code = (const ReconExtent[]){{0x3e3ec, 0x3e4b6}}, .code_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "skip_preserved_line_comment" },
+    { .name = "_skip_comment_continuation", .entry_rva = 0x3dd2a,
+      .code = (const ReconExtent[]){{0x3dd2a, 0x3dd2b}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "skip_comment_continuation" },
 
     { .name = "_skip_block_comment", .entry_rva = 0x84b5,
       .code = (const ReconExtent[]){{0x84b5, 0x84b6}}, .code_count = 1,
@@ -3753,8 +3760,9 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]){{0x7e4c, 0x7f61}, {0x2b0b9, 0x2b0df}}, .code_count = 2,
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "skip_macro_block_comment" },
     { .name = "_skip_preserved_macro_comment", .entry_rva = 0x3e4b6,
-      .code = (const ReconExtent[]){{0x3e4b6, 0x3e4b7}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "skip_preserved_macro_comment" },
+      .code = (const ReconExtent[]){{0x3e4b6, 0x3e5df}}, .code_count = 1,
+      .text_data = (const ReconExtent[]){{0x4f508, 0x4f52c}}, .text_data_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "skip_preserved_macro_comment" },
     { .name = "_parse_angle_include", .entry_rva = 0xcd97,
       .code = (const ReconExtent[]){{0xcd97, 0xce6f}, {0x2d4af, 0x2d571}}, .code_count = 2,
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "parse_angle_include" },
@@ -3805,8 +3813,8 @@ static const ReconFunction functions[] = {
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "read_directive_token" },
 
     { .name = "_skip_newline_comment", .entry_rva = 0x439a,
-      .code = (const ReconExtent[]){{0x439a, 0x439b}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "skip_newline_comment" },
+      .code = (const ReconExtent[]){{0x439a, 0x4468}, {0x27fcc, 0x27fef}}, .code_count = 2,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "skip_newline_comment" },
 
     { .name = "_read_forced_include", .entry_rva = 0x175bf,
       .code = (const ReconExtent[]){{0x175bf, 0x1771e}, {0x32620, 0x32635}}, .code_count = 2,

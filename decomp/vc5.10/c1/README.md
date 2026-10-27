@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 773 application functions / 214,336 code bytes and
-9,462 bytes of owned text data. Application code is 66.50% of the original
+The reconstruction contains 777 application functions / 215,291 code bytes and
+9,498 bytes of owned text data. Application code is 66.80% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All thirteen cached cases complete natively: DLL attach/export lookup/detach, the
+All fourteen cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, and the header-directives workload below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, and the preprocessed-output workload below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -205,6 +205,16 @@ the existing dirty-state restore test covers the selected forced-header name.
 This case adds four application functions, 1,443 code bytes and 56 text-data
 bytes. Raw artifacts and intermediate failures remain in scratch
 `header-directives-case-20261027/`.
+
+The preprocessed-output case uses `-E -C` with guarded includes, token pasting,
+stringification, conditional branches, preserved block/line/macro comments,
+pragma output and logical source markers. Both executions exit zero with 279
+first entries and identical 593-byte stdout; stderr and file outputs are empty.
+The final reference took 1,756.385 ms; the matching native run took 21.021 ms.
+One focused test checks comment probing, newline position, context line updates
+and preservation of unrelated lexer flags. This case adds four application
+functions, 955 code bytes and 36 text-data bytes. Raw streams and preserved
+intermediate failures remain in scratch `preprocessed-output-case-20261027/`.
 
 The completed cases exercise bounded domains. Larger readable parser, lexer,
 IR writer, PCH, debug and recorded-input bodies include unexercised branches;

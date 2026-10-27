@@ -32,7 +32,7 @@ unsigned __cdecl parse_directive_character(unsigned);
 unsigned __cdecl read_unspliced_character(void);
 int __cdecl skip_language_comment(void);
 int __cdecl skip_block_comment(void);
-int __cdecl skip_line_comment(void);
+void __cdecl skip_line_comment(void);
 void __cdecl discard_input_character(void);
 int __cdecl skip_conditional_group(int);
 __int64 __cdecl read_condition_value(void);
@@ -133,11 +133,10 @@ comment_finished:
     goto read_character;
 
 dispatch:
-    /* The later else-state lookup and recorded #ident payload consumers
-     * remain unsupported. Elif enters the genuine conditional skip owner. */
-    if (directive == PP_ELSE || directive == PP_IDENT) {
+    /* Recorded #ident payload consumers remain unsupported. */
+    if (directive == PP_IDENT) {
 #ifdef __linux__
-        recon_unsupported("conditional and recorded-ident directive state is not yet modeled");
+        recon_unsupported("recorded-ident directive state is not yet modeled");
 #else
         __asm { int 3 }
 #endif
@@ -207,6 +206,13 @@ transform_expression:
         if (!c1_data.options.preprocess_no_lines) begin_line_output();
         goto done;
     case PP_ELSE:
+        if (c1_data.conditional_depth > 1) {
+#ifdef __linux__
+            recon_unsupported("conditional else-state slot outside encountered states0/1");
+#else
+            __asm { int 3 }
+#endif
+        }
         if (c1_data.conditional_depth < 0 ||
             directive_conditional_states[c1_data.conditional_depth--] != 1)
             compiler_fatal(19);
@@ -345,7 +351,7 @@ push_defined:
         __asm { int 3 }
 #endif
     }
-    directive_conditional_states[index] = value ? 3 : 1;
+    directive_conditional_states[index] = value ? 1 : 3;
     goto done;
 push_expression:
     if (!c1_bss.debug_module->Slot28()) compiler_error(73, ".\\p0prepro.c", 679);
@@ -357,7 +363,7 @@ push_expression:
         __asm { int 3 }
 #endif
     }
-    directive_conditional_states[index] = value ? 3 : 1;
+    directive_conditional_states[index] = value ? 1 : 3;
     if (!value && !c1_data.options.preprocess_no_lines) begin_line_output();
 done:
     c1_data.type_arena_kind = c1_data.expression_arena_kind = 3;
@@ -884,7 +890,7 @@ extern "C" int __cdecl match_condition_token(unsigned expected)
     }
     token = c1_bss.current_context.ReadToken();
     kind = token->kind;
-    if (kind != 6 && kind != 45 && kind != 50 && kind != 59 && kind != 60 && kind != 67 &&
+    if (kind != 6 && kind != 45 && kind != 50 && kind != 59 && kind != 60 && kind != 62 && kind != 67 &&
         kind != 68 && kind != 79 && kind != 101 && kind != 118 && kind != 126) {
 #ifdef __linux__
         recon_unsupported("conditional token classification cell is not yet recovered");
@@ -1052,7 +1058,46 @@ extern "C" void __cdecl skip_macro_block_comment(void)
         --c1_bss.source_cursor;
     }
 }
-extern "C" void __cdecl skip_preserved_macro_comment(void) { __asm { int 3 } }
+extern "C" unsigned __cdecl process_trigraph(void);
+extern "C" void __cdecl skip_preserved_macro_comment(void)
+{
+    unsigned character, following;
+    fwrite("/*", 2, 1, c1_bss.preprocessor_output);
+    for (;;) {
+        character = *c1_bss.source_cursor++;
+        switch (c1_data.scanner.classes[character]) {
+        case SC_SPACE:
+            if (character == '\r') continue;
+            break;
+        case SC_STAR:
+            following = *c1_bss.source_cursor++;
+            if (!c1_data.scanner.classes[following])
+                following = (BYTE)resolve_special_character(following);
+            if (following == '/') {
+                fwrite("*/", 2, 1, c1_bss.preprocessor_output);
+                return;
+            }
+            --c1_bss.source_cursor;
+            break;
+        case SC_SPECIAL:
+            if (character == '?') {
+                if (!(process_trigraph() & 0x40)) continue;
+            } else if (character == '\\') {
+                (putchar)('\\');
+                splice_input_line();
+                continue;
+            } else {
+                process_special_character();
+                continue;
+            }
+            break;
+        case SC_NEWLINE:
+            ++c1_bss.current_context.value;
+            break;
+        }
+        fputc(character, c1_bss.preprocessor_output);
+    }
+}
 
 /* The same spelling column serves diagnostics and preprocessing. Its gaps
  * remain unmodeled; consumers guard before every unknown indexed read. */

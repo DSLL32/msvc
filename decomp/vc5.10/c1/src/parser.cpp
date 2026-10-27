@@ -6885,7 +6885,7 @@ int __cdecl returns_local_address(CompilerParserNode *value)
     return 0;
 }
 /* Encountered semantic cells of shared BYTE column63c78; gaps remain unmodeled. */
-CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, 60, 61, {0}, 65, {0}, 128, 124, {0}, 70, {0}, 74, {0}, 79, {0}, 81, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126 } };
+CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, 60, 61, 124, {0}, 65, {0}, 128, 124, {0}, 70, {0}, 74, {0}, 79, {0}, 81, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126 } };
 CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *value)
 {
     for (;;) {
@@ -8322,7 +8322,7 @@ extern "C" char c1_numeric_token_text[128]; /* Same physical numeric workspace, 
 extern "C" {
 int __cdecl read_source_chunk(void);
 unsigned __cdecl read_unspliced_character(void); /* RVA0a3fe */
-int __cdecl skip_line_comment(void); /* RVA04468 */
+void __cdecl skip_line_comment(void); /* RVA04468 */
 int __cdecl skip_block_comment(void); /* RVA084b5 */
 int __cdecl skip_language_comment(void); /* RVA3c1c8 */
 void __cdecl skip_macro_block_comment(void);
@@ -8942,7 +8942,52 @@ extern "C" unsigned __cdecl read_unspliced_character(void)
         return (BYTE)resolve_special_character(character);
     return character;
 }
-extern "C" int __cdecl skip_line_comment(void) { __asm { int 3 } return 0; }
+extern "C" unsigned char __cdecl read_multibyte_character(void);
+extern "C" void __cdecl skip_preserved_line_comment(void)
+{
+    unsigned character, category;
+    fwrite("//", 2, 1, c1_bss.preprocessor_output);
+    for (;;) {
+        character = *c1_bss.source_cursor++;
+        category = c1_data.scanner.classes[character];
+        if (category == SC_NEWLINE) { --c1_bss.source_cursor; return; }
+        if (category == SC_SPACE) {
+            if (character == '\r') continue;
+        } else if (category == SC_SPECIAL) {
+            if (character == '?') {
+                if (!(process_trigraph() & 0x40)) continue;
+            } else if (character == '\\') {
+                (putchar)('\\');
+                splice_input_line();
+                continue;
+            } else {
+                process_special_character();
+                continue;
+            }
+        }
+        fputc(character, c1_bss.preprocessor_output);
+    }
+}
+extern "C" void __cdecl skip_comment_continuation(void) { __asm { int 3 } }
+extern "C" void __cdecl skip_line_comment(void)
+{
+    unsigned character;
+    if (c1_bss.options.preserve_comments && !(lexer_flags & 0x8000)) {
+        skip_preserved_line_comment();
+        return;
+    }
+    for (;;) {
+        do { character = *c1_bss.source_cursor++; }
+        while (c1_data.scanner.flags[character] & 0x40);
+        if (character == '\n') { --c1_bss.source_cursor; return; }
+        unsigned category = c1_data.scanner.classes[character];
+        if (!category) {
+            if (process_special_character() != 1) continue;
+            if (!*c1_bss.source_cursor) return;
+            if (character == '\\') skip_comment_continuation();
+        } else if (category == SC_LEAD) read_multibyte_character();
+    }
+}
 extern "C" int __cdecl skip_block_comment(void) { __asm { int 3 } return 0; }
 extern "C" int __cdecl skip_language_comment(void)
 {
@@ -9576,7 +9621,26 @@ extern "C" CompilerParserToken *__cdecl make_source_state_token(void *object)
     }
     return token;
 }
-extern "C" int __cdecl skip_newline_comment(void) { __asm { int 3 } return 0; }
+extern "C" int __cdecl skip_newline_comment(void)
+{
+    BYTE character = *c1_bss.source_cursor++;
+    if (!c1_data.scanner.classes[character]) resolve_special_character(character);
+    if (character == '/') {
+        lexer_flags |= 0x800;
+        skip_line_comment();
+    } else {
+        --c1_bss.source_cursor;
+        character = *c1_bss.source_cursor++;
+        if (!c1_data.scanner.classes[character]) resolve_special_character(character);
+        if (character != '*') { --c1_bss.source_cursor; return 0; }
+        lexer_flags |= 0x800;
+        if (c1_bss.options.preserve_comments && !(lexer_flags & 0x8000))
+            skip_preserved_macro_comment();
+        else skip_macro_block_comment();
+    }
+    lexer_flags &= ~0x800U;
+    return 1;
+}
 
 extern "C" void __cdecl scan_class192_attributes(CompilerDeclarationAttributes *);
 

@@ -31,7 +31,7 @@ typedef union CompilerExpressionClasses {
         BYTE unmodeled_33[1], simple_assignment; /* kind52, RVA63cac ->52 */
         BYTE unmodeled_35[6], equality; /* kind59, RVA63cb3 ->110 */
         BYTE logical_not, indirection; /* kind60, RVA63cb4 ->60 */
-        BYTE unmodeled_3e[3], subscript; /* kind65, RVA63cb9 ->65 */
+        BYTE greater, unmodeled_3f[2], subscript; /* kind65, RVA63cb9 ->65 */
         BYTE unmodeled_42[1], shift_left, less; /* kinds67/68 ->128/124 */
         BYTE unmodeled_45[1], subtraction, unmodeled_47[3], multiplication;
         BYTE unmodeled_4b[4], logical_or, unmodeled_50[1], addition, unmodeled_52[1], member_address; /* kind79 ->79; kind83 ->131 */
