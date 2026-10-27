@@ -2078,4 +2078,7 @@ CRT/DOS errors are preserved; success LastError retention is native policy, with
 original per-call state unmeasured. Other profiles deny the new API surface.
 Focused independent searches, directories, metadata, output tails, exhaustion,
 early-close/reuse/errors and existing CRT _find controls cover the implementation;
-LINK's ordinary archive-extraction adoption remains pending.
+LINK's ordinary74-entry archive-extraction progression passes (18.933ms native)
+with real single-match enumeration, exhaustion and close. Final exact extraction
+completes83 entries (18.494ms), with no normalization; directory/restart/error
+branches remain source/static plus focused controls for that input.
