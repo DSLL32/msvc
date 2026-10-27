@@ -852,7 +852,7 @@ static char **find_names;
 static size_t find_count,find_index;
 static int find_handle;
 
-static int find_match(const char *pattern,const char *name)
+int recon_native_find_match(const char *pattern,const char *name)
 {
     while (*pattern) {
         if (*pattern=='*') {
@@ -861,7 +861,7 @@ static int find_match(const char *pattern,const char *name)
             if (!*pattern) return 1;
             if (*pattern=='.' && (dot=strrchr(name,'.'))!=NULL) end=dot;
             for (;;) {
-                if (find_match(pattern,end)) return 1;
+                if (recon_native_find_match(pattern,end)) return 1;
                 if (end==name) break;
                 --end;
             }
@@ -926,7 +926,7 @@ WEAK char *recon_find(const char *pattern)
             recon_SetLastError(errno==EACCES?ERROR_ACCESS_DENIED:ERROR_PATH_NOT_FOUND);
             find_handle=-1; errno=saved_errno; return NULL;
         }
-        while ((entry=readdir(stream))!=NULL) if (find_match(mask,entry->d_name)) {
+        while ((entry=readdir(stream))!=NULL) if (recon_native_find_match(mask,entry->d_name)) {
             char **grown;
             if (strlen(entry->d_name)>=260) recon_unsupported("_find filename exceeds MAX_PATH");
             grown=realloc(find_names,(find_count+1)*sizeof(*find_names));

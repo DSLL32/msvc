@@ -1585,6 +1585,175 @@ BOOL WINAPI recon_GetConsoleScreenBufferInfo(HANDLE handle,CONSOLE_SCREEN_BUFFER
     info->dwMaximumWindowSize=info->dwSize;
     last_error=0; return TRUE;
 }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+/* Search handles own directory streams, independently of CRT _find's singleton.
+ * Results describe the native filesystem: no synthesized 8.3 names, Windows
+ * archive bits or Windows directory order. The caller owns a full SDK result. */
+typedef struct NativeFind {
+    struct NativeFind *next;DIR *directory;char pattern[MAX_PATH];unsigned scanned;
+} NativeFind;
+static NativeFind *native_finds;
+static pthread_mutex_t native_find_lock=PTHREAD_MUTEX_INITIALIZER;
+static void find_output_span(LPWIN32_FIND_DATAA output,const NativeFind *search)
+{
+    uintptr_t p=(uintptr_t)output,s=(uintptr_t)search;
+    if(p<4096 || (p&3) || p>UINTPTR_MAX-sizeof(*output) ||
+       (search && p<s+sizeof(*search) && s<p+sizeof(*output)))
+        recon_unsupported("FindFile caller-owned result span");
+}
+static int find_directory_kind(char *host)
+{
+    char *cursor;struct stat info;int failure;char saved;
+    for(cursor=host;;++cursor)if(!*cursor || *cursor=='/') {
+        saved=*cursor;*cursor=0;failure=*host?lstat(host,&info):0;*cursor=saved;
+        if(failure)return -1;
+        if(cursor!=host) {
+            if(S_ISLNK(info.st_mode))recon_unsupported("FindFile symlink directory");
+            if(!S_ISDIR(info.st_mode)) {errno=ENOTDIR;return -1;}
+        }
+        if(!saved)return 0;
+    }
+}
+static FILETIME find_filetime(int64_t seconds,unsigned nanoseconds)
+{
+    uint64_t ticks;FILETIME result;
+    if(seconds< -11644473600LL ||
+       seconds>(int64_t)(UINT64_MAX/10000000)-11644473600LL || nanoseconds>=1000000000)
+        recon_unsupported("FindFile native timestamp range");
+    ticks=(uint64_t)(seconds+11644473600LL)*10000000;
+    if(UINT64_MAX-ticks<nanoseconds/100)recon_unsupported("FindFile native timestamp overflow");
+    ticks+=nanoseconds/100;
+    result.dwLowDateTime=(DWORD)ticks;result.dwHighDateTime=(DWORD)(ticks>>32);
+    return result;
+}
+static BOOL find_next_native(NativeFind *search,LPWIN32_FIND_DATAA output,DWORD exhausted)
+{
+    struct dirent *entry;struct stat64 info;struct statx birth;WIN32_FIND_DATAA result;
+    size_t n;int fd=dirfd(search->directory);
+    for(;;) {
+        errno=0;entry=readdir(search->directory);
+        if(!entry) {last_error=errno?error_code(errno):exhausted;return FALSE;}
+        if(++search->scanned>16384)recon_unsupported("FindFile bounded directory scan");
+        if(!recon_native_find_match(search->pattern,entry->d_name))continue;
+        n=strnlen(entry->d_name,MAX_PATH);
+        if(!n || n==MAX_PATH)recon_unsupported("FindFile native filename length");
+        for(n=0;entry->d_name[n];++n)
+            if((unsigned char)entry->d_name[n]<32 || (unsigned char)entry->d_name[n]>=127 ||
+               strchr("\\:*?\"<>|",entry->d_name[n]))
+                recon_unsupported("FindFile native filename encoding");
+        if(fstatat64(fd,entry->d_name,&info,AT_SYMLINK_NOFOLLOW)) {
+            last_error=error_code(errno);return FALSE;
+        }
+        if(!S_ISREG(info.st_mode) && !S_ISDIR(info.st_mode))
+            recon_unsupported("FindFile native entry kind");
+        if(info.st_size<0)recon_unsupported("FindFile native file size");
+        memset(&result,0,sizeof(result));
+        result.dwFileAttributes=S_ISDIR(info.st_mode)?FILE_ATTRIBUTE_DIRECTORY:0;
+        if(!(info.st_mode&0222))result.dwFileAttributes|=FILE_ATTRIBUTE_READONLY;
+        if(!result.dwFileAttributes)result.dwFileAttributes=FILE_ATTRIBUTE_NORMAL;
+        if(S_ISREG(info.st_mode)) {
+            result.nFileSizeLow=(DWORD)(uint64_t)info.st_size;
+            result.nFileSizeHigh=(DWORD)((uint64_t)info.st_size>>32);
+        }
+        result.ftLastAccessTime=find_filetime(info.st_atim.tv_sec,info.st_atim.tv_nsec);
+        result.ftLastWriteTime=find_filetime(info.st_mtim.tv_sec,info.st_mtim.tv_nsec);
+        /* A zero creation time denotes unavailable filesystem birth time. */
+        if(!statx(fd,entry->d_name,AT_SYMLINK_NOFOLLOW,STATX_BTIME,&birth) &&
+           (birth.stx_mask&STATX_BTIME))
+            result.ftCreationTime=find_filetime(birth.stx_btime.tv_sec,birth.stx_btime.tv_nsec);
+        strcpy(result.cFileName,entry->d_name);*output=result;return TRUE;
+    }
+}
+#endif
+HANDLE WINAPI recon_FindFirstFileA(LPCSTR pattern,LPWIN32_FIND_DATAA output)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    char directory[MAX_PATH],host[PATH_MAX],*slash,*backslash;const char *mask;
+    size_t length,n;DIR *stream;NativeFind *search;HANDLE result=INVALID_HANDLE_VALUE;
+    int saved_errno=errno;unsigned long saved_dos=recon_doserrno;DWORD saved_error=last_error;
+    if((uintptr_t)pattern<4096 || (uintptr_t)pattern>UINTPTR_MAX-MAX_PATH)
+        recon_unsupported("FindFirstFileA pattern span");
+    length=strnlen(pattern,MAX_PATH);
+    if(!length || length==MAX_PATH)recon_unsupported("FindFirstFileA pattern length");
+    find_output_span(output,NULL);
+    if((uintptr_t)pattern<(uintptr_t)output+sizeof(*output) &&
+       (uintptr_t)output<(uintptr_t)pattern+length+1)
+        recon_unsupported("FindFirstFileA pattern/result overlap");
+    for(n=0;n<length;++n)
+        if((unsigned char)pattern[n]<32 || (unsigned char)pattern[n]>=127 ||
+           strchr("\"<>|",pattern[n]) || (pattern[n]==':' &&
+           (n!=1 || !isalpha((unsigned char)pattern[0]))))
+            recon_unsupported("FindFirstFileA ASCII path");
+    if(length>1 && pattern[1]==':' && pattern[2]!='/' && pattern[2]!='\\')
+        recon_unsupported("FindFirstFileA drive-relative path");
+    strcpy(directory,pattern);slash=strrchr(directory,'/');backslash=strrchr(directory,'\\');
+    if(backslash && (!slash || backslash>slash))slash=backslash;
+    if(slash) {
+        mask=pattern+(slash-directory)+1;
+        if(slash==directory || (slash==directory+2 && directory[1]==':'))slash[1]=0;
+        else *slash=0;
+        if(strpbrk(directory,"*?"))recon_unsupported("FindFirstFileA wildcard directory");
+    } else {strcpy(directory,".");mask=pattern;}
+    if(!*mask || !strcmp(mask,".") || !strcmp(mask,"..") || mask[strlen(mask)-1]==' ')
+        recon_unsupported("FindFirstFileA leaf pattern");
+    if(recon_host_path(directory,host,sizeof(host)) || find_directory_kind(host) ||
+       !(stream=opendir(host))) {
+        last_error=(errno==ENOENT || errno==ENOTDIR)?ERROR_PATH_NOT_FOUND:error_code(errno);
+        goto finished;
+    }
+    search=malloc(sizeof(*search));
+    if(!search) {closedir(stream);last_error=ERROR_NOT_ENOUGH_MEMORY;goto finished;}
+    search->directory=stream;strcpy(search->pattern,mask);search->scanned=0;
+    if(!find_next_native(search,output,ERROR_FILE_NOT_FOUND)) {
+        DWORD failure=last_error;closedir(stream);free(search);last_error=failure;goto finished;
+    }
+    pthread_mutex_lock(&native_find_lock);search->next=native_finds;native_finds=search;
+    pthread_mutex_unlock(&native_find_lock);last_error=saved_error;result=(HANDLE)search;
+finished:
+    errno=saved_errno;recon_doserrno=saved_dos;return result;
+#else
+    (void)pattern;(void)output;recon_unsupported("FindFirstFileA explicit MSVCRT510 profile");
+    return INVALID_HANDLE_VALUE;
+#endif
+}
+BOOL WINAPI recon_FindNextFileA(HANDLE handle,LPWIN32_FIND_DATAA output)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    NativeFind *search;BOOL result=FALSE;int saved_errno=errno;
+    unsigned long saved_dos=recon_doserrno;DWORD saved_error=last_error;
+    find_output_span(output,NULL);pthread_mutex_lock(&native_find_lock);
+    for(search=native_finds;search && (HANDLE)search!=handle;search=search->next) ;
+    if(!search)last_error=ERROR_INVALID_HANDLE;
+    else {
+        find_output_span(output,search);result=find_next_native(search,output,ERROR_NO_MORE_FILES);
+        if(result)last_error=saved_error;
+    }
+    pthread_mutex_unlock(&native_find_lock);errno=saved_errno;recon_doserrno=saved_dos;return result;
+#else
+    (void)handle;(void)output;recon_unsupported("FindNextFileA explicit MSVCRT510 profile");return FALSE;
+#endif
+}
+BOOL WINAPI recon_FindClose(HANDLE handle)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    NativeFind **link,*search;BOOL result=FALSE;int saved_errno=errno;
+    unsigned long saved_dos=recon_doserrno;DWORD saved_error=last_error;
+    pthread_mutex_lock(&native_find_lock);
+    for(link=&native_finds;*link && (HANDLE)*link!=handle;link=&(*link)->next) ;
+    search=*link;
+    if(!search)last_error=ERROR_INVALID_HANDLE;
+    else {
+        *link=search->next;
+        if(closedir(search->directory))last_error=error_code(errno);
+        else {last_error=saved_error;result=TRUE;}
+        free(search);
+    }
+    pthread_mutex_unlock(&native_find_lock);errno=saved_errno;recon_doserrno=saved_dos;return result;
+#else
+    (void)handle;recon_unsupported("FindClose explicit MSVCRT510 profile");return FALSE;
+#endif
+}
+
 DWORD WINAPI recon_GetFileAttributesA(LPCSTR name)
 {
     struct stat64 info;char path[PATH_MAX];int matched,saved=errno;

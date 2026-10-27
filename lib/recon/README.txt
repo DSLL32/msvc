@@ -2055,5 +2055,27 @@ timestamps return NULL without changing errors, matching shipped localtime's
 early rejection; NULL/wrapped input and unknown host layouts remain denied.
 Other profiles and SHIM_IMPL retain the existing host ctime spelling. Independent
 host/target errno, DOS error and LastError are preserved around native conversion.
-Focused formatting/bounds/error/profile checks cover the change; LINK's saved
-architecture-dump caller adoption is pending.
+Focused formatting/bounds/error/profile checks and LINK's saved deeper95-entry
+MIPS architecture-dump adoption pass (18.977ms native); the earlier Alpha failure
+is retained, with no original repeat or broader calendar claim.
+
+FindFirstFileA/FindNextFileA/FindClose support explicit MSVCRT_510 with the SDK
+320-byte WIN32_FIND_DATAA (filename offset44). Each search owns a real directory
+stream independently of CRT _find; its unchanged DOS matcher is shared without
+changing the CRT singleton's ordering/state. Bounded printable ASCII mapped paths
+and leaf patterns are admitted; wildcard directories, drive-relative/ADS paths,
+symlinks, special files, overlong names and scans beyond16384 entries are denied.
+The caller owns an aligned full320-byte result; spans and initial pattern overlap
+are checked before scanning/writing, without claiming general memory validation.
+Directories are returned with their real directory bit for App filtering. Real
+native stat sizes/access/write times, available birthtime (otherwise zero), and
+the existing native readonly/directory/normal attribute policy fill the result.
+Reserved fields and unavailable8.3 names are zero; Windows archive-bit, short-name,
+birthtime and enumeration-order equivalence are not claimed. No result-name or
+single-match allowlist exists. Exhaustion returns FALSE/error18 and leaves the
+handle owned until FindClose; no-match/path/invalid handle return2/3/6. Independent
+CRT/DOS errors are preserved; success LastError retention is native policy, with
+original per-call state unmeasured. Other profiles deny the new API surface.
+Focused independent searches, directories, metadata, output tails, exhaustion,
+early-close/reuse/errors and existing CRT _find controls cover the implementation;
+LINK's ordinary archive-extraction adoption remains pending.

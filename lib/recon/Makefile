@@ -1162,3 +1162,13 @@ build/msvcrt-ctime-shim: tests/msvcrt-ctime-probe.c $(SOURCES) $(HEADERS) | buil
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 -DTEST_SHIM $< $(SOURCES) -o $@
 msvcrt-ctime-check: build/msvcrt-ctime-probe build/msvcrt-ctime-generic build/msvcrt-ctime-watcom build/msvcrt-ctime-shim
 	$(PYTHON) tests/check-msvcrt-ctime.py $^
+
+.PHONY: win32-find-files-check
+build/win32-find-files-probe: tests/win32-find-files-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/win32-find-files-generic: tests/win32-find-files-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/win32-find-files-types.o: tests/win32-find-files-types.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
+win32-find-files-check: build/win32-find-files-probe build/win32-find-files-generic build/win32-find-files-types.o
+	$(PYTHON) tests/check-win32-find-files.py build/win32-find-files-probe build/win32-find-files-generic

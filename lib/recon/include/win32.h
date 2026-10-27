@@ -46,6 +46,12 @@ typedef void (WINAPI *FARPROC)(void);
 typedef struct { DWORD nLength; LPVOID lpSecurityDescriptor; BOOL bInheritHandle; } SECURITY_ATTRIBUTES, *LPSECURITY_ATTRIBUTES;
 typedef struct { WORD wYear,wMonth,wDayOfWeek,wDay,wHour,wMinute,wSecond,wMilliseconds; } SYSTEMTIME;
 typedef struct { DWORD dwLowDateTime,dwHighDateTime; } FILETIME;
+typedef struct _WIN32_FIND_DATAA {
+ DWORD dwFileAttributes;
+ FILETIME ftCreationTime,ftLastAccessTime,ftLastWriteTime;
+ DWORD nFileSizeHigh,nFileSizeLow,dwReserved0,dwReserved1;
+ char cFileName[MAX_PATH],cAlternateFileName[14];
+} WIN32_FIND_DATAA,*PWIN32_FIND_DATAA,*LPWIN32_FIND_DATAA;
 typedef struct _SYSTEM_INFO {
  union { DWORD dwOemId; struct { WORD wProcessorArchitecture,wReserved; }; };
  DWORD dwPageSize; LPVOID lpMinimumApplicationAddress,lpMaximumApplicationAddress;

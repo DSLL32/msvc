@@ -456,6 +456,9 @@ void recon_load_system_info_profile(const char *,const char *);
  X(HANDLE,CreateFileA,(LPCSTR,DWORD,DWORD,LPSECURITY_ATTRIBUTES,DWORD,DWORD,HANDLE)) \
  X(BOOL,CopyFileA,(LPCSTR,LPCSTR,BOOL)) \
  X(BOOL,DeleteFileA,(LPCSTR)) \
+ X(HANDLE,FindFirstFileA,(LPCSTR,LPWIN32_FIND_DATAA)) \
+ X(BOOL,FindNextFileA,(HANDLE,LPWIN32_FIND_DATAA)) \
+ X(BOOL,FindClose,(HANDLE)) \
  X(PIMAGE_NT_HEADERS,CheckSumMappedFile,(LPVOID,DWORD,LPDWORD,LPDWORD)) \
  X(DWORD,MapFileAndCheckSumA,(LPSTR,LPDWORD,LPDWORD)) \
  X(void,CoUninitialize,(void)) \
@@ -842,6 +845,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define CopyFileA recon_CopyFileA
 #define CreateFileA recon_CreateFileA
 #define DeleteFileA recon_DeleteFileA
+#define FindFirstFileA recon_FindFirstFileA
+#define FindNextFileA recon_FindNextFileA
+#define FindClose recon_FindClose
 #define CheckSumMappedFile recon_CheckSumMappedFile
 #define MapFileAndCheckSumA recon_MapFileAndCheckSumA
 #define CoUninitialize recon_CoUninitialize
