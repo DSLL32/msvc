@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 155296
+              "offset": 155776
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 155307
+              "offset": 155787
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 248480
+              "offset": 248960
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 248491
+              "offset": 248971
             }
           ]
         },
@@ -7739,11 +7739,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 183872
+              "offset": 184352
             },
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 183883
+              "offset": 184363
             }
           ]
         }
@@ -8216,11 +8216,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 182912
+              "offset": 183392
             },
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 182923
+              "offset": 183403
             }
           ]
         }
@@ -13683,11 +13683,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 184864
+              "offset": 185344
             },
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 184872
+              "offset": 185352
             }
           ],
           "text_data": [
@@ -21122,6 +21122,16 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_read_omf_lidata": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_omf_iterated_block@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },
@@ -21131,21 +21141,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 155296
+            "offset": 155776
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 155307
+            "offset": 155787
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 155307
+            "offset": 155787
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 155317
+            "offset": 155797
           }
         ]
       ]
@@ -21155,21 +21165,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 248480
+            "offset": 248960
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 248491
+            "offset": 248971
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 248491
+            "offset": 248971
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 248501
+            "offset": 248981
           }
         ]
       ]
@@ -21251,21 +21261,21 @@
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 183872
+            "offset": 184352
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 183883
+            "offset": 184363
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 183883
+            "offset": 184363
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 183893
+            "offset": 184373
           }
         ]
       ]
@@ -21275,21 +21285,21 @@
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 182912
+            "offset": 183392
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 182923
+            "offset": 183403
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 182923
+            "offset": 183403
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 182933
+            "offset": 183413
           }
         ]
       ]
@@ -21299,21 +21309,21 @@
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 184864
+            "offset": 185344
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 184872
+            "offset": 185352
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 184872
+            "offset": 185352
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 184882
+            "offset": 185362
           }
         ]
       ]

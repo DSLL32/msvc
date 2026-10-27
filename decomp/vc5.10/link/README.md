@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-701 application functions / 257,975 original code bytes are reconstructed
-(62.19% of the 414,810-byte whole `.text` extent, which includes CRT and text
+703 application functions / 258,386 original code bytes are reconstructed
+(62.29% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 38 pending bodies with known extents totaling 4,066 bytes and
-165 entries whose body extents remain unknown; this is not a complete non-CRT
+164 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all forty-seven cached native cases and their narrow checks;
+`make -j4 check unit` runs all forty-eight cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-714-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 693 ordinary application bodies and six CRT bodies. Seven import
+716-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 695 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1294,3 +1294,40 @@ graph/RET/EH batch passed in 6.82 s: 47 cached cases, 714 graph vertices,
 699 scoped return contracts and nine distinct EH/SEH checks. Raw inputs,
 construction facts, successful pairs and the failed ordering remain in scratch.
 These are incremental measurements.
+
+
+`cases/0049-omf-iterated` completes cross-module linking with nested iterated
+data in both 16-bit and 32-bit OMF records. The genuine WASM source objects
+remain preserved. A transparent format transformation replaces only four
+relocation-free repeated LEDATA chunks with LIDATA according to the
+[TIS OMF specification](https://openwatcom.org/ftp/devel/docs/omf.pdf), using
+nested blocks and the respective repeat/offset widths. Independent expansion
+matches every segment, offset, length and byte. All other records are unchanged,
+including both FIXUPP records and their unchanged preceding data contexts.
+The source object shrinks from 4,498 to 1,518 bytes; its logical contents do not
+change. This is explicitly format-authored input, not claimed compiler LIDATA
+production. Original LINK accepts it naturally; no input code is executed.
+
+Two whole bodies / 411 original code bytes recover the LIDATA owner and its
+recursive expander. The source preserves real stream rewinds, per-repetition
+record-length restoration, signed repeat-loop tests, literal reads and the
+existing section writer. Both widths, depth-three nesting and multiple child
+blocks are reached. The complete output retains cross-module references,
+communal storage, BSS, line records and real relocation behavior. Earlier
+partial comparisons with independent live temp names remain non-PASS evidence;
+final cleanup and inventory are strict.
+
+Original and native exit 0 with 309 matching application first entries. The
+8,192-byte EXE and 1,152-byte map equal the untouched master except identified
+PE/debug TimeDateStamp DWORDs [184,188), [1540,1544), [1568,1572), and map
+hex/ctime text [27,35)/[37,61). Only those clock fields change in the derived
+comparison. Raw original/master artifacts and their hashes remain intact; the
+native generic checks validate every other byte and complete inventory without
+claiming a durable raw native export. The master's historical 308-entry trace
+predates the identified recursive child and remains unchanged.
+
+The final original took 1,801.8 ms; native comparison passed in 20.2 ms
+(12.1 ms setup, 4.1 ms execution, 4.1 ms checks). One parallel case-end
+regression/unit/original-build and full graph/RET/EH batch passed in 5.48 s:
+48 cached cases, 716 graph vertices, 701 scoped return contracts and nine
+EH/SEH owner checks. These are incremental measurements.

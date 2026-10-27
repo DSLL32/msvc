@@ -143,6 +143,7 @@ void __cdecl read_omf_ledata(void);
 void __stdcall append_omf_section_data(DWORD,DWORD,const void *,DWORD);
 void __stdcall write_omf_section_data(DWORD,DWORD,const void *,DWORD);
 void __cdecl read_omf_lidata(void);
+DWORD __stdcall read_omf_iterated_block(DWORD);
 void __stdcall read_omf_comdefs(DWORD);
 void __stdcall read_omf_lpubdefs(DWORD);
 void __stdcall read_omf_comment(const char *);

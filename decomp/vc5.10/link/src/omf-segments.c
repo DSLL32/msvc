@@ -190,6 +190,48 @@ void __stdcall write_omf_section_data(DWORD section,DWORD offset,
     memcpy(omf_section_data[index]+offset,bytes,size);
 }
 
+DWORD __stdcall read_omf_iterated_block(DWORD offset)
+{
+    BYTE data[2048];
+    DWORD repeat,blocks,i,length;
+    LONG position;
+    SHORT saved_length;
+    repeat=omf_record_is32?read_omf_dword():(read_omf_word()&0xffff);
+    blocks=read_omf_word()&0xffff;
+    if(blocks) {
+        position=ftell(omf_stream);
+        saved_length=omf_record_length;
+        while((LONG)repeat>0) {
+            omf_record_length=saved_length;
+            for(i=0;i<blocks;++i)offset=read_omf_iterated_block(offset);
+            --repeat;
+            if(repeat && fseek(omf_stream,position,SEEK_SET))
+                omf_error("Cannot expand iterated data");
+        }
+    } else {
+        length=(BYTE)read_omf_byte();
+        read_omf_bytes(data,length);
+        while((LONG)repeat>0) {
+            /* The physical DWORD section slot is consumed only as a signed
+             * low WORD by the existing writer; upper register carry is unused. */
+            write_omf_section_data(omf_segments[(SHORT)omf_data_segment].output_section,
+                offset,data,length);
+            offset+=length;
+            --repeat;
+        }
+    }
+    return offset;
+}
+
+void __cdecl read_omf_lidata(void)
+{
+    omf_data_record=0xa2;
+    omf_data_segment=read_omf_index();
+    omf_data_offset=omf_record_is32?read_omf_dword():(read_omf_word()&0xffff);
+    while(omf_record_length>1)
+        omf_data_offset=read_omf_iterated_block(omf_data_offset);
+}
+
 /* Original479a88 remembers the last logical COMDAT segment for continuation
  * records, separate from current data segment478a70 and data offset479a90. */
 WORD omf_last_comdat_segment;
