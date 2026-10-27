@@ -5648,5 +5648,22 @@
       ],
       "basis": "Public cdecl size_t fread(void*,size_t,size_t,FILE*); ordinary normal-return nonvolatile EDI. Actual fseek cache425bb1 survives fread425bd8 before425ce0. Includes own cached-target reuse: fread425b26\u2192425bd8 in ESI and fseek425bbb\u2192425ce0 in EDI."
     }
-  ]
+  ],
+  "dumper_imports_ordinary_abi": {
+    "owner": "_dump_imports@4",
+    "normal_return_preservation": {
+      "_seek_file@16": [
+        "ebp"
+      ],
+      "_mapped_read@12": [
+        "ebp",
+        "edi"
+      ],
+      "_buffered_read@12": [
+        "ebp",
+        "edi"
+      ]
+    },
+    "basis": "Actual ordinary stdcall seek(int,LONG,int,DWORD*)/RET16 and read(FileRecord*,void*,unsigned)/RET12 preserve nonvolatile EBP/EDI. Original caches fprintf in EBP at4285e3, forwards it over seek42862c and byte reads428670/42867d before4286c9; caches fputc in EDI at428975 across byte reads4289a9/4289b6 before4289ce/4289de. Existing EBX and public cdecl preservation facts retained. Normal-return scope only; no new provider body claim."
+  }
 }

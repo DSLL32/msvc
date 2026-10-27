@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-579 application functions / 217,184 original code bytes are reconstructed
-(52.36% of the 414,810-byte whole `.text` extent, which includes CRT and text
+582 application functions / 221,269 original code bytes are reconstructed
+(53.34% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 40 pending bodies with known extents totaling 4,219 bytes and
-199 entries whose body extents remain unknown; this is not a complete non-CRT
+196 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all twenty-six cached native cases and their narrow checks;
+`make -j4 check unit` runs all twenty-seven cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-592-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 572 ordinary application bodies and six CRT bodies. Seven import
+595-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 575 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The seven genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -601,3 +601,30 @@ parallel cached regression/unit/original-build/full-audit batch passed in 4.97 s
 covering twenty-six fixtures, 592 graph vertices, 578 return contracts and seven
 separate C++ EH-owner checks. These are incremental timings, not isolated audit
 or clean-build benchmarks.
+
+
+The import/export Dumper case runs `/dump /all /dependents hello.dll client.exe`
+with unchanged raw original-produced inputs from the completed DLL and import
+client workloads. The DLL has named aliases, explicit ordinals, a NONAME export
+and exported data; the client imports the DLL by name and ordinal. Both sides
+exit 0 with 93 application entries and exactly 10,907 stdout bytes. Complete
+streams and input inventory match the separately retained untouched master,
+without normalization or invocation of either input image.
+
+Three bodies / 4,085 original code bytes recover dependency names, import
+descriptors and thunks, and export names, ordinal slots and unnamed entries.
+The source preserves independent lookup/address tables, actual file seeks,
+byte reads, unsigned RVA checks and RET4 contracts. Ordinary stdcall read/seek
+preservation facts cover only the actual cached-import sites. The bound-import
+header is absent in these inputs, and forwarded exports are not exercised;
+those source paths gain no separate dynamic qualification. Malformed indices
+and unterminated or out-of-range native reads remain outside the supported
+input domain. Period SDK pointer-typed thunk/address fields are transported
+through their actual DWORD RVA interpretation, without a native layout fork.
+
+The completion original took 1,680.3 ms; fresh native comparison took 18.8 ms
+(12.2 ms setup, 3.5 ms execution, 3.1 ms checks). The one case-end parallel
+regression/unit/original-build/full-audit batch passed in 4.09 s: twenty-seven
+fixtures, 595 graph vertices, 581 return contracts and seven separate EH-owner
+checks. Raw references and build failures remain in scratch; timings are
+incremental rather than isolated audit or clean-build measurements.

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 #include "dumper.h"
 #include "input.h"
 #include "memory.h"
@@ -596,11 +597,340 @@ void __stdcall dump_debug_directories(DumperSectionState *state,IMAGE_SECTION_HE
 }
 void __stdcall dump_architecture(DumperSectionState *,IMAGE_SECTION_HEADER *) { __asm { int 3 } }
 void __stdcall dump_image_pdata(DumperSectionState *,LinkContext *) { __asm { int 3 } }
-void __stdcall dump_dependents(IMAGE_SECTION_HEADER *) { __asm { int 3 } }
+void __stdcall dump_dependents(IMAGE_SECTION_HEADER *section)
+{
+    IMAGE_IMPORT_DESCRIPTOR descriptor;
+    FileRecord *record;
+    DWORD position,next_position,error,index,name_position;
+    WORD i;
+    BYTE ch;
+    default_phase="DumpDependencies";
+    fputs("\n  Image has the following dependencies:\n",map_output);
+    position=section->PointerToRawData-section->VirtualAddress+
+        dumper_context->optional_header.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress;
+    if(!dumper_file_range_valid(position,0)) {
+        link_warning(NULL,4030,position,"IMPORTS");
+        return;
+    }
+    for(;;) {
+        error=0;seek_file(current_input_file,position,FILE_BEGIN,&error);
+        if(file_access_statistics)record_file_access();
+        record=file_slots[current_input_file];
+        if(record->flags&8)mapped_read(record,&descriptor,sizeof(descriptor));
+        else buffered_read(record,&descriptor,sizeof(descriptor));
+        next_position=position+sizeof(descriptor);
+        if(!descriptor.Characteristics && !descriptor.Name && !descriptor.FirstThunk)break;
+        index=0;
+        for(i=0;i<dumper_context->file_header.NumberOfSections;++i) {
+            IMAGE_SECTION_HEADER *candidate=dump_section_headers+i;
+            if(descriptor.Name>=candidate->VirtualAddress &&
+                descriptor.Name<candidate->VirtualAddress+candidate->SizeOfRawData)index=i;
+        }
+        name_position=dump_section_headers[index].PointerToRawData-
+            dump_section_headers[index].VirtualAddress+descriptor.Name;
+        error=0;seek_file(current_input_file,name_position,FILE_BEGIN,&error);
+        fputs("\n    ",map_output);
+        for(;;) {
+            if(file_access_statistics)record_file_access();
+            record=file_slots[current_input_file];
+            if(record->flags&8)mapped_read(record,&ch,1);
+            else buffered_read(record,&ch,1);
+            if(!ch)break;
+            fputc((signed char)ch,map_output);
+        }
+        position=next_position;
+    }
+    fputc('\n',map_output);
+}
 void __stdcall dump_delay_dependents(IMAGE_SECTION_HEADER *) { __asm { int 3 } }
-void __stdcall dump_imports(IMAGE_SECTION_HEADER *) { __asm { int 3 } }
+/* The two bound-import record kinds share this encountered eight-byte prefix. */
+typedef struct DumperBoundImport {
+    DWORD timestamp;
+    WORD name_offset,forwarders;
+} DumperBoundImport;
+void __stdcall dump_imports(IMAGE_SECTION_HEADER *section)
+{
+    IMAGE_IMPORT_DESCRIPTOR descriptor;
+    IMAGE_SECTION_HEADER *candidate;
+    FileRecord *record;
+    DWORD position,next_descriptor,error,index,iat_section;
+    DWORD name_position,lookup_position,bound_position,thunk,bound_value;
+    DWORD bound_rva,bytes,offset,i;
+    WORD j,hint;
+    BYTE ch;
+    BOOL bound_header;
+    time_t timestamp;
+    const char *time_text;
+    BYTE *data;
+    DumperBoundImport *module,*forwarder;
+#ifdef __linux__
+    BOOL found_iat;
+#endif
+#define IMPORT_READ(destination,length) do { \
+    if(file_access_statistics)record_file_access(); \
+    record=file_slots[current_input_file]; \
+    if(record->flags&8)mapped_read(record,(destination),(length)); \
+    else buffered_read(record,(destination),(length)); \
+} while(0)
+    default_phase="DumpImports";
+    bound_header=dumper_context->optional_header.DataDirectory[11] /* IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT */.VirtualAddress!=0;
+    fputs("\n  Section contains the following imports:\n",map_output);
+    position=section->PointerToRawData-section->VirtualAddress+
+        dumper_context->optional_header.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress;
+    if(!dumper_file_range_valid(position,0)) {
+        link_warning(NULL,4030,position,"IMPORTS");
+        return;
+    }
+    for(;;) {
+        error=0;seek_file(current_input_file,position,FILE_BEGIN,&error);
+        IMPORT_READ(&descriptor,sizeof(descriptor));
+        next_descriptor=position+sizeof(descriptor);
+        if(!descriptor.Characteristics && !descriptor.Name && !descriptor.FirstThunk)break;
+        index=0;
+#ifdef __linux__
+        found_iat=FALSE;
+#endif
+        for(j=0;j<dumper_context->file_header.NumberOfSections;++j) {
+            candidate=dump_section_headers+j;
+            if(descriptor.Name>=candidate->VirtualAddress &&
+                descriptor.Name<candidate->VirtualAddress+candidate->SizeOfRawData)index=j;
+            if((DWORD)descriptor.FirstThunk>=candidate->VirtualAddress &&
+                (DWORD)descriptor.FirstThunk<candidate->VirtualAddress+candidate->SizeOfRawData) {
+                iat_section=j;
+#ifdef __linux__
+                found_iat=TRUE;
+#endif
+            }
+        }
+        name_position=dump_section_headers[index].PointerToRawData-
+            dump_section_headers[index].VirtualAddress+descriptor.Name;
+        error=0;seek_file(current_input_file,name_position,FILE_BEGIN,&error);
+        fputs("\n    ",map_output);
+        for(;;) {
+            IMPORT_READ(&ch,1);
+            if(!ch)break;
+            fputc((signed char)ch,map_output);
+        }
+        fputc('\n',map_output);
+        if(descriptor.TimeDateStamp && (!bound_header || descriptor.TimeDateStamp!=(DWORD)-1)) {
+            fprintf(map_output,"\n      %8lX time date stamp",descriptor.TimeDateStamp);
+            timestamp=descriptor.TimeDateStamp;
+            time_text=ctime(&timestamp);
+            if(time_text)fprintf(map_output," %s",time_text);
+            else fputc('\n',map_output);
+            if(descriptor.ForwarderChain!=(DWORD)-1)
+                fprintf(map_output,"      %8lX index of first forwarder reference\n",descriptor.ForwarderChain);
+        }
+        fputc('\n',map_output);
+#ifdef __linux__
+        /* The original leaves this index unwritten when no IAT section
+         * matches. Do not turn that malformed-input state into index zero. */
+        if(!found_iat) { __asm { int 3 } }
+#endif
+        candidate=dump_section_headers+(WORD)iat_section;
+        bound_position=candidate->PointerToRawData-candidate->VirtualAddress+(DWORD)descriptor.FirstThunk;
+        if(!descriptor.Characteristics) {
+            lookup_position=bound_position;
+            bound_position=0;
+        } else {
+            lookup_position=section->PointerToRawData-section->VirtualAddress+descriptor.Characteristics;
+            if(!descriptor.TimeDateStamp)bound_position=0;
+        }
+        for(;;) {
+            error=0;seek_file(current_input_file,lookup_position,FILE_BEGIN,&error);
+            IMPORT_READ(&thunk,4);
+            lookup_position+=4;
+            if(!thunk)break;
+            if(bound_position) {
+                error=0;seek_file(current_input_file,bound_position,FILE_BEGIN,&error);
+                IMPORT_READ(&bound_value,4);
+                bound_position+=4;
+            }
+            fputs("      ",map_output);
+            if(bound_position)fprintf(map_output,"%8X  ",bound_value);
+            else fprintf(map_output,"          ");
+            if(thunk&0x80000000) {
+                fprintf(map_output,"       Ordinal %5lu\n",thunk&0xffff);
+                continue;
+            }
+            for(j=0;j<dumper_context->file_header.NumberOfSections;++j) {
+                candidate=dump_section_headers+j;
+                if(thunk>=candidate->VirtualAddress &&
+                    thunk<candidate->VirtualAddress+candidate->SizeOfRawData)break;
+            }
+#ifdef __linux__
+            if(j==dumper_context->file_header.NumberOfSections) { __asm { int 3 } }
+#endif
+            candidate=dump_section_headers+j;
+            name_position=candidate->PointerToRawData-candidate->VirtualAddress+thunk;
+            error=0;seek_file(current_input_file,name_position,FILE_BEGIN,&error);
+            IMPORT_READ(&hint,2);
+            fprintf(map_output,"% 4hX   ",hint);
+            for(;;) {
+                IMPORT_READ(&ch,1);
+                if(!ch)break;
+                fputc((signed char)ch,map_output);
+            }
+            fputc('\n',map_output);
+        }
+        position=next_descriptor;
+    }
+    bound_rva=dumper_context->optional_header.DataDirectory[11] /* IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT */.VirtualAddress;
+    if(bound_rva) {
+        fputs("\n  Header contains the following bound import information:\n",map_output);
+        if(bound_rva>=dumper_context->optional_header.SizeOfHeaders) {
+            fprintf(map_output,"        **** Invalid offset %x\n",bound_rva);
+            return;
+        }
+        bytes=dumper_context->optional_header.DataDirectory[11] /* IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT */.Size;
+        data=(BYTE *)allocate_memory(bytes);
+        error=0;seek_file(current_input_file,bound_rva,FILE_BEGIN,&error);
+        IMPORT_READ(data,bytes);
+        module=(DumperBoundImport *)data;
+        for(;;) {
+#ifdef __linux__
+            offset=(BYTE *)module-data;
+            if(offset>bytes || bytes-offset<sizeof(*module)) { __asm { int 3 } }
+#endif
+            if(!module->name_offset)break;
+#ifdef __linux__
+            if(module->name_offset>=bytes || !memchr(data+module->name_offset,0,bytes-module->name_offset)) { __asm { int 3 } }
+#endif
+            fprintf(map_output,"    Bound to %s [%8lX]",data+module->name_offset,module->timestamp);
+            timestamp=module->timestamp;
+            time_text=ctime(&timestamp);
+            if(time_text)fprintf(map_output," %s",time_text);
+            else fputc('\n',map_output);
+            forwarder=module+1;
+            for(i=0;i<module->forwarders;++i,++forwarder) {
+#ifdef __linux__
+                offset=(BYTE *)forwarder-data;
+                if(offset>bytes || bytes-offset<sizeof(*forwarder) || forwarder->name_offset>=bytes ||
+                    !memchr(data+forwarder->name_offset,0,bytes-forwarder->name_offset)) { __asm { int 3 } }
+#endif
+                fprintf(map_output,"      Contained forwarders bound to %s [%8lX]",
+                    data+forwarder->name_offset,forwarder->timestamp);
+                timestamp=forwarder->timestamp;
+                time_text=ctime(&timestamp);
+                if(time_text)fprintf(map_output," %s",time_text);
+                else fputc('\n',map_output);
+            }
+            module=forwarder;
+        }
+        release_memory(data);
+    }
+#undef IMPORT_READ
+}
 void __stdcall dump_delay_imports(IMAGE_SECTION_HEADER *) { __asm { int 3 } }
-void __stdcall dump_exports(IMAGE_SECTION_HEADER *) { __asm { int 3 } }
+void __stdcall dump_exports(IMAGE_SECTION_HEADER *section)
+{
+    IMAGE_EXPORT_DIRECTORY directory;
+    FileRecord *record;
+    DWORD position,error,*functions,*names,i,rva,export_begin,export_end;
+    WORD *ordinals,index;
+    BYTE ch;
+    BOOL forwarded;
+    time_t timestamp;
+    const char *time_text;
+    char version[32];
+#define EXPORT_READ(destination,length) do { \
+    if(file_access_statistics)record_file_access(); \
+    record=file_slots[current_input_file]; \
+    if(record->flags&8)mapped_read(record,(destination),(length)); \
+    else buffered_read(record,(destination),(length)); \
+} while(0)
+    default_phase="DumpExports";
+    position=section->PointerToRawData-section->VirtualAddress+
+        dumper_context->optional_header.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+    if(!dumper_file_range_valid(position,0)) {
+        link_warning(NULL,4030,position,"EXPORTS");
+        return;
+    }
+    error=0;seek_file(current_input_file,position,FILE_BEGIN,&error);
+    EXPORT_READ(&directory,sizeof(directory));
+    position=section->PointerToRawData-section->VirtualAddress+directory.Name;
+    error=0;seek_file(current_input_file,position,FILE_BEGIN,&error);
+    fputs("\n         Section contains the following exports for ",map_output);
+    for(;;) {
+        EXPORT_READ(&ch,1);
+        if(!ch)break;
+        fputc((signed char)ch,map_output);
+    }
+    fprintf(map_output,"\n\n            %8lX characteristics\n            %8lX time date stamp",directory.Characteristics,directory.TimeDateStamp);
+    timestamp=directory.TimeDateStamp;
+    time_text=ctime(&timestamp);
+    if(time_text)fprintf(map_output," %s",time_text);
+    else fputc('\n',map_output);
+    sprintf(version,"%hu.%02hu",directory.MajorVersion,directory.MinorVersion);
+    fprintf(map_output,"            %8s version\n            %8lu ordinal base\n            %8lu number of functions\n            %8lu number of names\n\n            ordinal hint RVA      name\n\n",version,directory.Base,directory.NumberOfFunctions,directory.NumberOfNames);
+    functions=(DWORD *)allocate_memory(directory.NumberOfFunctions*4);
+    names=(DWORD *)allocate_memory(directory.NumberOfNames*4);
+    ordinals=(WORD *)allocate_memory(directory.NumberOfNames*2);
+    error=0;seek_file(current_input_file,section->PointerToRawData-section->VirtualAddress+
+        (DWORD)directory.AddressOfFunctions,FILE_BEGIN,&error);
+    EXPORT_READ(functions,directory.NumberOfFunctions*4);
+    error=0;seek_file(current_input_file,section->PointerToRawData-section->VirtualAddress+
+        (DWORD)directory.AddressOfNames,FILE_BEGIN,&error);
+    EXPORT_READ(names,directory.NumberOfNames*4);
+    error=0;seek_file(current_input_file,section->PointerToRawData-section->VirtualAddress+
+        (DWORD)directory.AddressOfNameOrdinals,FILE_BEGIN,&error);
+    EXPORT_READ(ordinals,directory.NumberOfNames*2);
+    export_begin=dumper_context->optional_header.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+    export_end=export_begin+dumper_context->optional_header.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].Size;
+    for(i=0;i<directory.NumberOfNames;++i) {
+        index=ordinals[i];
+#ifdef __linux__
+        if(index>=directory.NumberOfFunctions) { __asm { int 3 } }
+#endif
+        rva=functions[index];
+        functions[index]=0;
+        fprintf(map_output,"              %5u %4X ",directory.Base+index,i);
+        forwarded=rva>=export_begin && rva<export_end;
+        if(forwarded)fputs("         ",map_output);
+        else fprintf(map_output,"%08lX ",rva);
+        error=0;seek_file(current_input_file,section->PointerToRawData-section->VirtualAddress+names[i],FILE_BEGIN,&error);
+        for(;;) {
+            EXPORT_READ(&ch,1);
+            if(!ch)break;
+            fputc((signed char)ch,map_output);
+        }
+        if(forwarded) {
+            fputs(" (forwarded to ",map_output);
+            error=0;seek_file(current_input_file,section->PointerToRawData-section->VirtualAddress+rva,FILE_BEGIN,&error);
+            for(;;) {
+                EXPORT_READ(&ch,1);
+                if(!ch)break;
+                fputc((signed char)ch,map_output);
+            }
+            fputc(')',map_output);
+        }
+        fputc('\n',map_output);
+    }
+    for(i=0;i<directory.NumberOfFunctions;++i) {
+        rva=functions[i];
+        if(!rva)continue;
+        fprintf(map_output,"              %5u      ",directory.Base+i);
+        forwarded=rva>=export_begin && rva<export_end;
+        if(forwarded)fputs("         ",map_output);
+        else fprintf(map_output,"%08lX ",rva);
+        fputs("[NONAME]",map_output);
+        if(forwarded) {
+            fputs(" (forwarded to ",map_output);
+            error=0;seek_file(current_input_file,section->PointerToRawData-section->VirtualAddress+rva,FILE_BEGIN,&error);
+            for(;;) {
+                EXPORT_READ(&ch,1);
+                if(!ch)break;
+                fputc((signed char)ch,map_output);
+            }
+            fputc(')',map_output);
+        }
+        fputc('\n',map_output);
+    }
+    release_memory(functions);
+    release_memory(names);
+    release_memory(ordinals);
+#undef EXPORT_READ
+}
 void __stdcall dump_base_reloc_block(IMAGE_BASE_RELOCATION *block,const void *entries)
 {
     const WORD *entry=(const WORD *)entries;
