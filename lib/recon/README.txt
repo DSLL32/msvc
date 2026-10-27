@@ -785,12 +785,16 @@ on close/reuse and revalidated against fd identity/access; mode alone cannot
 qualify an unknown alias. The readonly mapping/view fact survives mapping-handle
 close. Prior share-none/writable/unknown aliases, later writers and restricted
 stream duplication/mapping remain denied. wb/share10 retains its strict isolated
-lease. No general sharing engine or cross-process Windows sharing is claimed.
+lease. Qualification is within shim-owned handle/view lifecycles, not arbitrary
+external POSIX close/same-inode fd-generation replacement. No general sharing
+engine or cross-process Windows sharing is claimed.
 The old tracked prior-read-alias scope control is now explicitly a positive;
 all remaining controls retain their denials. New focused tests check readonly
 cache/view lifetimes, raw/stream cursor independence, twelve close/reopen cycles,
-fd retirement/reuse/stale identity and writer/unknown denials. LINK caller
-adoption is pending; original per-call error state remains unmeasured.
+fd retirement/reuse/stale identity and writer/unknown denials. The ordinary LINK
+110-entry PE debug scan/stream-close continuation matches (native 16.474ms),
+with unchanged before/after source hashes and retained DSO. Original per-call
+error state remains unmeasured.
 No cross-process sharing or HANDLE-inheritance equivalence is claimed. Under
 RECON_CRT_PROFILE_MSVCRT_510, reopening a FILE retains _bufsiz/_charbuf as the
 canonical provider does. Binary bytes, FILE state and error transitions have
@@ -2003,8 +2007,11 @@ RECON_MSPDB_PDB_OPENVALIDATE declaration suffix binds the method directly to its
 shared C symbol; it is empty in period builds and adds no App wrapper. That body
 also unconditionally denies125 without touching input/output pointers. Authored
 C++ typing/alias tests and NULL/invalid/owned-pointer and empty/live-x87 denial
-controls pass; ordinary cold-path consumer adoption remains pending. No PDB
-validation or adjusted-division success/private-runtime equivalence is claimed.
+controls pass. Ordinary C1/LINK caller continuations match (native 18.971ms /
+16.474ms), with both cold imports uninvoked. The original PDB C++ declaration
+uses char[] for its seventh buffer to preserve the QAD import spelling; the
+native C wire formal remains a pointer. No PDB validation or adjusted-division
+success/private-runtime equivalence is claimed.
 
 Watcom bare strerror has a TU-selected char*(int) boundary for reached errno1
 under RECON_WATCOM_STRERROR_ENOENT (nested under the Watcom profile):
@@ -2015,4 +2022,6 @@ consumes only NUL-terminated text;
 original pointer identity and writable table storage are unclaimed. No host
 errno-number translation or allocation occurs; independent errors and semantic
 FP are retained. Focused typing/exact/repeat/isolation/denial controls pass;
-ordinary WLINK missing-input diagnostic adoption is pending.
+the ordinary WLINK missing-input diagnostic matches all 161 entries and exact
+text/artifacts (native 25.454ms), with io.c alone selecting the mapping. Retained
+bindings distinguish the actual build from later pending App source edits.
