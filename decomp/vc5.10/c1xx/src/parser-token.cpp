@@ -14,11 +14,7 @@
 #include <recon.h>
 #pragma intrinsic(memcpy, memset, memcmp)
 
-#ifndef RECON_NATIVE_TEST
-static int final_parser_token_emitted; /* cc214, initialized0 */
-#else
-#define final_parser_token_emitted (*(int *)(recon_unsupported("parser: input-end marker state"),0))
-#endif
+#define final_parser_token_emitted frontend_data.final_parser_token_emitted
 #define parser_input_end_state frontend_data.parser_input_end_state
 #define TOKEN_CONTEXT (*(ParserFrontendContextView *)&frontend_bss.saved_context_stack)
 #define TOKEN_STREAM ((CompilerTokenStream *)frontend_bss.saved_context_stack.top->object)
@@ -39,7 +35,7 @@ extern "C" ParserTokenView *__cdecl get_next_token(void)
 #ifdef RECON_NATIVE_TEST
     /* Current builtin typedef/separator tokens and kind17 type specifier.
      * Kind17 dispatches directly to the genuine pending type reader. */
-    if (token->kind != 12 && token->kind != 117 && token->kind != 118 && token->kind != 126 && token->kind != 22 && token->kind != 74 && token->kind != 17 && token->kind != 16 && token->kind != 25 && token->kind != 37 && token->kind != 106 && token->kind != 65 && token->kind != 122 && token->kind != 6 && token->kind != 127 && token->kind != 123 && token->kind != 36 && token->kind != 10 && token->kind != 7 && token->kind != 130 && token->kind != 55 && token->kind != 49 && token->kind != 21 && token->kind != 151 && token->kind != 140 && token->kind != 141 && token->kind != 28 && token->kind != 101)
+    if (token->kind != 12 && token->kind != 117 && token->kind != 118 && token->kind != 126 && token->kind != 22 && token->kind != 74 && token->kind != 17 && token->kind != 16 && token->kind != 25 && token->kind != 37 && token->kind != 106 && token->kind != 65 && token->kind != 122 && token->kind != 6 && token->kind != 127 && token->kind != 123 && token->kind != 36 && token->kind != 10 && token->kind != 7 && token->kind != 130 && token->kind != 55 && token->kind != 49 && token->kind != 21 && token->kind != 151 && token->kind != 140 && token->kind != 141 && token->kind != 28 && token->kind != 101 && token->kind != 125 && token->kind != 109)
         recon_unsupported("parser token: declaration-classification domain pending");
 #endif
 read_token_class:
@@ -128,6 +124,7 @@ read_token_class:
                 (*declaration_control_row(DECL_DEPTH)).secondary_flags &= ~2;
                 (*declaration_control_row(DECL_DEPTH)).flags |= 1;
             }
+            (*declaration_control_row(DECL_DEPTH)).flags |= 1;
         }
         return token;
     case PARSER_CLASS_129:
@@ -2592,7 +2589,7 @@ extern "C" void __fastcall copy_token_value(ParserSemanticView *destination, Par
         ParserDeclarationView *value = &((ParserDeclarationToken *)token)->value;
         memcpy(destination, value, 36);
         destination->declaration.callback = value->callback;
-    } else if (token->kind == 117 || token->kind == 118 || token->kind == 126 || token->kind == 74 || token->kind == 65 || token->kind == 122 || token->kind == 6 || token->kind == 127 || token->kind == 123 || token->kind == 37 || token->kind == 106 || token->kind == 7 || token->kind == 130 || token->kind == 55 || token->kind == 49 || token->kind == 142 || token->kind == 101) {
+    } else if (token->kind == 117 || token->kind == 118 || token->kind == 126 || token->kind == 74 || token->kind == 65 || token->kind == 122 || token->kind == 6 || token->kind == 127 || token->kind == 123 || token->kind == 37 || token->kind == 106 || token->kind == 7 || token->kind == 130 || token->kind == 55 || token->kind == 49 || token->kind == 142 || token->kind == 101 || token->kind == 125 || token->kind == 5) {
         /* These ordinary tokens retain their complete opaque40-byte storage;
          * no declaration callback is read or synthesized for this arm. */
         memcpy(destination, &token->value, 40);
@@ -6095,12 +6092,6 @@ extern "C" int __cdecl process_pending_parser_input(void)
     return result;
 }
 
-/* The iterator's actual local12-byte owner exposes only its final pointer.
- * Its pending initializer/advance own the first eight bytes' interpretation. */
-struct PendingDeclarationCursor {
-    BYTE unmodeled_00_07[8];
-    CompilerRuntimeFunction *current;
-};
 extern "C" void __cdecl initialize_pending_declaration_cursor(PendingDeclarationCursor *, void *); /*18ee7*/
 extern "C" int __cdecl next_pending_declaration(PendingDeclarationCursor *); /*18ef8*/
 extern "C" int __cdecl prepare_pending_parser_input(void)
@@ -6110,7 +6101,7 @@ extern "C" int __cdecl prepare_pending_parser_input(void)
     if (frontend_data.translation_unit->current == frontend_data.translation_unit->root) return 1;
     initialize_pending_declaration_cursor(&cursor, frontend_data.pending_declarations);
     while (next_pending_declaration(&cursor)) {
-        switch ((signed char)cursor.current->builtin_operation) {
+        switch ((signed char)((CompilerRuntimeFunction *)cursor.current)->builtin_operation) {
         case 0:
         case 11: case 12: case 13:
         case 14: case 15: case 16:

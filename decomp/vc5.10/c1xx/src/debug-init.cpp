@@ -16,10 +16,6 @@ static struct {
     unsigned output_age;       /* ccf88 */
 } debug_unmodeled;
 
-struct NameMap {
-    static __declspec(dllimport) int __cdecl open(PDB *, int, NameMap **)
-        RECON_MSPDB_NAMEMAP_OPEN;
-};
 extern "C" {
 void __cdecl make_incremental_database_path(char *);
 int __cdecl create_debug_module(PDB *, int, NameMap *, const char *, const char *,
@@ -296,7 +292,11 @@ void RECON_THISCALL CompilerBackend::SetDebugMode(int preserve)
     }
 }
 
-int RECON_THISCALL CompilerNullDebugModule::Close(void) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerNullDebugModule::Close(void)
+{
+    ::operator delete(this);
+    return 1;
+}
 int RECON_THISCALL CompilerNullDebugModule::Slot08(unsigned *kind)
 {
     *kind = 1;
@@ -309,7 +309,13 @@ int RECON_THISCALL CompilerNullDebugModule::Slot14(unsigned, unsigned, unsigned,
     *preserve = 0;
     return 1;
 }
-int RECON_THISCALL CompilerNullDebugModule::Slot18(unsigned, unsigned, unsigned, unsigned *, unsigned *) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerNullDebugModule::Slot18(unsigned, unsigned, unsigned,
+    unsigned *kind, unsigned *result)
+{
+    *kind = 1;
+    *result = 0;
+    return 1;
+}
 int RECON_THISCALL CompilerNullDebugModule::Slot20(unsigned) { return 1; }
 int RECON_THISCALL CompilerNullDebugModule::Slot3c(unsigned, unsigned, unsigned *result)
 {
@@ -321,6 +327,6 @@ int RECON_THISCALL CompilerNullDebugModule::Slot54(unsigned signature, int *lang
     *language = 2;
     return 1;
 }
-int RECON_THISCALL CompilerNullDebugModule::Slot7c(void) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerNullDebugModule::Slot7c(void) { return 0; }
 int RECON_THISCALL CompilerNullDebugModule::Slotc0(unsigned, unsigned, unsigned) { __asm { int 3 } return 0; }
 int RECON_THISCALL CompilerNullDebugModule::Slotcc(unsigned, unsigned *) { __asm { int 3 } return 0; }

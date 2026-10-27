@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stddef.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <io.h>
@@ -549,8 +550,33 @@ extern "C" int __cdecl restore_source_input(void)
     if (result == 1000) return result;
     return (result ? -1 : 1) * (frontend_data.source_include_depth + 1);
 }
+/* Only the pointer fields consumed by ReadNextToken are interpreted. Neither
+ * this view nor the unvisited Add method establishes the allocation extent. */
+struct PendingGroupSource {
+    BYTE unmodeled_00_03[4];
+    const char *name;
+};
+struct PendingGroup {
+    PendingGroupSource *source;
+    BYTE unmodeled_04_0b[8];
+    PendingGroup *next;
+};
+typedef char PendingGroupList_active_offset[offsetof(PendingGroupList, active) == 8 ? 1 : -1];
+typedef char PendingGroup_next_offset[offsetof(PendingGroup, next) == 12 ? 1 : -1];
+typedef char PendingGroupSource_name_offset[offsetof(PendingGroupSource, name) == 4 ? 1 : -1];
+extern "C" ParserTokenView *__cdecl include_directive_file(const char *, unsigned);
 ParserTokenView *RECON_THISCALL PendingGroupList::ReadNextToken(void)
-{ __asm { int 3 } return NULL; }
+{
+    PendingGroup *group = head;
+    ParserTokenView *token;
+    if (group) head = group->next;
+    active = group;
+    if (!group) return (ParserTokenView *)frontend_data.canonical_token_records[0];
+    frontend_data.source_mode_flags |= 0x1000000;
+    token = include_directive_file(active->source->name, 0);
+    frontend_data.source_mode_flags &= ~0x1000000;
+    return token;
+}
 int RECON_THISCALL CompilerDependency::RestoreSource(void)
 { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerDependency::RecordSource(const char *, int, int) { __asm { int 3 } }
@@ -640,3 +666,26 @@ extern "C" int __cdecl open_forced_source(const char *, unsigned)
 { __asm { int 3 } return 0; }
 extern "C" ParserTokenView *__cdecl record_source_location(unsigned)
 { __asm { int 3 } return NULL; }
+
+extern "C" {
+CompilerBackend *__cdecl acquire_initial_backend(void);
+void __cdecl prepare_expression_input(const char *);
+void __cdecl finish_precompiled_input(void); /*4eb64*/
+int __cdecl finish_forced_include(void);
+}
+extern "C" void __cdecl finish_token_input(void)
+{
+    if (frontend_data.options.pch_create && !frontend_data.pch_reference_output_mode) {
+        if (frontend_data.options.pch_create_file)
+            compiler_warning(0x359, frontend_data.options.pch_create_file);
+        else {
+            prepare_expression_input(frontend_bss.options.source_file);
+            finish_precompiled_input();
+        }
+    } else if (frontend_bss.forced_source_index) finish_forced_include();
+    if (frontend_bss.browser_filename) frontend_data.backend->Slot14(0);
+    frontend_bss.processing_pending_parser_input = 1;
+    frontend_data.backend = acquire_initial_backend();
+    frontend_data.compiler_mode_flags |= 0x80;
+}
+extern "C" void __cdecl finish_precompiled_input(void) { __asm { int 3 } }

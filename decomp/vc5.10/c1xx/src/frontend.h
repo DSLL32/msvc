@@ -35,7 +35,7 @@ typedef struct FrontendData {
     TypeRankMapping complex_type_ranks[9];
     int compiler_phase;
     int option_c9il;
-    unsigned compiler_flags;
+    unsigned compiler_flags; /* ccf74; distinct from ccf78 and ccf7c */
     SYSTEM_INFO system_info;
     int option_zb;
     int option_bm;
@@ -122,7 +122,7 @@ typedef struct FrontendData {
     void *pending_declarations; /* cc410, initializedNULL; borrowed iterator owner */
     struct ParserInputEndState *parser_input_end_state; /* cc600, initializedNULL */
     struct CompilerExpressionWork *expression_work_current; /* ce06c, initializedNULL */
-    struct CompilerExpressionWorkNode *expression_work_head; /* ce074, initializedNULL */
+    struct CompilerExpressionWork *expression_work_head; /* ce074, initializedNULL */
     unsigned declaration_classification_depth; /* cc210, initialized0; classifier nesting */
     int parser_classification_state; /* cd584, initialized0; saved/restored parser mode */
     struct CompilerDeclarationParser *active_declaration_parser; /* ce0d8, initializedNULL */
@@ -139,6 +139,56 @@ typedef struct FrontendData {
     struct CompilerGlobalOption *global_options; /* cc5ac, initializedNULL; option list */
     WORD inline_depth, inline_recursion; /* cd540/cd544, initialized8/0 */
     int line_range_warning_enabled; /* cd6fc, initialized1; one range warning */
+    struct CompilerSymbol *pending_label_head; /* cd5cc, initializedNULL; borrowed label list */
+    unsigned debug_notification_index; /* cdc68, initialized0; only nonzero match triggers Slot80 */
+    struct CompilerExpressionWork *expression_work_nodes; /* ce070, initializedNULL */
+    struct CompilerExpressionWork *saved_expression_work_nodes; /* ce0c8, initializedNULL */
+    unsigned expression_work_error_count; /* ce0cc, initialized0 */
+    int expression_work_reset_pending; /* ce0d0, initialized0 */
+    unsigned expression_work_units; /* ce078, initialized0; allocated16B units */
+    unsigned expression_work_depth; /* ce080, initialized0; recorded lowWORD in header */
+    void *expression_work_recovery; /* ce0d4, initializedNULL; borrowed local recovery owner */
+    unsigned parameter_work_kind; /* ce0b0, initialized1; current record-kind producer */
+    unsigned parameter_work_index; /* ce098, initializedffffffff */
+    struct CompilerExpressionWorkStateRow *parameter_work_states; /* ce0ac, initializedNULL */
+    unsigned parameter_work_capacity; /* ce0b4, initialized128; producer grows by128 */
+    int conversion_evaluation_mode; /* cdc5c, initialized0; selects conversion evaluation path */
+    unsigned nested_cleanup_depth; /* ce07c, initialized0; kind62 nesting countdown */
+    int parameter_cleanup_active; /* ce0b8, initialized0; scoped parameter cleanup marker */
+    struct CompilerCleanupCapture *cleanup_capture_head; /* ce0c0, initializedNULL */
+    int symbol_reference_depths[3]; /* cd574/cd578/cd57c, three actual initialized0 counters */
+    unsigned cleanup_capture_depth; /* ce084, initialized/reset0; capture writer increments */
+    void *expression_target; /* ce088, initialized/resetNULL; borrowed target, wider role pending */
+    int expression_target_active; /* ce08c, initialized/reset0; target setter writes0/1 */
+    int assignment_target_active; /* ce090, initialized/reset0; assignment path brackets0/1 */
+    int force_statement_check; /* ce094, initialized/reset0; reduction writes1 */
+    unsigned parameter_work_high_index; /* ce09c, initialized/resetffffffff; row allocator increments */
+    struct CompilerExpressionWork *cleanup_capture_stack; /* ce0bc, initialized/resetNULL */
+    struct CompilerExpressionWork *expression_cleanup_stack; /* ce0c4, initialized/resetNULL */
+    struct CompilerFunctionOutputBlock *function_output_head, *function_output_tail; /* cc41c/cc420, NULL */
+    unsigned function_output_index; /* ccb40, initialized19; increment/modulo20 writer */
+    DWORD function_output_context; /* cdc04, initialized0; copied without interpretation */
+    int pch_reference_output_mode; /* cd4d8, initialized0; flag-bit4 predicate */
+    unsigned pch_output_bytes, pch_reference_bytes; /* cd810/cd818, initialized0; additive adjustments */
+    int deferred_function_output; /* ccf8c, initialized0; finalizer writes1 */
+    DWORD function_output_location_state; /* cd704, initialized/reset0; wider role unmodeled */
+    DWORD function_output_reset_state[2]; /* cd60c/cd610, actual pair initialized/reset0 */
+    DWORD function_scope_output_state[2]; /* ce0ec/ce0f0, actual pair initialized/reset0 */
+    struct CompilerVector *function_deferred_vectors[4]; /* ccaec, ce0e0/e4/e8; initializedNULL */
+    int final_parser_token_emitted; /* cc214, initialized0; first EOF token emitted once */
+    int parser_return_value; /* cc3bc, initialized0; actual LR Run result stores/return */
+    struct CompilerVector *compilation_completion_items; /* ccb20, initializedNULL; callback walk */
+    void *compilation_pair_tables[2]; /* cc5c0/cc5c4, initializedNULL; pair-cursor owners */
+    void *completion_declarations; /* cc6b4, initializedNULL; distinct iterator owner */
+    int include_pch_reference_counts; /* cd4ec, initialized0; restored row flag */
+    DWORD last_output_context; /* cd6ec, initialized0; last non-IL context emitted */
+    unsigned omit_external_names; /* cd6e8, initialized0; binding writer saves/restores */
+    int name_format_mode; /* cd5e4, initialized1; saved/reset/restored by decoration */
+    unsigned name_format_sequence; /* cd5e8, initialized0; fallback name sequence */
+    unsigned global_name_count; /* ccb78, initialized0; option-footer count */
+    const char *global_option_string; /* cd4d0, initializedNULL; borrowed footer text */
+    int pch_preprocessed_file, pch_header_file, pch_files_cleaned; /* cd878/87c/880, initialized0 */
+    void *pch_stop_owner; /* cd4cc, initializedNULL; hdrstop output and cleanup filename */
 } FrontendData;
 
 /* Push allocates and writes this complete24-byte linked frame. The source
@@ -204,6 +254,7 @@ typedef struct CompilerNumericLiteral {
 } CompilerNumericLiteral;
 /* Encountered semantic variants only; other original semantic bytes are unmodeled. */
 typedef union TokenValue {
+    FrontendSourcePosition source; /* context-marker payload, original BA8C8 first8B */
     unsigned declaration_flags; /* firstDWORD used by the declaration-classifier reductions */
     struct CompilerQuotedValue quoted;
     CompilerNumericLiteral literal;
@@ -273,6 +324,7 @@ typedef struct PchContext {
     struct PchImage **mapped_pages;
 #ifdef __cplusplus
     PchContext *RECON_THISCALL Initialize(void);
+    void RECON_THISCALL Release(void); /*34591*/
 #endif
 } PchContext;
 
@@ -294,6 +346,7 @@ typedef struct ArenaDescriptor {
 typedef struct CompilerArena {
 #ifdef __cplusplus
     void RECON_THISCALL ResetStorage(void); /*db4c*/
+    void RECON_THISCALL Release(void); /*2e58a*/
 #endif
     BYTE *cursor;
     BYTE *committed_limit;
@@ -319,11 +372,13 @@ typedef struct CompilerChecksumTables {
     unsigned char low[256];
 } CompilerChecksumTables;
 
-/* Original c6b40 is the existing pending-group head, not a second object.
- * The tail slot at+4 is not modeled until the genuine Add member is reached. */
+/* Original c6b40/c6b48 are the existing head/current cells. The four bytes
+ * between them are retained storage; Add has not yet established their role. */
 struct CompilerSymbol;
 typedef struct PendingGroupList {
     struct PendingGroup *head;
+    BYTE unmodeled_04_07[4];
+    struct PendingGroup *active;
 #ifdef __cplusplus
     struct CompilerSymbol *RECON_THISCALL Add(struct CompilerSymbol *);
     struct ParserTokenView *RECON_THISCALL ReadNextToken(void); /*35b21*/
@@ -347,13 +402,12 @@ typedef struct FrontendBss {
     unsigned long source_signature;
     CompilerPool pools[10];
     int type_ranks_initialized;
-    unsigned char primitive_type_rank[65];
-    unsigned char complex_type_rank[69];
+    unsigned char primitive_type_rank[65]; /* c4cc8: known BSS view through last writer index64 */
+    unsigned char complex_type_rank[69]; /* c4c80: known BSS view through last writer index68 */
     unsigned char empty_metadata_prototype[20];
     PchContext pch_context;
     PendingGroupList pending_groups;
-    struct PendingGroup *active_group;
-    int com_initialized;
+    int com_initialized; /* c6b64, BSS0; cleared before COM uninitialization */
     /* The encountered 73-character value and NUL, not the original capacity. */
     char generated_comment[74];
     unsigned comment_value_offset;
@@ -401,6 +455,7 @@ typedef struct FrontendBss {
     CompilerType *function_return_class; /* bf1f4, BSSNULL; qualified return owner */
     DWORD function_reset_state[3]; /* c0bb8/bbc/bc0, three actual reset DWORDs */
     DWORD function_body_state; /* c0828, BSS0; preparation resets0 */
+    DWORD function_output_state; /* c0b40, loader-zero; finalizer clears only */
     int stack_check_warning_emitted; /* bf1f8, BSS0; function-stack warning once */
     struct CompilerExpression *function_entry_label; /* c0a1c, BSSNULL; label node */
     unsigned function_parameter_count; /* c0a24, BSS0; writer consumes its lowWORD */
@@ -409,8 +464,10 @@ typedef struct FrontendBss {
     BYTE control_text_count; /* c0a28, BSS0; payload remains unmodeled */
     BYTE control_byte; /* c0b70, BSS0; opcode23 scalar */
     short control_short; /* c0580, BSS0; opcode24 scalar */
+    int expression_work_recovery_mode; /* bf220, BSS0; nonzero permits nested recovery */
+    DWORD parameter_source_state; /* c6ce0, BSS0; copied uninterpreted into work frame */
     union { unsigned function_source_position, nonil_type_index; }; /* c06d0, one BSS cell */
-    int expression_seek_result; /* c5388, zero */
+    int expression_seek_result; /* c5388, zero; same shared IO result also written by buffer close */
     unsigned symbol_arena_kind; /* ba910, BSS0; global initialization selects4 */
     struct CompilerSymbolArenaFrame *saved_symbol_arenas; /* ba914, NULL */
     unsigned processor_instruction_mask; /* c0aec, opcode-table mask */
@@ -428,6 +485,8 @@ typedef struct FrontendBss {
         int declaration_mode; /* encountered c13d0[-1] interpretation */
         struct CompilerSourceTextBuffer *buffer; /* same c13cc cell */
     } source_control; /* BSS0; one physical owner, no adjacent-table claim */
+    const char *global_string_record; /* bf5a4, BSSNULL; borrowed provider output */
+    int inline_record_flag; /* c07e8, BSS0; function-output eligibility */
     BYTE global_output_active; /* c06cc, BSS0; global-header rewind clears it */
     char *current_macro_text; /* b902c, borrowed text for recorded macro definition */
     unsigned char *macro_token_cursor, *macro_text_cursor, *saved_macro_text_cursor; /* b9040/b9044/b9038 */
@@ -435,6 +494,7 @@ typedef struct FrontendBss {
     char *macro_date, *macro_time; /* c0a10/c0804, BSSNULL */
     BYTE *source_cursor; /* c0980, BSSNULL */
     BYTE declaration_scope_mode; /* c0adc, BSS0; scope-dependent arena choice */
+    struct CompilerBlockOutputEntry *block_output_entries; /* c057c, loader-zero; alternating level/symbol stack */
     BYTE external_declaration_mode; /* c06c8, BSS0; root/current publication selector */
     struct CompilerParameterSet *current_parameters; /* c0af0, BSSNULL, borrowed description head */
     unsigned current_parameter_kind; /* bf208, BSS0, description kind or forced5 */
@@ -460,6 +520,12 @@ typedef struct FrontendBss {
     TokenValue declaration_token_value; /* c6d00..c6d28, separate opaque40-byte semantic storage */
     int quoted_skip_mode; /* c0978, loader-zero; changes quoted conversion mode only */
     int lexical_skip_mode; /* c07f0, loader-zero; skipped source input */
+    struct CompilerExpression *current_case_label; /* bf490, BSSNULL; Run325 clears it */
+    unsigned return_cleanup_state; /* c6cf8, BSS0; only encountered clear meaning */
+    DWORD name_format_state; /* c30a8, reset-only meaning established */
+    DWORD name_format_reset_values[2]; /* c1870/c1874, actual zero stores */
+    char *symbol_name_cursor; /* c1878, borrowed cursor into the buffer */
+    char symbol_name_buffer[2048]; /* c18a8..c20a8, mutable formatting workspace; no initial payload claim */
 } FrontendBss;
 
 #ifdef __cplusplus

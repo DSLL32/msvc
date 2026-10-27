@@ -9,6 +9,15 @@
 #include "parser-semantics.h"
 #include <recon.h>
 
+/* The deferred queue consumes only slot0 and next at +8. Concrete action
+ * classes and their other fields remain behind their actual producers. */
+struct DeferredAction {
+    virtual void RECON_THISCALL Execute(void) = 0;
+    BYTE unmodeled_04_07[4];
+    DeferredAction *next;
+};
+
+
 struct ParserDeferredDefinition {
     CompilerIrSymbol *symbol;
     CompilerTokenStream *stream;
@@ -353,8 +362,10 @@ void *__cdecl process_type_qualifier(void); /*2b90d*/
 
 /* Expression construction and conversions. */
 CompilerExpression *__cdecl append_parser_expression(CompilerExpression *, CompilerExpression *); /*3220e*/
-CompilerExpression *__cdecl make_binary_node(unsigned, CompilerExpression *, CompilerExpression *, unsigned); /*65c0*/
+CompilerExpression *__cdecl make_binary_node(unsigned, CompilerExpression *, CompilerExpression *, CompilerType *); /*65c0*/
 CompilerExpression *__cdecl symbol_expression(CompilerSymbol *, unsigned); /*47e6*/
+CompilerExpression *__cdecl make_resolved_symbol_expression(CompilerSymbol *, unsigned); /*11c18*/
+CompilerType *__cdecl reference_expression_type(CompilerExpression *); /*3d3d1*/
 CompilerExpression *__cdecl append_expression_list(CompilerExpression *, CompilerExpression *, unsigned); /*12057*/
 CompilerExpression *__cdecl resolve_parser_expression(CompilerExpression *); /*79f0*/
 void __cdecl require_integral_constant(CompilerExpression *); /*45e2f, Run ignores EAX*/

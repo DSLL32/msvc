@@ -48,3 +48,54 @@ void RECON_THISCALL OutputBuffer::Flush(void)
         cursor = data;
     }
 }
+
+extern "C" void __cdecl free_argument_allocation(void *);
+void RECON_THISCALL OutputBuffer::Destroy(void)
+{
+    if (file) fclose(file);
+    if (auxiliary_memory) free_argument_allocation(auxiliary_memory);
+    if (data) {
+        ::operator delete(data);
+        capacity = 0;
+    }
+}
+
+extern "C" void __cdecl destroy_output_buffer_01(void)
+{
+    frontend_bss.output_buffers[0].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_02(void)
+{
+    frontend_bss.output_buffers[1].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_03(void)
+{
+    frontend_bss.output_buffers[2].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_04(void)
+{
+    frontend_bss.output_buffers[3].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_05(void)
+{
+    frontend_bss.output_buffers[4].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_06(void)
+{
+    frontend_bss.output_buffers[5].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_07(void)
+{
+    frontend_bss.output_buffers[6].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_08(void)
+{
+    frontend_bss.output_buffers[7].Destroy();
+}

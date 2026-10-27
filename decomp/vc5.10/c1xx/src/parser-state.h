@@ -8,9 +8,9 @@
  * reads them; these views provide no native defaults, capacity or byte-equality
  * claim. Existing contextual cells below are aliases, never duplicate owners. */
 extern char compiler_token_text[2048];
+#define parser_result frontend_data.parser_return_value
 extern "C" void __cdecl process_version_literal(struct CompilerVersionRecord *);
 #ifndef RECON_NATIVE_TEST
-extern int parser_result;
 extern int parser_saved_state;
 extern int parser_recovery_action;
 extern DWORD * parser_saved_state_top;
@@ -21,7 +21,6 @@ extern ParserDeclarationView parser_special_qualifiers;
 extern CompilerSymbol * current_declaration_symbol;
 extern CompilerType * current_enum_type;
 extern __int64 enumerator_value;
-extern CompilerExpression * case_label;
 extern ParserLabelStack * continue_labels;
 extern ParserLabelStack * break_labels;
 extern ParserLabelStack * loop_labels;
@@ -29,7 +28,6 @@ extern ParserLabelStack * switch_labels;
 extern ParserLabelStack * default_labels;
 extern void * allocation_context;
 #else
-#define parser_result (*(int *)(recon_unsupported("parser: source-only parser_result"),0))
 #define parser_saved_state (*(int *)(recon_unsupported("parser: source-only parser_saved_state"),0))
 #define parser_recovery_action (*(int *)(recon_unsupported("parser: source-only parser_recovery_action"),0))
 #define parser_saved_state_top (*(DWORD * *)(recon_unsupported("parser: source-only parser_saved_state_top"),0))
@@ -40,7 +38,6 @@ extern void * allocation_context;
 #define current_declaration_symbol (*(CompilerSymbol * *)(recon_unsupported("parser: source-only current_declaration_symbol"),0))
 #define current_enum_type (*(CompilerType * *)(recon_unsupported("parser: source-only current_enum_type"),0))
 #define enumerator_value (*(__int64 *)(recon_unsupported("parser: source-only enumerator_value"),0))
-#define case_label (*(CompilerExpression * *)(recon_unsupported("parser: source-only case_label"),0))
 #define continue_labels (*(ParserLabelStack * *)(recon_unsupported("parser: source-only continue_labels"),0))
 #define break_labels (*(ParserLabelStack * *)(recon_unsupported("parser: source-only break_labels"),0))
 #define loop_labels (*(ParserLabelStack * *)(recon_unsupported("parser: source-only loop_labels"),0))
@@ -53,6 +50,7 @@ extern void * allocation_context;
 #define saved_parser_value (*(ParserSemanticView *)&frontend_bss.saved_token_value)
 /* One actual c06d8 owner, shared with directive dispatch. */
 #define current_parser_expression frontend_bss.current_parser_expression
+#define case_label frontend_bss.current_case_label
 #define suppress_parser_codegen frontend_bss.suppress_parser_codegen
 #define declaration_nesting frontend_bss.declaration_nesting
 #define allocation_operator frontend_data.allocation_operator

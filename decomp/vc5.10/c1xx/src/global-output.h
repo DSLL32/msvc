@@ -64,9 +64,15 @@ struct CompilerGlobalSymbolView {
         CompilerGlobalClassDetail *class_detail;
         unsigned symbol_value;
     };
-    union { int integer_value; BYTE parameter_kind; WORD declaration_scope_number; }; /* original+24 */
+    union {
+        int integer_value;
+        BYTE parameter_kind;
+        WORD declaration_scope_number;
+        struct { BYTE scope_depth, depth, unmodeled_26_27[2]; } reference_position;
+    }; /* same original+24 owner; label/reference variants consume BYTE+24/+25 */
     union {
         unsigned alternate_size; /* original+28 */
+        CompilerSymbol *pending_initializer; /* same+28, translation-unit pending-symbol variant */
         struct { WORD alternate_low; BYTE builtin_operation, function_class; };
     };
     BYTE builtin_flags; /* original+2c, function variant */
@@ -88,4 +94,6 @@ struct CompilerSourceFile {
 typedef char CompilerSourceFile_size[(sizeof(CompilerSourceFile) == 20 &&
     offsetof(CompilerSourceFile, reference_flags) == 8 &&
     offsetof(CompilerSourceFile, record_index) == 12) ? 1 : -1];
+typedef char CompilerReferencePosition_offset[(
+    offsetof(CompilerGlobalSymbolView, reference_position.depth) == 0x25) ? 1 : -1];
 #endif

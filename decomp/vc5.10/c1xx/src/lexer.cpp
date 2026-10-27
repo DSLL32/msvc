@@ -1399,3 +1399,36 @@ extern "C" void __cdecl apply_declaration_specifier(
         report_language_diagnostic(1, 141, name);
     }
 }
+
+/* Context marker: preserve the original40-byte payload transfer, including
+ * opaque bytes. Only the first two DWORDs receive source-position meanings. */
+extern "C" unsigned __cdecl make_arena_token(unsigned arena_kind)
+{
+    ParserTokenView *token;
+    CompilerArena *arena;
+    CompilerPool *pool;
+#ifdef __linux__
+    frontend_bss.saved_token_value.known.source.origin = frontend_bss.saved_context_stack.origin;
+    frontend_bss.saved_token_value.known.source.position = frontend_bss.saved_context_stack.position;
+#else
+    saved_parser_value.source.origin = frontend_bss.saved_context_stack.origin;
+    saved_parser_value.source.position = frontend_bss.saved_context_stack.position;
+#endif
+    if (arena_kind) {
+        if (arena_kind >= 9) { __asm { int 3 } }
+        arena = &frontend_bss.arenas[arena_kind];
+        token = (ParserTokenView *)arena->cursor;
+        arena->cursor += 48;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    } else {
+        pool = &frontend_bss.pools[7];
+        if (pool->remaining < 48) pool->Refill(48);
+        token = (ParserTokenView *)pool->cursor;
+        pool->cursor += 48;
+        pool->remaining -= 48;
+    }
+    if (!token) return 0;
+    token->kind = 0xf0;
+    memcpy(&token->value, &LEXER_SAVED_STORAGE, 40);
+    return (unsigned)token;
+}

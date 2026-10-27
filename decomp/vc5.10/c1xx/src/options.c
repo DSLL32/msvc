@@ -398,7 +398,7 @@ char *next_argument(void)
 }
 void disable_multibyte_identifiers(void) { __asm { int 3 } }
 int compare_pch_paths(const char *left, const char *right) { __asm { int 3 } return 0; }
-void free_argument_allocation(void *allocation) { __asm { int 3 } }
+void free_argument_allocation(void *allocation) { free(allocation); }
 
 void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
 void __cdecl set_warning_state(unsigned warning, unsigned state)

@@ -16,10 +16,6 @@ void initialize_output_buffer_01(void)
     buffer->filename[0] = 0;
 }
 
-void destroy_output_buffer_01(void)
-{
-    __asm { int 3 }
-}
 
 void initialize_output_buffer_02(void)
 {
@@ -35,10 +31,6 @@ void initialize_output_buffer_02(void)
     buffer->filename[0] = 0;
 }
 
-void destroy_output_buffer_02(void)
-{
-    __asm { int 3 }
-}
 
 void initialize_output_buffer_03(void)
 {
@@ -54,10 +46,6 @@ void initialize_output_buffer_03(void)
     buffer->filename[0] = 0;
 }
 
-void destroy_output_buffer_03(void)
-{
-    __asm { int 3 }
-}
 
 void initialize_output_buffer_04(void)
 {
@@ -73,10 +61,6 @@ void initialize_output_buffer_04(void)
     buffer->filename[0] = 0;
 }
 
-void destroy_output_buffer_04(void)
-{
-    __asm { int 3 }
-}
 
 void initialize_output_buffer_05(void)
 {
@@ -92,10 +76,6 @@ void initialize_output_buffer_05(void)
     buffer->filename[0] = 0;
 }
 
-void destroy_output_buffer_05(void)
-{
-    __asm { int 3 }
-}
 
 void initialize_output_buffer_06(void)
 {
@@ -111,10 +91,6 @@ void initialize_output_buffer_06(void)
     buffer->filename[0] = 0;
 }
 
-void destroy_output_buffer_06(void)
-{
-    __asm { int 3 }
-}
 
 void initialize_output_buffer_07(void)
 {
@@ -130,10 +106,6 @@ void initialize_output_buffer_07(void)
     buffer->filename[0] = 0;
 }
 
-void destroy_output_buffer_07(void)
-{
-    __asm { int 3 }
-}
 
 void initialize_output_buffer_08(void)
 {
@@ -147,9 +119,4 @@ void initialize_output_buffer_08(void)
     buffer->file = NULL;
     buffer->descriptor = -1;
     buffer->filename[0] = 0;
-}
-
-void destroy_output_buffer_08(void)
-{
-    __asm { int 3 }
 }

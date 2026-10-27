@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "kind": "Finite EBX preservation in the source-descriptor retry loop",
+  "target": {
+    "path": "toolchains/5.10/bin/C1XX.DLL",
+    "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9"
+  },
+  "caller": {
+    "name": "_open_source_descriptor",
+    "code": [
+      [
+        146472,
+        146554
+      ],
+      [
+        418575,
+        418586
+      ]
+    ],
+    "cached_target": "msvcrt.dll!_sopen",
+    "register": "ebx",
+    "load_rva": 146486,
+    "call_rva": 146518
+  },
+  "contracts": [
+    {
+      "import": "msvcrt.dll!_sopen",
+      "signature": "int __cdecl _sopen(const char *,int,int,...);",
+      "sdk_path": "toolchains/5.10/include/IO.H",
+      "sdk_line": 195,
+      "sdk_sha256": "88310202efd592194da73c57f44902b2ce1857c064bd9db55a9001e0cc33175f"
+    },
+    {
+      "import": "msvcrt.dll!_errno",
+      "signature": "int *__cdecl _errno(void);",
+      "sdk_path": "toolchains/5.10/include/ERRNO.H",
+      "sdk_line": 82,
+      "sdk_sha256": "6a2bb4c124ff3eacdd593fc7e93be17a7fea3dbc095119cc63ebe46b39dd15cc"
+    },
+    {
+      "function": "_close_old_source_descriptor",
+      "signature": "int __cdecl close_old_source_descriptor(void);",
+      "entry_rva": 525962,
+      "caller_rva": 418575
+    }
+  ],
+  "preserves": [
+    "ebx"
+  ],
+  "basis": "Identified ordinary Microsoft i386 cdecl declarations and caller cleanup preserve EBX on normal return; the finite loop backedge requires this fact for all three actual call targets. Pending descriptor-recovery body keeps its trap and receives no credit; no retry/provider execution claim."
+}

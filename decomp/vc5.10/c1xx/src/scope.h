@@ -44,6 +44,10 @@ struct CompilerScope : CompilerScopeTable {
     RECON_FORCEINLINE CompilerScope() : CompilerScopeTable(0) {
         bucket_mask = 0x3ff; secondary = NULL;
     }
+    RECON_FORCEINLINE CompilerScope(unsigned nesting, CompilerScopeTable *parent, unsigned mask)
+        : CompilerScopeTable(nesting) {
+        outer = parent; bucket_mask = mask; secondary = NULL;
+    }
     int RECON_THISCALL HasBuckets(void);
     int RECON_THISCALL HasSecondary(void);
     void RECON_THISCALL Insert(CompilerSymbol *);
@@ -56,6 +60,7 @@ struct CompilerScope : CompilerScopeTable {
     void RECON_THISCALL Check(void);
     void RECON_THISCALL Link(CompilerSymbol *);
     void RECON_THISCALL EnsureBuckets(void); /*99d12*/
+    void RECON_THISCALL CheckGroup(CompilerSymbolLink *); /*33ef4 RET4*/
     CompilerScopeMatch *RECON_THISCALL MatchTag(CompilerSymbol *, unsigned); /*4d632*/
 };
 typedef char CompilerScope_size[sizeof(CompilerScope) == 32 ? 1 : -1];

@@ -247,3 +247,8 @@ void RECON_THISCALL OutputBuffer::WriteEncodedShort(unsigned value)
         cursor += 2;
     } else *cursor++ = (BYTE)word;
 }
+
+extern "C" void __cdecl emit_statement_location(void)
+{
+    emit_context_transition(0x24);
+}

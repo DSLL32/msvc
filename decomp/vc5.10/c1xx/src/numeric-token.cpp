@@ -103,7 +103,15 @@ CompilerType *__cdecl select_decimal_literal_type(unsigned __int64 *value)
         return select_extended_decimal_type(value);
     return frontend_data.builtin_types.type_4044;
 }
-CompilerType *__cdecl select_based_literal_type(unsigned __int64 *); /*fa6f*/
+CompilerType *__cdecl select_based_literal_type(unsigned __int64 *value)
+{
+    if (*value <= 0x7fffffff) return frontend_data.builtin_types.type_0063;
+    if (*value <= 0xffffffff) return frontend_data.builtin_types.type_4063_first;
+    if (!frontend_data.options.option_zbe && frontend_data.option_zb <= 4)
+        return frontend_data.builtin_types.type_4044;
+    return (signed __int64)*value < 0 ? frontend_data.builtin_types.type_404c :
+        frontend_data.builtin_types.type_004c;
+}
 CompilerType *__cdecl select_signed_wide_literal_type(unsigned __int64 *); /*3ed88*/
 CompilerType *__cdecl select_unsigned_literal_type(unsigned __int64 *); /*50889*/
 CompilerType *__cdecl select_unsigned_wide_literal_type(unsigned __int64 *); /*4fdf3*/

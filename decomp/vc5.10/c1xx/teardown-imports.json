@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "kind": "Finite nonvolatile preservation for identified teardown API and cdecl calls",
+  "target": {
+    "path": "toolchains/5.10/bin/C1XX.DLL",
+    "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9"
+  },
+  "sdk": {
+    "path": "toolchains/5.10/include/WINBASE.H",
+    "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5",
+    "declaration": "BOOL WINAPI VirtualFree(LPVOID lpAddress, DWORD dwSize, DWORD dwFreeType);",
+    "line": 1288
+  },
+  "contracts": [
+    {
+      "import": "kernel32.dll!VirtualFree",
+      "preserves": [
+        "esi",
+        "edi",
+        "ebx"
+      ],
+      "basis": "Identified Microsoft i386 WINAPI/stdcall ABI preserves ESI on normal return."
+    },
+    {
+      "import": "kernel32.dll!GetLastError",
+      "signature": "DWORD WINAPI GetLastError(void);",
+      "preserves": [
+        "ebx",
+        "edi"
+      ],
+      "basis": "Identified Microsoft i386 WINAPI/stdcall ABI preserves EBX/EDI on normal return."
+    },
+    {
+      "import": "kernel32.dll!UnmapViewOfFile",
+      "signature": "BOOL WINAPI UnmapViewOfFile(LPCVOID);",
+      "preserves": [
+        "ebx",
+        "edi"
+      ],
+      "basis": "Identified Microsoft i386 WINAPI/stdcall ABI preserves EBX/EDI on normal return."
+    },
+    {
+      "function": "_get_compiler_message",
+      "signature": "const char *__cdecl get_compiler_message(unsigned);",
+      "preserves": [
+        "ebx",
+        "edi"
+      ],
+      "basis": "Identified ordinary Microsoft i386 cdecl call with one caller-cleaned DWORD; EBX/EDI are callee-saved."
+    },
+    {
+      "function": "_format_compiler_text",
+      "signature": "int __cdecl format_compiler_text(char *,const char *,unsigned,...);",
+      "preserves": [
+        "ebx",
+        "edi"
+      ],
+      "basis": "Identified ordinary Microsoft i386 cdecl call with four caller-cleaned DWORDs on this path; EBX/EDI are callee-saved."
+    },
+    {
+      "function": "_print_pragma_message",
+      "signature": "void __cdecl print_pragma_message(const char *);",
+      "preserves": [
+        "ebx",
+        "edi"
+      ],
+      "basis": "Identified ordinary Microsoft i386 cdecl call with one caller-cleaned DWORD; EBX/EDI are callee-saved."
+    }
+  ],
+  "callers": [
+    {
+      "name": "_finish_compiler",
+      "iat_rva": 823816,
+      "load_rva": 214572,
+      "call_rvas": [
+        214589,
+        214605,
+        214624,
+        214639
+      ]
+    },
+    {
+      "name": "CompilerArena::Release",
+      "code": [
+        [
+          189834,
+          189937
+        ],
+        [
+          437522,
+          437646
+        ]
+      ],
+      "cached_virtual_free_register": "ebx",
+      "cached_get_last_error_register": "edi",
+      "virtual_free_calls": [
+        189878,
+        189910
+      ],
+      "get_last_error_calls": [
+        437522,
+        437593
+      ]
+    }
+  ],
+  "scope": "Only documented normal-return nonvolatile facts needed for the listed cached API targets. Pending App callees retain traps and zero credit; no provider-body, error-path runtime or graph waiver claim."
+}

@@ -296,3 +296,15 @@ extern "C" void __cdecl report_language_diagnostic(unsigned level, unsigned numb
     }
     va_end(arguments);
 }
+
+extern "C" void __cdecl free_argument_allocation(void *);
+extern "C" void __cdecl free_diagnostic_records(void)
+{
+    int index = 0;
+    while (index < frontend_data.diagnostic_record_count) {
+        char *text = frontend_data.diagnostic_records[index].text;
+        if (text) free_argument_allocation(text);
+        ++index;
+    }
+    free_argument_allocation(frontend_data.diagnostic_records);
+}

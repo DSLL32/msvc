@@ -146,3 +146,35 @@ void RECON_THISCALL CompilerArena::ResetStorage(void)
         cursor = base;
     }
 }
+
+extern "C" void __cdecl release_compiler_arenas(void)
+{
+    unsigned index;
+    frontend_bss.pch_context.Release();
+    for (index = 0; index < 9; ++index)
+        frontend_bss.arenas[index].Release();
+}
+extern "C" {
+const char *__cdecl get_compiler_message(unsigned);
+int __cdecl format_compiler_text(char *, const char *, unsigned, ...);
+void __cdecl print_pragma_message(const char *);
+}
+void RECON_THISCALL CompilerArena::Release(void)
+{
+    char message[256];
+    BOOL success;
+    if (!base) return;
+    if ((int)committed_bytes > 0 && !VirtualFree(base, committed_bytes, MEM_DECOMMIT)) {
+        DWORD error = GetLastError();
+        format_compiler_text(message, get_compiler_message(0x38e), sizeof(message), error);
+        print_pragma_message(message);
+    }
+    if (mapped_view) success = UnmapViewOfFile(base);
+    else success = VirtualFree(base, 0, MEM_RELEASE);
+    if (!success) {
+        DWORD error = GetLastError();
+        format_compiler_text(message, get_compiler_message(0x38e), sizeof(message), error);
+        print_pragma_message(message);
+    }
+    base = NULL;
+}

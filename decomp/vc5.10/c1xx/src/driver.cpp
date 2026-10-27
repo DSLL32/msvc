@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <io.h>
 #include <new.h>
 #include <string.h>
 #include "frontend.h"
 #include "pdb-context.h"
 #include "frontend-init.h"
 #include "parser.h"
+#include "global-output.h"
 #pragma intrinsic(memcpy, strlen)
 #include <recon.h>
 
@@ -334,24 +336,314 @@ void RECON_THISCALL CompilerParser::Reset(void)
     recovery_shifts = 0;
     syntax_errors = 0;
 }
-void RECON_THISCALL CompilerParser::Finish(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerParser::Finish(void) {}
 extern "C" CompilerBackend *__cdecl acquire_backend(void)
 {
     return frontend_data.named_browser ? frontend_data.named_browser : frontend_data.initial_backend;
 }
-extern "C" void __cdecl finish_symbols(void) { __asm { int 3 } }
+/* Browser owners and their inline destruction are defined in browser.cpp. */
 extern "C" void __cdecl finish_browser_output(void) { __asm { int 3 } }
 extern "C" int __cdecl close_preprocessed_stream(FILE *stream) { __asm { int 3 } return 0; }
-extern "C" void __cdecl cleanup_precompiled_files(void) { __asm { int 3 } }
-extern "C" void __cdecl finish_compiler(void) { __asm { int 3 } }
+/* The two stream cells are source-only until a real PCH file producer is
+ * supported. They retain distinct original BSS identities, not FILE defaults
+ * or native state claims. */
+struct PchCleanupSourceStreams {
+    FILE *preprocessed; /* c0af4 */
+    FILE *header;       /* c4f60 */
+};
+#ifndef RECON_NATIVE_TEST
+static PchCleanupSourceStreams pch_cleanup_streams;
+#else
+#define pch_cleanup_streams (*(PchCleanupSourceStreams *)(recon_unsupported("PCH cleanup: unsupported stream owners"), 0))
+#endif
+extern "C" void __cdecl cleanup_precompiled_files(void)
+{
+    if (frontend_data.pch_files_cleaned) return;
+    if (frontend_data.saved_pch_mode &&
+        frontend_bss.error_count + (frontend_bss.options.warnings_are_errors > 1) != 0) {
+        /* A failed saved-PCH operation cleans its file even if all flags
+         * were already cleared. The ordinary path needs an active flag. */
+    } else if (!frontend_data.pch_preprocessed_file && !frontend_data.pch_header_file &&
+               !frontend_data.pch_expression_file) return;
+    frontend_data.pch_files_cleaned = 1;
+    if (frontend_data.pch_preprocessed_file) {
+        frontend_bss.expression_seek_result = fclose(pch_cleanup_streams.preprocessed);
+        if (frontend_bss.expression_seek_result == -1)
+            report_response_error(82, 344, (const char *)frontend_data.pch_stop_owner);
+        pch_cleanup_streams.preprocessed = NULL;
+    } else if (frontend_data.pch_header_file) {
+        frontend_bss.expression_seek_result = fclose(pch_cleanup_streams.header);
+        if (frontend_bss.expression_seek_result == -1)
+            report_response_error(82, 344, (const char *)frontend_data.pch_stop_owner);
+        pch_cleanup_streams.header = NULL;
+    } else if (frontend_data.pch_expression_file) {
+        frontend_bss.expression_seek_result = frontend_bss.output_buffers[3].CloseFile();
+        if (frontend_bss.expression_seek_result == -1)
+            report_response_error(82, 344, (const char *)frontend_data.pch_stop_owner);
+    } else return;
+    if (_unlink((const char *)frontend_data.pch_stop_owner)) report_response_error(83, 340, (const char *)frontend_data.pch_stop_owner);
+    frontend_data.pch_expression_file = 0;
+    frontend_data.pch_header_file = 0;
+    frontend_data.pch_preprocessed_file = 0;
+}
+extern "C" void __cdecl free_diagnostic_records(void);
+extern "C" void __cdecl release_compiler_arenas(void);
+extern "C" void __cdecl finish_compiler(void)
+{
+    ::operator delete(frontend_bss.lexer_backend);
+    free_diagnostic_records();
+    release_compiler_arenas();
+    VirtualFree(frontend_bss.work_buffers[0].data, 0x500000, MEM_DECOMMIT);
+    VirtualFree(frontend_bss.work_buffers[0].data, 0, MEM_RELEASE);
+    VirtualFree(frontend_bss.work_buffers[1].data, 0x500000, MEM_DECOMMIT);
+    VirtualFree(frontend_bss.work_buffers[1].data, 0, MEM_RELEASE);
+}
 extern "C" void __cdecl print_compiler_statistics(void) { __asm { int 3 } }
 extern "C" void __cdecl preprocess_translation_unit(void) { __asm { int 3 } }
 extern "C" void __cdecl finish_parser(int result) { __asm { int 3 } }
 extern "C" void __cdecl finish_parser_tables(void) { __asm { int 3 } }
 extern "C" void __cdecl compiler_warning(int code, ...) { __asm { int 3 } }
-void RECON_THISCALL CompilerTranslationUnit::Finish(void) { __asm { int 3 } }
+struct CompilerGeneratedSpan {
+    const BYTE *data;
+    int bytes;
+};
+extern "C" {
+void __cdecl emit_function_output_blocks(void); /*355ea*/
+void __cdecl write_global_reference(CompilerSymbolLink *);
+CompilerExpression *__cdecl symbol_expression(CompilerSymbol *, unsigned);
+CompilerSymbol *__cdecl prepare_pending_initializer(CompilerSymbol *); /*1bbe2*/
+void __cdecl initialize_symbol(CompilerSymbol *, CompilerExpression *);
+void __cdecl query_generated_output(unsigned, CompilerGeneratedSpan *); /*93dae*/
+void __cdecl write_global_ir_record(unsigned, CompilerSymbol *);
+}
+void RECON_THISCALL CompilerTranslationUnit::Finish(void)
+{
+    CompilerSymbolLink *link;
+    CompilerGlobalSymbolView *symbol;
+    CompilerExpression *expression;
+    CompilerSymbol *target;
+    CompilerGeneratedSpan span;
+    OutputBuffer *buffer;
+    unsigned needed;
+    int available;
+    frontend_bss.global_output_active = 0;
+    if (frontend_bss.error_count) return;
+    for (link = pending_symbols; link; link = link->next) write_global_reference(link);
+    emit_function_output_blocks();
+    root->Check();
+    for (link = pending_symbols; link; link = link->next) {
+        symbol = (CompilerGlobalSymbolView *)((BYTE *)link - 8);
+        if (symbol->pending_initializer) {
+            write_global_reference(&((CompilerNamedSymbol *)symbol->pending_initializer)->link);
+            expression = symbol_expression((CompilerSymbol *)symbol, 0);
+            target = prepare_pending_initializer(symbol->pending_initializer);
+            initialize_symbol(target, expression);
+        }
+    }
+    if (!frontend_data.option_c9il) {
+        query_generated_output(1, &span);
+        buffer = &frontend_bss.output_buffers[2];
+        needed = (unsigned)span.bytes + 1;
+        available = 0;
+        if ((int)needed >= 0) {
+            available = 1;
+            if (buffer->cursor + needed > buffer->data + buffer->capacity)
+                available = buffer->Grow((int)needed) != 0;
+        }
+        buffer->ok &= available;
+        if (buffer->ok) {
+            memcpy(buffer->cursor, span.data, (unsigned)span.bytes);
+            buffer->cursor += span.bytes;
+        }
+    }
+    write_global_ir_record(10, NULL);
+}
+extern "C" CompilerSymbol *__cdecl prepare_pending_initializer(CompilerSymbol *) { __asm { int 3 } return NULL; }
+extern "C" void __cdecl query_generated_output(unsigned, CompilerGeneratedSpan *) { __asm { int 3 } }
 int RECON_THISCALL CompilerDependency::Finish(int success) { __asm { int 3 } return 0; }
-int RECON_THISCALL OutputBuffer::Close(void) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerPdbContext::Finish(void) { __asm { int 3 } }
+int RECON_THISCALL OutputBuffer::Close(void)
+{
+    int result = CloseFile();
+    frontend_bss.expression_seek_result = result;
+    if (result == -1) return report_response_error(82, 339, NULL);
+    return result;
+}
+int RECON_THISCALL OutputBuffer::CloseFile(void)
+{
+    int result;
+    if (!file)
+        return frontend_bss.error_count + (frontend_bss.options.warnings_are_errors > 1) ? 0 : -1;
+    Flush();
+    result = fclose(file);
+    file = NULL;
+    return result;
+}
+/* Module .data CB008 is distinct from the invocation's saved datafe state.
+ * Its provider-active branch remains outside the current native domain. */
+static int pdb_names_close_mode; /* original CB008, initially0 */
+void RECON_THISCALL CompilerPdbContext::Finish(void)
+{
+    char error_text[260];
+    int good;
+    if (!database) return;
+#ifdef RECON_NATIVE_TEST
+    recon_unsupported("PDB finish: active provider domain is unsupported");
+#endif
+    if (!pdb_names_close_mode) {
+        if (!names->Commit()) goto failed;
+        good = 1;
+        if (stream_state) {
+            good = stream_state->Close() & 1;
+            stream_state = NULL;
+        }
+        if (frontend_bss.error_count + (frontend_bss.options.warnings_are_errors > 1) == 0 &&
+            !read_mode) {
+            if (!database->Commit()) good = 0;
+        }
+        if (!good) goto failed;
+        return;
+    }
+    if (!names->Close())
+        compiler_warning(471, database->QueryLastError(error_text));
+    names = NULL;
+    if (minimal_rebuild || types) return;
+    database->QueryLastError(error_text);
+    good = 1;
+    if (stream_state) {
+        good = stream_state->Close() & 1;
+        stream_state = NULL;
+    }
+    if (frontend_bss.error_count + (frontend_bss.options.warnings_are_errors > 1) == 0 &&
+        !read_mode && !database->Commit()) good = 0;
+    else if (!database->Close()) good = 0;
+    database = NULL;
+    if (!good) compiler_warning(471, error_text);
+    return;
+failed:
+    compiler_warning(471, database->QueryLastError(error_text));
+}
+int RECON_THISCALL PdbStreamState::Close(void) { __asm { int 3 } return 0; }
 
-extern "C" void __cdecl initialize_compilation_output(void) { __asm { int 3 } }
+extern "C" {
+void __cdecl finish_compilation_table_a(void); /*353c4*/
+void __cdecl finish_compilation_table_b(void); /*3542d*/
+void __cdecl finish_compilation_table_c(void); /*35441*/
+void __cdecl complete_rtti_records(void); /*b4e3b*/
+void __cdecl finish_completion_item(void *); /*a0137*/
+void __cdecl visit_vector_items(CompilerVector *, void (__cdecl *)(void *));
+CompilerBackend *__cdecl acquire_initial_backend(void);
+}
+extern "C" void __cdecl initialize_compilation_output(void)
+{
+    CompilerLexerBackend *state;
+    finish_compilation_table_a();
+    finish_compilation_table_b();
+    finish_compilation_table_c();
+    if (frontend_data.options.runtime_type_info) complete_rtti_records();
+    state = frontend_bss.lexer_backend;
+    state->backend = frontend_data.backend;
+    frontend_data.backend = acquire_initial_backend();
+    state->enabled = 0;
+    visit_vector_items(frontend_data.compilation_completion_items, finish_completion_item);
+    frontend_data.compilation_completion_items = NULL;
+    state = frontend_bss.lexer_backend;
+    frontend_data.backend = state->backend;
+    state->enabled = 1;
+}
+/* The cursor exposes a record/context pair. Its pending initializer/advance
+ * own the first12 bytes. The record view interprets only the actual +c flag,
+ * without establishing an allocation extent or any other record fields. */
+struct CompletionPairRecord {
+    BYTE unmodeled_00_0b[12];
+    int emitted;
+};
+struct CompletionPairCursor {
+    BYTE unmodeled_00_0b[12];
+    CompletionPairRecord *record;
+    void *context;
+};
+extern "C" {
+void __cdecl initialize_completion_pair_cursor(CompletionPairCursor *, void *); /*445aa*/
+int __cdecl next_completion_pair(CompletionPairCursor *); /*445bd*/
+void __cdecl emit_first_completion_pair(CompletionPairRecord *, void *); /*5075b*/
+void __cdecl emit_second_completion_pair(CompletionPairRecord *, void *); /*b3956*/
+}
+extern "C" void __cdecl finish_compilation_table_a(void)
+{
+    CompletionPairCursor cursor;
+    if (!frontend_data.compilation_pair_tables[0]) return;
+    initialize_completion_pair_cursor(&cursor, frontend_data.compilation_pair_tables[0]);
+    while (next_completion_pair(&cursor)) {
+        if (!cursor.record->emitted) {
+            cursor.record->emitted = 1;
+            emit_first_completion_pair(cursor.record, cursor.context);
+        }
+    }
+}
+extern "C" void __cdecl finish_compilation_table_b(void)
+{
+    CompletionPairCursor cursor;
+    if (!frontend_data.compilation_pair_tables[1]) return;
+    initialize_completion_pair_cursor(&cursor, frontend_data.compilation_pair_tables[1]);
+    while (next_completion_pair(&cursor)) {
+        if (!cursor.record->emitted) {
+            cursor.record->emitted = 1;
+            emit_second_completion_pair(cursor.record, cursor.context);
+        }
+    }
+}
+extern "C" void __cdecl initialize_completion_pair_cursor(CompletionPairCursor *, void *) { __asm { int 3 } }
+extern "C" int __cdecl next_completion_pair(CompletionPairCursor *) { __asm { int 3 } return 0; }
+extern "C" void __cdecl emit_first_completion_pair(CompletionPairRecord *, void *) { __asm { int 3 } }
+extern "C" void __cdecl emit_second_completion_pair(CompletionPairRecord *, void *) { __asm { int 3 } }
+/* These partial views describe only the real pointer/flag consumers in the
+ * completion walk. Their sizeof values do not establish allocation extents. */
+struct CompletionMember {
+    BYTE unmodeled_00_37[56];
+    unsigned emitted;
+};
+struct CompletionNestedGroup {
+    BYTE unmodeled_00_13[20];
+    CompilerVector *members[2];
+};
+typedef char CompletionMember_emitted_offset[offsetof(CompletionMember, emitted) == 56 ? 1 : -1];
+extern "C" {
+void __cdecl initialize_pending_declaration_cursor(PendingDeclarationCursor *, void *);
+int __cdecl next_pending_declaration(PendingDeclarationCursor *);
+void __cdecl complete_declaration_member(CompletionMember *, CompilerGlobalSymbolView *); /*40085*/
+}
+extern "C" void __cdecl finish_compilation_table_c(void)
+{
+    PendingDeclarationCursor cursor;
+    CompilerGlobalSymbolView *declaration;
+    CompilerGlobalClassDetail *set;
+    CompilerVector *members, *children;
+    CompletionMember *member;
+    short member_index, child_index;
+    unsigned group;
+    if (!frontend_data.completion_declarations) return;
+    initialize_pending_declaration_cursor(&cursor, frontend_data.completion_declarations);
+    while (next_pending_declaration(&cursor)) {
+        declaration = (CompilerGlobalSymbolView *)cursor.current;
+        for (group = 0; group != 2; ++group) {
+            set = declaration->class_detail;
+            members = set->member_groups[group];
+            children = set->additional_members;
+            member_index = child_index = 0;
+            for (;;) {
+                while (members && member_index < members->count) {
+                    member = (CompletionMember *)members->items[member_index];
+                    ++member_index;
+                    if (!member->emitted) complete_declaration_member(member, declaration);
+                }
+                if (!children || child_index >= children->count) break;
+                members = ((CompletionNestedGroup *)children->items[child_index])->members[group];
+                ++child_index;
+                member_index = 0;
+            }
+        }
+    }
+}
+extern "C" void __cdecl complete_declaration_member(CompletionMember *, CompilerGlobalSymbolView *) { __asm { int 3 } }
+extern "C" void __cdecl complete_rtti_records(void) { __asm { int 3 } }
+extern "C" void __cdecl finish_completion_item(void *) { __asm { int 3 } }

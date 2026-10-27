@@ -17,7 +17,6 @@ extern "C" int __cdecl expand_macro(struct CompilerMacro *) { __asm { int 3 } re
 extern "C" unsigned __cdecl collect_floating_token(char *) { __asm { int 3 } return (unsigned)0; }
 extern "C" ParserTokenView * __cdecl scan_floating_token(char *) { __asm { int 3 } return (ParserTokenView *)0; }
 extern "C" int __cdecl finish_forced_include(void) { __asm { int 3 } return (int)0; }
-extern "C" unsigned __cdecl make_arena_token(unsigned) { __asm { int 3 } return (unsigned)0; }
 unsigned RECON_THISCALL CompilerRecordedLexer::Peek(void) { __asm { int 3 } return 0; }
 
 extern "C" int __cdecl skip_newline_comment(void) { __asm { int 3 } return 0; }
@@ -51,7 +50,6 @@ extern "C" void __cdecl skip_to_directive_newline(ParserTokenView *) { __asm { i
 
 
 
-extern "C" CompilerType * __cdecl select_based_literal_type(unsigned __int64 *) { __asm { int 3 } return 0; }
 
 extern "C" CompilerType * __cdecl select_signed_wide_literal_type(unsigned __int64 *) { __asm { int 3 } return 0; }
 

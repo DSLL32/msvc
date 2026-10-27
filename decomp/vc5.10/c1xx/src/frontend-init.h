@@ -76,7 +76,7 @@ struct CompilerDebugModule {
     virtual int RECON_THISCALL Slot6c(void) = 0;
     virtual void RECON_THISCALL Slot70(void) = 0;
     virtual int RECON_THISCALL Slot74(const char *) = 0;
-    virtual int RECON_THISCALL Slot78(unsigned) = 0;
+    virtual int RECON_THISCALL Slot78(const char *) = 0;
     virtual int RECON_THISCALL Slot7c(void) = 0;
     virtual int RECON_THISCALL Slot80(void) = 0;
     virtual int RECON_THISCALL Slot84(void) = 0;
@@ -140,7 +140,7 @@ struct CompilerNullDebugModule : CompilerDebugModule {
     int RECON_THISCALL Slot6c(void);
     void RECON_THISCALL Slot70(void);
     int RECON_THISCALL Slot74(const char *);
-    int RECON_THISCALL Slot78(unsigned);
+    int RECON_THISCALL Slot78(const char *);
     int RECON_THISCALL Slot7c(void);
     int RECON_THISCALL Slot80(void);
     int RECON_THISCALL Slot84(void);
@@ -177,6 +177,11 @@ struct PDB {
     virtual int RECON_THISCALL QueryLastError(char *text) = 0;
     virtual unsigned RECON_THISCALL QuerySignature(void) = 0;
     virtual unsigned RECON_THISCALL QueryAge(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot18(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot1c(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot20(void) = 0;
+    virtual int RECON_THISCALL Commit(void) = 0;
+    virtual int RECON_THISCALL Close(void) = 0;
 };
 struct CompilerHashTable;
 struct CompilerTranslationUnit {
@@ -217,6 +222,9 @@ struct CompilerTranslationUnit {
     void RECON_THISCALL Finish(void);
     void RECON_THISCALL SetScopeMode(unsigned);
     void RECON_THISCALL MarkDefinitionScopes(void); /*21754*/
+    void RECON_THISCALL BeginLocalScope(void); /*5180*/
+    void RECON_THISCALL FinishLocalScope(CompilerScopeTable *); /*590c RET4*/
+    void RECON_THISCALL FinishFunctionScopes(void); /*5cd2*/
     void RECON_THISCALL PopCurrentScope(void); /*e028*/
     void RECON_THISCALL UnregisterCurrentScope(void); /*e049*/
     void RECON_THISCALL RestoreSavedLookup(unsigned); /*7bff*/

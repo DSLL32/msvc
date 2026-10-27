@@ -73,6 +73,77 @@ int c1xx_test_exception_counters(void)
     frontend_data.inline_depth = 0x1937;
     frontend_data.inline_recursion = 0x1938;
     frontend_data.line_range_warning_enabled = -38;
+    frontend_data.pending_label_head = (struct CompilerSymbol *)&frontend_bss;
+    frontend_data.debug_notification_index = 0x93ab72;
+    frontend_data.expression_work_nodes = (struct CompilerExpressionWork *)&frontend_data;
+    frontend_data.saved_expression_work_nodes = (struct CompilerExpressionWork *)&frontend_bss;
+    frontend_data.expression_work_error_count = 0x93ab73;
+    frontend_data.expression_work_reset_pending = -74;
+    frontend_data.expression_work_units = 0x93ab74;
+    frontend_data.expression_work_depth = 0x93ab75;
+    frontend_data.expression_work_recovery = &frontend_bss;
+    frontend_bss.expression_work_recovery_mode = -75;
+    frontend_data.parameter_work_kind = 0x93ab76;
+    frontend_data.parameter_work_index = 0x93ab77;
+    frontend_data.parameter_work_capacity = 0x93ab79;
+    frontend_data.conversion_evaluation_mode = -79;
+    frontend_data.nested_cleanup_depth = 0x93ab80;
+    frontend_data.parameter_cleanup_active = -80;
+    frontend_bss.block_output_entries = (struct CompilerBlockOutputEntry *)&frontend_data;
+    frontend_data.function_output_head = (struct CompilerFunctionOutputBlock *)&frontend_data;
+    frontend_data.function_output_tail = (struct CompilerFunctionOutputBlock *)&frontend_bss;
+    frontend_data.function_output_index = 0x7408;
+    frontend_data.function_output_context = 0x7409;
+    frontend_bss.pending_groups.head = (struct PendingGroup *)&frontend_bss;
+    frontend_bss.pending_groups.active = (struct PendingGroup *)&frontend_data;
+    frontend_data.pch_preprocessed_file = -0x7422;
+    frontend_data.pch_header_file = -0x7423;
+    frontend_data.pch_files_cleaned = -0x7424;
+    frontend_data.pch_stop_owner = &frontend_bss;
+    frontend_data.global_name_count = 0x7421;
+    frontend_data.global_option_string = "footer-reset-sentinel";
+    frontend_data.name_format_mode = -0x741f;
+    frontend_data.name_format_sequence = 0x7420;
+    frontend_bss.name_format_state = 0x741c;
+    frontend_bss.name_format_reset_values[0] = 0x741d;
+    frontend_bss.name_format_reset_values[1] = 0x741e;
+    frontend_bss.symbol_name_cursor = (char *)&frontend_data;
+    frontend_data.omit_external_names = 0x741b;
+    frontend_data.last_output_context = 0x741a;
+    frontend_bss.global_string_record = "nonzero-reset-projection";
+    frontend_data.include_pch_reference_counts = -0x7418;
+    frontend_bss.inline_record_flag = -0x7419;
+    frontend_data.completion_declarations = &frontend_bss;
+    frontend_data.compilation_pair_tables[0] = &frontend_bss;
+    frontend_data.compilation_pair_tables[1] = &frontend_data;
+    frontend_data.compilation_completion_items = (struct CompilerVector *)&frontend_data;
+    frontend_data.parser_return_value = -0x7417;
+    frontend_data.final_parser_token_emitted = -0x7416;
+    frontend_data.function_output_location_state = 0x7411;
+    frontend_data.function_output_reset_state[0] = 0x7412;
+    frontend_data.function_output_reset_state[1] = 0x7413;
+    frontend_data.function_scope_output_state[0] = 0x7414;
+    frontend_data.function_scope_output_state[1] = 0x7415;
+    for (class_row = 0; class_row != 4; ++class_row)
+        frontend_data.function_deferred_vectors[class_row] = (struct CompilerVector *)&frontend_bss;
+    frontend_data.pch_reference_output_mode = -0x740a;
+    frontend_data.pch_output_bytes = 0x740b;
+    frontend_data.pch_reference_bytes = 0x740c;
+    frontend_data.deferred_function_output = -0x740d;
+    frontend_data.cleanup_capture_depth = 0x7401;
+    frontend_data.expression_target = &frontend_bss;
+    frontend_data.expression_target_active = -0x7403;
+    frontend_data.assignment_target_active = 0x7404;
+    frontend_data.force_statement_check = -0x7405;
+    frontend_data.parameter_work_high_index = 0x7406;
+    frontend_data.cleanup_capture_stack = (struct CompilerExpressionWork *)&frontend_bss;
+    frontend_data.expression_cleanup_stack = (struct CompilerExpressionWork *)&frontend_data;
+    frontend_data.symbol_reference_depths[0] = 0x73a1;
+    frontend_data.symbol_reference_depths[1] = -0x73a2;
+    frontend_data.symbol_reference_depths[2] = 0x73a3;
+    frontend_data.cleanup_capture_head = (struct CompilerCleanupCapture *)&frontend_bss;
+    frontend_data.parameter_work_states = (struct CompilerExpressionWorkStateRow *)&frontend_bss;
+    frontend_bss.parameter_source_state = 0x93ab78;
     frontend_bss.control_text_count = 0x93;
     frontend_bss.control_byte = 0x94;
     frontend_bss.control_short = -394;
@@ -96,6 +167,9 @@ int c1xx_test_exception_counters(void)
     frontend_data.default_code_segment = (struct CompilerSymbol *)&frontend_data;
     frontend_bss.function_return_class = (CompilerType *)&frontend_data;
     frontend_bss.current_parser_expression = (struct CompilerExpression *)&frontend_data;
+    frontend_bss.current_case_label = (struct CompilerExpression *)&frontend_bss;
+    frontend_bss.return_cleanup_state = 0xa31c7;
+    frontend_bss.function_output_state = 0xa31c8;
     memset(&frontend_bss.declaration_token_value, 0x97, sizeof(frontend_bss.declaration_token_value));
     frontend_bss.macro_token_cursor = (unsigned char *)&frontend_data;
     frontend_bss.macro_text_cursor = (unsigned char *)&frontend_bss;
@@ -120,7 +194,7 @@ int c1xx_test_exception_counters(void)
     frontend_data.pending_declarations = &frontend_bss.options;
     frontend_data.parser_input_end_state = (struct ParserInputEndState *)&frontend_bss;
     frontend_data.expression_work_current = (struct CompilerExpressionWork *)&frontend_data.options;
-    frontend_data.expression_work_head = (struct CompilerExpressionWorkNode *)&frontend_bss.options;
+    frontend_data.expression_work_head = (struct CompilerExpressionWork *)&frontend_bss.options;
     frontend_data.declaration_cleanup_state[0] = 0x7193;
     frontend_data.declaration_cleanup_state[1] = 0x8159;
     frontend_data.declaration_cleanup_state[2] = 0xa713;
@@ -213,6 +287,7 @@ int c1xx_test_exception_counters(void)
     frontend_data.pch_expression_file = 149;
     frontend_bss.expression_seek_result = 151;
     frontend_bss.output_buffers[3].filename[259] = 113;
+    frontend_bss.output_buffers[3].auxiliary_memory = &frontend_data;
     frontend_data.constant_arena_index = 7;
     frontend_data.tagged_type_arena_index = 3;
     frontend_data.unnamed_translation_symbol = (struct CompilerTranslationSymbol *)&frontend_data;
@@ -261,9 +336,42 @@ int c1xx_test_exception_counters(void)
             return 0;
     }
     if (frontend_data.control_option_kind || frontend_data.control_option_text || frontend_data.global_options ||
-        frontend_data.inline_depth != 8 || frontend_data.inline_recursion || frontend_data.line_range_warning_enabled != 1 ||
+        frontend_data.inline_depth != 8 || frontend_data.inline_recursion || frontend_data.line_range_warning_enabled != 1 || frontend_data.pending_label_head || frontend_data.debug_notification_index || frontend_data.expression_work_nodes ||
+        frontend_data.saved_expression_work_nodes || frontend_data.expression_work_error_count ||
+        frontend_data.expression_work_reset_pending || frontend_data.expression_work_units ||
+        frontend_data.expression_work_depth || frontend_data.expression_work_recovery ||
+        frontend_bss.expression_work_recovery_mode || frontend_data.parameter_work_kind != 1 ||
+        frontend_data.parameter_work_index != 0xffffffff || frontend_data.parameter_work_states ||
+        frontend_data.parameter_work_capacity != 128 || frontend_data.conversion_evaluation_mode || frontend_data.nested_cleanup_depth ||
+        frontend_data.parameter_cleanup_active || frontend_data.cleanup_capture_head ||
+        frontend_data.symbol_reference_depths[0] || frontend_data.symbol_reference_depths[1] || frontend_data.symbol_reference_depths[2] ||
+        frontend_bss.block_output_entries ||
+        frontend_data.function_output_head || frontend_data.function_output_tail ||
+        frontend_data.function_output_index != 19 || frontend_data.function_output_context ||
+        frontend_bss.pending_groups.head || frontend_bss.pending_groups.active ||
+        frontend_data.pch_preprocessed_file || frontend_data.pch_header_file ||
+        frontend_data.pch_files_cleaned || frontend_data.pch_stop_owner ||
+        frontend_data.global_name_count || frontend_data.global_option_string ||
+        frontend_data.name_format_mode != 1 || frontend_data.name_format_sequence ||
+        frontend_bss.name_format_state || frontend_bss.name_format_reset_values[0] ||
+        frontend_bss.name_format_reset_values[1] || frontend_bss.symbol_name_cursor ||
+        frontend_data.omit_external_names || frontend_data.last_output_context || frontend_bss.global_string_record ||
+        frontend_data.include_pch_reference_counts || frontend_bss.inline_record_flag ||
+        frontend_data.completion_declarations || frontend_data.compilation_pair_tables[0] || frontend_data.compilation_pair_tables[1] ||
+        frontend_data.compilation_completion_items || frontend_data.parser_return_value || frontend_data.final_parser_token_emitted || frontend_data.function_output_location_state || frontend_data.function_output_reset_state[0] ||
+        frontend_data.function_output_reset_state[1] || frontend_data.function_scope_output_state[0] ||
+        frontend_data.function_scope_output_state[1] ||
+        frontend_data.function_deferred_vectors[0] || frontend_data.function_deferred_vectors[1] ||
+        frontend_data.function_deferred_vectors[2] || frontend_data.function_deferred_vectors[3] ||
+        frontend_data.pch_reference_output_mode || frontend_data.pch_output_bytes ||
+        frontend_data.pch_reference_bytes || frontend_data.deferred_function_output ||
+        frontend_data.cleanup_capture_depth || frontend_data.expression_target ||
+        frontend_data.expression_target_active || frontend_data.assignment_target_active ||
+        frontend_data.force_statement_check || frontend_data.parameter_work_high_index != 0xffffffff ||
+        frontend_data.cleanup_capture_stack || frontend_data.expression_cleanup_stack ||
+        frontend_bss.parameter_source_state ||
         frontend_bss.control_text_count || frontend_bss.control_byte || frontend_bss.control_short) return 0;
-    if (frontend_data.function_result_type || frontend_data.default_code_segment || frontend_bss.function_return_class || frontend_bss.current_parser_expression ||
+    if (frontend_data.function_result_type || frontend_data.default_code_segment || frontend_bss.function_return_class || frontend_bss.current_parser_expression || frontend_bss.current_case_label || frontend_bss.return_cleanup_state || frontend_bss.function_output_state ||
         frontend_data.disable_inline_records || frontend_data.auto_inline != 1 || frontend_data.function_reference_counter != 0x3fffff ||
         frontend_data.function_location_cache[0] != 0xffffffff || frontend_data.function_location_cache[1] != 0xffffffff ||
         frontend_bss.function_body_state || frontend_bss.stack_check_warning_emitted || frontend_bss.function_source_position ||
@@ -382,6 +490,7 @@ int c1xx_test_exception_counters(void)
         frontend_data.canonical_token_records[137] == NULL && frontend_data.keyword_table == NULL && frontend_data.current_identifier == NULL && frontend_data.frontend_pointer_table == NULL && frontend_data.empty_pointer_array == NULL && frontend_data.pch_expression_file == 0 &&
         frontend_bss.expression_seek_result == 0 &&
         frontend_bss.output_buffers[3].filename[259] == 0 &&
+        frontend_bss.output_buffers[3].auxiliary_memory == NULL &&
         frontend_data.constant_arena_index == 5 && frontend_data.tagged_type_arena_index == 5 &&
         frontend_data.unnamed_translation_symbol == NULL && frontend_data.local_size_symbol == NULL &&
         frontend_data.translation_symbols == NULL &&
@@ -396,4 +505,51 @@ int c1xx_test_exception_counters(void)
         memcmp(frontend_data.symbol_size_class, size_class, sizeof(size_class)) == 0 &&
         memcmp(frontend_data.recycled_symbols, empty_recycled, sizeof(empty_recycled)) == 0 &&
         frontend_data.symbol_groups == NULL;
+}
+
+/* The conversion checker intentionally handles negative signed inputs by
+ * magnitude for an unsigned target, and uses the unsigned bound when the
+ * source is unsigned. These boundaries come from the original branches. */
+extern int __cdecl constant_conversion_overflows(WORD, WORD, WORD, __int64);
+int c1xx_test_constant_conversion_ranges(void)
+{
+    if (constant_conversion_overflows(4, 0, 0, 2147483647LL) ||
+        constant_conversion_overflows(4, 0, 0, -2147483648LL) ||
+        !constant_conversion_overflows(4, 0, 0, 2147483648LL) ||
+        !constant_conversion_overflows(4, 0, 0, -2147483649LL)) return 0;
+    if (constant_conversion_overflows(4, 0x4000, 0, -1LL) ||
+        !constant_conversion_overflows(4, 0x4000, 0, -4294967296LL) ||
+        constant_conversion_overflows(4, 0, 1, 4294967295LL) ||
+        !constant_conversion_overflows(4, 0, 1, 4294967296LL)) return 0;
+    return 1;
+}
+
+extern void __cdecl write_integer_payload(unsigned, unsigned, int);
+int c1xx_test_integer_payload_encoding(void)
+{
+    static const BYTE expected[] = {
+        0x00, 0x7f, 0x81,
+        0x80, 0x80, 0xff, 0xff, 0xff,
+        0x80, 0x80, 0x00, 0x00, 0x00,
+        0x80, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+        0x80, 0xff, 0x00, 0x00, 0x00
+    };
+    OutputBuffer saved = frontend_bss.output_buffers[3];
+    OutputBuffer *buffer = &frontend_bss.output_buffers[3];
+    BYTE storage[64];
+    int result;
+    buffer->data = buffer->cursor = storage;
+    buffer->capacity = sizeof(storage);
+    buffer->ok = 1;
+    write_integer_payload(0, 0, 4);
+    write_integer_payload(127, 0, 4);
+    write_integer_payload(0xffffff81, 0xffffffff, 4);
+    write_integer_payload(0xffffff80, 0xffffffff, 4);
+    write_integer_payload(128, 0, 4);
+    write_integer_payload(0, 1, 8);
+    write_integer_payload(255, 0, 1);
+    result = buffer->ok && buffer->cursor == storage + sizeof(expected) &&
+        !memcmp(storage, expected, sizeof(expected));
+    frontend_bss.output_buffers[3] = saved;
+    return result;
 }

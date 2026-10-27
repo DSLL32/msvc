@@ -19,6 +19,8 @@ struct CompilerSymbolLink {
  * natural alignment gap before the name is not a modeled field. */
 struct CompilerSymbol {
     int RECON_THISCALL IsFunction(void); /*143d*/
+    int RECON_THISCALL SuppressGlobalReference(void); /*3d4c*/
+    int RECON_THISCALL IsNamed(void); /*8dfd7*/
     CompilerNameEntry *RECON_THISCALL Name(void); /*21427*/
     void RECON_THISCALL SetName(CompilerNameEntry *); /*374b7*/
     void RECON_THISCALL SetKind(BYTE); /*fbed*/
@@ -103,6 +105,8 @@ struct CompilerClassMemberIterator {
     CompilerClassMemberIterator *RECON_THISCALL InitializeHead(CompilerSymbolLink *); /*7add*/
     CompilerClassMemberIterator *RECON_THISCALL InitializeBinding(CompilerClassBinding *); /*29475*/
     int RECON_THISCALL Next(void); /*1d9ac*/
+    int RECON_THISCALL AdvanceChain(void); /*233e6*/
+    int RECON_THISCALL MatchesMode(void); /*1dad2*/
 };
 /* Kind15 owns24 bytes. Only the completion consumer's fields are named;
  * the final byte has no initialization or equality claim. */
@@ -142,6 +146,10 @@ struct CompilerIrSymbol : CompilerNamedSymbol {
         };                            /* original +1c..1f */
     };
 };
+/* Kind9 uses a 48-byte allocation. Only its code at +20 is exposed here;
+ * the remaining allocation tail is not interpreted or initialized. */
+struct CompilerLabelSymbol : CompilerIrSymbol { unsigned code; };
+typedef char CompilerLabelSymbol_code[offsetof(CompilerLabelSymbol, code) == 0x20 ? 1 : -1];
 /* The function variant exposes only its encountered builtin classification. */
 struct CompilerRuntimeFunction : CompilerIrSymbol {
     unsigned member_offset; /* original +20 */
@@ -215,6 +223,49 @@ struct CompilerBoundSymbol : CompilerNamedSymbol {
 struct CompilerIndexedTypeSymbol : CompilerNamedSymbol {
     short type_index; /* original +14; interpreted only for non4/non23 kind */
 };
+/* Linked expression-work header. Its separately allocated payload is
+ * copied from the caller; only the symbol frame below has a typed payload. */
+struct CompilerExpressionWork {
+    unsigned kind;
+    BYTE flags;
+    BYTE parameter_flags; /* +5, parameter frame writes only bit0 */
+    WORD depth;
+    CompilerExpressionWork *next, *previous;
+};
+struct CompilerExpressionWorkInput : CompilerExpressionWork {
+    CompilerSymbol *symbol;
+    BYTE unmodeled_14_17[4];
+};
+struct CompilerBlockWorkInput : CompilerExpressionWork { unsigned state_index; };
+typedef char CompilerBlockWorkInput_size[sizeof(CompilerBlockWorkInput) == 20 ? 1 : -1];
+struct CompilerParameterWorkInput : CompilerExpressionWork {
+    CompilerSymbol *symbol;
+    DWORD source_state;
+    unsigned state_index, active;
+};
+/* Partial16-byte row; allocator2132d owns16*capacity bytes. The opaque
+ * fields have no default or semantic-equality claim. */
+struct CompilerExpressionWorkStateRow {
+    BYTE unmodeled_00_03[4];
+    DWORD active;
+    BYTE unmodeled_08_0f[8];
+};
+typedef char CompilerParameterWorkInput_fields[(
+    sizeof(CompilerParameterWorkInput) == 32 &&
+    offsetof(CompilerParameterWorkInput, symbol) == 16 &&
+    offsetof(CompilerParameterWorkInput, source_state) == 20 &&
+    offsetof(CompilerParameterWorkInput, state_index) == 24 &&
+    offsetof(CompilerParameterWorkInput, active) == 28 &&
+    sizeof(CompilerExpressionWorkStateRow) == 16 &&
+    offsetof(CompilerExpressionWorkStateRow, active) == 4) ? 1 : -1];
+typedef char CompilerExpressionWork_fields[(
+    sizeof(CompilerExpressionWork) == 16 &&
+    offsetof(CompilerExpressionWork, flags) == 4 &&
+    offsetof(CompilerExpressionWork, depth) == 6 &&
+    offsetof(CompilerExpressionWork, next) == 8 &&
+    offsetof(CompilerExpressionWork, previous) == 12 &&
+    offsetof(CompilerExpressionWorkInput, symbol) == 16 &&
+    sizeof(CompilerExpressionWorkInput) == 24) ? 1 : -1];
 struct CompilerExpression {
     BYTE kind, flags;                  /* original +0/+1 */
     BYTE constant_flags;               /* +2, typed-constant zero/one bit0 */
@@ -229,11 +280,14 @@ struct CompilerExpression {
         const BYTE *bytes;
         void *pointer; /*source-only original+10 variant, no extra cell*/
         CompilerQuotedValue quoted; /* same +10 pointer/+14 length/+16 flags */
+        struct Control { BYTE unmodeled_10_15[6]; WORD flags; } control; /* original+16 WORD */
+        struct CountedControl { unsigned index; WORD count, flags; } counted_control; /* same +10/+14/+16 */
+        struct CleanupList { BYTE unmodeled_10_13[4]; struct CompilerCleanupExpressionList *head; } cleanup_list;
     } value;
     /* The natural+3 gap and opaque+8..f bytes remain uninterpreted. */
 };
 typedef char CompilerExpression_offsets[(offsetof(CompilerExpression, type) == 4 && offsetof(CompilerExpression, value) == 16 && sizeof(CompilerExpression) == 24) ? 1 : -1];
 struct CompilerString {
-    void RECON_THISCALL GetData(unsigned *, const void **, unsigned *);
+    void RECON_THISCALL GetReferences(unsigned *, unsigned *, unsigned *);
 };
 #endif

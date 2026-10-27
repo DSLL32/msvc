@@ -25,13 +25,14 @@ ORIGINAL_MAP = build/c1xx.map
 ORIGINAL_CPPFLAGS = /Isrc /Icrt /I$(RECON)/include
 ORIGINAL_CFLAGS = /nologo /c /MD /Od /W3 /GR- /GX-
 ORIGINAL_LDFLAGS = /nologo /dll /nodefaultlib /entry:_DllMainCRTStartup@12 /def:src/c1xx.def
-ORIGINAL_LDLIBS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB build/mspdb-import.lib
+ORIGINAL_LDLIBS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB $(ORIGINAL_TOOLCHAIN_ROOT)/lib/OLE32.LIB build/mspdb-import.lib
 ORIGINAL_INCLUDE_DIRS = src crt $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 RECON_AUDIT_PROFILE = c1xx
 RECON_IMAGE_BASE = 272629760
 RECON_POLICY = policy-data.json
 RECON_ALIAS_MAP = symbol-aliases.json
 RECON_AUDIT_REGISTRY_METADATA = 1
+RECON_AUDIT_REGISTRY_RET_CHECKS = 1
 RECON_AUDIT_REGISTRY_RUNTIME = 1
 RECON_METADATA_REBUILT_MAP = $(ORIGINAL_MAP)
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
@@ -39,7 +40,7 @@ RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
 RECON_RUNTIME_FLAGS = --library $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
 RECON_AUDIT_FLAGS = -q --discovery cfg --original ../../../toolchains/5.10/bin/C1XX.DLL \
  --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) \
- --check-ret --check-imports --resolve-register-imports --check-references \
+ --export-instructions --check-imports --resolve-register-imports --check-references \
  --check-ownership --check-extents --include-evidenced-runtime --check-accepted-extents
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
@@ -61,7 +62,7 @@ build/host/c1xx-host.exe: build/host/original-host.obj
 	$(ORIGINAL_LINK) /nologo /subsystem:console /out:$@ $< $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB
 
 # Only helpers proven inlined into the original initializer may inline.
-build/obj/src/parser-token.cpp.obj build/obj/src/frontend-init.cpp.obj build/obj/src/input.cpp.obj build/obj/src/browser.cpp.obj build/obj/src/debug-init.cpp.obj build/obj/src/parser.cpp.obj build/obj/src/lexer.cpp.obj build/obj/src/function-resolution.cpp.obj: ORIGINAL_CFLAGS += /Ob1
+build/obj/src/parser-token.cpp.obj build/obj/src/frontend-init.cpp.obj build/obj/src/input.cpp.obj build/obj/src/browser.cpp.obj build/obj/src/debug-init.cpp.obj build/obj/src/parser.cpp.obj build/obj/src/lexer.cpp.obj build/obj/src/function-resolution.cpp.obj build/obj/src/declaration.cpp.obj: ORIGINAL_CFLAGS += /Ob1
 
 # This target-specific generator expands the authenticated C++ parser's yacc
 # compression into logical shift/goto/reduction/recovery relations.
@@ -70,3 +71,11 @@ src/parser-grammar.cpp src/parser-grammar.h &: scripts/parser-grammar.py ../../.
 
 src/declaration-grammar.cpp src/declaration-grammar.h &: scripts/declaration-grammar.py ../../../toolchains/5.10/bin/C1XX.DLL
 	python3 scripts/declaration-grammar.py ../../../toolchains/5.10/bin/C1XX.DLL --header src/declaration-grammar.h --source src/declaration-grammar.cpp
+
+# All selected RETs except the one original boundary-fallthrough import role
+# are checked by shared graph-audit. This finite SDK stdcall0 residual closes
+# that role while preserving the full graph/import/extent selection.
+.PHONY: c1xx-com-ret-check
+audit: c1xx-com-ret-check
+c1xx-com-ret-check: recon-graph-audit
+	python3 harness/check-com-teardown.py --report $(RECON_AUDIT_REPORT) --config $(RECON_REGISTRY) --metadata $(RECON_AUDIT_METADATA) --ret-checks $(RECON_AUDIT_RET_CHECKS) --original ../../../toolchains/5.10/bin/C1XX.DLL --rebuilt $(ORIGINAL_OUTPUT) --sdk $(ORIGINAL_TOOLCHAIN_ROOT)/include/OBJBASE.H --output build/com-teardown-ret.json

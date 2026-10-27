@@ -3,16 +3,6 @@
 #include <recon.h>
 
 /* Genuine pending application entries. No code-body or extent credit. */
-extern "C" CompilerExpression * __cdecl make_internal_label(unsigned) { __asm { int 3 } return (CompilerExpression *)0; }
-extern "C" void __cdecl emit_label_reference(CompilerSymbol *) { __asm { int 3 } }
-extern "C" CompilerExpression * __cdecl symbol_expression(CompilerSymbol *, unsigned) { __asm { int 3 } return (CompilerExpression *)0; }
-extern "C" void __cdecl begin_compound_statement(void) { __asm { int 3 } }
-extern "C" void __cdecl emit_statement_location(void) { __asm { int 3 } }
-extern "C" void __cdecl emit_return_statement(CompilerExpression *, unsigned) { __asm { int 3 } }
-extern "C" void __cdecl finish_compound_statement(void) { __asm { int 3 } }
-extern "C" void __cdecl finish_external_initializer(void) { __asm { int 3 } }
-extern "C" void __cdecl emit_label(CompilerExpression *) { __asm { int 3 } }
-extern "C" CompilerExpression * __cdecl make_binary_node(unsigned, CompilerExpression *, CompilerExpression *, unsigned) { __asm { int 3 } return (CompilerExpression *)0; }
 
 
 
@@ -21,22 +11,22 @@ extern "C" CompilerExpression * __cdecl make_binary_node(unsigned, CompilerExpre
 
 
 
-extern "C" void __cdecl reset_expression_work(void) { __asm { int 3 } }
+
 
 
 extern "C" CompilerExpression * __cdecl make_cast_expression(unsigned, CompilerExpression *) { __asm { int 3 } return (CompilerExpression *)0; }
 extern "C" CompilerExpression * __cdecl lookup_name_expression(CompilerNameEntry *) { __asm { int 3 } return (CompilerExpression *)0; }
 extern "C" CompilerExpression * __cdecl make_symbol_expression(CompilerSymbol *) { __asm { int 3 } return (CompilerExpression *)0; }
-extern "C" CompilerExpression * __cdecl make_typed_expression(unsigned, CompilerType *, CompilerExpression *, unsigned) { __asm { int 3 } return (CompilerExpression *)0; }
+
 extern "C" CompilerExpression * __cdecl append_expression_list(CompilerExpression *, CompilerExpression *, unsigned) { __asm { int 3 } return (CompilerExpression *)0; }
 extern "C" CompilerExpression * __cdecl make_binary_expression(unsigned, CompilerExpression *, CompilerExpression *) { __asm { int 3 } return (CompilerExpression *)0; }
 extern "C" CompilerExpression * __cdecl prepare_call_argument_types(CompilerDeclaration *, CompilerDeclaration *) { __asm { int 3 } return (CompilerExpression *)0; }
-extern "C" CompilerExpression * __cdecl convert_typed_expression(CompilerType *, CompilerExpression *) { __asm { int 3 } return (CompilerExpression *)0; }
+
 extern "C" void __cdecl check_call_expression(CompilerExpression *) { __asm { int 3 } }
 extern "C" CompilerExpression * __cdecl make_unary_expression(unsigned, CompilerExpression *) { __asm { int 3 } return (CompilerExpression *)0; }
 extern "C" CompilerExpression * __cdecl make_call_expression(unsigned, CompilerExpression *, CompilerExpression *) { __asm { int 3 } return (CompilerExpression *)0; }
-extern "C" CompilerExpression * __cdecl convert_assignment_operand(CompilerType *, CompilerExpression *) { __asm { int 3 } return (CompilerExpression *)0; }
-extern "C" void __cdecl prepare_return_statement(void) { __asm { int 3 } }
+
+
 extern "C" CompilerExpression * __cdecl make_subscript_expression(CompilerExpression *, CompilerExpression *) { __asm { int 3 } return (CompilerExpression *)0; }
 extern "C" void __cdecl begin_symbol_initializer(CompilerSymbol *) { __asm { int 3 } }
 extern "C" CompilerExpression * __cdecl check_statement_expression(CompilerExpression *, unsigned) { __asm { int 3 } return (CompilerExpression *)0; }
@@ -226,7 +216,6 @@ extern "C" void __cdecl initialize_pending_input_state(void) { __asm { int 3 } }
 extern "C" void __cdecl finalize_pending_input_state(void) { __asm { int 3 } }
 extern "C" void __cdecl flush_pending_translation_symbols(void) { __asm { int 3 } }
 extern "C" void __cdecl resume_pending_parser_input(void) { __asm { int 3 } }
-extern "C" void __cdecl finish_token_input(void) { __asm { int 3 } }
 CompilerScopeMatch *RECON_THISCALL CompilerTranslationUnit::FindDirectName(CompilerNameEntry *) { __asm { int 3 } return NULL; }
 CompilerScopeMatch *RECON_THISCALL CompilerTranslationUnit::FindHiddenName(CompilerNameEntry *) { __asm { int 3 } return NULL; }
 CompilerScopeMatch *RECON_THISCALL CompilerTranslationUnit::FindContextName(CompilerNameEntry *) { __asm { int 3 } return NULL; }
@@ -298,7 +287,6 @@ CompilerScopeMatch * RECON_THISCALL CompilerAuxiliaryScope::FindOrdinary(Compile
 int RECON_THISCALL CompilerAuxiliaryScope::FindNested(CompilerNameEntry *, CompilerSymbol **) { __asm { int 3 } return 0; }
 CompilerSymbolLink ** RECON_THISCALL CompilerAuxiliaryScope::FindLink(CompilerSymbolLink *) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerAuxiliaryScope::Serialize(void) { __asm { int 3 }  }
-void RECON_THISCALL CompilerAuxiliaryScope::Check(void) { __asm { int 3 }  }
 extern "C" void *__cdecl get_class_template_context(CompilerSymbol *) { __asm { int 3 } return NULL; }
 extern "C" ParserDeferredList *__cdecl get_class_template_arguments(CompilerSymbol *) { __asm { int 3 } return NULL; }
 extern "C" void *__cdecl get_class_context_key(void *) { __asm { int 3 } return NULL; }
@@ -315,3 +303,11 @@ extern "C" int __cdecl next_pending_declaration(struct PendingDeclarationCursor 
 void RECON_THISCALL ParserInputEndState::Finish(void) { __asm { int 3 } }
 
 WORD RECON_THISCALL CompilerDeclarator::MergeModifierQualifiers(WORD, WORD) { __asm { int 3 } return 0; }
+
+extern "C" CompilerExpression *__cdecl make_resolved_symbol_expression(CompilerSymbol *, unsigned) { __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl reference_expression_type(CompilerExpression *) { __asm { int 3 } return NULL; }
+
+extern "C" CompilerExpression *__cdecl prepare_ir_expression(CompilerExpression *) { __asm { int 3 } return NULL; }
+extern "C" int __cdecl emit_special_ir_expression(CompilerExpression *) { __asm { int 3 } return 0; }
+extern "C" unsigned __cdecl expression_control_kind(CompilerExpression *) { __asm { int 3 } return 0; }
+extern "C" CompilerExpression *__cdecl make_immediate_expression(unsigned, CompilerType *, unsigned) { __asm { int 3 } return NULL; }

@@ -9,25 +9,15 @@
 /* Source-only cells have actual original owners but no native storage,
  * default, snapshot or equality claim. Unknown native access stops first. */
 struct GlobalWriterUnmodeledData {
-    const char *global_option_string; /* cd4d0, NULL */
-    int include_pch_reference_counts; /* cd4ec, 0 */
-    int omit_external_names; /* cd6e8, 0 */
     unsigned pch_reference_count; /* ccb70, 0 */
-    unsigned global_name_count; /* ccb78, 0 */
     unsigned global_reference_limit; /* ccb64, 0x3effff */
-};
-struct GlobalWriterUnmodeledBss {
-    const char *global_string_record; /* bf5a4 */
-    int inline_record_flag; /* c07e8 */
 };
 #ifndef RECON_NATIVE_TEST
 static GlobalWriterUnmodeledData writer_unmodeled_data = {
-    NULL, 0, 0, 0, 0, 0x3effff
+    0, 0x3effff
 };
-static GlobalWriterUnmodeledBss writer_unmodeled_bss;
 #else
 #define writer_unmodeled_data (*(GlobalWriterUnmodeledData *)(recon_unsupported("global writer: unknown initialized cell"), 0))
-#define writer_unmodeled_bss (*(GlobalWriterUnmodeledBss *)(recon_unsupported("global writer: unknown BSS cell"), 0))
 #endif
 
 /* The operand-format column of the 24 encountered global records. The
@@ -89,7 +79,7 @@ void __cdecl write_global_type_flags(OutputBuffer *, CompilerGlobalSymbolView *,
 void __cdecl write_global_reference(CompilerSymbolLink *);
 void __cdecl global_debug_location(unsigned, int, CompilerGlobalLocation **);
 unsigned __cdecl global_array_element_size(CompilerGlobalSymbolView *);
-const char *__cdecl format_symbol_name(CompilerSymbol *, int);
+const char *__cdecl format_symbol_name(CompilerSymbol *, CompilerSymbol *);
 const char *__cdecl format_global_debug_name(CompilerSymbol *, char *, unsigned);
 int __cdecl is_external_symbol(CompilerGlobalSymbolView *);
 const char *__cdecl lookup_global_symbol_name(CompilerGlobalSymbolView *);
@@ -138,9 +128,27 @@ extern "C" void __cdecl write_global_ir_record(unsigned opcode, CompilerSymbol *
     CompilerGlobalSymbolView *context_symbol;
     const char *text;
 #ifdef RECON_NATIVE_TEST
-    /* NULL global-header and source-file records use their actual owners.
-     * Symbol variants and non-IL state retain the wider domain boundary. */
-    if (symbol || (opcode != 17 && opcode != 18) || !frontend_data.option_c9il ||
+    /* Original-safe source views below retain their actual Win32 owners.
+     * Native supports NULL header/file/scope markers and the encountered
+     * nameless internal-label form. Other native owner domains remain held. */
+    int label_domain = symbol && opcode == 3 && symbol->kind == 9 &&
+        symbol->type == frontend_data.builtin_types.type_0063 && !symbol->type->shape &&
+        !symbol->name && (symbol->storage_class & 7) != 7 && !(symbol->reference_flags & 1);
+    int function_domain = symbol && opcode == 14 && symbol->kind == 7 &&
+        symbol->name == frontend_data.builtin_names.main_entry &&
+        symbol->type && symbol->type->shape && (symbol->type->shape->flags & 0x77) == 4 &&
+        !(symbol->reference_flags & 1) && !(symbol->template_flags & 1) &&
+        !(symbol->type_flags & 0x10) && (symbol->storage_class & 7) != 7 &&
+        !frontend_data.include_pch_reference_counts;
+    /* Storage-class7 declarations become opcode11, which is suppressed
+     * before formatting when debug information is disabled. */
+    int suppressed_typedef_domain = symbol && symbol->kind == 10 &&
+        (symbol->storage_class & 7) == 7 && !frontend_data.options.debug_info &&
+        symbol->type;
+    if (!frontend_data.option_c9il ||
+        (symbol ? (!label_domain && !function_domain && !suppressed_typedef_domain) :
+                  (opcode != 17 && opcode != 18 && opcode != 6 && opcode != 13 &&
+                   !(opcode == 10 && !frontend_data.options.debug_info))) ||
         (opcode == 17 && frontend_bss.global_output_active))
         recon_unsupported("global record: unmodeled symbol or non-IL domain");
 #endif
@@ -216,7 +224,7 @@ extern "C" void __cdecl write_global_ir_record(unsigned opcode, CompilerSymbol *
         saved_inline_flags = saved_location.third;
     }
     if ((opcode == 14 || opcode == 1 || opcode == 2) &&
-        buffer == &frontend_bss.output_buffers[2] && !writer_unmodeled_data.omit_external_names &&
+        buffer == &frontend_bss.output_buffers[2] && !frontend_data.omit_external_names &&
         symbol && symbol->name && symbol->name->name) {
         char debug_name[1024];
         int valid = frontend_data.option_c9il || frontend_bss.debug_module->Slot74(
@@ -513,7 +521,7 @@ extern "C" void __cdecl write_global_ir_record(unsigned opcode, CompilerSymbol *
             if (frontend_data.option_c9il) {
                 GLOBAL_INDEX(frontend_bss.saved_reference_count);
                 index = frontend_bss.local_reference_count +
-                    (writer_unmodeled_data.include_pch_reference_counts ? writer_unmodeled_data.pch_reference_count : 0);
+                    (frontend_data.include_pch_reference_counts ? writer_unmodeled_data.pch_reference_count : 0);
                 GLOBAL_INDEX(index);
             }
             break;
@@ -532,9 +540,9 @@ extern "C" void __cdecl write_global_ir_record(unsigned opcode, CompilerSymbol *
             if (!has_location) {
                 index = ((symbol->symbol_flags & 1) || (symbol->template_flags & 0xc)) ? 0x80 : 0;
                 index |= ((symbol->qualifiers >> 5) & 4) |
-                    (writer_unmodeled_bss.inline_record_flag ? 0x20 : 0) |
+                    (frontend_bss.inline_record_flag ? 0x20 : 0) |
                     (frontend_data.force_type_serialization ? 8 : 0) |
-                    (writer_unmodeled_data.include_pch_reference_counts ? 1 : 0) |
+                    (frontend_data.include_pch_reference_counts ? 1 : 0) |
                     ((symbol->extended_flags & 0xe) << 7);
                 int choose_inline = frontend_data.options.inline_level == 1;
                 if (frontend_data.options.inline_level == 2) {
@@ -569,8 +577,8 @@ extern "C" void __cdecl write_global_ir_record(unsigned opcode, CompilerSymbol *
             GLOBAL_DWORD(frontend_data.option_c9il ? frontend_data.next_symbol_record_id : 0x400000, 5);
             break;
         case 33: {
-            GLOBAL_INDEX(writer_unmodeled_data.global_name_count);
-            text = writer_unmodeled_data.global_option_string;
+            GLOBAL_INDEX(frontend_data.global_name_count);
+            text = frontend_data.global_option_string;
             if (text) {
                 index = strlen(text) + 1;
                 if (GLOBAL_RESERVE(index + 1)) {
@@ -646,7 +654,7 @@ extern "C" void __cdecl write_global_ir_record(unsigned opcode, CompilerSymbol *
             break;
         }
         case 38:
-            text = writer_unmodeled_bss.global_string_record;
+            text = frontend_bss.global_string_record;
             index = strlen(text) + 1;
             available = 0;
             if ((int)(index + 1) >= 0) {
@@ -852,11 +860,479 @@ extern "C" CompilerType *__cdecl get_function_return_type(CompilerType *type)
     result->shape = type->shape->base;
     return result;
 }
-extern "C" void __cdecl write_global_type_flags(OutputBuffer *buffer, CompilerGlobalSymbolView *symbol, unsigned flags) { __asm { int 3 } }
-extern "C" void __cdecl write_global_reference(CompilerSymbolLink *binding) { __asm { int 3 } }
+extern "C" void __cdecl write_global_type_flags(OutputBuffer *buffer, CompilerGlobalSymbolView *symbol, unsigned flags)
+{
+    unsigned index;
+    int available;
+    if (!(symbol->reference_flags & 1)) {
+        buffer->WriteIndex(flags);
+        return;
+    }
+    symbol = (CompilerGlobalSymbolView *)resolve_symbol_reference((CompilerSymbol *)symbol);
+    flags |= 0x200;
+    available = buffer->Ensure(5);
+    buffer->ok &= available;
+    if (buffer->ok) {
+        if ((int)flags > 0x7fff) {
+            *(DWORD *)buffer->cursor = (((flags & 0xffffc000U) | 0x4000) << 1) | (flags & 0x7fff);
+            buffer->cursor += 4;
+        } else {
+            *(WORD *)buffer->cursor = (WORD)flags;
+            buffer->cursor += 2;
+        }
+    }
+    if (frontend_data.option_c9il) index = symbol->record_index & 0xffffff;
+    else if (symbol->references & ~7U) index = symbol->references >> 3;
+    else index = external_symbol_index((CompilerSymbol *)symbol);
+    if (frontend_data.option_c9il) {
+        buffer->WriteIndex(index);
+        return;
+    }
+    available = buffer->Ensure(4);
+    buffer->ok &= available;
+    if (!buffer->ok) return;
+    if (index >= 0x3fff80) {
+        *buffer->cursor++ = (BYTE)(index + 0x80);
+    } else if (index <= 0x3fff) {
+        *buffer->cursor++ = (BYTE)((index & 0x3f) | 0x80);
+        *buffer->cursor++ = (BYTE)(index >> 6);
+    } else {
+        *buffer->cursor++ = (BYTE)(index | 0xc0);
+        *buffer->cursor++ = (BYTE)(index >> 6);
+        *buffer->cursor++ = (BYTE)(index >> 14);
+    }
+}
+extern "C" {
+void __cdecl remember_symbol_reference(CompilerSymbolLink *); /*8db96*/
+void __cdecl prepare_debug_type(CompilerType *); /*82ab9*/
+unsigned __cdecl finish_class_debug_type(CompilerSymbol *); /*8523a*/
+void __cdecl write_global_binding_record(unsigned, CompilerSymbolLink *, unsigned); /*3d69*/
+void __cdecl set_declaration_reference(CompilerSymbol *, CompilerSymbol *); /*4877e*/
+CompilerExpression *__cdecl symbol_expression(CompilerSymbol *, unsigned); /*47e6*/
+}
+extern "C" void __cdecl write_global_reference(CompilerSymbolLink *binding)
+{
+    CompilerGlobalSymbolView *symbol, *target, *owner;
+    CompilerClassMemberIterator members;
+    CompilerType *type;
+    unsigned references, opcode;
+    int suppress = 0, defer = 0, omit_name = 0;
+    BYTE scope_flags;
+    if (frontend_bss.error_count > 0) return;
+    symbol = (CompilerGlobalSymbolView *)((BYTE *)binding - 8);
+    if (symbol->definition_flags & 8) return;
+    if (((CompilerSymbol *)symbol)->SuppressGlobalReference()) return;
+    if (symbol->kind == 14) {
+        write_global_ir_record(9, (CompilerSymbol *)symbol);
+        goto marked;
+    }
+    if (frontend_data.pch_separate_debug && !frontend_bss.global_output_active &&
+        (!((CompilerSymbol *)symbol)->IsNamed() || !(symbol->attributes & 8)))
+        defer = 1;
+    scope_flags = symbol->scope_flags;
+    if ((scope_flags & 2) && !frontend_data.options.pch_no_preprocess &&
+        frontend_data.options.pch_use && !frontend_data.options.pch_create)
+        suppress = 1;
+    if (symbol->kind == 23) {
+        if (defer) { symbol->scope_flags |= 2; return; }
+        if (frontend_data.options.debug_info && !suppress) {
+            opcode = 11;
+            goto emit;
+        }
+        goto marked;
+    }
+    if (symbol->kind == 4) {
+        if (frontend_data.options.debug_info && !(scope_flags & 1) &&
+            !(symbol->class_detail->template_flags & 8) && !symbol->class_detail->debug_index)
+            symbol->type->debug_cache = finish_class_debug_type((CompilerSymbol *)symbol);
+        if (defer && (symbol->definition_flags & 4)) {
+            symbol->scope_flags |= 2;
+            return;
+        }
+        if (symbol->type->flags & 0x200) {
+            if (!(frontend_data.compiler_flags & 0x20000)) {
+                members.Initialize(binding, 2);
+                CompilerMemberVariantIterator variants(NULL);
+                for (;;) {
+                    while (variants.Advance()) write_global_reference(variants.current);
+                    if (!members.Next()) break;
+                    variants.SetLink(members.entry);
+                }
+            }
+            members.Initialize(binding, 3);
+            while (members.current) {
+                members.entry = members.current;
+                members.current = members.AdvanceChain() ? members.chain : NULL;
+                if (members.MatchesMode()) write_global_reference(members.entry);
+            }
+        }
+        if (frontend_data.options.debug_info && (symbol->definition_flags & 4) &&
+            !(symbol->scope_flags & 1) && !suppress && !(symbol->class_detail->template_flags & 8)) {
+            opcode = 11;
+            goto emit;
+        }
+        goto marked;
+    }
+    if (symbol->kind == 5) {
+        if (!frontend_data.options.debug_info) goto marked;
+        type = symbol->type;
+        if (!frontend_bss.suppress_parser_codegen) {
+            prepare_debug_type(type);
+            if ((short)type->auxiliary < 0 || (short)type->auxiliary >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+            owner = GLOBAL_TYPE_OWNER(type);
+            if (owner && owner->kind == 4 && !owner->class_detail->debug_index)
+                finish_class_debug_type((CompilerSymbol *)owner);
+        }
+        if (defer) { symbol->scope_flags |= 2; return; }
+        if (suppress) goto marked;
+        opcode = 8;
+        goto emit;
+    }
+    if (defer) {
+        remember_symbol_reference(binding);
+        if (symbol->kind == 10 && (symbol->storage_class & 7) == 7)
+            symbol->scope_flags |= 2;
+        return;
+    }
+    if (symbol->kind == 10 && (symbol->storage_class & 7) == 7 && (scope_flags & 2)) {
+        if (!suppress) write_global_ir_record(11, (CompilerSymbol *)symbol);
+        goto marked;
+    }
+    if (symbol->kind >= 26 || frontend_data.symbol_record_bytes[symbol->kind] < 32) { __asm { int 3 } }
+    if (symbol->kind == 10 && (symbol->attributes & 0x40)) {
+        if (frontend_data.symbol_record_bytes[symbol->kind] < 44) { __asm { int 3 } }
+        target = (CompilerGlobalSymbolView *)get_template_symbol((CompilerSymbol *)symbol);
+        if (target->kind >= 26 || frontend_data.symbol_record_bytes[target->kind] < 44) { __asm { int 3 } }
+        target->attributes = (target->attributes & ~4U) | (symbol->attributes & 4);
+        target->qualifiers = (target->qualifiers & 0x7f) | (symbol->qualifiers & 0x80);
+        target->alternate_size = symbol->alternate_size;
+        if (symbol->reference_flags & 1) {
+            owner = (CompilerGlobalSymbolView *)resolve_symbol_reference((CompilerSymbol *)symbol);
+            if (owner) set_declaration_reference((CompilerSymbol *)target, (CompilerSymbol *)owner);
+            else target->reference_flags &= ~1U;
+        }
+        target->type = symbol->type;
+        if (!frontend_data.options.debug_info) return;
+        references = target->references;
+        if ((references & 3) < 3) target->references = (references & ~3U) | ((references + 1) & 3);
+        target->references = (target->references & ~4U) | ((frontend_data.reference_context & 1) << 2);
+        type = symbol->type;
+        if (!frontend_bss.suppress_parser_codegen) {
+            prepare_debug_type(type);
+            if ((short)type->auxiliary < 0 || (short)type->auxiliary >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+            owner = GLOBAL_TYPE_OWNER(type);
+            if (owner && owner->kind == 4 && !owner->class_detail->debug_index)
+                finish_class_debug_type((CompilerSymbol *)owner);
+        }
+        if (symbol->scope_flags & 1) return;
+        opcode = 7;
+        goto emit;
+    }
+    if (symbol->kind == 10 && (symbol->qualifiers & 0x10)) {
+        if (!frontend_data.options.debug_info) return;
+        remember_symbol_reference(binding);
+        target = get_symbol_context(symbol, &owner);
+        references = target->references;
+        if ((references & 3) < 3) target->references = (references & ~3U) | ((references + 1) & 3);
+        target->references = (target->references & ~4U) | ((frontend_data.reference_context & 1) << 2);
+        write_global_reference(&((CompilerNamedSymbol *)target)->link);
+        opcode = 7;
+        goto emit;
+    }
+    if ((symbol->storage_class & 7) == 1) omit_name = 0;
+    else if (((CompilerSymbol *)symbol)->IsFunction()) omit_name = 0;
+    else if ((symbol->storage_class & 7) == 3 && (get_function_calling_convention(symbol->type) & 0x100))
+        omit_name = 0;
+    else if (symbol->kind == 10 && (symbol->storage_class & 7) == 7) omit_name = 0;
+    else omit_name = 1;
+    if (!(symbol->references & 3)) {
+        if (!omit_name) return;
+        if (symbol->kind == 11) report_language_diagnostic(4, 0x64, symbol);
+        else if (frontend_bss.global_output_active) report_language_diagnostic(3, 0x65, symbol);
+    }
+    if (symbol->kind == 6 || symbol->kind == 7 || symbol->kind == 8) {
+        if ((symbol->kind == 7 || symbol->kind == 8) && (symbol->linkage_flags & 2)) {
+            target = (CompilerGlobalSymbolView *)get_import_symbol((CompilerSymbol *)symbol);
+            if (!(target->definition_flags & 8)) write_global_reference(&((CompilerNamedSymbol *)target)->link);
+            opcode = 16;
+        } else opcode = 4;
+    } else {
+        if ((symbol->kind == 11 || symbol->kind == 12 || symbol->kind == 22) && (symbol->qualifiers & 4))
+            symbol->type = symbol_expression((CompilerSymbol *)symbol, 0)->type;
+        opcode = 1;
+    }
+    if (frontend_data.options.debug_info) remember_symbol_reference(binding);
+emit:
+    write_global_binding_record(opcode, binding, omit_name);
+marked:
+    symbol->definition_flags |= 8;
+}
+
 extern "C" void __cdecl global_debug_location(unsigned index, int kind, CompilerGlobalLocation **location) { __asm { int 3 } }
 extern "C" unsigned __cdecl global_array_element_size(CompilerGlobalSymbolView *symbol) { __asm { int 3 } return 0; }
-extern "C" const char *__cdecl format_symbol_name(CompilerSymbol *symbol, int mode) { __asm { int 3 } return NULL; }
+extern "C" {
+char *__cdecl append_decorated_symbol_name(char *, CompilerSymbol *, CompilerSymbol *); /*2b88*/
+char *__cdecl append_qualified_symbol_name(char *, CompilerSymbol *); /*8ba21*/
+}
+extern "C" const char *__cdecl format_symbol_name(CompilerSymbol *symbol, CompilerSymbol *context)
+{
+    char *end;
+    int length;
+    if (symbol->kind == 21) return ((CompilerNamedSymbol *)symbol)->link.name->name;
+    frontend_bss.name_format_state = 0;
+    frontend_bss.name_format_reset_values[1] = 0;
+    frontend_bss.name_format_reset_values[0] = 0;
+    frontend_bss.symbol_name_cursor = frontend_bss.symbol_name_buffer;
+    if (symbol->kind == 4 || symbol->kind == 23)
+        end = append_qualified_symbol_name(frontend_bss.symbol_name_buffer, symbol);
+    else end = append_decorated_symbol_name(frontend_bss.symbol_name_buffer, symbol, context);
+    length = (int)(end - frontend_bss.symbol_name_buffer);
+    if (length >= 2048) {
+        report_language_diagnostic(1, 0x1f7, 0x53, symbol);
+        length = 2047;
+    }
+    if (length < 0) { __asm { int 3 } }
+    frontend_bss.symbol_name_buffer[length] = 0;
+    return frontend_bss.symbol_name_buffer;
+}
+extern "C" {
+unsigned __cdecl symbol_decoration_kind(CompilerSymbol *); /*2ce1*/
+void __cdecl compute_parameter_bytes(CompilerSymbol *); /*33e67*/
+int __cdecl format_compiler_text(char *, const char *, unsigned, ...); /*33ed7*/
+char *__cdecl append_encoded_identifier(char *, CompilerNameEntry *, unsigned); /*1e92d*/
+char *__cdecl append_symbol_name_code(char *, CompilerSymbol *, unsigned); /*1e9c3*/
+char *__cdecl append_symbol_owner_name(char *, CompilerSymbol *); /*1ea01*/
+char *__cdecl append_symbol_type_code(char *, CompilerSymbol *, CompilerSymbol *, unsigned); /*1eb18*/
+}
+/* Only the actual2048-byte workspace is supported. Each direct write checks
+ * that owner before mutation; other input spans remain unsupported. */
+#define NAME_PUT(ch) do { \
+    if ((unsigned long)out < (unsigned long)frontend_bss.symbol_name_buffer || \
+        (unsigned long)out >= (unsigned long)(frontend_bss.symbol_name_buffer + 2048)) { __asm { int 3 } } \
+    *out++ = (char)(ch); \
+} while (0)
+extern "C" char *__cdecl append_decorated_symbol_name(char *buffer, CompilerSymbol *input, CompilerSymbol *context)
+{
+    CompilerGlobalSymbolView *symbol = (CompilerGlobalSymbolView *)input;
+    CompilerGlobalSymbolView *owner;
+    char *out = buffer;
+    const char *name;
+    unsigned kind, sequence;
+    int saved_mode = frontend_data.name_format_mode;
+    int finished;
+    WORD convention;
+    frontend_data.name_format_mode = 0;
+    kind = symbol_decoration_kind(input);
+    if (frontend_bss.error_count || !kind) {
+        name = symbol->name->name;
+        if (kind && frontend_bss.error_count) {
+            sequence = frontend_data.name_format_sequence++;
+            out += format_compiler_text(out, " %s %d", ~0U, name, (int)sequence);
+            goto finished_name;
+        }
+        if (saved_mode) {
+            for (;;) {
+                char character = *name++;
+                NAME_PUT(character);
+                if (!character) break;
+            }
+            --out;
+        } else {
+            NAME_PUT('?');
+            out = append_encoded_identifier(out, symbol->name, 0);
+            NAME_PUT('@'); NAME_PUT('9');
+        }
+        if (symbol->kind == 6 || symbol->kind == 7 || symbol->kind == 8) {
+            convention = symbol->type->attributes & 0x70;
+            if (convention == 0x60 || convention == 0x40) {
+                if ((symbol->type_flags & 2) ||
+                    ((symbol->name == frontend_data.builtin_names.main_entry ||
+                      symbol->name == frontend_data.builtin_names.winmain_entry ||
+                      symbol->name == frontend_data.builtin_names.dllmain_entry) &&
+                     !symbol->declaration_qualifiers)) {
+                    if (!(symbol->qualifiers & 0x40)) compute_parameter_bytes(input);
+                    out += format_compiler_text(out, "@%d", ~0U, (unsigned)(WORD)symbol->alternate_size);
+                }
+            }
+        }
+        goto finished_name;
+    }
+    owner = context ? (CompilerGlobalSymbolView *)context : symbol;
+    NAME_PUT('?');
+    if (kind == 0x24 || kind == 0x25 || kind == 0x26) {
+        name = owner->name->name + 1;
+        if (kind == 0x24) {
+            owner->type_flags &= ~3U;
+            owner->storage_class = (owner->storage_class & ~7U) ^ 3;
+            while (*name && *name != '@') NAME_PUT(*name++);
+            NAME_PUT('@');
+            goto append_owner;
+        }
+        finished = 0;
+        while (*name && !finished) {
+            if (*name == '@' && out[-1] == '@' && name[1] != '@') {
+                NAME_PUT('@'); ++name;
+                NAME_PUT('$'); NAME_PUT(kind == 0x25 ? 'D' : 'E');
+                finished = 1;
+            } else NAME_PUT(*name++);
+        }
+        goto finished_name;
+    }
+    out = append_symbol_name_code(out, input, kind);
+append_owner:
+    out = append_symbol_owner_name(out, (CompilerSymbol *)owner);
+    NAME_PUT('@');
+    if (kind == 0x24) {
+        out = append_symbol_type_code(out, (CompilerSymbol *)owner, input, kind);
+        owner->type_flags = (owner->type_flags & ~1U) | 2;
+        owner->storage_class = (owner->storage_class & ~7U) ^ 1;
+    } else out = append_symbol_type_code(out, input, NULL, kind);
+finished_name:
+    frontend_data.name_format_mode = saved_mode;
+    return out;
+}
+#undef NAME_PUT
+/* Low byte selects the name form; the optional high byte carries the
+ * operator/special-name code. The sparse operator switch replaces only
+ * this function's actual compressed dispatch relations. */
+extern "C" unsigned __cdecl symbol_decoration_kind(CompilerSymbol *input)
+{
+    CompilerGlobalSymbolView *symbol = (CompilerGlobalSymbolView *)input;
+    CompilerNameEntry *name;
+    CompilerTypeShape *shape;
+    unsigned group = 0, code = 0, access, linkage, operation;
+    BYTE flags = symbol->type_flags;
+    if (flags & 2) return 0;
+    name = symbol->name;
+    if (symbol->type && (shape = symbol->type->shape) != NULL &&
+        (shape->flags & 0x77) == 4 && !shape->payload.function &&
+        name != frontend_data.builtin_names.local_static_destructor) return 0;
+    if ((name == frontend_data.builtin_names.main_entry ||
+         name == frontend_data.builtin_names.winmain_entry ||
+         name == frontend_data.builtin_names.dllmain_entry) &&
+        !symbol->declaration_qualifiers &&
+        (symbol->kind == 6 || symbol->kind == 7 || symbol->kind == 8) &&
+        (symbol->storage_class & 7) != 3) return 0;
+    access = symbol->storage_class & 7;
+    if (access == 7) return 0;
+    if (symbol->kind == 6 || symbol->kind == 7 || symbol->kind == 8) {
+        linkage = symbol->linkage_flags & 0xc;
+        if (linkage == 4) group = 6;
+        else if (linkage == 8) group = 0x1a;
+        if (flags & 0x10) { code = 0x30; goto function_form; }
+        if (flags & 0x20) { code = 0x31; goto function_form; }
+        if (flags & 0x40) { code = 0x42; goto function_form; }
+        if (linkage == 0xc) { group = 0x39; code = 0xb9; goto function_form; }
+        if (name == frontend_data.builtin_names.default_constructor_closure) code = 0xc6;
+        else if (name == frontend_data.builtin_names.local_vftable_constructor_closure) code = 0xd4;
+        else if (name == frontend_data.builtin_names.copy_constructor_closure) code = 0xcf;
+        else if (name == frontend_data.builtin_names.vector_constructor) code = 0xc8;
+        else if (name == frontend_data.builtin_names.vector_vbase_constructor) code = 0xca;
+        else if (name == frontend_data.builtin_names.vector_destructor) code = 0xc9;
+        else if (name == frontend_data.builtin_names.eh_vector_constructor) code = 0xcc;
+        else if (name == frontend_data.builtin_names.eh_vector_vbase_constructor) code = 0xce;
+        else if (name == frontend_data.builtin_names.eh_vector_destructor) code = 0xcd;
+        else if (name == frontend_data.builtin_names.vbase_destructor) code = 0xc4;
+        else if (name == frontend_data.builtin_names.deleting_destructor) code = 0xc7;
+        else if (name == frontend_data.builtin_names.vector_deleting_destructor) code = 0xc5;
+        else if (symbol->function_class != 0 && symbol->function_class != 1) {
+            operation = symbol->function_class;
+            switch (operation) {
+            case 49: code = 0x49; break; /* & */
+            case 50: code = 0x56; break; /* && */
+            case 51: code = 0xb4; break; /* &= */
+            case 52: code = 0x34; break; /* = */
+            case 55: code = 0x51; break; /* comma */
+            case 56: case 84: code = 0x46; break; /* -- */
+            case 57: code = 0x4b; break; /* / */
+            case 58: code = 0xb0; break; /* /= */
+            case 59: code = 0x38; break; /* == */
+            case 60: code = 0x37; break; /* ! */
+            case 61: case 74: code = 0x44; break; /* * */
+            case 62: code = 0x4f; break; /* > */
+            case 63: code = 0x50; break; /* >= */
+            case 64: case 85: code = 0x45; break; /* ++ */
+            case 65: code = 0x41; break; /* [] */
+            case 66: code = 0xb3; break; /* <<= */
+            case 67: code = 0x36; break; /* << */
+            case 68: code = 0x4d; break; /* < */
+            case 69: code = 0x4e; break; /* <= */
+            case 70: case 90: code = 0x47; break; /* - */
+            case 71: code = 0x5a; break; /* -= */
+            case 72: code = 0x4c; break; /* % */
+            case 73: code = 0xb1; break; /* %= */
+            case 75: code = 0x58; break; /* *= */
+            case 76: code = 0x39; break; /* != */
+            case 77: code = 0x55; break; /* | */
+            case 78: code = 0xb5; break; /* |= */
+            case 79: code = 0x57; break; /* || */
+            case 81: case 134: code = 0x48; break; /* + */
+            case 82: code = 0x59; break; /* += */
+            case 83: code = 0x43; break; /* -> */
+            case 87: code = 0xb2; break; /* >>= */
+            case 88: code = 0x35; break; /* >> */
+            case 89: code = 0x53; break; /* ~ */
+            case 91: code = 0x54; break; /* ^ */
+            case 92: code = 0xb6; break; /* ^= */
+            case 118: code = 0x52; break; /* () */
+            case 140: code = name == frontend_data.builtin_names.operator_new_array ? 0xd5 : 0x32; break;
+            case 141: code = name == frontend_data.builtin_names.operator_delete_array ? 0xd6 : 0x33; break;
+            case 147: code = 0x4a; break; /* ->* */
+            default: code = 0xc0; break;
+            }
+        } else if (name == frontend_data.builtin_names.local_static_destructor) group = 0x24;
+        else if (name == frontend_data.builtin_names.template_static_constructor) group = 0x25;
+        else if (name == frontend_data.builtin_names.template_static_destructor) group = 0x26;
+function_form:
+        if (group == 0x1a) {
+            if ((symbol->definition_flags & 3) == 2) group = 0x1c;
+            else if ((symbol->definition_flags & 3) == 3) group = 0x1e;
+        } else if (group == 6 || group == 0) {
+            if (!group) {
+                if (!(flags & 4)) { group = 0x18; goto qualified_form; }
+                if (symbol->symbol_flags & 2) group = 4;
+                else group = ((~symbol->builtin_flags) & 1) << 1;
+            }
+            if ((symbol->definition_flags & 3) == 2) group |= 8;
+            else if ((symbol->definition_flags & 3) == 3) group |= 0x10;
+        }
+qualified_form:
+        if (group != 0x24 && group != 0x25 && group != 0x26) {
+            if (group != 0x39) group += 0x41;
+            if ((symbol->reference_flags & 1) && (group == 0x39 || !(symbol->reference_flags & 2)))
+                group |= 0x80;
+        }
+        goto packed_form;
+    }
+    if (name == frontend_data.builtin_names.vftable) { code = 0xb7; group = 0x36; }
+    else if (name == frontend_data.builtin_names.local_vftable) { code = 0xd3; group = 0x36; }
+    else if (name == frontend_data.builtin_names.vbtable) { code = 0xb8; group = 0x37; }
+    else if (name == frontend_data.builtin_names.vdispmap) { code = 0xcb; group = 0x3a; }
+    else if (symbol->kind == 3) {
+        if (access == 3) {
+            group = 0x30;
+            if ((symbol->definition_flags & 3) == 2) group = 0x31;
+            else if ((symbol->definition_flags & 3) == 3) group = 0x32;
+        }
+    } else if (name == frontend_data.builtin_names.local_static_guard || symbol->kind == 10) {
+        if (name != frontend_data.builtin_names.local_static_guard &&
+            symbol->kind == 10 && access >= 4 && access <= 6) return 0;
+        if (access != 3) group = 0x33;
+        else {
+            if (!symbol->declaration_scope_number) return 0;
+            if (name == frontend_data.builtin_names.local_static_guard) { code = 0xc2; group = 0x35; }
+            else group = 0x34;
+        }
+    } else return 0;
+packed_form:
+    return group | (code << 8);
+}
+extern "C" void __cdecl compute_parameter_bytes(CompilerSymbol *) { __asm { int 3 } }
+extern "C" char *__cdecl append_encoded_identifier(char *, CompilerNameEntry *, unsigned) { __asm { int 3 } return NULL; }
+extern "C" char *__cdecl append_symbol_name_code(char *, CompilerSymbol *, unsigned) { __asm { int 3 } return NULL; }
+extern "C" char *__cdecl append_symbol_owner_name(char *, CompilerSymbol *) { __asm { int 3 } return NULL; }
+extern "C" char *__cdecl append_symbol_type_code(char *, CompilerSymbol *, CompilerSymbol *, unsigned) { __asm { int 3 } return NULL; }
+extern "C" char *__cdecl append_qualified_symbol_name(char *, CompilerSymbol *) { __asm { int 3 } return NULL; }
 extern "C" int __cdecl is_external_symbol(CompilerGlobalSymbolView *symbol) { __asm { int 3 } return 0; }
 extern "C" const char *__cdecl lookup_global_symbol_name(CompilerGlobalSymbolView *symbol) { __asm { int 3 } return NULL; }
 extern "C" unsigned __cdecl get_symbol_type_debug_index(CompilerGlobalSymbolView *symbol) { __asm { int 3 } return 0; }
@@ -903,6 +1379,114 @@ const char *RECON_THISCALL FrontendContextStack::FileName(void)
 }
 void RECON_THISCALL OutputBuffer::MarkLocation(unsigned index, unsigned kind) { __asm { int 3 } }
 void RECON_THISCALL OutputBuffer::MarkGlobal(unsigned index) { __asm { int 3 } }
-void RECON_THISCALL OutputBuffer::WriteCString(const char *text) { __asm { int 3 } }
+void RECON_THISCALL OutputBuffer::WriteCString(const char *text)
+{
+    unsigned bytes = strlen(text) + 1;
+    unsigned needed = bytes + 1;
+    int available = 0;
+    /* The original reserves one byte beyond the NUL it copies. Grow may
+     * relocate this buffer and update ok, so read both again after the call. */
+    if ((int)needed >= 0) {
+        available = 1;
+        if (cursor + needed > data + capacity)
+            available = Grow((int)needed) != 0;
+    }
+    ok &= available;
+    if (ok) {
+        memcpy(cursor, text, bytes);
+        cursor += bytes;
+    }
+}
 
 extern "C" const char *__cdecl format_global_debug_name(CompilerSymbol *symbol, char *text, unsigned capacity) { __asm { int 3 } return NULL; }
+
+extern "C" void __cdecl remember_symbol_reference(CompilerSymbolLink *) { __asm { int 3 } }
+extern "C" void __cdecl prepare_debug_type(CompilerType *) { __asm { int 3 } }
+extern "C" unsigned __cdecl finish_class_debug_type(CompilerSymbol *) { __asm { int 3 } return 0; }
+extern "C" void __cdecl write_global_binding_record(unsigned opcode, CompilerSymbolLink *binding, unsigned omit_names)
+{
+    unsigned saved = frontend_data.omit_external_names;
+    frontend_data.omit_external_names = omit_names;
+    write_global_ir_record(opcode, (CompilerSymbol *)((BYTE *)binding - 8));
+    frontend_data.omit_external_names = saved;
+}
+int RECON_THISCALL CompilerSymbol::SuppressGlobalReference(void)
+{
+    return kind == 16 || kind == 17 || kind == 25;
+}
+int RECON_THISCALL CompilerSymbol::IsNamed(void) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerClassMemberIterator::AdvanceChain(void) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerClassMemberIterator::MatchesMode(void) { __asm { int 3 } return 0; }
+
+extern "C" int __cdecl can_defer_global_reference(CompilerSymbol *); /*33e04*/
+void RECON_THISCALL CompilerScope::Check(void)
+{
+    CompilerSymbolLink *link, *next, *deferred = NULL, *previous;
+    CompilerSymbol *symbol;
+    unsigned index;
+    int changed;
+    if (frontend_bss.error_count) return;
+    frontend_bss.global_output_active = level == 0xfb ? 0 : level;
+    if (level) write_global_ir_record(13, NULL);
+    if (buckets && bucket_mask + 1) {
+        index = 0;
+        do {
+            link = buckets[index];
+            while (link) {
+                symbol = (CompilerSymbol *)((BYTE *)link - 8);
+                if (symbol->kind == 4 &&
+                    (((CompilerGlobalSymbolView *)symbol)->class_detail->completion_flags & 2)) {
+                    /* Already completed class; no reference record here. */
+                } else if (symbol->kind == 16 || symbol->kind == 17) {
+                    CheckGroup(link);
+                } else if (symbol->kind == 24) {
+                    /* Alias entries have no independent record. */
+                } else if (symbol->kind == 23) {
+                    ((CompilerNamespaceSymbol *)symbol)->data->scope->Check();
+                } else if (frontend_bss.global_output_active || frontend_data.pch_separate_debug ||
+                           !can_defer_global_reference(symbol)) {
+                    write_global_reference(link);
+                } else {
+                    next = link->next;
+                    link->next = deferred;
+                    deferred = link;
+                    link = next;
+                    continue;
+                }
+                link = link->next;
+            }
+            ++index;
+        } while (index < bucket_mask + 1);
+    }
+    changed = 1;
+    while (deferred && changed) {
+        previous = NULL;
+        changed = 0;
+        link = deferred;
+        while (link) {
+            symbol = (CompilerSymbol *)((BYTE *)link - 8);
+            if (can_defer_global_reference(symbol)) {
+                previous = link;
+            } else {
+                write_global_reference(link);
+                changed = 1;
+                if (previous) previous->next = link->next;
+                else deferred = link->next;
+            }
+            link = link->next;
+        }
+    }
+}
+extern "C" int __cdecl can_defer_global_reference(CompilerSymbol *input)
+{
+    CompilerGlobalSymbolView *symbol = (CompilerGlobalSymbolView *)input;
+    if (symbol->kind == 4 || symbol->kind == 5)
+        return (symbol->definition_flags & 8) && !(symbol->scope_flags & 2);
+    if (symbol->kind == 10 && (symbol->storage_class & 7) == 7) {
+        CompilerGlobalSymbolView *owner = GLOBAL_TYPE_OWNER(symbol->type);
+        if (owner && !(symbol->scope_flags & 2) &&
+            can_defer_global_reference((CompilerSymbol *)owner)) return 1;
+    }
+    return 0;
+}
+void RECON_THISCALL CompilerScope::CheckGroup(CompilerSymbolLink *) { __asm { int 3 } }

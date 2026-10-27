@@ -19,7 +19,7 @@ extern "C" __declspec(dllimport) FILE _iob[];
 extern "C" {
 int __cdecl create_input(int, CompilerInput **, CompilerTextInput **);
 void __cdecl normalize_frontend_options(void);
-void __cdecl format_processor_switch(char *, const char *, unsigned, int);
+int __cdecl format_compiler_text(char *, const char *, unsigned, ...);
 void __cdecl begin_browser_output(const char *);
 CompilerBackend *__cdecl acquire_initial_backend(void);
 int __cdecl prepare_pch_input(const char *);
@@ -103,7 +103,7 @@ extern "C" void __cdecl initialize_frontend(void)
     frontend_data.normalized_pool_strings = frontend_data.options.pool_strings;
     frontend_data.normalized_readonly_strings = frontend_data.options.readonly_strings;
     if ((unsigned)frontend_data.options.processor > 6) {
-        format_processor_switch(processor_switch, "-G%d", 20, frontend_data.options.processor);
+        format_compiler_text(processor_switch, "-G%d", 20, frontend_data.options.processor);
         report_compiler_diagnostic(7, processor_switch, "c1");
     } else if ((unsigned)frontend_data.options.processor > 4) {
         frontend_data.options.processor = 4;
@@ -327,7 +327,7 @@ extern "C" void __cdecl normalize_frontend_options(void)
     if (frontend_data.options.minimal_rebuild)
         frontend_bss.processor_instruction_mask |= 0x40;
 }
-extern "C" void __cdecl format_processor_switch(char *buffer, const char *format, unsigned size, int processor) { __asm { int 3 } }
+extern "C" int __cdecl format_compiler_text(char *, const char *, unsigned, ...) { __asm { int 3 } return 0; }
 extern "C" int __cdecl prepare_pch_input(const char *filename) { __asm { int 3 } return 0; }
 extern "C" void __cdecl read_initial_input(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_keyword_table(void)
@@ -795,7 +795,6 @@ CompilerScopeMatch *RECON_THISCALL CompilerScope::FindOrdinary(CompilerNameEntry
 int RECON_THISCALL CompilerScope::FindNested(CompilerNameEntry *name, CompilerSymbol **found) { __asm { int 3 } return 0; }
 CompilerSymbolLink **RECON_THISCALL CompilerScope::FindLink(CompilerSymbolLink *symbol) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerScope::Serialize(void) { __asm { int 3 } }
-void RECON_THISCALL CompilerScope::Check(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerScope::Link(CompilerSymbol *symbol)
 {
     CompilerSymbolLink *link = &((CompilerNamedSymbol *)symbol)->link;

@@ -162,5 +162,36 @@ extern "C" CompilerExpression *__cdecl resolve_constant_reference(CompilerExpres
     constant->type = symbol->type;
     return constant;
 }
-extern "C" CompilerExpression *__cdecl make_sized_integer_constant(__int64, int)
-{ __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl allocate_sized_integer_constant(__int64, int); /*5e1a*/
+extern "C" CompilerExpression *__cdecl make_sized_integer_constant(__int64 value, int bytes)
+{
+    CompilerExpression *constant = allocate_sized_integer_constant(value, bytes);
+    if (!value) constant->flags |= 0x80;
+    return constant;
+}
+extern "C" CompilerExpression *__cdecl allocate_sized_integer_constant(__int64 value, int bytes)
+{
+    CompilerArena *arena;
+    CompilerExpression *constant;
+    if (frontend_data.constant_arena_index >= 9) { __asm { int 3 } }
+    arena = &frontend_bss.arenas[frontend_data.constant_arena_index];
+    constant = (CompilerExpression *)arena->cursor;
+    arena->cursor += 24;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    constant->flags = 3;
+    if (bytes == 1 || bytes == 2 || bytes == 4) {
+        constant->kind = 0x65;
+        constant->type = frontend_data.builtin_types.type_0043;
+    } else if (bytes == 8) {
+        constant->kind = 0x65;
+        constant->type = frontend_data.builtin_types.type_004c;
+    } else if (bytes == 16) {
+        /* The original sets kind65 then reads its separate CC4E4 type
+         * slot. That currently unconsumed owner remains unmodeled. */
+        __asm { int 3 }
+    }
+    /* Other widths leave kind/type untouched in the original. This does
+     * not assign them default meanings or initialize the opaque gaps. */
+    constant->value.integer = value;
+    return constant;
+}

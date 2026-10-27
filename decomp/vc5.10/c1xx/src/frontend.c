@@ -203,7 +203,30 @@ FrontendData frontend_data = {
     0x3fffff, /* function reference counter, ccb5c */
     { 0xffffffff, 0xffffffff }, /* function location cache, cd6f4/f8 */
     0, NULL, NULL, 8, 0, /* control option kind/text/list, inline depth/recursion */
-    1 /* line range warning, cd6fc */
+    1, /* line range warning, cd6fc */
+    NULL, /* pending label head, cd5cc */
+    0, /* debug notification index, cdc68 */
+    NULL, NULL, 0, 0, /* work nodes/saved nodes/error count/reset flag */
+    0, 0, NULL, /* allocated units/depth/recovery owner */
+    1, 0xffffffff, NULL, 128 /* parameter work kind/index/state table/capacity */,
+    0 /* conversion evaluation mode, cdc5c */,
+    0, 0, NULL /* cleanup depth/parameter marker/capture head */,
+    { 0, 0, 0 } /* symbol reference context depths */,
+    0, NULL, 0, 0, 0, 0xffffffff, NULL, NULL /* encountered work reset cells */,
+    NULL, NULL, 19, 0, 0, 0, 0, 0 /* function output chain/index/context/PCH cells */,
+    0, { 0, 0 }, { 0, 0 } /* actual output-tail reset DWORDs */,
+    { NULL, NULL, NULL, NULL } /* four deferred vector heads */,
+    0 /* final parser token emitted, cc214 */,
+    0 /* parser return value, cc3bc */,
+    NULL /* compilation completion items, ccb20 */,
+    { NULL, NULL } /* compilation pair tables, cc5c0/cc5c4 */,
+    NULL /* completion declarations, cc6b4 */,
+    0 /* include PCH reference counts, cd4ec */,
+    0 /* last output context, cd6ec */,
+    0 /* omit external names, cd6e8 */,
+    1, 0, /* name formatting mode/sequence, cd5e4/cd5e8 */
+    0, NULL, /* option-footer count/text, ccb78/cd4d0 */
+    0, 0, 0, NULL /* PCH cleanup flags and shared hdrstop output */
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -282,6 +305,7 @@ int initialize_compiler_pass(void)
         frontend_bss.global_output_active = 0;
         frontend_bss.source_cursor = NULL;
         frontend_bss.declaration_scope_mode = 0;
+        frontend_bss.block_output_entries = NULL;
         frontend_bss.external_declaration_mode = 0;
         frontend_bss.current_parameters = NULL;
         frontend_bss.current_parameter_kind = 0;
@@ -302,8 +326,18 @@ int initialize_compiler_pass(void)
         frontend_bss.current_function = NULL;
         frontend_bss.function_return_class = NULL;
         frontend_bss.current_parser_expression = NULL;
+        frontend_bss.current_case_label = NULL;
+        frontend_bss.return_cleanup_state = 0;
         memset(frontend_bss.function_reset_state, 0, sizeof(frontend_bss.function_reset_state));
         frontend_bss.function_body_state = 0;
+        frontend_bss.function_output_state = 0;
+        frontend_bss.inline_record_flag = 0;
+        frontend_bss.global_string_record = NULL;
+        frontend_bss.name_format_state = 0;
+        frontend_bss.name_format_reset_values[0] = 0;
+        frontend_bss.name_format_reset_values[1] = 0;
+        frontend_bss.symbol_name_cursor = NULL;
+        /* Formatting scratch bytes acquire meaning only through their writers. */
         frontend_bss.stack_check_warning_emitted = 0;
         frontend_bss.function_entry_label = NULL;
         frontend_bss.function_parameter_count = 0;
@@ -312,6 +346,8 @@ int initialize_compiler_pass(void)
         frontend_bss.control_text_count = 0;
         frontend_bss.control_byte = 0;
         frontend_bss.control_short = 0;
+        frontend_bss.expression_work_recovery_mode = 0;
+        frontend_bss.parameter_source_state = 0;
         frontend_bss.function_source_position = 0;
         for (i = 0; i < 32; ++i)
             frontend_bss.cleanup_callbacks[i] = NULL;
@@ -336,6 +372,7 @@ int initialize_compiler_pass(void)
             frontend_bss.output_buffers[i].relocation_context = NULL;
             frontend_bss.output_buffers[i].file = NULL;
             frontend_bss.output_buffers[i].ok = 0;
+            frontend_bss.output_buffers[i].auxiliary_memory = NULL;
             frontend_bss.output_buffers[i].descriptor = 0;
             memset(frontend_bss.output_buffers[i].filename, 0,
                     sizeof(frontend_bss.output_buffers[i].filename));
@@ -378,7 +415,7 @@ int initialize_compiler_pass(void)
         frontend_bss.pch_context.original_pages = NULL;
         frontend_bss.pch_context.mapped_pages = NULL;
         frontend_bss.pending_groups.head = NULL;
-        frontend_bss.active_group = NULL;
+        frontend_bss.pending_groups.active = NULL;
         frontend_bss.com_initialized = 0;
         for (i = 0; i < sizeof(frontend_bss.generated_comment); ++i)
             frontend_bss.generated_comment[i] = 0;
@@ -604,15 +641,19 @@ int compiler_exception_filter(EXCEPTION_POINTERS *exception)
     return 0;
 }
 
-void cleanup_main(void)
-{
-    __asm { int 3 }
-}
+void cleanup_main(void) {}
 
 int cleanup_compiler_pass(void)
 {
-    __asm { int 3 }
-    return 0;
+    int failed = 0;
+    while (frontend_bss.cleanup_count > 0) {
+        __try {
+            frontend_bss.cleanup_callbacks[--frontend_bss.cleanup_count]();
+        } __except (1) {
+            failed = 1;
+        }
+    }
+    return failed;
 }
 
 int report_compiler_diagnostic(int number, ...)
@@ -634,7 +675,4 @@ void initialize_deferred_work(void)
     frontend_bss.deferred_work = NULL;
 }
 
-void destroy_deferred_work(void)
-{
-    __asm { int 3 }
-}
+void destroy_deferred_work(void) {}

@@ -1,4 +1,5 @@
 #include <string.h>
+#include <objbase.h>
 #include "frontend.h"
 #include "output.h"
 #include "pdb-context.h"
@@ -165,7 +166,7 @@ void initialize_frontend_36(void)
 void initialize_frontend_38(void)
 {
     frontend_bss.pending_groups.head = NULL;
-    frontend_bss.active_group = NULL;
+    frontend_bss.pending_groups.active = NULL;
 }
 
 void initialize_frontend_39(void)
@@ -192,7 +193,10 @@ void initialize_generated_comment(void)
 
 void destroy_generated_comment(void)
 {
-    __asm { int 3 }
+    if (frontend_bss.com_initialized) {
+        frontend_bss.com_initialized = 0;
+        CoUninitialize();
+    }
 }
 
 void initialize_frontend_40(void)

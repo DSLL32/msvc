@@ -24,7 +24,10 @@ int RECON_THISCALL CompilerPlainInput::Begin(const void *context) { return 1; }
 int RECON_THISCALL CompilerPlainInput::End(const void *context) { return 1; }
 void RECON_THISCALL CompilerPlainInput::Flush(void) {}
 void RECON_THISCALL CompilerPlainInput::Mark(void) {}
-void RECON_THISCALL CompilerPlainInput::Close(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerPlainInput::Close(void)
+{
+    ::operator delete(this);
+}
 void RECON_THISCALL CompilerPlainInput::Location(unsigned first, unsigned second) {}
 int RECON_THISCALL CompilerPlainText::TakeText(BYTE **bytes, unsigned *length) { __asm { int 3 } return 0; }
 int RECON_THISCALL CompilerPlainText::MapLocation(unsigned first, unsigned second, unsigned third) { __asm { int 3 } return 0; }

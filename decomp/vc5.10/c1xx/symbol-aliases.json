@@ -260,9 +260,9 @@
       "native_target": "_ZN23CompilerNullDebugModule6Slot20Ej"
     },
     {
-      "win32_alias": "?Slot78@CompilerNullDebugModule@@UAEHI@Z",
+      "win32_alias": "?Slot78@CompilerNullDebugModule@@UAEHPBD@Z",
       "win32_target": "?Slot20@CompilerNullDebugModule@@UAEHI@Z",
-      "native_alias": "_ZN23CompilerNullDebugModule6Slot78Ej",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot78EPKc",
       "native_target": "_ZN23CompilerNullDebugModule6Slot20Ej"
     },
     {

@@ -16,7 +16,6 @@
 #include "parser-state.h"
 
 #ifndef RECON_NATIVE_TEST
-int parser_result = 0;
 int parser_saved_state;
 int parser_recovery_action;
 DWORD * parser_saved_state_top;
@@ -27,7 +26,6 @@ ParserDeclarationView parser_special_qualifiers;
 CompilerSymbol * current_declaration_symbol = NULL;
 CompilerType * current_enum_type = NULL;
 __int64 enumerator_value = -1;
-CompilerExpression * case_label;
 ParserLabelStack * continue_labels;
 ParserLabelStack * break_labels;
 ParserLabelStack * loop_labels;
@@ -169,10 +167,10 @@ read_action:
      * calls nothing. Wider value-reading actions, including action 102,
      * remain guarded before their semantic accesses or transfers. */
     switch (rule) {
-    case 1: case 2: case 3: case 19: case 127: case 149: case 118: case 117:
+    case 1: case 2: case 3: case 16: case 19: case 127: case 149: case 118: case 117:
     case 197: case 196: case 189: case 173: case 167: case 154: case 150: case 125: case 67:
-    case 126: case 119: case 177: case 13: case 66: case 28: case 62:
-    case 230: case 237: case 262: case 235: case 241: case 261: case 212:
+    case 126: case 119: case 177: case 13: case 66: case 28: case 62: case 63:
+    case 230: case 237: case 262: case 235: case 241: case 261: case 212: case 269: case 270: case 274: case 325: case 290: case 291:
     case 104: case 105: case 312: case 313: case 106: case 425: case 194: case 228: case 54:
     /* These declarator actions transfer the two known pointer fields or
      * pass the already-typed modifier to its genuine pending consumer. */
@@ -1766,7 +1764,8 @@ case 270:
 case 274:
     frontend_data.compiler_flags &= ~1U;
     if (!parser_lookahead) {
-        qualification_scopes[parser_context_depth] = NULL; /*C06F8 indexed existing firstslot*/
+        if ((unsigned)parser_context_depth >= 60) { __asm { int 3 } }
+        qualification_scopes[parser_context_depth] = NULL; /* same bounded depth as controls */
         (*declaration_control_row(parser_context_depth)).flags &= ~3;
     }
     break;

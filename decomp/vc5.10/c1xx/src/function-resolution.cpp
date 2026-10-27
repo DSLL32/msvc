@@ -19,13 +19,6 @@ struct CompilerFunctionMatcher {
 typedef char CompilerFunctionMatcher_layout[(sizeof(CompilerFunctionMatcher) == 48 &&
     offsetof(CompilerFunctionMatcher, parameters) == 16) ? 1 : -1];
 
-/* The deferred queue consumes only slot0 and next at +8. Concrete action
- * classes and their other fields remain behind their actual producers. */
-struct DeferredAction {
-    virtual void RECON_THISCALL Execute(void) = 0;
-    BYTE unmodeled_04_07[4];
-    DeferredAction *next;
-};
 
 extern "C" {
 int __cdecl compare_function_parameters(CompilerParameterTypes *, CompilerParameterTypes *); /*1e43a*/

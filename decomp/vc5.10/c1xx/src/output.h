@@ -1,6 +1,7 @@
 #ifndef C1XX_OUTPUT_H
 #define C1XX_OUTPUT_H
 #include <stdio.h>
+#include <stddef.h>
 #include "c1xx.h"
 #include <recon.h>
 
@@ -18,8 +19,12 @@ typedef struct OutputBuffer {
     int ok;
     char filename[260]; /* original +1c..11f, then descriptor at+120 */
     int descriptor;
+    BYTE unmodeled_124_12b[8]; /* retained gap, no payload/default interpretation */
+    void *auxiliary_memory; /* original+12c, BSSNULL; separate free-owned storage */
 #ifdef __cplusplus
+    void RECON_THISCALL Destroy(void); /*346ea shared physical destructor body*/
     int RECON_THISCALL Close(void);
+    int RECON_THISCALL CloseFile(void); /*343c6*/
     int RECON_THISCALL Open(const char *, const char *, const char *);
     int RECON_THISCALL Grow(int bytes);
     void RECON_THISCALL Flush(void);
@@ -31,13 +36,16 @@ typedef struct OutputBuffer {
     int RECON_THISCALL WriteBytes(const void *data, unsigned bytes);
     void RECON_THISCALL WriteUShort(unsigned value);
     void RECON_THISCALL WriteEncodedShort(unsigned value); /*6e61*/
-    void RECON_THISCALL WriteStringData(const void *data);
+    void RECON_THISCALL WriteReferenceIndex(int value);
     void RECON_THISCALL WriteStringTag(unsigned value);
     void RECON_THISCALL WriteCString(const char *text);
     void RECON_THISCALL MarkLocation(unsigned index, unsigned kind);
     void RECON_THISCALL MarkGlobal(unsigned index);
+    void RECON_THISCALL CopyFrom(OutputBuffer *); /*8e03a*/
 #endif
 } OutputBuffer;
+typedef char OutputBuffer_auxiliary_offset[
+    offsetof(OutputBuffer, auxiliary_memory) == 0x12c ? 1 : -1];
 
 enum { FRONTEND_OUTPUT_BUFFERS = 8 };
 

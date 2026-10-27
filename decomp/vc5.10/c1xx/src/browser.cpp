@@ -1,4 +1,5 @@
 #include <new.h>
+#include <stdlib.h>
 #include <string.h>
 #include "frontend-init.h"
 #include "preprocessor.h"
@@ -74,6 +75,7 @@ struct CompilerNamedBrowser : CompilerBackend {
     char *filename;
     /* Original allocation is 12 bytes; its unwritten final DWORD is unmodeled. */
     RECON_FORCEINLINE CompilerNamedBrowser(const char *name) : filename(_strdup(name)) {}
+    RECON_FORCEINLINE ~CompilerNamedBrowser() { free(filename); }
 };
 
 extern "C" void __cdecl begin_browser_output(const char *filename)
@@ -153,3 +155,17 @@ void RECON_THISCALL CompilerNamedBrowser::Slot68(void *, unsigned) { __asm { int
 void RECON_THISCALL CompilerNamedBrowser::Slot6c(void) { __asm { int 3 } }
 
 void RECON_THISCALL CompilerNamedBrowser::Slot70(void) { __asm { int 3 } }
+
+/* The named browser owns its duplicated filename. The null browser has no
+ * member resources; the original releases its allocation directly. */
+extern "C" void __cdecl finish_symbols(void)
+{
+    if (frontend_data.named_browser) {
+        delete (CompilerNamedBrowser *)frontend_data.named_browser;
+        frontend_data.named_browser = NULL;
+    }
+    if (frontend_data.initial_backend) {
+        ::operator delete(frontend_data.initial_backend);
+        frontend_data.initial_backend = NULL;
+    }
+}

@@ -3,6 +3,12 @@
 #include <stddef.h>
 #include "c1xx.h"
 #include <recon.h>
+/* Two actual callers use this12-byte cursor with distinct record domains.
+ * Initializer/advance own the first eight bytes; current is a borrowed owner. */
+typedef struct PendingDeclarationCursor {
+    BYTE unmodeled_00_07[8];
+    void *current;
+} PendingDeclarationCursor;
 struct CompilerQuotedValue {
     BYTE *text;
     WORD length, flags;
@@ -49,6 +55,7 @@ typedef struct CompilerType {
     unsigned debug_cache;
 #ifdef __cplusplus
     unsigned RECON_THISCALL GetCallingConvention(void);
+    unsigned RECON_THISCALL ConversionRank(void); /*1137e, NULL ECX is rank0*/
     CompilerType *RECON_THISCALL Substitute(CompilerType *);
     CompilerType *RECON_THISCALL WithCallingConvention(unsigned);
     CompilerType *RECON_THISCALL ApplyTypeQualifiers(WORD); /*1e083*/
