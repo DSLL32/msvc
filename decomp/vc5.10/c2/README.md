@@ -3,20 +3,31 @@
 Native reconstruction and cases use `tooling/recon-tool`: `make -j4 check unit`,
 `make -j4 recon-original`, and `make -j4 audit`. Cases contain saved invocation
 inputs/oracles; replay is Linux-only and does not refresh originals.
-Both invocations retain the original NUL stdin and frozen target environment.
+The cases retain their original NUL stdin and frozen target environment.
 Application code is in `src/`; existing target CRT boundaries and their rationale
 are in `crt/`. The common native case adapter is in `harness/`.
 
-The registry preserves 176 accepted application functions / 43,745 code bytes.
-Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and
-2,130 bytes of contextual text data are separate. Three reviewed shipped shift
-helpers (107 bytes) are original-only CRT support with no reconstructed bodies. The full text extent is
+The registry preserves 1,282 qualified application functions / 385,721 code bytes.
+CRT/import support and contextual text data remain separate from App credit.
+The full text extent is
 573,183 bytes including CRT/data/padding; no complete non-CRT denominator is known.
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
 - `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  current accepted frontier is `input_has_side_effects` at original RVA 0x3381.
-  Thirty-five narrow units retain real-conversion and register-list behavior checks.
+  unfinished and paused at `output_callback_43696a`, original RVA 0x3696a.
+  Final COFF equivalence has not been established.
+- `0002-no-arguments`: completed missing-intermediate diagnostic, exit DWORD 1,
+  empty stdout and exactly 94 stderr bytes, including the two original CRLFs.
+  Its isolated cwd contains no `in` file, stdin is NUL, and target environment
+  is empty. The new 38-byte `c2_system_fatal` follows the genuine `_strerror`
+  and fatal-diagnostic path; root `entry.c` has no argument special case.
+  `make -j4 cases/0002-no-arguments/unit` also rebuilds and executes the actual
+  coordinator-installed `../build/native/bin/C2.EXE`, comparing streams and
+  POSIX exit status 1 separately from the reference's full DWORD status.
+  Raw captures and before/after CLI evidence are retained outside Git at
+  `~/.ai-tmp/msvc2/vc5.10/c2/noargs-20261027/`.
+
+The following notes describe earlier milestones within the unfinished numeric case.
 
 The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a
 fresh original/native pair at the genuine node-constructor trap. Its prior

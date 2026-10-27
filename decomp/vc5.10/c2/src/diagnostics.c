@@ -4,6 +4,11 @@
 
 extern int c2_errors;
 
+void __fastcall c2_system_fatal(int message, char *prefix, char *filename)
+{
+    c2_fatal(message, prefix, filename, _strerror(NULL));
+}
+
 void c2_fatal(int message, ...)
 {
     va_list arguments;

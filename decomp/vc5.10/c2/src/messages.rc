@@ -1,4 +1,4 @@
-/* Only strings observed while handling the first unsupported-option case. */
+/* Encountered unsupported-option and missing-intermediate diagnostics. */
 LANGUAGE 9, 1
 STRINGTABLE
 BEGIN
@@ -9,4 +9,5 @@ BEGIN
     311 "compiler intermediate"
     312 "source"
     1007 "unrecognized flag '%s' in '%s'"
+    1083 "Cannot open %Fs file: '%Fs': %Fs"
 END

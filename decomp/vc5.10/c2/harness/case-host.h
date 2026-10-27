@@ -36,7 +36,8 @@ static int setup(void)
         while(offset<(unsigned long)size && bytes[offset])++offset;
         if(++offset>=(unsigned long)size)return 0;
     }
-    if(offset!=(unsigned long)size-1)return 0;
+    /* An empty environment is the two terminating NULs, with no string. */
+    if(offset!=(unsigned long)size-1 && !(count==0 && size==2 && offset==0))return 0;
     target_environment[count]=NULL;
     module.name="C2.EXE";module.path="R:\\toolchains\\5.10\\bin\\C2.EXE";
     module.sha256=binary_descriptor.original_sha256;

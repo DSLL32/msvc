@@ -125,3 +125,10 @@ $(ORIGINAL_BUILD)/obj/src/final-lowering.c.obj $(ORIGINAL_BUILD)/obj/src/final-r
 $(abspath .build/messages.rmr): scripts/message-resources.py src/messages.rc $(ORIGINAL_TOOLCHAIN_ROOT)/bin/C2.EXE $(RECON)/resources.py
 	@mkdir -p $(@D)
 	python3 scripts/message-resources.py $@
+
+# This regression executes the actual coordinator-installed native program.
+cases/0002-no-arguments/.build/tests.c.o: NATIVE_CPPFLAGS += -DC2_CANONICAL_NATIVE_EXE='"$(abspath ../build/native/bin/C2.EXE)"'
+.PHONY: noargs-installed-executable
+noargs-installed-executable:
+	+$(MAKE) -C .. native-bin-c2
+cases/0002-no-arguments/unit: noargs-installed-executable

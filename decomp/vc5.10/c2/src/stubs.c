@@ -84,11 +84,6 @@ void __fastcall c2_report_internal(char *source, int line)
 
 
 
-void __fastcall c2_system_fatal(int message, char *prefix, char *filename)
-{
-    __asm { int 3 }
-}
-
 
 
 

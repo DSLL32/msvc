@@ -15,7 +15,8 @@ image = (ROOT / "toolchains/5.10/bin/C2.EXE").read_bytes()
 if hashlib.sha256(image).hexdigest() != OWNER:
     raise SystemExit("C2 resource identity mismatch")
 # Actual RT_STRING leaves in the shipped PE, language1033. Each contains16 strings.
-LEAVES = {19: (647144, 78), 20: (647224, 122), 63: (647352, 1162)}
+LEAVES = {19: (647144, 78), 20: (647224, 122), 63: (647352, 1162),
+          68: (649920, 276)}
 original = {}
 for block, (first, length) in LEAVES.items():
     cursor, end = first, first + length
@@ -39,7 +40,7 @@ for number, literal in re.findall(r'^\s*(\d+)\s+("[^\n]*")\s*$', source, re.M):
     if original.get(identity) != text:
         raise SystemExit("C2 resource source differs: " + number)
     entries.append(dict(kind="string", id=identity, language=1033, text=text))
-if len(entries) != 7 or {entry["id"] for entry in entries} != {301, 302, 303, 310, 311, 312, 1007}:
+if len(entries) != 8 or {entry["id"] for entry in entries} != {301, 302, 303, 310, 311, 312, 1007, 1083}:
     raise SystemExit("C2 encountered resource inventory mismatch")
 spec = importlib.util.spec_from_file_location("resources", ROOT / "lib/recon/resources.py")
 resources = importlib.util.module_from_spec(spec)
