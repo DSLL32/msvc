@@ -184,7 +184,8 @@ typedef struct {
  DWORD SizeOfCode,SizeOfInitializedData,SizeOfUninitializedData,AddressOfEntryPoint,BaseOfCode,BaseOfData;
  DWORD ImageBase,SectionAlignment,FileAlignment;
  WORD MajorOperatingSystemVersion,MinorOperatingSystemVersion,MajorImageVersion,MinorImageVersion,MajorSubsystemVersion,MinorSubsystemVersion;
- DWORD Reserved1,SizeOfImage,SizeOfHeaders,CheckSum; WORD Subsystem,DllCharacteristics;
+ union { DWORD Reserved1,Win32VersionValue; };
+ DWORD SizeOfImage,SizeOfHeaders,CheckSum; WORD Subsystem,DllCharacteristics;
  DWORD SizeOfStackReserve,SizeOfStackCommit,SizeOfHeapReserve,SizeOfHeapCommit,LoaderFlags,NumberOfRvaAndSizes;
  IMAGE_DATA_DIRECTORY DataDirectory[16];
 } IMAGE_OPTIONAL_HEADER;
