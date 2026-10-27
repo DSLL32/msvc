@@ -367,3 +367,21 @@ unsigned short SegmentAddSym(SYMBOL sym,unsigned short id,unsigned size,unsigned
     data_def_seg.ds_used=1;
     return segment->seg_id;
 }
+
+/* The old entry has only the real code-segment used-bit pass; it predates
+ * the later default-segment resets and debug-support requests. */
+void SegmentCodeCgInit(void)
+{
+    PC_SEGMENT *segment,*last=seg_list;
+    if (last) {
+        segment=last->next;
+        for (;;) {
+            if ((segment->attrs&1) && !segment->has_data) segment->used=0;
+            if (segment==last) break;
+            segment=segment->next;
+        }
+    }
+}
+
+unsigned SegmentBoundReg(unsigned short segment)
+{ (void)segment;STUB_TRAP();return 0; }

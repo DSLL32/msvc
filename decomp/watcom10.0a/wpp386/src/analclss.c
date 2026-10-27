@@ -45,6 +45,7 @@
 #include "class.h"
 #include "vftable.h"
 #include "convdiag.h"
+#include "fnbody.h"
 #include <recon.h>
 #pragma pack(1)
 typedef struct ctor_prologue {
@@ -62,6 +63,7 @@ typedef struct ctor_prologue {
 #pragma pack()
 typedef char CtorPrologueSize[(sizeof(CTOR_PROLOGUE)==40)?1:-1];
 char *CppSpecialName(unsigned name);
+char *CppConstructorName(void);
 void checkForGenCopy(CTOR_PROLOGUE *data)
 {
     SEARCH_RESULT *result=ScopeFindNaked(CurrScope,CppSpecialName(2));
@@ -114,8 +116,47 @@ int TypeReallyDtorable(TYPE type);
 int TypeHasNumArgs(TYPE type,unsigned count);
 int ScopeHasVirtualBases(SCOPE scope);
 void ScopeWalkDirectBases(SCOPE scope,void (*callback)(void *,void *),void *data);
-void ctorPrologueBaseGen(void *base,void *data)
-{ (void)base; (void)data; STUB_TRAP(); }
+void ScopeWalkVirtualBases(SCOPE scope,void (*callback)(void *,void *),void *data);
+TYPE StructType(TYPE type);
+PTREE extractBaseInit(CTOR_PROLOGUE *data,TYPE type)
+{
+    PTREE *link=&data->base_init,current,next,init,member;
+    for (current=*link;current;current=next) {
+        next=current->u.subtree[0];
+        init=current->u.subtree[1];
+        member=init->u.subtree[0];
+        if (StructType(member->type)==type) {
+            *link=next;
+            PTreeFree(current);
+            return init;
+        }
+        link=&current->u.subtree[0];
+    }
+    return NULL;
+}
+PTREE addVBOffsetToFirstParm(SCOPE scope,struct base_class *base,TYPE type);
+PTREE addOffsetToFirstParm(long offset,TYPE type);
+PTREE accessSourceBase(SCOPE scope,struct base_class *base)
+{
+    if (base->flag&0x18) return addVBOffsetToFirstParm(scope,base,base->type);
+    return addOffsetToFirstParm(base->delta,base->type);
+}
+PTREE NodeArg(PTREE expr);
+void ctorPrologueComponents(CTOR_PROLOGUE *data);
+void ctorPrologueBaseGen(void *object,void *context)
+{
+    struct base_class *base=object;
+    CTOR_PROLOGUE *data=context;
+    data->comp_type=base->type;
+    data->comp_offset=base->delta;
+    data->comp_expr=extractBaseInit(data,base->type);
+    if (!data->comp_expr) {
+        if (data->gen_copy) data->comp_expr=NodeArg(accessSourceBase(data->scope,base));
+        data->comp_options=0;
+    } else data->comp_options=2;
+    /* The old body has no later CI_VIRTUAL option. */
+    ctorPrologueComponents(data);
+}
 PTREE PTreeFree(PTREE tree);
 PTREE extractMemberInit(CTOR_PROLOGUE *data,char *name)
 {
@@ -137,8 +178,19 @@ int SymIsAnonymousMember(SYMBOL sym);
 int SymIsThisDataMember(SYMBOL sym);
 TYPE ArrayType(TYPE type);
 TYPE ReferenceType(TYPE type);
-PTREE getRefSymFromFirstParm(SYMBOL sym,unsigned char flags)
-{ (void)sym; (void)flags; STUB_TRAP(); return NULL; }
+TYPE TypedefModifierRemove(TYPE type);
+PTREE NodeUnaryCopy(unsigned char op,PTREE expr);
+PTREE getRefSymFromFirstParm(SYMBOL sym,long cl_offset)
+{
+    TYPE sym_type=sym->sym_type;
+    PTREE first_parm_ref=addOffsetToFirstParm(sym->u.sval+cl_offset,sym_type);
+    sym_type=TypedefModifierRemove(sym_type);
+    if (sym_type->id==TYP_BITFIELD) {
+        first_parm_ref=NodeUnaryCopy(101,first_parm_ref);
+        first_parm_ref->type=sym_type->of;
+    }
+    return first_parm_ref;
+}
 PTREE NodeUnaryCopy(unsigned char op,PTREE expr);
 PTREE NodeArg(PTREE expr);
 void PTreeErrorExprSym(PTREE expr,unsigned error,SYMBOL sym);
@@ -157,7 +209,7 @@ PTREE addOffset(PTREE node,long offset,TYPE type)
 PTREE addOffsetToThis(long offset,TYPE type)
 { return addOffset(NodeThis(),offset,type); }
 SCOPE TypeScope(TYPE type);
-int TypeNeedsCtor(TYPE type);
+TYPE TypeNeedsCtor(TYPE type);
 TYPE StructType(TYPE type);
 TYPE TypedefModifierRemoveOnly(TYPE type);
 void NodeFreeDupedExpr(PTREE expr);
@@ -226,8 +278,7 @@ PTREE setThisFromOffset(PTREE expr,TYPE type,long offset)
 }
 int TypeExactDtorable(TYPE type);
 void CgFrontCodePtr(unsigned char opcode,void *value);
-PTREE DataDtorCompClass(PTREE expr,long offset)
-{ (void)expr; (void)offset; STUB_TRAP(); return NULL; }
+PTREE DataDtorCompClass(PTREE expr,long offset);
 PTREE ctorOfDtorable(PTREE expr,TYPE type,long offset)
 {
     if((!expr || expr->op!=0) && TypeExactDtorable(type)) {
@@ -415,8 +466,50 @@ void emitVPtrInit(CLASS_TABLE *table,SYMBOL sym,unsigned virtual_base)
     expr=PTreeBinary(13,PTreeUnary(40,address),rhs);
     EmitStmtExpr(expr);
 }
-void EmitVfunThunk(SCOPE scope,THUNK_ACTION *thunk)
-{ (void)scope; (void)thunk; STUB_TRAP(); }
+CLASS_VBTABLE *ScopeCollectVBTable(SCOPE scope);
+SYMBOL MakeVBTableSym(SCOPE scope,unsigned count,long offset);
+void DgSymbolLabel(SYMBOL sym);
+unsigned short CgSegId(SYMBOL sym);
+int SymIsInitialized(SYMBOL sym);
+int DgStoreScalar(PTREE expr,unsigned offset,TYPE type);
+struct base_class *ScopeFindVBase(SCOPE scope,TYPE type);
+void emitOffset(long offset)
+{
+    PTREE value=PTreeUIntConstant(offset,TYP_UINT);
+    DgStoreScalar(value,0,value->type);
+    PTreeFreeSubtrees(value);
+}
+void genVBTable(SCOPE scope,SYMBOL sym,CLASS_VBTABLE *table)
+{
+    TYPE *entry;
+    struct base_class *base;
+    if (!SymIsInitialized(sym)) {
+        DgSymbolLabel(sym);
+        sym->flag|=2;
+        emitOffset(table->h.exact_delta);
+        for (entry=table->data;*entry;++entry) {
+            base=ScopeFindVBase(scope,*entry);
+            emitOffset(base->delta-table->h.exact_delta);
+        }
+        CgSegId(sym);
+    }
+}
+void genVBPtrInits(SCOPE scope)
+{
+    CLASS_VBTABLE *tables=ScopeCollectVBTable(scope),*table;
+    SYMBOL sym;
+    if (tables) {
+        table=tables;
+        do {
+            table=(CLASS_VBTABLE *)table->h.next;
+            sym=MakeVBTableSym(scope,table->h.count,table->h.exact_delta);
+            emitVPtrInit(&table->h,sym,1);
+            genVBTable(scope,sym,table);
+        } while (table!=tables);
+    }
+    RingFree((void **)&tables);
+}
+void EmitVfunThunk(SCOPE scope,THUNK_ACTION *thunk);
 void *CgFrontSwitchFile(SYMBOL sym);
 void emitThunks(CLASS_VFTABLE *table,SYMBOL ctor)
 {
@@ -498,6 +591,11 @@ int genVFPtrInits(SCOPE scope,SYMBOL ctor)
     return corrupted;
 }
 void CgFrontCode(unsigned char opcode);
+unsigned CgFrontLabelCs(void);
+void CgFrontGotoNear(int opcode,unsigned condition,unsigned label);
+void CgFrontLabdefCs(unsigned label);
+void CgFrontLabfreeCs(unsigned count);
+void testExtraParm(unsigned mask);
 void CDoptIterEnd(CDOPT_ITER *iter);
 void CtorPrologue(SYMBOL ctor,PTREE init,void (*push_scope)(void))
 {
@@ -505,6 +603,7 @@ void CtorPrologue(SYMBOL ctor,PTREE init,void (*push_scope)(void))
     CTOR_PROLOGUE data;
     TYPE type;
     CD_DESCR *optinfo;
+    unsigned skip;
     if (SymClassCorrupted(ctor)) return;
     scope=SymScope(ctor);
     initCtorPrologue(&data,init,scope);
@@ -516,7 +615,15 @@ void CtorPrologue(SYMBOL ctor,PTREE init,void (*push_scope)(void))
     data.optiter=CDoptIterBeg(optinfo);
     data.cdopt=1;
     (*push_scope)();
-    if (ScopeHasVirtualBases(scope)) STUB_TRAP();
+    if (ScopeHasVirtualBases(scope)) {
+        skip=CgFrontLabelCs();
+        testExtraParm(1);
+        CgFrontGotoNear(7,0,skip);
+        genVBPtrInits(scope);
+        ScopeWalkVirtualBases(scope,ctorPrologueBaseGen,&data);
+        CgFrontLabdefCs(skip);
+        CgFrontLabfreeCs(1);
+    }
     ScopeWalkDirectBases(scope,ctorPrologueBaseGen,&data);
     memberWalkWithData(scope,ctorPrologueMember,&data);
     CgFrontCode(129);
@@ -585,4 +692,326 @@ SYMBOL RoDtorFindType(TYPE type)
     dtor=ClassFunMakeAddressable(dtor);
     dtor->flag|=8;
     return SymMarkRefed(dtor);
+}
+
+unsigned CgFrontLabelCs(void);
+void CgFrontGotoNear(int opcode,unsigned condition,unsigned label);
+void CgFrontLabdefCs(unsigned label);
+void CgFrontLabfreeCs(unsigned count);
+int SymIsVirtual(SYMBOL sym);
+TYPE SymClass(SYMBOL sym);
+int TypeAbstract(TYPE type);
+PTREE NodeUnary(unsigned char operation,PTREE operand);
+PTREE NodeThis(void);
+void EmitAnalysedStmt(PTREE expr);
+PTREE AnalyseDelete(PTREE expr);
+PTREE PTreeIntConstant(long value,unsigned char type_id);
+PTREE PTreeCDtorExtra(void);
+PTREE PTreeBinary(unsigned char operation,PTREE left,PTREE right);
+PTREE AnalyseBoolExpr(PTREE expr);
+void testExtraParm(unsigned mask)
+{
+    PTREE bits=PTreeUIntConstant(mask,TYP_UINT);
+    PTREE test=PTreeBinary(5,PTreeCDtorExtra(),bits);
+    test=PTreeBinary(15,test,PTreeIntConstant(0,TYP_SINT));
+    IcEmitExpr(AnalyseBoolExpr(test));
+}
+extern unsigned char ActiveDestructorMethod;
+void genDeleteVector(SYMBOL dtor,unsigned *real_end)
+{
+    unsigned skip;
+    PTREE stmt;
+    *real_end=CgFrontLabelCs();
+    if(SymIsVirtual(dtor) && !TypeAbstract(SymClass(dtor))) {
+        skip=CgFrontLabelCs();
+        testExtraParm(4);
+        CgFrontGotoNear(7,0,skip);
+        stmt=NodeUnary(60,NodeThis());
+        stmt->flags|=0x400;
+        stmt=AnalyseDelete(stmt);
+        EmitAnalysedStmt(stmt);
+        CgFrontGotoNear(7,0,*real_end);
+        CgFrontLabdefCs(skip);
+        CgFrontLabfreeCs(1);
+    }
+    CgFrontCodeInt(0x3e,ActiveDestructorMethod);
+}
+/* The 1994 prologue stops after dispatch/vfptr setup.  The later CDopt
+ * destructor traversal is not present in this body. */
+void DtorPrologue(SYMBOL dtor,unsigned *real_end,CGFILE_INS *rtbeg)
+{
+    SCOPE scope;
+    struct class_info *info;
+    (void)rtbeg;
+    if(SymClassCorrupted(dtor)) return;
+    genDeleteVector(dtor,real_end);
+    scope=SymScope(dtor);
+    if(ScopeHasVirtualFunctions(scope)) {
+        info=ScopeClass(scope)->u.c.info;
+        info->dtor_user_code_checked=1;
+        if(info->dtor_user_code) {
+            genCtorDispInit(scope);
+            genVFPtrInits(scope,dtor);
+        }
+    }
+}
+
+SYMBOL DtorFindLocn(TYPE type,CGIO_LOCATION *locn)
+{
+    SYMBOL dtor;
+    if(ArrayType(type)) dtor=findOrDefineArrayDtor(type,1,NULL,locn,1);
+    else dtor=findOrDefineDtor(type,1,NULL,locn,1);
+    return ClassFunMakeAddressable(dtor);
+}
+TYPE ClassTypeForType(TYPE type);
+int TypeHasNumArgs(TYPE type,unsigned count);
+SEARCH_RESULT *ScopeContainsMember(SCOPE scope,char *name);
+SEARCH_RESULT *classResult(TYPE type,SYMBOL *sym_ok,char *name,SCOPE access)
+{
+    SCOPE scope=TypeScope(type);
+    SEARCH_RESULT *result=ScopeContainsMember(scope,name),*retn=NULL;
+    SYMBOL last,sym;
+    arg_list *args;
+    *sym_ok=NULL;
+    if(result) {
+        last=result->sym_name->name_syms;
+        if(last) {
+            sym=last->next;
+            do {
+                args=SymFuncArgList(sym);
+                if(args && TypeHasNumArgs(sym->sym_type,1) &&
+                   ClassTypeForType(args->type_list[0])==type) {
+                    *sym_ok=sym;
+                    if(access) {
+                        ScopeFreeResult(result);
+                        retn=ScopeFindBaseMember(scope,name);
+                    } else retn=result;
+                    break;
+                }
+                if(sym==last) break;
+                sym=sym->next;
+            } while(1);
+        }
+        if(!retn) ScopeFreeResult(result);
+    }
+    return retn;
+}
+SEARCH_RESULT *accessDefaultCopy(TYPE type,SYMBOL *ctor)
+{
+    SEARCH_RESULT *result;
+    char *name=CppConstructorName();
+    result=classResult(type,ctor,name,NULL);
+    if(!result) {
+        ClassAddDefaultCopy(type->u.c.scope);
+        result=classResult(type,ctor,name,NULL);
+    }
+    return result;
+}
+SYMBOL CopyCtorFind(TYPE type,CGIO_LOCATION *locn)
+{
+    SYMBOL ctor;
+    SEARCH_RESULT *result;
+    type=ClassTypeForType(type);
+    result=accessDefaultCopy(type,&ctor);
+    ScopeResultErrLocn(result,locn);
+    if(ScopeCheckSymbol(result,ctor)) ctor=NULL;
+    ScopeFreeResult(result);
+    return ctor;
+}
+
+TYPE ClassTypeForType(TYPE type);
+unsigned CtorFind(SCOPE access,TYPE type,arg_list *args,PTREE *nodes,
+                  CGIO_LOCATION *locn,SYMBOL *ctor);
+unsigned ClassDefaultCtorFind(TYPE type,SYMBOL *ctor,CGIO_LOCATION *locn)
+{
+    arg_list args;
+    type=ClassTypeForType(type);
+    InitArgList(&args);
+    return CtorFind(NULL,type,&args,NULL,locn,ctor);
+}
+
+SYMBOL ClassAddDefaultCtor(SCOPE scope);
+unsigned ClassDefaultCtorDefine(TYPE type,SYMBOL *ctor)
+{
+    type=ClassTypeForType(type);
+    if(type->u.c.info->has_ctor) { *ctor=NULL; return 4; }
+    *ctor=ClassAddDefaultCtor(type->u.c.scope);
+    return 0;
+}
+
+void CDoptChkAccFun(CD_DESCR *info);
+void CDoptIterEnd(CDOPT_ITER *iter);
+unsigned char CDoptIterNextElement(CDOPT_ITER *iter);
+SYMBOL CDoptIterFunction(CDOPT_ITER *iter);
+TYPE CDoptIterType(CDOPT_ITER *iter);
+void FunctionHasRegistration(void);
+void genDeleteThis(SYMBOL dtor)
+{
+    unsigned skip;
+    PTREE expr;
+    if(TypeAbstract(SymClass(dtor)) || !SymIsVirtual(dtor)) return;
+    skip=CgFrontLabelCs();
+    testExtraParm(2);
+    CgFrontGotoNear(7,0,skip);
+    expr=NodeUnary(58,NodeThis());
+    expr->flags|=0x400;
+    EmitAnalysedStmt(AnalyseDelete(expr));
+    CgFrontLabdefCs(skip);
+    CgFrontLabfreeCs(1);
+}
+/* Actual1994 walks the optimized component actions here. This predates
+ * the later IC_DTOR_DAR_BEG/END representation in the released epilogue. */
+void DtorEpilogue(SYMBOL dtor,unsigned end_dtor,CGFILE_INS *rtbeg)
+{
+    TYPE type;
+    CD_DESCR *info;
+    CDOPT_ITER *iter;
+    unsigned depth;
+    unsigned char action;
+    SYMBOL sym;
+    (void)rtbeg;
+    if(SymClassCorrupted(dtor)) return;
+    type=ScopeClass(SymScope(dtor));
+    info=CDoptDtorBuild(type);
+    if(CDoptErrorOccurred(info)) return;
+    CgFrontCode(60);
+    if(TypeHasDtorableObjects(type)) CgFrontCodePtr(72,type);
+    CDoptChkAccFun(info);
+    iter=CDoptIterBeg(info);
+    while(CDoptIterNextComp(iter)) {
+        depth=0;
+        for(;;) {
+            action=CDoptIterNextElement(iter);
+            switch(action) {
+            case 0:
+                if(depth) { --depth; break; }
+                goto next_component;
+            case 1: case 2:
+                sym=RoDtorFindType(CDoptIterType(iter));
+                CgFrontCodePtr(71,SymMarkRefed(sym));
+                FunctionHasRegistration();
+                break;
+            case 3: case 4:
+                sym=CDoptIterFunction(iter);
+                CgFrontCodePtr(71,SymMarkRefed(sym));
+                FunctionHasRegistration();
+                break;
+            case 5: case 6: case 7:
+                sym=CDoptIterFunction(iter);
+                CgFrontCodePtr(119,SymMarkRefed(sym));
+                ++depth;
+                FunctionHasRegistration();
+                break;
+            default: goto next_component;
+            }
+        }
+next_component: ;
+    }
+    CDoptIterEnd(iter);
+    genDeleteThis(dtor);
+    CgFrontCode(70);
+    CgFrontLabdefCs(end_dtor);
+    CgFrontLabfreeCs(1);
+    returnThis(dtor);
+}
+
+/* Actual13c7b loads the symbol type then falls through the distinct
+ * RoDtorFindType entry13c7e. Preserve that named tail dependency. */
+SYMBOL RoDtorFind(SYMBOL sym) { return RoDtorFindType(sym->sym_type); }
+
+PTREE ClassDefaultCopyDiag(PTREE left,PTREE right,CNV_DIAG *diagnosis)
+{ (void)left; (void)right; (void)diagnosis; STUB_TRAP(); return NULL; }
+
+SEARCH_RESULT *DtorFindResult(TYPE type)
+{
+    SEARCH_RESULT *result;
+    SCOPE scope;
+    char *name;
+    type=ClassTypeForType(type);
+    scope=type->u.c.scope;
+    name=CppDestructorName();
+    result=ScopeContainsMember(scope,name);
+    if(!result) {
+        injectDtorSymbol(type);
+        result=ScopeContainsMember(scope,name);
+    }
+    return result;
+}
+
+void CtxFunction(SYMBOL sym);
+void CErrCheckpoint(unsigned *state);
+int CErrOccurred(unsigned *state);
+void ScopeBeginFunction(SYMBOL sym);
+SYMBOL AllocTypedSymbol(TYPE type);
+void FunctionBodyShutdown(SYMBOL sym,FUNCTION_DATA *data);
+void initClassFunction(SYMBOL fun,FUNCTION_DATA *fn_data,unsigned *check,int fun_is_copy)
+{
+    TYPE fn_type;
+    arg_list *alist;
+    SYMBOL arg;
+    CtxFunction(fun);
+    CErrCheckpoint(check);
+    CurrScope=SymScope(fun);
+    ScopeBeginFunction(fun);
+    fn_type=FunctionDeclarationType(fun->sym_type);
+    if (fun_is_copy && !TypeHasNumArgs(fn_type,0)) {
+        alist=fn_type->u.f.args;
+        arg=AllocTypedSymbol(alist->type_list[0]);
+        arg->id=3;
+        arg->flag|=1;
+        ScopeInsert(CurrScope,arg,CppSpecialName(2));
+    }
+    FunctionBodyStartup(fun,fn_data,0);
+}
+void finiClassFunction(SYMBOL fun,FUNCTION_DATA *fn_data,unsigned *check)
+{
+    FunctionBodyShutdown(fun,fn_data);
+    ScopeEnd(2);
+    if (CErrOccurred(check)) CErr2p(610,(const char *)fun);
+}
+void GenerateDefaultCopy(SYMBOL copy_ctor)
+{
+    FUNCTION_DATA fn_data;
+    unsigned check;
+    if (SymClassCorrupted(copy_ctor)) return;
+    initClassFunction(copy_ctor,&fn_data,&check,1);
+    finiClassFunction(copy_ctor,&fn_data,&check);
+}
+
+SYMBOL ScopeFuncParm(unsigned parm_no);
+PTREE MakeNodeSymbol(SYMBOL sym);
+PTREE NodeFetchReference(PTREE expr);
+TYPE TypeMergeForMember(TYPE object,TYPE member);
+PTREE NodeConvertVirtualPtr(PTREE expr,TYPE type,long offset,long index);
+PTREE nodeFirstParm(void)
+{
+    return NodeFetchReference(MakeNodeSymbol(ScopeFuncParm(0)));
+}
+PTREE addOffsetToFirstParm(long offset,TYPE type)
+{
+    PTREE expr=nodeFirstParm();
+    type=TypeMergeForMember(expr->type,type);
+    return addOffset(expr,offset,type);
+}
+PTREE addVBOffsetToExpr(SCOPE scope,struct base_class *base,TYPE type,PTREE expr)
+{
+    struct class_info *info=ScopeClass(scope)->u.c.info;
+    type=TypeMergeForMember(expr->type,type);
+    expr=NodeConvertVirtualPtr(expr,type,info->vb_offset,base->vb_index);
+    expr->flags|=2;
+    return expr;
+}
+PTREE addVBOffsetToFirstParm(SCOPE scope,struct base_class *base,TYPE type)
+{
+    return addVBOffsetToExpr(scope,base,type,nodeFirstParm());
+}
+
+/* Both old genDefaultCtor and genDefaultDtor call this identical body. */
+void GenerateDefaultCtor(SYMBOL sym)
+{
+    FUNCTION_DATA fn_data;
+    unsigned check;
+    if (SymClassCorrupted(sym)) return;
+    initClassFunction(sym,&fn_data,&check,0);
+    finiClassFunction(sym,&fn_data,&check);
 }

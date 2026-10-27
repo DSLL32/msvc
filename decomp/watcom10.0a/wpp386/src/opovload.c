@@ -40,6 +40,7 @@
 #include "ptree.h"
 #include "pending.h"
 #include "fnovload.h"
+#include "analcall.h"
 #include <recon.h>
 enum {
     OPM_AA=0x1,
@@ -266,27 +267,59 @@ SCOPE TypeScope(TYPE type);
 char *CppOperatorName(unsigned oper);
 int NodeIsBinaryOp(PTREE expr,unsigned op);
 SEARCH_RESULT *ScopeContainsMember(SCOPE scope,char *name);
-SEARCH_RESULT *ScopeFindMember(SCOPE scope,char *name)
-{ (void)scope; (void)name; STUB_TRAP(); return NULL; }
-PTREE PTreeIdSym(SYMBOL sym)
-{ (void)sym; STUB_TRAP(); return NULL; }
+SEARCH_RESULT *ScopeFindMember(SCOPE scope,char *name);
+PTREE PTreeIdSym(SYMBOL sym);
 PTREE NodeSymbolNoRef(PTREE expr,SYMBOL sym,SEARCH_RESULT *result);
 TYPE NodeType(PTREE expr);
 unsigned char OpOverloaded(SYMBOL *fun,SEARCH_RESULT *member,
                           SEARCH_RESULT *nonmember,SYMBOL scalars,
-                          arg_list *args,PTREE *plist)
-{
-    (void)fun; (void)member; (void)nonmember; (void)scalars;
-    (void)args; (void)plist; STUB_TRAP(); return 0;
-}
+                          arg_list *args,PTREE *plist);
 SYMBOL FnovGetAmbiguousEntry(FNOV_LIST **ptr)
 { (void)ptr; STUB_TRAP(); return NULL; }
 SYMBOL FnovNextAmbiguousEntry(void)
 { STUB_TRAP(); return NULL; }
 void InfSymbolAmbiguous(SYMBOL sym)
 { (void)sym; STUB_TRAP(); }
+PTREE NodeBinary(unsigned op,PTREE left,PTREE right);
+PTREE NodeArg(PTREE expr);
+PTREE build_fun_name(SEARCH_RESULT *result)
+{
+    SYMBOL_NAME name=result->sym_name;
+    return NodeSymbolNoRef(PTreeId(name->name),name->name_syms,result);
+}
+PTREE transform_to_call(PTREE expr,PTREE caller,PTREE args)
+{
+    expr->cgop=70;
+    expr->op=9;
+    expr->flags=0;
+    expr->u.subtree[0]=caller;
+    expr->u.subtree[1]=args;
+    return expr;
+}
 PTREE transform_member(PTREE expr,SEARCH_RESULT *member)
-{ (void)expr; (void)member; STUB_TRAP(); return NULL; }
+{
+    PTREE fun,caller,param;
+    if(expr->cgop==23) {
+        /* Old arrow transformation has no later ArrowMemberOK helper. */
+        repeat_overload=1;
+        fun=build_fun_name(member);
+        caller=NodeBinary(23,expr->u.subtree[0],fun);
+        caller=NodeBinary(47,caller,NULL);
+        expr->u.subtree[0]=AnalyseCall(caller,NULL);
+    } else {
+        if(expr->op==9) {
+            param=expr->u.subtree[1];
+            if(expr->cgop!=47) param=NodeArg(param);
+        } else if(expr->cgop==38 || expr->cgop==39)
+            param=NodeArg(PTreeIntConstant(0,TYP_SINT));
+        else param=NULL;
+        fun=build_fun_name(member);
+        caller=NodeBinary(48,expr->u.subtree[0],fun);
+        caller->type=fun->type;
+        expr=transform_to_call(expr,caller,param);
+    }
+    return expr;
+}
 PTREE transform_naked(PTREE expr,SEARCH_RESULT *nonmember)
 { (void)expr; (void)nonmember; STUB_TRAP(); return NULL; }
 PTREE transform_conversions(PTREE expr,SYMBOL fun,unsigned mask)
@@ -422,4 +455,55 @@ PTREE OverloadOperator(PTREE expr)
         expr=resolveOperator(expr,flags,scalars,mask);
     } while(repeat_overload && expr->op!=0);
     return expr;
+}
+
+PTREE PTreeOp(PTREE *expr);
+PTREE PTreeOpLeft(PTREE expr);
+PTREE PTreeErrorNode(PTREE expr);
+int SymIsThisFuncMember(SYMBOL sym);
+PTREE FoldBinary(PTREE expr);
+PTREE FoldUnary(PTREE expr);
+TYPE MemberPtrType(TYPE type);
+PTREE MembPtrCompare(PTREE expr) { (void)expr; STUB_TRAP(); return NULL; }
+/* Old isBadFun diagnoses only the actual member-function symbol case;
+ * the later NodeAddrOfFun/overloaded-function diagnostics are absent. */
+int isBadFun(PTREE expr,PTREE operand)
+{
+    PTREE node=PTreeOp(&operand);
+    if(node->op==7 && SymIsThisFuncMember(node->u.symcg.symbol)) {
+        PTreeErrorExpr(node,562);
+        PTreeErrorNode(expr);
+        return 1;
+    }
+    return 0;
+}
+PTREE ConvertBoolean(PTREE expr)
+{
+    PTREE left=expr->u.subtree[0];
+    SYMBOL scalars;
+    unsigned mask;
+    if(ClassTypeForType(left->type)) {
+        scalars=scalarOperators(expr,PTreeOpFlags(expr),&mask);
+        expr=resolve_symbols(expr,NULL,NULL,scalars,mask);
+        if(expr->op!=0 && ClassTypeForType(expr->u.subtree[0]->type)) {
+            PTreeErrorExpr(PTreeOpLeft(expr),554);
+            PTreeErrorNode(expr);
+        }
+    } else if(MemberPtrType(left->type)) expr=MembPtrCompare(expr);
+    else if(expr->op==9) {
+        if(!isBadFun(expr,expr->u.subtree[0]) &&
+           !isBadFun(expr,expr->u.subtree[1])) expr=FoldBinary(expr);
+    } else if(expr->op==8) {
+        if(!isBadFun(expr,expr->u.subtree[0])) expr=FoldUnary(expr);
+    }
+    return expr;
+}
+
+void overloadOperatorFini(INITFINI *defn)
+{
+    unsigned arg;
+    (void)defn;
+    for (arg=0;arg<54;++arg) if (ovfuns[arg]) FreeSymbol(ovfuns[arg]);
+    /* This old table also owns the shared null-argument parse node. */
+    PTreeFree(nullArgument);
 }

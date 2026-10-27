@@ -84,6 +84,8 @@ PTREE castConstant(PTREE expr,TYPE type,int *happened);
 PTREE PTreeCopySrcLocation(PTREE target,PTREE source);
 void NodeFreeDupedExpr(PTREE expr);
 PTREE foldInt(unsigned char operation,PTREE left,long right);
+int nonZeroExpr(PTREE expr);
+PTREE makeTrueFalse(PTREE expr,PTREE operand,int value);
 PTREE FoldBinary(PTREE expr)
 {
     PTREE original1=expr->u.subtree[0],original2=expr->u.subtree[1];
@@ -106,8 +108,26 @@ PTREE FoldBinary(PTREE expr)
             return expr;
         }
         switch(expr->cgop) {
-        case 13: case 14: case 15: case 25: case 26:
-        case 29: case 30: case 31: case 32: case 42:
+        case 14:
+            if(zeroConstant(op2)) {
+                if(zeroConstant(op1)) return makeTrueFalse(expr,op1,1);
+                if(nonZeroExpr(op1)) return makeTrueFalse(expr,op1,0);
+            }
+            return expr;
+        case 15:
+            if(zeroConstant(op2)) {
+                if(zeroConstant(op1)) return makeTrueFalse(expr,op1,0);
+                if(nonZeroExpr(op1)) return makeTrueFalse(expr,op1,1);
+            }
+            return expr;
+        case 13: case 25: case 26:
+        case 29: case 30: case 31: case 32:
+            if(ArithType(expr->type)) {
+                int happened;
+                expr->u.subtree[1]=castConstant(op2,expr->type,&happened);
+            }
+            return expr;
+        case 42:
             STUB_TRAP(); return NULL;
         default:
             return expr;

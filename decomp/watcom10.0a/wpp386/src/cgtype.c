@@ -160,3 +160,22 @@ TYPE TypePointerDiff(TYPE type)
 
 TYPE CgStripType(TYPE type)
 { return TypedefModifierRemove(type)->of; }
+
+unsigned CgDataPtrSize(void) { return data_ptr_size(0); }
+
+TYPE TypeNeedsCtor(TYPE type);
+int TypeIsCharString(TYPE type);
+int IsCgTypeAggregate(TYPE type,int string)
+{
+    struct class_info *info;
+    type=TypedefModifierRemove(type);
+    switch(type->id) {
+    case TYP_ARRAY: return !string || !TypeIsCharString(type);
+    case TYP_BITFIELD: return 1;
+    case TYP_CLASS:
+        info=type->u.c.info;
+        return !info->corrupted && info->bases==0 && info->size==info->vsize &&
+            info->last_vfn==0 && info->last_vbase==0 && info->has_data && !TypeNeedsCtor(type);
+    }
+    return 0;
+}

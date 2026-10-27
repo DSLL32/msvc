@@ -595,4 +595,12 @@ void SrcFileGuardPpEndif(void)
 int IsSrcFileLibrary(void) { STUB_TRAP(); return 0; }
 
 void SrcFileResetTokenLocn(CGIO_LOCATION *location)
-{ (void)location; STUB_TRAP(); }
+{
+    set_srcFile(location->src_file);
+    TokenLine=location->line;
+    TokenColumn=location->column;
+}
+
+SRCFILE SrcFileWalkInit(void) { STUB_TRAP();return NULL; }
+SRCFILE SrcFileWalkNext(SRCFILE file) { (void)file;STUB_TRAP();return NULL; }
+char *SrcFileFullName(SRCFILE file) { (void)file;STUB_TRAP();return NULL; }

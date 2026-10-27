@@ -93,8 +93,8 @@ typedef struct arg_list {
 #pragma pack()
 #pragma pack(1)
 /* Actual52-byte 1994 class metadata, before class_mod and the later
- * expanded debug handle. The two bytes at40 are not initialized by newINFO;
- * their role is not yet consumed. */
+ * expanded debug handle. The transient derivation-copy count at40 is not initialized by newINFO;
+ * each derivation traversal sets it before use. */
 struct class_info {
     struct base_class *bases;
     struct friend_entry *friends;
@@ -102,7 +102,7 @@ struct class_info {
     void *cdopt_cache;
     unsigned refno,size,vsize;
     long vb_offset,vf_offset;
-    unsigned short last_vfn,last_vbase,unclassified_40,index;
+    unsigned short last_vfn,last_vbase,derivation_copies,index;
     unsigned char max_align;
     unsigned char defined:1,opened:1,unnamed:1,corrupted:1,abstract:1,
         abstract_OK:1,anonymous:1,has_def_opeq:1;

@@ -36,6 +36,7 @@
  * original POP EDX, POP EBX, RET suffix under an exact ownership declaration. */
 #include "compiler.h"
 #include "memory.h"
+#include "pending.h"
 #include <recon.h>
 
 typedef struct cleanup CLEANUP;
@@ -163,3 +164,6 @@ void CMemFree(void *ptr)
 {
     if (ptr) free_segment_wrapper(ptr);
 }
+
+void CMemFreePtr(void **owner)
+{ (void)owner;STUB_TRAP(); }

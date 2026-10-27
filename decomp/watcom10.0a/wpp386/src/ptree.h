@@ -39,6 +39,7 @@
 /* Actual old node layout, before decoration/id_cgop and64-bit constants. */
 #pragma pack(1)
 typedef struct parse_tree_node *PTREE;
+struct string_constant;
 struct parse_tree_node {
     unsigned char op,cgop;
     unsigned short flags;
@@ -46,7 +47,10 @@ struct parse_tree_node {
     CGIO_LOCATION locn;
     union { long int_constant; unsigned uint_constant; double floating_constant;
         struct { unsigned low,high; } floating_bits;
+        struct { unsigned opcode,value; } ic;
+        struct string_constant *string;
         PTREE subtree[2];
+        struct { PTREE expr,partner; } dup;
         struct { struct symbol *symbol; struct search_result *result; } symcg;
         struct { char *name; unsigned char field_name,operator_code; } id; } u;
 };
@@ -54,9 +58,13 @@ struct parse_tree_node {
 typedef char PtreeSize[(sizeof(struct parse_tree_node)==28)?1:-1];
 /* Old identifier metadata has separate field-name and operator bytes. */
 PTREE PTreeId(char *id);
+PTREE PTreeLiteral(struct string_constant *literal);
+PTREE PTreeLiteralWide(struct string_constant *literal);
 PTREE ThrowsAnything(void);
 PTREE PTreeType(TYPE type);
 PTREE PTreeTListAppend(PTREE start,PTREE tree);
+PTREE PTreeIc(unsigned opcode,unsigned value);
+PTREE PTreeOpLeft(PTREE tree);
 PTREE PTreeAlloc(void);
 PTREE PTreeFree(PTREE tree);
 void PTreeFreeSubtrees(PTREE tree);

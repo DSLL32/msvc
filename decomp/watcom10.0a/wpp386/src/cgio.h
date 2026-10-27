@@ -65,10 +65,10 @@ struct cgfile_gen {
     unsigned counters[10],emitted_counters[10];
     unsigned cs_label,cs_allocated;
     unsigned deferred_range[2]; /* untouched by this initializer */
-    void *pending_value,*emitted_value;
+    void *switch_scope,*switch_label_scope;
     struct symbol *init_sym;
     struct type *curr_type,*emit_type;
-    CGIO_LOCATION source_location,emit_line_no,initialization_location;
+    CGIO_LOCATION source_location,emit_line_no,switch_location;
     unsigned flags;
 };
 struct cgfile {

@@ -30,6 +30,10 @@ typedef struct class_vftable {
     unsigned ambiguities:1,corrupted:1,reserved:30;
     THUNK_ACTION data[1];
 } CLASS_VFTABLE;
+typedef struct class_vbtable {
+    CLASS_TABLE h;
+    TYPE data[1];
+} CLASS_VBTABLE;
 #pragma pack()
 typedef char ClassVfTablePrefixSize[(offsetof(CLASS_VFTABLE,data)==32 && sizeof(THUNK_ACTION)==44)?1:-1];
 #endif

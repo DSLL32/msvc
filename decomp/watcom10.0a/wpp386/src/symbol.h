@@ -10,7 +10,7 @@ struct symbol {
     TYPE sym_type;
     SYMBOL_NAME name;
     void *locn;
-    union { unsigned uval; int sval; void *tinfo; SYMBOL sym,thunk_calls; TYPE type; } u;
+    union { unsigned uval; int sval; void *tinfo; SYMBOL sym,thunk_calls,alias; TYPE type; } u;
     unsigned flag;
     unsigned char flag2,id;
     unsigned short segid;

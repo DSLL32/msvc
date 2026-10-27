@@ -819,8 +819,7 @@ PTREE nameOfId(PTREE id)
 }
 PTREE CutAwayQualification(PTREE id)
 { (void)id; STUB_TRAP(); return 0; }
-int ScopeEquivalent(SCOPE scope,unsigned char type)
-{ (void)scope; (void)type; STUB_TRAP(); return 0; }
+int ScopeEquivalent(SCOPE scope,unsigned char type);
 TYPE ScopeClass(SCOPE scope);
 TYPE ClassTypeForType(TYPE type);
 SCOPE TypeScope(TYPE type)
@@ -828,8 +827,7 @@ SCOPE TypeScope(TYPE type)
     type=ClassTypeForType(type);
     return type ? type->u.c.scope : NULL;
 }
-void ScopeQualifyPush(SCOPE scope,SCOPE accessed)
-{ (void)scope; (void)accessed; STUB_TRAP(); }
+void ScopeQualifyPush(SCOPE scope,SCOPE accessed);
 char *CppDestructorName(void);
 PTREE verifyQualifiedId(DECL_SPEC *spec,PTREE id,SCOPE *scope,unsigned *id_info)
 {
@@ -936,8 +934,7 @@ void PTypePop(DECL_SPEC *spec)
     PTypeRelease(spec);
 }
 
-char *NameDummy(void)
-{ STUB_TRAP(); return 0; }
+char *NameDummy(void);
 void noDuplicateNames(DECL_INFO *head,DECL_INFO *check)
 {
     DECL_INFO *curr;
@@ -1153,7 +1150,7 @@ struct class_info *newINFO(void)
     info->dtor_user_code_checked=0; info->assign_user_code_checked=0;
     info->needs_ctor=0; info->needs_dtor=0; info->needs_vdtor=0; info->needs_assign=0;
     info->const_copy=0; info->const_assign=0; info->const_ref=0; info->zero_array=0;
-    info->flags50=0; info->unclassified_40=0; info->padding=0;
+    info->flags50=0; info->derivation_copies=0; info->padding=0;
     return info;
 }
 TYPE MakeClassType(void)
@@ -1370,7 +1367,7 @@ void checkDestructor(TYPE type,unsigned status,unsigned count)
     if(status==0 && count!=0) CErr1(236);
 }
 void checkOperator(unsigned status,char *name)
-{ (void)status; (void)name; STUB_TRAP(); }
+{ if(status&2) CErr2p(237,name); }
 void removeDefaultArgs(DECL_INFO *args);
 void ForceNoDefaultArgs(DECL_INFO *info,unsigned error)
 {
@@ -1407,8 +1404,17 @@ TYPE TypeModFlags(TYPE type,unsigned short *flags)
     *flags=accumulated;
     return type;
 }
+int ScopeHasPureFunctions(SCOPE scope);
 int verifyAbstractStatus(TYPE type)
-{ (void)type; STUB_TRAP(); return 0; }
+{
+    struct class_info *info=type->u.c.info;
+    if(!info->abstract_OK) {
+        if(!TypeDefined(type)) return 0;
+        if(ScopeHasPureFunctions(type->u.c.scope)) info->abstract=1;
+        info->abstract_OK=1;
+    }
+    return info->abstract;
+}
 int TypeAbstract(TYPE type)
 {
     for (;;) {
@@ -1433,8 +1439,7 @@ void setStorageClass(SYMBOL sym,unsigned char storage)
     case 16: sym->id=2; break;
     }
 }
-void ScopeQualifyPop(void)
-{ STUB_TRAP(); }
+SCOPE ScopeQualifyPop(void);
 TYPE TypeGetActualFlags(TYPE type,unsigned short *flags);
 DECL_INFO *FinishDeclarator(DECL_SPEC *spec,DECL_INFO *info)
 {
@@ -2282,6 +2287,29 @@ TYPE AlignmentType(TYPE type)
     }
 }
 
+TYPE MakePureFunction(TYPE type)
+{
+    return adjustFunctionType(type,0x40,NULL);
+}
+int aZeroConstant(PTREE init)
+{
+    return init->op==2 && init->cgop==7 && init->u.int_constant==0;
+}
+void VerifyPureFunction(DECL_INFO *info,PTREE init)
+{
+    SYMBOL sym;
+    TYPE type;
+    /* The1994 body checks/frees the initializer before inspecting the
+     * function type; the released later source orders these operations
+     * differently. Preserve the actual diagnostic and lifetime order. */
+    if (!aZeroConstant(init)) CErr1(137);
+    PTreeFree(init);
+    sym=info->sym;
+    type=sym->sym_type;
+    if (!FunctionDeclarationType(type)) CErr1(416);
+    else sym->sym_type=MakePureFunction(type);
+}
+
 void VerifyMemberFunction(DECL_SPEC *spec,DECL_INFO *info)
 {
     SYMBOL sym;
@@ -2327,7 +2355,7 @@ PTREE MakeConstructorId(DECL_SPEC *spec)
 }
 
 TYPE MakePureVirtualFunction(TYPE type) { (void)type; STUB_TRAP(); return NULL; }
-TYPE MakeVirtualFunction(TYPE type) { (void)type; STUB_TRAP(); return NULL; }
+TYPE MakeVirtualFunction(TYPE type) { return adjustFunctionType(type,0x10,NULL); }
 int TypeHasEllipsisArg(TYPE type)
 {
     arg_list *args;
@@ -2522,7 +2550,7 @@ int TypeRequiresDtoring(TYPE type)
 }
 
 PTREE DoDeclSpec(DECL_SPEC *spec)
-{ (void)spec; STUB_TRAP(); return NULL; }
+{ return PTreeType(declSpecType(spec)); }
 
 
 
@@ -2564,7 +2592,18 @@ TYPE TypeThisSymbol(SYMBOL sym,int reference)
 }
 TYPE TypeThis(void) { return TypeThisSymbol(ScopeFunctionInProgress(),0); }
 
-int TypeNeedsCtor(TYPE type) { (void)type; STUB_TRAP(); return 0; }
+TYPE TypeNeedsCtor(TYPE type)
+{
+    for(;;) {
+        while(type && (type->id==TYP_TYPEDEF || type->id==TYP_MODIFIER)) type=type->of;
+        /* The original dereferences NULL here; it is not a valid type domain. */
+        if(!type) { STUB_TRAP(); return NULL; }
+        if(type->id==TYP_ARRAY) { type=type->of; continue; }
+        if(type->id==TYP_CLASS && type->u.c.info->needs_ctor && !type->u.c.info->corrupted)
+            return type;
+        return NULL;
+    }
+}
 
 TYPE TypePtrToChar(void) { return ptr_char; }
 TYPE TypePtrToUInt(void) { return ptr_uint; }
@@ -2676,4 +2715,681 @@ TYPE UserTypeForType(TYPE type)
 {
     TYPE user=ClassTypeForType(type);
     return user ? user : EnumTypeForType(type);
+}
+
+TYPE MakeBasedModifierOf(TYPE type,unsigned short flags,void *base)
+{
+    return MakeTypeOf(makeFullModifier(flags,base,NULL),type);
+}
+
+TYPE PointerType(TYPE type)
+{
+    while(type->id==TYP_TYPEDEF || type->id==TYP_MODIFIER) type=type->of;
+    if(type->id!=TYP_POINTER || (type->flag&1)) return NULL;
+    return type;
+}
+
+TYPE MakeUCharArray(unsigned count)
+{ return MakeArrayOf(count,GetBasicType(TYP_UCHAR)); }
+
+int ReverseParms(void *pragma);
+int TypeHasReverseArgs(TYPE type)
+{
+    void *pragma;
+    type=FunctionDeclarationType(type);
+    if(!type || TypeHasEllipsisArg(type)) return 0;
+    pragma=TypeHasPragma(type);
+    return pragma?ReverseParms(pragma):0;
+}
+
+TYPE MakeCommonCodeData(TYPE type)
+{ return MakeModifiedType(type,0x800); }
+/* Actual1994 has separate copy-pragma and inline arguments, preceding the
+ * released control bitmask. Its preserved function flag mask is0x0087. */
+TYPE makeThunkType(TYPE type,int copy_pragma,int make_inline)
+{
+    TYPE old_fn=FunctionDeclarationType(type),new_fn;
+    int reuse=TypeArgList(old_fn)->except_spec==NULL;
+    new_fn=dupFunction(old_fn,reuse);
+    new_fn->flag&=0x87;
+    if(!reuse) TypeArgList(new_fn)->except_spec=NULL;
+    if(!copy_pragma) new_fn->u.f.pragma=NULL;
+    if(make_inline) new_fn->flag|=8;
+    return MakeCommonCodeData(CheckDupType(new_fn));
+}
+TYPE MakeThunkFunction(TYPE type)
+{ return makeThunkType(type,0,1); }
+
+TYPE TypePtrVoidFunOfVoid(void) { return ptr_void_fun_of_void; }
+
+int TypePartiallyDefined(TYPE type)
+{ (void)type; STUB_TRAP(); return 0; }
+
+int ScopeHasVirtualFunctions(SCOPE scope);
+int TypeCtorDispRequired(TYPE derived,TYPE base)
+{
+    if (!ScopeHasVirtualFunctions(base->u.c.scope)) return 0;
+    return derived->u.c.info->has_vcdtor!=0;
+}
+
+char *CppVBTableName(SCOPE scope,long offset);
+SYMBOL MakeVBTableSym(SCOPE scope,unsigned count,long offset)
+{
+    char *name=CppVBTableName(scope,offset);
+    SYMBOL sym=alreadyDefined(name);
+    TYPE type;
+    if (!sym) {
+        type=MakeArrayOf(count+1,GetBasicType(TYP_UINT));
+        type=MakeCompilerConstCommonData(type);
+        sym=AllocSymbol();
+        sym->id=10;
+        sym->sym_type=type;
+        sym->flag|=1;
+        sym=InsertSymbol(FileScope,sym,name);
+        LinkageSet(sym,"C++");
+    }
+    return sym;
+}
+
+int ScopeHasVirtualBases(SCOPE scope);
+SCOPE TypeScope(TYPE type);
+int TypeHasVirtualBases(TYPE type);
+int TypeRequiresCtorParm(TYPE type)
+{
+    return TypeHasVirtualBases(type);
+}
+int TypeHasVirtualBases(TYPE type)
+{
+    type=StructType(type);
+    if (type) return ScopeHasVirtualBases(TypeScope(type));
+    return 0;
+}
+
+TYPE MakeThunkPragmaFunction(TYPE type)
+{
+    return makeThunkType(type,1,0);
+}
+
+TYPE StructOpened(TYPE type)
+{
+    type=StructType(type);
+    return type && type->u.c.info->opened?type:NULL;
+}
+
+TYPE TypeModFlagsBaseEC(TYPE type,unsigned short *flags,void **base)
+{
+    unsigned short accumulated=0;
+    *base=NULL;
+    for(;type!=NULL;type=type->of) {
+        if(type->id==TYP_MODIFIER) {
+            accumulated|=type->flag;
+            if(type->flag&0x700) *base=type->u.m.base;
+        } else if(type->id!=TYP_TYPEDEF) {
+            if(!(accumulated&0x73c)) accumulated|=defaultMemoryFlag(type);
+            break;
+        }
+    }
+    *flags=accumulated;
+    return type;
+}
+TYPE DupArrayTypeForArray(TYPE type,unsigned size)
+{ (void)type; (void)size; STUB_TRAP(); return NULL; }
+
+TYPE TypeOverrideModifiers(TYPE previous,TYPE current)
+{ (void)previous; (void)current; STUB_TRAP(); return NULL; }
+
+int TypeIsCharString(TYPE type) { (void)type; STUB_TRAP(); return 0; }
+
+TYPE MakeCombinedFunctionType(TYPE previous,TYPE current)
+{
+    unsigned short add_flags=FunctionDeclarationType(current)->flag&~4;
+    if(add_flags!=0) previous=adjustFunctionType(previous,add_flags,NULL);
+    return previous;
+}
+
+DECL_SPEC *CheckTypeSpecifier(DECL_SPEC *spec)
+{
+    figureOutStgClass(spec);
+    if(spec->stg_class!=0) {
+        spec->stg_class=0;
+        CErr1(146);
+    }
+    if(spec->specifier&0x1c) {
+        spec->specifier&=~0x1c;
+        CErr1(145);
+    }
+    if(spec->type_declared || spec->type_defined) CErr1(197);
+    return spec;
+}
+
+DECL_INFO *MakeNewDynamicArray(PTREE nelem)
+{
+    DECL_INFO *info=makeDeclInfo(NULL);
+    info->defarg_expr=nelem;
+    return info;
+}
+
+DECL_INFO *MakeNewDeclarator(DECL_SPEC *spec,DECL_INFO *ptrs,DECL_INFO *arrays)
+{
+    if(arrays==NULL) arrays=makeDeclInfo(NULL);
+    if(ptrs!=NULL) {
+        arrays=AddDeclarator(arrays,ptrs->list);
+        ptrs->list=NULL;
+        FreeDeclInfo(ptrs);
+    }
+    return FinishDeclarator(spec,arrays);
+}
+
+int newTypeIllegal(TYPE type)
+{
+    unsigned short flags;
+    int error=0;
+    TYPE test=TypeModFlags(type,&flags);
+    switch(test->id) {
+    case TYP_FUNCTION: CErr1(398); error=1; break;
+    case TYP_VOID: CErr1(397); error=1; break;
+    }
+    if(flags&3) CErr1(399);
+    return error;
+}
+PTREE PTreeErrorNode(PTREE expr);
+PTREE PTreeBinary(unsigned char op,PTREE left,PTREE right);
+PTREE MakeNewExpr(PTREE global,PTREE placement,DECL_INFO *info,PTREE init)
+{
+    PTREE nelem,new_type,parms1,parms2;
+    TYPE type;
+    unsigned char operation=63;
+    if(global!=NULL) { PTreeFreeSubtrees(global); operation=64; }
+    nelem=info->defarg_expr;
+    if(nelem!=NULL) info->defarg_expr=NULL;
+    type=info->type;
+    FreeDeclInfo(info);
+    if(newTypeIllegal(type)) {
+        PTreeFreeSubtrees(init);
+        return PTreeErrorNode(placement);
+    }
+    new_type=PTreeType(type);
+    parms2=PTreeBinary(67,nelem,init);
+    parms1=PTreeBinary(66,placement,parms2);
+    return PTreeBinary(operation,new_type,parms1);
+}
+
+TYPE AbstractClassType(TYPE type)
+{
+    type=StructType(type);
+    if(type!=NULL && verifyAbstractStatus(type)) return type;
+    return NULL;
+}
+
+TYPE GetReferenceTo(TYPE type)
+{
+    if(!ReferenceType(type)) type=MakeReferenceTo(type);
+    return type;
+}
+
+TYPE TypePointedAtReplace(TYPE type,TYPE pointed)
+{ (void)type; (void)pointed; STUB_TRAP(); return NULL; }
+
+TYPE SegmentShortType(TYPE type)
+{ return type->id==TYP_USHORT && (type->flag&1)?type:NULL; }
+
+TYPE PointerTypeEquivalent(TYPE type);
+TYPE BasedPtrType(TYPE type)
+{
+    type=PointerTypeEquivalent(type);
+    return type ? BasedType(type->of) : type;
+}
+
+TYPE MakeNonInlineFunction(TYPE type)
+{
+    return adjustFullFunctionType(type,0,8,NULL,NULL);
+}
+
+DECL_SPEC *PTypeLinkage(void)
+{
+    DECL_SPEC *spec=makeDeclSpec();
+    spec->linkage=CurrLinkage;
+    return spec;
+}
+
+DECL_SPEC *PTypeClassInstantiation(TYPE type,PTREE id)
+{
+    DECL_SPEC *spec=PTypeActualTypeName(type,id);
+    spec->class_instantiation=1;
+    return spec;
+}
+
+void CheckDimension(PTREE expr)
+{
+    if(expr->u.uint_constant==0) {
+        CErr1(34);
+        expr->u.uint_constant=1;
+    } else if(expr->op==2 && expr->u.int_constant<0) {
+        CErr1(35);
+        expr->u.uint_constant=0UL-expr->u.uint_constant;
+    }
+}
+DECL_INFO *AddArrayDeclarator(DECL_INFO *info,PTREE size)
+{
+    TYPE type;
+    if(size!=NULL) {
+        CheckDimension(size);
+        type=MakeArrayType(size->u.uint_constant);
+        PTreeFree(size);
+    } else type=MakeArrayType(0);
+    return AddDeclarator(info,type);
+}
+
+/* The old binder passes three16-byte stack controls separately, before
+ * the later type_bind_info structure and derived-conversion class. */
+void binderInit(VSTK_CTL *with_generic,VSTK_CTL *without_generic,VSTK_CTL *bindings)
+{
+    VstkOpen(with_generic,sizeof(TYPE),8);
+    VstkOpen(without_generic,sizeof(TYPE),8);
+    VstkOpen(bindings,sizeof(TYPE),8);
+}
+void binderFini(VSTK_CTL *with_generic,VSTK_CTL *without_generic,VSTK_CTL *bindings)
+{
+    VstkClose(with_generic);
+    VstkClose(without_generic);
+    VstkClose(bindings);
+}
+void pushPrototypeAndArguments(VSTK_CTL *with_generic,arg_list *prototype,
+                     VSTK_CTL *without_generic,arg_list *actual,unsigned control)
+{
+    unsigned i;
+    TYPE p_type,a_type,ref;
+    for(i=0;i<prototype->num_args;++i) {
+        p_type=prototype->type_list[i];
+        while(p_type && (p_type->id==TYP_TYPEDEF || p_type->id==TYP_MODIFIER))
+            p_type=p_type->of;
+        a_type=actual->type_list[i];
+        while(a_type && (a_type->id==TYP_TYPEDEF || a_type->id==TYP_MODIFIER))
+            a_type=a_type->of;
+        ref=ReferenceType(a_type);
+        if(ref) {
+            a_type=ref;
+            ref=ReferenceType(p_type);
+            if(ref) p_type=ref;
+            else {
+                while(a_type && (a_type->id==TYP_TYPEDEF || a_type->id==TYP_MODIFIER))
+                    a_type=a_type->of;
+            }
+        } else {
+            ref=ReferenceType(p_type);
+            if(ref) p_type=ref;
+        }
+        a_type=adjustParmType(a_type);
+        pushType(with_generic,p_type);
+        pushType(without_generic,a_type);
+        /* CFbe608 is the existing distinct error-type object allocated in
+         * typesInit; the old binder uses its identity as a level marker. */
+        if(control&1) pushType(with_generic,diagnostic_error);
+    }
+}
+int TypeBasesEqual(unsigned short flags,void *first,void *second);
+int modifiersMatch(unsigned short bound_flags,unsigned short unbound_flags,
+                   void *bound_base,void *unbound_base)
+{
+    if(bound_flags!=unbound_flags) return 0;
+    return !(bound_flags&0x700) || TypeBasesEqual(bound_flags,bound_base,unbound_base);
+}
+int compareClassTypes(TYPE bound,TYPE unbound,VSTK_CTL *bound_stack,VSTK_CTL *unbound_stack)
+{ (void)bound; (void)unbound; (void)bound_stack; (void)unbound_stack; STUB_TRAP(); return 1; }
+/* Adapted initial type.c typesBind. The1994 binder has only exact/trivial
+ * outcomes, retains rejection of reference→generic bindings, and owns the
+ * three separate stacks. It has no later derived-base or first-pointer helper. */
+unsigned typesBind(VSTK_CTL *without_generic,VSTK_CTL *with_generic,VSTK_CTL *bindings)
+{
+    TYPE b_type,u_type,b_unmod,u_unmod,g_type,match,t_unmod;
+    TYPE *b_top,*u_top;
+    unsigned short b_flags,u_flags,g_flags,t_flags,d_flags;
+    void *b_base,*u_base,*g_base,*t_base;
+    arg_list *b_args,*u_args;
+    unsigned i,status=1;
+    int first_level;
+    for(;;) {
+        b_top=VstkPop(without_generic);
+        u_top=VstkPop(with_generic);
+        if(!b_top || !u_top) break;
+        b_type=*b_top;
+        if(!b_type) return 0;
+        b_unmod=TypeModFlagsBaseEC(b_type,&b_flags,&b_base);
+        u_type=*u_top;
+        first_level=0;
+        if(u_type==diagnostic_error) {
+            first_level=1;
+            u_top=VstkPop(with_generic);
+            if(!u_top) break;
+            u_type=*u_top;
+        }
+        if(!u_type) return 0;
+        u_unmod=TypeModFlagsBaseEC(u_type,&u_flags,&u_base);
+        if(b_unmod==u_unmod) {
+            if(!modifiersMatch(b_flags,u_flags,b_base,u_base)) return 0;
+            continue;
+        }
+        if(b_unmod->id!=u_unmod->id) {
+            if(u_unmod->id!=TYP_GENERIC || ReferenceType(b_unmod)) return 0;
+            b_unmod=TypeModExtract(b_type,&b_flags,&b_base,1);
+            u_unmod=TypeModExtract(u_type,&u_flags,&u_base,1);
+            d_flags=u_flags^(b_flags&u_flags);
+            if(d_flags) {
+                if(!first_level || (d_flags&~3)) return 0;
+                status|=2;
+                u_flags&=~d_flags;
+            }
+            if(u_flags&0x700) {
+                if((u_flags&0x700)!=(b_flags&0x700)) return 0;
+                if(!TypeBasesEqual(u_flags,b_base,u_base)) return 0;
+            }
+            g_flags=b_flags&~u_flags;
+            g_type=b_unmod;
+            if(CompFlags.xcmb_switch_used && CompFlags.extensions_enabled) {
+                g_base=(g_flags&0x700)?b_base:NULL;
+                if(g_flags) g_type=MakeBasedModifierOf(g_type,g_flags,g_base);
+            } else {
+                g_flags&=3;
+                g_base=NULL;
+                if(g_flags) g_type=MakeModifiedType(g_type,g_flags);
+            }
+            match=u_unmod->of;
+            if(match) {
+                t_unmod=TypeModExtract(match,&t_flags,&t_base,1);
+                if(!TypesIdentical(b_unmod,t_unmod)) return 0;
+                if((t_flags&~0x73c)!=(g_flags&~0x73c)) return 0;
+                if(t_flags&0x73c) {
+                    if((g_flags&0x73c) &&
+                       !modifiersMatch(t_flags,g_flags,t_base,g_base)) return 0;
+                } else if(g_flags&0x73c) u_unmod->of=g_type;
+                continue;
+            }
+            u_unmod->of=g_type;
+            pushType(bindings,u_unmod);
+            continue;
+        }
+        if(first_level) {
+            d_flags=u_flags^(b_flags&u_flags);
+            if(d_flags && !(d_flags&~3)) {
+                status|=2;
+                u_flags&=~d_flags;
+            }
+        }
+        if(!modifiersMatch(b_flags,u_flags,b_base,u_base)) return 0;
+        switch(b_unmod->id) {
+        case TYP_CLASS:
+            if(compareClassTypes(b_unmod,u_unmod,without_generic,with_generic)) return 0;
+            u_unmod->of=b_unmod;
+            pushType(bindings,u_unmod);
+            break;
+        case TYP_MEMBER_POINTER:
+            /* The old order puts hosts on top of pointed-to types. */
+            pushType(without_generic,b_unmod->of);
+            pushType(with_generic,u_unmod->of);
+            pushType(without_generic,b_unmod->u.mp.host);
+            pushType(with_generic,u_unmod->u.mp.host);
+            break;
+        case TYP_ARRAY:
+            if(b_unmod->u.a.array_size!=u_unmod->u.a.array_size) return 0;
+            pushType(without_generic,b_unmod->of);
+            pushType(with_generic,u_unmod->of);
+            break;
+        case TYP_FUNCTION:
+            if(b_unmod->u.f.pragma!=u_unmod->u.f.pragma) return 0;
+            b_args=b_unmod->u.f.args;
+            u_args=u_unmod->u.f.args;
+            if(b_args!=u_args) {
+                if(b_args->num_args!=u_args->num_args ||
+                   b_args->qualifier!=u_args->qualifier) return 0;
+                for(i=0;i<b_args->num_args;++i) {
+                    pushType(without_generic,b_args->type_list[i]);
+                    pushType(with_generic,u_args->type_list[i]);
+                }
+            }
+            /* fall through */
+        case TYP_POINTER:
+            pushType(without_generic,b_unmod->of);
+            pushType(with_generic,u_unmod->of);
+            break;
+        default:
+            if(!TypesIdentical(b_unmod,u_unmod)) return 0;
+        }
+    }
+    return status;
+}
+
+#pragma pack(4)
+typedef struct type_bind_stack {
+    TYPE old_type;
+    TYPE *link_type;
+    arg_list *type_args;
+    unsigned char op;
+} TYPE_BIND_STACK;
+#pragma pack()
+typedef char TypeBindStackSize[(sizeof(TYPE_BIND_STACK)==16)?1:-1];
+enum { BIND_NULL=0,BIND_BIND_TYPE=1,BIND_DUP_TYPE=2,BIND_CLASS_TEMPLATE=3 };
+void pushBinding(VSTK_CTL *stack,TYPE old_type,TYPE *link_type)
+{
+    TYPE_BIND_STACK *top;
+    top=VstkPush(stack);
+    top->old_type=NULL;
+    top->type_args=NULL;
+    top->op=BIND_DUP_TYPE;
+    top->link_type=link_type;
+    top=VstkPush(stack);
+    top->type_args=NULL;
+    top->op=BIND_BIND_TYPE;
+    top->old_type=old_type;
+    top->link_type=link_type;
+}
+TYPE *dupExceptSpec(TYPE *types)
+{ (void)types; STUB_TRAP(); return NULL; }
+int handleUnboundClass(VSTK_CTL *stack,TYPE old_type,TYPE *link)
+{ (void)stack; (void)old_type; (void)link; STUB_TRAP(); return 1; }
+int instantiateUnbound(TYPE old_type,TYPE *link,arg_list *args,CGIO_LOCATION *locn)
+{ (void)old_type; (void)link; (void)args; (void)locn; STUB_TRAP(); return 1; }
+enum { TF1_UNBOUND=4, DF_NULL=0 };
+/* Initial performBinding source, with actual1994 direct CheckDupType.
+ * Its16B stack records and original trailing epilogue remain distinct. */
+int performBinding( VSTK_CTL *stk, CGIO_LOCATION *locn )
+{
+    int type_is_OK;
+    unsigned i;
+    arg_list *new_args;
+    arg_list *old_args;
+    TYPE old_type;
+    TYPE *link_type;
+    TYPE new_type;
+    TYPE *old_arg;
+    TYPE *new_arg;
+    TYPE *old_except;
+    TYPE *new_except;
+    TYPE_BIND_STACK *top;
+
+    type_is_OK = 1;
+    for(;;) {
+        top = VstkPop( stk );
+        if( top == NULL ) break;
+        /* fields must be extracted before any pushes */
+        old_type = top->old_type;
+        link_type = top->link_type;
+        switch( top->op ) {
+        case BIND_DUP_TYPE:
+            *link_type = CheckDupType( *link_type );
+            continue;
+        case BIND_CLASS_TEMPLATE:
+            if( instantiateUnbound( old_type, link_type, top->type_args, locn ) ) {
+                type_is_OK = 0;
+            }
+            continue;
+        }
+        new_type = old_type;
+        switch( old_type->id ) {
+        case TYP_POINTER:
+            new_type = MakeType( TYP_POINTER );
+            new_type->flag = old_type->flag;
+            pushBinding( stk, old_type->of, &(new_type->of) );
+            break;
+        case TYP_TYPEDEF:
+            pushBinding( stk, old_type->of, link_type );
+            break;
+        case TYP_CLASS:
+            if( old_type->flag & TF1_UNBOUND ) {
+                if( old_type->of == NULL ) {
+                    if( handleUnboundClass( stk, old_type, link_type ) ) {
+                        type_is_OK = 0;
+                    }
+                } else {
+                    new_type = old_type->of;
+                }
+            }
+            break;
+        case TYP_FUNCTION:
+            new_type = dupFunction( old_type, DF_NULL );
+            old_args = TypeArgList( old_type );
+            old_arg = old_args->type_list;
+            new_args = TypeArgList( new_type );
+            new_arg = new_args->type_list;
+            for( i = new_args->num_args; i != 0; --i ) {
+                pushBinding( stk, *old_arg, new_arg );
+                ++old_arg;
+                ++new_arg;
+            }
+            new_except = new_args->except_spec;
+            if( new_except != NULL ) {
+                /* dupFunction doesn't duplicate the except-spec */
+                old_except = old_args->except_spec;
+                new_except = dupExceptSpec( old_except );
+                new_args->except_spec = new_except;
+                for(;;) {
+                    if( *old_except == NULL || *new_except == NULL ) break;
+                    pushBinding( stk, *old_except, new_except );
+                    ++old_except;
+                    ++new_except;
+                }
+            }
+            pushBinding( stk, old_type->of, &(new_type->of) );
+            break;
+        case TYP_ARRAY:
+            new_type = MakeArrayType( old_type->u.a.array_size );
+            pushBinding( stk, old_type->of, &(new_type->of) );
+            break;
+        case TYP_MODIFIER:
+            new_type = dupModifier( old_type );
+            pushBinding( stk, old_type->of, &(new_type->of) );
+            break;
+        case TYP_MEMBER_POINTER:
+            new_type = MakeType( TYP_MEMBER_POINTER );
+            new_type->flag = old_type->flag;
+            pushBinding( stk, old_type->of, &(new_type->of) );
+            pushBinding( stk, old_type->u.mp.host, &(new_type->u.mp.host) );
+            break;
+        case TYP_GENERIC:
+            new_type = old_type->of;
+            break;
+        }
+        *link_type = new_type;
+    }
+    return( type_is_OK );
+}
+
+TYPE createBoundType(TYPE type,CGIO_LOCATION *locn)
+{
+    VSTK_CTL stack;
+    TYPE bound=NULL;
+    VstkOpen(&stack,sizeof(TYPE_BIND_STACK),8);
+    pushBinding(&stack,type,&bound);
+    if(!performBinding(&stack,locn)) bound=NULL;
+    VstkClose(&stack);
+    return bound;
+}
+void clearGenericBindings(VSTK_CTL *bindings)
+{
+    TYPE *top;
+    for(;;) {
+        top=VstkPop(bindings);
+        if(!top) break;
+        if(*top) (*top)->of=NULL;
+    }
+}
+TYPE BindGenericTypes(arg_list *args,SYMBOL fn,CGIO_LOCATION *locn,unsigned *control)
+{
+    VSTK_CTL with_generic,without_generic,bindings;
+    TYPE type,bound=NULL;
+    unsigned flags,status;
+    flags=(*control && CompFlags.extensions_enabled)?1:0;
+    *control=0;
+    binderInit(&with_generic,&without_generic,&bindings);
+    type=fn->sym_type;
+    pushPrototypeAndArguments(&with_generic,TypeArgList(type),&without_generic,args,flags);
+    status=typesBind(&without_generic,&with_generic,&bindings);
+    if(status) {
+        if(status&2) *control=1;
+        bound=createBoundType(type,locn);
+    }
+    clearGenericBindings(&bindings);
+    binderFini(&with_generic,&without_generic,&bindings);
+    return bound;
+}
+
+DECL_INFO *MakeNewTypeId(PTREE type_id)
+{
+    TYPE type=type_id->type;
+    DECL_INFO *info;
+    PTreeFree(type_id);
+    info=makeDeclInfo(NULL);
+    info->type=type;
+    return info;
+}
+
+/* Expandable arrays deliberately bypass the canonical type chains. */
+TYPE MakeExpandableType(type_id base)
+{
+    TYPE type=MakeArrayType(1);
+    type->of=GetBasicType(base);
+    return type;
+}
+
+TYPE MakeForceInMemory(TYPE type) { return MakeModifiedType(type,0x1000); }
+
+unsigned char AreFunctionsDistinct(SYMBOL *old,SYMBOL current,char *name);
+int sameBoundFunction(TYPE type,SYMBOL file_sym)
+{
+    SYMBOL test=AllocSymbol();
+    unsigned char result;
+    test->id=1;
+    test->sym_type=type;
+    result=AreFunctionsDistinct(&file_sym,test,file_sym->name->name);
+    FreeSymbol(test);
+    return result==3;
+}
+void TemplateFunctionInstantiate(SYMBOL sym,SYMBOL model,void *bindings);
+int BindFunction(SYMBOL sym,SYMBOL model)
+{
+    TYPE bound;
+    unsigned status;
+    arg_list *sym_args=SymFuncArgList(sym),*model_args=SymFuncArgList(model);
+    VSTK_CTL with_generic,without_generic,bindings;
+    if(sym_args->num_args!=model_args->num_args) return 0;
+    binderInit(&with_generic,&without_generic,&bindings);
+    pushArguments(&with_generic,model_args);
+    pushArguments(&without_generic,sym_args);
+    status=typesBind(&without_generic,&with_generic,&bindings);
+    if(status) {
+        bound=createBoundType(model->sym_type,(CGIO_LOCATION *)sym->locn);
+        if(bound && sameBoundFunction(bound,sym)) {
+            TemplateFunctionInstantiate(sym,model,&bindings);
+            /* Actual1994 success returns directly, without the later
+             * binderFini call present in the released source. */
+            return 1;
+        }
+    }
+    clearGenericBindings(&bindings);
+    binderFini(&with_generic,&without_generic,&bindings);
+    return 0;
+}
+
+TYPE PTypeListOfTypes(type_id id)
+{
+    return typeTable[id];
 }

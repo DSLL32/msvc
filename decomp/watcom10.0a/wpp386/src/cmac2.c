@@ -480,3 +480,15 @@ unsigned IfDepthInSrcFile(void)
          info=(struct cpp_info *)VstkNext(&vstkPp,info)) ++depth;
     return depth;
 }
+
+void SetErrLoc(CGIO_LOCATION *locn);
+void VstkClose(VSTK_CTL *stack);
+void DirectiveFini(void)
+{
+    struct cpp_info *pp;
+    while ((pp=(struct cpp_info *)VstkPop(&vstkPp))!=NULL) {
+        SetErrLoc(&pp->locn);
+        CErr1(77);
+    }
+    VstkClose(&vstkPp);
+}

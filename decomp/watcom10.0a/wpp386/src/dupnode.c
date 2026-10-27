@@ -36,6 +36,7 @@
 #include "compiler.h"
 #include "carve.h"
 #include "ptree.h"
+#include "symbol.h"
 #include "pending.h"
 #include <recon.h>
 typedef struct promo PROMO;
@@ -44,12 +45,74 @@ typedef char PromoSize[(sizeof(PROMO)==16)?1:-1];
 static carve_t carvePromo;
 static PROMO *promoRing,*promoHdr;
 static CGIO_LOCATION *exprPosition,*emittedPosition;
+TYPE NodeType(PTREE node);
+SYMBOL TemporaryAlloc(TYPE type);
+PTREE MakeNodeSymbol(SYMBOL sym);
+PTREE NodeBinary(unsigned char op,PTREE left,PTREE right);
+void *RingPrune(void **head,void *entry);
+void RingAppend(void **head,void *entry);
+PTREE convertToTemp(PTREE node,SYMBOL temp)
+{
+    node->op=8;
+    node->cgop=92;
+    node->type=temp->sym_type;
+    node->u.subtree[0]=MakeNodeSymbol(temp);
+    node->u.subtree[1]=NULL;
+    node->flags&=~0x4000;
+    return node;
+}
 PTREE dupPromote(PROMO *promo)
-{ (void)promo; STUB_TRAP(); return NULL; }
+{
+    PTREE first=promo->dup_src,second=first->u.dup.partner;
+    PTREE expr=second->u.dup.expr,node,ancestor;
+    TYPE type=NodeType(expr);
+    SYMBOL temp=TemporaryAlloc(type);
+    temp->sym_type=type;
+    convertToTemp(first,temp);
+    convertToTemp(second,temp);
+    expr=NodeBinary(13,MakeNodeSymbol(temp),expr);
+    expr->type=type;
+    expr->flags=0x13;
+    ancestor=promo->anc_src;
+    ancestor->flags&=~0x4000;
+    node=PTreeAlloc();
+    *node=*ancestor;
+    ancestor->op=9;
+    ancestor->cgop=42;
+    ancestor->u.subtree[0]=expr;
+    ancestor->u.subtree[1]=node;
+    return ancestor;
+}
 void addPromo(PTREE node)
-{ (void)node; STUB_TRAP(); }
+{
+    PROMO *promo=CarveAlloc(carvePromo);
+    promo->dup_src=node;
+    promo->anc_src=node;
+    promo->anc_tgt=node->u.dup.partner;
+    promo->anc_tgt->flags|=0x4000;
+    node->flags|=0x4000;
+    RingPush((void **)&promoHdr,promo);
+}
 void setAncestor(PTREE left,PTREE right,PTREE child)
-{ (void)left; (void)right; (void)child; STUB_TRAP(); }
+{
+    PROMO *last,*next,*promo;
+    PTREE common;
+    if(child==NULL || promoHdr==NULL) return;
+    last=promoHdr;
+    next=last->next;
+    do {
+        promo=next;
+        next=promo->next;
+        common=promo->anc_src;
+        if(child==common) { common=left; promo->anc_src=left; }
+        if(child==promo->anc_tgt) promo->anc_tgt=right;
+        if(common==promo->anc_tgt &&
+           (common->op!=9 || (common->cgop!=43 && common->cgop!=44))) {
+            RingPrune((void **)&promoHdr,promo);
+            RingAppend((void **)&promoRing,promo);
+        }
+    } while(promo!=last);
+}
 PTREE dupProc(PTREE node)
 {
     if(emittedPosition->src_file==NULL ||

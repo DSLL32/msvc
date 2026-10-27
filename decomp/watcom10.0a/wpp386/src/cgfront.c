@@ -78,13 +78,23 @@ void CgFrontModInitInit(void)
     codeCGFILE=0;
 }
 
-static unsigned char ActiveDestructorMethod;
+unsigned char ActiveDestructorMethod;
 CGFILE_GEN *getGenData(void);
 void emitSourcePosn(CGIO_LOCATION *position);
 void cgEmitIns(CGINTER *instruction);
 void emitPendingInitializers(void);
 void emitSetType(void);
-void emitInitialization(CGFILE_GEN *gen) { (void)gen; STUB_TRAP(); }
+void LabelSwitchLabel(SCOPE scope,SCOPE label_scope,int dead);
+/* Descriptive recovered name: this old helper predates the later immediate
+ * switch label emission. The initial name emitInitialization was provisional. */
+CGFILE_GEN *emitPendingSwitchLabels(CGFILE_GEN *gen)
+{
+    cgfront_flags|=4;
+    LabelSwitchLabel(gen->switch_scope,gen->switch_label_scope,
+                     (gen->flags>>2)&1);
+    cgfront_flags&=~4;
+    return gen;
+}
 void cgEmitCodeUint(int opcode,unsigned value)
 {
     CGINTER instruction;
@@ -135,6 +145,11 @@ void CgFrontCodePtr(int opcode,void *value)
     setICValue((unsigned)value);
     CgFrontCode(opcode);
 }
+void CgFrontCodeUint(int opcode,unsigned value)
+{
+    addICValue(value);
+    CgFrontCode(opcode);
+}
 void CgFrontCodeInt(int opcode,int value)
 {
     addICValue((unsigned)value);
@@ -176,7 +191,7 @@ void emitPendingInitializers(void)
     CGFILE_GEN *gen;
     if (!(cgfront_flags&4)) {
         gen=getGenData();
-        if ((gen->flags&1) || (gen->flags&2)) emitInitialization(gen);
+        if ((gen->flags&1) || (gen->flags&2)) emitPendingSwitchLabels(gen);
     }
 }
 void emitSetType(void)
@@ -362,3 +377,211 @@ CGFILE *CgFrontSwitchFile(SYMBOL sym)
 }
 
 void CgFrontLabdefGoto(unsigned id) { (void)id; STUB_TRAP(); }
+
+/* Old counter utilities update the live count and its high-water mark.
+ * Names describe these distinct actual entries; later cgfront.c inlines them. */
+void adjustCounter(unsigned *current,unsigned *maximum,unsigned index,unsigned amount)
+{
+    current[index]+=amount;
+    if(current[index]>maximum[index]) maximum[index]=current[index];
+}
+void incrementCounter(unsigned *current,unsigned *maximum,unsigned index)
+{ adjustCounter(current,maximum,index,1); }
+void incrementGenCounter(unsigned index)
+{
+    CGFILE_GEN *gen=getGenData();
+    incrementCounter(gen->counters,gen->emitted_counters,index);
+}
+unsigned CgFrontLabelCs(void)
+{
+    CGFILE_GEN *gen;
+    flushCsLabels();
+    incrementGenCounter(0);
+    gen=getGenData();
+    ++gen->cs_allocated;
+    return gen->counters[0];
+}
+void label_reference(unsigned label,int opcode)
+{ CgFrontCodeUint(opcode,label-1); }
+void CgFrontGotoNear(int opcode,unsigned condition,unsigned label)
+{
+    if(opcode==7) flushCsAllocations();
+    label_reference(label,opcode);
+    CgFrontCodeInt(11,condition);
+}
+void CgFrontLabdefCs(unsigned label)
+{
+    flushCsAllocations();
+    label_reference(label,9);
+}
+void subtractCounter(unsigned *current,unsigned index,unsigned amount)
+{ current[index]-=amount; }
+void decrementGenCounter(unsigned index,unsigned amount)
+{ subtractCounter(getGenData()->counters,index,amount); }
+void CgFrontLabfreeCs(unsigned count)
+{
+    CGFILE_GEN *gen;
+    flushCsAllocations();
+    gen=getGenData();
+    gen->cs_label+=count;
+    decrementGenCounter(0,count);
+}
+
+/* The old emitter's separate TYPE-taking entry records the already
+ * emitted comparison result; it does not alter curr_type. */
+void CgSetTypeEmitted(TYPE type)
+{ getGenData()->emit_type=type; }
+
+SYMBOL ModuleInitFuncSym(void);
+SCOPE ModuleInitResume(void);
+void ModuleInitUsed(void);
+void ModuleInitRestore(SCOPE scope);
+CGFILE *CgFrontModInitOpen(SCOPE *saved_scope)
+{
+    CGFILE *saved=codeCGFILE;
+    CgFrontSwitchFile(ModuleInitFuncSym());
+    *saved_scope=ModuleInitResume();
+    return saved;
+}
+void CgFrontModInitUsed(void) { ModuleInitUsed(); }
+void CgFrontModInitClose(SCOPE saved_scope,CGFILE *saved)
+{
+    updateHighWaterCounters();
+    ModuleInitRestore(saved_scope);
+    codeCGFILE=saved;
+}
+
+/* The1994 initializer explicitly drains pending code before changing the
+ * shared data-initialization state; later cgfront.c moved this responsibility. */
+SCOPE SymScope(SYMBOL sym);
+extern SCOPE FileScope;
+void DgInitBegin(SYMBOL sym)
+{
+    CGFILE_GEN *gen;
+    ins_init_beg.value.pvalue=sym;
+    emitPendingInitializers();
+    cgfront_flags|=1;
+    cgfront_flags&=~2;
+    gen=getGenData();
+    gen->init_sym=sym;
+    if(sym->id==2 && SymScope(sym)!=FileScope) cgfront_flags|=8;
+    else {
+        gen->flags|=8;
+        gen->flags&=~0x10U;
+    }
+}
+
+void DgInitDone(void)
+{
+    CGFILE_GEN *gen=getGenData();
+    if(gen->flags&0x10) cgEmit(&ins_init_done);
+    gen->flags&=~0x18U;
+    if(cgfront_flags&2) cgEmitData(&ins_init_done);
+    cgfront_flags&=~11;
+}
+
+void CgFrontSwitchBeg(void)
+{
+    flushCsAllocations();
+    CgFrontCode(12);
+}
+/* Actual older entry at270d4 falls through to incrementGenCounter. */
+void countSwitchLabel(void)
+{
+    incrementGenCounter(3);
+}
+CGFILE_GEN *prepareSwitchLabel(SCOPE scope,int dead,CGIO_LOCATION *posn)
+{
+    CGFILE_GEN *gen;
+    countSwitchLabel();
+    gen=getGenData();
+    if(gen->flags&3) {
+        if(CurrScope!=gen->switch_label_scope)
+            return emitPendingSwitchLabels(gen);
+    } else {
+        gen->switch_scope=scope;
+        gen->flags=(gen->flags&~4U)|((dead&1)<<2);
+        gen->switch_location=*posn;
+    }
+    return gen;
+}
+void CgFrontSwitchDefault(SCOPE scope,int dead,CGIO_LOCATION *posn)
+{
+    CGFILE_GEN *gen=prepareSwitchLabel(scope,dead,posn);
+    gen->flags|=2;
+    gen->switch_label_scope=CurrScope;
+}
+/* Descriptive recovered public: the old LabelSwitchLabel tail forwards here. */
+void CgFrontEmitSwitchLabels(void)
+{
+    CGFILE_GEN *gen=getGenData();
+    emitSourcePosn(&gen->switch_location);
+    if(gen->flags&1) {
+        if(gen->deferred_range[0]==gen->deferred_range[1])
+            cgEmitCodeUint(14,gen->deferred_range[0]);
+        else {
+            cgEmitCodeUint(15,gen->deferred_range[0]);
+            cgEmitCodeUint(16,gen->deferred_range[1]);
+        }
+        gen->flags&=~1U;
+    }
+    if(gen->flags&2) {
+        CgFrontCode(17);
+        gen->flags&=~2U;
+    }
+}
+
+void setSwitchRange(unsigned value)
+{
+    CGFILE_GEN *gen=getGenData();
+    gen->deferred_range[0]=value;
+    gen->deferred_range[1]=value;
+    gen->flags|=1;
+}
+void CgFrontSwitchCase(SCOPE scope,int dead,CGIO_LOCATION *posn,unsigned value)
+{
+    CGFILE_GEN *gen=prepareSwitchLabel(scope,dead,posn);
+    unsigned low,high;
+    int combine=0;
+    if(gen->flags&1) {
+        low=gen->deferred_range[0];
+        high=gen->deferred_range[1];
+        if(value==low-1) --low;
+        else if(value==high+1) ++high;
+        else { low=~0U; high=1; }
+        if((int)(low^high)<0) emitPendingSwitchLabels(gen);
+        else {
+            gen->deferred_range[0]=low;
+            gen->deferred_range[1]=high;
+            combine=1;
+        }
+    }
+    if(!combine) setSwitchRange(value);
+    gen->switch_label_scope=CurrScope;
+}
+
+void LabelSwitchEnd(void);
+void CgFrontSwitchEnd(void) { LabelSwitchEnd(); }
+
+int SymIsReferenced(SYMBOL sym);
+void ModuleInitConnect(void);
+void CgioFreeFile(CGFILE *file);
+void CgFrontModInitFini(void)
+{
+    SYMBOL mod=ModuleInitFuncSym();
+    if (SymIsReferenced(mod) && ErrCount==0) ModuleInitConnect();
+    else {
+        mod->flag|=1;
+        CgioFreeFile(CgioLocateFile(mod));
+    }
+}
+
+void CgioCloseOutputFile(CGFILE *file);
+void cgfrontFini(INITFINI *defn)
+{
+    (void)defn;
+    if (dataCGFILE) {
+        CgioCloseOutputFile(dataCGFILE);
+        dataCGFILE=NULL;
+    }
+}

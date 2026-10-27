@@ -145,7 +145,15 @@ void LinkageSet(SYMBOL sym,char *language)
 int LinkageIsC(SYMBOL sym) { return (sym->flag&0x80000000UL)==0; }
 
 void LinkagePop(void)
-{ STUB_TRAP(); }
+{
+    LINKAGE_STACK top;
+    if(nestedLinkages) {
+        top=nestedLinkages;
+        nestedLinkages=top->prev;
+        CurrLinkage=nestedLinkages?nestedLinkages->linkage:NULL;
+        CarveFree(carveSTACK,top);
+    }
+}
 
 int LinkageIsCurr(SYMBOL sym)
 {
@@ -155,4 +163,17 @@ int LinkageIsCurr(SYMBOL sym)
 void LinkagePushC(void) { STUB_TRAP(); }
 void LinkagePushCpp(void) { STUB_TRAP(); }
 
-LINKAGE LinkageMergePop(void) { STUB_TRAP(); return NULL; }
+LINKAGE LinkageMergePop(void)
+{
+    LINKAGE linkage=CurrLinkage;
+    LinkagePop();
+    CurrLinkage=linkage;
+    nestedLinkages->linkage=linkage;
+    return linkage;
+}
+void LinkageReset(void)
+{
+    while(nestedLinkages && nestedLinkages!=resetLinkages) LinkagePop();
+}
+
+int LinkageSpecified(void) { return nestedLinkages!=resetLinkages; }

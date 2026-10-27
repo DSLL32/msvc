@@ -36,6 +36,7 @@
 #include "compiler.h"
 #include "carve.h"
 #include "gstack.h"
+#include "datainit.h"
 #include "pending.h"
 #include <recon.h>
 static carve_t carveGLOBAL_STACK;
@@ -56,8 +57,7 @@ GLOBAL_STACK *GStackPush(GLOBAL_STACK **head,unsigned char id)
 
 void *StackPop(void **head);
 void PTypePop(DECL_SPEC *spec);
-void DataInitFinish(void *data)
-{ (void)data; STUB_TRAP(); }
+void DataInitFinish(INITIALIZE_DATA *data);
 void TemplateDeclFini(void);
 void GStackPop(GLOBAL_STACK **head)
 {
@@ -65,7 +65,7 @@ void GStackPop(GLOBAL_STACK **head)
     switch (top->id) {
     case 1: PTypePop(top->u.dspec); break;
     case 4: ClassPop(&top->u.classdata); break;
-    case 5: DataInitFinish(&top->u); break;
+    case 5: DataInitFinish((INITIALIZE_DATA *)&top->u); break;
     case 6: TemplateDeclFini(); break;
     }
     CarveFree(carveGLOBAL_STACK,top);

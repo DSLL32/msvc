@@ -89,3 +89,14 @@ int DgStoreScalar(PTREE expr,unsigned offset,TYPE type)
     if(type->id==TYP_MEMBER_POINTER) return DgStoreMemberPointer(type,expr);
     return DgStoreScalarValue(type,expr,offset);
 }
+
+
+
+void DgPadBytes(unsigned size) { (void)size; STUB_TRAP(); }
+void DgStoreConstScalar(PTREE expr,TYPE type,SYMBOL sym)
+{ (void)expr; (void)type; (void)sym; STUB_TRAP(); }
+
+int DgStoreBitfield(TYPE type,unsigned mask)
+{ (void)type; (void)mask; STUB_TRAP(); return 0; }
+
+

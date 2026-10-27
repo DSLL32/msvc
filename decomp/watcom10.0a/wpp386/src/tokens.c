@@ -49,7 +49,7 @@ char *Tokens[164]={
     NULL,
     NULL,
     NULL,
-    NULL,
+    "}", /* token 0xc: restored after deferred inline definitions */
     NULL,
     NULL,
     NULL,

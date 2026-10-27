@@ -254,3 +254,12 @@ void MemInit(void)
         write(1, "\r\n", 2);
     }
 }
+
+/* Original OSI allocator's empty coalescing hook shares MemFree's C3.
+ * It is statically identified and case-seeded, not an observed entry. */
+void MemCoalesce(void) { }
+unsigned MemSize(void)
+{
+    if (!Initialized) MemInit();
+    return MemorySize;
+}

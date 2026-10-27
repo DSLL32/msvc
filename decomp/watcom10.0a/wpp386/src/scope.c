@@ -39,10 +39,14 @@
 #include "symbol.h"
 #include "vftable.h"
 #include "vstk.h"
+#include "memory.h"
 #include <recon.h>
+SEARCH_RESULT *ScopeFindScopedMemberConversion(SCOPE start,SCOPE disamb,
+                                               TYPE type,unsigned short flags)
+{ (void)start; (void)disamb; (void)type; (void)flags; STUB_TRAP(); return NULL; }
 static carve_t carveSCOPE, carveSYMBOL, carveSYMBOL_NAME;
 static carve_t carveBASE_STACK, carveBASE_PATH, carvePATH_CAP;
-static carve_t carveSEARCH_RESULT, carveGEN_LEAP, carveSYMBOL_EXCLUDE;
+static carve_t carveSEARCH_RESULT, carveQUALIFICATION, carveSYMBOL_EXCLUDE;
 SCOPE CurrScope, FileScope;
 void PCHActivate(void);
 void injectGlobalOpNew(void);
@@ -58,7 +62,7 @@ void scopeInit(INITFINI *defn)
     carveBASE_PATH=CarveCreate(22,16);
     carvePATH_CAP=CarveCreate(34,16);
     carveSEARCH_RESULT=CarveCreate(60,16);
-    carveGEN_LEAP=CarveCreate(12,16);
+    carveQUALIFICATION=CarveCreate(12,16);
     carveSYMBOL_EXCLUDE=CarveCreate(8,16);
     HashPostInit(0);
     ScopeBegin(0);
@@ -293,7 +297,7 @@ typedef struct lookup_walk {
     SCOPE start,disambiguate;
     char *name;
     TYPE type,fn_type;
-    int (*is_special)(char *name);
+    SYMBOL fn_sym;
     SYMBOL selected_conversion;
     SYMBOL info1;
     SCOPE lexical_scope;
@@ -312,7 +316,7 @@ void newLookupData(LOOKUP_WALK *data,char *name)
     data->name=name;
     data->type=0;
     data->fn_type=0;
-    data->is_special=0;
+    data->fn_sym=0;
     data->selected_conversion=0;
     data->info1=0;
     data->lexical_scope=0;
@@ -392,7 +396,10 @@ void cleanStack(BASE_STACK **head)
     while (popBase(head)) ;
 }
 int notABase(SCOPE scope,SCOPE disambiguate)
-{ (void)scope; (void)disambiguate; STUB_TRAP(); return 0; }
+{
+    TYPE derived=ScopeClass(scope),base=ScopeClass(disambiguate);
+    return base->u.c.info->index>derived->u.c.info->index;
+}
 PATH_CAP *newCap(void)
 {
     PATH_CAP *cap=CarveAlloc(carvePATH_CAP);
@@ -530,7 +537,31 @@ void walkOneScope(SCOPE scope,WALK_ROUTINE routine,void *parm)
     cleanStack(&stack);
 }
 void walkInheritedDirectBases(SCOPE scope,WALK_ROUTINE routine,void *parm)
-{ (void)scope; (void)routine; (void)parm; STUB_TRAP(); }
+{
+    BASE_STACK *stack=NULL,*top;
+    BASE_CLASS *bases,*base;
+    WALK_STATUS status;
+    pushBase(&stack,NULL,scope,NULL);
+    for (;;) {
+        top=popBase(&stack);
+        if (!top) break;
+        bases=ScopeInherits(top->scope);
+        if (!bases) continue;
+        base=bases;
+        do {
+            base=base->next;
+            if (base->flag&0x40) {
+                pushBase(&stack,base,base->type->u.c.scope,top);
+                status=routine(stack,parm);
+                if (status==WALK_FINISH) {
+                    cleanStack(&stack);
+                    return;
+                }
+                if (status==WALK_ABANDON) popBase(&stack);
+            }
+        } while (base!=bases);
+    }
+}
 void walkImmediateBases(SCOPE scope,WALK_ROUTINE routine,void *parm)
 { (void)scope; (void)routine; (void)parm; STUB_TRAP(); }
 void walkDirectBases(SCOPE scope,WALK_ROUTINE routine,void *parm)
@@ -592,16 +623,225 @@ void removeDead(LOOKUP_WALK *data)
 }
 int findBestConversion(LOOKUP_WALK *data)
 { (void)data; STUB_TRAP(); return 0; }
+void applyDominance(LOOKUP_WALK *data);
+int anyVirtualFns(SYMBOL_NAME name)
+{
+    SYMBOL last=name->name_syms,sym;
+    TYPE fn;
+    if (last) {
+        sym=last;
+        do {
+            sym=sym->next;
+            fn=FunctionDeclarationType(sym->sym_type);
+            if (!fn) break;
+            if (fn->flag&0x10) return 1;
+        } while (sym!=last);
+    }
+    return 0;
+}
+unsigned char IsOverloadedFuncDistinct(SYMBOL *previous,SYMBOL current,char *name);
+unsigned char distinctVirtualFunction(SYMBOL *sym,SYMBOL current,char *name)
+{
+    unsigned char result=IsOverloadedFuncDistinct(sym,current,name);
+    if ((result==3 || result==5) && (*sym)->id==7) {
+        *sym=NULL;
+        result=6;
+    }
+    return result;
+}
+unsigned char matchVirtualFunction(SYMBOL *sym,LOOKUP_WALK *data)
+{
+    return distinctVirtualFunction(sym,data->fn_sym,data->name);
+}
+int badVirtualReturn(SYMBOL old,SYMBOL sym,int *return_thunk)
+{ (void)old; (void)sym; (void)return_thunk; STUB_TRAP(); return 0; }
+/* Older scope.c keeps selection as a separate pass over collected paths.
+ * The later released sameVirtualFnSignature performs these per-name tests
+ * while walking. Keep the shipped pass and its original callback order. */
+void selectVirtualOverrides(LOOKUP_WALK *data)
+{
+    PATH_CAP *cap,*next;
+    SYMBOL sym;
+    TYPE fn;
+    unsigned char check;
+    int complain,return_thunk;
+    for (cap=data->paths;cap;cap=next) {
+        next=cap->next;
+        complain=0;
+        if (data->flags&2) sym=cap->sym;
+        else if (!anyVirtualFns(cap->sym_name)) sym=NULL;
+        else {
+            sym=cap->sym_name->name_syms;
+            check=matchVirtualFunction(&sym,data);
+            if (check==5) {
+                if (badVirtualReturn(sym,data->fn_sym,&return_thunk)) {
+                    if (data->flags&0x400) complain=1;
+                    else sym=NULL;
+                } else if (return_thunk) data->flags|=0x80000;
+            } else if (check!=3) sym=NULL;
+        }
+        if (sym && (fn=FunctionDeclarationType(sym->sym_type))!=NULL &&
+            (fn->flag&0x10)) {
+            if (complain) CErr2p(384,(char *)sym);
+            cap->sym=sym;
+        } else cap->flags|=1;
+    }
+    removeDead(data);
+}
+void applySameVTable(LOOKUP_WALK *data)
+{
+    PATH_CAP *cap,*best=NULL;
+    struct base_path *path;
+    BASE_CLASS *base;
+    for (cap=data->paths;cap;cap=cap->next) {
+        for (path=cap->tail;path;path=path->prev) {
+            base=path->base;
+            if (base && !(base->flag&0x20)) break;
+        }
+        if (!path) best=cap;
+        else cap->flags|=1;
+    }
+    if (!best) data->paths->flags&=~1;
+    else data->flags|=0x40000;
+    removeDead(data);
+}
 int findVirtualOverride(LOOKUP_WALK *data)
-{ (void)data; STUB_TRAP(); return 0; }
+{
+    applyDominance(data);
+    selectVirtualOverrides(data);
+    if (data->path_count) {
+        applySameVTable(data);
+        return 1;
+    }
+    return 0;
+}
+unsigned char isQuickScopeDerived(SCOPE derived,SCOPE base)
+{ (void)derived; (void)base; STUB_TRAP(); return 0; }
 void applyDominance(LOOKUP_WALK *data)
-{ (void)data; STUB_TRAP(); }
+{
+    PATH_CAP *cap1,*cap2,*next1,*next2;
+    SCOPE scope1,scope2;
+    if (!(ScopeClass(data->start)->u.c.info->flags50&2)) return; /* lattice */
+    for (cap1=data->paths;cap1;cap1=next1) {
+        next1=cap1->next;
+        scope1=cap1->tail->scope;
+        for (cap2=next1;cap2;cap2=next2) {
+            next2=cap2->next;
+            if (cap2->flags&1) continue;
+            scope2=cap2->tail->scope;
+            if (scope1==scope2) continue;
+            if (!(cap1->flags&2) && !(cap2->flags&2)) continue;
+            if (isQuickScopeDerived(scope1,scope2)) cap2->flags|=1;
+            else if (isQuickScopeDerived(scope2,scope1)) cap1->flags|=1;
+        }
+    }
+    removeDead(data);
+}
 void reduceToOnePath(LOOKUP_WALK *data)
-{ (void)data; STUB_TRAP(); }
+{
+    PATH_CAP *cap;
+    unsigned count=data->path_count;
+    if(count<=1) return;
+    --count;
+    for(cap=data->paths;cap!=NULL;cap=cap->next) {
+        if(count==0) break;
+        cap->flags|=1;
+        --count;
+    }
+    removeDead(data);
+}
+unsigned short setAccess(PATH_CAP *cap);
+int setProtectedAccess(LOOKUP_WALK *data,PATH_CAP *cap);
 void findBestAccess(LOOKUP_WALK *data)
-{ (void)data; STUB_TRAP(); }
+{
+    PATH_CAP *first=data->paths,*cap;
+    for(cap=first;cap;cap=cap->next) {
+        cap->flag=setAccess(cap);
+        if(cap->flag!=4) cap->flags|=1;
+        else first=cap;
+    }
+    if(first->flags&1) first->flags&=~1;
+    removeDead(data);
+    if(data->path_count==1) return;
+    first=data->paths;
+    for(cap=first;cap;cap=cap->next) {
+        if(setProtectedAccess(data,cap)) {
+            if(data->flags&0x100000) {
+                first=cap;
+                for(cap=first->next;cap;cap=cap->next) cap->flags|=1;
+                break;
+            }
+            cap->flags|=1;
+        } else {
+            reduceToOnePath(data);
+            return;
+        }
+    }
+    if(first->flags&1) first->flags&=~1;
+    removeDead(data);
+}
+void walkVisitOnce(SCOPE scope,WALK_ROUTINE routine,void *parm);
+void differentScopesAmbiguity(LOOKUP_WALK *data)
+{
+    PATH_CAP *cap,*other;
+    SCOPE scope;
+    for(cap=data->paths;cap;cap=cap->next) {
+        scope=cap->tail->scope;
+        for(other=cap->next;other;other=other->next) {
+            if(scope!=other->tail->scope) { data->flags|=0x2000; return; }
+        }
+    }
+}
+int VariableName(SYMBOL_NAME name)
+{
+    SYMBOL sym=name->name_syms;
+    if(!sym) return 0;
+    return FunctionDeclarationType(sym->sym_type)==NULL;
+}
+void differentCopiesAmbiguity(LOOKUP_WALK *data)
+{
+    PATH_CAP *cap=data->paths;
+    struct class_info *info=ScopeClass(cap->tail->scope)->u.c.info;
+    SYMBOL_NAME name=cap->sym_name;
+    SYMBOL sym,last;
+    int static_found=0,nonstatic_found=0;
+    if(name==NULL) {
+        if(info->derivation_copies!=1) data->flags|=0x2000;
+        return;
+    }
+    if((data->flags&0x40) && ClassTypeName(name)) return;
+    if((data->flags&0x20) && EnumTypeName(name)) return;
+    if(VariableName(name)) {
+        sym=name->name_syms;
+        if(sym->id==8 || sym->id==2) return;
+        if(info->derivation_copies!=1) data->flags|=0x2000;
+        return;
+    }
+    last=name->name_syms;
+    if(last) {
+        sym=last;
+        do {
+            sym=sym->next;
+            if(sym->id==2) static_found=1;
+            else nonstatic_found=1;
+        } while(sym!=last);
+    }
+    if(info->derivation_copies!=1 && nonstatic_found) {
+        if(static_found) data->flags|=0x4000;
+        else data->flags|=0x2000;
+    }
+}
 void applyAmbiguity(SCOPE scope,LOOKUP_WALK *data)
-{ (void)scope; (void)data; STUB_TRAP(); }
+{
+    differentScopesAmbiguity(data);
+    if(!(data->flags&0x2000)) {
+        /*1994 recomputes the transient class counts without a callback,
+         * rather than later findNumberCopies/disambiguation multiplication. */
+        walkVisitOnce(scope,NULL,NULL);
+        differentCopiesAmbiguity(data);
+    }
+    if(data->flags&0x2000) reduceToOnePath(data);
+}
 /* The1994 body calls removeDead directly; later source gives that operation
  * the inlined descriptive wrapper applyDisambiguation. */
 int findSinglePath(LOOKUP_WALK *data,SCOPE scope)
@@ -637,6 +877,26 @@ typedef struct qualify_stack {
     struct qualify_stack *next;
     SCOPE reset,access;
 } QUALIFICATION;
+void ParsePushQualification(void *qualification);
+void *ParsePopQualification(void);
+void ScopeQualifyPush(SCOPE scope,SCOPE access)
+{
+    QUALIFICATION *qual=CarveAlloc(carveQUALIFICATION);
+    qual->reset=CurrScope;
+    qual->access=access;
+    CurrScope=scope;
+    ParsePushQualification(qual);
+}
+SCOPE ScopeQualifyPop(void)
+{
+    SCOPE popped=CurrScope;
+    QUALIFICATION *qual=ParsePopQualification();
+    if(qual!=NULL) {
+        CurrScope=qual->reset;
+        CarveFree(carveQUALIFICATION,qual);
+    }
+    return popped;
+}
 void *ParseCurrQualification(void);
 SCOPE findAccessScope(void)
 {
@@ -761,7 +1021,10 @@ int findMember(LOOKUP_WALK *data,SCOPE scope)
     return 1;
 }
 int ClassTypeName(SYMBOL_NAME name)
-{ (void)name; STUB_TRAP(); return 0; }
+{
+    SYMBOL sym=name->name_type;
+    return sym!=NULL && TypedefRemove(sym->sym_type)->id==TYP_CLASS;
+}
 int EnumTypeName(SYMBOL_NAME name)
 { (void)name; STUB_TRAP(); return 0; }
 void recordLocation(LOOKUP_WALK *data,SCOPE scope,SYMBOL_NAME name)
@@ -905,8 +1168,28 @@ void handleBlockSyms(SYMBOL sym)
     if(sym->id==5) diagnoseTypedef(sym);
     else scopeEnsureRefed(sym);
 }
+int SymIsFunction(SYMBOL sym);
+int SymIsInitialized(SYMBOL sym);
+int SymIsConstantInt(SYMBOL sym);
+SYMBOL ModuleInitFuncSym(void);
+unsigned short CgSegIdFunction(SYMBOL sym);
 void handleFileSyms(SYMBOL sym)
-{ (void)sym; STUB_TRAP(); }
+{
+    if (sym->id==0) {
+        if (SymIsFunction(sym)) {
+            sym->id=1;
+            CgSegIdFunction(sym);
+        }
+    } else if (sym->id==2) {
+        if (SymIsFunction(sym) && (sym->flag&1) && !SymIsInitialized(sym)
+            && sym!=ModuleInitFuncSym()) {
+            CErr2p(43,(const char *)sym);
+            sym->id=1;
+            CgSegIdFunction(sym);
+        }
+        if (!SymIsConstantInt(sym)) diagnoseSym(sym);
+    }
+}
 void ScopeWalkOrderedSymbols(SCOPE scope,void (*walker)(SYMBOL))
 {
     SYMBOL last=scope->ordered;
@@ -1078,6 +1361,14 @@ SEARCH_RESULT *ScopeFindScopedNaked(SCOPE scope,SCOPE disambiguate,char *name)
     lexicalLookup(&data,scope);
     return makeResult(&data);
 }
+SEARCH_RESULT *ScopeFindScopedMember(SCOPE scope,SCOPE disambiguate,char *name)
+{
+    LOOKUP_WALK data;
+    newLookupData(&data,name);
+    data.disambiguate=disambiguate;
+    searchScope(&data,scope);
+    return makeResult(&data);
+}
 SEARCH_RESULT *ScopeFindNaked(SCOPE scope,char *name)
 {
     return ScopeFindScopedNaked(scope,0,name);
@@ -1117,11 +1408,54 @@ int ScopeLocalClass(SCOPE scope)
     return scope->id==1 && findFunctionScope(scope)!=NULL;
 }
 
+char *CppConversionName(void);
+void initVirtualSearch(LOOKUP_WALK *data,SYMBOL sym,char *name)
+{
+    TYPE fn;
+    newLookupData(data,name);
+    fn=FunctionDeclarationType(sym->sym_type);
+    if (name==CppConversionName()) {
+        data->type=fn->of;
+        data->this_qualifier=fn->u.f.args->qualifier;
+        data->flags|=6;
+    }
+    data->fn_type=fn;
+    data->fn_sym=sym;
+    data->flags|=0x101;
+}
 int ScopeFindVirtual(SCOPE scope,SYMBOL *sym,char *name,unsigned *return_thunk)
-{ (void)scope; (void)sym; (void)name; (void)return_thunk; STUB_TRAP(); return 0; }
+{
+    LOOKUP_WALK data;
+    int found;
+    *return_thunk=0;
+    initVirtualSearch(&data,sym[0],name);
+    data.flags|=0x400;
+    sym[0]=NULL;
+    found=searchScope(&data,scope);
+    if (found) {
+        if (data.flags&0x40000) {
+            sym[0]=data.paths->sym;
+            if (data.flags&0x80000) *return_thunk=1;
+        }
+        delLookupData(&data);
+    }
+    return found;
+}
 
+void HashWalkData(HASHTAB hash,void (*walker)(SYMBOL_NAME,void *),void *data);
+void scopeWalkSymbolNameSymbols(SYMBOL_NAME name,void *data)
+{
+    void (*walker)(SYMBOL)=data;
+    SYMBOL sym,last=name->name_syms;
+    if(last) {
+        sym=last;
+        do { sym=sym->next; walker(sym); } while(sym!=last);
+    }
+}
 void ScopeWalkSymbols(SCOPE scope,void (*walker)(SYMBOL))
-{ (void)scope; (void)walker; STUB_TRAP(); }
+{
+    if(scope) HashWalkData(scope->names,scopeWalkSymbolNameSymbols,walker);
+}
 
 /* This older lookup returns a symbol ring and updates the desired type.
  * It predates ScopeConversionList's FNOV_LIST result in the released source. */
@@ -1188,7 +1522,11 @@ SYMBOL ScopeFunctionInProgress(void)
 }
 
 SEARCH_RESULT *ScopeFindBaseMember(SCOPE scope,char *name)
-{ (void)scope; (void)name; STUB_TRAP(); return NULL; }
+{
+    SEARCH_RESULT *result=ScopeContainsMember(scope,name);
+    if (result) result->flags|=0x80; /* protected access to a component */
+    return result;
+}
 
 void ScopeWalkVirtualBases(SCOPE scope,void (*callback)(void *,void *),void *data)
 {
@@ -1266,17 +1604,163 @@ void assignLocation(CLASS_TABLE *table,CLASS_TABLE *location)
     table->exact_delta=location->exact_delta;
 }
 void HashWalkData(HASHTAB hash,void (*walker)(SYMBOL_NAME,void *),void *data);
-void checkAmbiguousOverride(THUNK_ACTION *thunk,VFTABLE_WALK *data)
-{ (void)thunk; (void)data; STUB_TRAP(); }
+void __cdecl CErr(unsigned number,...);
 SCOPE SymScope(SYMBOL sym);
+SYMBOL findOverride(BASE_STACK *top,SYMBOL base);
+void checkAmbiguousOverride(THUNK_ACTION *thunk,VFTABLE_WALK *data)
+{
+    SYMBOL override_sym=thunk->override,test_override=NULL,base_sym;
+    SCOPE override_scope;
+    BASE_STACK *top,*first;
+    TYPE virtual_base=NULL;
+    BASE_CLASS *base;
+    if(!override_sym) return;
+    override_scope=SymScope(override_sym);
+    base_sym=thunk->sym;
+    for(top=data->top;top;top=top->parent) {
+        if(top->scope==override_scope) return;
+    }
+    first=data->top;
+    for(top=first;top;top=top->parent) {
+        if(!virtual_base) {
+            base=top->base;
+            if(base && (base->flag&8)) virtual_base=base->type;
+        }
+        if(top!=first && virtual_base) {
+            SYMBOL test=findOverride(top,base_sym);
+            if(test) test_override=test;
+        }
+    }
+    if(test_override) {
+        if(!isQuickScopeDerived(override_scope,SymScope(test_override))) {
+            data->curr->corrupted=1;
+            /* The1994 diagnostic passes all three symbols directly, before
+             * the later split into one error and two information messages. */
+            if(data->OK_to_diagnose) CErr(570,base_sym,override_sym,test_override);
+        }
+        thunk->possible_ambiguity=0;
+    }
+}
+SCOPE SymScope(SYMBOL sym);
+unsigned char AreFunctionsDistinct(SYMBOL *previous,SYMBOL current,char *name);
+int overloadedSym(SYMBOL derived,SYMBOL base)
+{
+    char *name;
+    unsigned char result;
+    if (derived==base) return 0;
+    name=derived->name->name;
+    if (name!=base->name->name) return 0;
+    result=AreFunctionsDistinct(&base,derived,name);
+    return result==3 || result==5;
+}
+int scopeInBaseStack(SCOPE scope,BASE_STACK *top)
+{
+    while (top) {
+        if (top->scope==scope) return 1;
+        top=top->parent;
+    }
+    return 0;
+}
+/* Actual1994 has only the stack and base symbol arguments; the later
+ * current-override/dominance argument is not part of this ABI. */
 SYMBOL findOverride(BASE_STACK *top,SYMBOL base)
-{ (void)top; (void)base; STUB_TRAP(); return NULL; }
+{
+    CLASS_VFTABLE *table=top->hold;
+    THUNK_ACTION *thunk;
+    SYMBOL sym;
+    if (!table) return NULL;
+    for (thunk=table->data;;++thunk) {
+        sym=thunk->sym;
+        if (sym && overloadedSym(sym,base)) {
+            if (scopeInBaseStack(SymScope(sym),top)) return sym;
+            break;
+        }
+        if (thunk->last_entry) break;
+    }
+    return NULL;
+}
+TYPE TypePointedAtModified(TYPE type);
 void pushDisambig(VFTABLE_WALK *data,SYMBOL sym)
-{ (void)data; (void)sym; STUB_TRAP(); }
-void fillInput(THUNK_ACTION *thunk,VFTABLE_WALK *data,TYPE virtual_base)
-{ (void)thunk; (void)data; (void)virtual_base; STUB_TRAP(); }
+{
+    TYPE type=FunctionDeclarationType(sym->sym_type)->of;
+    SCOPE scope=NULL;
+    type=TypePointedAtModified(type);
+    if (type) {
+        type=StructType(type);
+        if (type) scope=type->u.c.scope;
+    }
+    *(SCOPE *)VstkPush(&data->disambig)=scope;
+}
+int TypeCtorDispRequired(TYPE host,TYPE base);
+void fillInput(THUNK_ACTION *thunk,VFTABLE_WALK *data,TYPE ctor_disp)
+{
+    BASE_STACK *top=data->top;
+    BASE_CLASS *base,*vbase=NULL,*ctor_base;
+    TYPE virtual_base=NULL,host_class;
+    SCOPE host_scope;
+    long delta=0;
+    while (top && top->scope!=data->final) top=top->parent;
+    while (top) {
+        base=top->base;
+        if (base) {
+            if (base->flag&8) { virtual_base=base->type; break; }
+            delta+=base->delta;
+        }
+        top=top->parent;
+    }
+    host_scope=data->start;
+    if (virtual_base) vbase=ScopeFindVBase(host_scope,virtual_base);
+    host_class=ScopeClass(host_scope);
+    if (!TypeCtorDispRequired(host_class,ctor_disp)) {
+        ctor_base=ScopeFindVBase(host_scope,ctor_disp);
+        thunk->delta+=ctor_base->delta;
+        thunk->delta-=delta;
+        if (vbase) thunk->delta-=vbase->delta;
+    } else {
+        thunk->ctor_disp=1;
+        thunk->in.delta=delta;
+        if (vbase) {
+            thunk->input_virtual=1;
+            thunk->in.vb_offset=host_class->u.c.info->vb_offset;
+            thunk->in.vb_index=vbase->vb_index;
+        }
+    }
+}
+int VstkDimension(const VSTK_CTL *stack);
+void *VstkIndex(VSTK_CTL *stack,int index);
+void *VstkTop(VSTK_CTL *stack);
+int nonTrivialReturnConversions(VSTK_CTL *stack,SCOPE *derived)
+{
+    int i,n=VstkDimension(stack);
+    SCOPE scope,last=NULL,changed=NULL;
+    for (i=0;i<=n;++i) {
+        scope=*(SCOPE *)VstkIndex(stack,i);
+        if (!scope) return 0;
+        if (scope!=last) changed=last;
+        last=scope;
+    }
+    *derived=last;
+    return changed!=NULL;
+}
+WALK_STATUS doReturnCast(BASE_STACK *top,void *context)
+{ (void)top; (void)context; STUB_TRAP(); return WALK_NORMAL; }
+void clearVstk(VSTK_CTL *stack)
+{
+    while (VstkPop(stack)!=NULL) {}
+}
 void fillOutput(THUNK_ACTION *thunk,VFTABLE_WALK *data)
-{ (void)thunk; (void)data; STUB_TRAP(); }
+{
+    SCOPE derived;
+    VSTK_CTL *stack=&data->disambig;
+    if (nonTrivialReturnConversions(stack,&derived)) {
+        data->thunk=thunk;
+        data->base=*(SCOPE *)VstkTop(stack);
+        data->derived=derived;
+        data->parent=NULL;
+        walkDirectBases(derived,doReturnCast,data);
+    }
+    clearVstk(stack);
+}
 void analyseVFN(THUNK_ACTION *thunk,VFTABLE_WALK *data)
 {
     SYMBOL base_sym=thunk->sym,test_sym,last_override=NULL;
@@ -1464,5 +1948,407 @@ unsigned ScopeIndex(SCOPE scope)
     return scope->id==3 ? (unsigned)scope->owner : 0;
 }
 
+typedef struct derived_walk {
+    SCOPE base;
+    unsigned virtual_base:1,is_derived:1;
+} DERIVED_WALK;
+WALK_STATUS derivedBase(BASE_STACK *top,void *parm)
+{
+    DERIVED_WALK *data=parm;
+    BASE_CLASS *base;
+    if(top->scope==data->base) {
+        data->is_derived=1;
+        while(top && (base=top->base)!=NULL) {
+            if(base->flag&0x18) {
+                data->virtual_base=1;
+                break;
+            }
+            top=top->parent;
+        }
+    }
+    /* This older count-and-visit pass continues all paths, unlike the
+     * later traversal whose matching callback abandons this subtree. */
+    return WALK_NORMAL;
+}
+/* Descriptive names for the old count-and-visit machinery, removed from
+ * the later source's walkVisitOnce. Actual class copy counts live at+40. */
+typedef struct visit_once_data {
+    WALK_ROUTINE routine;
+    void *parm;
+} VISIT_ONCE_DATA;
+void walkNonVirtualBases(SCOPE scope,WALK_ROUTINE routine,void *parm)
+{
+    BASE_STACK *stack=NULL,*top,*parent;
+    BASE_CLASS *bases,*base;
+    WALK_STATUS status;
+    pushBase(&stack,NULL,scope,NULL);
+    parent=stack;
+    bases=ScopeInherits(scope);
+    if(bases) {
+        base=bases;
+        do {
+            base=base->next;
+            if(base->flag&0x18)
+                pushBase(&stack,base,base->type->u.c.scope,parent);
+        } while(base!=bases);
+    }
+    for(;;) {
+        top=popBase(&stack);
+        if(!top) break;
+        bases=ScopeInherits(top->scope);
+        if(!bases) continue;
+        base=bases;
+        do {
+            base=base->next;
+            if((base->flag&0x40) && !(base->flag&0x18)) {
+                pushBase(&stack,base,base->type->u.c.scope,top);
+                status=routine(stack,parm);
+                if(status==WALK_FINISH) { cleanStack(&stack); return; }
+                if(status==WALK_ABANDON) popBase(&stack);
+            }
+        } while(base!=bases);
+    }
+}
+WALK_STATUS prepareVisitBase(BASE_STACK *top,void *parm)
+{
+    VISIT_ONCE_DATA *data=parm;
+    top->base->type->u.c.info->derivation_copies=0;
+    if(data->routine) data->routine(top,data->parm);
+    return WALK_NORMAL;
+}
+void prepareVisitOnce(SCOPE scope,VISIT_ONCE_DATA *data)
+{
+    BASE_CLASS *bases,*base;
+    BASE_STACK top;
+    walkNonVirtualBases(scope,prepareVisitBase,data);
+    top.parent=NULL;
+    bases=ScopeInherits(scope);
+    if(bases) {
+        base=bases;
+        do {
+            base=base->next;
+            if(base->flag&0x18) {
+                base->type->u.c.info->derivation_copies=1;
+                if(data->routine) {
+                    top.base=base;
+                    top.scope=base->type->u.c.scope;
+                    data->routine(&top,data->parm);
+                }
+            }
+        } while(base!=bases);
+    }
+    ScopeClass(scope)->u.c.info->derivation_copies=1;
+}
+WALK_STATUS countBaseCopies(BASE_STACK *top,void *parm)
+{
+    (void)parm;
+    ++top->base->type->u.c.info->derivation_copies;
+    return WALK_NORMAL;
+}
+void walkVisitOnce(SCOPE scope,WALK_ROUTINE routine,void *parm)
+{
+    VISIT_ONCE_DATA data;
+    if(scope->id==1) {
+        data.routine=routine;
+        data.parm=parm;
+        prepareVisitOnce(scope,&data);
+        walkNonVirtualBases(scope,countBaseCopies,NULL);
+    }
+}
+unsigned char isScopeDerived(SCOPE derived,SCOPE possible_base)
+{
+    DERIVED_WALK data;
+    if(derived==possible_base) {
+        ScopeClass(derived)->u.c.info->derivation_copies=1;
+        return 1;
+    }
+    if(notABase(derived,possible_base)) return 0;
+    data.base=possible_base;
+    data.virtual_base=0;
+    data.is_derived=0;
+    walkVisitOnce(derived,derivedBase,&data);
+    if(!data.is_derived) return 0;
+    return data.virtual_base ? 2 : 1;
+}
+unsigned short checkBaseAccess(SCOPE derived,SCOPE base,unsigned status)
+{
+    LOOKUP_WALK data;
+    PATH_CAP *cap;
+    unsigned short best;
+    newLookupData(&data,NULL);
+    if(status==2) data.flags|=0x800;
+    data.disambiguate=base;
+    if(!searchScope(&data,derived)) return 1;
+    for(cap=data.paths;cap;cap=cap->next) {
+        cap->flag=setAccess(cap);
+        if(cap->flag==4) break;
+    }
+    best=4;
+    if(cap==NULL) {
+        best=1;
+        for(cap=data.paths;cap;cap=cap->next) {
+            if(cap->flag==2) { best=2; break; }
+        }
+    }
+    delLookupData(&data);
+    return best;
+}
 unsigned char ScopeDerived(SCOPE derived,SCOPE possible_base)
-{ (void)derived; (void)possible_base; STUB_TRAP(); return 0; }
+{
+    unsigned char status=isScopeDerived(derived,possible_base);
+    unsigned short violation;
+    if(status) {
+        if(ScopeClass(possible_base)->u.c.info->derivation_copies!=1) status=3;
+        else {
+            violation=checkBaseAccess(derived,possible_base,status);
+            if(violation!=4) status=violation==1 ? 4 : 5;
+        }
+    }
+    return status;
+}
+
+SYMBOL ScopePureVirtualThunk(THUNK_ACTION *thunk)
+{
+    SYMBOL sym=thunk->override?thunk->override:thunk->sym;
+    if(sym) {
+        TYPE function=FunctionDeclarationType(sym->sym_type);
+        if(function && (function->flag&0x40)) return sym;
+    }
+    return NULL;
+}
+int ScopeHasPureFunctions(SCOPE scope)
+{
+    CLASS_VFTABLE *tables=doCollectVFTable(scope,0),*table;
+    THUNK_ACTION *thunk;
+    int has_pure=0;
+    if(tables) {
+        table=tables;
+        do {
+            table=(CLASS_VFTABLE *)table->h.next;
+            if(table->corrupted) continue;
+            thunk=table->data;
+            for(;;++thunk) {
+                if(ScopePureVirtualThunk(thunk)) { has_pure=1; break; }
+                if(thunk->last_entry) break;
+            }
+            if(has_pure) break;
+        } while(table!=tables);
+    }
+    RingFree((void **)&tables);
+    return has_pure;
+}
+
+SEARCH_RESULT *ScopeFindMember(SCOPE scope,char *name)
+{ return ScopeFindScopedMember(scope,NULL,name); }
+
+SYMBOL AllocTypedSymbol(TYPE type)
+{
+    SYMBOL sym=AllocSymbol();
+    sym->sym_type=type;
+    return sym;
+}
+
+int ScopeDirectBase(SCOPE scope,TYPE type)
+{
+    BASE_CLASS *last=ScopeInherits(scope),*base;
+    if (last) {
+        base=last;
+        do {
+            base=base->next;
+            if ((base->flag&0x40) && StructType(base->type)==type) return 1;
+        } while (base!=last);
+    }
+    return 0;
+}
+int ScopeIndirectVBase(SCOPE scope,TYPE type)
+{
+    BASE_CLASS *last=ScopeInherits(scope),*base;
+    if (last) {
+        base=last;
+        do {
+            base=base->next;
+            if ((base->flag&0x10) && StructType(base->type)==type) return 1;
+        } while (base!=last);
+    }
+    return 0;
+}
+
+typedef struct vbtable_walk { CLASS_VBTABLE *tables; SCOPE start; } VBTABLE_WALK;
+WALK_STATUS collectVBTable(BASE_STACK *top,void *parm)
+{
+    VBTABLE_WALK *data=parm;
+    SCOPE scope=top->scope;
+    struct class_info *info=ScopeClass(scope)->u.c.info;
+    unsigned max_vbase=info->last_vbase;
+    CLASS_TABLE location;
+    CLASS_VBTABLE *last,*curr,*table;
+    BASE_CLASS *last_base,*base;
+    if (!max_vbase) return WALK_ABANDON;
+    /* The old nonvirtual pointer-location path leaves these two stack
+     * words uninitialized. They have no virtual-base role on that path. */
+    location.vb_offset=0;
+    location.vb_index=0;
+    location.delta=info->vb_offset;
+    findPtrOffset(top,data->start,&location);
+    last=data->tables;
+    if (last) {
+        curr=last;
+        do {
+            curr=(CLASS_VBTABLE *)curr->h.next;
+            if (curr->h.exact_delta==location.exact_delta) return WALK_NORMAL;
+        } while (curr!=last);
+    }
+    table=RingAlloc((void **)&data->tables,sizeof(CLASS_VBTABLE)+max_vbase*sizeof(TYPE));
+    assignLocation(&table->h,&location);
+    table->h.count=max_vbase;
+    table->data[max_vbase]=NULL;
+    last_base=ScopeInherits(scope);
+    if (last_base) {
+        base=last_base;
+        do {
+            base=base->next;
+            if (base->flag&0x18) table->data[base->vb_index-1]=base->type;
+        } while (base!=last_base);
+    }
+    return WALK_NORMAL;
+}
+CLASS_VBTABLE *ScopeCollectVBTable(SCOPE scope)
+{
+    VBTABLE_WALK data;
+    data.tables=NULL;
+    data.start=scope;
+    walkDirectBases(scope,collectVBTable,&data);
+    return data.tables;
+}
+
+int ScopeEquivalent(SCOPE scope,unsigned char id)
+{
+    return ScopeType(scope,id) || (id==0 && scope->id==5);
+}
+
+void ScopeMemberModuleFunction(SCOPE scope,SCOPE function)
+{
+    function=findFunctionScope(function);
+    if(function!=NULL) function->enclosing=scope;
+}
+void ScopeRestoreModuleFunction(SCOPE function)
+{
+    function=findFunctionScope(function);
+    if(function!=NULL) function->enclosing=FileScope;
+}
+
+void ScopeNotePureFunctions(TYPE type)
+{ (void)type; STUB_TRAP(); }
+
+typedef struct base_depth_walk {
+    unsigned depth;
+    SCOPE base;
+    unsigned many_paths:1;
+} BASE_DEPTH_WALK;
+WALK_STATUS calcBaseDepth(BASE_STACK *top,void *parm)
+{
+    BASE_DEPTH_WALK *data=parm;
+    unsigned depth;
+    if(top->scope==data->base) {
+        depth=0;
+        while(top && top->base) {
+            ++depth;
+            top=top->parent;
+        }
+        if(depth<data->depth) data->depth=depth;
+        if(!data->many_paths) return WALK_FINISH;
+    }
+    return WALK_NORMAL;
+}
+unsigned char ScopeDerivedCount(SCOPE derived,SCOPE base,unsigned *depth)
+{
+    BASE_DEPTH_WALK data;
+    unsigned char status;
+    *depth=0;
+    data.depth=~0U;
+    data.base=base;
+    data.many_paths=0;
+    status=ScopeDerived(derived,base);
+    switch(status) {
+    case 2: data.many_paths=1; /* fall through */
+    case 1:
+        walkDirectBases(derived,calcBaseDepth,&data);
+        *depth=data.depth;
+        break;
+    }
+    return status;
+}
+
+SEARCH_RESULT *addBaseDelta(SEARCH_RESULT *result,SCOPE from,SCOPE to)
+{
+    LOOKUP_WALK data;
+    newLookupData(&data,NULL);
+    data.disambiguate=to;
+    if(searchScope(&data,from)) {
+        if(!result) result=newResult(to,NULL);
+        addClassPath(&data,result);
+        delLookupData(&data);
+    }
+    return result;
+}
+SEARCH_RESULT *ScopeBaseResult(SCOPE derived,SCOPE base)
+{
+    return addBaseDelta(NULL,derived,base);
+}
+
+int ScopeImmediateCheck(SEARCH_RESULT *result)
+{
+    SYMBOL sym;
+    if(result->scope->id!=1) return 0;
+    sym=result->sym;
+    if(!sym) sym=result->sym_name->name_syms;
+    return diagnoseAmbiguity(result,sym);
+}
+
+void ScopeClear(SCOPE scope) { (void)scope; STUB_TRAP(); }
+
+SYMBOL ScopeOrderedStart(SCOPE scope);
+SYMBOL ScopeOrderedNext(SYMBOL stop,SYMBOL curr);
+SYMBOL ScopeOrderedFirst(SCOPE scope)
+{ return ScopeOrderedNext(ScopeOrderedStart(scope),NULL); }
+
+SEARCH_RESULT *ScopeFindScopedNakedConversion(SCOPE start,SCOPE disamb,
+                                             TYPE type,unsigned short flags)
+{ (void)start; (void)disamb; (void)type; (void)flags; STUB_TRAP(); return NULL; }
+
+/* The original walks the ordered parameter symbols directly. */
+SYMBOL ScopeFuncParm(unsigned parm_no)
+{
+    SYMBOL stopper=ScopeOrderedStart(findFunctionScope(CurrScope)),sym=NULL;
+    for (;;) {
+        sym=ScopeOrderedNext(stopper,sym);
+        if (!parm_no) break;
+        --parm_no;
+    }
+    return sym;
+}
+
+/* Saved member-pointer index maps, populated only by genIndexMapping. */
+typedef struct save_mapping SAVE_MAPPING;
+struct save_mapping {
+    SAVE_MAPPING *next;
+    SCOPE from,to;
+    SYMBOL sym;
+    long map_0;
+};
+static SAVE_MAPPING *mappingList;
+void emitIndexMapping(SAVE_MAPPING *mapping)
+{ (void)mapping; STUB_TRAP(); }
+void ScopeEmitIndexMappings(void)
+{
+    SAVE_MAPPING *mapping;
+    while (mappingList) {
+        mapping=mappingList;
+        mappingList=mapping->next;
+        emitIndexMapping(mapping);
+        CMemFree(mapping);
+    }
+}
+
+void ScopeEndFileScope(void)
+{ ScopeEnd(0); }

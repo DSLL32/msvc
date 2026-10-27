@@ -38,6 +38,7 @@
 #include <string.h>
 #include "compiler.h"
 #include "symbol.h"
+#include "vftable.h"
 #include "pending.h"
 #include "utility.h"
 #include <recon.h>
@@ -505,7 +506,55 @@ char *tableName(SCOPE scope,long offset,char *kind)
     appendScopeMangling(scope);
     return retMangling(save);
 }
+char *CppVBTableName(SCOPE scope,long offset)
+{
+    return tableName(scope,offset,"vb");
+}
 char *CppVFTableName(SCOPE scope,long offset)
 {
     return tableName(scope,offset,"vf");
 }
+
+char *CppNameTypeSig(TYPE type)
+{
+    char *save=setMangling("ts");
+    if(!type) appendStr("[...]");
+    else appendType(type,NULL);
+    return retMangling(save);
+}
+
+SCOPE SymScope(SYMBOL sym);
+char *CppThunkName(SCOPE scope,THUNK_ACTION *thunk)
+{
+    char *save=setMangling("vt");
+    SYMBOL sym;
+    appendStr(thunk->sym->name->name);
+    appendScopeMangling(scope);
+    if (thunk->delta) appendDelta(thunk->delta);
+    if (thunk->ctor_disp) {
+        appendChar('c');
+        if (thunk->input_virtual) {
+            appendChar('i');
+            appendDelta(thunk->in.vb_offset);
+            appendDelta(thunk->in.vb_index);
+        }
+        if (thunk->in.delta) appendDelta(thunk->in.delta);
+    }
+    appendStr("$");
+    sym=thunk->override;
+    appendScopeMangling(SymScope(sym));
+    appendTypedSymName(sym);
+    return retMangling(save);
+}
+
+int nameHasPrefix(const char *name,const char *prefix)
+{
+    for (;;++name,++prefix) {
+        if (!*prefix) return 1;
+        if (*prefix!=*name) return 0;
+    }
+}
+int IsVftName(const char *name) { return nameHasPrefix(name,"$Wvf"); }
+
+char *CppClassPathDebug(SYMBOL sym)
+{ (void)sym;STUB_TRAP();return NULL; }

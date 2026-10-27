@@ -31,7 +31,9 @@
 
 /* Initial Open Watcom arglist.c (6b9cb443). The 1994 entry combines the
  * later separate AllocArgListPerm/Temp bodies behind a permanence argument. */
+#include <string.h>
 #include "types.h"
+#include "symbol.h"
 #include <recon.h>
 
 typedef char ArgListSize[(sizeof(arg_list)==16)?1:-1];
@@ -57,4 +59,17 @@ arg_list *InitArgList(arg_list *args)
     args->qualifier = 0;
     args->type_list[0] = 0;
     return args;
+}
+
+TYPE TypeThisSymbol(SYMBOL sym,int reference);
+arg_list *MakeMemberArgList(SYMBOL sym,unsigned count)
+{
+    arg_list *mock,*formals;
+    mock=AllocArgList(count,0);
+    formals=SymFuncArgList(sym);
+    mock->except_spec=formals->except_spec;
+    mock->type_list[0]=TypeThisSymbol(sym,1);
+    if(count>1) memcpy(&mock->type_list[1],formals->type_list,
+                        sizeof(TYPE)*(count-1));
+    return mock;
 }

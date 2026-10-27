@@ -360,6 +360,8 @@ temporary:
     PTreeErrorExpr(expr,210);
     return 2;
 }
+unsigned NodeConvertPtr(unsigned conversion,PTREE *expr,TYPE source,TYPE target);
+TYPE GetReferenceTo(TYPE type);
 unsigned convertReferenceTypes(PTREE *expr,TYPE target,unsigned control)
 {
     PTREE node=*expr;
@@ -375,7 +377,25 @@ unsigned convertReferenceTypes(PTREE *expr,TYPE target,unsigned control)
     if(!source_ref && !StructType(node->type)) { STUB_TRAP(); return 0; }
     source_base=conversionTypeModFlags(source_ref,&source_flags);
     target_base=conversionTypeModFlags(target_ref,&target_flags);
-    if(!TypesIdentical(source_base,target_base)) { STUB_TRAP(); return 0; }
+    if(!TypesIdentical(source_base,target_base)) {
+        unsigned char derived=TypeDerived(source_ref,target_ref);
+        if(derived>=3 && derived<=5) {
+            result=derived+2;
+        } else if(derived==1 || derived==2) {
+            result=checkReferenceCV(node,target_flags,source_flags,control);
+            if(!result) {
+                checkImplicitTypes(node,target,source,control);
+                result=NodeConvertPtr(0,expr,source,target);
+                node=*expr;
+                if(result==0 || result==1) {
+                    node->type=GetReferenceTo(target);
+                    node->flags|=2;
+                }
+            }
+        } else { STUB_TRAP(); return 0; }
+        *expr=node;
+        return result;
+    }
     result=checkReferenceCV(node,target_flags,source_flags,control);
     if(!result) {
         if(NodeIsUnaryOp(node,101)) { STUB_TRAP(); return 0; }
@@ -385,6 +405,109 @@ unsigned convertReferenceTypes(PTREE *expr,TYPE target,unsigned control)
     *expr=node;
     return result;
 }
+unsigned NodeCheckCnvPtrVoid(PTREE *expr,TYPE source,TYPE target);
+PTREE nodeBasedSelfExpr(PTREE expr)
+{ (void)expr; STUB_TRAP(); return NULL; }
+TYPE TypePointedAtModified(TYPE type);
+TYPE TypeModExtract(TYPE type,unsigned short *flags,void **base,unsigned char mask);
+TYPE MakeBasedModifierOf(TYPE type,unsigned short flags,void *base);
+TYPE MakePointerTo(TYPE type);
+unsigned classPtrConversion(PTREE *expr,TYPE target,unsigned control)
+{
+    TYPE pointed,new_target,source;
+    unsigned short flags;
+    void *base;
+    unsigned mode;
+    pointed=TypePointedAt(target,&flags);
+    source=(*expr)->type;
+    TypeModExtract(TypePointedAtModified(source),&flags,&base,1);
+    new_target=MakePointerTo(MakeBasedModifierOf(pointed,flags,base));
+    switch(control&0x2f) {
+    case 8: mode=3; break;
+    case 1: case 2: case 4: mode=4; break;
+    default: mode=0; break;
+    }
+    return NodeConvertPtr(mode,expr,source,new_target);
+}
+PTREE convertToPcPtr(PTREE expr,TYPE target,unsigned char kind)
+{ (void)expr; (void)target; (void)kind; STUB_TRAP(); return NULL; }
+PTREE convertFromPcPtr(PTREE expr,unsigned char kind,PTREE based_self)
+{ (void)expr; (void)kind; (void)based_self; STUB_TRAP(); return NULL; }
+TYPE TypePointedAtModified(TYPE type);
+TYPE TypeModExtract(TYPE type,unsigned short *flags,void **baser,unsigned char mask);
+TYPE MakeBasedModifierOf(TYPE type,unsigned short flags,void *base);
+TYPE MakePointerTo(TYPE type);
+void CFatal(const char *message);
+/* Released convctl.c matrix, byte-identical to the encountered1994 table.
+ * Columns/rows: regular, string,self,void,fetch,add,far16,not-a-pointer.
+ * Actions1..9 select the corresponding conversion arms;10 is no change,
+ *99 denotes the impossible based-void to far16 conversion. */
+static const unsigned char pcPtrCnv[8][8]={
+    {1,2,2,2,2,8,3,10}, {4,1,1,1,1,5,5,10},
+    {4,1,1,1,1,5,5,10}, {2,1,1,1,1,5,99,10},
+    {4,1,1,1,1,5,5,10}, {4,9,9,9,9,7,5,10},
+    {4,6,6,6,6,5,5,10}, {10,10,10,10,10,10,10,10}
+};
+unsigned pcPtrConvertSrcTgt(PTREE *a_expr,TYPE target,unsigned char target_class,
+    unsigned char source_class,int class_conversion,unsigned control)
+{
+    PTREE expr,based_self;
+    TYPE pointed;
+    unsigned char action;
+    unsigned short target_flags,source_flags;
+    void *baser;
+    unsigned result;
+    if(source_class>=8 || target_class>=8) { STUB_TRAP(); return 0; }
+    action=pcPtrCnv[source_class][target_class];
+    if(action==10) return 0;
+    based_self=NULL;
+    if(source_class==2 && (action==4 || action==5))
+        based_self=nodeBasedSelfExpr(*a_expr);
+    if(class_conversion) {
+        result=classPtrConversion(a_expr,target,control);
+        expr=*a_expr;
+    } else {
+        expr=*a_expr;
+        result=checkClassPtrTrunc(target,expr->type,control);
+        if(result==0) result=8;
+        else if(result==1) result=9;
+        else if(result==11) result=10;
+    }
+    if(result<2 || result>7) {
+        pointed=TypePointedAtModified(target);
+        TypeModExtract(pointed,&target_flags,&baser,8);
+        pointed=TypePointedAt(expr->type,&source_flags);
+        target_flags=(target_flags&0x73c)|(source_flags&~0x73c);
+        target=MakePointerTo(MakeBasedModifierOf(pointed,target_flags,baser));
+        switch(action) {
+        default:
+            CFatal("pcPtrConvert -- impossible conversion");
+            /* The original fatal boundary is nonlocal; retain its
+             * syntactic fallthrough without assuming it ever returns. */
+        case 1:
+            if(class_conversion) break;
+            /* fall through */
+        case 2: expr=NodeConvert(target,expr); break;
+        case 3: case 8: expr=convertToPcPtr(expr,target,target_class); break;
+        case 4: expr=convertFromPcPtr(expr,source_class,based_self); break;
+        case 5: case 7:
+            expr=convertFromPcPtr(expr,source_class,based_self);
+            expr=convertToPcPtr(expr,target,target_class);
+            break;
+        case 6: case 9:
+            expr=NodeConvert(target,convertFromPcPtr(expr,source_class,based_self));
+            break;
+        }
+    }
+    *a_expr=expr;
+    return result;
+}
+int TypeTruncByMemModel(TYPE type);
+TYPE IntegralType(TYPE type);
+void AnalyseIntTrunc(PTREE expr,TYPE type);
+TYPE ArithType(TYPE type);
+TYPE SegmentShortType(TYPE type);
+PTREE markConversionAddress(PTREE expr);
 unsigned CastImplicit(PTREE *expr,TYPE type,unsigned control)
 {
     PTREE node=*expr;
@@ -416,7 +539,14 @@ unsigned CastImplicit(PTREE *expr,TYPE type,unsigned control)
                (source_class && ClassCorrupted(source_class))) {
                 STUB_TRAP(); return 2;
             }
-            if(source_class!=class_type) { STUB_TRAP(); return 0; }
+            if(source_class!=class_type) {
+                if(control!=8 && checkConversionClassDefined(class_type,node,434)) {
+                    STUB_TRAP(); return 2;
+                }
+                if(!source_class || !TypeDerived(source_class,class_type)) {
+                    STUB_TRAP(); return 0;
+                }
+            }
             if(!source_ref) { STUB_TRAP(); return 0; }
             {
                 TYPE original_source=source;
@@ -446,10 +576,27 @@ unsigned CastImplicit(PTREE *expr,TYPE type,unsigned control)
             goto finalize;
         }
         if(NodeIsUnaryOp(node,101)) { STUB_TRAP(); return 0; }
-        if(!ref) {
-            result=checkImplicitTypes(node,type,source,control);
+        /* Actual16596..165a9 marks the address of an identical reference
+         * operand before the common qualification/final-result checks. */
+        if(ref) node=markConversionAddress(node);
+        result=checkImplicitTypes(node,type,source,control);
+        goto finalize;
+    }
+    if(ArithType(type)) {
+        int segment=SegmentShortType(type)!=NULL;
+        if(ArithType(source)) {
+            if(control!=8 && TypeTruncByMemModel(type) &&
+               !TypeTruncByMemModel(source)) {
+                PTreeErrorExpr(node,139); result=2;
+                goto finalize;
+            }
+            if(segment && !IntegralType(source)) { result=4; goto finalize; }
+            if(control!=8) AnalyseIntTrunc(node,type);
+            node=NodeConvert(type,node);
+            result=0;
             goto finalize;
         }
+        STUB_TRAP(); return 0;
     }
     /* The remaining conversion dispatcher is incomplete. Retain its real
      * pointed-type and memory-model classification prefix for pointer casts. */
@@ -473,10 +620,40 @@ unsigned CastImplicit(PTREE *expr,TYPE type,unsigned control)
                     if(TypeCompareExclude(source_pointed,pointed,5)) { STUB_TRAP(); return 0; }
                     if(NodeIsZeroConstant(node)) { STUB_TRAP(); return 0; }
                     if(NodeIsConstantInt(node)) { STUB_TRAP(); return 0; }
-                    if(pointed->id!=TYP_VOID) {
+                    if(pointed->id==TYP_VOID) {
+                        result=0;
+                        if(control!=8) result=NodeCheckCnvPtrVoid(expr,source,type);
+                        node=*expr;
+                        if(result==2) goto finalize;
+                        result=pcPtrConvertSrcTgt(expr,type,pointer_class,source_class,0,control);
+                        node=*expr;
+                        /* Actual168ca..1694f consumes the internal CV
+                         * result before exposing the public conversion code. */
+                        if(result>=8 && result<=10) {
+                            unsigned cv=checkImplicitTypes(node,type,source,control);
+                            if(cv==2) result=2;
+                            else if(result==8) result=0;
+                            else if(result==10) result=11;
+                            else result=1;
+                        }
+                        goto finalize;
+                    } else {
                         unsigned char derived=TypeDerived(source_pointed,pointed);
                         if(!derived && control==8)
                             derived=TypeDerived(pointed,source_pointed);
+                        if(derived) {
+                            result=pcPtrConvertSrcTgt(expr,type,pointer_class,
+                                                     source_class,1,control);
+                            node=*expr;
+                            if(result>=8 && result<=10) {
+                                unsigned cv=checkImplicitTypes(node,type,source,control);
+                                if(cv==2) result=2;
+                                else if(result==8) result=0;
+                                else if(result==10) result=11;
+                                else result=1;
+                            }
+                            goto finalize;
+                        }
                         if(!derived) {
                             result=convertUserDefined(expr,source,type);
                             node=*expr;

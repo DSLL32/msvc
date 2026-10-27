@@ -79,3 +79,39 @@ void ModuleInitInit(void)
     ScopeKeep(CurrScope);
     moduleInitRestore(save);
 }
+
+void ScopeMemberModuleFunction(SCOPE scope,SCOPE function);
+void ScopeRestoreModuleFunction(SCOPE function);
+void ModuleInitResumeScoped(SCOPE scope)
+{ ScopeMemberModuleFunction(scope,module_init_scope); }
+SYMBOL ModuleInitFuncSym(void) { return module_init_func; }
+void ModuleInitUsed(void)
+{
+    module_init_func->id=2;
+    module_init_func->flag|=3;
+}
+SCOPE ModuleInitResume(void)
+{
+    SCOPE saved=moduleInitSave();
+    CurrScope=module_init_scope;
+    return saved;
+}
+void ModuleInitRestore(SCOPE scope)
+{
+    ScopeRestoreModuleFunction(module_init_scope);
+    moduleInitRestore(scope);
+}
+
+CGFILE *CgFrontSwitchFile(SYMBOL sym);
+void FunctionBodyShutdown(SYMBOL sym,FUNCTION_DATA *data);
+void CgFrontModInitFini(void);
+void ModuleInitFini(void)
+{
+    SCOPE save_scope;
+    CgFrontSwitchFile(module_init_func);
+    save_scope=ModuleInitResume();
+    FunctionBodyShutdown(module_init_func,&module_fd);
+    ScopeEnd(2);
+    ModuleInitRestore(save_scope);
+    CgFrontModInitFini();
+}

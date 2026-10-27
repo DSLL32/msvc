@@ -40,13 +40,15 @@
 #include "pending.h"
 #include <recon.h>
 
-static void *cg_file_ring;
+static void *cg_file_ring,*cg_thunk_ring,*cg_file_removed;
 static carve_t carveCGFILE, carveCGFILE_GEN;
 
 void cgioInit(INITFINI *entry)
 {
     (void)entry;
     cg_file_ring = 0;
+    cg_thunk_ring = 0;
+    cg_file_removed = 0;
     CgioBuffInit();
     /* Actual packed1994 element sizes, before those fields are encountered. */
     carveCGFILE = CarveCreate(46, 64);
@@ -79,11 +81,11 @@ CGFILE *initCGFILE(CGFILE *file,struct symbol *sym)
     gen->cs_allocated=0;
     gen->source_location.src_file=0;
     gen->emit_line_no.src_file=0;
-    gen->initialization_location.src_file=0;
+    gen->switch_location.src_file=0;
     gen->curr_type=0;
     gen->emit_type=0;
-    gen->pending_value=0;
-    gen->emitted_value=0;
+    gen->switch_scope=0;
+    gen->switch_label_scope=0;
     gen->init_sym=0;
     gen->flags&=~0x1fU;
     return file;
@@ -115,4 +117,69 @@ void CgioCloseOutputFile(CGFILE *file)
     file->buffer=NULL;
     file->flags|=0x40;
     if(!saveGenData(file)) freeGenData(file);
+}
+
+CGFILE *lookupFile(SYMBOL sym,CGFILE *ring)
+{
+    CGFILE *curr=ring;
+    if (ring) {
+        do {
+            curr=curr->next;
+            if (curr->symbol==sym) return curr;
+        } while (curr!=ring);
+    }
+    return NULL;
+}
+CGFILE *CgioLocateFile(SYMBOL sym)
+{
+    return lookupFile(sym,(CGFILE *)cg_file_ring);
+}
+
+void CgioThunkMarkGen(CGFILE *file)
+{ file->flags|=2; }
+
+void *RingPred(void *head,void *entry);
+void *RingPruneWithPrev(void **head,void *entry,void *previous);
+int changeRing(void **a_new,CGFILE *element,void **a_old)
+{
+    void *prev=RingPred(*a_old,element);
+    if (!prev) return 0;
+    RingPruneWithPrev(a_old,element,prev);
+    RingAppend(a_new,element);
+    return 1;
+}
+void CgioFreeFile(CGFILE *file)
+{
+    if (saveGenData(file)) freeGenData(file);
+    if (!changeRing(&cg_file_removed,file,&cg_file_ring))
+        changeRing(&cg_file_removed,file,&cg_thunk_ring);
+}
+
+void RingWalk(void *head,void (*walker)(void *));
+void CgioWalkFiles(void (*walker)(CGFILE *))
+{ RingWalk(cg_file_ring,(void (*)(void *))walker); }
+
+/* The1994 record reader takes a byte size, not the later IC-mask API.
+ * Its first call uses the stored offset without advancing the new cursor. */
+CGIOBUFF *CgioBuffRdOpen(unsigned block);
+CGIOBUFF *CgioBuffReadIC(CGIOBUFF *buffer,void **cursor,unsigned size);
+void releaseRdBuffer(CGIOBUFF *buffer);
+void CgioOpenInputFile(CGFILE *file)
+{
+    file->buffer=CgioBuffRdOpen(file->first);
+    file->cursor=0;
+}
+CGINTER *CgioReadIC(CGFILE *file,unsigned size)
+{
+    if (!file->cursor) {
+        file->cursor=file->buffer->data+file->offset;
+        size=0;
+    }
+    file->buffer=CgioBuffReadIC(file->buffer,&file->cursor,size);
+    return file->cursor;
+}
+void CgioCloseInputFile(CGFILE *file)
+{
+    releaseRdBuffer(file->buffer);
+    file->buffer=0;
 }

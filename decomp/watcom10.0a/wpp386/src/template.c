@@ -44,6 +44,7 @@
 #include "ptree.h"
 #include "rewrite.h"
 #include "class.h"
+#include "vstk.h"
 #include <recon.h>
 static carve_t carveTEMPLATE_INFO,carveCLASS_INST;
 static carve_t carveTEMPLATE_MEMBER,carveFN_TEMPLATE_DEFN;
@@ -51,7 +52,7 @@ static struct {
     unsigned max_depth,curr_depth;
     SYMBOL translate_fn;
     TYPE extra_member_class;
-    unsigned extra_members:1;
+    unsigned keep_going:1,extra_members:1,depth_diagnosed:1;
 } templateData;
 static struct {
     NESTED_POST_CONTEXT registration;
@@ -365,4 +366,534 @@ SYMBOL TemplateFunctionTranslate(SYMBOL sym,SCOPE *parse_scope)
         *parse_scope=scope;
     }
     return sym;
+}
+
+PTREE NodeReverseArgs(unsigned *count,PTREE list);
+void NodeFreeDupedExpr(PTREE expr);
+PTREE processIndividualParm(TYPE arg_type,PTREE parm)
+{ (void)arg_type; (void)parm; STUB_TRAP(); return NULL; }
+/* Initial template.c argument classification, exact old error numbers and
+ * generic/type ids from CF515d9. Reversal retains the genuine argument nodes. */
+PTREE processClassTemplateParms(TEMPLATE_INFO *info,PTREE parms)
+{
+    unsigned count,index=0,error=0;
+    PTREE list,parm;
+    TYPE arg_type;
+    parms=NodeReverseArgs(&count,parms);
+    if(info->flags&1) error=1;
+    else if(count!=info->num_args) {
+        CErr1(count>info->num_args?214:213);
+        error=1;
+    } else {
+        for(list=parms;list!=NULL;list=list->u.subtree[0]) {
+            arg_type=TypedefRemove(info->type_list[index]);
+            if(arg_type->id==TYP_GENERIC) arg_type=NULL;
+            parm=list->u.subtree[1];
+            if(parm->op!=5) {
+                if(arg_type!=NULL) {
+                    parm=processIndividualParm(arg_type,parm);
+                    if(parm->op==0) error=1;
+                } else {
+                    PTreeErrorExpr(parm,350);
+                    error=1;
+                }
+            } else if(arg_type!=NULL) {
+                PTreeErrorExpr(parm,351);
+                error=1;
+            }
+            list->u.subtree[1]=parm;
+            ++index;
+        }
+    }
+    if(error) { NodeFreeDupedExpr(parms); parms=NULL; }
+    return parms;
+}
+TYPE instantiateUnboundClass(TEMPLATE_INFO *info,PTREE parms,char *name)
+{ (void)info; (void)parms; (void)name; STUB_TRAP(); return NULL; }
+SYMBOL ScopeOrderedStart(SCOPE scope);
+SYMBOL ScopeOrderedNext(SYMBOL stop,SYMBOL current);
+int SymIsConstantInt(SYMBOL sym);
+int SymIsTypedef(SYMBOL sym);
+SYMBOL SymAddressOf(SYMBOL sym);
+int TypesIdentical(TYPE first,TYPE second);
+int parmsDifferent(SYMBOL arg,PTREE parm)
+{
+    SYMBOL sym;
+    if(SymIsConstantInt(arg)) {
+        if((parm->op==2 || parm->op==3) &&
+           arg->u.uval==parm->u.uint_constant) return 0;
+    } else if(SymIsTypedef(arg)) {
+        if(parm->op==5 && TypesIdentical(arg->sym_type,parm->type)) return 0;
+    } else {
+        sym=SymAddressOf(arg);
+        if(sym!=NULL && parm->op==7 && sym==parm->u.symcg.symbol) return 0;
+    }
+    return 1;
+}
+SCOPE sameParms(struct class_inst *instance,PTREE parms)
+{
+    SCOPE inst_scope=instance->scope;
+    SYMBOL current=NULL,stop=ScopeOrderedStart(inst_scope->enclosing);
+    for(;;) {
+        if(parms==NULL) return inst_scope;
+        current=ScopeOrderedNext(stop,current);
+        if(current==NULL || parmsDifferent(current,parms->u.subtree[1]))
+            return NULL;
+        parms=parms->u.subtree[0];
+    }
+}
+SCOPE findInstScope(TEMPLATE_INFO *info,PTREE parms,struct class_inst **instance)
+{
+    struct class_inst *curr,*stop=info->instantiations;
+    SCOPE scope;
+    if(stop!=NULL) {
+        curr=stop;
+        do {
+            curr=curr->next;
+            scope=sameParms(curr,parms);
+            if(scope!=NULL) { *instance=curr; return scope; }
+        } while(curr!=stop);
+    }
+    return NULL;
+}
+SYMBOL ScopeOrderedFirst(SCOPE scope);
+TYPE checkAlreadyDone(TEMPLATE_INFO *info,PTREE parms,struct class_inst **instance)
+{
+    SCOPE scope=findInstScope(info,parms,instance);
+    if(scope!=NULL) return ScopeOrderedFirst(scope)->sym_type;
+    return NULL;
+}
+struct class_inst *newClassInstantiation(TEMPLATE_INFO *info,SCOPE scope)
+{
+    struct class_inst *instance=CarveAlloc(carveCLASS_INST);
+    instance->scope=scope;
+    instance->locn.src_file=NULL;
+    /* Original clears four owned bits and leaves the unused upper bits
+     * indeterminate on fresh allocation; initialize those unused bits to0. */
+    instance->flags=0;
+    RingAppend((void **)&info->instantiations,instance);
+    templateData.keep_going=1;
+    return instance;
+}
+SYMBOL templateArgSym(unsigned char sc,TYPE type)
+{
+    SYMBOL sym=AllocSymbol();
+    sym->id=sc;
+    sym->sym_type=type;
+    return sym;
+}
+void DgStoreConstScalar(PTREE expr,TYPE type,SYMBOL sym);
+char *NameDummy(void);
+/* Actual CF51896..51951 uses one old symbol constructor for both types
+ * and values; address aliases always use a pointer to the named symbol. */
+void injectTemplateParms(TEMPLATE_INFO *info,SCOPE scope,PTREE parms)
+{
+    char **names=info!=NULL?info->arg_names:NULL;
+    char *name;
+    PTREE list,parm;
+    TYPE type;
+    SYMBOL sym,addr_sym;
+    for(list=parms;list!=NULL;list=list->u.subtree[0]) {
+        parm=list->u.subtree[1];
+        type=parm->type;
+        sym=NULL;
+        switch(parm->op) {
+        case 2: case 3:
+            sym=templateArgSym(2,type);
+            DgStoreConstScalar(parm,type,sym);
+            break;
+        case 5:
+            sym=templateArgSym(5,type);
+            break;
+        case 7:
+            addr_sym=parm->u.symcg.symbol;
+            sym=templateArgSym(15,MakePointerTo(addr_sym->sym_type));
+            sym->u.sym=addr_sym;
+            break;
+        }
+        if(names!=NULL) name=*names++;
+        else name=NameDummy();
+        if(sym!=NULL) ScopeInsert(scope,sym,name);
+    }
+}
+#pragma pack(1)
+struct template_context {
+    struct template_context *next;
+    CGIO_LOCATION *locn;
+    void *extra;
+    unsigned char id;
+};
+#pragma pack()
+void CSuicide(void);
+void verifyOKToProceed(CGIO_LOCATION *locn)
+{
+    ++templateData.curr_depth;
+    if(templateData.curr_depth>templateData.max_depth &&
+       !templateData.depth_diagnosed) {
+        templateData.depth_diagnosed=1;
+        SetErrLoc(locn);
+        CErr2p(640,(const char *)(unsigned long)(templateData.max_depth*2));
+        CSuicide();
+    }
+}
+void pushInstContext(struct template_context *ctx,unsigned char id,
+                     CGIO_LOCATION *locn,void *extra)
+{
+    verifyOKToProceed(locn);
+    ctx->id=id;
+    ctx->locn=locn;
+    ctx->extra=extra;
+    StackPush((void **)&activeInstantiations.inst_stack,ctx);
+}
+void popInstContext(void)
+{
+    --templateData.curr_depth;
+    StackPop((void **)&activeInstantiations.inst_stack);
+}
+DECL_SPEC *ParseClassInstantiation(REWRITE *defn,int no_definition);
+extern TYPE TypeError;
+TYPE doParseClassTemplate(TEMPLATE_INFO *info,REWRITE *defn,
+                         CGIO_LOCATION *location,unsigned control)
+{
+    TYPE type=TypeError;
+    DECL_SPEC *spec;
+    struct template_context context;
+    if(!(info->flags&1)) {
+        pushInstContext(&context,1,location,CurrScope);
+        spec=ParseClassInstantiation(defn,control);
+        popInstContext();
+        if(spec!=NULL) { type=spec->partial; PTypeRelease(spec); }
+        else info->flags|=1;
+    }
+    return type;
+}
+void ScopeClear(SCOPE scope);
+int TypeDefined(TYPE type);
+TYPE StructOpened(TYPE type);
+/* Actual1994 binding has FileScope as its enclosing scope, no later
+ * directive-state or ScopeSetParmClass calls, and a boolean no-definition
+ * fifth argument. The genuine original ABI pops that one stack argument. */
+TYPE instantiateClass(TEMPLATE_INFO *info,REWRITE *defn,PTREE parms,
+                      CGIO_LOCATION *location,unsigned control)
+{
+    struct class_inst *instance=NULL;
+    TYPE already=checkAlreadyDone(info,parms,&instance),type;
+    SCOPE saved,inst_scope,parm_scope;
+    if(already!=NULL) {
+        int nothing=0;
+        if(TypeDefined(already) || control!=0) nothing=1;
+        else {
+            already=StructType(already);
+            if(StructOpened(already)!=NULL) nothing=1;
+        }
+        if(nothing) { NodeFreeDupedExpr(parms); return already; }
+    }
+    saved=CurrScope;
+    if(already!=NULL) {
+        inst_scope=instance->scope;
+        parm_scope=inst_scope->enclosing;
+        ScopeClear(parm_scope);
+        CurrScope=inst_scope;
+    } else {
+        CurrScope=FileScope;
+        parm_scope=ScopeBegin(6);
+        inst_scope=ScopeBegin(5);
+        instance=newClassInstantiation(info,inst_scope);
+        instance->locn=*location;
+        instance->flags|=4;
+    }
+    injectTemplateParms(info,parm_scope,parms);
+    NodeFreeDupedExpr(parms);
+    type=doParseClassTemplate(info,defn,location,control);
+    CurrScope=saved;
+    return type;
+}
+DECL_SPEC *PTypeClassInstantiation(TYPE type,PTREE id);
+void NodeFreeDupedExpr(PTREE expr);
+extern TYPE TypeError;
+/* Initial template.c, actual1994 CF51a97..51b31. The later
+ * NO_DECL_SPEC early return and ScopeAccessType helper are absent here. */
+DECL_SPEC *TemplateClassInstantiation(PTREE id,PTREE parms,unsigned control)
+{
+    char *name=id->u.id.name;
+    TYPE type=TypeError;
+    SYMBOL sym=ClassTemplateLookup(name);
+    TEMPLATE_INFO *info;
+    if(sym!=NULL) {
+        info=(TEMPLATE_INFO *)sym->u.tinfo;
+        parms=processClassTemplateParms(info,parms);
+        if(parms!=NULL) {
+            if(ScopeType(CurrScope,4)) {
+                type=info->unbound_type;
+                if(currentTemplate->all_generic)
+                    type=instantiateUnboundClass(info,parms,name);
+                NodeFreeDupedExpr(parms);
+            } else {
+                type=instantiateClass(info,info->defn,parms,&id->locn,control);
+            }
+        }
+    } else PTreeFreeSubtrees(parms);
+    return PTypeClassInstantiation(type,id);
+}
+
+/* Actual1994 generator has no later ambiguous-symbol output argument. */
+TYPE BindGenericTypes(arg_list *args,SYMBOL fn,CGIO_LOCATION *locn,unsigned *control);
+SYMBOL SymCreateAtLocn(TYPE type,unsigned char id,unsigned flags,char *name,
+                       SCOPE scope,CGIO_LOCATION *locn);
+TYPE attemptGen(arg_list *args,SYMBOL model,CGIO_LOCATION *locn,unsigned *control)
+{
+    arg_list *formals;
+    TYPE bound;
+    struct template_context context;
+    formals=TypeArgList(FunctionDeclarationType(model->sym_type));
+    if(!formals || formals->num_args!=args->num_args) return NULL;
+    pushInstContext(&context,4,locn,model);
+    bound=BindGenericTypes(args,model,locn,control);
+    popInstContext();
+    return bound;
+}
+SYMBOL buildTemplateFn(TYPE bound,SYMBOL model,CGIO_LOCATION *locn)
+{
+    SYMBOL sym;
+    if(!bound) return NULL;
+    /* Original flags preserve only0x80000000 and add template-instance. */
+    sym=SymCreateAtLocn(bound,0,(model->flag&0x80000000UL)|0x40000000UL,
+                        model->name->name,FileScope,locn);
+    sym->u.sym=model;
+    return sym;
+}
+unsigned char TemplateFunctionGenerate(SYMBOL *psym,arg_list *args,CGIO_LOCATION *locn,int has_match)
+{
+    SYMBOL syms=*psym,sym,previous,models[2],generated;
+    TYPE bound,types[2][2];
+    unsigned bind_control,control,index;
+    if(!ScopeType(SymScope(syms),0)) return 2;
+    types[0][0]=types[0][1]=types[1][0]=types[1][1]=NULL;
+    /* Original model slots are uninitialized when no type was bound;
+     * buildTemplateFn ignores them with NULL type. Zero those bytes here. */
+    models[0]=models[1]=NULL;
+    bind_control=!has_match;
+    if(syms) {
+        previous=NULL;
+        sym=syms->next;
+        while(previous!=syms) {
+            if(SymIsFunctionTemplateModel(sym)) {
+                control=bind_control;
+                bound=attemptGen(args,sym,locn,&control);
+                if(bound) {
+                    index=(control!=0);
+                    types[index][1]=types[index][0];
+                    types[index][0]=bound;
+                    models[index]=sym;
+                    if(types[0][1]) return 1;
+                }
+            }
+            previous=sym;
+            sym=sym->next;
+        }
+    }
+    bound=types[0][0];
+    sym=models[0];
+    if(!bound) {
+        sym=models[1];
+        bound=types[1][0];
+        if(types[1][1]) return 1;
+    }
+    generated=buildTemplateFn(bound,sym,locn);
+    if(generated) { *psym=generated; return 0; }
+    return 2;
+}
+
+int SymIsFunctionTemplateModel(SYMBOL sym);
+int BindFunction(SYMBOL sym,SYMBOL model);
+int SymIsInitialized(SYMBOL sym);
+SYMBOL SymIsFunctionTemplateInst(SYMBOL sym);
+int processSymDefn(SYMBOL sym,FN_TEMPLATE_DEFN *defn)
+{
+    SYMBOL model,previous;
+    struct template_context context;
+    int bound;
+    if(sym->id==7 || SymIsInitialized(sym)) return 0;
+    model=defn->sym;
+    previous=SymIsFunctionTemplateInst(sym);
+    if(previous && previous!=model) return 0;
+    pushInstContext(&context,5,(CGIO_LOCATION *)sym->locn,model);
+    bound=BindFunction(sym,model);
+    popInstContext();
+    if(!bound) return 0;
+    /* This older pass marks the original symbol only after its body was
+     * instantiated, rather than the later callback setting these fields. */
+    sym->u.alias=model;
+    sym->flag|=0x40000000UL;
+    return 1;
+}
+void processFunctionTemplateDefns(void)
+{
+    FN_TEMPLATE_DEFN *defn,*last=allFunctionTemplates;
+    SYMBOL sym,stop;
+    if(last) {
+        defn=last;
+        do {
+            defn=defn->next;
+            stop=defn->sym->name->name_syms;
+            if(stop) {
+                sym=stop;
+                do {
+                    sym=sym->next;
+                    if(!SymIsFunctionTemplateModel(sym)) processSymDefn(sym,defn);
+                } while(sym!=stop);
+            }
+        } while(defn!=last);
+    }
+}
+int TypeDefined(TYPE type);
+TYPE classTemplateType(struct class_inst *instance)
+{ return ScopeOrderedFirst(instance->scope)->sym_type; }
+int classTemplateWasDefined(struct class_inst *instance)
+{ return TypeDefined(classTemplateType(instance)); }
+void instantiateMember(TEMPLATE_INFO *info,struct class_inst *instance,TEMPLATE_MEMBER *member)
+{ (void)info; (void)instance; (void)member; STUB_TRAP(); }
+int TypeDefined(TYPE type);
+SYMBOL ScopeOrderedStart(SCOPE scope);
+int SymIsFunction(SYMBOL sym);
+void processNewFileSyms(SYMBOL old_last,SYMBOL current_last)
+{
+    SYMBOL curr=old_last,stop=ScopeOrderedStart(FileScope),fn,last;
+    FN_TEMPLATE_DEFN *defn;
+    for(;;) {
+        curr=ScopeOrderedNext(stop,curr);
+        if(!curr) break;
+        if(SymIsFunction(curr)) {
+            last=curr->name->name_syms;
+            if(last) {
+                fn=last;
+                do {
+                    fn=fn->next;
+                    if(SymIsFunctionTemplateModel(fn)) {
+                        defn=fn->u.tinfo;
+                        if(defn && processSymDefn(curr,defn)) break;
+                    }
+                } while(fn!=last);
+            }
+        }
+        if(curr==current_last) break;
+    }
+}
+void freeDefns(void)
+{
+    REWRITE *rewrite;
+    TEMPLATE_INFO *info,*last_info=allClassTemplates;
+    TEMPLATE_MEMBER *member,*last_member;
+    FN_TEMPLATE_DEFN *fn,*last_fn=allFunctionTemplates;
+    if(last_info) {
+        info=last_info;
+        do {
+            info=info->next;
+            rewrite=info->defn;
+            info->defn=NULL;
+            RewriteFree(rewrite);
+            last_member=info->member_defns;
+            if(last_member) {
+                member=last_member;
+                do {
+                    member=member->next;
+                    rewrite=member->defn;
+                    member->defn=NULL;
+                    RewriteFree(rewrite);
+                } while(member!=last_member);
+            }
+        } while(info!=last_info);
+    }
+    if(last_fn) {
+        fn=last_fn;
+        do {
+            fn=fn->next;
+            rewrite=fn->defn;
+            fn->defn=NULL;
+            RewriteFree(rewrite);
+        } while(fn!=last_fn);
+    }
+}
+SYMBOL ScopeOrderedStart(SCOPE scope);
+void TemplateProcessInstantiations(void)
+{
+    TEMPLATE_INFO *info,*last_info;
+    struct class_inst *instance,*last_instance;
+    TEMPLATE_MEMBER *member,*last_member;
+    SYMBOL old_last=ScopeOrderedStart(FileScope),current_last;
+    processFunctionTemplateDefns();
+    for(;;) {
+        verifyOKToProceed(NULL);
+        templateData.keep_going=0;
+        templateData.extra_members=1;
+        last_info=allClassTemplates;
+        if(last_info) {
+            info=last_info;
+            do {
+                info=info->next;
+                last_instance=info->instantiations;
+                if(!last_instance) continue;
+                instance=last_instance;
+                do {
+                    instance=instance->next;
+                    if(instance->flags&3) continue;
+                    if(!classTemplateWasDefined(instance)) continue;
+                    templateData.extra_member_class=classTemplateType(instance);
+                    instance->flags|=1;
+                    last_member=info->member_defns;
+                    if(!last_member) continue;
+                    member=last_member;
+                    do {
+                        member=member->next;
+                        instantiateMember(info,instance,member);
+                    } while(member!=last_member);
+                } while(instance!=last_instance);
+            } while(info!=last_info);
+        }
+        templateData.extra_members=0;
+        current_last=ScopeOrderedStart(FileScope);
+        if(current_last!=old_last) {
+            processNewFileSyms(old_last,current_last);
+            templateData.keep_going=1;
+            old_last=current_last;
+        }
+        if(!templateData.keep_going) break;
+    }
+    templateData.extra_members=0;
+    freeDefns();
+}
+
+void injectFunctionTemplateArgs(SYMBOL model)
+{
+    FN_TEMPLATE_DEFN *defn=model->u.tinfo;
+    unsigned i;
+    TYPE type;
+    SYMBOL parm;
+    for(i=0;i<defn->num_args;++i) {
+        type=TypedefModifierRemove(defn->type_list[i]);
+        parm=templateArgSym(5,type->of);
+        ScopeInsert(CurrScope,parm,defn->arg_names[i]);
+    }
+}
+void clearGenericBindings(VSTK_CTL *stack);
+void ParseFunctionInstantiation(REWRITE *rewrite);
+void TemplateFunctionInstantiate(SYMBOL sym,SYMBOL model,void *bindings)
+{
+    SCOPE save_scope=CurrScope;
+    SYMBOL save_fn;
+    FN_TEMPLATE_DEFN *defn=model->u.tinfo;
+    struct template_context context;
+    /* The actual old path starts at FileScope and has no ScopeSetParmFn. */
+    CurrScope=FileScope;
+    ScopeBegin(6);
+    injectFunctionTemplateArgs(model);
+    ScopeBegin(5);
+    clearGenericBindings(bindings);
+    save_fn=templateData.translate_fn;
+    templateData.translate_fn=sym;
+    pushInstContext(&context,2,(CGIO_LOCATION *)sym->locn,sym);
+    ParseFunctionInstantiation(defn->defn);
+    popInstContext();
+    CurrScope=save_scope;
+    templateData.translate_fn=save_fn;
 }

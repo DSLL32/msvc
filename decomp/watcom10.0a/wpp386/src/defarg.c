@@ -39,6 +39,8 @@
 #include "scope.h"
 #include "ptree.h"
 #include "fnbody.h"
+#include "pending.h"
+#include "analcall.h"
 #include <recon.h>
 SYMBOL CgFrontSaveFile(void);
 void CgFrontRestoreFile(SYMBOL sym);
@@ -68,4 +70,62 @@ void defineDefaultValue(PTREE tree,SYMBOL sym,PTREE (*check)(PTREE))
     ScopeEnd(2);
     CurrScope=saved_scope;
     CgFrontRestoreFile(saved_file);
+}
+
+PTREE *PTreeRefRight(PTREE node);
+PTREE *PTreeRefLeft(PTREE node);
+SEARCH_RESULT *ScopeFindScopedNaked(SCOPE scope,SCOPE disambiguate,char *name);
+PTREE NodeSymbol(PTREE node,SYMBOL sym,SEARCH_RESULT *result);
+PTREE NodeBinary(unsigned char op,PTREE left,PTREE right);
+PTREE PTreeCopySrcLocation(PTREE target,PTREE source);
+PTREE PTreeErrorNode(PTREE expr);
+PTREE NodeArg(PTREE expr);
+arg_list *TypeArgList(TYPE type);
+int NodeConvertArgument(PTREE *expr,TYPE type);
+void SymSetNvReferenced(SYMBOL sym);
+/* AnalyseCall belongs to analcall.c. */
+/* Actual1994 default arguments are hidden zero-argument helper functions.
+ * SC_DEFAULT symbols thread through progressively longer prototypes. */
+void AddDefaultArgs(SYMBOL func,PTREE expr)
+{
+    PTREE func_node,arg;
+    PTREE *args;
+    SYMBOL helper;
+    SEARCH_RESULT *result;
+    arg_list *without,*with;
+    if (!expr || expr->op==0) return;
+    func_node=expr->u.subtree[0]->u.subtree[0];
+    if (func_node->op!=7) func_node=NULL;
+    else func=func_node->u.symcg.symbol;
+    if (func->id!=7) return;
+    args=PTreeRefRight(expr);
+    while (*args) args=PTreeRefLeft(*args);
+    arg=NULL;
+    do {
+        helper=func->u.sym;
+        result=ScopeFindScopedNaked(CurrScope,SymScope(helper),helper->name->name);
+        arg=NodeSymbol(PTreeAlloc(),helper,result);
+        arg->cgop=194;
+        PTreeCopySrcLocation(arg,expr);
+        arg=NodeBinary(47,arg,NULL);
+        PTreeCopySrcLocation(arg,expr);
+        arg=AnalyseCall(arg,0);
+        if (arg->op==0) {
+            PTreeErrorNode(expr);
+            break;
+        }
+        without=TypeArgList(func->sym_type);
+        with=TypeArgList(func->thread->sym_type);
+        if (!NodeConvertArgument(&arg,with->type_list[without->num_args])) {
+            PTreeErrorNode(expr);
+            break;
+        }
+        arg=NodeArg(arg);
+        *args=arg;
+        func->flag|=1;
+        func=func->thread;
+        args=&arg->u.subtree[0];
+    } while (func->id==7);
+    SymSetNvReferenced(func);
+    if (func_node) func_node->u.symcg.symbol=func;
 }

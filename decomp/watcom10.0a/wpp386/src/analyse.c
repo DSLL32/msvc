@@ -36,9 +36,11 @@
 #include "symbol.h"
 #include "pending.h"
 #include "convdiag.h"
+#include "analcall.h"
 #include <recon.h>
 TYPE SymFuncReturnType(SYMBOL sym);
 PTREE NodeBinary(unsigned char cgop,PTREE left,PTREE right);
+PTREE NodeUnary(unsigned char cgop,PTREE operand);
 PTREE PTreeCopySrcLocation(PTREE target,PTREE source);
 PTREE PTreeErrorNode(PTREE expr)
 { (void)expr; STUB_TRAP(); return NULL; }
@@ -53,8 +55,7 @@ PTREE NodeAssignTemporary(TYPE type,PTREE expr)
 { (void)type; (void)expr; STUB_TRAP(); return NULL; }
 PTREE OverloadOperator(PTREE expr);
 int NodeIsUnaryOp(PTREE expr,unsigned char operation);
-int AnalyseLvalueAddrOf(PTREE *expr)
-{ (void)expr; STUB_TRAP(); return 0; }
+int AnalyseLvalueAddrOf(PTREE *expr);
 PTREE PTreeOp(PTREE *expr);
 int NodeFunctionOperand(PTREE expr,PTREE *function);
 int convertFunctionOperand(TYPE type,PTREE *operand,PTREE function)
@@ -201,7 +202,7 @@ enum {
     OPR_SEGOP=57,
     OPR_SEGNAME=58,
     OPR_IMPOSSIBLE=59,
-    OPR_OLD_60=60,
+    OPR_DO_NOTHING=60,
     OPR_ER_BOTH_PTR=61,
     OPR_ER_SUB_AP=62,
     OPR_ER_ONLY_AR=63,
@@ -283,15 +284,15 @@ enum {
     OPAC_RESULT_SIZEOF=64,
     OPAC_RESULT_OFFSETOF=65,
     OPAC_CONV_EXPLICIT_CAST=66,
-    OPAC_RESULT_NEW=67,
+    OPAC_RESULT_CALL=67,
     OPAC_RESULT_BARE=68,
-    OPAC_RESULT_DLT=69,
-    OPAC_RESULT_COLON_RVALUE=70,
-    OPAC_RESULT_COLON_AA=71,
-    OPAC_RESULT_COLON_PP=72,
-    OPAC_RESULT_COLON_OTHER=73,
-    OPAC_RESULT_COLON=74,
-    OPAC_OLD_75=75,
+    OPAC_RESULT_NEW=69,
+    OPAC_RESULT_DLT=70,
+    OPAC_RESULT_COLON_RVALUE=71,
+    OPAC_RESULT_COLON_AA=72,
+    OPAC_RESULT_COLON_PP=73,
+    OPAC_RESULT_COLON_OTHER=74,
+    OPAC_RESULT_COLON=75,
     OPAC_RESULT_ASSIGN=76,
     OPAC_RESULT_RETURN=77,
     OPAC_OLD_78=78,
@@ -368,8 +369,8 @@ static unsigned char opr_rtn_table[121][5]={
     { OPR_UN_LOG_MP, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_UN_LOG_MP, OPR_UN_LOG_MP }, /* 50: old operator 50 */
     { OPR_UN_LOG_MP, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_UN_LOG_MP, OPR_UN_LOG_MP }, /* 51: old operator 51 */
     { OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE }, /* 52: old operator 52 */
-    { OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_OLD_60 }, /* 53: STORAGE */
-    { OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_OLD_60 }, /* 54: OPERATOR */
+    { OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_DO_NOTHING }, /* 53: STORAGE */
+    { OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_DO_NOTHING }, /* 54: OPERATOR */
     { OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE }, /* 55: COLON_COLON */
     { OPR_OLD_72, OPR_OLD_72, OPR_SEGOP, OPR_OLD_72, OPR_OLD_72 }, /* 56: old operator 56 */
     { OPR_EXPLICIT_CAST, OPR_EXPLICIT_CAST, OPR_EXPLICIT_CAST, OPR_EXPLICIT_CAST, OPR_EXPLICIT_CAST }, /* 57: CONVERT */
@@ -381,8 +382,8 @@ static unsigned char opr_rtn_table[121][5]={
     { OPR_OLD_49, OPR_OLD_49, OPR_OLD_49, OPR_OLD_49, OPR_OLD_49 }, /* 63: NEW */
     { OPR_OLD_49, OPR_OLD_49, OPR_OLD_49, OPR_OLD_49, OPR_OLD_49 }, /* 64: NEW_G */
     { OPR_OLD_49, OPR_OLD_49, OPR_OLD_49, OPR_OLD_49, OPR_OLD_49 }, /* 65: NEW_ARRAY */
-    { OPR_OLD_60, OPR_OLD_60, OPR_OLD_60, OPR_OLD_60, OPR_OLD_60 }, /* 66: old operator 66 */
-    { OPR_OLD_60, OPR_OLD_60, OPR_OLD_60, OPR_OLD_60, OPR_OLD_60 }, /* 67: old operator 67 */
+    { OPR_DO_NOTHING, OPR_DO_NOTHING, OPR_DO_NOTHING, OPR_DO_NOTHING, OPR_DO_NOTHING }, /* 66: old operator 66 */
+    { OPR_DO_NOTHING, OPR_DO_NOTHING, OPR_DO_NOTHING, OPR_DO_NOTHING, OPR_DO_NOTHING }, /* 67: old operator 67 */
     { OPR_SEGNAME, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE, OPR_IMPOSSIBLE }, /* 68: old operator 68 */
     { OPR_RETURN, OPR_RETURN, OPR_RETURN, OPR_RETURN, OPR_RETURN }, /* 69: RETURN */
     { OPR_OLD_47, OPR_OLD_47, OPR_OLD_71, OPR_OLD_71, OPR_OLD_47 }, /* 70: old operator 70 */
@@ -441,11 +442,11 @@ static unsigned char opac_BIN_ARITH[]={ OPAC_CONV_RVALUE_LEFT, OPAC_CONV_RVALUE_
 static unsigned char opac_BIN_ARITH_I[]={ OPAC_REQD_INT_LEFT, OPAC_REQD_INT_RIGHT, OPAC_CONV_RVALUE_LEFT, OPAC_CONV_RVALUE_RIGHT, OPAC_RESULT_BIN_ARITH, OPAC_CONV_MEANINGLESS, OPAC_END };
 static unsigned char opac_MINUS_PP[]={ OPAC_REQD_PTR_SCALES_LEFT, OPAC_REQD_PTR_SCALES_RIGHT, OPAC_DREF_PTR_LEFT, OPAC_DREF_PTR_RIGHT, OPAC_RESULT_MINUS_PP, OPAC_REQD_DEFD_CLPTR_LEFT, OPAC_CONV_TO_PTR_DIFF, OPAC_CONV_MEANINGLESS, OPAC_END };
 static unsigned char opac_QUESTMRK[]={ OPAC_CONV_CMP_ZERO_LEFT, OPAC_WARN_CONST_COND_LEFT, OPAC_RESULT_QUESTMRK, OPAC_RESULT_COND_EXPR, OPAC_END };
-static unsigned char opac_COLON_PP[]={ OPAC_REQD_NOT_MFUN_LEFT, OPAC_REQD_NOT_MFUN_RIGHT, OPAC_RESULT_COLON_AA, OPAC_RESULT_COLON_OTHER, OPAC_RELOAD_EXPR_BINARY, OPAC_OLD_75, OPAC_RESULT_COND_OPRS, OPAC_END };
-static unsigned char opac_COLON_AA[]={ OPAC_RESULT_COLON_AA, OPAC_RESULT_COLON_PP, OPAC_OLD_75, OPAC_RESULT_COND_OPRS, OPAC_END };
-static unsigned char opac_COLON_AP[]={ OPAC_REQD_ZERO_LEFT, OPAC_RESULT_COLON_AA, OPAC_CONV_TYPE_RIGHT, OPAC_OLD_75, OPAC_RESULT_COND_OPRS, OPAC_END };
-static unsigned char opac_COLON_PA[]={ OPAC_REQD_ZERO_RIGHT, OPAC_RESULT_COLON_AA, OPAC_OLD_75, OPAC_RESULT_COND_OPRS, OPAC_END };
-static unsigned char opac_COLON_OTHER[]={ OPAC_RESULT_COLON_AA, OPAC_RESULT_COLON, OPAC_OLD_75, OPAC_RESULT_COND_OPRS, OPAC_END };
+static unsigned char opac_COLON_PP[]={ OPAC_REQD_NOT_MFUN_LEFT, OPAC_REQD_NOT_MFUN_RIGHT, OPAC_RESULT_COLON_RVALUE, OPAC_RESULT_COLON_PP, OPAC_RELOAD_EXPR_BINARY, OPAC_RESULT_COLON, OPAC_RESULT_COND_OPRS, OPAC_END };
+static unsigned char opac_COLON_AA[]={ OPAC_RESULT_COLON_RVALUE, OPAC_RESULT_COLON_AA, OPAC_RESULT_COLON, OPAC_RESULT_COND_OPRS, OPAC_END };
+static unsigned char opac_COLON_AP[]={ OPAC_REQD_ZERO_LEFT, OPAC_RESULT_COLON_RVALUE, OPAC_CONV_TYPE_RIGHT, OPAC_RESULT_COLON, OPAC_RESULT_COND_OPRS, OPAC_END };
+static unsigned char opac_COLON_PA[]={ OPAC_REQD_ZERO_RIGHT, OPAC_RESULT_COLON_RVALUE, OPAC_RESULT_COLON, OPAC_RESULT_COND_OPRS, OPAC_END };
+static unsigned char opac_COLON_OTHER[]={ OPAC_RESULT_COLON_RVALUE, OPAC_RESULT_COLON_OTHER, OPAC_RESULT_COLON, OPAC_RESULT_COND_OPRS, OPAC_END };
 static unsigned char opac_UN_PLUS_PTR[]={ OPAC_CONV_RVALUE_LEFT, OPAC_CONV_MEANINGLESS, OPAC_END };
 static unsigned char opac_UN_ARITH[]={ OPAC_CONV_RVALUE_LEFT, OPAC_RESULT_UN_ARITH, OPAC_CONV_MEANINGLESS, OPAC_END };
 static unsigned char opac_UN_ARITH_I[]={ OPAC_REQD_INT_LEFT, OPAC_CONV_RVALUE_LEFT, OPAC_RESULT_UN_ARITH, OPAC_CONV_MEANINGLESS, OPAC_END };
@@ -484,10 +485,10 @@ static unsigned char opac_OLD_43[]={ OPAC_REQD_LVALUE_LEFT, OPAC_REQD_INT_LEFT, 
 static unsigned char opac_OLD_44[]={ OPAC_REQD_INT_RIGHT, OPAC_REQD_NOT_FUNC_LEFT, OPAC_REQD_PTR_SCALES_LEFT, OPAC_REQD_DEFD_CLPTR_LEFT, OPAC_DREF_PTR_LEFT, OPAC_CONV_RVALUE_RIGHT, OPAC_RESULT_PTR_SIZE, OPAC_CONV_INDEX, OPAC_CONV_STRIP_TYPE, OPAC_RESULT_LVALUE, OPAC_CONV_MEANINGLESS, OPAC_END };
 static unsigned char opac_OLD_45[]={ OPAC_REQD_INT_LEFT, OPAC_REQD_NOT_FUNC_RIGHT, OPAC_REQD_PTR_SCALES_RIGHT, OPAC_REQD_DEFD_CLPTR_RIGHT, OPAC_CONV_SWITCH, OPAC_RELOAD_EXPR_BINARY, OPAC_CONV_TYPE_LEFT, OPAC_CONV_BASIC_TYPE, OPAC_CONV_RVALUE_LEFT, OPAC_DREF_PTR_RIGHT, OPAC_RESULT_PTR_SIZE, OPAC_CONV_INDEX, OPAC_CONV_STRIP_TYPE, OPAC_RESULT_LVALUE, OPAC_CONV_MEANINGLESS, OPAC_END };
 static unsigned char opac_OLD_46[]={ OPAC_CONV_TYPE_RIGHT, OPAC_OLD_78, OPAC_END };
-static unsigned char opac_OLD_47[]={ OPAC_RESULT_NEW, OPAC_RELOAD_EXPR_TYPE, OPAC_CONV_REFERENCE, OPAC_RESULT_BARE, OPAC_END };
+static unsigned char opac_OLD_47[]={ OPAC_RESULT_CALL, OPAC_RELOAD_EXPR_TYPE, OPAC_CONV_REFERENCE, OPAC_RESULT_BARE, OPAC_END };
 static unsigned char opac_OLD_48[]={ OPAC_CONV_TYPE_RIGHT, OPAC_CONV_LOCN_RIGHT, OPAC_END };
-static unsigned char opac_OLD_49[]={ OPAC_RESULT_DLT, OPAC_RELOAD_EXPR_TYPE, OPAC_RESULT_BARE, OPAC_END };
-static unsigned char opac_OLD_50[]={ OPAC_RESULT_COLON_RVALUE, OPAC_END };
+static unsigned char opac_OLD_49[]={ OPAC_RESULT_NEW, OPAC_RELOAD_EXPR_TYPE, OPAC_RESULT_BARE, OPAC_END };
+static unsigned char opac_OLD_50[]={ OPAC_RESULT_DLT, OPAC_END };
 static unsigned char opac_OLD_51[]={ OPAC_REQD_NOT_ARRAY_LEFT, OPAC_CONV_CTOR, OPAC_END };
 static unsigned char opac_RETURN[]={ OPAC_WARN_INT_TRUNC, OPAC_RESULT_RETURN, OPAC_END };
 static unsigned char opac_DOT_STAR[]={ OPAC_REQD_LVALUE_LEFT, OPAC_REQD_CLASS_LEFT, OPAC_RESULT_MEMPTR_QUAL, OPAC_RELOAD_EXPR_TYPE, OPAC_CONV_MEANINGLESS, OPAC_END };
@@ -634,9 +635,64 @@ void warnIntTrunc(PTREE node,unsigned tgt_bits)
 int DefargBeingCompiled(void);
 int NodeIsZeroConstant(PTREE node);
 PTREE *PTreeRefRight(PTREE node);
+static CNV_DIAG diagInit={400,401,0,403,404};
 static CNV_DIAG diagReturn={324,323,0,343,347};
 static CNV_DIAG diagDefarg={587,586,0,589,590};
 PTREE PTreeExtractLocn(PTREE expr,CGIO_LOCATION *location);
+unsigned AnalyseCtor(TYPE type,SYMBOL *ctor,PTREE *initial);
+PTREE EffectCtor(PTREE initial,SYMBOL ctor,TYPE type,PTREE target,
+                 CGIO_LOCATION *location,unsigned control);
+void CallDiagAmbiguous(PTREE expr,unsigned message);
+void CtorDiagNoMatch(PTREE expr,unsigned message);
+void ConversionDiagnoseInf(void);
+void ConversionTypesSet(TYPE first,TYPE second);
+void NodeFreeDupedExpr(PTREE expr);
+PTREE ClassDefaultCopyDiag(PTREE left,PTREE right,CNV_DIAG *diagnosis);
+/* Actual old class initializer uses AnalyseCtor's three arguments and
+ * direct diagnostic helpers, without the later FNOV_DIAG state/cleanup. */
+PTREE initClass(PTREE left,PTREE right_comma,CNV_DIAG *diagnosis,CGIO_LOCATION *locn)
+{
+    PTREE right=PTreeOp(&right_comma),expr;
+    TYPE type=TypedefModifierRemove(left->type),original_right;
+    SYMBOL ctor;
+    unsigned result;
+    if(NodeIsBinaryOp(right,99)) right=right->u.subtree[1];
+    if(NodeIsBinaryOp(right,44)) {
+        original_right=NodeType(right_comma);
+        result=AnalyseCtor(type,&ctor,&right_comma);
+        switch(result) {
+        case 0:
+            expr=EffectCtor(right_comma,ctor,type,left,locn,1);
+            break;
+        case 5:
+            CallDiagAmbiguous(right_comma,diagnosis->msg_ambiguous);
+            NodeFreeDupedExpr(left);
+            expr=right;
+            break;
+        case 4:
+            ConversionTypesSet(original_right,left->type);
+            expr=NodeBinary(62,left,right_comma);
+            expr->locn=*locn;
+            CtorDiagNoMatch(expr,diagnosis->msg_impossible);
+            ConversionDiagnoseInf();
+            break;
+        default:
+            ConversionTypesSet(original_right,left->type);
+            ConversionDiagnose(result,right_comma,diagnosis);
+            NodeFreeDupedExpr(left);
+            expr=right;
+            break;
+        }
+    } else expr=ClassDefaultCopyDiag(left,right_comma,diagnosis);
+    return expr;
+}
+PTREE initClassFromExpr(PTREE expr,CNV_DIAG *diagnosis)
+{
+    PTREE left=expr->u.subtree[0],right=expr->u.subtree[1];
+    CGIO_LOCATION locn;
+    PTreeFree(PTreeExtractLocn(expr,&locn));
+    return initClass(left,right,diagnosis,&locn);
+}
 PTREE FoldUnary(PTREE expr);
 PTREE FoldBinary(PTREE expr);
 TYPE ArrayType(TYPE type);
@@ -648,6 +704,140 @@ PTREE NodeRvalueLeft(PTREE expr);
 PTREE NodeRvalueRight(PTREE expr);
 PTREE bld_ptr_adj(PTREE factor,PTREE pointer,unsigned char operation);
 
+/* These two older diagnostics were replaced in the released compiler.
+ * Preserve the actual zero-side tests and their individual call boundary. */
+/* Distinguish these file-local diagnostics from fnbody.c's same-named
+ * helpers. The older body also diagnoses an integer constant operand. */
+void AnalyseWarnBoolConstVal(long value,PTREE err_expr,PTREE expr)
+{
+    if(NodeIsUnaryOp(err_expr,22)) {
+        value=value==0;
+        expr=err_expr;
+    }
+    PTreeWarnExpr(expr,value ? 689 : 690);
+}
+void AnalyseWarnBoolConst(PTREE expr,PTREE err_expr)
+{
+    if(NodeIsConstantInt(expr))
+        AnalyseWarnBoolConstVal(NodeConstantValue(expr),err_expr,expr);
+    else if(expr->flags&0x200)
+        AnalyseWarnBoolConstVal(1,err_expr,expr);
+}
+void warnUnsignedZeroCompare(PTREE expr)
+{
+    int left_zero=NodeIsZeroConstant(expr->u.subtree[0]);
+    int right_zero=NodeIsZeroConstant(expr->u.subtree[1]);
+    if(left_zero==right_zero) return;
+    switch(expr->cgop) {
+    case 16: if(left_zero) PTreeWarnExpr(expr,355); break;
+    case 17: if(left_zero) PTreeWarnExpr(expr,354); break;
+    case 18: if(right_zero) PTreeWarnExpr(expr,355); break;
+    case 19: if(right_zero) PTreeWarnExpr(expr,354); break;
+    }
+}
+void warnUnsignedCompare(PTREE expr,TYPE type)
+{
+    for(;;) {
+        type=TypedefModifierRemove(type);
+        switch(type->id) {
+        case TYP_BITFIELD: type=type->of; continue;
+        case TYP_UCHAR: case TYP_WCHAR: case TYP_USHORT: case TYP_UINT:
+        case TYP_ULONG: case TYP_POINTER: case TYP_FUNCTION: case TYP_MEMBER_POINTER:
+            warnUnsignedZeroCompare(expr);
+        }
+        return;
+    }
+}
+int isRelationalOperator(PTREE expr)
+{
+    if(expr->op!=9) return 0;
+    switch(expr->cgop) {
+    case 14: case 15: case 16: case 17: case 18: case 19: return 1;
+    }
+    return 0;
+}
+int TypesIdentical(TYPE left,TYPE right);
+TYPE TypeModFlagsEC(TYPE type,unsigned short *flags);
+TYPE MakeBasedModifierOf(TYPE type,unsigned short flags,void *base);
+TYPE TypeBinArithResult(TYPE left,TYPE right);
+TYPE TypeUnArithResult(TYPE type);
+TYPE unary_arith_result(PTREE expr)
+{ return TypeUnArithResult(expr->type); }
+TYPE binary_arith_result(PTREE left,PTREE right)
+{ return TypeBinArithResult(left->type,right->type); }
+
+TYPE ReferenceType(TYPE type);
+PTREE *PTreeRef(PTREE *ref);
+PTREE NodeRemoveCasts(PTREE expr);
+int isInitRef(PTREE node)
+{
+    return (NodeIsUnaryOp(node,92) || NodeIsUnaryOp(node,111)) &&
+        ReferenceType(node->u.subtree[0]->type)!=NULL;
+}
+void convertInitRef(PTREE *ref)
+{
+    PTREE old,init;
+    ref=PTreeRef(ref);
+    old=*ref;
+    if(isInitRef(old)) {
+        init=old->u.subtree[0];
+        *ref=init;
+        PTreeFree(old);
+        init=NodeRemoveCasts(init);
+        if(init->cgop==202) init->cgop=init->u.symcg.symbol==NULL?196:194;
+    }
+}
+/* The1994 list conversion transfers its right child and frees only the
+ * list node; later extra-argument diagnostics/duplicate cleanup are absent. */
+PTREE convertInitBare(PTREE expr)
+{
+    PTREE right=PTreeOpRight(expr);
+    if(NodeIsBinaryOp(right,44)) {
+        *PTreeRefRight(expr)=right->u.subtree[1];
+        PTreeFree(right);
+        right=PTreeOpRight(expr);
+    }
+    return right;
+}
+unsigned char TemporaryClass(unsigned char kind);
+PTREE AnalyseNew(PTREE expr,TYPE type);
+PTREE AnalyseDelete(PTREE expr);
+unsigned PtrConvertCommon(PTREE expr);
+TYPE TypeAutoDefault(TYPE type,PTREE expr);
+void SetErrLoc(CGIO_LOCATION *location);
+void ExceptionsCheck(void);
+TYPE ClassTypeForType(TYPE type);
+TYPE AbstractClassType(TYPE type);
+TYPE MemberPtrType(TYPE type);
+TYPE TypeCanonicalThr(TYPE type);
+TYPE BasedPtrType(TYPE type);
+TYPE TypePointedAtModified(TYPE type);
+int TypeTruncByMemModel(TYPE type);
+PTREE NodeRvalue(PTREE expr);
+unsigned char ThrowCategory(TYPE type);
+PTREE ThrowTypeSig(TYPE type,PTREE expr);
+PTREE NodeArgument(PTREE arguments,PTREE expr);
+PTREE RunTimeCall(PTREE args,TYPE type,unsigned code);
+
+PTREE PTreeIc(unsigned opcode,unsigned value);
+PTREE NodeComma(PTREE left,PTREE right);
+PTREE NodeCompareToZero(PTREE expr);
+void warnBoolAssignment(PTREE expr);
+/* These tiny old helpers are separate from analnode.c's NodeIc body. */
+PTREE conditionalIc(unsigned opcode)
+{
+    return PTreeIc(opcode,0);
+}
+PTREE conditionalOperand(PTREE expr,unsigned opcode)
+{
+    return NodeComma(conditionalIc(opcode),expr);
+}
+PTREE conditionalOperands(PTREE expr)
+{
+    expr->u.subtree[0]=conditionalOperand(expr->u.subtree[0],66);
+    expr->u.subtree[1]=conditionalOperand(expr->u.subtree[1],67);
+    return expr;
+}
 PTREE AnalyseOperator(PTREE expr)
 {
     int operands_ok=1;
@@ -656,6 +846,7 @@ PTREE AnalyseOperator(PTREE expr)
     unsigned index_left,index_right,index,control;
     unsigned char action_code,*ap;
     unsigned cnv_result;
+    unsigned char temp_class=0;
     CNV_DIAG *diagnosis;
     /* Actual old operand preparation precedes operator-action selection.
      * This enclosing interpreter is not accepted: reconstruction currently
@@ -710,15 +901,79 @@ PTREE AnalyseOperator(PTREE expr)
     action_code=opr_rtn_table[expr->cgop][index];
     /* Error-routine dispatch and the remaining action bodies are still
      * incomplete in this enclosing owner, and trap in both builds. */
+    if(action_code==OPR_DO_NOTHING) goto actions_done;
     if(action_code>=59) { STUB_TRAP(); return NULL; }
     for(ap=opcomb_actions[action_code];*ap<OPAC_END;++ap) {
         switch(*ap) {
+        case OPAC_RESULT_BARE:
+            expr->flags|=0x11;
+            continue;
+        case OPAC_RESULT_DLT:
+            expr=AnalyseDelete(expr);
+            if(expr->op==0) return expr;
+            type=expr->type;
+            continue;
+        case OPAC_RESULT_NEW:
+            expr=AnalyseNew(expr,left->type);
+            if(expr->op==0) return expr;
+            type=expr->type;
+            continue;
+        case OPAC_CONV_INIT_REF:
+            convertInitRef(&expr->u.subtree[0]);
+            left=PTreeOpLeft(expr);
+            type=TypedefModifierRemove(left->type);
+            continue;
+        case OPAC_CONV_INIT_BARE:
+            right=convertInitBare(expr);
+            continue;
+        case OPAC_STATIC_TEMP_SET:
+            if(expr->flags&0x80) temp_class=TemporaryClass(3);
+            else if(expr->flags&0x100) temp_class=TemporaryClass(2);
+            continue;
+        case OPAC_STATIC_TEMP_RESET:
+            if(temp_class!=0) {
+                TemporaryClass(temp_class);
+                temp_class=0;
+            }
+            continue;
+        case OPAC_INIT_CL_MP:
+            if(type->id==TYP_CLASS) {
+                expr=initClassFromExpr(expr,&diagInit);
+                if(expr->op==0) goto actions_done;
+                continue;
+            }
+            /* Reference/member-pointer initialization is not complete. */
+            STUB_TRAP(); return NULL;
+        case OPAC_RESULT_INIT:
+            type=left->type;
+            expr->type=type;
+            cnv_result=CastImplicit(PTreeRefRight(expr),left->type,1);
+            if(ConversionDiagnose(cnv_result,expr,&diagInit)) {
+                STUB_TRAP(); return NULL;
+            }
+            expr->flags|=0x11;
+            continue;
+        case OPAC_CONV_BASIC_TYPE:
+            type=TypedefModifierRemove(type);
+            continue;
+        case OPAC_RELOAD_EXPR_TYPE:
+            type=expr->type;
+            continue;
         case OPAC_REQD_LVALUE_LEFT:
             if(!(left->flags&2)) { STUB_TRAP(); return NULL; }
             continue;
         case OPAC_REQD_NOT_FUNC_LEFT:
             if(FunctionDeclarationType(type)) { STUB_TRAP(); return NULL; }
             continue;
+        case OPAC_REQD_ENUM_SAME:
+            {
+                TYPE enum_type=EnumType(left->type);
+                if (enum_type && enum_type!=EnumType(right->type)) {
+                    /* The enum-mismatch diagnostic path is still pending. */
+                    STUB_TRAP(); return NULL;
+                }
+                continue;
+            }
         case OPAC_REQD_NOT_ENUM_LEFT:
             if(EnumType(left->type)) { STUB_TRAP(); return NULL; }
             continue;
@@ -749,8 +1004,36 @@ PTREE AnalyseOperator(PTREE expr)
         case OPAC_CONV_STAR_ADDR_OF:
             expr=NodeStripPoints(expr);
             continue;
+        case OPAC_RESULT_ADDR_OF:
+            {
+                TYPE ref=ReferenceType(type),pointed;
+                PTREE base=left;
+                if(ref) {
+                    pointed=ref;
+                    type=MakePointerTo(ref);
+                } else {
+                    if(left->op==7) expr->flags|=left->flags&8;
+                    while(NodeIsBinaryOp(base,48)) base=PTreeOpRight(base);
+                    pointed=TypeAutoDefault(left->type,base);
+                    type=MakePointerTo(pointed);
+                }
+                if(temp_class && StructType(pointed)) { STUB_TRAP(); return NULL; }
+                continue;
+            }
+        case OPAC_RESULT_QUESTMRK:
+            left=expr->u.subtree[0];
+            expr->flags=(expr->flags&~0x10U)|(right->flags&0x212);
+            type=right->type;
+            continue;
         case OPAC_RESULT_LVALUE:
             expr->flags|=2;
+            continue;
+        case OPAC_CONV_INDEX:
+            /* The1994 index conversion retains a CO_DOT child under an
+             * explicit CO_CONVERT unary node, unlike the later flag-only form. */
+            expr->cgop=48;
+            expr->type=type;
+            expr=NodeUnary(40,expr);
             continue;
         case OPAC_CONV_STRIP_TYPE:
             if(type->id==TYP_FUNCTION) expr->flags|=left->flags&0x200;
@@ -767,6 +1050,68 @@ PTREE AnalyseOperator(PTREE expr)
             *PTreeRefRight(expr)=bld_ptr_adj(right,left,2);
             right=PTreeOpRight(expr);
             continue;
+        case OPAC_WARN_ADJ_COMPARES:
+            if(isRelationalOperator(expr) && isRelationalOperator(left))
+                PTreeWarnExpr(expr,364);
+            continue;
+        case OPAC_WARN_CONST_COND_LEFT:
+            AnalyseWarnBoolConst(left,expr);
+            continue;
+        case OPAC_WARN_CONST_COND_RIGHT:
+            AnalyseWarnBoolConst(right,expr);
+            continue;
+        case OPAC_WARN_POINTER_ZERO:
+            warnUnsignedZeroCompare(expr);
+            continue;
+        case OPAC_CONV_PP_COMMON:
+            {
+                static CNV_DIAG diagPtrCompare={166,339,208,345,349};
+                cnv_result=PtrConvertCommon(expr);
+                if(ConversionDiagnose(cnv_result,expr,&diagPtrCompare)) {
+                    STUB_TRAP(); return NULL;
+                }
+                continue;
+            }
+        case OPAC_CONV_AA_COMMON:
+            expr->u.subtree[0]=NodeConvert(type,expr->u.subtree[0]);
+            expr->u.subtree[1]=NodeConvert(type,expr->u.subtree[1]);
+            warnUnsignedCompare(expr,type);
+            left=PTreeOpLeft(expr);
+            right=PTreeOpRight(expr);
+            continue;
+        case OPAC_RESULT_BOOLEAN:
+            type=GetBasicType(TYP_SINT);
+            expr->flags|=4;
+            continue;
+        case OPAC_RESULT_CALL:
+            {
+                static CALL_DIAG diagCall={227,473,189};
+                if(!FunctionDeclarationType(type)) left=NodeRvalueLeft(expr);
+                type=TypedefModifierRemove(left->type);
+                if(type->id==TYP_POINTER) {
+                    if(type->flag&1) {
+                        type=TypedefModifierRemove(type->of);
+                        if(type->id==TYP_POINTER)
+                            type=TypedefModifierRemove(type->of);
+                    } else type=TypedefModifierRemove(type->of);
+                }
+                if(type->id!=TYP_FUNCTION) { STUB_TRAP(); return NULL; }
+                expr=AnalyseCall(expr,&diagCall);
+                if(expr->op==0) return expr;
+                continue;
+            }
+        case OPAC_RESULT_UN_ARITH:
+            type=unary_arith_result(left);
+            continue;
+        case OPAC_RESULT_CMP_ARITH:
+            if(TypesIdentical(left->type,right->type)) {
+                type=left->type;
+                continue;
+            }
+            /* falls through */
+        case OPAC_RESULT_BIN_ARITH:
+            type=binary_arith_result(left,right);
+            continue;
         case OPAC_RESULT_INCDEC_ARITH:
             /* The old driver builds a typed one directly, before changing
              * the unary opcode into its binary update form. It predates
@@ -781,6 +1126,127 @@ PTREE AnalyseOperator(PTREE expr)
             continue;
         case OPAC_REQD_PTR_SCALES_RIGHT:
             if(ptrCannotScale(right)) { STUB_TRAP(); return NULL; }
+            continue;
+        case OPAC_WARN_BOOL_ASSIGN_LEFT:
+            warnBoolAssignment(left);
+            continue;
+        case OPAC_WARN_BOOL_ASSIGN_RIGHT:
+            warnBoolAssignment(right);
+            continue;
+        case OPAC_CONV_CMP_ZERO_LEFT:
+            left=NodeCompareToZero(expr->u.subtree[0]);
+            expr->u.subtree[0]=left;
+            if(left->op==0) { PTreeErrorNode(expr); return expr; }
+            continue;
+        case OPAC_CONV_CMP_ZERO_RIGHT:
+            right=NodeCompareToZero(expr->u.subtree[1]);
+            expr->u.subtree[1]=right;
+            if(right->op==0) { PTreeErrorNode(expr); return expr; }
+            continue;
+        case OPAC_RESULT_COND_OPR:
+            expr->u.subtree[1]=conditionalOperand(expr->u.subtree[1],66);
+            continue;
+        case OPAC_RESULT_COLON_RVALUE:
+            {
+                TYPE ltype,rtype;
+                if(type->id==TYP_VOID) continue;
+                ltype=NodeType(left);
+                if(ReferenceType(ltype)) {
+                    rtype=NodeType(right);
+                    if(ReferenceType(rtype) && TypesIdentical(ltype,rtype)) {
+                        expr->flags|=((left->flags&right->flags)&8)|2;
+                        continue;
+                    }
+                }
+                /* The older rvalue/class-pointer alternatives have not yet
+                 * been reconstructed; do not substitute the later binder. */
+                STUB_TRAP(); return NULL;
+            }
+        case OPAC_RESULT_COLON_AA:
+            {
+                TYPE ltype,rtype;
+                unsigned short lf,rf,flags;
+                type=left->type;
+                if(expr->flags&2) continue;
+                ltype=TypeModFlagsEC(left->type,&lf);
+                rtype=TypeModFlagsEC(right->type,&rf);
+                if(TypesIdentical(rtype,ltype)) {
+                    flags=lf&rf&3;
+                    type=flags?MakeBasedModifierOf(ltype,flags,NULL):ltype;
+                } else type=binary_arith_result(left,right);
+                continue;
+            }
+        case OPAC_RESULT_COLON:
+            {
+                unsigned lf=PTreeEffFlags(expr->u.subtree[0]);
+                unsigned rf=PTreeEffFlags(expr->u.subtree[1]);
+                expr->flags=(expr->flags&~0x11U)|((lf&rf)&0x10)|((lf|rf)&1);
+                continue;
+            }
+        case OPAC_RESULT_COND_OPRS:
+            conditionalOperands(expr);
+            left=expr->u.subtree[0];
+            right=expr->u.subtree[1];
+            continue;
+        case OPAC_RESULT_THROW:
+            {
+                CGIO_LOCATION location;
+                PTreeExtractLocn(expr,&location);
+                SetErrLoc(&location);
+                ExceptionsCheck();
+                SetErrLoc(NULL);
+                {
+                    PTREE thrown=expr->u.subtree[0],object;
+                    TYPE cltype,pointed;
+                    unsigned category;
+                    PTreeFree(expr);
+                    if(!thrown) { STUB_TRAP(); return NULL; }
+                    type=thrown->type;
+                    cltype=ClassTypeForType(type);
+                    if(AbstractClassType(cltype)) { STUB_TRAP(); return NULL; }
+                    if(ArrayType(type)) {
+                        thrown=NodeRvalue(thrown);
+                        type=thrown->type;
+                    } else if(MemberPtrType(type)) {
+                        thrown=NodeAssignTemporary(type,thrown);
+                        type=NodeType(thrown);
+                    } else if(FunctionDeclarationType(type)) {
+                        type=TypeCanonicalThr(type);
+                        thrown=NodeConvert(type,thrown);
+                        thrown->flags&=~2;
+                    }
+                    if(BasedPtrType(type)) {
+                        if(!NodeDerefPtr(&thrown)) { STUB_TRAP(); return NULL; }
+                        type=thrown->type;
+                    }
+                    pointed=TypePointedAtModified(type);
+                    if(pointed && TypeTruncByMemModel(pointed)) {
+                        STUB_TRAP(); return NULL;
+                    }
+                    type=NodeType(thrown);
+                    category=ThrowCategory(type);
+                    switch(category) {
+                    case 2:
+                        object=thrown;
+                        break;
+                    case 1: case 3: case 6: case 7:
+                        if(!(thrown->flags&2)) { STUB_TRAP(); return NULL; }
+                        object=PTreeOp(&thrown);
+                        break;
+                    default: STUB_TRAP(); return NULL;
+                    }
+                    if(object->op==7) object->u.symcg.symbol->flag|=8;
+                    expr=ThrowTypeSig(type,thrown);
+                    if(!expr) { STUB_TRAP(); return NULL; }
+                    expr=RunTimeCall(NodeArgument(expr,thrown),
+                                     GetBasicType(TYP_VOID),22);
+                    type=expr->type;
+                    expr->flags|=0x51;
+                    continue;
+                }
+            }
+        case OPAC_RESULT_COND_EXPR:
+            expr->flags|=0x800;
             continue;
         case OPAC_CONV_MEANINGLESS:
             expr->flags&=~0x10;
@@ -845,6 +1311,11 @@ PTREE AnalyseOperator(PTREE expr)
                 warnIntTrunc(right,bits);
             } else warnIntTrunc(right,getConstBitsType(type));
             continue;
+        case OPAC_RESULT_BITQUEST:
+            /* Assignment through a conditional pair of bitfields is pending;
+             * the ordinary assignment path has no extra transformation. */
+            if (NodeIsBinaryOp(left,41)) { STUB_TRAP(); return NULL; }
+            continue;
         case OPAC_RESULT_RETURN:
             {
                 TYPE ptr;
@@ -872,6 +1343,7 @@ PTREE AnalyseOperator(PTREE expr)
         default: STUB_TRAP(); return NULL;
         }
     }
+actions_done:
     expr->type=type;
     if(expr->op==8 && expr->u.subtree[0]) expr=FoldUnary(expr);
     else if(expr->op==9 && expr->u.subtree[0] && expr->u.subtree[1])
@@ -999,4 +1471,52 @@ PTREE bld_ptr_adj(PTREE factor,PTREE pointer,unsigned char operation)
     node=NodeBinary(operation,factor,bld_pted_size(pointer));
     node->type=factor->type;
     return FoldBinary(node);
+}
+
+int NodeIsConstantInt(PTREE node);
+void warnBoolAssignment(PTREE expr)
+{
+    if(NodeIsBinaryOp(expr,13)) {
+        if(NodeIsConstantInt(PTreeOpRight(expr))) PTreeWarnExpr(expr,1);
+        else PTreeWarnExpr(expr,391);
+    }
+}
+PTREE NodeCompareToZero(PTREE expr);
+PTREE AnalyseBoolExpr(PTREE expr)
+{
+    if(expr) {
+        expr=run_traversals(expr);
+        if(expr->op!=0) {
+            if(!(expr->flags&4)) warnBoolAssignment(expr);
+            expr=NodeCompareToZero(expr);
+        }
+    }
+    return expr;
+}
+
+PTREE AnalyseInitExpr(PTREE expr,int static_init)
+{
+    if(expr!=NULL) {
+        if(NodeIsBinaryOp(expr,72)) {
+            if(static_init && NodeIsBinaryOp(expr,72)) expr->flags|=0x80;
+            else expr->flags|=0x100;
+        }
+        expr=AnalyseStmtExpr(expr);
+    }
+    return expr;
+}
+
+void AnalyseIntTrunc(PTREE expr,TYPE type)
+{
+    if(IntegralType(expr->type) && IntegralType(type))
+        warnIntTrunc(expr,getConstBitsType(type));
+}
+
+PTREE AnalyseValueExpr(PTREE expr)
+{
+    if(expr!=NULL) {
+        expr=run_traversals(expr);
+        if(expr->op!=0) expr=NodeRvalue(expr);
+    }
+    return expr;
 }

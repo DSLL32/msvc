@@ -220,8 +220,27 @@ int arithRank(FNOV_TYPE *source,FNOV_TYPE *target,FNOV_RANK *rank)
     return handled;
 }
 int NodeIsZeroConstant(PTREE node);
+SCOPE TypeScope(TYPE type);
+unsigned char ScopeDerivedCount(SCOPE derived,SCOPE base,unsigned *depth);
 int fnovScopeDerived(TYPE source,unsigned short source_flags,TYPE target,unsigned short target_flags,FNOV_RANK *rank)
-{ (void)source; (void)source_flags; (void)target; (void)target_flags; (void)rank; STUB_TRAP(); return 0; }
+{
+    SCOPE src=TypeScope(source),tgt=TypeScope(target);
+    unsigned depth;
+    unsigned char status;
+    if(src && tgt) {
+        /*1994 retains the inheritance depth in the secondary conversion
+         * rank; the released version instead calls plain ScopeDerived. */
+        status=ScopeDerivedCount(src,tgt,&depth);
+        if((status==1 || status==2) &&
+           !FnovCvFlagsRank(source_flags,target_flags,rank)) {
+            rank->rank=6;
+            ++rank->u.no_ud.standard;
+            rank->u.no_ud.udcnv=(unsigned char)depth;
+            return 1;
+        }
+    }
+    return 0;
+}
 int toPtrRank(FNOV_TYPE *source,FNOV_TYPE *target,FNOV_RANK *rank)
 {
     TYPE src=source->basic,tgt=target->basic;
@@ -296,8 +315,24 @@ int toMbrPtrRank(FNOV_TYPE *source,FNOV_TYPE *target,FNOV_RANK *rank)
     rank->rank=11;
     return 1;
 }
+int fnovNumCandidatesGet(void);
+void fnovNumCandidatesRestore(int count);
+unsigned char ctorFindConversion(TYPE type,arg_list *args,PTREE *nodes,
+    FNOV_LIST **match,CGIO_LOCATION *location);
 FNOV_LIST *findCtorMatch(FNOV_TYPE *source,FNOV_TYPE *target,FNOV_RANK *rank)
-{ (void)source; (void)target; (void)rank; STUB_TRAP(); return NULL; }
+{
+    arg_list args;
+    FNOV_LIST *match;
+    int saved;
+    (void)rank;
+    InitArgList(&args);
+    args.num_args=1;
+    args.type_list[0]=source->original;
+    saved=fnovNumCandidatesGet();
+    ctorFindConversion(target->basic,&args,source->ptnode,&match,NULL);
+    fnovNumCandidatesRestore(saved);
+    return match;
+}
 int fnovNumCandidatesGet(void);
 void fnovNumCandidatesRestore(int count);
 unsigned char UdcLookup(TYPE source,unsigned short flags,TYPE *target,SYMBOL *symbol);

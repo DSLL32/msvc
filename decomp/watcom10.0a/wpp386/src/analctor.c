@@ -37,15 +37,77 @@
 #include "cgio.h"
 #include "pending.h"
 #include "convdiag.h"
+#include "fnovload.h"
 #include <recon.h>
 unsigned CastImplicit(PTREE *expr,TYPE type,unsigned control);
 void PTreeErrorExpr(PTREE expr,unsigned error);
 TYPE TypedefModifierRemoveOnly(TYPE type);
 TYPE ArrayBaseType(TYPE type);
+PTREE NodeReverseArgs(unsigned *count,PTREE initial);
+void NodeBuildArgList(arg_list *args,PTREE *nodes,PTREE node,unsigned count);
+PTREE NodeConvertCallArgList(PTREE node,arg_list *args,TYPE fn_type,PTREE *node_addr);
+unsigned CtorFind(SCOPE access,TYPE type,arg_list *args,PTREE *nodes,
+    CGIO_LOCATION *locn,SYMBOL *ctor);
+CGIO_LOCATION *PTreeExtractLocn(PTREE expr,CGIO_LOCATION *locn);
+unsigned char ObjModelArgument(TYPE type);
+void CallDiagAmbiguous(PTREE expr,unsigned message);
+TYPE NodeType(PTREE expr);
+void ConversionTypesSet(TYPE first,TYPE second);
 unsigned analyseCtorClass(TYPE type,SCOPE access,SYMBOL *ctor,PTREE initial,PTREE *expr)
-{ (void)type; (void)access; (void)ctor; (void)initial; (void)expr; STUB_TRAP(); return 0; }
+{
+    unsigned count,result;
+    PTREE node=NodeReverseArgs(&count,initial),*nodes;
+    arg_list *args=AllocArgList(count,0);
+    CGIO_LOCATION location;
+    nodes=CMemAlloc(count*sizeof(PTREE));
+    NodeBuildArgList(args,nodes,node,count);
+    PTreeExtractLocn(initial,&location);
+    result=CtorFind(access,type,args,nodes,&location,ctor);
+    switch (result) {
+    case 0:
+        node=NodeConvertCallArgList(node,args,(*ctor)->sym_type,&node);
+        if (node && node->op==0) result=2;
+        break;
+    case 4:
+        if (count==1 && StructType(initial->type)==type && ObjModelArgument(type)==3)
+            result=0;
+        break;
+    case 5:
+        result=2;
+        CallDiagAmbiguous(node,303);
+        break;
+    }
+    if (result && initial) ConversionTypesSet(NodeType(initial),type);
+    CMemFree(args);
+    CMemFree(nodes);
+    *expr=node;
+    return result;
+}
+TYPE AbstractClassType(TYPE type);
+int TypeDefined(TYPE type);
+void PTreeErrorExprSym(PTREE expr,unsigned message,SYMBOL payload);
+void ScopeNotePureFunctions(TYPE type);
+unsigned AnalyseTypeCtor(SCOPE access,TYPE type,unsigned control,SYMBOL *ctor,PTREE *initial);
 unsigned AnalyseCtor(TYPE type,SYMBOL *ctor,PTREE *initial)
-{ (void)type; (void)ctor; (void)initial; STUB_TRAP(); return 0; }
+{
+    TYPE class_type=StructType(type);
+    PTREE expr;
+    if(class_type!=NULL) {
+        *ctor=NULL;
+        expr=*initial;
+        if(AbstractClassType(class_type)!=NULL) {
+            /* This diagnostic's generic pointer payload is the class type. */
+            PTreeErrorExprSym(expr,436,(SYMBOL)class_type);
+            ScopeNotePureFunctions(class_type);
+            return 2;
+        }
+        if(!TypeDefined(class_type)) {
+            PTreeErrorExprSym(expr,437,(SYMBOL)class_type);
+            return 2;
+        }
+    }
+    return AnalyseTypeCtor(NULL,type,8,ctor,initial);
+}
 unsigned single_arg(PTREE *initial)
 {
     PTREE expr=*initial;
@@ -96,8 +158,8 @@ PTREE NodeBinary(unsigned char op,PTREE left,PTREE right);
 PTREE NodeUnaryCopy(unsigned char op,PTREE expr);
 PTREE NodeUnary(unsigned char op,PTREE expr);
 PTREE NodeConvert(TYPE type,PTREE expr);
-PTREE NodeDupExpr(PTREE *expr) { (void)expr; STUB_TRAP(); return NULL; }
-PTREE NodeComma(PTREE left,PTREE right) { (void)left; (void)right; STUB_TRAP(); return NULL; }
+PTREE NodeDupExpr(PTREE *expr);
+PTREE NodeComma(PTREE left,PTREE right);
 unsigned MembPtrAssign(PTREE *expr) { (void)expr; STUB_TRAP(); return 0; }
 PTREE bareArg(PTREE expr)
 {
@@ -108,10 +170,8 @@ PTREE bareArg(PTREE expr)
 PTREE ClassDefaultCopy(PTREE target,PTREE source)
 { (void)target; (void)source; STUB_TRAP(); return NULL; }
 PTREE NodeTemporary(TYPE type) { (void)type; STUB_TRAP(); return NULL; }
-PTREE PTreeSetLocn(PTREE expr,CGIO_LOCATION *location)
-{ (void)expr; (void)location; STUB_TRAP(); return NULL; }
-unsigned char AnalyseCallOpts(TYPE type,PTREE expr,PTREE *dtor,PTREE *bare)
-{ (void)type; (void)expr; (void)dtor; (void)bare; STUB_TRAP(); return 0; }
+PTREE PTreeSetLocn(PTREE expr,CGIO_LOCATION *location);
+unsigned char AnalyseCallOpts(TYPE type,PTREE expr,PTREE *dtor,PTREE *bare);
 /* The1994 optimizer has two genuine entries; their names are descriptive
  * until a contemporary symbol source identifies them. The later source
  * folded these CALL_OPT_CTOR/FUN_CALL paths into CopyOptimize. */
@@ -125,17 +185,12 @@ TYPE MakePointerTo(TYPE type);
 TYPE MakeReferenceTo(TYPE type);
 TYPE MakeModifiedType(TYPE type,unsigned flags);
 TYPE SymFuncReturnType(SYMBOL sym);
-PTREE NodeMakeCall(SYMBOL sym,TYPE type,PTREE arguments)
-{ (void)sym; (void)type; (void)arguments; STUB_TRAP(); return NULL; }
-void AddDefaultArgs(SYMBOL sym,PTREE call)
-{ (void)sym; (void)call; STUB_TRAP(); }
-PTREE CallArgumentExactCtor(TYPE type,unsigned exact)
-{ (void)type; (void)exact; STUB_TRAP(); return NULL; }
+PTREE NodeMakeCall(SYMBOL sym,TYPE type,PTREE arguments);
+void AddDefaultArgs(SYMBOL sym,PTREE call);
+PTREE CallArgumentExactCtor(TYPE type,unsigned exact);
 PTREE NodeArg(PTREE expr);
-PTREE CallArgsArrange(TYPE type,PTREE call,PTREE args,PTREE this_arg,PTREE exact_arg,PTREE extra)
-{ (void)type; (void)call; (void)args; (void)this_arg; (void)exact_arg; (void)extra; STUB_TRAP(); return NULL; }
-PTREE NodeDtorExpr(PTREE expr,SYMBOL sym)
-{ (void)expr; (void)sym; STUB_TRAP(); return NULL; }
+PTREE CallArgsArrange(TYPE type,PTREE call,PTREE args,PTREE this_arg,PTREE exact_arg,PTREE extra);
+PTREE NodeDtorExpr(PTREE expr,SYMBOL sym);
 void NodeFreeDupedExpr(PTREE expr);
 PTREE PTreeErrorNode(PTREE expr);
 PTREE EffectCtor(PTREE initial,SYMBOL ctor,TYPE type,PTREE target,CGIO_LOCATION *location,unsigned control)
@@ -227,4 +282,108 @@ PTREE EffectCtor(PTREE initial,SYMBOL ctor,TYPE type,PTREE target,CGIO_LOCATION 
         return node;
     }
     return target;
+}
+
+SCOPE TypeScope(TYPE type);
+char *CppConstructorName(void);
+SEARCH_RESULT *ScopeFindBaseMember(SCOPE scope,char *name);
+SEARCH_RESULT *ScopeContainsMember(SCOPE scope,char *name);
+void ScopeResultErrLocn(SEARCH_RESULT *result,CGIO_LOCATION *locn);
+void ScopeFreeResult(SEARCH_RESULT *result);
+int ScopeCheckSymbol(SEARCH_RESULT *result,SYMBOL sym);
+int TypeDefined(TYPE type);
+unsigned ClassDefaultCtorDefine(TYPE type,SYMBOL *ctor);
+SYMBOL ClassAddDefaultCopy(SCOPE scope);
+unsigned char FuncOverloaded(SYMBOL *ctor,SYMBOL candidates,arg_list *args,PTREE *nodes);
+SEARCH_RESULT *ctorResult(SCOPE access,CGIO_LOCATION *locn,TYPE type)
+{
+    SCOPE scope=TypeScope(type);
+    char *name=CppConstructorName();
+    SEARCH_RESULT *result;
+    if(access) result=ScopeFindBaseMember(scope,name);
+    else result=ScopeContainsMember(scope,name);
+    if(locn && result) ScopeResultErrLocn(result,locn);
+    return result;
+}
+int ctorDefineDefault(TYPE type,arg_list *args)
+{
+    SYMBOL ctor;
+    if(!TypeDefined(type)) return 0;
+    if(args->num_args==0) return ClassDefaultCtorDefine(type,&ctor)==0;
+    if(args->num_args==1) return ClassAddDefaultCopy(type->u.c.scope)!=NULL;
+    return 0;
+}
+unsigned char ctorExplicit(SCOPE access,TYPE type,arg_list *args,PTREE *nodes,
+                           CGIO_LOCATION *locn,SYMBOL *ctor)
+{
+    SEARCH_RESULT *result;
+    unsigned char status;
+    type=ClassTypeForType(type);
+    result=ctorResult(access,locn,type);
+    if(!result) return 2;
+    status=FuncOverloaded(ctor,result->sym_name->name_syms,args,nodes);
+    if(status==0 && ScopeCheckSymbol(result,*ctor)) status=7;
+    ScopeFreeResult(result);
+    return status;
+}
+unsigned char ctorFindOverload(SCOPE access,TYPE type,arg_list *args,PTREE *nodes,
+                               CGIO_LOCATION *locn,SYMBOL *ctor)
+{
+    unsigned char status=ctorExplicit(access,type,args,nodes,locn,ctor);
+    if(status==2 && ctorDefineDefault(type,args))
+        status=ctorExplicit(access,type,args,nodes,locn,ctor);
+    return status;
+}
+unsigned CtorFind(SCOPE access,TYPE type,arg_list *args,PTREE *nodes,
+                  CGIO_LOCATION *locn,SYMBOL *ctor)
+{
+    unsigned char status;
+    *ctor=NULL;
+    status=ctorFindOverload(access,type,args,nodes,locn,ctor);
+    switch(status) {
+    case 0: return 0;
+    case 1: return 5;
+    case 2: return 4;
+    case 7: return 2;
+    default:
+        /* The original leaves its result uninitialized for statuses outside
+         * this old overload-result domain; none is qualified here. */
+        STUB_TRAP(); return 0;
+    }
+}
+
+/* These1994 list-producing conversion searches predate the released
+ * CtorFindList interface: they rank a candidate list using control2 and
+ * retain the original default-constructor/copy-declaration retry. */
+unsigned char resolveFunctionOverload(unsigned short control,FNOV_LIST **match,
+    SYMBOL syms,arg_list *args,void *nodes);
+unsigned char ctorExplicitList(TYPE type,arg_list *args,PTREE *nodes,
+    FNOV_LIST **match,CGIO_LOCATION *locn)
+{
+    SEARCH_RESULT *result;
+    unsigned char status;
+    *match=NULL;
+    type=ClassTypeForType(type);
+    result=ctorResult(NULL,locn,type);
+    if (!result) return 2;
+    status=resolveFunctionOverload(2,match,result->sym_name->name_syms,args,nodes);
+    if (status==0 && locn && ScopeCheckSymbol(result,(*match)->sym)) status=7;
+    ScopeFreeResult(result);
+    return status;
+}
+int ctorDefineDefaultCnv(TYPE type,arg_list *args)
+{
+    if (!TypeDefined(type)) return 0;
+    if (args->num_args==0) return ctorDefineDefault(type,args);
+    if (args->num_args==1)
+        return ClassAddDefaultCopy(ClassTypeForType(type)->u.c.scope)!=NULL;
+    return 0;
+}
+unsigned char ctorFindConversion(TYPE type,arg_list *args,PTREE *nodes,
+    FNOV_LIST **match,CGIO_LOCATION *locn)
+{
+    unsigned char status=ctorExplicitList(type,args,nodes,match,locn);
+    if (status==2 && ctorDefineDefaultCnv(type,args))
+        status=ctorExplicitList(type,args,nodes,match,locn);
+    return status;
 }

@@ -46,6 +46,7 @@
 #include "pending.h"
 #include "class.h"
 #include "rewrite.h"
+#include "typesig.h"
 #include <recon.h>
 static carve_t carveCSTACK, carveSWCASE, carveFNLABEL, carveFNCATCH;
 void functionInit(INITFINI *defn)
@@ -138,9 +139,17 @@ void FunctionBodyStartup(SYMBOL sym,FUNCTION_DATA *data,unsigned char flags)
 TYPE AddFunctionFlag(TYPE type,unsigned short flags)
 { (void)type; (void)flags; STUB_TRAP(); return 0; }
 TYPE RemoveFunctionFlag(TYPE type,unsigned short flags);
-void ExceptionsCheck(void) { STUB_TRAP(); }
+void ExceptionsCheck(void);
 void exceptSpec(TYPE type) { (void)type; STUB_TRAP(); }
-void FunctionHasRegistration(void) { STUB_TRAP(); }
+void FunctionHasRegistration(void)
+{
+    currFunction->has_state_tab=1;
+}
+unsigned FunctionRegistrationFlag(void)
+{
+    FunctionHasRegistration();
+    return ++currFunction->flag_count;
+}
 void setExceptionSpecs(SYMBOL sym)
 {
     TYPE *excepts,type;
@@ -174,8 +183,9 @@ struct control_stack {
         struct { BLK_LABEL else_part; } i;
         struct { unsigned top_loop; BLK_LABEL continue_loop; } l;
         struct { unsigned short block; unsigned char block_switch; } b;
-        /* The switch/try variant is not consumed by beginControl. Its
-         * older49-byte layout is reserved until those users are reached. */
+        struct { void *catches; SCOPE defn_scope; unsigned catch_no;
+            SYMBOL try_var; CGIO_LOCATION try_locn; } t;
+        /* Remaining switch fields are not yet consumed. */
         unsigned char switch_storage[49];
     } u;
     unsigned char id,flags;
@@ -232,8 +242,7 @@ void insertFunctionReturn(SYMBOL sym)
 }
 
 
-void DtorPrologue(SYMBOL sym,unsigned *end,CGFILE_INS *begin)
-{ (void)sym; (void)end; (void)begin; STUB_TRAP(); }
+
 
 int TypeDefined(TYPE type);
 SYMBOL CgFrontSaveFile(void);
@@ -339,18 +348,67 @@ void endBlock(void)
     --currFunction->depth;
 }
 void endControl(void);
+void dumpCSLabel(unsigned label);
+void dumpBlkLabel(BLK_LABEL *label)
+{
+    if(label->defn) {
+        dumpCSLabel(label->id);
+        LabelDefine(label->defn);
+    }
+}
+void dumpOutsideLabel(CSTACK *block)
+{
+    dumpBlkLabel(&block->outside);
+}
+void doJUMP(int op,unsigned condition,unsigned destination);
+void CgFrontLabfreeCs(unsigned count);
+void parseElseStmt(void) { STUB_TRAP(); }
+void jumpFwdBlkLabel(BLK_LABEL *label);
+void completeTry(CSTACK *block);
 int endOfStmt(int recog_token)
 {
     CSTACK *block=currFunction->control;
     for(;;) {
         switch(block->id) {
         case 2:
-            /* Switch and exception blocks have extra outgoing jumps and
-             * scope bookkeeping; their semantics are still pending. */
-            if(block->next->id>=5 && block->next->id<=10) {
+            if(block->next->id==9 || block->next->id==10) {
+                if(!currFunction->dead_code) {
+                    SrcPosnEmitCurrent();
+                    jumpFwdBlkLabel(&block->next->outside);
+                }
+            } else if(block->next->id>=5 && block->next->id<=8) {
                 STUB_TRAP(); return 0;
             }
             endBlock();
+            break;
+        case 3:
+            closeScope();
+            if(recog_token) { nextYYToken(); recog_token=0; }
+            if(CurToken==103) {
+                parseElseStmt();
+                return recog_token;
+            }
+            if(!(block->flags&1)) dumpBlkLabel(&block->u.i.else_part);
+            CgFrontLabfreeCs(2);
+            break;
+        case 9:
+            if(recog_token) { nextYYToken(); recog_token=0; }
+            if(CurToken==85) return recog_token;
+            CErr1(624);
+            completeTry(block);
+            break;
+        case 10:
+            if(recog_token) { nextYYToken(); recog_token=0; }
+            if(CurToken==85) return recog_token;
+            completeTry(block);
+            break;
+        case 5: case 7:
+            if(block->u.l.continue_loop.defn)
+                dumpBlkLabel(&block->u.l.continue_loop);
+            closeScope();
+            doJUMP(7,81,block->u.l.top_loop);
+            dumpOutsideLabel(block);
+            CgFrontLabfreeCs(3);
             break;
         default:
             STUB_TRAP(); return 0;
@@ -375,7 +433,17 @@ PTREE emitCodeExpr(PTREE expr)
     ensureLiveExpr(expr);
     return IcEmitExpr(expr);
 }
-void checkDeclLocation(void) { STUB_TRAP(); }
+void checkDeclLocation(void)
+{
+    switch(currFunction->control->id) {
+    case 3: CErr1(201); break;
+    case 4: CErr1(202); break;
+    case 5: CErr1(205); break;
+    case 6: CErr1(206); break;
+    case 7: CErr1(207); break;
+    case 8: CErr1(203); break;
+    }
+}
 PTREE ParseExprDecl(void);
 void declExprStmt(int for_declaration)
 {
@@ -421,6 +489,242 @@ void finiFunctionBody(SYMBOL sym)
     ScopeJumpForward(currFunction->fn_scope);
     ScopeEnd(2);
     currFunction=currFunction->next;
+}
+void ensureLiveCode(void)
+{
+    if (currFunction->dead_code && !currFunction->dead_diagnosed) {
+        CErr1(13);
+        currFunction->dead_diagnosed=1;
+    }
+}
+void MustRecog(int token);
+void mustRecog(int token)
+{
+    ParseFlush();
+    MustRecog(token);
+}
+PTREE ParseExpr(int end_token);
+PTREE safeParseExpr(int end_token)
+{
+    if (CurToken==1) return NULL;
+    return ParseExpr(end_token);
+}
+SYMBOL SymFunctionReturn(void);
+PTREE AnalyseReturnExpr(SYMBOL sym,PTREE expr);
+void PTreeErrorExpr(PTREE expr,unsigned error);
+void parseReturnStmt(SYMBOL func)
+{
+    PTREE expr;
+    SYMBOL return_sym,operand=NULL;
+    int expecting;
+    ensureLiveCode();
+    nextYYToken();
+    return_sym=SymFunctionReturn();
+    expecting=return_sym!=NULL && !currFunction->is_ctor && !currFunction->is_dtor;
+    if (CurToken==5) {
+        if (expecting) CErr1(3);
+    } else {
+        currFunction->ret_reqd=1;
+        expr=safeParseExpr(5);
+        if (expecting) {
+            if (expr) {
+                if (expr->op==0) PTreeFreeSubtrees(expr);
+                else {
+                    emitCodeExpr(AnalyseReturnExpr(func,expr));
+                    operand=return_sym;
+                }
+            }
+        } else {
+            PTreeErrorExpr(expr,56);
+            PTreeFreeSubtrees(expr);
+        }
+    }
+    CgFrontReturnSymbol(operand);
+    mustRecog(5);
+    FunctionBodyDeadCode();
+}
+int exprAnalyse(PTREE (*analyse)(PTREE),PTREE *expr)
+{
+    if(*expr==NULL) return 1;
+    *expr=analyse(*expr);
+    return (*expr)->op==0 ? 2 : 0;
+}
+unsigned CgFrontLabelCs(void);
+void initBlkLabel(BLK_LABEL *label)
+{
+    label->id=CgFrontLabelCs();
+    label->defn=NULL;
+}
+unsigned CgFrontLabelCs(void);
+CSTACK *beginLoopControl(int id)
+{
+    CSTACK *loop=beginControl(id);
+    initBlkLabel(&loop->outside);
+    initBlkLabel(&loop->u.l.continue_loop);
+    loop->u.l.top_loop=CgFrontLabelCs();
+    return loop;
+}
+void CgFrontGotoNear(int op,unsigned condition,unsigned destination);
+void CgFrontLabdefCs(unsigned label);
+void doJUMP(int op,unsigned condition,unsigned destination)
+{
+    CgFrontGotoNear(op,condition,destination);
+    if(condition==81) FunctionBodyDeadCode();
+}
+void dumpCSLabel(unsigned label)
+{
+    CgFrontLabdefCs(label);
+    currFunction->dead_code=0;
+}
+LAB_DEF *LabelAllocLabDef(void);
+LAB_REF *LabelAllocLabRef(LAB_DEF *def);
+LAB_REF *refBlkLabel(BLK_LABEL *label)
+{
+    if(label->defn==NULL) label->defn=LabelAllocLabDef();
+    return LabelAllocLabRef(label->defn);
+}
+void LabelRefFree(LAB_REF *ref);
+void jumpBlkLabel(BLK_LABEL *label,unsigned condition)
+{
+    LabelRefFree(refBlkLabel(label));
+    doJUMP(7,condition,label->id);
+}
+int NodeIsConstantInt(PTREE expr);
+unsigned long NodeConstantValue(PTREE expr);
+void warnBoolConstVal(unsigned long value,int parsed_int,PTREE expr)
+{ (void)value; (void)parsed_int; (void)expr; STUB_TRAP(); }
+void warnBoolConst(PTREE expr,int parsed_int)
+{
+    /* The1994 interface passes the actual constant value (or known-nonzero1),
+     * before the later source changed this helper's argument to a zero flag. */
+    if(NodeIsConstantInt(expr))
+        warnBoolConstVal(NodeConstantValue(expr),parsed_int,expr);
+    else if(expr->flags&0x200) warnBoolConstVal(1,parsed_int,expr);
+}
+PTREE AnalyseBoolExpr(PTREE expr);
+int NodeIsConstantInt(PTREE expr);
+void CgFrontCode(int opcode);
+unsigned CgFrontLabelCs(void);
+void CgFrontLabfreeCs(unsigned count);
+int parseBracketExpr(PTREE (*analyse)(PTREE))
+{
+    PTREE expr;
+    int result,constant;
+    mustRecog(7);
+    expr=safeParseExpr(8);
+    constant=NodeIsConstantInt(expr);
+    result=exprAnalyse(analyse,&expr);
+    if(result!=1) {
+        warnBoolConst(expr,constant);
+        emitCodeExpr(expr);
+    }
+    mustRecog(8);
+    return result;
+}
+void parseIfStmt(void)
+{
+    CSTACK *block;
+    ensureLiveCode();
+    block=beginControl(3);
+    initBlkLabel(&block->outside);
+    initBlkLabel(&block->u.i.else_part);
+    nextYYToken();
+    if(parseBracketExpr(AnalyseBoolExpr)==0) {
+        if(block->flags&1) CgFrontCode(26);
+        else if(block->flags&2) {
+            CgFrontCode(26);
+            jumpBlkLabel(&block->u.i.else_part,81);
+        } else jumpBlkLabel(&block->u.i.else_part,84);
+    } else {
+        jumpBlkLabel(&block->u.i.else_part,81);
+        currFunction->dead_code=0;
+    }
+    openScope();
+}
+void parseForStmt(void)
+{
+    PTREE test_expr,inc_expr;
+    CSTACK *loop;
+    int test_type,inc_type,test_was_const;
+    unsigned around;
+    nextYYToken();
+    mustRecog(7);
+    if(CurToken==5) mustRecog(5);
+    else { ensureLiveCode(); declExprStmt(1); }
+    if(CurToken==5) test_type=1;
+    else {
+        test_expr=safeParseExpr(5);
+        test_was_const=NodeIsConstantInt(test_expr);
+        test_type=exprAnalyse(AnalyseBoolExpr,&test_expr);
+    }
+    mustRecog(5);
+    if(CurToken!=8) {
+        inc_expr=safeParseExpr(8);
+        inc_type=exprAnalyse(AnalyseStmtExpr,&inc_expr);
+    } else inc_type=1;
+    mustRecog(8);
+    loop=beginLoopControl(7);
+    switch(inc_type) {
+    case 0:
+        around=CgFrontLabelCs();
+        doJUMP(7,81,around);
+        dumpCSLabel(loop->u.l.top_loop);
+        emitCodeExpr(inc_expr);
+        dumpCSLabel(around);
+        CgFrontLabfreeCs(1);
+        break;
+    case 1: dumpCSLabel(loop->u.l.top_loop); break;
+    }
+    if(test_type==0) {
+        warnBoolConst(test_expr,test_was_const);
+        emitCodeExpr(test_expr);
+        if(loop->flags&1) CgFrontCode(26);
+        else jumpBlkLabel(&loop->outside,84);
+    }
+    openScope();
+}
+TYPE MakeExpandableType(type_id base);
+char *NameDummy(void);
+SYMBOL allocTryVar(CSTACK *block)
+{
+    SYMBOL sym=block->next->try_var;
+    if(!sym) {
+        sym=SymCreate(MakeExpandableType(TYP_CHAR),3,9,NameDummy(),
+                      block->u.t.defn_scope);
+        block->next->try_var=sym;
+    }
+    return sym;
+}
+void CgFrontSwitchBeg(void);
+void CgFrontSwitchDefault(SCOPE scope,int dead,CGIO_LOCATION *posn);
+void LabelSwitchBeg(void);
+void LabelSwitch(SCOPE scope);
+void LabelBlkTry(CGIO_LOCATION *locn,SYMBOL sym);
+void parseCatchHandler(void);
+void parseTryBlock(void)
+{
+    CSTACK *block;
+    ensureLiveCode();
+    ExceptionsCheck();
+    /* The 1994 body predates ScopeMarkVisibleAutosInMem/catch_err. */
+    block=beginControl(9);
+    block->u.t.catches=NULL;
+    block->u.t.catch_no=0;
+    block->u.t.defn_scope=CurrScope;
+    block->u.t.try_locn=SrcPosnEmitCurrent();
+    initBlkLabel(&block->outside);
+    block->u.t.try_var=allocTryVar(block);
+    CgFrontCodePtr(101,block->u.t.try_var);
+    CgSetTypeExact(GetBasicType(TYP_SINT));
+    CgFrontSwitchBeg();
+    LabelSwitchBeg();
+    LabelSwitch(block->u.t.defn_scope);
+    CgFrontSwitchDefault(block->u.t.defn_scope,0,&block->u.t.try_locn);
+    nextYYToken();
+    mustRecog(11);
+    startBlock();
+    LabelBlkTry(&block->u.t.try_locn,block->u.t.try_var);
+    FunctionHasRegistration();
 }
 void FunctionBody(DECL_INFO *info)
 {
@@ -471,10 +775,31 @@ void FunctionBody(DECL_INFO *info)
         if(endOfStmt(recog_token)) nextYYToken();
     } else {
         switch(CurToken) {
-        case 1: case 5: case 11: case 57: case 61: case 62: case 72:
-        case 85: case 89: case 98: case 101: case 102: case 107:
-        case 114: case 115: case 124:
+        case 1: case 5: case 57: case 72:
+        case 89: case 98: case 101: case 107:
+        case 114: case 115:
             STUB_TRAP();
+            break;
+        case 11:
+            startBlock();
+            /* Switch-owned block fields have not been reconstructed. */
+            if(data.control->next->id==8) { STUB_TRAP(); break; }
+            nextYYToken();
+            continue;
+        case 61:
+            parseIfStmt();
+            continue;
+        case 62:
+            parseForStmt();
+            continue;
+        case 85:
+            parseCatchHandler();
+            continue;
+        case 124:
+            parseTryBlock();
+            continue;
+        case 102:
+            parseReturnStmt(func);
             break;
         case 43:
             if(data.control->id!=2) {
@@ -529,8 +854,7 @@ void flushToDepth1(FUNCTION_DATA *data)
         endControl();
     }
 }
-void DtorEpilogue(SYMBOL func,unsigned end,CGFILE_INS *begin)
-{ (void)func; (void)end; (void)begin; STUB_TRAP(); }
+void DtorEpilogue(SYMBOL func,unsigned end,CGFILE_INS *begin);
 void LabelBlockClose(int dead);
 void closeScope(void)
 {
@@ -590,4 +914,182 @@ void FunctionBodyShutdown(SYMBOL func,FUNCTION_DATA *data)
 {
     functionShutdown(func,data);
     currFunction=currFunction->next;
+}
+
+void LabelGotoFwd(LAB_REF *ref);
+void jumpFwdBlkLabel(BLK_LABEL *label)
+{
+    SrcPosnEmitCurrent();
+    LabelGotoFwd(refBlkLabel(label));
+    doJUMP(7,81,label->id);
+}
+DECL_INFO *ParseException(void);
+TYPE AbstractClassType(TYPE type);
+typedef struct fn_catch FNCATCH;
+struct fn_catch { FNCATCH *next; TYPE type; CGIO_LOCATION defined; };
+typedef char FnCatchSize[(sizeof(FNCATCH)==20)?1:-1];
+TYPE TypeCanonicalThr(TYPE type);
+TYPE TypeReferenced(TYPE type);
+TYPE StructType(TYPE type);
+TYPE TypePointedAt(TYPE type,unsigned short *flags);
+int IsBigData(void);
+int TypesIdentical(TYPE left,TYPE right);
+unsigned char TypeDerived(TYPE derived,TYPE base);
+TYPE getCatchTypeAttrs(TYPE specified,TYPE *tester,unsigned char *attrs)
+{
+    TYPE canonical=TypeCanonicalThr(specified);
+    TYPE type=TypeReferenced(canonical),test=StructType(type);
+    unsigned char flags;
+    unsigned short pointed_flags;
+    if(!test) {
+        test=TypePointedAt(type,&pointed_flags);
+        if(!test) { test=type; flags=0; }
+        else {
+            type=test;
+            test=StructType(test);
+            if(!test) { test=type; flags=2; }
+            else flags=3;
+            TypePointedAt(specified,&pointed_flags);
+            if(pointed_flags&0x710) flags|=4;
+            else if((pointed_flags&8) && !IsBigData()) flags|=8;
+        }
+    } else flags=1;
+    *attrs=flags;
+    *tester=test;
+    return canonical;
+}
+int makeFNCATCH(TYPE type,CSTACK *block,CGIO_LOCATION *posn)
+{
+    TYPE new_test,old_test;
+    unsigned char new_attrs,old_attrs;
+    int errors;
+    FNCATCH *entry,*test,*last;
+    SetErrLoc(posn);
+    type=getCatchTypeAttrs(type,&new_test,&new_attrs);
+    if(new_attrs&4) CErr1(61);
+    else if(new_attrs&8) CErr1(209);
+    /* Unlike the released version the old body requests no copy/dtor access
+     * and keeps building the catch entry after diagnostics. */
+    TypeSigFind(0,type,NULL,&errors);
+    last=block->u.t.catches;
+    if(last) {
+        test=last;
+        do {
+            unsigned message=0;
+            test=test->next;
+            if(!test->type) message=612;
+            else {
+                getCatchTypeAttrs(test->type,&old_test,&old_attrs);
+                if(new_attrs==old_attrs) {
+                    if(TypesIdentical(new_test,old_test)) message=616;
+                    else if((new_attrs&2) && old_test->id==TYP_VOID) message=616;
+                    else if((new_attrs&1) && TypeDerived(new_test,old_test)) message=616;
+                }
+            }
+            if(message) {
+                CErr1(message);
+                CErr2p(615,(const char *)&test->defined);
+                break;
+            }
+        } while(test!=last);
+    }
+    SetErrLoc(NULL);
+    entry=CarveAlloc(carveFNCATCH);
+    entry->type=type;
+    entry->defined=*posn;
+    RingAppend(&block->u.t.catches,entry);
+    CgFrontCodePtr(103,block->next->try_var);
+    CgFrontCodePtr(104,type);
+    return 1;
+}
+unsigned long CgMemorySize(TYPE type);
+SYMBOL updateTryVar(CSTACK *block,TYPE type)
+{
+    SYMBOL sym=block->next->try_var;
+    TYPE array=TypedefModifierRemove(sym->sym_type);
+    unsigned long size=CgMemorySize(type);
+    if(size>array->u.a.array_size) array->u.a.array_size=size;
+    return sym;
+}
+SYMBOL SymCreateCurrScope(TYPE type,unsigned char id,unsigned flags,char *name);
+SYMBOL makeCatchVar(SYMBOL try_var,DECL_INFO *info)
+{
+    char *name=info->id?info->id->u.id.name:NameDummy();
+    SYMBOL sym=SymCreateCurrScope(info->type,11,1,name);
+    sym->u.alias=try_var;
+    return sym;
+}
+void CgFrontEmitSwitchLabels(void);
+void CgFrontSwitchCase(SCOPE scope,int dead,CGIO_LOCATION *posn,unsigned value);
+void LabelBlkCatch(CGIO_LOCATION *posn,CSTACK *block);
+void IcEmitDtorSym(SYMBOL sym);
+void LabelDeclInited(SYMBOL sym);
+int SymRequiresDtoring(SYMBOL sym);
+void parseCatchHandler(void)
+{
+    DECL_INFO *info;
+    SYMBOL try_var=NULL,catch_var;
+    CSTACK *block;
+    CGIO_LOCATION posn,blk;
+    SrcFileGetTokenLocn(&posn);
+    block=currFunction->control;
+    if(block->id!=9 && block->id!=10) { CErr1(611); block=NULL; }
+    ExceptionsCheck();
+    nextYYToken();
+    mustRecog(7);
+    if(CurToken==48) { nextYYToken(); info=NULL; }
+    else {
+        info=ParseException();
+        if(!info) block=NULL;
+        else if(AbstractClassType(info->type)) CErr1(684);
+    }
+    mustRecog(8);
+    currFunction->dead_code=0;
+    SrcPosnEmitCurrent();
+    SrcFileGetTokenLocn(&blk);
+    mustRecog(11);
+    startBlock();
+    SrcPosnEmitCurrent();
+    if(block) {
+        if(!info) makeFNCATCH(NULL,block,&posn);
+        else {
+            makeFNCATCH(info->type,block,&posn);
+            try_var=updateTryVar(block,info->type);
+        }
+        block->id=10;
+        ++block->u.t.catch_no;
+        LabelSwitch(block->u.t.defn_scope);
+        SrcFileGetTokenLocn(&posn);
+        CgFrontSwitchCase(block->u.t.defn_scope,0,&posn,block->u.t.catch_no);
+        CgFrontEmitSwitchLabels();
+        LabelBlkCatch(&blk,block);
+        if(info) {
+            catch_var=makeCatchVar(try_var,info);
+            FreeDeclInfo(info);
+            if(catch_var) {
+                LabelDeclInited(catch_var);
+                if(SymRequiresDtoring(catch_var)) IcEmitDtorSym(catch_var);
+            }
+        }
+    }
+}
+
+
+void SrcPosnEmit(CGIO_LOCATION *posn);
+void CgFrontSwitchEnd(void);
+void LabelTryComplete(SYMBOL try_var);
+/* This old callback was folded into RingCarveFree in the released source. */
+void finiCatch(void *entry)
+{
+    CarveFree(carveFNCATCH,entry);
+}
+void completeTry(CSTACK *block)
+{
+    SrcPosnEmit(&block->u.t.try_locn);
+    CgFrontSwitchEnd();
+    SrcPosnEmitCurrent();
+    dumpOutsideLabel(block);
+    CgFrontLabfreeCs(1);
+    RingWalk(block->u.t.catches,finiCatch);
+    LabelTryComplete(block->u.t.try_var);
 }

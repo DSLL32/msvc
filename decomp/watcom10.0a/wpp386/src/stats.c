@@ -31,6 +31,7 @@
 
 /* bld/plusplus/c/stats.c initial commit6b9cb443. Actual1994 clears
  * four counters and compiler-flag byte0 bits2/7, with no extra calls. */
+#include <stdio.h>
 #include "compiler.h"
 #include "frontend.h"
 #include "initstate.h"
@@ -47,4 +48,27 @@ void statsInit(INITFINI *entry)
     ErrCount = 0;
     CompFlags.stats_printed = 0;
     CompFlags.extra_stats_wanted = 0;
+}
+
+/* The old implementation prints directly rather than constructing the
+ * later VBUF. putc's period macro supplies its ordinary FILE fast path. */
+void intPrint(char *thing,char *end,unsigned count)
+{
+    if (!count) printf("no ");
+    else printf("%u ",count);
+    printf("%s",thing);
+    if (count!=1) putc('s',stdout);
+    printf("%s",end);
+}
+void statsPrint(INITFINI *defn)
+{
+    (void)defn;
+    if (CompFlags.stats_printed || CompFlags.quiet_mode || !WholeFName) return;
+    printf("%s: ",WholeFName);
+    intPrint("line",", ",SrcLineCount);
+    if (IncLineCount) printf("included %u, ",IncLineCount);
+    intPrint("warning",", ",WngCount);
+    intPrint("error","\n",ErrCount);
+    fflush(stdout);
+    CompFlags.stats_printed=1;
 }

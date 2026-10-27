@@ -33,6 +33,7 @@
  * commit6b9cb4438959d845a2b4dd4bf19f7908ecd608e9. Actual1994 uses
  *241 buckets and a6-byte header with byte length/hash, unlike later source. */
 #include <string.h>
+#include <stdlib.h>
 #include "compiler.h"
 #include <recon.h>
 
@@ -101,4 +102,17 @@ char *nameAdd(NAME_RECORD **head, unsigned bucket, char *id, unsigned length)
     *head = name;
     ++nameCount;
     return name->name;
+}
+
+static unsigned nameDummyIndex;
+char *NameDummy(void)
+{
+    char buff[12];
+    unsigned bucket,length;
+    buff[0]='.';
+    buff[1]='#';
+    ultoa(nameDummyIndex,&buff[2],31);
+    ++nameDummyIndex;
+    bucket=nameHash(buff,&length);
+    return nameAdd(&hashTable[bucket],bucket,buff,length);
 }

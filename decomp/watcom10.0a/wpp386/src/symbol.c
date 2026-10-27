@@ -74,7 +74,8 @@ int SymIsInline(SYMBOL sym)
 {
     TYPE type;
     type=FunctionDeclarationType(sym->sym_type);
-    return type!=0 && (type->flag&0x800)!=0;
+    /* Packed TYPE.flag begins at+0x15; original byte bit3 is TF1_INLINE. */
+    return type!=0 && (type->flag&8)!=0;
 }
 int SymIsData(SYMBOL sym)
 { return symIsDataFunction(sym) && !symIsFuncSym(sym); }
@@ -93,7 +94,16 @@ int symHasFuncName(SYMBOL sym,char *name)
 }
 int SymIsDtor(SYMBOL sym)
 { return symHasFuncName(sym,CppDestructorName()); }
-int SymIsCtor(SYMBOL sym) { (void)sym; STUB_TRAP(); return 0; }
+char *CppConstructorName(void);
+int SymIsCtor(SYMBOL sym)
+{ return symHasFuncName(sym,CppConstructorName()); }
+TYPE SymClass(SYMBOL sym);
+int TypeRequiresCtorParm(TYPE type);
+int SymCDtorExtraParm(SYMBOL sym)
+{
+    if (SymIsCtor(sym)) return TypeRequiresCtorParm(SymClass(sym));
+    return SymIsDtor(sym)?1:0;
+}
 int SymIsAssign(SYMBOL sym) { (void)sym; STUB_TRAP(); return 0; }
 int SymIsGenedFunc(SYMBOL sym)
 {
@@ -105,7 +115,7 @@ int SymIsGenedFunc(SYMBOL sym)
 int SymIsInitialized(SYMBOL sym) { return sym->flag&2; }
 
 int SymIsClassTemplateModel(SYMBOL sym)
-{ (void)sym; STUB_TRAP(); return 0; }
+{ return sym->id==12; }
 
 SCOPE SymScope(SYMBOL sym)
 {
@@ -211,8 +221,12 @@ int SymIsAnonymous(SYMBOL sym) { (void)sym; STUB_TRAP(); return 0; }
 int SymIsFunctionTemplateModel(SYMBOL sym)
 { return sym->id==13; }
 
+char *NameDummy(void);
 SYMBOL SymMakeDummy(TYPE type,char **name)
-{ (void)type; (void)name; STUB_TRAP(); return NULL; }
+{
+    *name=NameDummy();
+    return symAllocate(type,0,0);
+}
 
 int TypeDefined(TYPE type);
 int SymClassCorrupted(SYMBOL sym)
@@ -237,7 +251,8 @@ int TypeRequiresCtoring(TYPE type);
 int SymRequiresCtoring(SYMBOL sym)
 { return SymIsData(sym) && TypeRequiresCtoring(sym->sym_type); }
 
-int SymIsAnonymousMember(SYMBOL sym) { (void)sym; STUB_TRAP(); return 0; }
+int SymIsAnonymousMember(SYMBOL sym)
+{ return (sym->flag&0x20000000U)!=0; }
 
 void SymSetNvReferenced(SYMBOL sym)
 {
@@ -245,7 +260,11 @@ void SymSetNvReferenced(SYMBOL sym)
 }
 
 int SymIsEnumeration(SYMBOL sym) { return sym->id==8; }
-int SymIsArgument(SYMBOL sym) { (void)sym; STUB_TRAP(); return 0; }
+int SymIsArgument(SYMBOL sym)
+{
+    SCOPE scope=SymScope(sym);
+    return scope!=NULL && scope->id==2;
+}
 
 int SymIsAutomatic(SYMBOL sym)
 {
@@ -259,4 +278,94 @@ int SymIsExtern(SYMBOL sym)
 {
     if(SymIsInitialized(sym)) return 0;
     return sym->id==1 || SymIsStaticDataMember(sym);
+}
+
+char *CppOperatorName(unsigned code);
+int SymIsOpDel(SYMBOL sym)
+{ return symHasFuncName(sym,CppOperatorName(58)); }
+int SymIsOpDelar(SYMBOL sym)
+{ return symHasFuncName(sym,CppOperatorName(60)); }
+
+struct class_info *TypeClassInfo(TYPE type);
+struct class_info *SymClassInfo(SYMBOL sym)
+{
+    return TypeClassInfo(SymClass(sym));
+}
+
+TYPE TypeModFlags(TYPE type,unsigned short *flags);
+int SymIsHugeData(SYMBOL sym)
+{
+    unsigned short flags;
+    if(!SymIsData(sym)) return 0;
+    TypeModFlags(sym->sym_type,&flags);
+    return flags&0x20;
+}
+TYPE IntegralType(TYPE type);
+int SymIsConstant(SYMBOL sym)
+{
+    unsigned short flags;
+    TYPE type;
+    if(SymIsEnumeration(sym)) return 1;
+    if(!SymIsData(sym)) return 0;
+    type=TypeModFlags(sym->sym_type,&flags);
+    if((flags&1) && (sym->id==2 || sym->id==0 || sym->id==3 || sym->id==4 || sym->id==1))
+        return IntegralType(type)!=NULL;
+    return 0;
+}
+int SymIsStaticData(SYMBOL sym)
+{
+    SCOPE scope;
+    if(!SymIsData(sym)) return 0;
+    scope=SymScope(sym);
+    return scope!=NULL && (scope->id==0 || scope->id==3) && sym->id==2;
+}
+
+int SymIsClass(SYMBOL sym) { (void)sym; STUB_TRAP(); return 0; }
+int SymIsClassArray(SYMBOL sym) { (void)sym; STUB_TRAP(); return 0; }
+
+int SymIsModuleDtorable(SYMBOL sym)
+{ return SymScope(sym)==FileScope || sym->id==2; }
+
+int SymIsFuncMember(SYMBOL sym)
+{
+    return SymIsClassMember(sym) && symIsFuncSym(sym);
+}
+int SymIsStaticFuncMember(SYMBOL sym)
+{
+    return SymIsFuncMember(sym) && SymIsStatic(sym);
+}
+
+SYMBOL SymAddressOf(SYMBOL sym)
+{ (void)sym; STUB_TRAP(); return NULL; }
+
+SYMBOL SymCreateCurrScope(TYPE type,unsigned char id,unsigned flags,char *name)
+{
+    return SymCreate(type,id,flags,name,CurrScope);
+}
+
+int SymIsReferenced(SYMBOL sym) { return (sym->flag&1)!=0; }
+
+SYMBOL SymIsFunctionTemplateInst(SYMBOL sym)
+{
+    if(ScopeType(SymScope(sym),0) && (sym->flag&0x40000000UL))
+        return sym->u.alias;
+    return NULL;
+}
+
+int SymIsDefArg(SYMBOL sym)
+{ return sym->id==7; }
+
+int SymIsClassMember(SYMBOL sym);
+int SymIsRegularStaticFunc(SYMBOL sym)
+{ return sym->id==2 && SymIsFunction(sym) && !SymIsClassMember(sym); }
+
+int TypeHasEllipsisArg(TYPE type);
+int SymIsEllipsisFunc(SYMBOL sym)
+{ return TypeHasEllipsisArg(sym->sym_type); }
+
+int IsVftName(const char *name);
+int SymIsVft(SYMBOL sym)
+{
+    SYMBOL_NAME name=sym->name;
+    return name && name->name && IsVftName(name->name);
 }

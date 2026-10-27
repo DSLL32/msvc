@@ -621,3 +621,13 @@ void GetMacroToken(int expanding)
         break;
     }
 }
+
+void DirectiveFini(void);
+void MacroStorageFini(void);
+/* The old macro implementation has no NESTED_MACRO carver to destroy. */
+void macroFini(INITFINI *defn)
+{
+    (void)defn;
+    DirectiveFini();
+    MacroStorageFini();
+}

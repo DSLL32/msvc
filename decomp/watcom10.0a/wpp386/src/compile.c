@@ -101,7 +101,7 @@ int doCCompile(char **argv)
                 else if (ErrCount || CompFlags.check_syntax)
                     gen_code = 0;
                 if (gen_code) {
-                    ScopeCreatePCHDebugSym();
+                    DwarfBrowseEmit();
                     CgBackEnd();
                 }
                 CtxSetContext(1);

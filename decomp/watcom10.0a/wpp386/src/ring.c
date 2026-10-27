@@ -229,3 +229,11 @@ void RingWalk(void *head,void (*routine)(void *))
         routine(node);
     } while (node!=last);
 }
+
+/* The1994 version consumes each real node through RingPop rather than
+ * the later safe-iteration macro used by ringcarv.c. */
+void RingCarveFree(carve_t cv,void **head)
+{
+    void *element;
+    while ((element=RingPop(head))!=NULL) CarveFree(cv,element);
+}

@@ -41,10 +41,13 @@
 #include "pending.h"
 #include "symlocn.h"
 #include "symbol.h"
+#include "stringl.h"
 #include <recon.h>
 /* Recovered descriptive name: field-name grammar reductions mark byte24,
  * independently of an operator identifier's opcode in byte25. */
 void markFieldName(PTREE id) { id->u.id.field_name|=1; }
+PTREE PTreeReplaceLeft(PTREE tree,PTREE left)
+{ tree->u.subtree[0]=left; return tree; }
 PTREE PTreeReplaceRight(PTREE tree,PTREE right)
 { tree->u.subtree[1]=right; return tree; }
 static carve_t carvePTREE, carveSYMBOL_LOCN;
@@ -100,6 +103,8 @@ PTREE PTreeFree(PTREE tree)
     if (tree) CarveFree(carvePTREE,tree);
     return 0;
 }
+void SymbolLocnFree(SYM_TOKEN_LOCN *location)
+{ CarveFree(carveSYMBOL_LOCN,location); }
 SYM_TOKEN_LOCN *SymbolLocnAlloc(void)
 {
     SYM_TOKEN_LOCN *locn=CarveAlloc(carveSYMBOL_LOCN);
@@ -247,8 +252,23 @@ PTREE ThrowsAnything(void)
     return PTreeTListAppend(NULL,PTreeType(GetBasicType(TYP_DOT_DOT_DOT)));
 }
 
+PTREE PTreeBinary(unsigned char op,PTREE left,PTREE right);
+PTREE PTreeCopySrcLocation(PTREE target,PTREE source);
 PTREE useScopeIfPossible(PTREE scoped,PTREE id)
-{ (void)scoped; (void)id; STUB_TRAP(); return NULL; }
+{
+    PTREE colon=scoped->u.subtree[0],old=colon->u.subtree[1],node;
+    TYPE type;
+    if(old!=NULL) {
+        type=StructType(old->type);
+        if(type!=NULL) {
+            node=PTreeType(type);
+            PTreeCopySrcLocation(node,old);
+            id=PTreeBinary(55,node,id);
+            PTreeCopySrcLocation(id,colon);
+        }
+    }
+    return id;
+}
 /* The1994 CheckScopedId owns MakeScopedId's later factored-out body. */
 PTREE CheckScopedId(PTREE tree)
 {
@@ -636,4 +656,256 @@ PTREE PTreeUIntConstant(unsigned long value,type_id id)
     tree->op=3;
     tree->u.uint_constant=value;
     return tree;
+}
+
+PTREE PTreeCDtorExtra(void)
+{
+    PTREE tree=PTreeId(CppSpecialName(5));
+    tree->cgop=200;
+    return tree;
+}
+
+PTREE PTreeSetLocn(PTREE expr,CGIO_LOCATION *location)
+{
+    if(location && location->src_file) expr->locn=*location;
+    return expr;
+}
+
+int IsOverloadedFunc(SYMBOL sym);
+SYMBOL FunctionSymbol(PTREE node)
+{
+    SYMBOL sym;
+    if (!node) return NULL;
+    if (node->op==8 && node->cgop==12) node=PTreeOpLeft(node);
+    if (node->op!=7 || node->cgop!=194) return NULL;
+    sym=node->u.symcg.symbol;
+    /* This1994 helper selects overloaded functions only; the later source
+     * accepts any function symbol at this boundary. */
+    return IsOverloadedFunc(sym) ? sym : NULL;
+}
+
+PTREE PTreeIc(unsigned opcode,unsigned value)
+{
+    PTREE node=PTreeAlloc();
+    node->op=11;
+    node->u.ic.opcode=opcode;
+    node->u.ic.value=value;
+    return node;
+}
+
+PTREE PTreeDupExpr(PTREE expr)
+{
+    PTREE node=PTreeAlloc();
+    node->op=10;
+    node->u.dup.partner=NULL;
+    node->u.dup.expr=expr;
+    node->type=expr->type;
+    node->flags=expr->flags;
+    return PTreeCopySrcLocation(node,expr);
+}
+
+char *CppOperatorName(unsigned oper);
+PTREE MakeOperatorId(unsigned char op)
+{
+    PTREE tree=PTreeId(CppOperatorName(op));
+    tree->cgop=198;
+    tree->u.id.operator_code=op;
+    return tree;
+}
+
+int IsStringConstant(PTREE expr,int *multi_line)
+{
+    struct string_constant *literal;
+    *multi_line=0;
+    if(expr->op!=1) return 0;
+    literal=(struct string_constant *)expr->u.subtree[0];
+    if(literal->concat && literal->multi_line) *multi_line=1;
+    return 1;
+}
+
+PTREE PTreeIdSym(SYMBOL sym)
+{ return PTreeId(sym->name->name); }
+
+PTREE PTreeSetErrLoc(PTREE expr)
+{ (void)expr; STUB_TRAP(); return NULL; }
+
+/* Actual1994 linker constants use32-bit integral payloads. The later
+ * symAccessNeedsCode helper and DLL-import test are absent here. */
+static unsigned linkerConstantOffset;
+static PTREE linkerConstantSymbolNode;
+static int linkerConstantFlag;
+int SymIsAutomatic(SYMBOL sym);
+int NodeIsUnaryOp(PTREE tree,unsigned char op);
+PTREE linker_constant_tree_node(PTREE expr)
+{
+    PTREE other;
+    SYMBOL sym;
+    if(!linkerConstantFlag) return expr;
+    switch(expr->op) {
+    case 2: case 3:
+        if(linkerConstantSymbolNode==NULL) linkerConstantSymbolNode=expr;
+        break;
+    case 5: break;
+    case 1: case 4:
+        if(linkerConstantSymbolNode!=NULL) linkerConstantFlag=0;
+        else linkerConstantSymbolNode=expr;
+        break;
+    case 7:
+        if(expr->cgop!=194 || linkerConstantSymbolNode!=NULL)
+            linkerConstantFlag=0;
+        else {
+            sym=expr->u.symcg.symbol;
+            if(sym!=NULL && SymIsAutomatic(sym)) linkerConstantFlag=0;
+            else linkerConstantSymbolNode=expr;
+        }
+        break;
+    case 8:
+        switch(expr->cgop) {
+        case 12:
+            other=linkerConstantSymbolNode;
+            if(other!=NULL && other->op==7 && other->cgop==194 &&
+               SymIsAutomatic(other->u.symcg.symbol)) linkerConstantFlag=0;
+            break;
+        case 40: break;
+        case 101:
+            if(linkerConstantSymbolNode!=NULL) linkerConstantFlag=0;
+            break;
+        default: linkerConstantFlag=0; break;
+        }
+        break;
+    case 9:
+        switch(expr->cgop) {
+        case 44: case 57: break;
+        case 1:
+            other=expr->u.subtree[1];
+            if(other->op==2 || other->op==3)
+                linkerConstantOffset-=other->u.uint_constant;
+            else linkerConstantFlag=0;
+            break;
+        case 0: case 48:
+            other=expr->u.subtree[1];
+            if(other->op==2 || other->op==3)
+                linkerConstantOffset+=other->u.uint_constant;
+            else linkerConstantFlag=0;
+            break;
+        default: linkerConstantFlag=0; break;
+        }
+        break;
+    default: linkerConstantFlag=0; break;
+    }
+    return expr;
+}
+int IsLinkerConstant(PTREE tree,PTREE *ctree,unsigned *offset)
+{
+    if(tree->flags&1) return 0;
+    if(NodeIsUnaryOp(tree,109)) { *ctree=tree; *offset=0; return 1; }
+    linkerConstantOffset=0;
+    linkerConstantFlag=1;
+    linkerConstantSymbolNode=NULL;
+    PTreeTraversePostfix(tree,linker_constant_tree_node);
+    if(!linkerConstantFlag || linkerConstantSymbolNode==NULL) return 0;
+    *ctree=linkerConstantSymbolNode;
+    *offset=linkerConstantOffset;
+    return 1;
+}
+
+PTREE MakeScopedOperatorId(PTREE scoped,unsigned char operation)
+{
+    PTREE id=MakeOperatorId(operation);
+    PTreeCopySrcLocation(id,scoped);
+    id=useScopeIfPossible(scoped,id);
+    PTreeFreeSubtrees(scoped);
+    return id;
+}
+
+PTREE MakeScopedDestructorId(PTREE scoped,PTREE id)
+{
+    TYPE class_type,unbound=NULL;
+    PTREE tree=useScopeIfPossible(scoped,NULL);
+    if(tree) {
+        class_type=StructType(tree->u.subtree[0]->type);
+        if(class_type->flag&4) unbound=class_type;
+        id=makeDestructorId(class_type->u.c.scope,id,unbound);
+        PTreeCopySrcLocation(id,scoped);
+        id=PTreeReplaceRight(tree,id);
+    }
+    PTreeFreeSubtrees(scoped);
+    return id;
+}
+
+PTREE MakeDeleteExpr(PTREE global,unsigned char operation,PTREE expr)
+{
+    PTreeFreeSubtrees(global);
+    return PTreeUnary(operation,expr);
+}
+
+/* The1994 constant owns the double itself; the released implementation
+ * instead owns a later CPP_FLOAT representation object. */
+PTREE PTreeFloatingConstant(double value,type_id id)
+{
+    PTREE tree=PTreeAlloc();
+    ptreeSetConstantType(tree,id);
+    tree->op=4;
+    tree->u.floating_constant=value;
+    return tree;
+}
+
+TYPE MakeArrayOf(unsigned count,TYPE type);
+
+/* Initial ptree.c strLiteral, matched to CF44c60. The old node directly
+ * uses the stored byte length plus its terminator (no later AWStrLen call). */
+PTREE strLiteral(struct string_constant *literal,type_id base)
+{
+    PTREE tree=PTreeAlloc();
+    tree->op=1;
+    tree->u.string=literal;
+    tree->type=MakeArrayOf(literal->len+1,GetBasicType(base));
+    tree->flags|=2;
+    return tree;
+}
+PTREE PTreeLiteral(struct string_constant *literal)
+{ return strLiteral(literal,TYP_CHAR); }
+PTREE PTreeLiteralWide(struct string_constant *literal)
+{ return strLiteral(literal,TYP_WCHAR); }
+
+PTREE AnalyseValueExpr(PTREE expr);
+void PTreeErrorExpr(PTREE expr,unsigned error);
+/* The1994 tree owns a double. Sign-bit selection includes negative zero;
+ * the period compiler emits its real FDI4/FDU4 conversion helpers. */
+PTREE PTreeForceIntegral(PTREE expr)
+{
+    expr=AnalyseValueExpr(expr);
+    if(expr->op==2 || expr->op==3) return expr;
+    if(expr->op==4) {
+        CErr1(71);
+        if(expr->u.floating_bits.high&0x80000000UL) {
+            expr->op=2;
+            expr->u.int_constant=(long)expr->u.floating_constant;
+            ptreeSetConstantType(expr,TYP_SINT);
+        } else {
+#ifdef __linux__
+            /* Unreached old software-FP unsigned conversion has no native
+             * qualified contract yet. The period build keeps its FDU4 ABI. */
+            STUB_TRAP();
+#endif
+            expr->op=3;
+            expr->u.uint_constant=(unsigned long)expr->u.floating_constant;
+            ptreeSetConstantType(expr,TYP_UINT);
+        }
+        return expr;
+    }
+    if(expr->op!=0) PTreeErrorExpr(expr,58);
+    PTreeFreeSubtrees(expr);
+    return NULL;
+}
+PTREE PTreeNonZeroConstantExpr(PTREE expr)
+{
+    if(ScopeType(CurrScope,4)) {
+        PTreeFreeSubtrees(expr);
+        expr=PTreeIntConstant(1,TYP_SINT);
+    } else {
+        expr=PTreeForceIntegral(expr);
+        if(expr==NULL) expr=PTreeIntConstant(1,TYP_SINT);
+    }
+    return expr;
 }

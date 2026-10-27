@@ -41,7 +41,7 @@
 #include <recon.h>
 
 static FILE *err_file;
-static void *err_locn_source;
+static CGIO_LOCATION err_locn;
 static SUICIDE_CALLBACK *suicideCallbacks;
 static unsigned reserveSize;
 static void *reserveMem;
@@ -50,7 +50,7 @@ void errFileInit(INITFINI *entry)
 {
     (void)entry;
     err_file = 0;
-    err_locn_source = 0;
+    err_locn.src_file = 0;
     suicideCallbacks = 0;
     reserveSize = 2048;
     reserveMem = CMemAlloc(2048);
@@ -90,7 +90,10 @@ void CErrCheckpoint(unsigned *state)
 }
 
 void SetErrLoc(CGIO_LOCATION *location)
-{ (void)location; STUB_TRAP(); }
+{
+    if(location==NULL) err_locn.src_file=NULL;
+    else err_locn=*location;
+}
 
 int CErrOccurred(unsigned *state)
 { return *state!=ErrCount; }

@@ -164,9 +164,20 @@ int processSym(unsigned short control,FNOV_LIST **candidates,arg_list *args,SYMB
     return has_template;
 }
 int isMemberCandidate(TYPE type,unsigned count)
-{ (void)type; (void)count; STUB_TRAP(); return 0; }
+{
+    type=FunctionDeclarationType(type);
+    return type && TypeArgList(type)->num_args+1==count;
+}
 int isEllipsisCandidate(TYPE type,unsigned count)
-{ (void)type; (void)count; STUB_TRAP(); return 0; }
+{
+    arg_list *args;
+    type=FunctionDeclarationType(type);
+    if(!type) return 0;
+    args=TypeArgList(type);
+    if(!args->num_args) return 0;
+    if(count<=args->num_args && count+1!=args->num_args) return 0;
+    return args->type_list[args->num_args-1]->id==TYP_DOT_DOT_DOT;
+}
 void initRankVector(unsigned short control,FNOV_RANK *vector,int count)
 {
     FNOV_RANK *rank;
@@ -197,8 +208,7 @@ void addListEntry(unsigned short control,FNOV_LIST **candidates,SYMBOL sym,arg_l
     entry->next=NULL;
     RingAppend((void **)candidates,entry);
 }
-arg_list *MakeMemberArgList(SYMBOL sym,unsigned count)
-{ (void)sym; (void)count; STUB_TRAP(); return 0; }
+arg_list *MakeMemberArgList(SYMBOL sym,unsigned count);
 arg_list *MakeMockArgList(TYPE type,unsigned count)
 { (void)type; (void)count; STUB_TRAP(); return 0; }
 
@@ -244,14 +254,16 @@ void FnovMemFlagsRank(unsigned short source,unsigned short target,void *source_s
         ++rank->u.no_ud.standard;
     }
 }
-SYMBOL FunctionSymbol(PTREE node)
-{ (void)node; STUB_TRAP(); return NULL; }
+SYMBOL FunctionSymbol(PTREE node);
+int IsOverloadedFunc(SYMBOL sym)
+{
+    return sym && SymIsFunction(sym) && sym->next!=sym;
+}
 void computeFuncRank(SYMBOL target,SYMBOL source,TYPE *type,FNOV_RANK *rank)
 { (void)target; (void)source; (void)type; (void)rank; STUB_TRAP(); }
 void FnovArgRank(TYPE source,TYPE target,PTREE *plist,FNOV_RANK *rank);
 TYPE ReferenceType(TYPE type);
-int SymIsFunctionTemplateInst(SYMBOL sym)
-{ (void)sym; STUB_TRAP(); return 0; }
+SYMBOL SymIsFunctionTemplateInst(SYMBOL sym);
 void doComputeArgRank(SYMBOL func,TYPE source,TYPE target,PTREE *plist,FNOV_RANK *rank)
 {
     if((rank->control&0x80) && SymIsFunctionTemplateModel(func)) {
@@ -300,8 +312,100 @@ int getRank(unsigned short control,arg_list *args,void *plist,FNOV_LIST *candida
     }
     return contender;
 }
+void *RingPrune(void **head,void *entry);
+enum { OV_CMP_SAME,OV_CMP_BETTER_FIRST,OV_CMP_BETTER_SECOND,OV_CMP_UNDEFINED };
+unsigned char compareInt(int first,int second)
+{
+    if (first<second) return OV_CMP_BETTER_FIRST;
+    if (first>second) return OV_CMP_BETTER_SECOND;
+    return OV_CMP_SAME;
+}
+/* Actual1994 scalar ranking predates type-based reference/derivation
+ * tie breakers. Compare the three-byte conversion counters and flags. */
+unsigned char compareScalar(FNOV_SCALAR *first,FNOV_SCALAR *second,int user_conversion)
+{
+    if (first->udcnv!=second->udcnv) return compareInt(first->udcnv,second->udcnv);
+    if (first->standard!=second->standard) return compareInt(first->standard,second->standard);
+    if (first->promotion!=second->promotion) return compareInt(first->promotion,second->promotion);
+    if (first->trivial!=second->trivial) return compareInt(first->trivial,second->trivial);
+    if (user_conversion && first->not_exact!=second->not_exact)
+        return compareInt(first->not_exact,second->not_exact);
+    return OV_CMP_SAME;
+}
+unsigned char equateExactSame(unsigned char rank)
+{
+    if (rank==1) rank=2;
+    return rank;
+}
+unsigned char compareArgument(FNOV_RANK *left,FNOV_RANK *right)
+{
+    unsigned char first=equateExactSame(left->rank);
+    unsigned char second=equateExactSame(right->rank);
+    if (first!=second) return compareInt(first,second);
+    if (first>=3 && first<=7) return compareScalar(&left->u.no_ud,&right->u.no_ud,0);
+    if (first==8) return compareScalar(&left->u.ud.out,&right->u.ud.out,1);
+    if ((first>=1 && first<=2) || (first>=9 && first<=11)) return OV_CMP_SAME;
+    /* Invalid/uncomputed equal ranks leave CL uninitialized in the original.
+     * No semantics for that malformed domain have been reconstructed. */
+    STUB_TRAP();
+    return 0;
+}
+unsigned char compareFunction(FNOV_LIST *left,FNOV_LIST *right)
+{
+    unsigned count=left->num_args;
+    FNOV_RANK *first=left->rankvector,*second=right->rankvector;
+    unsigned char result=OV_CMP_UNDEFINED,argument;
+    while (result!=OV_CMP_SAME && count) {
+        argument=compareArgument(first,second);
+        if (argument==OV_CMP_BETTER_FIRST) {
+            if (result==OV_CMP_BETTER_SECOND) result=OV_CMP_SAME;
+            else if (result==OV_CMP_UNDEFINED) result=OV_CMP_BETTER_FIRST;
+        } else if (argument==OV_CMP_BETTER_SECOND) {
+            if (result==OV_CMP_BETTER_FIRST) result=OV_CMP_SAME;
+            else if (result==OV_CMP_UNDEFINED) result=OV_CMP_BETTER_SECOND;
+        }
+        --count;
+        ++first;
+        ++second;
+    }
+    if (result==OV_CMP_UNDEFINED) {
+        argument=compareArgument(&left->thisrank,&right->thisrank);
+        result=(argument==OV_CMP_BETTER_FIRST || argument==OV_CMP_BETTER_SECOND)
+            ? argument : OV_CMP_SAME;
+    }
+    return result;
+}
+/* The1994 comparison does not receive FNOV_CONTROL, and equal entries
+ * remain ambiguous even when their symbol pointers happen to match. */
+unsigned char updateMatchList(FNOV_LIST **candidates,FNOV_LIST **match,FNOV_LIST *candidate)
+{
+    FNOV_LIST *last,*entry,*next;
+    unsigned char comparison;
+    int ambiguous=0;
+    last=*match;
+    if(last) {
+        next=last->next;
+        do {
+            entry=next;
+            next=entry->next;
+            comparison=compareFunction(entry,candidate);
+            if(comparison==1) return 1;
+            if(comparison==2) {
+                RingPrune((void **)match,entry);
+                RingInsert((void **)candidates,entry,NULL);
+            } else if(comparison==0) ambiguous=1;
+        } while(entry!=last);
+    }
+    RingPrune((void **)candidates,candidate);
+    RingAppend((void **)match,candidate);
+    return ambiguous ? 0 : 2;
+}
 void updateFnovList(FNOV_LIST **candidates,FNOV_LIST **match,FNOV_LIST *candidate,unsigned char *result)
-{ (void)candidates; (void)match; (void)candidate; (void)result; STUB_TRAP(); }
+{
+    unsigned char comparison=updateMatchList(candidates,match,candidate);
+    if(comparison==0) *result=1;
+    else if(comparison==2) *result=0;
+}
 unsigned char resolveOverload(unsigned short control,arg_list *args,void *plist,FNOV_LIST **candidates,FNOV_LIST **match)
 {
     FNOV_LIST *last,*next,*current;
@@ -320,9 +424,22 @@ unsigned char resolveOverload(unsigned short control,arg_list *args,void *plist,
     return result;
 }
 int isRank(FNOV_LIST *entry,unsigned char rank)
-{ (void)entry; (void)rank; STUB_TRAP(); return 0; }
+{
+    unsigned count=entry->num_args;
+    FNOV_RANK *current=entry->rankvector;
+    while(count) {
+        if(current->rank>rank) return 0;
+        ++current;
+        --count;
+    }
+    return entry->thisrank.rank<=rank;
+}
+int TypesSameExclude(TYPE left,TYPE right,unsigned control);
 int isReturnIdentical(TYPE left,TYPE right)
-{ (void)left; (void)right; STUB_TRAP(); return 0; }
+{
+    TYPE right_result=FunctionDeclarationType(right)->of;
+    return TypesSameExclude(FunctionDeclarationType(left)->of,right_result,1);
+}
 void setFnovDiagnosticRejectList(FNOV_LIST **list)
 {
     /* Original1994 uses JE-free's inverse here: it calls the free routine
@@ -354,3 +471,121 @@ void BuildUdcList(FNOV_LIST **candidates,SYMBOL sym)
 { processSym(4,candidates,NULL,sym); }
 unsigned char rankUdcCandidates(FNOV_LIST *candidates,TYPE target,unsigned short flags,FNOV_LIST **rejects,FNOV_LIST **match)
 { (void)candidates; (void)target; (void)flags; (void)rejects; (void)match; STUB_TRAP(); return 0; }
+
+SYMBOL findFunctionTemplate(FNOV_LIST *candidates)
+{
+    FNOV_LIST *current;
+    if(candidates) {
+        current=candidates->next;
+        do {
+            if(SymIsFunctionTemplateModel(current->sym)) return current->sym;
+            if(current==candidates) break;
+            current=current->next;
+        } while(1);
+    }
+    return NULL;
+}
+CGIO_LOCATION *extractAGoodLocn(PTREE *nodes)
+{ return nodes ? &(*nodes)->locn : NULL; }
+unsigned char TemplateFunctionGenerate(SYMBOL *sym,arg_list *args,CGIO_LOCATION *locn,int has_match);
+unsigned char genTemplateFunction(arg_list *args,SYMBOL *sym,CGIO_LOCATION *locn,int has_match)
+{
+    SYMBOL result_sym=*sym;
+    unsigned char result=TemplateFunctionGenerate(&result_sym,args,locn,has_match);
+    if(result==0) *sym=result_sym;
+    return result;
+}
+void setRank(FNOV_LIST *match,unsigned char rank)
+{
+    unsigned i;
+    for(i=0;i<match->num_args;++i) match->rankvector[i].rank=rank;
+    match->thisrank.rank=rank;
+}
+/* Actual1994 dispatch, before FNOV_INFO and diagnostic request objects.
+ * Template failure preserves the ordinary overload result unless ambiguous. */
+unsigned char doOverload(unsigned short control,FNOV_LIST **resolved,arg_list *args,
+                         void *nodes,FNOV_LIST *candidates)
+{
+    FNOV_LIST *match=NULL;
+    SYMBOL sym;
+    unsigned char result=2,template_result;
+    *resolved=NULL;
+    if(candidates) {
+        result=resolveOverload(control,args,nodes,&candidates,&match);
+        if(result==0 && isRank(match,2)) goto matched;
+        if((control&0x88)==0x80) {
+            sym=findFunctionTemplate(candidates);
+            template_result=2;
+            if(sym) template_result=genTemplateFunction(args,&sym,
+                                       extractAGoodLocn(nodes),result==0);
+            if(template_result==0) {
+                FnovListFree(&match);
+                addListEntry(0,&match,sym,SymFuncArgList(sym),0);
+                addRankVector(match,control);
+                result=0;
+                setRank(match,2);
+            } else if(template_result==1) {
+                result=1;
+                FnovListFree(&match);
+            }
+        }
+        if(result==0) {
+matched:
+            *resolved=match;
+        }
+    }
+    if(result!=0) setFnovDiagnosticAmbigList(&match);
+    setFnovDiagnosticRejectList(&candidates);
+    return result;
+}
+unsigned char resolveFunctionOverload(unsigned short control,FNOV_LIST **match,
+                                       SYMBOL syms,arg_list *args,void *nodes)
+{
+    FNOV_LIST *candidates=NULL;
+    FnovFreeDiag();
+    if(buildOverloadListFromSym(control,&candidates,args,syms)) control|=0x80;
+    fnovNumCandidatesSet(candidates);
+    return doOverload(control,match,args,nodes,candidates);
+}
+unsigned char FuncOverloaded(SYMBOL *ctor,SYMBOL candidates,arg_list *args,PTREE *nodes)
+{
+    FNOV_LIST *match;
+    unsigned char result;
+    *ctor=NULL;
+    result=resolveFunctionOverload(0,&match,candidates,args,nodes);
+    if(match) {
+        *ctor=match->sym;
+        FnovListFree(&match);
+    }
+    return result;
+}
+
+unsigned char AreFunctionsDistinct(SYMBOL *previous,SYMBOL current,char *name)
+{
+    return doFunctionDistinctCheck(0x49,previous,current,name);
+}
+
+/* Actual1994 operator overload set, before namespaces/region diagnostics. */
+unsigned char OpOverloaded(SYMBOL *resolved,SEARCH_RESULT *member,
+                 SEARCH_RESULT *nonmember,SYMBOL scalars,arg_list *args,PTREE *nodes)
+{
+    FNOV_LIST *candidates=NULL,*match=NULL;
+    unsigned short control=0;
+    int has_template=0;
+    unsigned char result;
+    FnovFreeDiag();
+    *resolved=NULL;
+    if(member) has_template=buildOverloadListFromSym(16,&candidates,args,
+                                                    member->sym_name->name_syms);
+    if(nonmember) has_template|=buildOverloadListFromSym(0,&candidates,args,
+                                                    nonmember->sym_name->name_syms);
+    fnovNumCandidatesSet(candidates);
+    if(scalars) has_template|=buildOverloadListFromSym(256,&candidates,args,scalars);
+    if(has_template) control|=128;
+    result=doOverload(control,&match,args,nodes,candidates);
+    if(match) {
+        *resolved=match->sym;
+        FnovListFree(&match);
+    }
+    return result;
+}

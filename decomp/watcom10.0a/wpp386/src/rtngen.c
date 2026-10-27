@@ -34,6 +34,7 @@
 #include "compiler.h"
 #include "carve.h"
 #include "symbol.h"
+#include "scope.h"
 #include "pending.h"
 #include <recon.h>
 
@@ -73,4 +74,41 @@ void RtnGenAddSymbol(unsigned char index,SYMBOL parm)
 void RtnGenAddType(unsigned char index,TYPE parm)
 {
     if (!findGenRoutine(&useTYPE,index,parm)) addGenRoutine(&useTYPE,index,parm);
+}
+
+/* The encountered 1994 dispatch tables contain two SYMBOL and four TYPE
+ * callbacks, in the order retained by the released rtnglist.h. */
+void ClassDefineRefdDefaults(void);
+void ScopeEmitIndexMappings(void);
+void RtnGenCallBackRunTimeTableThunk(SYMBOL);
+void RtnGenCallBackGenThunk(SYMBOL);
+void RtnGenCallBackArrayDtor(TYPE);
+void RtnGenCallBackCdoptAccCtor(TYPE);
+void RtnGenCallBackCdoptAccDtor(TYPE);
+void RtnGenCallBackCdoptAccOpEq(TYPE);
+static void (*execSYMBOL[])(SYMBOL) = {
+    RtnGenCallBackRunTimeTableThunk, RtnGenCallBackGenThunk
+};
+static void (*execTYPE[])(TYPE) = {
+    RtnGenCallBackArrayDtor, RtnGenCallBackCdoptAccCtor,
+    RtnGenCallBackCdoptAccDtor, RtnGenCallBackCdoptAccOpEq
+};
+void RtnGenerate(void)
+{
+    RTN_GEN *entry;
+    ClassDefineRefdDefaults();
+    ScopeEmitIndexMappings();
+    while (useSYMBOL) {
+        entry=useSYMBOL;
+        useSYMBOL=entry->next;
+        (*execSYMBOL[entry->index])(entry->parm);
+        CarveFree(carveRTN_GEN,entry);
+    }
+    while (useTYPE) {
+        entry=useTYPE;
+        useTYPE=entry->next;
+        (*execTYPE[entry->index])(entry->parm);
+        CarveFree(carveRTN_GEN,entry);
+    }
+    CurrScope=FileScope;
 }

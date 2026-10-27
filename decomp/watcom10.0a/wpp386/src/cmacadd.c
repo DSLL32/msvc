@@ -210,3 +210,7 @@ MEPTR MacroSearch(void)
 {
     return MacroLookup(Buffer);
 }
+
+void RingFree(void **head);
+void MacroStorageFini(void)
+{ RingFree((void **)&macroSegmentList); }

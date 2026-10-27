@@ -204,7 +204,20 @@ int scanName(int expanding)
     Buffer[TokenLen-1]=(char)c;
     return doScanName(c,expanding);
 }
-int scanWide(int expanding) { (void)expanding; STUB_TRAP(); return 0; }
+int doScanString(int string_type);
+int charConst(int char_type)
+{ (void)char_type; STUB_TRAP(); return 0; }
+int scanWide(int expanding)
+{
+    int c;
+    SrcFileCurrentLocation();
+    c=NextChar();
+    ++TokenLen;
+    Buffer[TokenLen-1]=(char)c;
+    if (c=='"') return doScanString(4);
+    if (c=='\'') return charConst(4);
+    return doScanName(c,expanding);
+}
 int scanNum(int expanding)
 {
     int c, first, max_digit, too_big;
@@ -461,7 +474,7 @@ int SrcFileScanWhiteSpace(int expanding)
     return 0x8f;
 }
 int scanInvalid(int expanding) { (void)expanding; STUB_TRAP(); return 0; }
-int scanEof(int expanding) { (void)expanding; STUB_TRAP(); return 0; }
+int scanEof(int expanding) { (void)expanding; return 1; }
 
 int doScanName(int c, int expanding)
 {

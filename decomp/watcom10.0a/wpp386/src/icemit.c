@@ -118,6 +118,64 @@ int handleSpecialLValue(PTREE expr)
 }
 void LabelExprScope(void);
 PTREE PTreeOpRight(PTREE expr);
+void CgSetTypeEmitted(TYPE type);
+TYPE TypePointedAtModified(TYPE type);
+TYPE FunctionDeclarationType(TYPE type);
+unsigned char SpecialFunction(SYMBOL sym);
+void LabelExprSetjmp(void);
+int NodeIsUnaryOp(PTREE expr,unsigned char operation);
+int NodeIsBinaryOp(PTREE expr,unsigned char operation);
+TYPE ReferenceType(TYPE type);
+PTREE NodeRemoveCasts(PTREE expr);
+unsigned long NodeConstantValue(PTREE expr);
+void CgFrontCodeUint(int opcode,unsigned value);
+/* Actual1994 only tests the reference type, and recognizes the direct,
+ * fetched and fixed-offset forms; no later vbase/ARG_THIS extension. */
+void generateCallRefICs(PTREE expr)
+{
+    PTREE arg,right;
+    unsigned index;
+    for(expr=expr->u.subtree[1],index=0;expr;expr=expr->u.subtree[0],++index) {
+        if(!ReferenceType(NodeType(expr))) continue;
+        arg=NodeRemoveCasts(PTreeOpRight(expr));
+        if(arg->op==7) {
+            CgFrontCodePtr(98,getPtreeSymbol(arg));
+        } else if(NodeIsUnaryOp(arg,111)) {
+            arg=NodeRemoveCasts(PTreeOpLeft(arg));
+            CgFrontCodePtr(97,getPtreeSymbol(arg));
+        } else if(NodeIsBinaryOp(arg,48)) {
+            right=PTreeOpRight(arg);
+            arg=NodeRemoveCasts(PTreeOpLeft(arg));
+            if(arg->op==7) {
+                CgFrontCodePtr(98,getPtreeSymbol(arg));
+                CgFrontCodeUint(100,NodeConstantValue(right));
+            } else if(NodeIsUnaryOp(arg,111)) {
+                arg=NodeRemoveCasts(PTreeOpLeft(arg));
+                CgFrontCodePtr(97,getPtreeSymbol(arg));
+                CgFrontCodeUint(100,NodeConstantValue(right));
+            } else continue;
+        } else continue;
+        CgFrontCodeUint(99,index);
+    }
+}
+void *ConPoolFloatAdd(PTREE expr);
+TYPE generate_call_type(PTREE expr)
+{
+    TYPE type=expr->type,pointed=TypePointedAtModified(type),function;
+    if(pointed) type=pointed;
+    function=FunctionDeclarationType(type);
+    if(function->flag&4) CgSetType(function->of);
+    else CgSetTypeExact(function->of);
+    return type;
+}
+void LabelCondTrue(void);
+void LabelCondFalse(void);
+void LabelCondEnd(void);
+TYPE MakeNonInlineFunction(TYPE type);
+void exprCondEnd(PTREE expr)
+{
+    if(expr->flags&0x800) LabelCondEnd();
+}
 PTREE emitNode(PTREE expr)
 {
     switch(expr->op) {
@@ -153,6 +211,9 @@ PTREE emitNode(PTREE expr)
         case 48:
             generate_type_instr(NodeType(expr),expr->cgop,31);
             break;
+        case 23:
+            generate_type_instr(expr->u.subtree[0]->type,expr->cgop,31);
+            break;
         case 120:
             CgFrontCodeInt(78,PTreeOpRight(expr)->u.uint_constant);
             break;
@@ -172,8 +233,35 @@ PTREE emitNode(PTREE expr)
             break;
         /* Named non-default1994 handlers not yet reconstructed. */
         case 14: case 15: case 16: case 17: case 18: case 19:
-        case 20: case 21: case 23: case 24: case 41: case 44:
-        case 95: case 97: case 99: case 100: case 107: case 108: case 119:
+            generate_expr_instr(expr,expr->cgop,32);
+            CgSetTypeEmitted(NodeType(expr));
+            break;
+        case 44:
+            generate_node_type(expr);
+            CgFrontCode(40);
+            break;
+        case 95:
+            generateCallRefICs(expr);
+            generate_node_type(expr);
+            CgFrontCode(42);
+            break;
+        case 97:
+            generate_node_type(expr);
+            CgFrontCode(44);
+            break;
+        case 20: case 21:
+            generate_expr_instr(expr,expr->cgop,31);
+            exprCondEnd(expr);
+            break;
+        case 119:
+            CgFrontCodePtr(45,getPtreeSymbol(expr->u.subtree[1]));
+            break;
+        case 41:
+            generate_type_instr(NodeType(expr),expr->cgop,30);
+            exprCondEnd(expr);
+            break;
+        case 24:
+        case 99: case 100: case 107: case 108:
             STUB_TRAP();
             break;
         default:
@@ -196,10 +284,35 @@ PTREE emitNode(PTREE expr)
         } else if(expr->cgop==94) {
             LabelExprScope();
             CgFrontCode(27);
-        } else if(expr->cgop==93) CgFrontCode(26);
+        } else if(expr->cgop==96) {
+            SYMBOL sym;
+            generate_call_type(expr);
+            sym=getLeftPtreeSymbol(expr);
+            CgFrontCodePtr(41,sym);
+            if(SpecialFunction(sym)==5) LabelExprSetjmp();
+        } else if(expr->cgop==98) {
+            TYPE type=generate_call_type(expr);
+            TYPE pointed=TypePointedAtModified(type);
+            if(pointed) type=pointed;
+            CgFrontCodePtr(43,MakeNonInlineFunction(type));
+        } else if(expr->cgop==10) generate_expr_instr(expr,expr->cgop,32);
+        else if(expr->cgop==117) CgFrontCodePtr(107,expr->type);
+        else if(expr->cgop==93) CgFrontCode(26);
         else if(expr->cgop!=12 && expr->cgop!=49) STUB_TRAP();
         break;
-    case 1: case 4: case 11:
+    case 11:
+        if(expr->u.ic.opcode==66) LabelCondTrue();
+        else if(expr->u.ic.opcode==67) LabelCondFalse();
+        else {
+            generate_type(expr);
+            CgFrontCodePtr(expr->u.ic.opcode,(void *)expr->u.ic.value);
+        }
+        break;
+    case 4:
+        generate_type(expr);
+        CgFrontCodePtr(20,ConPoolFloatAdd(expr));
+        break;
+    case 1:
         STUB_TRAP();
         break;
     default:
@@ -210,10 +323,8 @@ PTREE emitNode(PTREE expr)
 int NodeIsUnaryOp(PTREE expr,unsigned char operation);
 int NodeIsBinaryOp(PTREE expr,unsigned char operation);
 PTREE PTreeOp(PTREE *expr);
-int IsPragmaAborts(SYMBOL sym)
-{ (void)sym; STUB_TRAP(); return 0; }
-int RunTimeIsThrow(SYMBOL sym)
-{ (void)sym; STUB_TRAP(); return 0; }
+int IsPragmaAborts(SYMBOL sym);
+int RunTimeIsThrow(SYMBOL sym);
 void FunctionBodyDeadCode(void);
 int checkDeadCode(PTREE expr)
 {
@@ -257,4 +368,15 @@ PTREE NodeDone(PTREE tree);
 void EmitAnalysedStmt(PTREE tree)
 {
     if (tree) IcEmitExpr(NodeDone(tree));
+}
+
+PTREE NodeDtorExpr(PTREE expr,SYMBOL sym);
+PTREE NodeUnaryCopy(unsigned char operation,PTREE expr);
+/* Old single symbol marker predates the released auto/static split. */
+void IcEmitDtorSym(SYMBOL sym)
+{
+    PTREE expr;
+    expr=NodeDtorExpr(PTreeIntConstant(12345,TYP_SINT),sym);
+    expr=NodeUnaryCopy(93,expr);
+    IcEmitExpr(expr);
 }

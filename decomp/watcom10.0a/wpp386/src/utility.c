@@ -32,9 +32,12 @@
 /* Initial plusplus/c/utility.c at6b9cb443, matched against the actual
  *1994 vector-copy and compiler-owned allocation routines. */
 #include <string.h>
+#include <stdlib.h>
+#include <errno.h>
 #include "compiler.h"
 #include "cmdln-options.h"
 #include "utility.h"
+#include "scanchar.h"
 #include "pending.h"
 #include <recon.h>
 
@@ -97,4 +100,104 @@ char *CStrSave(const char *name)
     return copy;
 }
 
-double SafeAtof(char *text) { (void)text; STUB_TRAP(); return 0; }
+/* Initial utility.c SafeAtof, actual CF5aa33..5aa7d. The period
+ * stdlib.h expands atof(p) to strtod(p,NULL); spell the same public
+ * conversion boundary explicitly in both builds. Old ERANGE is14. */
+double SafeAtof(char *text)
+{
+    double result;
+    errno=0;
+    result=strtod(text,NULL);
+    if (errno) {
+        if (result==0.0 && errno==14) CErr1(173);
+        else CErr1(172);
+    }
+    return result;
+}
+
+/* Literal escape conversion, matched to actual CF5aa97..5ab5e. */
+unsigned char hex_dig(                   // GET HEXADECIMAL DIGIT FOR CHAR (OR 16)
+    unsigned char c )                    // - character
+{
+    char char_class;            // - character class
+
+    char_class = CharSet[ c ];
+    if(( char_class & (C_HX|C_DI) ) == 0 ) {
+        return( 16 );
+    }
+    if( char_class & C_HX ) {
+        /* a-f or A-F */
+        c = (( c | 0x20 ) - 'a' ) + 10 + '0';
+    }
+    return( c - '0' );
+}
+
+
+unsigned char octal_dig(                 // GET OCTAL DIGIT FOR CHAR (OR 8)
+    unsigned char chr )                  // - character
+{
+    char retn;                  // - digit returned
+
+    if( ( chr >= '0' ) && ( chr <= '7' ) ) {
+        retn = chr - '0';
+    } else {
+        retn = 8;
+    }
+    return( retn );
+}
+
+
+unsigned char escape_char(               // GET ESCAPE CHAR FOR A LETTER
+    unsigned char chr )                  // - character after "\"
+{
+    switch( chr ) {
+      case 'a' :
+        chr = 7;
+        break;
+      case 'b' :
+        chr = 8;
+        break;
+      case 'f' :
+        chr = 12;
+        break;
+      case 'n' :
+        chr = 10;
+        break;
+      case 'r' :
+        chr = 13;
+        break;
+      case 't' :
+        chr = 9;
+        break;
+      case 'v' :
+        chr = 11;
+        break;
+      case '\\' :
+      case '\'' :
+      case '\"' :
+      case '?'  :
+        break;
+      default :
+        chr = 0;
+        break;
+    }
+    return( chr );
+}
+
+
+unsigned char classify_escape_char(      // CLASSIFY TYPE OF ESCAPE
+    unsigned char chr )                  // - character after "\"
+{
+    char retn;                  // - classification returned
+
+    if( octal_dig( chr ) != 8 ) {
+        retn = 1;
+    } else if( chr == 'x' ) {
+        retn = 2;
+    } else {
+        retn = escape_char( chr );
+    }
+    return( retn );
+}
+
+

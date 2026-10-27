@@ -4,8 +4,19 @@
 #include "scope.h"
 #include "symbol.h"
 #include "rewrite.h"
+#include "ptree.h"
 #include <recon.h>
 #pragma pack(1)
+struct class_inst {
+    struct class_inst *next;
+    SCOPE scope;
+    CGIO_LOCATION locn;
+    unsigned flags;
+};
+typedef char ClassInstSize[(sizeof(struct class_inst)==24)?1:-1];
+typedef struct template_member TEMPLATE_MEMBER;
+struct template_member { TEMPLATE_MEMBER *next; REWRITE *defn; char **arg_names; };
+typedef char TemplateMemberSize[(sizeof(TEMPLATE_MEMBER)==12)?1:-1];
 typedef struct template_info TEMPLATE_INFO;
 struct template_info {
     TEMPLATE_INFO *next;
@@ -36,4 +47,5 @@ void TemplateDeclFini(void);
 int ProcessTemplateArgs(DECL_INFO *args);
 void TemplateClassDeclaration(char *name);
 int TemplateClassDefinition(char *name);
+DECL_SPEC *TemplateClassInstantiation(PTREE id,PTREE parms,unsigned control);
 #endif

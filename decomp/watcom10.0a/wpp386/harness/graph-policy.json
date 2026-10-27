@@ -143,6 +143,233 @@
             ]
           }
         }
+      },
+      "TypeCommonDerivation": {
+        "original": {
+          "switches": {
+            "112870": [
+              112902,
+              112841,
+              112878,
+              112884,
+              112890,
+              112896
+            ],
+            "112918": [
+              112814,
+              112926,
+              112932,
+              112938,
+              112944,
+              112950
+            ]
+          }
+        }
+      },
+      "addNode": {
+        "original": {
+          "switches": {
+            "132015": [
+              132114,
+              132029,
+              132065,
+              132023,
+              132065
+            ]
+          }
+        }
+      },
+      "scanFunctionBody": {
+        "original": {
+          "switches": {
+            "132720": [
+              133033,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132808,
+              132921,
+              132921,
+              132921,
+              132793,
+              132808,
+              132921,
+              132991,
+              132921,
+              132921,
+              132921,
+              132921,
+              132808,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132818,
+              132728,
+              132867,
+              132985,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              132921,
+              133003,
+              133003,
+              132743,
+              132971,
+              133016,
+              133038,
+              132921
+            ]
+          }
+        }
+      },
+      "FEAuxInfo": {
+        "original": {
+          "switches": {
+            "163487": [
+              163632,
+              163561,
+              164520,
+              163688,
+              163632,
+              163539,
+              164550,
+              164505,
+              163551,
+              164447,
+              163641,
+              164661,
+              164677,
+              164598,
+              164637,
+              164649,
+              163495,
+              164694,
+              163605,
+              163517,
+              163528,
+              164250,
+              163851,
+              163945,
+              163702,
+              164535,
+              163625,
+              164586,
+              163505,
+              163579,
+              163568,
+              164711,
+              164726,
+              164726,
+              163561,
+              164741,
+              164753,
+              164765,
+              164778
+            ],
+            "163713": [
+              163721,
+              163815,
+              163794,
+              163825,
+              163804
+            ],
+            "163859": [
+              163867,
+              163877,
+              163916,
+              163926
+            ],
+            "163956": [
+              163964,
+              164003,
+              164025,
+              164025,
+              164065,
+              164116,
+              164135,
+              164154,
+              164182,
+              164195,
+              164214
+            ],
+            "164262": [
+              164270,
+              164318,
+              163632,
+              164328,
+              164338,
+              164367,
+              164396,
+              164406,
+              164423,
+              164430,
+              164437
+            ]
+          }
+        }
+      },
+      "TypeAddress": {
+        "original": {
+          "switches": {
+            "494420": [
+              494428,
+              494437,
+              494446,
+              494455,
+              494464,
+              494473,
+              494509,
+              494518,
+              494500,
+              494491,
+              494482,
+              494527,
+              494536,
+              494608,
+              494554,
+              494572,
+              494581,
+              494590,
+              494599,
+              494545,
+              494563
+            ]
+          }
+        }
+      },
+      "TypeClass": {
+        "original": {
+          "switches": {
+            "509025": [
+              509037,
+              509033,
+              509045,
+              509041,
+              509053,
+              509049
+            ]
+          }
+        }
       }
     },
     "compatibility_calls": [
@@ -1512,6 +1739,1836 @@
         "start": 107319,
         "bytes_hex": "89d85e595bc3"
       }
+    },
+    {
+      "owners": [
+        "analyseBareSymbol",
+        "analyseClassLeft"
+      ],
+      "original": {
+        "start": 98766,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "analyseBareSymbol",
+        "AnalyseThisDataItem"
+      ],
+      "original": {
+        "start": 98765,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "analyseClassLeft",
+        "AnalyseThisDataItem"
+      ],
+      "original": {
+        "start": 98766,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "warnUnsignedCompare",
+        "warnUnsignedZeroCompare"
+      ],
+      "original": {
+        "start": 113500,
+        "bytes_hex": "5bc3"
+      }
+    },
+    {
+      "owners": [
+        "ctorExplicit",
+        "ctorFindOverload"
+      ],
+      "original": {
+        "start": 95771,
+        "bytes_hex": "88d8c95f5ec20800"
+      }
+    },
+    {
+      "owners": [
+        "ctorExplicit",
+        "EffectCtor"
+      ],
+      "original": {
+        "start": 95773,
+        "bytes_hex": "c95f5ec20800"
+      }
+    },
+    {
+      "owners": [
+        "ctorFindOverload",
+        "EffectCtor"
+      ],
+      "original": {
+        "start": 95773,
+        "bytes_hex": "c95f5ec20800"
+      }
+    },
+    {
+      "owners": [
+        "addListEntry",
+        "resolveFunctionOverload"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "doComputeArgRank",
+        "resolveFunctionOverload"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "resolveOverload",
+        "resolveFunctionOverload"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "resolveOverload",
+        "doOverload"
+      ],
+      "original": {
+        "start": 242165,
+        "bytes_hex": "8a45fcc95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "addListEntry",
+        "doOverload"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "doComputeArgRank",
+        "doOverload"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "resolveFunctionOverload",
+        "doOverload"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "accessDefaultCopy",
+        "genVFPtrInits"
+      ],
+      "original": {
+        "start": 78971,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "emitNode",
+        "generateCallRefICs"
+      ],
+      "original": {
+        "start": 249814,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "PcPtrValidate",
+        "pcPtrConvertSrcTgt"
+      ],
+      "original": {
+        "start": 89083,
+        "bytes_hex": "c95f5ec20800"
+      }
+    },
+    {
+      "owners": [
+        "SrcFileLineLocation",
+        "SrcFileResetTokenLocn"
+      ],
+      "original": {
+        "start": 313898,
+        "bytes_hex": "a30cd50b005ac3"
+      }
+    },
+    {
+      "owners": [
+        "ClassEnd",
+        "ClassAnonymousUnion"
+      ],
+      "original": {
+        "start": 172068,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassAddDefaultCopy",
+        "ClassAnonymousUnion"
+      ],
+      "original": {
+        "start": 172068,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "verifyMemInit",
+        "ClassAnonymousUnion"
+      ],
+      "original": {
+        "start": 172068,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassMember",
+        "grabVBases"
+      ],
+      "original": {
+        "start": 172934,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "verifyCtor",
+        "grabVBases"
+      ],
+      "original": {
+        "start": 172934,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "verifyAllConstRefsInit",
+        "grabVBases"
+      ],
+      "original": {
+        "start": 172934,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassName",
+        "grabVBases"
+      ],
+      "original": {
+        "start": 172934,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassAnonymousUnion",
+        "ClassBaseClause"
+      ],
+      "original": {
+        "start": 172069,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassEnd",
+        "ClassBaseClause"
+      ],
+      "original": {
+        "start": 172069,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassAddDefaultCopy",
+        "ClassBaseClause"
+      ],
+      "original": {
+        "start": 172069,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "verifyMemInit",
+        "ClassBaseClause"
+      ],
+      "original": {
+        "start": 172069,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "walkInheritedDirectBases",
+        "ScopeCarefulInsert"
+      ],
+      "original": {
+        "start": 293965,
+        "bytes_hex": "c95f5e59c3"
+      }
+    },
+    {
+      "owners": [
+        "walkInheritedDirectBases",
+        "walkDirectBases"
+      ],
+      "original": {
+        "start": 293965,
+        "bytes_hex": "c95f5e59c3"
+      }
+    },
+    {
+      "owners": [
+        "injectGlobalOpNew",
+        "applyDominance"
+      ],
+      "original": {
+        "start": 297965,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "setAccess",
+        "applyDominance"
+      ],
+      "original": {
+        "start": 297965,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "selectVirtualOverrides",
+        "injectGlobalOpNew"
+      ],
+      "original": {
+        "start": 297965,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "selectVirtualOverrides",
+        "setAccess"
+      ],
+      "original": {
+        "start": 297965,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "verifyBaseClassInit",
+        "verifyMemberInit"
+      ],
+      "original": {
+        "start": 180013,
+        "bytes_hex": "5bc3"
+      }
+    },
+    {
+      "owners": [
+        "getDefedCtor",
+        "CDoptIterNextComp"
+      ],
+      "original": {
+        "start": 127736,
+        "bytes_hex": "c95e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "genVBPtrInits",
+        "ctorPrologueComponents"
+      ],
+      "original": {
+        "start": 78419,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "genVBPtrInits",
+        "genCtorDispInit"
+      ],
+      "original": {
+        "start": 78419,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "collectVBTable",
+        "setProtectedAccess"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "collectVBTable",
+        "collectVFTable"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "collectVBTable",
+        "analyseVFN"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "analyseCtorClass",
+        "AnalyseTypeCtor"
+      ],
+      "original": {
+        "start": 95610,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "ctorExplicitList",
+        "AnalyseTypeCtor"
+      ],
+      "original": {
+        "start": 95610,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "ctorExplicitList",
+        "analyseCtorClass"
+      ],
+      "original": {
+        "start": 95610,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "ctorFindConversion",
+        "AnalyseTypeCtor"
+      ],
+      "original": {
+        "start": 95610,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "ctorFindConversion",
+        "analyseCtorClass"
+      ],
+      "original": {
+        "start": 95610,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "compareFunction",
+        "findUdcMatch"
+      ],
+      "original": {
+        "start": 238125,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "MakeVFTableSym",
+        "TypeHasVirtualBases"
+      ],
+      "original": {
+        "start": 360444,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "nonTrivialReturnConversions",
+        "setProtectedAccess"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "nonTrivialReturnConversions",
+        "memberSearch"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "nonTrivialReturnConversions",
+        "collectVFTable"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "nonTrivialReturnConversions",
+        "analyseVFN"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "nonTrivialReturnConversions",
+        "collectVBTable"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "VstkNext",
+        "VstkIndex"
+      ],
+      "original": {
+        "start": 373252,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "applyReturnThunk",
+        "EmitVfunThunk"
+      ],
+      "original": {
+        "start": 340260,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseReturnStmt",
+        "FunctionBody"
+      ],
+      "original": {
+        "start": 225400,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseReturnStmt",
+        "endOfStmt"
+      ],
+      "original": {
+        "start": 225400,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "nodeSimplifyComma",
+        "NodePruneTop"
+      ],
+      "original": {
+        "start": 104660,
+        "bytes_hex": "89d85e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "nodeRvalueArray",
+        "NodePruneTop"
+      ],
+      "original": {
+        "start": 104660,
+        "bytes_hex": "89d85e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "NodeStripPoints",
+        "NodePruneTop"
+      ],
+      "original": {
+        "start": 104660,
+        "bytes_hex": "89d85e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "dupPromote",
+        "dupProc"
+      ],
+      "original": {
+        "start": 205588,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "applyFnClassMods",
+        "checkOperator"
+      ],
+      "original": {
+        "start": 349512,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "checkDestructor",
+        "checkOperator"
+      ],
+      "original": {
+        "start": 349512,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ClassAnonymousUnion",
+        "ClassAddDefaultAssign"
+      ],
+      "original": {
+        "start": 172068,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassEnd",
+        "ClassAddDefaultAssign"
+      ],
+      "original": {
+        "start": 172068,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassAddDefaultCopy",
+        "ClassAddDefaultAssign"
+      ],
+      "original": {
+        "start": 172068,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "verifyMemInit",
+        "ClassAddDefaultAssign"
+      ],
+      "original": {
+        "start": 172068,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassBaseClause",
+        "ClassAddDefaultAssign"
+      ],
+      "original": {
+        "start": 172069,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "TypedefModifierRemove",
+        "TypeNeedsCtor"
+      ],
+      "original": {
+        "start": 345950,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "TypeDefined",
+        "TypeNeedsCtor"
+      ],
+      "original": {
+        "start": 345950,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "TypeAbstract",
+        "TypeNeedsCtor"
+      ],
+      "original": {
+        "start": 345950,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "AlignmentType",
+        "TypeNeedsCtor"
+      ],
+      "original": {
+        "start": 345950,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "dtorableObjectBeg",
+        "dataInitStashExpr"
+      ],
+      "original": {
+        "start": 193877,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "dataInitPadOut",
+        "dataInitFlushQueue"
+      ],
+      "original": {
+        "start": 196819,
+        "bytes_hex": "5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "figureOutNewType",
+        "AnalyseNew"
+      ],
+      "original": {
+        "start": 100960,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "setProtectedAccess",
+        "checkAmbiguousOverride"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "collectVFTable",
+        "checkAmbiguousOverride"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "analyseVFN",
+        "checkAmbiguousOverride"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "collectVBTable",
+        "checkAmbiguousOverride"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "nonTrivialReturnConversions",
+        "checkAmbiguousOverride"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "memberSearch",
+        "checkAmbiguousOverride"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FunctionBody",
+        "parseForStmt"
+      ],
+      "original": {
+        "start": 225399,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "endOfStmt",
+        "parseForStmt"
+      ],
+      "original": {
+        "start": 225399,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseReturnStmt",
+        "parseForStmt"
+      ],
+      "original": {
+        "start": 225400,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "labelFindBlk",
+        "LabelDefine"
+      ],
+      "original": {
+        "start": 255992,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "LabelBlockClose",
+        "LabelDefine"
+      ],
+      "original": {
+        "start": 255993,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "addListEntry",
+        "fnovScopeDerived"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "resolveOverload",
+        "fnovScopeDerived"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "resolveFunctionOverload",
+        "fnovScopeDerived"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "doOverload",
+        "fnovScopeDerived"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "doComputeArgRank",
+        "fnovScopeDerived"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "ScopeCarefulInsert",
+        "walkNonVirtualBases"
+      ],
+      "original": {
+        "start": 293965,
+        "bytes_hex": "c95f5e59c3"
+      }
+    },
+    {
+      "owners": [
+        "walkInheritedDirectBases",
+        "walkNonVirtualBases"
+      ],
+      "original": {
+        "start": 293965,
+        "bytes_hex": "c95f5e59c3"
+      }
+    },
+    {
+      "owners": [
+        "walkDirectBases",
+        "walkNonVirtualBases"
+      ],
+      "original": {
+        "start": 293965,
+        "bytes_hex": "c95f5e59c3"
+      }
+    },
+    {
+      "owners": [
+        "setProtectedAccess",
+        "prepareVisitOnce"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "memberSearch",
+        "prepareVisitOnce"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "collectVFTable",
+        "prepareVisitOnce"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "checkAmbiguousOverride",
+        "prepareVisitOnce"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "analyseVFN",
+        "prepareVisitOnce"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "collectVBTable",
+        "prepareVisitOnce"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "nonTrivialReturnConversions",
+        "prepareVisitOnce"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "prepareVisitBase",
+        "derivedBase"
+      ],
+      "original": {
+        "start": 295254,
+        "bytes_hex": "30c0595bc3"
+      }
+    },
+    {
+      "owners": [
+        "injectGlobalOpNew",
+        "differentCopiesAmbiguity"
+      ],
+      "original": {
+        "start": 297965,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "setAccess",
+        "differentCopiesAmbiguity"
+      ],
+      "original": {
+        "start": 297965,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "applyDominance",
+        "differentCopiesAmbiguity"
+      ],
+      "original": {
+        "start": 297965,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "selectVirtualOverrides",
+        "differentCopiesAmbiguity"
+      ],
+      "original": {
+        "start": 297965,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "check_common",
+        "propogateNonZero"
+      ],
+      "original": {
+        "start": 111246,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "CDoptChkAccFun",
+        "CDoptIterNextElement"
+      ],
+      "original": {
+        "start": 127425,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseBracketExpr",
+        "checkDeclLocation"
+      ],
+      "original": {
+        "start": 223868,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ExceptionsEnabled",
+        "ExceptionsCheck"
+      ],
+      "original": {
+        "start": 216973,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsEnumeration",
+        "SymIsClassTemplateModel"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsFunctionTemplateModel",
+        "SymIsClassTemplateModel"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsStatic",
+        "SymIsClassTemplateModel"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsTypedef",
+        "SymIsClassTemplateModel"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "buildFunctionDefn",
+        "processClassTemplateParms"
+      ],
+      "original": {
+        "start": 331425,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsClassTemplateModel",
+        "SymIsError"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "processClassTemplateParms",
+        "sameParms"
+      ],
+      "original": {
+        "start": 331425,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "adjustFullFunctionType",
+        "pushPrototypeAndArguments"
+      ],
+      "original": {
+        "start": 348721,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "typeDuplicated",
+        "performBinding"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "PTypeDone",
+        "performBinding"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FinishDeclarator",
+        "performBinding"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "dupFunction",
+        "performBinding"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "InsertDeclInfo",
+        "performBinding"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "verifySpecialFunction",
+        "performBinding"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "declareDefaultArgs",
+        "performBinding"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "markAllUnused",
+        "performBinding"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseTryBlock",
+        "FunctionBody"
+      ],
+      "original": {
+        "start": 225399,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseTryBlock",
+        "parseForStmt"
+      ],
+      "original": {
+        "start": 225399,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseTryBlock",
+        "endOfStmt"
+      ],
+      "original": {
+        "start": 225399,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseTryBlock",
+        "parseReturnStmt"
+      ],
+      "original": {
+        "start": 225400,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseCatchHandler",
+        "FunctionBody"
+      ],
+      "original": {
+        "start": 225399,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseCatchHandler",
+        "parseForStmt"
+      ],
+      "original": {
+        "start": 225399,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseCatchHandler",
+        "endOfStmt"
+      ],
+      "original": {
+        "start": 225399,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseCatchHandler",
+        "parseReturnStmt"
+      ],
+      "original": {
+        "start": 225400,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "parseCatchHandler",
+        "parseTryBlock"
+      ],
+      "original": {
+        "start": 225399,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "analyseClQual",
+        "analyseBareSymbol"
+      ],
+      "original": {
+        "start": 98763,
+        "bytes_hex": "89d0c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "analyseClQual",
+        "analyseClassLeft"
+      ],
+      "original": {
+        "start": 98766,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "analyseClQual",
+        "AnalyseThisDataItem"
+      ],
+      "original": {
+        "start": 98765,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "LinkageMergePop",
+        "LinkageReset"
+      ],
+      "original": {
+        "start": 259882,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "TemplateProcessInstantiations",
+        "injectGenericTypes"
+      ],
+      "original": {
+        "start": 330666,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "TemplateProcessInstantiations",
+        "newTemplateInfo"
+      ],
+      "original": {
+        "start": 330667,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "processFunctionTemplateDefns",
+        "injectGenericTypes"
+      ],
+      "original": {
+        "start": 330667,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "processFunctionTemplateDefns",
+        "newTemplateInfo"
+      ],
+      "original": {
+        "start": 330667,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "TemplateProcessInstantiations",
+        "processFunctionTemplateDefns"
+      ],
+      "original": {
+        "start": 330667,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "processSymDefn",
+        "processClassTemplateParms"
+      ],
+      "original": {
+        "start": 331425,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BindFunction",
+        "typeDuplicated"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BindFunction",
+        "performBinding"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BindFunction",
+        "PTypeDone"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BindFunction",
+        "FinishDeclarator"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BindFunction",
+        "dupFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BindFunction",
+        "InsertDeclInfo"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BindFunction",
+        "verifySpecialFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BindFunction",
+        "declareDefaultArgs"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BindFunction",
+        "markAllUnused"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "injectFunctionTemplateArgs",
+        "processFunctionTemplateDefns"
+      ],
+      "original": {
+        "start": 330667,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "injectFunctionTemplateArgs",
+        "TemplateProcessInstantiations"
+      ],
+      "original": {
+        "start": 330667,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "injectFunctionTemplateArgs",
+        "injectGenericTypes"
+      ],
+      "original": {
+        "start": 330667,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "injectFunctionTemplateArgs",
+        "newTemplateInfo"
+      ],
+      "original": {
+        "start": 330667,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "processNewFileSyms",
+        "processClassTemplateParms"
+      ],
+      "original": {
+        "start": 331425,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "processNewFileSyms",
+        "sameParms"
+      ],
+      "original": {
+        "start": 331425,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "processNewFileSyms",
+        "buildFunctionDefn"
+      ],
+      "original": {
+        "start": 331425,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "processNewFileSyms",
+        "processSymDefn"
+      ],
+      "original": {
+        "start": 331425,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassDefineRefdDefaults",
+        "defineInlineFuncsAndDefArgExprs"
+      ],
+      "original": {
+        "start": 173465,
+        "bytes_hex": "c95e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ScopeFuncParm",
+        "makeResult"
+      ],
+      "original": {
+        "start": 300691,
+        "bytes_hex": "5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "symIsFuncSym",
+        "SymIsAnonymousMember"
+      ],
+      "original": {
+        "start": 319378,
+        "bytes_hex": "0f95c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "ScopeEmitIndexMappings",
+        "ScopePureVirtualThunk"
+      ],
+      "original": {
+        "start": 303279,
+        "bytes_hex": "5ac3"
+      }
+    },
+    {
+      "owners": [
+        "RtnGenCallBackGenThunk",
+        "thunkArgList"
+      ],
+      "original": {
+        "start": 339659,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsError",
+        "SymIsDefArg"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsFunctionTemplateModel",
+        "SymIsDefArg"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsClassTemplateModel",
+        "SymIsDefArg"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsTypedef",
+        "SymIsDefArg"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsStatic",
+        "SymIsDefArg"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsEnumeration",
+        "SymIsDefArg"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "ExitPointReleaseRtn",
+        "InitFiniStub"
+      ],
+      "original": {
+        "start": 252684,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "descrRingFree",
+        "CDoptChkAccFun"
+      ],
+      "original": {
+        "start": 127425,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "RingCarveFree",
+        "RingAlloc"
+      ],
+      "original": {
+        "start": 289987,
+        "bytes_hex": "595bc3"
+      }
+    },
+    {
+      "owners": [
+        "descrRingFree",
+        "CDoptIterNextElement"
+      ],
+      "original": {
+        "start": 127425,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "cgrfInitEdge",
+        "cgrfPruneNode"
+      ],
+      "original": {
+        "start": 125945,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "cgrfDupEdge",
+        "cgrfPruneNode"
+      ],
+      "original": {
+        "start": 125945,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "CgrfInit",
+        "CgrfPruneFunction"
+      ],
+      "original": {
+        "start": 125983,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "pruneEdge",
+        "destroyNode"
+      ],
+      "original": {
+        "start": 204256,
+        "bytes_hex": "31c05e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "MemFree",
+        "MemCoalesce"
+      ],
+      "original": {
+        "start": 531758,
+        "bytes_hex": "c3"
+      }
     }
   ],
   "shared_call_return_tails": [
@@ -1892,6 +3949,412 @@
         "offset": 0,
         "target": "CarveFree"
       }
+    },
+    {
+      "owners": [
+        "MakeTypedefOf",
+        "MakeBasedModifierOf"
+      ],
+      "original": {
+        "start": 342924,
+        "bytes_hex": "e8f9fcffff59c3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "MakeTypeOf"
+      }
+    },
+    {
+      "owners": [
+        "CgFrontCodeUint",
+        "CgFrontCodeInt"
+      ],
+      "original": {
+        "start": 159250,
+        "bytes_hex": "89d8e8de0200005bc3"
+      },
+      "call": {
+        "offset": 2,
+        "target": "CgFrontCode"
+      }
+    },
+    {
+      "owners": [
+        "CgFrontCodeUint",
+        "CgFrontCodePtr"
+      ],
+      "original": {
+        "start": 159250,
+        "bytes_hex": "89d8e8de0200005bc3"
+      },
+      "call": {
+        "offset": 2,
+        "target": "CgFrontCode"
+      }
+    },
+    {
+      "owners": [
+        "SymIsDtor",
+        "SymIsOpDel"
+      ],
+      "original": {
+        "start": 321003,
+        "bytes_hex": "89c289d8e888ffffff5a5bc3"
+      },
+      "call": {
+        "offset": 4,
+        "target": "symHasFuncName"
+      }
+    },
+    {
+      "owners": [
+        "SymIsDtor",
+        "SymIsOpDelar"
+      ],
+      "original": {
+        "start": 321003,
+        "bytes_hex": "89c289d8e888ffffff5a5bc3"
+      },
+      "call": {
+        "offset": 4,
+        "target": "symHasFuncName"
+      }
+    },
+    {
+      "owners": [
+        "NodeArgument",
+        "NodeUnaryCopy"
+      ],
+      "original": {
+        "start": 104387,
+        "bytes_hex": "89c38b4104894304668b410289ca6689430289d8e8c5c0020089d8595bc3"
+      },
+      "call": {
+        "offset": 20,
+        "target": "PTreeCopySrcLocation"
+      }
+    },
+    {
+      "owners": [
+        "MakePureFunction",
+        "MakeInlineFunction"
+      ],
+      "original": {
+        "start": 348774,
+        "bytes_hex": "31dbe8caffffff5a5bc3"
+      },
+      "call": {
+        "offset": 2,
+        "target": "adjustFunctionType"
+      }
+    },
+    {
+      "owners": [
+        "MakePureFunction",
+        "MakePlusPlusFunction"
+      ],
+      "original": {
+        "start": 348774,
+        "bytes_hex": "31dbe8caffffff5a5bc3"
+      },
+      "call": {
+        "offset": 2,
+        "target": "adjustFunctionType"
+      }
+    },
+    {
+      "owners": [
+        "MakePureFunction",
+        "functionReturnsPtrVoid"
+      ],
+      "original": {
+        "start": 348776,
+        "bytes_hex": "e8caffffff5a5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "adjustFunctionType"
+      }
+    },
+    {
+      "owners": [
+        "selectVirtualOverrides",
+        "applyDominance"
+      ],
+      "original": {
+        "start": 297958,
+        "bytes_hex": "89f0e887feffffc95f5e5a595bc3"
+      },
+      "call": {
+        "offset": 2,
+        "target": "removeDead"
+      }
+    },
+    {
+      "owners": [
+        "isReturnIdentical",
+        "functionsAreIdentical"
+      ],
+      "original": {
+        "start": 238256,
+        "bytes_hex": "e8290002005bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "TypesSameExclude"
+      }
+    },
+    {
+      "owners": [
+        "MakeVirtualFunction",
+        "MakeInlineFunction"
+      ],
+      "original": {
+        "start": 348774,
+        "bytes_hex": "31dbe8caffffff5a5bc3"
+      },
+      "call": {
+        "offset": 2,
+        "target": "adjustFunctionType"
+      }
+    },
+    {
+      "owners": [
+        "MakeVirtualFunction",
+        "MakePlusPlusFunction"
+      ],
+      "original": {
+        "start": 348774,
+        "bytes_hex": "31dbe8caffffff5a5bc3"
+      },
+      "call": {
+        "offset": 2,
+        "target": "adjustFunctionType"
+      }
+    },
+    {
+      "owners": [
+        "MakeVirtualFunction",
+        "MakePureFunction"
+      ],
+      "original": {
+        "start": 348774,
+        "bytes_hex": "31dbe8caffffff5a5bc3"
+      },
+      "call": {
+        "offset": 2,
+        "target": "adjustFunctionType"
+      }
+    },
+    {
+      "owners": [
+        "MakeVirtualFunction",
+        "functionReturnsPtrVoid"
+      ],
+      "original": {
+        "start": 348776,
+        "bytes_hex": "e8caffffff5a5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "adjustFunctionType"
+      }
+    },
+    {
+      "owners": [
+        "pushVbase",
+        "pushDbase"
+      ],
+      "original": {
+        "start": 129298,
+        "bytes_hex": "e8d2ffffff5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "cdoptPushBase"
+      }
+    },
+    {
+      "owners": [
+        "CppVBTableName",
+        "CppVFTableName"
+      ],
+      "original": {
+        "start": 234166,
+        "bytes_hex": "e8ceffffff5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "tableName"
+      }
+    },
+    {
+      "owners": [
+        "AreFunctionsDistinct",
+        "IsOverloadedFuncDistinct"
+      ],
+      "original": {
+        "start": 243405,
+        "bytes_hex": "89ca89fb89f1e8d5feffff5f5e59c3"
+      },
+      "call": {
+        "offset": 6,
+        "target": "doFunctionDistinctCheck"
+      }
+    },
+    {
+      "owners": [
+        "MakeThunkPragmaFunction",
+        "MakeThunkFunction"
+      ],
+      "original": {
+        "start": 348583,
+        "bytes_hex": "e892ffffff5a5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "makeThunkType"
+      }
+    },
+    {
+      "owners": [
+        "CppDefaultArgName",
+        "CppThunkName"
+      ],
+      "original": {
+        "start": 234387,
+        "bytes_hex": "e8b2feffff595bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "retMangling"
+      }
+    },
+    {
+      "owners": [
+        "SymIsCtor",
+        "SymIsDtor"
+      ],
+      "original": {
+        "start": 321003,
+        "bytes_hex": "89c289d8e888ffffff5a5bc3"
+      },
+      "call": {
+        "offset": 4,
+        "target": "symHasFuncName"
+      }
+    },
+    {
+      "owners": [
+        "SymIsCtor",
+        "SymIsOpDel"
+      ],
+      "original": {
+        "start": 321003,
+        "bytes_hex": "89c289d8e888ffffff5a5bc3"
+      },
+      "call": {
+        "offset": 4,
+        "target": "symHasFuncName"
+      }
+    },
+    {
+      "owners": [
+        "SymIsCtor",
+        "SymIsOpDelar"
+      ],
+      "original": {
+        "start": 321003,
+        "bytes_hex": "89c289d8e888ffffff5a5bc3"
+      },
+      "call": {
+        "offset": 4,
+        "target": "symHasFuncName"
+      }
+    },
+    {
+      "owners": [
+        "findBestAccess",
+        "applySameVTable"
+      ],
+      "original": {
+        "start": 298671,
+        "bytes_hex": "e8c0fbffff5e5a595bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "removeDead"
+      }
+    },
+    {
+      "owners": [
+        "makeThrowCnv",
+        "makeThrowCnvNoAcc"
+      ],
+      "original": {
+        "start": 216242,
+        "bytes_hex": "e8adffffff59c3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "makeThrowCnvAccess"
+      }
+    },
+    {
+      "owners": [
+        "PTreeLiteral",
+        "PTreeLiteralWide"
+      ],
+      "original": {
+        "start": 281750,
+        "bytes_hex": "e8c5ffffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "strLiteral"
+      }
+    },
+    {
+      "owners": [
+        "newClassInstStack",
+        "newExceptionStack"
+      ],
+      "original": {
+        "start": 405887,
+        "bytes_hex": "e8790d00005a5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "doAction"
+      }
+    },
+    {
+      "owners": [
+        "MakeCommonCodeData",
+        "MakeForceInMemory"
+      ],
+      "original": {
+        "start": 342308,
+        "bytes_hex": "e87f0000005ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "MakeModifiedType"
+      }
+    },
+    {
+      "owners": [
+        "NodePruneLeft",
+        "NodePruneRight"
+      ],
+      "original": {
+        "start": 104714,
+        "bytes_hex": "e8ccffffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "pruneSubtree"
+      }
     }
   ],
   "shared_terminal_regions": [
@@ -2054,6 +4517,485 @@
           }
         ]
       }
+    },
+    {
+      "owners": [
+        "ScopeFindScopedMember",
+        "ScopeFindScopedNaked"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 304566,
+            "bytes_hex": "8d45cce869f0ffffc95e59c3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 304569,
+            "target": "makeResult"
+          }
+        ],
+        "branches": []
+      }
+    },
+    {
+      "owners": [
+        "SymIsOpDel",
+        "SymIsOpDelar"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 320949,
+            "bytes_hex": "e8f7abfeffeb2f"
+          },
+          {
+            "start": 321003,
+            "bytes_hex": "89c289d8e888ffffff5a5bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 320954,
+            "target": 321003
+          }
+        ],
+        "calls": [
+          {
+            "site": 320949,
+            "target": "CppOperatorName"
+          },
+          {
+            "site": 321007,
+            "target": "symHasFuncName"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "classCanBeCtorOpt",
+        "classCanBeDtorOpt"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 128274,
+            "bytes_hex": "31c0eb39"
+          },
+          {
+            "start": 128328,
+            "bytes_hex": "75c8b80100000085c00f95c00fb6c0c3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 128276,
+            "target": 128335
+          },
+          {
+            "site": 128328,
+            "target": 128274
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "emitOffset",
+        "emitVFNPointer"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 82684,
+            "bytes_hex": "e88cd9010089c8e80a0903005a595bc3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 82684,
+            "target": "DgStoreScalar"
+          },
+          {
+            "site": 82691,
+            "target": "PTreeFreeSubtrees"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "collectVBTable",
+        "memberSearch"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 297489,
+            "bytes_hex": "30c0e929190000"
+          },
+          {
+            "start": 303937,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 297491,
+            "target": 303937
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ctorExplicitList",
+        "ctorFindConversion"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 95608,
+            "bytes_hex": "88d8c95f5ec20400"
+          }
+        ],
+        "branches": []
+      }
+    },
+    {
+      "owners": [
+        "addBaseDelta",
+        "ScopeBestConversion"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 304347,
+            "bytes_hex": "8d45cce8bee5ffff89c8c95e59c3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 304350,
+            "target": "delLookupData"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "PTypeForceLinkagePush",
+        "PTypeLinkage"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 347834,
+            "bytes_hex": "8b1560d60b0089500c5ac3"
+          }
+        ],
+        "branches": []
+      }
+    },
+    {
+      "owners": [
+        "buildFunctionDefn",
+        "sameParms"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 331425,
+            "bytes_hex": "c95f5e595bc3"
+          },
+          {
+            "start": 332166,
+            "bytes_hex": "31c0e914fdffff"
+          }
+        ],
+        "branches": [
+          {
+            "site": 332168,
+            "target": 331425
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "NodeDtorInitExpr",
+        "pruneSubtree"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 104704,
+            "bytes_hex": "89c85e595bc3"
+          }
+        ],
+        "branches": []
+      }
+    },
+    {
+      "owners": [
+        "NodeDtorExpr",
+        "NodeAddSideEffect"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 108375,
+            "bytes_hex": "89c8c95f5e595bc3"
+          }
+        ],
+        "branches": []
+      }
+    },
+    {
+      "owners": [
+        "OverloadOperator",
+        "ConvertBoolean"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 274369,
+            "bytes_hex": "89c8c95e5a595bc3"
+          }
+        ],
+        "branches": []
+      }
+    },
+    {
+      "owners": [
+        "NodeSymbol",
+        "NodeSymbolCallee"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 105286,
+            "bytes_hex": "89d0e8d74c030089c289c8e8b7ffffff59c3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 105288,
+            "target": "SymMarkRefed"
+          },
+          {
+            "site": 105297,
+            "target": "NodeSymbolNoRef"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "SymCreateFileScope",
+        "SymCreateCurrScope"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 321682,
+            "bytes_hex": "0fb6d2e8b0ffffffc3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 321685,
+            "target": "SymCreate"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "processSymDefn",
+        "buildFunctionDefn"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 331425,
+            "bytes_hex": "c95f5e595bc3"
+          },
+          {
+            "start": 332166,
+            "bytes_hex": "31c0e914fdffff"
+          }
+        ],
+        "branches": [
+          {
+            "site": 332168,
+            "target": 331425
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "processSymDefn",
+        "sameParms"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 331425,
+            "bytes_hex": "c95f5e595bc3"
+          },
+          {
+            "start": 332166,
+            "bytes_hex": "31c0e914fdffff"
+          }
+        ],
+        "branches": [
+          {
+            "site": 332168,
+            "target": 331425
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "LabelCondFalse",
+        "LabelBlockOpen"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 257417,
+            "bytes_hex": "a566a5c95f5e5ac3"
+          }
+        ],
+        "branches": []
+      }
+    },
+    {
+      "owners": [
+        "classTemplateType",
+        "checkAlreadyDone"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 333833,
+            "bytes_hex": "e8cd5fffff8b4008c3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 333833,
+            "target": "ScopeOrderedFirst"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "GenerateDefaultCopy",
+        "GenerateDefaultCtor"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 80184,
+            "bytes_hex": "e8fcf2ffff8d55b08d5dfc89f0e866f3ffffc95e5a595bc3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 80184,
+            "target": "initClassFunction"
+          },
+          {
+            "site": 80197,
+            "target": "finiClassFunction"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "CgioBuffWriteIC",
+        "CgioBuffReadIC"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 167806,
+            "bytes_hex": "89c85f5e59c3"
+          }
+        ],
+        "branches": []
+      }
+    },
+    {
+      "owners": [
+        "CgioBuffLastWrite",
+        "CgioBuffLastRead"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 168022,
+            "bytes_hex": "a566a58d75f889c7a566a5c95fc3"
+          }
+        ],
+        "branches": []
+      }
+    },
+    {
+      "owners": [
+        "cgrfInitEdge",
+        "cgrfDupEdge"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 125937,
+            "bytes_hex": "e8daffffff89d85bc3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 125937,
+            "target": "changeCtlCounts"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "changeCtlCounts",
+        "cgrfPruneEdge"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 125913,
+            "bytes_hex": "e8e2ffffff5bc3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 125913,
+            "target": "changeNodeReference"
+          }
+        ]
+      }
     }
   ],
   "function_properties": {
@@ -2073,6 +5015,15 @@
       "pending_extent": false
     },
     "CErr1": {
+      "pending_extent": false
+    },
+    "CErr2p": {
+      "pending_extent": false
+    },
+    "LabelCondEnd": {
+      "pending_extent": false
+    },
+    "InitFrl": {
       "pending_extent": false
     }
   },

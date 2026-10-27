@@ -39,7 +39,7 @@
 #include <recon.h>
 TYPE StructType(TYPE type);
 TYPE TypedefModifierRemoveOnly(TYPE type);
-int ClassCanPassByValue(TYPE type) { (void)type; STUB_TRAP(); return 0; }
+int ClassCanPassByValue(TYPE type);
 unsigned char ObjModelFunctionReturn(TYPE type)
 {
     TYPE result;

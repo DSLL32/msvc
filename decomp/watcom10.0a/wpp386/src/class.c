@@ -269,8 +269,41 @@ void ClassPop(CLASS_DATA *data)
     classData=data->next;
 }
 
+SYMBOL SymMakeDummy(TYPE type,char **name);
+void DgSymbol(SYMBOL sym);
+void promoteMembers(TYPE type,SYMBOL sym)
+{ (void)type; (void)sym; STUB_TRAP(); }
 int ClassAnonymousUnion(DECL_SPEC *spec)
-{ (void)spec; STUB_TRAP(); return 0; }
+{
+    TYPE type=StructType(spec->partial);
+    struct class_info *info;
+    SYMBOL sym;
+    char *name;
+    unsigned char storage;
+    int emit_init=0;
+    if(!type) return 0;
+    info=type->u.c.info;
+    if(info->name) return 0;
+    if(!(type->flag&1)) {
+        if(!ScopeType(CurrScope,1)) { CErr1(308); return 0; }
+    } else info->anonymous=1;
+    storage=spec->stg_class;
+    sym=SymMakeDummy(type,&name);
+    SymbolLocnDefine(NULL,sym);
+    if(ScopeType(CurrScope,0)) {
+        if(storage!=0x10) CErr1(309);
+        sym->id=2;
+        emit_init=1;
+    } else if(ScopeType(CurrScope,3)) {
+        if(storage&~0x14) CErr1(321);
+        else if(storage&0x10) { sym->id=2; emit_init=1; }
+    } else if(spec->stg_class) CErr1(310);
+    /* The old body has no later unconditional SF_REFERENCED store. */
+    sym=InsertSymbol(CurrScope,sym,name);
+    if(emit_init) DgSymbol(sym);
+    promoteMembers(type,sym);
+    return 1;
+}
 
 TYPE ClassUnboundTemplate(char *name)
 {
@@ -639,8 +672,28 @@ void ClassAddFunctionMods(TYPE type)
 }
 
 void ClassPermission(unsigned perm) { classData->perm=perm; }
+TYPE MakeReferenceTo(TYPE type);
+TYPE __cdecl MakeModifiableFunction(TYPE result,...);
+SYMBOL SymCreateAtLocn(TYPE type,unsigned char id,unsigned flags,char *name,
+    SCOPE scope,CGIO_LOCATION *location);
+TYPE addClassFnMods(SCOPE scope,TYPE type);
+SYMBOL insertDefaultFunc(SCOPE scope,TYPE type,char *name);
+char *CppConstructorName(void);
 SYMBOL ClassAddDefaultCtor(SCOPE scope)
-{ (void)scope; STUB_TRAP(); return NULL; }
+{
+    TYPE class_type=ScopeClass(scope),fn_type;
+    SYMBOL sym;
+    struct class_info *info;
+    fn_type=MakeModifiableFunction(MakeReferenceTo(class_type),(TYPE)NULL);
+    if ((int)OptSize<=50) fn_type->flag|=8;
+    fn_type=addClassFnMods(scope,fn_type);
+    fn_type=CheckDupType(fn_type);
+    sym=insertDefaultFunc(scope,fn_type,CppConstructorName());
+    info=class_type->u.c.info;
+    info->ctor_defined=1;
+    info->ctor_user_code=0;
+    return sym;
+}
 char *CppConstructorName(void);
 TYPE MakeConstTypeOf(TYPE type);
 TYPE MakeReferenceTo(TYPE type);
@@ -676,9 +729,17 @@ int ClassIsDefaultCopy(SYMBOL sym,TYPE type)
     return isDefaultCopy(sym,type,&arg_info);
 }
 TYPE addClassFnMods(SCOPE scope,TYPE type)
-{ (void)scope; (void)type; STUB_TRAP(); return NULL; }
+{
+    if (!type->u.f.pragma && classData &&
+        (classData->flags&CD_MEMBER_MOD_ADJUST) && classData->scope==scope)
+        ClassAddFunctionMods(type);
+    return type;
+}
+TYPE MakeCommonCodeData(TYPE type);
 SYMBOL insertDefaultFunc(SCOPE scope,TYPE type,char *name)
-{ (void)scope; (void)type; (void)name; STUB_TRAP(); return NULL; }
+{
+    return SymCreateAtLocn(MakeCommonCodeData(type),9,2,name,scope,NULL);
+}
 TYPE buildCopyAssign(SCOPE scope,unsigned short flags,TYPE arg_type,TYPE class_type)
 {
     TYPE fn_type,ret_type;
@@ -708,9 +769,39 @@ SYMBOL ClassAddDefaultCopy(SCOPE scope)
     return sym;
 }
 SYMBOL ClassAddDefaultDtor(SCOPE scope)
-{ (void)scope; STUB_TRAP(); return NULL; }
+{
+    TYPE fn_type=MakeModifiableFunction(TypePtrToVoid(),(TYPE)NULL);
+    SYMBOL sym;
+    struct class_info *info;
+    if ((int)OptSize<=50) fn_type->flag|=8;
+    fn_type=addClassFnMods(scope,fn_type);
+    fn_type=CheckDupType(fn_type);
+    sym=insertDefaultFunc(scope,fn_type,CppDestructorName());
+    info=ScopeClass(scope)->u.c.info;
+    info->dtor_defined=1;
+    info->dtor_user_code=0;
+    return sym;
+}
 SYMBOL ClassAddDefaultAssign(SCOPE scope)
-{ (void)scope; STUB_TRAP(); return NULL; }
+{
+    TYPE class_type=ScopeClass(scope),arg_type,fn_type;
+    char *name=CppOperatorName(13);
+    SYMBOL syms=checkPresence(scope,name),sym;
+    struct class_info *info=class_type->u.c.info;
+    unsigned short flags=0;
+    if(syms!=NULL && classFindMember(syms,class_type,ClassIsDefaultCopy)!=NULL) {
+        info->has_def_opeq=1;
+        return NULL;
+    }
+    arg_type=class_type;
+    if(info->const_assign) arg_type=MakeConstTypeOf(class_type);
+    if((int)OptSize<=50) flags=8;
+    fn_type=buildCopyAssign(scope,flags,arg_type,class_type);
+    sym=insertDefaultFunc(scope,fn_type,name);
+    info->assign_defined=1;
+    info->assign_user_code=0;
+    return sym;
+}
 int addDefaultCtor(CLASS_DATA *data,SCOPE scope,TYPE type)
 {
     struct class_info *info=type->u.c.info;
@@ -761,8 +852,7 @@ void setAbstractStatus(CLASS_DATA *data,struct class_info *info)
         } while(1);
     }
 }
-int TypeCtorDispRequired(TYPE derived,TYPE base)
-{ (void)derived; (void)base; STUB_TRAP(); return 0; }
+int TypeCtorDispRequired(TYPE derived,TYPE base);
 unsigned nonVirtualField(TYPE type)
 { return addField(classData,type->u.c.info->vsize,type->u.c.info->max_align); }
 struct friend_entry *ScopeFriends(SCOPE scope);
@@ -926,8 +1016,21 @@ void ParseFlush(void);
 PTREE ParseMemInit(void);
 SYMBOL ScopeFunctionInProgress(void);
 SCOPE SymScope(SYMBOL sym);
+int TypesIdentical(TYPE first,TYPE second);
 int duplicateMemInit(PTREE first,PTREE second)
-{ (void)first; (void)second; STUB_TRAP(); return 0; }
+{
+    if(first->op!=second->op) return 0;
+    if(first->op==6) {
+        if(first->u.id.name==second->u.id.name) {
+            CErr2p(421,second->u.id.name);
+            return 1;
+        }
+    } else if(TypesIdentical(first->type,second->type)) {
+        CErr2p(422,second->type);
+        return 1;
+    }
+    return 0;
+}
 int SymIsFunction(SYMBOL sym);
 int SymIsStaticMember(SYMBOL sym);
 int verifyMemberInit(PTREE member,SCOPE scope)
@@ -943,8 +1046,18 @@ int verifyMemberInit(PTREE member,SCOPE scope)
     if (SymIsStaticMember(sym)) { CErr2p(426,name); return 1; }
     return 0;
 }
+int ScopeDirectBase(SCOPE scope,TYPE type);
+int ScopeIndirectVBase(SCOPE scope,TYPE type);
 int verifyBaseClassInit(PTREE member,SCOPE scope)
-{ (void)member; (void)scope; STUB_TRAP(); return 0; }
+{
+    TYPE type=StructType(member->type);
+    if (type) {
+        if (ScopeDirectBase(scope,type)) return 0;
+        if (ScopeIndirectVBase(scope,type)) return 0;
+    }
+    CErr2p(423,(char *)member->type);
+    return 1;
+}
 int symInitialized(PTREE init,SYMBOL sym)
 {
     PTREE current,member;
@@ -1018,4 +1131,293 @@ PTREE ClassMemInit(SYMBOL ctor,void *mem_initializer)
     } else if (!ClassIsDefaultCopy(ctor,SymClass(ctor)))
         mem_init=verifyMemInit(mem_init);
     return mem_init;
+}
+
+int ClassCanPassByValue(TYPE type)
+{
+    struct class_info *info=type->u.c.info;
+    return !info->needs_ctor && !info->needs_dtor && !info->needs_assign;
+}
+
+unsigned short ClassBaseQualifiers(unsigned short old,unsigned short add)
+{
+    if(old&add) CErr1(143);
+    old|=add;
+    if(old&7) {
+        switch(old&7) {
+        case 1: case 2: case 4: break;
+        default: CErr1(144); break;
+        }
+    }
+    return old;
+}
+int TypePartiallyDefined(TYPE type);
+struct base_class *baseAlloc(TYPE type,unsigned short flags)
+{
+    struct base_class *base=CarveAlloc(carveBASE_CLASS);
+    base->next=NULL;
+    base->delta=0;
+    base->vb_index=0;
+    base->type=type;
+    base->flag=flags;
+    return base;
+}
+struct base_class *ClassBaseSpecifier(unsigned short flags,DECL_SPEC *spec)
+{
+    TYPE type=spec->partial;
+    int error=0;
+    PTypeRelease(spec);
+    type=StructType(type);
+    if(classData->flags&CD_IS_UNION) { CErr1(111); error=1; }
+    if(type) {
+        if(!TypeDefined(type)) {
+            CErr2p(TypePartiallyDefined(type)?641:112,(char *)type);
+            error=1;
+        }
+        if(type->u.c.info->zero_array) { CErr1(682); error=1; }
+        if(type->flag&1) { CErr1(110); error=1; }
+        if(!(flags&7)) {
+            if(classData->perm&0x40) { flags|=1; CErr1(188); }
+            else flags|=4;
+        }
+    }
+    if(error) type=NULL;
+    return baseAlloc(type,flags|0x40);
+}
+void baseFree(struct base_class *base)
+{ CarveFree(carveBASE_CLASS,base); }
+struct base_class *findBase(struct base_class *ring,TYPE type)
+{
+    struct base_class *curr;
+    if(ring) {
+        curr=ring->next;
+        do {
+            if(curr->type==type) return curr;
+            if(curr==ring) break;
+            curr=curr->next;
+        } while(1);
+    }
+    return NULL;
+}
+struct base_class *findVBase(struct base_class *ring,TYPE type)
+{
+    struct base_class *curr;
+    if(ring) {
+        curr=ring->next;
+        do {
+            if((curr->flag&0x18) && curr->type==type) return curr;
+            if(curr==ring) break;
+            curr=curr->next;
+        } while(1);
+    }
+    return NULL;
+}
+struct base_class *addBase(struct base_class **ring,struct base_class *base,
+                          struct base_class *insert)
+{
+    struct base_class *curr,*last;
+    if(base->flag&0x18) {
+        if(!insert && (last=*ring)!=NULL) {
+            curr=last->next;
+            do {
+                if(!(curr->flag&0x18)) break;
+                insert=curr;
+                if(curr==last) break;
+                curr=curr->next;
+            } while(1);
+        }
+        RingInsert((void **)ring,base,insert);
+        insert=base;
+    } else RingAppend((void **)ring,base);
+    return insert;
+}
+struct base_class *grabVBases(struct base_class **ring,struct base_class *base)
+{
+    struct base_class *insert=NULL,*curr,*last,*check;
+    struct class_info *info=base->type->u.c.info;
+    int reuse=0;
+    if(!info->last_vbase) return NULL;
+    if(!(base->flag&0x18) && !classData->vb_index) {
+        classData->vb_index=info->last_vbase;
+        classData->vb_offset=info->vb_offset;
+        classData->base_vbptr=base;
+        reuse=1;
+    }
+    last=info->bases;
+    if(last) {
+        curr=last->next;
+        do {
+            if(!(curr->flag&0x18)) break;
+            check=findVBase(*ring,curr->type);
+            if(check) check->flag|=0x90;
+            else {
+                check=baseAlloc(curr->type,0x10);
+                insert=addBase(ring,check,insert);
+            }
+            if(reuse && !check->vb_index) check->vb_index=curr->vb_index;
+            if(curr==last) break;
+            curr=curr->next;
+        } while(1);
+    }
+    return insert;
+}
+struct base_class *ClassBaseList(struct base_class *list,struct base_class *base)
+{
+    struct base_class *check,*insert;
+    TYPE type=base->type;
+    if(!type) { baseFree(base); return list; }
+    check=findBase(list,type);
+    if(check && (check->flag&0x40)) { CErr1(113); baseFree(base); return list; }
+    if((base->flag&0x18) && check) {
+        check->flag|=base->flag|0x80;
+        baseFree(base);
+        return list;
+    }
+    insert=grabVBases(&list,base);
+    addBase(&list,base,insert);
+    return list;
+}
+TYPE MakeVBTableFieldType(int allocated);
+void propagateKnowledge(struct class_info *from,struct class_info *to,unsigned what)
+{
+    if(!(what&2)) {
+        if(from->corrupted) to->corrupted=1;
+        if(from->needs_ctor) to->needs_ctor=1;
+        if(from->needs_dtor) to->needs_dtor=1;
+        if(from->needs_assign) to->needs_assign=1;
+        if(from->const_ref) to->const_ref=1;
+        if(!from->const_copy) to->const_copy=0;
+        if(!from->const_assign) to->const_assign=0;
+    }
+    if(what&1) {
+        if(from->has_data) to->has_data=1;
+        if(from->has_vcdtor) to->has_vcdtor=1;
+        if(from->has_vfn) to->has_vfn=1;
+        if(from->needs_vdtor) to->needs_vdtor=1;
+        if(from->flags50&2) to->flags50|=2; /* lattice inheritance */
+    }
+}
+void processVFPtrBase(CLASS_DATA *data,struct base_class *base)
+{
+    unsigned index;
+    if(base->flag&0x18) return;
+    index=base->type->u.c.info->last_vfn;
+    if(index && (!data->vf_index || data->vf_index<index)) {
+        data->vf_index=(unsigned short)index;
+        data->base_vfptr=base;
+    }
+}
+void processBase(CLASS_DATA *data,struct base_class *base)
+{
+    struct class_info *info=data->info,*base_info=base->type->u.c.info;
+    if(base->flag&0x18) {
+        if(base->flag&0x80) info->flags50|=2;
+        info->needs_ctor=1;
+        if(!base->vb_index) {
+            if(!data->vb_index) {
+                data->vb_offset=addTypeField(data,MakeVBTableFieldType(1));
+                info->has_vbptr=1;
+            }
+            base->vb_index=++data->vb_index;
+        }
+    } else if(base!=data->base_vfptr) base->delta=nonVirtualField(base->type);
+    else {
+        data->vf_offset=base_info->vf_offset;
+        base->flag|=0x20;
+        info->has_vfptr=1;
+    }
+    propagateKnowledge(base_info,info,1);
+}
+/* The old body has neither later unnamed-class warning nor inherited
+ * class-modifier processing. Virtual-index setup precedes layout effects. */
+void ClassBaseClause(struct base_class *bases)
+{
+    CLASS_DATA *data=classData;
+    struct base_class *curr,*base_vfptr;
+    data->info->bases=bases;
+    data->bases=bases;
+    if(bases) {
+        curr=bases->next;
+        do {
+            processVFPtrBase(data,curr);
+            if(curr==bases) break;
+            curr=curr->next;
+        } while(1);
+    }
+    base_vfptr=data->base_vfptr;
+    if(base_vfptr) base_vfptr->delta=nonVirtualField(base_vfptr->type);
+    if(bases) {
+        curr=bases->next;
+        do {
+            processBase(data,curr);
+            if(curr==bases) break;
+            curr=curr->next;
+        } while(1);
+    }
+}
+
+
+
+TYPE PTypeListOfTypes(type_id id);
+int genDefaultCtor(TYPE type);
+int genDefaultCopy(TYPE type);
+int genDefaultDtor(TYPE type);
+int genDefaultAssign(TYPE type);
+void ClassDefineRefdDefaults(void)
+{
+    TYPE head=PTypeListOfTypes(TYP_CLASS),curr;
+    struct class_info *info;
+    int something_defined;
+    for (;;) {
+        something_defined=0;
+        if (head) {
+            curr=head->next;
+            for (;;) {
+                info=curr->u.c.info;
+                if (!info->corrupted) {
+                    if (info->ctor_defined && !info->ctor_gen && genDefaultCtor(curr)) {
+                        info->ctor_gen=1; something_defined=1;
+                    }
+                    if (info->copy_defined && !info->copy_gen && genDefaultCopy(curr)) {
+                        info->copy_gen=1; something_defined=1;
+                    }
+                    if (info->dtor_defined && !info->dtor_gen && genDefaultDtor(curr)) {
+                        info->dtor_gen=1; something_defined=1;
+                    }
+                    if (info->assign_defined && !info->assign_gen && genDefaultAssign(curr)) {
+                        info->assign_gen=1; something_defined=1;
+                    }
+                }
+                if (curr==head) break;
+                curr=curr->next;
+            }
+        }
+        if (!something_defined) break;
+    }
+}
+
+void GenerateDefaultCopy(SYMBOL sym);
+int genDefaultCopy(TYPE class_type)
+{
+    SYMBOL syms=checkPresence(class_type->u.c.scope,CppConstructorName());
+    SYMBOL sym=classFindMember(syms,class_type,ClassIsDefaultCopy);
+    if (sym->flag&1) {
+        GenerateDefaultCopy(sym);
+        return 1;
+    }
+    sym->flag&=~2;
+    return 0;
+}
+
+void GenerateDefaultCtor(SYMBOL sym);
+int genDefaultDtor(TYPE class_type)
+{
+    SYMBOL sym=checkPresence(class_type->u.c.scope,CppDestructorName());
+    if (sym->flag&1) {
+        /* The old default ctor and dtor generators share entry1391b. */
+        GenerateDefaultCtor(sym);
+        return 1;
+    }
+    sym->flag&=~2;
+    return 0;
 }

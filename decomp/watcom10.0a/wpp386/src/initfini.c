@@ -146,3 +146,50 @@ void splitInit(INITFINI *defn)
     fptr->init = exit_stack;
     RingInsert((void **)&split_hdr, fptr, 0);
 }
+
+void *RingPrune(void **head,void *entry);
+void splitFini(INITFINI *defn)
+{
+    SPLIT_FINI *fptr=(SPLIT_FINI *)defn;
+    RingPrune((void **)&split_hdr,fptr);
+    fptr->orig->fini_rtn(fptr->orig);
+}
+/* Descriptive name for the old internal release helper; the released
+ * initfini.c retains the split record definitions but omits this body. */
+void releaseExitPoint(EXIT_POINT *point)
+{
+    INITFINI **iptr=point->registered,*entry;
+    SPLIT_FINI *last,*curr,*next;
+    while (*iptr) ++iptr;
+    while (iptr!=point->registered) {
+        entry=*--iptr;
+        entry->fini_rtn(entry);
+    }
+    last=split_hdr;
+    if (last) {
+        curr=last->next;
+        for (;;) {
+            next=curr->next;
+            if (curr->init==point || curr->fini==point)
+                splitFini((INITFINI *)curr);
+            if (curr==last) break;
+            curr=next;
+        }
+    }
+}
+void ExitPointReleaseRtn(EXIT_POINT *point)
+{
+    EXIT_POINT *curr,*next=exit_stack;
+    do {
+        curr=next;
+        next=curr->previous;
+        releaseExitPoint(curr);
+    } while (curr!=point);
+    exit_stack=next;
+}
+
+/* The actual registered empty callback is the single C3 at3db0c,
+ * also the final RET of ExitPointReleaseRtn. Its separate entry cannot be
+ * distinguished from that internal RET by an entry breakpoint. */
+void InitFiniStub(INITFINI *entry)
+{ (void)entry; }

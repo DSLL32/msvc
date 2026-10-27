@@ -63,3 +63,4 @@ unsigned char SpecialFunction(SYMBOL func)
     }
     return retn;
 }
+

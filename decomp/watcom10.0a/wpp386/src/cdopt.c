@@ -43,6 +43,9 @@
 #include "pending.h"
 #include "symbol.h"
 #include "cdopt.h"
+#include "class.h"
+#include "cmdline.h"
+#include "ptree.h"
 #include <recon.h>
 static carve_t carveCD_DESCR, carveCL_ELEM, carveCDOPT_ITER;
 static carve_t carveACC_FUN, carveCDOPT_CACHE;
@@ -74,9 +77,22 @@ SYMBOL dtorLocate(TYPE type)
     return type ? RoDtorFindType(type) : NULL;
 }
 int classCanBeDtorOpt(struct class_info *info)
-{ (void)info; STUB_TRAP(); return 0; }
+{
+    info->dtor_user_code_checked=1;
+    return !((info->has_dtor && info->dtor_user_code) || info->corrupted);
+}
+void CDoptIterEnd(CDOPT_ITER *iter);
 int TypeHasDtorableObjects(TYPE type)
-{ (void)type; STUB_TRAP(); return 0; }
+{
+    CD_DESCR *info=CDoptDtorBuild(type);
+    CDOPT_ITER *iter;
+    unsigned char comp;
+    if(CDoptErrorOccurred(info)) return 0;
+    iter=CDoptIterBeg(info);
+    comp=CDoptIterNextComp(iter);
+    CDoptIterEnd(iter);
+    return comp!=0;
+}
 int typeDtorable(TYPE type,int exact)
 {
     TYPE base;
@@ -136,13 +152,21 @@ struct memb_vfuns {
     SYMBOL (*array_acc)(TYPE);
 };
 #pragma pack()
-int dtorBasePushable(void *base) { (void)base; STUB_TRAP(); return 0; }
+int dtorBasePushable(void *base) { return TypeRequiresDtoring(((struct base_class *)base)->type); }
 int SymIsThisDataMember(SYMBOL sym);
 int SymRequiresDtoring(SYMBOL sym);
 int dtorMembPushable(SYMBOL sym)
 { return SymIsThisDataMember(sym) && SymRequiresDtoring(sym); }
-SYMBOL dtorFind(CL_ELEM *elem) { (void)elem; STUB_TRAP(); return NULL; }
-int dtorOptimizable(CL_ELEM *elem) { (void)elem; STUB_TRAP(); return 0; }
+SYMBOL dtorFind(CL_ELEM *elem) { return dtorLocate(elem->cltype); }
+struct class_info *SymClassInfo(SYMBOL sym);
+int dtorOptimizable(CL_ELEM *elem)
+{
+    if (!elem->cdtor) return 1;
+    /* Old compiler tests DBG_LOCALS directly, before the later source's
+     * separate inline_functions flag. */
+    if (GenSwitches&0x02000000UL) return 0;
+    return classCanBeDtorOpt(SymClassInfo(elem->cdtor));
+}
 int dtorInclude(CL_ELEM *elem) { (void)elem; STUB_TRAP(); return 0; }
 SYMBOL dtorArraySym(SYMBOL sym) { (void)sym; STUB_TRAP(); return NULL; }
 void RtnGenAddType(unsigned char callback,TYPE type);
@@ -166,17 +190,44 @@ CD_DESCR *cacheFind(TYPE type,CDOPT_CACHE *head)
     return NULL;
 }
 typedef struct cl_expand { CD_DESCR *info; STKIN *source; } CL_EXPAND;
+void *VstkPush(VSTK_CTL *stack);
 void *RingCarveAlloc(carve_t cv,void **head);
 void cacheAdd(CD_DESCR *info,CDOPT_CACHE **head)
 {
     CDOPT_CACHE *entry=RingCarveAlloc(carveCDOPT_CACHE,(void **)head);
     entry->info=info;
 }
-void pushVbase(void *base,void *data) { (void)base; (void)data; STUB_TRAP(); }
-void pushDbase(void *base,void *data) { (void)base; (void)data; STUB_TRAP(); }
-/* Namespaced from type.c's unrelated private pushType helper. */
-void cdoptPushType(TYPE type,long offset,SYMBOL sym,CL_EXPAND *data,unsigned char otype)
-{ (void)type; (void)offset; (void)sym; (void)data; (void)otype; STUB_TRAP(); }
+/* Namespaced from type.c's unrelated private pushType helper. The actual
+ * five-argument body returns the new traversal-stack record in EAX. */
+STKIN *cdoptPushType(TYPE type,long offset,SYMBOL sym,CL_EXPAND *data,unsigned char otype)
+{
+    CL_ELEM *elem=CarveAlloc(carveCL_ELEM);
+    const MEMB_VFUNS *functions=data->info->mfuns;
+    STKIN *stacked;
+    elem->descr=NULL;
+    elem->next=NULL;
+    elem->sym=sym;
+    elem->elim_intermed=0;
+    elem->cannot_define=0;
+    elem->must_call=0;
+    elem->cltype=type;
+    elem->offset=offset;
+    elem->otype=otype;
+    elem->cdtor=otype==3 ? functions->array_cdtor(sym) : functions->find(elem);
+    stacked=VstkPush(&stackSTKIN);
+    stacked->info=data->info;
+    stacked->elem=elem;
+    return stacked;
+}
+/* The initial source also calls this helper pushBase; distinguish the
+ * scope walk's unrelated private pushBase without merging their ABIs. */
+void cdoptPushBase(struct base_class *base,CL_EXPAND *data,unsigned char otype)
+{
+    if (data->info->mfuns->basePushable(base))
+        cdoptPushType(base->type,base->delta,NULL,data,otype);
+}
+void pushVbase(void *base,void *data) { cdoptPushBase(base,data,0); }
+void pushDbase(void *base,void *data) { cdoptPushBase(base,data,1); }
 void pushMember(void *symbol,void *context)
 {
     SYMBOL sym=symbol;
@@ -216,10 +267,33 @@ CD_DESCR *cdoptExpandClass(TYPE type,const CDOPT_DEFN *defn)
     ScopeWalkDataMembers(scope,pushMember,&expansion);
     return info;
 }
+void addAccFun(CD_DESCR *info,SYMBOL sym);
 void addInfoElement(CD_DESCR *info,CL_ELEM *elem)
-{ (void)info; (void)elem; STUB_TRAP(); }
+{
+    if (info->opt==0) RingAppend((void **)&info->elements,elem);
+    else RingInsert((void **)&info->elements,elem,NULL);
+    addAccFun(info,elem->cdtor);
+}
 void addAccFun(CD_DESCR *info,SYMBOL sym)
-{ (void)info; (void)sym; STUB_TRAP(); }
+{
+    ACC_FUN *last,*curr,*found=NULL;
+    if (sym && ArrayType(sym->sym_type))
+        sym=info->mfuns->array_acc(ArrayBaseType(sym->sym_type));
+    if (!sym) return;
+    last=info->accessed;
+    if (last) {
+        curr=last;
+        do {
+            curr=curr->next;
+            if (curr->fun==sym) { found=curr; break; }
+        } while (curr!=last);
+    }
+    if (!found) {
+        found=RingCarveAlloc(carveACC_FUN,(void **)&info->accessed);
+        found->fun=sym;
+        info->has_acc=1;
+    }
+}
 void *VstkTop(VSTK_CTL *stack);
 void *VstkPop(VSTK_CTL *stack);
 CD_DESCR *cdoptBuildOrig(TYPE type,const CDOPT_DEFN *defn)
@@ -275,17 +349,79 @@ CD_DESCR *CDoptDtorBuild(TYPE type) { return cdoptBuildOrig(type,&dtor_defn); }
 
 int TypeRequiresCtoring(TYPE type);
 int SymRequiresCtoring(SYMBOL sym);
-int defCtorBasePushable(void *base) { (void)base; STUB_TRAP(); return 0; }
+int defCtorBasePushable(void *object)
+{
+    TYPE type=((struct base_class *)object)->type;
+    return TypeRequiresCtoring(type) || TypeRequiresDtoring(type);
+}
 int defCtorMembPushable(SYMBOL sym)
 {
     return SymIsThisDataMember(sym) && (SymRequiresCtoring(sym) || SymRequiresDtoring(sym));
 }
-SYMBOL defCtorFind(CL_ELEM *elem) { (void)elem; STUB_TRAP(); return NULL; }
-int defCtorOptimizable(CL_ELEM *elem) { (void)elem; STUB_TRAP(); return 0; }
+SYMBOL defCtorArrayAcc(TYPE type);
+SYMBOL defCtorFind(CL_ELEM *elem)
+{
+    TYPE type=StructType(elem->cltype);
+    SYMBOL ctor=defCtorArrayAcc(type);
+    if (!ctor && type) elem->cannot_define=1;
+    return ctor;
+}
+int classCanBeCtorOpt(struct class_info *info)
+{
+    info->ctor_user_code_checked=1;
+    return !((info->has_ctor && info->ctor_user_code) || info->corrupted ||
+        (GenSwitches&0x02000000UL));
+}
+int defCtorOptSym(SYMBOL ctor)
+{
+    if (!ctor) return 1;
+    return classCanBeCtorOpt(SymClassInfo(ctor));
+}
+int defCtorOptimizable(CL_ELEM *elem)
+{
+    if (!TypeRequiresCtoring(elem->cltype)) return 0;
+    return defCtorOptSym(elem->cdtor);
+}
 int defCtorInclude(CL_ELEM *elem) { (void)elem; STUB_TRAP(); return 0; }
 SYMBOL origArraySym(SYMBOL sym) { return sym; }
 void defCtorSchAccChk(TYPE type) { RtnGenAddType(1,type); }
-SYMBOL defCtorArrayAcc(TYPE type) { (void)type; STUB_TRAP(); return NULL; }
+char *CppConstructorName(void);
+unsigned char FuncOverloaded(SYMBOL *ctor,SYMBOL candidates,arg_list *args,PTREE *nodes);
+SEARCH_RESULT *ScopeContainsMember(SCOPE scope,char *name);
+SYMBOL getDefedCtor(TYPE type)
+{
+    arg_list args;
+    SEARCH_RESULT *result;
+    SYMBOL ctor;
+    SCOPE scope;
+    InitArgList(&args);
+    type=StructType(type);
+    if (!type) return NULL;
+    scope=type->u.c.scope;
+    result=ScopeContainsMember(scope,CppConstructorName());
+    if (!result) ctor=NULL;
+    else {
+        ctor=result->sym_name->name_syms;
+        if (FuncOverloaded(&ctor,ctor,&args,NULL)==2) ctor=NULL;
+        ScopeFreeResult(result);
+    }
+    return ctor;
+}
+void ScopeGenAccessSet(TYPE type);
+void ScopeGenAccessReset(void);
+int ClassDefaultCtorDefine(TYPE type,SYMBOL *ctor);
+/* The shipped callback entry is also the ordinary defCtorLocate call
+ * target; it has one stored body rather than a second wrapper vertex. */
+SYMBOL defCtorArrayAcc(TYPE type)
+{
+    SYMBOL ctor=getDefedCtor(type);
+    if (!ctor) {
+        ScopeGenAccessSet(type);
+        ClassDefaultCtorDefine(type,&ctor);
+        ScopeGenAccessReset();
+    }
+    return ctor;
+}
 static CDOPT_CACHE *ctorCache;
 static const MEMB_VFUNS mfDefCtor={defCtorBasePushable,defCtorMembPushable,
     defCtorFind,defCtorOptimizable,defCtorInclude,origArraySym,
@@ -373,3 +509,141 @@ long CDoptIterOffsetExact(CDOPT_ITER *iter)
 }
 
 int TypeExactDtorable(TYPE type) { return typeDtorable(type,1); }
+
+SCOPE TypeScope(TYPE type);
+SCOPE SymScope(SYMBOL sym);
+SEARCH_RESULT *ScopeFindBaseMember(SCOPE scope,char *name);
+void CDoptChkAccFun(CD_DESCR *info)
+{
+    SCOPE old;
+    ACC_FUN *af,*last;
+    SEARCH_RESULT *result;
+    if(info->chk_acc) return;
+    info->chk_acc=1;
+    last=info->accessed;
+    if(last) {
+        old=CurrScope;
+        CurrScope=TypeScope(info->orig_type);
+        af=last->next;
+        do {
+            result=ScopeFindBaseMember(SymScope(af->fun),af->fun->name->name);
+            ScopeCheckSymbol(result,af->fun);
+            ScopeFreeResult(result);
+            if(af==last) break;
+            af=af->next;
+        } while(1);
+        CurrScope=old;
+    }
+}
+void *VstkPop(VSTK_CTL *stack);
+int VstkDimension(const VSTK_CTL *stack);
+CL_ITER *popClElem(CDOPT_ITER *iter)
+{
+    VstkPop(&iter->stack);
+    return VstkTop(&iter->stack);
+}
+unsigned char CDoptIterNextElement(CDOPT_ITER *iter)
+{
+    CL_ITER *exp;
+    CL_ELEM *elem;
+    CD_DESCR *info;
+    int depth;
+    /* The old walker has no at_end write or per-expansion comp_otype.
+     * Its virtual-base filter uses the real stack depth/original kind. */
+    for(;;) {
+        exp=VstkTop(&iter->stack);
+        info=exp->info;
+        elem=exp->elem;
+        if(iter->info==info && iter->gened_comp) return 0;
+        if(elem && elem==info->elements && iter->gened_comp) {
+            exp=popClElem(iter);
+            iter->off_elem-=exp->elem->offset;
+            continue;
+        }
+        if(iter->gened_comp) {
+            if(!elem) elem=info->elements;
+            elem=elem->next;
+            exp->elem=elem;
+        } else iter->gened_comp=1;
+        info=elem->descr;
+        if(elem->otype==0) {
+            depth=VstkDimension(&iter->stack);
+            if(iter->orig_otype==5) {
+                if(depth!=1) continue;
+            } else if(iter->orig_otype==6 || iter->orig_otype==7) {
+                if(depth!=0) continue;
+            }
+        }
+        if(!info || !info->elements || elem->must_call) {
+            if(elem->otype==3) return iter->orig_otype==7?2:1;
+            if(!elem->cdtor) return 8;
+            return iter->orig_otype==7?4:3;
+        }
+        iter->off_elem+=elem->offset;
+        pushClElem(elem->descr,iter);
+    }
+}
+SYMBOL CDoptIterFunction(CDOPT_ITER *iter)
+{
+    CL_ITER *exp=VstkTop(&iter->stack);
+    return exp->elem->cdtor;
+}
+TYPE CDoptIterType(CDOPT_ITER *iter)
+{
+    CL_ITER *exp=VstkTop(&iter->stack);
+    return exp->elem?exp->elem->cltype:exp->info->orig_type;
+}
+
+int TypeReallyDefCtorable(TYPE type)
+{ (void)type; STUB_TRAP(); return 0; }
+
+void CtxFunction(SYMBOL sym);
+void cdoptChkAccFunGen(SYMBOL fun,CD_DESCR *descr)
+{
+    CtxFunction(fun);
+    CDoptChkAccFun(descr);
+}
+void RtnGenCallBackCdoptAccCtor(TYPE type)
+{
+    CD_DESCR *descr;
+    if (TypeClassInfo(type)->ctor_defined) {
+        descr=CDoptDefCtorBuild(type);
+        cdoptChkAccFunGen(defCtorArrayAcc(type),descr);
+    }
+}
+
+void RtnGenCallBackCdoptAccDtor(TYPE type)
+{
+    CD_DESCR *descr;
+    if (TypeClassInfo(type)->dtor_defined) {
+        descr=CDoptDtorBuild(type);
+        cdoptChkAccFunGen(dtorLocate(type),descr);
+    }
+}
+
+/* The old independent assignment cache is freed at backend handoff,
+ * together with constructor descriptors; destructor descriptors stay live. */
+static CDOPT_CACHE *assignCache;
+void RingCarveFree(carve_t cv,void **head);
+void descrRingFree(CDOPT_CACHE **head)
+{
+    CDOPT_CACHE *last=*head,*curr,*next;
+    if (last) {
+        curr=last->next;
+        for (;;) {
+            next=curr->next;
+            RingCarveFree(carveCL_ELEM,(void **)&curr->info->elements);
+            RingCarveFree(carveACC_FUN,(void **)&curr->info->accessed);
+            CarveFree(carveCD_DESCR,curr->info);
+            CarveFree(carveCDOPT_CACHE,curr);
+            if (curr==last) break;
+            curr=next;
+        }
+    }
+    *head=NULL;
+}
+void CDoptBackEnd(void)
+{
+    descrRingFree(&ctorCache);
+    descrRingFree(&assignCache);
+}

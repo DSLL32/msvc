@@ -30,6 +30,7 @@
 ****************************************************************************/
 
 /* Adapted initial6b9cb443 analnode.c, with actual1994 effect bits0x11. */
+#include <stdarg.h>
 #include "compiler.h"
 #include "ptree.h"
 #include "symbol.h"
@@ -37,6 +38,7 @@
 #include "frontend.h"
 #include "convdiag.h"
 #include <recon.h>
+PTREE PTreeErrorExpr(PTREE expr,unsigned message);
 unsigned short PTreeEffFlags(PTREE tree);
 PTREE PTreeBinary(unsigned char cgop,PTREE left,PTREE right);
 PTREE set_meaningful_side_effects(PTREE node)
@@ -63,7 +65,7 @@ int NodeIsBinaryOp(PTREE node,unsigned char operation)
 
 PTREE PTreeOpLeft(PTREE tree);
 PTREE PTreeOpRight(PTREE tree);
-int IsOverloadedFunc(SYMBOL sym)
+int IsActualOverloadedFunc(SYMBOL sym)
 { (void)sym; STUB_TRAP(); return 0; }
 int SymIsFunction(SYMBOL sym);
 int classifyFunctionSymbol(PTREE node)
@@ -72,7 +74,7 @@ int classifyFunctionSymbol(PTREE node)
     if(node->op!=7) return 0;
     sym=(SYMBOL)node->u.subtree[0];
     if(!sym || !SymIsFunction(sym)) return 0;
-    return IsOverloadedFunc(sym) ? 2:1;
+    return IsActualOverloadedFunc(sym) ? 2:1;
 }
 /* Recovered1994 classification: address-of unique/overloaded function=1/2,
  * plain or member unique/overloaded function=3/4, nonfunction=0. */
@@ -369,7 +371,7 @@ PTREE NodeDone(PTREE expr)
     return expr;
 }
 
-PTREE NodeArg(PTREE expr) { (void)expr; STUB_TRAP(); return NULL; }
+PTREE NodeArg(PTREE expr);
 
 TYPE TypeThis(void);
 PTREE PTreeThis(void);
@@ -621,3 +623,398 @@ PTREE NodeMakeCallee(SYMBOL sym)
     if(!SymIsVirtual(sym)) sym=SymMarkRefed(sym);
     return NodeSymbolNoRef(PTreeAlloc(),sym,NULL);
 }
+
+TYPE TypeModExtract(TYPE type,unsigned short *flags,void **baser,unsigned char mask);
+TYPE TypeGetActualFlags(TYPE type,unsigned short *flags);
+TYPE MakeBasedModifierOf(TYPE type,unsigned short flags,void *base);
+/* The 1994 member merge predates the later mutable-member adjustment. */
+TYPE TypeMergeForMember(TYPE object,TYPE member)
+{
+    unsigned short owner_flags,member_flags;
+    void *owner_base;
+    TypeModExtract(object,&owner_flags,&owner_base,1);
+    member=TypeGetActualFlags(member,&member_flags);
+    owner_flags|=member_flags;
+    if(owner_flags) member=MakeBasedModifierOf(member,owner_flags,owner_base);
+    return member;
+}
+PTREE PTreeCopySrcLocation(PTREE source,PTREE target);
+PTREE NodeReplace(PTREE old,PTREE replacement)
+{
+    PTREE *ref;
+    if(old!=NULL) {
+        old=PTreeCopySrcLocation(old,replacement);
+        ref=PTreeRef(&old);
+        NodeFreeDupedExpr(*ref);
+        *ref=replacement;
+        replacement=old;
+    }
+    return replacement;
+}
+PTREE pruneSubtree(PTREE expr,PTREE *subtree)
+{
+    PTREE *ref=PTreeRef(subtree);
+    PTREE drop=*subtree;
+    NodeFreeDupedExpr(*ref);
+    *subtree=NULL;
+    if (subtree!=ref) {
+        *ref=expr;
+        expr=drop;
+    }
+    return expr;
+}
+PTREE NodePruneRight(PTREE expr)
+{
+    return pruneSubtree(expr,&expr->u.subtree[1]);
+}
+PTREE nodeCommaPropogate(PTREE node);
+PTREE NodePruneTop(PTREE curr)
+{
+    PTREE last=NULL,next,drop;
+    if (!curr) return curr;
+    while (NodeIsBinaryOp(curr,42)) {
+        next=curr->u.subtree[1];
+        curr->u.subtree[1]=last;
+        last=curr;
+        curr=next;
+    }
+    if (curr) {
+        if (curr->op==10) drop=fixupTraverse(curr);
+        else if (curr->op<8) { drop=curr; curr=NULL; }
+        else if (curr->op==8) { drop=curr; curr=curr->u.subtree[0]; }
+        else if (curr->op==9) {
+            if (!curr->u.subtree[0]) { drop=curr; curr=curr->u.subtree[1]; }
+            else if (!curr->u.subtree[1]) { drop=curr; curr=curr->u.subtree[0]; }
+            else {
+                curr->cgop=42;
+                nodeCommaPropogate(curr);
+                drop=NULL;
+            }
+        } else {
+            /* The original leaves its deletion register undefined here. */
+            STUB_TRAP(); return NULL;
+        }
+        PTreeFree(drop);
+    }
+    if (last) {
+        if (!curr) {
+            next=last->u.subtree[1];
+            curr=last->u.subtree[0];
+            PTreeFree(last);
+            last=next;
+        }
+        while (last) {
+            next=last->u.subtree[1];
+            last->u.subtree[1]=curr;
+            nodeCommaPropogate(last);
+            curr=last;
+            last=next;
+        }
+    }
+    return curr;
+}
+void NodeConvertToBasePtr(PTREE *expr,TYPE type,SEARCH_RESULT *result,int positive);
+
+unsigned short PTreeOpFlags(PTREE expr);
+TYPE ClassTypeForType(TYPE type);
+TYPE MemberPtrType(TYPE type);
+PTREE ConvertBoolean(PTREE expr);
+PTREE NodeCompareToZero(PTREE expr)
+{
+    TYPE type,zero_type;
+    type_id zero_id;
+    PTREE operand,zero;
+    if((expr->flags&4) || (PTreeOpFlags(expr)&4)) return expr;
+    type=TypedefModifierRemove(expr->type);
+    if(type->id==TYP_VOID) {
+        PTreeErrorExpr(expr,659);
+        return expr;
+    }
+    if(!ClassTypeForType(type) && !MemberPtrType(type)) {
+        expr=NodeRvalue(expr);
+        zero_id=type->id;
+        zero_type=expr->type;
+    } else {
+        zero_id=TYP_SINT;
+        zero_type=GetBasicType(TYP_SINT);
+    }
+    operand=expr;
+    zero=PTreeIntConstant(0,zero_id);
+    zero->type=zero_type;
+    expr=NodeBinary(15,operand,zero);
+    PTreeCopySrcLocation(expr,operand);
+    expr->type=GetBasicType(TYP_SINT);
+    expr->flags|=4;
+    return ConvertBoolean(expr);
+}
+
+PTREE PTreeCDtorExtra(void);
+TYPE GetBasicUInt(void);
+PTREE NodeCDtorExtra(void)
+{
+    PTREE node=PTreeCDtorExtra();
+    node->op=7;
+    node->type=GetBasicUInt();
+    node->u.symcg.symbol=NULL;
+    node->u.symcg.result=NULL;
+    node->flags|=2;
+    return NodeRvalue(node);
+}
+
+/* The encountered old promotion table covers the fourteen arithmetic ids.
+ * The later BOOL and64-bit ids do not exist in this compiler. */
+static const type_id intPromo[]={
+    TYP_ERROR,TYP_SINT,TYP_SINT,TYP_SINT,TYP_SINT,TYP_SINT,TYP_SINT,
+    TYP_SINT,TYP_UINT,TYP_SLONG,TYP_ULONG,TYP_FLOAT,TYP_DOUBLE,TYP_LONG_DOUBLE
+};
+type_id integralPromote(TYPE type)
+{
+    type=TypedefModifierRemove(type);
+    if(type->id>=sizeof(intPromo)/sizeof(intPromo[0])) { STUB_TRAP(); return TYP_ERROR; }
+    return intPromo[type->id];
+}
+TYPE TypeBinArithResult(TYPE left,TYPE right)
+{
+    type_id first=integralPromote(left),second=integralPromote(right),swap;
+    if(first>second) { swap=first; first=second; second=swap; }
+    if(first==TYP_UINT && second==TYP_SLONG) second=TYP_ULONG;
+    return GetBasicType(second);
+}
+
+int IsBigCode(void);
+int IsBigData(void);
+int TypeTruncByMemModel(TYPE type)
+{
+    unsigned short flags;
+    type=TypeGetActualFlags(type,&flags);
+    flags&=0x73c;
+    if(!flags) return 0;
+    if(type->id==TYP_FUNCTION) return IsBigCode()?0:!(flags&4);
+    return IsBigData()?0:!(flags&0x24);
+}
+
+PTREE NodeArgument(PTREE left,PTREE right)
+{
+    PTREE arg=NodeBinary(44,left,right);
+    arg->type=right->type;
+    arg->flags=right->flags;
+    PTreeCopySrcLocation(arg,right);
+    return arg;
+}
+PTREE NodeArguments(PTREE first,...)
+{
+    PTREE expr=NULL,argument=first;
+    va_list args;
+    va_start(args,first);
+    while(argument) {
+        expr=NodeArgument(expr,argument);
+        argument=va_arg(args,PTREE);
+    }
+    va_end(args);
+    return expr;
+}
+
+int TypeRequiresCtorParm(TYPE type);
+TYPE GetBasicUInt(void);
+PTREE PTreeUIntConstant(unsigned long value,type_id type);
+PTREE NodeCDtorArg(unsigned code)
+{
+    PTREE node=PTreeUIntConstant(code,TYP_SINT);
+    node->type=GetBasicUInt();
+    return node;
+}
+PTREE NodeArg(PTREE expr)
+{
+    return NodeArgument(NULL,expr);
+}
+PTREE CallArgumentExactCtor(TYPE type,unsigned exact)
+{
+    if (!TypeRequiresCtorParm(type)) return NULL;
+    return NodeArg(NodeCDtorArg(!exact));
+}
+
+PTREE nodeCommaPropogate(PTREE node)
+{
+    PTREE right=node->u.subtree[1];
+    PTreeCopySrcLocation(node,right);
+    node->type=right->type;
+    node->flags=right->flags;
+    return set_meaningful_side_effects(node);
+}
+PTREE NodeComma(PTREE left,PTREE right)
+{
+    if (!left) return right;
+    if (!right) return left;
+    return nodeCommaPropogate(NodeBinary(42,left,right));
+}
+TYPE TypeModFlagsEC(TYPE type,unsigned short *flags);
+int nonVolatileSymbol(PTREE node)
+{
+    unsigned short flags;
+    if (node->op!=7) return 0;
+    TypeModFlagsEC(node->u.symcg.symbol->sym_type,&flags);
+    return (flags&2)==0;
+}
+SYMBOL TemporaryAlloc(TYPE type);
+PTREE *PTreeRef(PTREE *node);
+int NodeIsConstantInt(PTREE node);
+unsigned char TemporaryClass(unsigned char kind);
+PTREE NodeFetch(PTREE expr);
+TYPE ReferenceType(TYPE type);
+TYPE TypeReferenced(TYPE type);
+PTREE NodeAddSideEffect(PTREE effect,PTREE expr)
+{
+    PTREE dup,*ref,top,orig,fetched;
+    TYPE type;
+    SYMBOL temp;
+    unsigned char old;
+    if (!expr) return effect;
+    dup=expr;
+    ref=PTreeRef(&dup);
+    top=*ref;
+    if (NodeIsUnaryOp(top,92)) {
+        fetched=PTreeOpLeft(top);
+        if (nonVolatileSymbol(fetched)) top=fetched;
+    }
+    orig=expr;
+    if (top->op==7 || NodeIsConstantInt(top)) {
+        *ref=NodeComma(effect,*ref);
+        expr=dup;
+    } else {
+        old=TemporaryClass(1);
+        type=NodeType(expr);
+        temp=TemporaryAlloc(type);
+        expr=NodeAssign(MakeNodeSymbol(temp),expr);
+        expr=NodeComma(expr,effect);
+        fetched=NodeFetch(MakeNodeSymbol(temp));
+        if (ReferenceType(type)) {
+            fetched->flags|=2;
+            fetched->type=TypeReferenced(type);
+        }
+        expr=NodeComma(expr,fetched);
+        TemporaryClass(old);
+    }
+    expr->flags=orig->flags;
+    expr->type=orig->type;
+    return PTreeCopySrcLocation(expr,orig);
+}
+
+int NodePtrNonZero(PTREE expr)
+{
+    return (expr->flags&0x200)!=0 || (expr->op==7 && (expr->flags&2)!=0);
+}
+
+PTREE PTreeDupExpr(PTREE expr);
+PTREE NodeDupExpr(PTREE *expr)
+{
+    PTREE old=*expr,node,partner;
+    if ((old->op>=1 && old->op<=4) || old->op==7) {
+        node=PTreeAlloc();
+        PTreeAssign(node,old);
+    } else {
+        partner=PTreeDupExpr(old);
+        *expr=partner;
+        node=PTreeDupExpr(old);
+        node->u.dup.partner=partner;
+        partner->u.dup.partner=node;
+    }
+    return node;
+}
+
+PTREE NodeIc(unsigned opcode) { return PTreeIc(opcode,0); }
+
+TYPE ReferenceType(TYPE type);
+TYPE NodeSetReference(TYPE type,PTREE expr)
+{
+    if(type && ReferenceType(type)) expr->flags|=2;
+    return type;
+}
+
+int NodeCallsCtor(PTREE node)
+{
+    if(NodeIsBinaryOp(node,95) || NodeIsBinaryOp(node,70))
+        return SymIsCtor(node->u.subtree[0]->u.subtree[0]->u.symcg.symbol);
+    return 0;
+}
+
+/* Descriptive inferred name: this distinct1994 initialization wrapper
+ * calls NodeDtorExpr and extends temporary cleanup to a block lifetime.
+ * It is absent from the released source. Exact body remains pending. */
+int SymRequiresDtoring(SYMBOL sym);
+int SymIsModuleDtorable(SYMBOL sym);
+SCOPE SymScope(SYMBOL sym);
+SYMBOL DtorFindLocn(TYPE type,CGIO_LOCATION *locn);
+int TypeExactDtorable(TYPE type);
+void CDtorScheduleArgRemap(SYMBOL sym);
+void PTreeExtractLocn(PTREE expr,CGIO_LOCATION *locn);
+PTREE PTreeErrorNode(PTREE expr);
+PTREE PTreeErrorExpr(PTREE expr,unsigned message);
+PTREE NodeDtorExpr(PTREE expr,SYMBOL sym)
+{
+    PTREE original,dtored;
+    CGIO_LOCATION locn;
+    SYMBOL dtor;
+    if (expr->op!=0 && SymRequiresDtoring(sym)) {
+        sym->flag|=8;
+        original=expr;
+        if (!SymIsModuleDtorable(sym)) SymScope(sym)->dtor_reqd=1;
+        PTreeExtractLocn(expr,&locn);
+        dtor=DtorFindLocn(sym->sym_type,&locn);
+        if (!dtor) PTreeErrorNode(expr);
+        else if (TypeTruncByMemModel(expr->type)) PTreeErrorExpr(expr,160);
+        else if (TypeExactDtorable(sym->sym_type)) {
+            /* The1994 body still schedules the dtor argument remap. */
+            CDtorScheduleArgRemap(dtor);
+            SymMarkRefed(dtor);
+            dtored=MakeNodeSymbol(sym);
+            dtored->cgop=201;
+            expr=NodeBinary(99,dtored,expr);
+            expr->locn=locn;
+            expr->type=original->type;
+            expr->flags=original->flags;
+        }
+    }
+    return expr;
+}
+TYPE ArrayType(TYPE type);
+unsigned FunctionRegistrationFlag(void);
+PTREE NodeComma(PTREE left,PTREE right);
+PTREE NodeDtorInitExpr(PTREE expr,SYMBOL sym)
+{
+    PTREE value;
+    expr=NodeDtorExpr(expr,sym);
+    if (NodeIsBinaryOp(expr,99)) {
+        sym=expr->u.subtree[0]->u.symcg.symbol;
+        if (sym->id==3 && !ArrayType(sym->sym_type)) {
+            value=expr->u.subtree[1];
+            expr->u.subtree[1]=NULL;
+            NodeFreeDupedExpr(expr);
+            value=NodeAddSideEffect(PTreeIc(95,(unsigned)sym),value);
+            expr=NodeComma(PTreeIc(94,(unsigned)sym),value);
+            FunctionRegistrationFlag();
+        }
+    }
+    return expr;
+}
+
+PTREE NodeTestExpr(PTREE condition,PTREE yes,PTREE no)
+{
+    PTREE expr;
+    TYPE type=yes->type;
+    expr=NodeBinary(43,yes,no);
+    expr->type=type;
+    expr=NodeBinary(41,condition,expr);
+    expr->type=type;
+    return expr;
+}
+
+PTREE NodeSymbolCallee(PTREE expr,SYMBOL sym,SEARCH_RESULT *result)
+{
+    if(!SymIsVirtual(sym)) sym=SymMarkRefed(sym);
+    return NodeSymbolNoRef(expr,sym,result);
+}
+
+PTREE NodePruneLeft(PTREE expr)
+{ return pruneSubtree(expr,&expr->u.subtree[0]); }
+PTREE NodePruneLeftTop(PTREE expr)
+{ return NodePruneTop(NodePruneLeft(expr)); }

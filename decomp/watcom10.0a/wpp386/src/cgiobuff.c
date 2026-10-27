@@ -196,3 +196,26 @@ void CgioBuffWrClose(CGIOBUFF *buffer)
     ++buffer->free_offset;
     finishWrBuffer(buffer);
 }
+
+CGIOBUFF *CgioBuffRdOpen(unsigned block)
+{ return findRdBuffer(block,5); }
+static CGFILE_INS lastRead;
+CGIOBUFF *CgioBuffReadIC(CGIOBUFF *buffer,void **cursor,unsigned size)
+{
+    CGIOBUFF *next;
+    char *record=(char *)*cursor+size;
+    short offset;
+    if (*(unsigned char *)record==1) { /* packed IC_NEXT transfer */
+        next=findRdBuffer(((struct buffer_transfer *)(record+1))->block,
+                          buffer->file_class);
+        offset=(short)((struct buffer_transfer *)(record+1))->offset;
+        releaseRdBuffer(buffer);
+        buffer=next;
+        record=buffer->data+offset;
+    } else offset=record-buffer->data;
+    *cursor=record;
+    lastRead.block=buffer->disk_addr;
+    lastRead.offset=offset;
+    return buffer;
+}
+CGFILE_INS CgioBuffLastRead(void) { return lastRead; }

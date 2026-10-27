@@ -146,3 +146,5 @@ void assemblerInit(INITFINI *entry)
     }
     AsmInit(cpu,(CpuSwitches & 0xf0)!=0,1);
 }
+
+int ReverseParms(void *pragma) { return (((AUX_INFO *)pragma)->_class&1)!=0; }

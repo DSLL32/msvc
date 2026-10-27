@@ -140,3 +140,46 @@ void VstkClose(VSTK_CTL *stack)
     freeVstkBlocks(stack->top);
     freeVstkBlocks(stack->freed);
 }
+
+/* Reached1994 indexed access grows the real block chain when needed, and
+ * indexing a new top slot advances current just as a pushed slot would. */
+void *VstkIndex(VSTK_CTL *stack,int index)
+{
+    unsigned blocks=0,required,per;
+    VSTK_BLK *block;
+    int pushed=0,on_top=1;
+    char *result;
+    if (index<0) return NULL;
+    for (block=stack->top;block;block=block->last) ++blocks;
+    per=stack->per_block;
+    required=(unsigned)index/per+1;
+    while (blocks<required) {
+        pushed=1;
+        vstkPushBlk(stack);
+        ++blocks;
+    }
+    index=blocks*per-(unsigned)index;
+    block=stack->top;
+    while ((unsigned)index>per) {
+        index-=per;
+        block=block->last;
+        on_top=0;
+    }
+    result=block->data+(index-1)*stack->size;
+    if (pushed || !stack->current ||
+        (on_top && result<(char *)stack->current)) stack->current=result;
+    return result;
+}
+int VstkDimension(const VSTK_CTL *stack)
+{
+    VSTK_BLK *block=stack->top;
+    int dimension=0;
+    if (block) {
+        dimension=-((char *)stack->current-block->data)/stack->size;
+        while (block) {
+            dimension+=stack->per_block;
+            block=block->last;
+        }
+    }
+    return dimension-1;
+}

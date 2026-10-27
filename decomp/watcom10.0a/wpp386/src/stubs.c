@@ -20,7 +20,6 @@ void myitoa(int value, char *text) { (void)value; (void)text; STUB_TRAP(); }
 char *CopyStr(char *source, char *dest) { (void)source; (void)dest; STUB_TRAP(); return 0; }
 unsigned Length(char *text) { (void)text; STUB_TRAP(); return 0; }
 
-void ExitPointReleaseRtn(EXIT_POINT *point) { (void)point; STUB_TRAP(); }
 void *alloc_from_cleanup(unsigned size) { (void)size; STUB_TRAP(); return 0; }
 void cmemFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 unsigned CErr1(unsigned code) { (void)code; STUB_TRAP(); return 0; }
@@ -43,10 +42,6 @@ void preprocFini0(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 
 void pragmaFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 
-void InitFiniStub(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void cgfrontFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void labelFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void overloadOperatorFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void gstackFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void conPoolsFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void cdoptFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
@@ -64,8 +59,6 @@ void templateFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void fnovFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void dataInitFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void nodePromoFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void statsPrint(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void macroFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 int makeExitStatus(int fatal) { (void)fatal; STUB_TRAP(); return 0; }
 
 
@@ -74,11 +67,6 @@ void PpOpen(void) { STUB_TRAP(); }
 void PrtChar(int ch) { (void)ch; STUB_TRAP(); }
 
 void PpParse(void) { STUB_TRAP(); }
-void RtnGenerate(void) { STUB_TRAP(); }
-void ModuleInitFini(void) { STUB_TRAP(); }
-void ScopeEndFileScope(void) { STUB_TRAP(); }
-void ScopeCreatePCHDebugSym(void) { STUB_TRAP(); }
-void CgBackEnd(void) { STUB_TRAP(); }
 void CgFrontFini(void) { STUB_TRAP(); }
 void cgioBuffReleaseMemory(void) { STUB_TRAP(); }
 int macroCompare(MEPTR first, MEPTR second) { (void)first; (void)second; STUB_TRAP(); return 0; }
@@ -108,5 +96,10 @@ void CFatal(const char *message) { (void)message; STUB_TRAP(); }
 
 /* Named pending callees of the reached old default-argument helper body. */
 PTREE IcEmitExpr(PTREE expr);
-CGFILE *CgioLocateFile(SYMBOL sym)
-{ (void)sym; STUB_TRAP(); return NULL; }
+
+void RtnGenCallBackRunTimeTableThunk(SYMBOL parm) { (void)parm; STUB_TRAP(); }
+void RtnGenCallBackArrayDtor(TYPE parm) { (void)parm; STUB_TRAP(); }
+void RtnGenCallBackCdoptAccOpEq(TYPE parm) { (void)parm; STUB_TRAP(); }
+int genDefaultCtor(TYPE type) { (void)type; STUB_TRAP(); return 0; }
+int genDefaultAssign(TYPE type) { (void)type; STUB_TRAP(); return 0; }
+void ModuleInitConnect(void) { STUB_TRAP(); }

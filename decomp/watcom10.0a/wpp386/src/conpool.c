@@ -39,6 +39,19 @@
 #include "pending.h"
 #include <recon.h>
 typedef struct pool_con POOL_CON;
+/* The old pool key is the canonical type plus the owned binary64 value.
+ * Its used/free flag follows the value at byte16. */
+struct pool_con {
+    POOL_CON *next;
+    TYPE type;
+    double value;
+    unsigned char free;
+    unsigned char unused[3];
+};
+typedef char PoolConSize[(sizeof(POOL_CON)==20)?1:-1];
+TYPE TypedefModifierRemove(TYPE type);
+void *RingLookup(void *head,int (*compare)(void *,const void *),const void *key);
+void *RingCarveAlloc(carve_t carve,void **head);
 static POOL_CON *pool_float;
 static carve_t carvePOOL_CON;
 void conPoolsInit(INITFINI *defn)
@@ -48,5 +61,31 @@ void conPoolsInit(INITFINI *defn)
     carvePOOL_CON = CarveCreate(20, 32);
 }
 
+int compareFloat(void *entry,const void *key)
+{
+    POOL_CON *pool=entry;
+    PTREE expr=(PTREE)key;
+    return pool->value==expr->u.floating_constant && pool->type==expr->type;
+}
+void initFloat(POOL_CON *pool,PTREE expr)
+{
+    pool->value=expr->u.floating_constant;
+}
+POOL_CON *addPoolCon(PTREE expr,POOL_CON **head,
+                     int (*compare)(void *,const void *),
+                     void (*initialize)(POOL_CON *,PTREE))
+{
+    TYPE type=TypedefModifierRemove(expr->type);
+    POOL_CON *pool=RingLookup(*head,compare,expr);
+    if(!pool) {
+        pool=RingCarveAlloc(carvePOOL_CON,(void **)head);
+        initialize(pool,expr);
+        pool->free&=~1;
+        pool->type=type;
+    }
+    return pool;
+}
 void *ConPoolFloatAdd(PTREE expr)
-{ (void)expr; STUB_TRAP(); return 0; }
+{
+    return addPoolCon(expr,&pool_float,compareFloat,initFloat);
+}

@@ -34,6 +34,7 @@
  * allocation returns a fresh16-byte record; SymbolLocnDefine attaches it. */
 #include "symlocn.h"
 #include "srcfile.h"
+#include "pending.h"
 #include <recon.h>
 void SrcFileGetTokenLocn(CGIO_LOCATION *location);
 void SymbolLocnDefine(CGIO_LOCATION *location,SYMBOL sym)
@@ -50,4 +51,13 @@ void SymbolLocnDefine(CGIO_LOCATION *location,SYMBOL sym)
         sym->locn=locn;
         sym->flag2=(sym->flag2&~3)|1;
     }
+}
+
+void SymbolLocnFree(SYM_TOKEN_LOCN *location);
+void SymLocnCopy(SYMBOL previous,SYMBOL current)
+{
+    /* The1994 body calls CarveFree even for an empty destination. */
+    SymbolLocnFree(previous->locn);
+    previous->locn=current->locn;
+    current->locn=NULL;
 }
