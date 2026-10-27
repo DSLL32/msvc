@@ -2025,3 +2025,14 @@ FP are retained. Focused typing/exact/repeat/isolation/denial controls pass;
 the ordinary WLINK missing-input diagnostic matches all 161 entries and exact
 text/artifacts (native 25.454ms), with io.c alone selecting the mapping. Retained
 bindings distinguish the actual build from later pending App source edits.
+
+The native imagehlp.h SDK subset supplies the VC5 status enum/stdcall callback,
+BindImageEx WINAPI5 and ReBaseImage WINAPI11 declarations, bind flags and image
+separation constant. These two static imports map to unconditional125 bodies:
+no input/output memory, callbacks, file effects or successful binding/rebasing
+semantics are selected. The existing CheckSumMappedFile ABI/remap is unchanged.
+MapFileAndCheckSumA and checksum status constants are declarations only for a
+later pending caller; no native body/remap or checksum-file success is granted.
+No IMAGEHLP dynamic-export/provider routing is broadened. Native C/C++ typing
+and NULL/invalid/owned-output denial controls cover the cold surface; the actual
+editor caller's unvisited-branch adoption remains pending.

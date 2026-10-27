@@ -22,6 +22,7 @@
 #include <float.h>
 #include <sys/timeb.h>
 #include <win32.h>
+#include <imagehlp.h>
 #include <direct.h>
 #ifdef __cplusplus
 extern "C" {
@@ -454,6 +455,8 @@ void recon_load_system_info_profile(const char *,const char *);
  X(BOOL,CopyFileA,(LPCSTR,LPCSTR,BOOL)) \
  X(BOOL,DeleteFileA,(LPCSTR)) \
  X(PIMAGE_NT_HEADERS,CheckSumMappedFile,(LPVOID,DWORD,LPDWORD,LPDWORD)) \
+ X(BOOL,BindImageEx,(DWORD,LPSTR,LPSTR,LPSTR,PIMAGEHLP_STATUS_ROUTINE)) \
+ X(BOOL,ReBaseImage,(LPSTR,LPSTR,BOOL,BOOL,BOOL,ULONG,ULONG *,ULONG *,ULONG *,ULONG *,ULONG)) \
  X(BOOL,CloseHandle,(HANDLE)) X(DWORD,GetLastError,(void)) X(void,SetLastError,(DWORD)) \
  X(DWORD,GetFileSize,(HANDLE,LPDWORD)) X(BOOL,FlushViewOfFile,(LPCVOID,DWORD)) \
  X(DWORD,GetFileType,(HANDLE)) X(DWORD,SetFilePointer,(HANDLE,LONG,LONG *,DWORD)) \
@@ -833,6 +836,8 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define CreateFileA recon_CreateFileA
 #define DeleteFileA recon_DeleteFileA
 #define CheckSumMappedFile recon_CheckSumMappedFile
+#define BindImageEx recon_BindImageEx
+#define ReBaseImage recon_ReBaseImage
 #define CloseHandle recon_CloseHandle
 #define GetLastError recon_GetLastError
 #define SetLastError recon_SetLastError

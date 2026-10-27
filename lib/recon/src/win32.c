@@ -1782,6 +1782,22 @@ static int checksum_external_output(LPDWORD output,const View *view)
     if(!output || (address&3) || address>UINTPTR_MAX-sizeof(DWORD)) return 0;
     return address<base?base-address>=sizeof(DWORD):address-base>=view->length;
 }
+/* Cold static IMAGEHLP imports: declaration/link surface only. No file,
+ * callback, output-pointer or successful provider behavior is selected. */
+BOOL WINAPI recon_BindImageEx(DWORD flags,LPSTR image,LPSTR dll_path,LPSTR symbol_path,
+    PIMAGEHLP_STATUS_ROUTINE callback)
+{
+    (void)flags;(void)image;(void)dll_path;(void)symbol_path;(void)callback;
+    recon_unsupported("unreviewed IMAGEHLP BindImageEx");return FALSE;
+}
+BOOL WINAPI recon_ReBaseImage(LPSTR image,LPSTR symbols,BOOL rebase,BOOL system_ok,
+    BOOL going_down,ULONG check_size,ULONG *old_size,ULONG *old_base,
+    ULONG *new_size,ULONG *new_base,ULONG timestamp)
+{
+    (void)image;(void)symbols;(void)rebase;(void)system_ok;(void)going_down;
+    (void)check_size;(void)old_size;(void)old_base;(void)new_size;(void)new_base;(void)timestamp;
+    recon_unsupported("unreviewed IMAGEHLP ReBaseImage");return FALSE;
+}
 PIMAGE_NT_HEADERS WINAPI recon_CheckSumMappedFile(LPVOID base,DWORD length,LPDWORD old_sum,LPDWORD new_sum)
 {
     const unsigned char *bytes=base;View *view;DWORD nt,optional_size,field,original;

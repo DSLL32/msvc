@@ -1130,3 +1130,13 @@ build/fsopen-read-cache-generic: tests/fsopen-read-cache-probe.c $(SOURCES) $(HE
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 fsopen-read-cache-check: build/fsopen-read-cache-probe build/fsopen-read-cache-generic
 	$(PYTHON) tests/check-fsopen-read-cache.py $^
+
+.PHONY: imagehlp-cold-editor-check
+build/imagehlp-cold-editor-probe: tests/imagehlp-cold-editor-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/imagehlp-cold-editor-generic: tests/imagehlp-cold-editor-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/imagehlp-cold-editor-types.o: tests/imagehlp-cold-editor-types.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
+imagehlp-cold-editor-check: build/imagehlp-cold-editor-probe build/imagehlp-cold-editor-generic build/imagehlp-cold-editor-types.o
+	$(PYTHON) tests/check-imagehlp-cold-editor.py build/imagehlp-cold-editor-probe build/imagehlp-cold-editor-generic

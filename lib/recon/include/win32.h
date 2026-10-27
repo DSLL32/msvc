@@ -28,6 +28,7 @@ typedef unsigned char BYTE;
 typedef unsigned short WORD, WCHAR;
 typedef unsigned short USHORT;
 typedef unsigned long DWORD;
+typedef unsigned long ULONG;
 typedef long LONG;
 typedef short SHORT;
 typedef unsigned int WPARAM;
@@ -269,6 +270,7 @@ typedef struct _FPO_DATA {
 #define IMAGE_DIRECTORY_ENTRY_GLOBALPTR 8
 #define IMAGE_DIRECTORY_ENTRY_TLS 9
 #define IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG 10
+#define IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT 11
 #define IMAGE_DIRECTORY_ENTRY_IAT 12
 #define IMAGE_DEBUG_TYPE_CODEVIEW 2
 #define IMAGE_DEBUG_TYPE_FPO 3
