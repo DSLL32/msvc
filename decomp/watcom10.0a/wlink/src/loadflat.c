@@ -389,3 +389,22 @@ unsigned long WriteFlatDataPages( void )
     }
     return last;
 }
+
+unsigned char FindOS2ExportSym( symbol *sym, dll_sym_info **dllhandle )
+{
+    entry_export *entry;
+    dll_sym_info *dll;
+
+    /* The old target searches the real export list, not sym->e.export. */
+    for( entry = FmtData.u.os2.exports; entry != 0; entry = entry->next ) {
+        if( (entry->flags & 2) && entry->sym == sym ) {
+            dll = ChkLAlloc( sizeof(*dll) );
+            dll->isordinal = 1;
+            dll->modnum = 0;
+            dll->entry = entry->ordinal;
+            *dllhandle = dll;
+            return 1;
+        }
+    }
+    return 0;
+}

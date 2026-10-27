@@ -5396,6 +5396,36 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcPhysDevice": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSelfRelative": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcInternalRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcToggleRelocsFlag": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSingle": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindOS2ExportSym": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

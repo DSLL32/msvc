@@ -778,3 +778,35 @@ unsigned char ProcRunNative( void )
     FmtData.u.pe.subsystem = 1;
     return 1;
 }
+
+unsigned char ProcPhysDevice( void )
+{
+    FmtData.u.os2.flags |= 0x0400;
+    return 1;
+}
+
+unsigned char ProcSelfRelative( void )
+{
+    LinkFlags |= 0x20000000UL;
+    return 1;
+}
+
+unsigned char ProcInternalRelocs( void )
+{
+    LinkFlags |= 0x08000000UL;
+    return 1;
+}
+
+unsigned char ProcToggleRelocsFlag( void )
+{
+    LinkFlags |= 0x00100000UL;
+    return 1;
+}
+
+unsigned char ProcSingle( void )
+{
+    if( CmdFlags & 0x20 ) LnkMsg( 0x7a30, 0 );
+    FmtData.u.os2.flags = (FmtData.u.os2.flags | 1) & ~2;
+    CmdFlags |= 0x20;
+    return 1;
+}

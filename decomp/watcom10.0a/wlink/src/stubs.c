@@ -201,7 +201,7 @@ unsigned char ProcMemory( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcPhysDevice( void ) { TRAP(); return 0; }
+
 unsigned char ProcVirtDevice( void ) { TRAP(); return 0; }
 
 unsigned char ProcTNT( void ) { TRAP(); return 0; }
@@ -241,7 +241,7 @@ unsigned char ProcExportsDBI( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcInternalRelocs( void ) { TRAP(); return 0; }
+
 unsigned char ProcMangledNames( void ) { TRAP(); return 0; }
 
 unsigned char ProcMaxErrors( void ) { TRAP(); return 0; }
@@ -263,15 +263,15 @@ unsigned char ProcNone( void ) { TRAP(); return 0; }
 unsigned char ProcQuiet( void ) { TRAP(); return 0; }
 unsigned char ProcRWRelocCheck( void ) { TRAP(); return 0; }
 unsigned char ProcRedefsOK( void ) { TRAP(); return 0; }
-unsigned char ProcSelfRelative( void ) { TRAP(); return 0; }
+
 unsigned char ProcSharelib( void ) { TRAP(); return 0; }
 
-unsigned char ProcSingle( void ) { TRAP(); return 0; }
 
 
 
 
-unsigned char ProcToggleRelocsFlag( void ) { TRAP(); return 0; }
+
+
 unsigned char ProcUndefsOK( void ) { TRAP(); return 0; }
 
 
@@ -457,7 +457,7 @@ void FloatReloc( void *data ) { TRAP(); }
 
 
 
-unsigned char FindOS2ExportSym( symbol *sym, dll_sym_info **dll ) { TRAP(); return 0; }
+
 
 
 

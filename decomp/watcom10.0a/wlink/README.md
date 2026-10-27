@@ -1,5 +1,5 @@
-WLINK 10.0a has nineteen completed native regression cases. The acceptance ledger
-contains **1,076 application functions / 124,782 unique original code bytes**.
+WLINK 10.0a has twenty completed native regression cases. The acceptance ledger
+contains **1,082 application functions / 124,993 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -43,6 +43,8 @@ The eighteenth complements it with standard short overlay vectors, fixed library
 placement and an explicit NOVECTOR symbol.
 The nineteenth emits Phar Lap REX with a DOS stub, flat offset relocations,
 data/BSS, stack, min/max memory settings and Watcom debug information.
+The twentieth emits a non-DLL OS/2 LX physical-device image with explicit
+internal/self-relative relocation policy, toggled flags and single autodata.
 
 | Case | Result |
 | --- | --- |
@@ -65,6 +67,7 @@ data/BSS, stack, min/max memory settings and Watcom debug information.
 | `0017-dynamic-overlay` | Exit 0; exact 254-byte stdout, empty stderr, 10,395-byte MZ, 48/32-byte overlays and 9,126-byte map |
 | `0018-short-overlay` | Exit 0; exact 254-byte stdout, empty stderr, 8,223-byte MZ and 9,063-byte map |
 | `0019-pharlap-rex` | Exit 0; exact 261-byte stdout, empty stderr, 27,811-byte REX image and 3,070-byte map |
+| `0020-os2-driver` | Exit 0; exact 262-byte stdout, empty stderr, 1,645-byte LX image and 3,324-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -92,7 +95,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,080 source-ready identities, their actual graph,
+The complete audit passes for 1,086 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -160,8 +163,9 @@ The Phar Lap case matches 496 first entries and every executable byte, including
 the captured DOS stub, 128-byte P3 extended header, 12-byte segment-information
 records, relocations, runtime-parameter block, 104-byte task state, 8-byte protected
 mode descriptors and complete segment/debug images. Only the six map clock
-fields are excluded. The segmented path remains distinct from the simple/REX writers, which remain
-trapped, and the separately exercised extended-flat writer.
+fields are excluded. The segmented path remains distinct from the separately
+qualified MQ/REX and extended-flat writers; the MP simple branch is source-ready
+but has not executed in a completed case.
 
 The ELF case matches 486 first entries and every executable byte, including its
 52-byte ELF32 header, 32-byte program headers, groups, relocations, imports/exports,
@@ -358,3 +362,25 @@ The clock-derived replay reused that capture and took **34.469 ms**, split
 **16.152 / 6.200 / 12.118 ms** for setup/execution/checks. The clean baseline took
 **223.787 ms**, reusing genuine objects/archive/stub. Authoring files, failed
 baseline and raw artifacts remain in scratch wlink-pharlap-rex; case data is flat.
+
+
+The OS/2 device-policy case matches 547 first entries and every LX byte. Its real
+MODEND assembly entry, code/data/BSS relocations, archive and exports exercise
+PHYSDEVICE, single autodata, internal/self-relative relocation generation and
+the toggle-relocations flag. The actual old FindOS2ExportSym walks the export list
+and allocates the five-byte ordinal import descriptor, unlike the later source's
+symbol-owned export shortcut. The resulting non-DLL header has flags 0x20200,
+including the physical-device bit. The initial DLL+PHYSDEVICE baseline instead
+followed DLL precedence; that earlier input/capture remains separately retained
+and is not relabeled as the device result. No device loading/execution is claimed.
+Only the six established map clock digit fields are excluded.
+
+The final parallel build/regression/unit/audit batch took **1.444 s**. All twenty
+cases and 1,086 source-ready graph/ABI identities pass. The 40 native regression
+runs took **17.903–58.458 ms**. The genuine final capture command took
+**1,884.849 ms** (owned target **1,870.726 ms**); native replay took **26.566 ms**.
+The clock-derived replay reused that capture and took **26.815 ms**, split
+**15.555 / 4.790 / 6.469 ms** for setup/execution/checks. The clean non-DLL baseline
+took **242.869 ms**, reusing genuine USE32 objects/archive. Raw artifacts, earlier
+DLL-shape captures and authoring inputs remain in scratch wlink-os2-driver;
+case folders retain only source/capture data.
