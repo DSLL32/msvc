@@ -33,7 +33,8 @@ typedef union CompilerExpressionClasses {
         BYTE unmodeled_3c[1], indirection;
         BYTE unmodeled_3e[3], subscript; /* kind65, RVA63cb9 ->65 */
         BYTE unmodeled_42[1], shift_left, less; /* kinds67/68 ->128/124 */
-        BYTE unmodeled_45[14], member_address; /* kind83, RVA63ccb ->131 */
+        BYTE unmodeled_45[1], subtraction, unmodeled_47[3], multiplication;
+        BYTE unmodeled_4b[6], addition, unmodeled_52[1], member_address; /* kind83, RVA63ccb ->131 */
         BYTE unmodeled_54[17], integer;
         BYTE unmodeled_66[10], call_argument;
         BYTE unmodeled_71[3], assignment; /* kind116, RVA63cec ->116 */
@@ -45,6 +46,9 @@ typedef union CompilerExpressionClasses {
 #ifdef __cplusplus
 typedef char ExpressionSubscriptClassOffset[offsetof(CompilerExpressionClasses, known.subscript) == 65 ? 1 : -1];
 typedef char ExpressionShiftClassOffset[offsetof(CompilerExpressionClasses, known.shift_left) == 67 ? 1 : -1];
+typedef char ExpressionSubtractClassOffset[offsetof(CompilerExpressionClasses, known.subtraction) == 70 ? 1 : -1];
+typedef char ExpressionMultiplyClassOffset[offsetof(CompilerExpressionClasses, known.multiplication) == 74 ? 1 : -1];
+typedef char ExpressionAdditionClassOffset[offsetof(CompilerExpressionClasses, known.addition) == 81 ? 1 : -1];
 typedef char ExpressionMemberAddressOffset[offsetof(CompilerExpressionClasses, known.member_address) == 83 ? 1 : -1];
 typedef char ExpressionRightParenClassOffset[offsetof(CompilerExpressionClasses, known.right_parenthesis) == 126 ? 1 : -1];
 #endif
@@ -192,11 +196,11 @@ typedef struct CompilerIrSymbol {
         /* Source-only tagged views for global-record operands. Native symbol
          * consumers remain guarded; these aliases assign no new defaults. */
         struct {
-            struct CompilerNameEntry *alternate_name;
+            union { struct CompilerNameEntry *alternate_name, *segment_class; };
             union {
                 int integer_value;
                 int enum_base_width;
-                struct { union { BYTE parameter_kind, bit_offset; };
+                struct { union { BYTE parameter_kind, bit_offset, segment_kind; };
                          BYTE bit_width, unmodeled_26[2]; };
             };
             union { unsigned alternate_size; struct CompilerIrSymbol *initializer_symbol; };

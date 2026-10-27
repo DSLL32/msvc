@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 733 application functions / 207,603 code bytes and
-9,406 bytes of owned text data. Application code is 64.42% of the original
+The reconstruction contains 752 application functions / 210,117 code bytes and
+9,406 bytes of owned text data. Application code is 65.20% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All nine cached cases complete natively: DLL attach/export lookup/detach, the
+All ten cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, and the Win32 extensions workload below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, and the storage-initialization diagnostic workload below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -112,6 +112,21 @@ failures remain in scratch `win32-extensions-case-20261027/`. All nine cached
 cases and their units passed in 0.235 s; the final
 original/native build took 4.031 s and the complete graph/ABI
 audit passed in 1.378 s.
+
+The storage-initialization case combines named code/data sections, static string
+pointer tables, aggregate/bitfield/array initializers and scalar conversions.
+The original rejects its nonconstant aggregate initializers under the selected
+C configuration: both executions exit 11 with 551 first entries and the exact
+583-byte diagnostic stream. All four artifacts match: `storageex` (1,132 bytes)
+and empty `storagegl`, `storagein`, and `storagesy`. The final original took
+1,994.363 ms; its matching native run took 20.980 ms. This case adds 19 application
+functions and 2,514 code bytes. A focused test checks fresh/recycled segment
+symbol writes, and the existing snapshot test covers the new segment size,
+cache selector and declaration-context map while retaining unknown-slot sentinels.
+All ten cached invocations and units passed in 0.234 s; the full graph/ABI audit
+passed in 1.366 s. Raw artifacts and retained failures remain in scratch
+`storage-case-20261027/`. The compile rejection is the expected result of this
+invocation, not evidence of successful runtime aggregate compilation.
 
 The original extended-precision boundary uses ten-byte x87 values that VC5
 cannot express with its ordinary `long double`. Tiny documented assembly

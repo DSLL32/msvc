@@ -46,10 +46,13 @@ void *RECON_THISCALL CompilerSymbolTable::Lookup(CompilerNameEntry *name)
 {
     CompilerIrSymbol *symbol = NULL;
     if (buckets) {
-#ifdef RECON_NATIVE_TEST
-        if (bucket_mask != 1023)
+        if (bucket_mask != 1023 && bucket_mask != 15) {
+#ifdef __linux__
             recon_unsupported("tag lookup bucket extent is not yet modeled");
+#else
+            __asm { int 3 }
 #endif
+        }
         unsigned index = (name->flags & bucket_mask) & 0xffff;
         for (CompilerSymbolBinding *binding = buckets[index]; binding; binding = binding->next) {
             if (binding->name == name) {
@@ -128,7 +131,29 @@ CompilerIrSymbol *RECON_THISCALL CompilerParameterBindings::Find(CompilerNameEnt
     }
     return NULL;
 }
-void *RECON_THISCALL CompilerParameterScope::Lookup(CompilerNameEntry *) { __asm { int 3 } return 0; }
+void *RECON_THISCALL CompilerParameterScope::Lookup(CompilerNameEntry *name)
+{
+    CompilerIrSymbol *symbol = parameter_value ? parameter_bindings->FindTag(name) : NULL;
+    if (!symbol) return NULL;
+    CompilerArena *arena = &c1_bss.arenas[3];
+    CompilerScopeLookup *result = (CompilerScopeLookup *)arena->cursor;
+    arena->cursor += 8;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (!result) return NULL;
+    result->symbol = symbol;
+    result->scope = this;
+    return result;
+}
+CompilerIrSymbol *RECON_THISCALL CompilerParameterBindings::FindTag(CompilerNameEntry *name)
+{
+    for (CompilerSymbolBinding *binding = first; binding; binding = binding->next) {
+        if (binding->name == name) {
+            CompilerIrSymbol *symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
+            if (symbol->kind == 4) return symbol;
+        }
+    }
+    return NULL;
+}
 void *RECON_THISCALL CompilerParameterScope::FindOrdinary(CompilerNameEntry *name)
 {
     CompilerIrSymbol *symbol = NULL;

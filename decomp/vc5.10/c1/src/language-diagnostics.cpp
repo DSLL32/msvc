@@ -64,7 +64,7 @@ extern "C" void __cdecl report_language_diagnostic(unsigned level, unsigned numb
 }
 extern "C" const char *__stdcall get_diagnostic_message(unsigned number)
 {
-    if (number != C1_TEXT_FASTCALL_STACK_CHECK) {
+    if (number != C1_TEXT_FASTCALL_STACK_CHECK && number != C1_TEXT_ILLEGAL_INITIALIZATION) {
 #ifdef __linux__
         recon_unsupported("language diagnostic resource is not reconstructed");
 #else
@@ -164,4 +164,14 @@ extern "C" void __cdecl initialize_compiler_messages(void)
         LoadStringA(c1_dll_instance, entry->id, buffer, sizeof(buffer));
         entry->text = _strdup(buffer);
     }
+}
+
+/* Separate warning entry used when a caller already owns the argument list. */
+extern "C" void __cdecl compiler_warning_v(unsigned number, va_list arguments)
+{
+    const char *message = get_diagnostic_message(number + 2000);
+    emit_language_diagnostic(2000, number, message, arguments);
+    if (++c1_bss.parser_early_result > 100) compiler_error(3, 100);
+    if (c1_bss.debug_module && !c1_bss.debug_module->Slot44())
+        compiler_error(73, ".\\error.c", 198);
 }

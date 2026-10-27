@@ -150,7 +150,10 @@ WORD __cdecl merge_declarator_qualifiers(WORD, WORD); /* RVA0ca41 */
 void __cdecl process_declaration(const CompilerParserDeclaration *); /* RVA0d706 */
 BYTE __cdecl prepare_bitfield(CompilerIrSymbol *, __int64); /* RVA0e4d2 */
 void __cdecl add_enumerator(CompilerNameEntry *, CompilerType *, __int64); /* RVA0eed5 */
-CompilerType * __cdecl parse_enum_specifier(void); /* RVA0f092 */
+CompilerType * __cdecl parse_enum_specifier(void); /* Distinct physical record-id callback owners, separate from pointer-name callbacks. */
+extern "C" unsigned __cdecl hash_record_id(void *value) { return (unsigned)value; }
+extern "C" int __cdecl record_ids_equal(void *left, void *right) { return left == right; }
+/* RVA0f092 */
 __int64 __cdecl next_enumerator_value(__int64, CompilerNameEntry *); /* RVA0f123 */
 CompilerParserNode * __cdecl make_label_expression(CompilerIrSymbol *, int); /* RVA10519 */
 CompilerParserNode * __cdecl make_internal_label(unsigned); /* RVA1066f */
@@ -497,6 +500,7 @@ read_action:
         case 9:
         case 10: /* Function declarator identity, then genuine finalization. */
         case 11: /* Reads only the established lexer diagnostic flag. */
+        case 13: /* Existing declaration view enters its genuine standalone-declaration owner. */
         case 20:
         case 21: /* Old-style declaration-list continuation clears the existing control flags. */
         case 16:
@@ -2739,7 +2743,47 @@ WORD __cdecl merge_declarator_qualifiers(WORD previous, WORD added)
     return previous | added;
 }
 /* RVA0d706 */
-void __cdecl process_declaration(const CompilerParserDeclaration *) { __asm { int 3 } }
+unsigned __cdecl save_type_context(void);
+void __cdecl restore_type_context(void);
+extern "C" const char *__cdecl diagnostic_text_data(unsigned);
+extern "C" unsigned __cdecl format_diagnostic_type(unsigned, unsigned, unsigned, CompilerType *);
+extern "C" CompilerIrSymbol *__cdecl create_tag_symbol(CompilerNameEntry *, WORD, CompilerDeclarationApply *, int);
+void __cdecl process_declaration(const CompilerParserDeclaration *declaration)
+{
+    CompilerType *type = declaration->type;
+    unsigned kind = type->flags & 0x2fef;
+    switch (kind) {
+    case 0x41: case 0x42: case 0x44: case 0x80:
+    case 0x106: case 0x107: case 0x108:
+        if (parser_flags & 0x400) return;
+        if (c1_data.options.language_extensions) {
+            save_type_context();
+            unsigned text = format_diagnostic_type(0, declaration->flags,
+                declaration->value, type);
+            report_language_diagnostic(2, 91, diagnostic_text_data(text), type);
+            restore_type_context();
+        } else compiler_warning(59, 77, 375);
+        break;
+    case 0x402: case 0x404: case 0x408:
+        {
+            CompilerNameEntry *name = type->symbol_owner->binding.name;
+            if (name == c1_data.builtin_names.unnamed) {
+                if (c1_data.options.language_extensions)
+                    report_language_diagnostic(2, 94, type);
+                else compiler_warning(59, 77, 375);
+            } else if (!c1_bss.tag_declaration_seen) {
+                CompilerDeclarationApply apply = &CompilerTranslationUnit::InsertDeclaration;
+                CompilerIrSymbol *symbol = create_tag_symbol(name, type->flags, &apply, 0);
+                if (apply) (c1_data.translation_unit->*apply)(symbol);
+            }
+        }
+        break;
+    }
+}
+/* RVA433a8: diagnostic context/flags/value/type formatter, not the separate
+ * symbol-declaration formatter at42ec1. */
+extern "C" unsigned __cdecl format_diagnostic_type(unsigned, unsigned, unsigned, CompilerType *)
+{ __asm { int 3 } return 0; }
 /* RVA0e4d2 */
 BYTE __cdecl prepare_bitfield(CompilerIrSymbol *symbol, __int64 width)
 {
@@ -2877,14 +2921,15 @@ extern "C" CompilerSymbolMapEntry *__cdecl append_enum_symbol(CompilerSymbolMap 
 }
 extern "C" unsigned __cdecl hash_enum_name(void *);
 extern "C" {
-/* Encountered name and static-symbol hash slots0/2. Slot1 is unmodeled
+/* Encountered name/static-symbol/record-id hash slots0/2/3. Slot1 is unmodeled
  * representation and guarded before lookup; it is not a NULL original row. */
 unsigned __cdecl hash_static_symbol(void *);
-unsigned (__cdecl *c1_enum_hashers[])(void *) = { hash_enum_name, NULL, hash_static_symbol };
+unsigned __cdecl hash_record_id(void *);
+unsigned (__cdecl *c1_enum_hashers[])(void *) = { hash_enum_name, NULL, hash_static_symbol, hash_record_id };
 }
 extern "C" unsigned __cdecl enum_symbol_bucket(CompilerSymbolMap *context, void *name)
 {
-    if (context->hash_kind != 0 && context->hash_kind != 2) {
+    if (context->hash_kind != 0 && context->hash_kind != 2 && context->hash_kind != 3) {
 #ifdef __linux__
         recon_unsupported("enum hash selector is not yet recovered");
 #else
@@ -2900,14 +2945,15 @@ extern "C" unsigned __cdecl hash_enum_name(void *name)
 extern "C" int __cdecl enum_names_equal(void *, void *);
 extern "C" {
 int __cdecl static_symbols_equal(void *, void *);
-int (__cdecl *c1_enum_matchers[])(void *, void *) = { enum_names_equal, static_symbols_equal };
+int __cdecl record_ids_equal(void *, void *);
+int (__cdecl *c1_enum_matchers[])(void *, void *) = { enum_names_equal, static_symbols_equal, record_ids_equal };
 }
 extern "C" CompilerSymbolMapEntry *__cdecl find_enum_entry(CompilerSymbolMap *context,
     void *name, unsigned bucket)
 {
     CompilerSymbolMapEntry *entry;
     int (__cdecl *matches)(void *, void *);
-    if (context->match_kind != 0 && context->match_kind != 1) {
+    if (context->match_kind != 0 && context->match_kind != 1 && context->match_kind != 2) {
 #ifdef __linux__
         recon_unsupported("enum equality selector is not yet recovered");
 #else
@@ -3222,7 +3268,10 @@ void __cdecl prepare_function_definition(const CompilerParserDeclaration *declar
           declarator->parameters->kind == 2 && declarator->parameters->bindings) &&
         !(parameter_storage_class == 5 && symbol->function_type->shape &&
         (symbol->function_type->shape->flags & 0x4000) &&
-        symbol->function_type->shape->parameters == c1_data.void_type_list)) || function_context)
+        symbol->function_type->shape->parameters == c1_data.void_type_list)) ||
+        (function_context && (((CompilerIrSymbol *)function_context)->kind != 14 ||
+          ((CompilerIrSymbol *)function_context)->segment_kind != 0 ||
+          ((CompilerIrSymbol *)function_context)->value_type != c1_data.builtin_types.type_0802)))
         recon_unsupported("function-definition context or parameter domain is not yet modeled");
 #endif
     if (symbol->kind != 7 && symbol->kind != 8) {
@@ -3277,7 +3326,16 @@ void __cdecl reset_function_label_state(void)
     c1_data.function_label_state_first = -1;
     c1_data.function_label_state_second = -1;
 }
-void __cdecl apply_function_context(CompilerIrSymbol *, void *) { __asm { int 3 } }
+void __cdecl apply_function_context(CompilerIrSymbol *symbol, void *context)
+{
+    if (symbol->function_flags & 1) {
+        if (lookup_ir_symbol(symbol) != context) compiler_warning(193, symbol);
+        return;
+    }
+    if (!context) symbol->function_flags &= ~1;
+    else attach_declaration_context(symbol, context);
+    symbol->function_flags |= 2;
+}
 /* RVA10ffa */
 /* These contextual cells are held until their actual function-body uses. */
 #define function_stack_check_reported c1_bss.function_stack_check_reported /* RVA53d68, BSS */
@@ -3914,8 +3972,11 @@ extern "C" CompilerParserNode *__cdecl create_string_literal_reference(
 }
 CompilerType *RECON_THISCALL CompilerType::WithoutOuterShape(void)
 { __asm { int 3 } return NULL; }
-extern "C" void __cdecl apply_symbol_segment(CompilerIrSymbol *, CompilerIrSymbol *)
-{ __asm { int 3 } }
+extern "C" void __cdecl apply_symbol_segment(CompilerIrSymbol *symbol, CompilerIrSymbol *segment)
+{
+    if (!segment) symbol->function_flags &= ~1;
+    else attach_declaration_context(symbol, segment);
+}
 int __cdecl suppress_ir_call(CompilerParserNode *) { __asm { int 3 } return 0; }
 CompilerParserNode *__cdecl make_typed_unary_operation(unsigned operation, CompilerType *type,
     CompilerParserNode *operand)
@@ -6762,7 +6823,7 @@ int __cdecl returns_local_address(CompilerParserNode *value)
     return 0;
 }
 /* Shared BYTE column at63c78: two encountered semantic relations only. */
-CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, {0}, 61, {0}, 65, {0}, 128, 124, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126 } };
+CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, {0}, 61, {0}, 65, {0}, 128, 124, {0}, 70, {0}, 74, {0}, 81, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126 } };
 CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *value)
 {
     for (;;) {
@@ -7591,7 +7652,20 @@ CompilerParserNode *__cdecl make_sizeof_expression(CompilerParserNode *value)
 /* RVA21dd6 */
 void __cdecl begin_external_declaration(void) { __asm { int 3 } }
 /* RVA22e59 */
-void __cdecl attach_declaration_context(CompilerIrSymbol *, void *) { __asm { int 3 } }
+extern "C" void *__cdecl create_enum_context(unsigned, unsigned, unsigned, unsigned, int, int);
+void __cdecl attach_declaration_context(CompilerIrSymbol *symbol, void *context)
+{
+    if (!(symbol->record_id & 0xffffff)) {
+        if (c1_data.next_symbol_record_id >= 0x7fffffffU) compiler_fatal(55);
+        symbol->record_id = (symbol->record_id & 0xff000000U) |
+            (c1_data.next_symbol_record_id++ & 0xffffff);
+    }
+    if (!c1_data.declaration_context_map)
+        c1_data.declaration_context_map = (CompilerSymbolMap *)create_enum_context(31, 0, 3, 2, 0, 1);
+    append_enum_symbol(c1_data.declaration_context_map, (void *)(symbol->record_id & 0xffffff),
+        (CompilerIrSymbol *)context);
+    symbol->function_flags |= 1;
+}
 /* RVA23957 */
 void __cdecl begin_exception_handler(void)
 {
@@ -10400,5 +10474,13 @@ extern "C" void __cdecl scan_class192_attributes(CompilerDeclarationAttributes *
         token = c1_bss.current_context.ReadToken();
     }
 }
-CompilerIrSymbol *RECON_THISCALL CompilerTranslationUnit::FindAllocatedSegment(CompilerNameEntry *)
-{ __asm { int 3 } return NULL; }
+extern "C" CompilerIrSymbol *__cdecl find_named_symbol(CompilerSymbolBinding *, CompilerNameEntry *);
+typedef char TranslationUnitSegmentsOffset[offsetof(CompilerTranslationUnit, symbols) == 532 ? 1 : -1];
+#pragma intrinsic(strlen)
+CompilerIrSymbol *RECON_THISCALL CompilerTranslationUnit::FindAllocatedSegment(CompilerNameEntry *name)
+{
+    if (strlen(name->name) > 127) name->name[127] = 0;
+    if (symbols && name && name != c1_data.builtin_names.unnamed)
+        return find_named_symbol(symbols, name);
+    return NULL;
+}

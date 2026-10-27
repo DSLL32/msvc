@@ -550,7 +550,7 @@ extern "C" void __cdecl finish_aggregate_initializer(CompilerParserNode *input)
     if (!input || c1_data.initializer_depth < 0 || (c1_bss.initializer_frame->flags & 0x20)) return;
     original = strip_value_wrappers(input);
     value = original;
-    if (value->kind != 101 && value->kind != 6 && value->kind != 7) {
+    if (value->kind != 101 && value->kind != 6 && value->kind != 7 && value->kind != 61 && value->kind != 70 && value->kind != 74 && value->kind != 81) {
 #ifdef __linux__
         recon_unsupported("initializer expression classification cell is not yet modeled");
 #else
@@ -759,7 +759,19 @@ extern "C" void __cdecl convert_initializer_expression(CompilerIrSymbol *symbol,
         else report_language_diagnostic(4, 232, symbol, referenced);
     }
 }
-extern "C" void __cdecl emit_runtime_initializer(CompilerIrSymbol *, CompilerParserNode *) { __asm { int 3 } }
+extern "C" void __cdecl emit_runtime_initializer(CompilerIrSymbol *symbol,
+    CompilerParserNode *value)
+{
+    CompilerIrSymbol *referenced = NULL;
+    int displacement = 0;
+    if (get_static_initializer_reference(value, &referenced, &displacement) &&
+        referenced && (referenced->storage_class & 7) == 4) {
+        if (c1_data.options.language_extensions)
+            report_language_diagnostic(4, 221, symbol, referenced);
+        else
+            compiler_warning(93, symbol, referenced);
+    }
+}
 extern "C" int __cdecl finish_initializer_value(void)
 {
     CompilerInitializerFrame *frame;
@@ -898,7 +910,53 @@ extern "C" WORD __cdecl get_initializer_string_length(CompilerIrSymbol *symbol, 
         report_language_diagnostic(1, 45, value->text);
     return bytes;
 }
-extern "C" void __cdecl write_runtime_initializer_value(CompilerIrSymbol *, CompilerParserNode *) { __asm { int 3 } }
+extern "C" CompilerParserNode *__cdecl make_runtime_initializer_target(CompilerType *);
+extern "C" CompilerParserNode *__cdecl make_expression_with_type(CompilerParserNode *, CompilerParserNode *, unsigned);
+extern "C" void __cdecl emit_runtime_initializer_record(unsigned, CompilerParserNode *);
+extern "C" void __cdecl report_extension_diagnostic(unsigned, unsigned, ...);
+extern "C" int __cdecl emit_runtime_initializer_assignment(CompilerParserNode *, CompilerParserNode *);
+extern "C" void __cdecl write_runtime_initializer_value(CompilerIrSymbol *symbol,
+    CompilerParserNode *value)
+{
+    CompilerParserNode *target, *arguments;
+    unsigned bytes;
+    if (!check_initializer_expression(symbol, &value))
+        report_extension_diagnostic(204, 97);
+    target = make_runtime_initializer_target(symbol->value_type);
+    if (initializer_accepts_string(symbol, value)) {
+        value->string_length = get_initializer_string_length(symbol, value);
+        arguments = make_expression_with_type(NULL, target, 1);
+        arguments = make_expression_with_type(arguments, value, 1);
+        arguments = make_expression_with_type(arguments,
+            (CompilerParserNode *)make_integer_constant(value->string_length), 1);
+        emit_runtime_initializer_record(172, arguments);
+        c1_bss.initializer_bytes += value->string_length;
+    } else {
+        target->type = symbol->value_type;
+        bytes = global_type_size(symbol->value_type);
+        emit_runtime_initializer_assignment(target, value);
+        c1_bss.initializer_bytes += bytes;
+    }
+}
+extern "C" CompilerParserNode *__cdecl make_typed_binary_expression(unsigned,
+    CompilerParserNode *, CompilerParserNode *, CompilerType *);
+extern "C" CompilerParserNode *__cdecl make_runtime_initializer_target(CompilerType *type)
+{
+    CompilerParserNode *offset, *base;
+    if (initializer_requires_storage(c1_bss.initializer_symbol))
+        return make_label_expression(c1_bss.initializer_symbol, 0);
+    offset = (CompilerParserNode *)make_integer_constant(c1_bss.initializer_bytes);
+    base = make_label_expression(c1_bss.initializer_symbol, 0);
+    return make_typed_binary_expression(80, base, offset, type);
+}
+extern "C" CompilerParserNode *__cdecl make_binary_expression(BYTE, CompilerParserNode *, CompilerParserNode *);
+extern "C" void __cdecl emit_expression(CompilerParserNode *);
+extern "C" CompilerParserNode *__cdecl make_ir_operation(unsigned, CompilerParserNode *, CompilerParserNode *);
+extern "C" void __cdecl emit_runtime_initializer_record(unsigned operation, CompilerParserNode *arguments)
+{
+    CompilerParserNode *code = (CompilerParserNode *)make_integer_constant(operation);
+    emit_expression(make_ir_operation(119, code, arguments));
+}
 extern "C" void __cdecl finish_runtime_bitfield(CompilerParserNode *) { __asm { int 3 } }
 extern "C" CompilerParserNode *__cdecl make_typed_constant(CompilerType *, const void *, unsigned);
 extern "C" CompilerParserNode *__cdecl take_expression_address(CompilerParserNode *);

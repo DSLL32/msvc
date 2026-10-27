@@ -1400,6 +1400,14 @@ static const struct CompilerPragmaName {
     { "age", PRAGMA_PAGE },
     { "ack", PRAGMA_PACK }
 };
+/* Encountered prefix3..6 of the 'c' bucket, in original search order.
+ * The following check_stack/check_pointer rows are not consumed here. */
+static const CompilerPragmaName pragma_c_prefix[] = {
+    { "onst_seg", PRAGMA_CONST_SEG },
+    { "omponent", PRAGMA_COMPONENT },
+    { "omment", PRAGMA_COMMENT },
+    { "ode_seg", PRAGMA_CODE_SEG }
+};
 extern "C" int __cdecl classify_pragma_name(const char *name)
 {
     unsigned i;
@@ -1408,6 +1416,14 @@ extern "C" int __cdecl classify_pragma_name(const char *name)
     /* Encountered relation24 in the 'o' bucket: suffix nce -> ONCE37.
      * Other 'o' spellings remain unsupported rather than missing keywords. */
     if (first == 'o' && strcmp(name + 1, "nce") == 0) return PRAGMA_ONCE;
+    /* The complete encountered 'd' bucket is relation9: ata_seg ->22. */
+    if (first == 'd') return strcmp(name + 1, "ata_seg") == 0 ? PRAGMA_DATA_SEG : PRAGMA_UNKNOWN;
+    if (first == 'c') {
+        for (i = 0; i != sizeof(pragma_c_prefix) / sizeof(pragma_c_prefix[0]); ++i)
+            if (strcmp(pragma_c_prefix[i].suffix, name + 1) == 0)
+                return pragma_c_prefix[i].selector;
+        __asm { int 3 }
+    }
     if (first != 'p') { __asm { int 3 } }
     ++name;
     for (i = 0; i != sizeof(pragma_p_names) / sizeof(pragma_p_names[0]); ++i)

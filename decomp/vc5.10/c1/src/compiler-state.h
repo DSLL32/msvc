@@ -14,7 +14,7 @@
 
 /* Only recovered semantic fields live here. Other historical bytes are
  * UNMODELED; neither zero defaults nor byte equivalence are assumed. */
-/* Original RVA5f400 has26 DWORD slots. Only kinds1/2/3/4/5/6/9/10/11/12/13 are known.
+/* Original RVA5f400 has26 DWORD slots. Only kinds1/2/3/4/5/6/9/10/11/12/13/14 are known.
  * Gap storage supplies layout, never defaults, snapshot bytes or read access. */
 typedef struct CompilerMessageText { unsigned id; char *text; } CompilerMessageText;
 typedef char CompilerMessageText_size[sizeof(CompilerMessageText) == 8 ? 1 : -1];
@@ -32,7 +32,8 @@ typedef struct CompilerRecordSizeFields {
         unsigned named_parameter_symbol_bytes; /* slot11, RVA5f42c, default52 */
         unsigned parameter_symbol_bytes; /* slot12, RVA5f430, default52 */
         unsigned abstract_symbol_bytes; /* slot13, RVA5f434, default52 */
-        unsigned unmodeled_0e[12];
+        unsigned segment_symbol_bytes; /* slot14, RVA5f438, default52 */
+        unsigned unmodeled_0f[11];
 } CompilerRecordSizeFields;
 typedef union CompilerRecordSizes {
     CompilerRecordSizeFields known;
@@ -49,6 +50,7 @@ typedef char CompilerRecordSizes_kind9[offsetof(CompilerRecordSizeFields, global
 typedef char CompilerRecordSizes_kind10[offsetof(CompilerRecordSizeFields, static_symbol_bytes) == 40 ? 1 : -1];
 typedef char CompilerRecordSizes_kind11[offsetof(CompilerRecordSizeFields, named_parameter_symbol_bytes) == 44 ? 1 : -1];
 typedef char CompilerRecordSizes_kind12[offsetof(CompilerRecordSizeFields, parameter_symbol_bytes) == 48 ? 1 : -1];
+typedef char CompilerRecordSizes_kind14[offsetof(CompilerRecordSizeFields, segment_symbol_bytes) == 56 ? 1 : -1];
 typedef char CompilerRecordSizes_kind13[offsetof(CompilerRecordSizeFields, abstract_symbol_bytes) == 52 ? 1 : -1];
 /* Only heads5/9/10 of the source's indexed cache are known. The open-ended array
  * spelling retains the original generic access, not an inferred table bound.
@@ -189,6 +191,8 @@ typedef struct CompilerInitializedState {
     CompilerMessageText compiler_messages[C1_COMPILER_MESSAGE_COUNT]; /* RVA5f5e8..5f8a0, including sentinel. */
     int compiler_messages_initialized; /* RVA5f8a0, DWORD0; lazy text catalog. */
     unsigned member_symbol_cache_index; /* RVA5f474, actual DWORD9. */
+    unsigned segment_symbol_cache_index; /* RVA5f4a0, default9; segment-symbol recycle selector. */
+    CompilerSymbolMap *declaration_context_map; /* RVA5e9a8, defaultNULL; record-id to declaration-context binding. */
     CompilerRecordSizes record_sizes;
     CompilerSymbolCacheHeads symbol_cache; /* base5e4f8; only heads5/9/10 are known */
     CompilerDeclarationReferenceDefaults segment_defaults;

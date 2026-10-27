@@ -2002,3 +2002,50 @@ extern "C" int c1_test_assembly_mov_record(void)
     }
     return 1;
 }
+
+extern "C" CompilerIrSymbol *__cdecl create_segment_symbol(CompilerNameEntry *, CompilerNameEntry *, unsigned, unsigned);
+extern "C" int c1_test_segment_symbol_storage(void)
+{
+    DWORD owned[15];
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)(owned + 1), expected;
+    CompilerNameEntry name, class_name;
+    CompilerSymbolBinding active, free_next;
+    CompilerTranslationUnit unit;
+    CompilerType segment_type;
+    unsigned recycled, i;
+    c1_data.translation_unit = &unit;
+    c1_data.builtin_types.type_0802 = &segment_type;
+    c1_data.segment_symbol_cache_index = 9;
+    c1_data.record_sizes.known.segment_symbol_bytes = 52;
+    for (recycled = 0; recycled != 2; ++recycled) {
+        unsigned identifier = recycled ? 5 : 23;
+        for (i = 0; i < 15; ++i) owned[i] = 0xa5a5a5a5U;
+        unit.symbols = &active;
+        c1_bss.arenas[0].cursor = (BYTE *)symbol;
+        c1_bss.arenas[0].committed_limit = (BYTE *)symbol + 52;
+        if (recycled) {
+            symbol->binding.next = &free_next;
+            c1_data.abstract_symbol_free = &symbol->binding;
+            /* This path has an authentic whole52-byte clear. */
+            memset(&expected, 0, sizeof(expected));
+        } else {
+            c1_data.abstract_symbol_free = NULL;
+            /* Fresh storage has no inferred zero/default fields. */
+            memcpy(&expected, symbol, sizeof(expected));
+        }
+        expected.kind = 14;
+        expected.binding.name = &name;
+        expected.binding.next = &active;
+        expected.record_id = (expected.record_id & 0xff000000U) | identifier;
+        if (identifier < 16) expected.reference_flags = (expected.reference_flags & 7) | (identifier << 3);
+        expected.segment_kind = 1;
+        expected.value_type = &segment_type;
+        expected.segment_class = &class_name;
+        if (create_segment_symbol(&name, &class_name, identifier, 1) != symbol ||
+            memcmp(symbol, &expected, sizeof(expected)) || unit.symbols != &symbol->binding ||
+            c1_data.abstract_symbol_free != (recycled ? &free_next : NULL) ||
+            c1_bss.arenas[0].cursor != (BYTE *)symbol + (recycled ? 0 : 52) ||
+            owned[0] != 0xa5a5a5a5U || owned[14] != 0xa5a5a5a5U) return 0;
+    }
+    return 1;
+}

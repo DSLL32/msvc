@@ -26,6 +26,7 @@ int __cdecl initialize_compiler_pass(void)
         saved->record_sizes.known.named_parameter_symbol_bytes = c1_data.record_sizes.known.named_parameter_symbol_bytes;
         saved->record_sizes.known.parameter_symbol_bytes = c1_data.record_sizes.known.parameter_symbol_bytes;
         saved->record_sizes.known.abstract_symbol_bytes = c1_data.record_sizes.known.abstract_symbol_bytes;
+        saved->record_sizes.known.segment_symbol_bytes = c1_data.record_sizes.known.segment_symbol_bytes;
         saved->abstract_symbol_free = c1_data.abstract_symbol_free;
         saved->symbol_cache.known.head10 = c1_data.symbol_cache.known.head10;
         saved->symbol_cache.known.head5 = c1_data.symbol_cache.known.head5;
@@ -59,6 +60,7 @@ int __cdecl initialize_compiler_pass(void)
         c1_data.record_sizes.known.named_parameter_symbol_bytes = saved->record_sizes.known.named_parameter_symbol_bytes;
         c1_data.record_sizes.known.parameter_symbol_bytes = saved->record_sizes.known.parameter_symbol_bytes;
         c1_data.record_sizes.known.abstract_symbol_bytes = saved->record_sizes.known.abstract_symbol_bytes;
+        c1_data.record_sizes.known.segment_symbol_bytes = saved->record_sizes.known.segment_symbol_bytes;
         c1_data.abstract_symbol_free = saved->abstract_symbol_free;
         c1_data.symbol_cache.known.head10 = saved->symbol_cache.known.head10;
         c1_data.symbol_cache.known.head5 = saved->symbol_cache.known.head5;

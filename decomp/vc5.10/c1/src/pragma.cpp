@@ -8,7 +8,7 @@
 #include "global-record.h"
 #include "pragma.h"
 #include "packing.h"
-#pragma intrinsic(strcmp)
+#pragma intrinsic(strcmp, memcpy, memset)
 #include <recon.h>
 
 /* Contextual cells on currently unsupported branches. No initialized value,
@@ -94,7 +94,7 @@ extern "C" CompilerParserToken *__cdecl dispatch_recorded_pragma(void)
     PRAGMA_ASSERT(c1_bss.debug_module->Slota4(), 0x410);
     token = PRAGMA_CONTEXT.ReadToken();
     code = token->kind;
-    if (code != PRAGMA_PACK && code != 45 &&
+    if (code != PRAGMA_PACK && code != PRAGMA_DATA_SEG && code != PRAGMA_CODE_SEG && code != 45 &&
         (code != 44 || !token->value.context.object)) {
 #ifdef __linux__
         recon_unsupported("pragma dispatcher: unsupported source marker or missing owner");
@@ -472,9 +472,120 @@ extern "C" void __cdecl skip_to_directive_newline(CompilerParserToken *) { __asm
 extern "C" void __cdecl set_warning_state(unsigned, unsigned) { __asm { int 3 } }
 extern "C" CompilerParserToken * __cdecl read_optional_pragma_value(unsigned) { __asm { int 3 } return NULL; }
 extern "C" CompilerParserToken * __cdecl read_required_pragma_value(unsigned) { __asm { int 3 } return NULL; }
-extern "C" CompilerParserToken * __cdecl read_pragma_string(void) { __asm { int 3 } return NULL; }
+extern "C" void __cdecl append_literal_text(CompilerStringValue *, const CompilerStringValue *);
+extern "C" CompilerParserToken * __cdecl read_pragma_string(void)
+{
+    CompilerParserToken *token = expect_directive_token(7), *result;
+    CompilerStringValue text;
+    if (!token) return NULL;
+    text = token->value.string_attributes;
+    token = PRAGMA_CONTEXT.ReadToken();
+    while (token->kind == 7) {
+        append_literal_text(&text, &token->value.string_attributes);
+        token = PRAGMA_CONTEXT.ReadToken();
+    }
+    PRAGMA_UNREAD(token);
+    c1_bss.literal.string_attributes = text;
+    if (c1_bss.symbol_arena_kind) {
+        if (c1_bss.symbol_arena_kind >= 6)
+            PRAGMA_UNSUPPORTED("pragma string token arena is outside the recovered owners");
+        CompilerArena *arena = &c1_bss.arenas[c1_bss.symbol_arena_kind];
+        result = (CompilerParserToken *)arena->cursor;
+        arena->cursor += 32;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    } else {
+        CompilerPool *pool = &c1_bss.pools[6];
+        if (pool->remaining < 32) pool->Refill(32);
+        result = (CompilerParserToken *)pool->cursor;
+        pool->cursor += 32;
+        pool->remaining -= 32;
+    }
+    if (result) {
+        result->kind = 7;
+        /* Both representations retain this existing24-byte owner. Only its
+         * string prefix is interpreted here; the copied tail stays opaque. */
+        memcpy(&result->value, &c1_bss.literal, 24);
+    }
+    return result;
+}
 extern "C" CompilerParserToken * __cdecl read_pragma_switch(void) { __asm { int 3 } return NULL; }
-extern "C" CompilerIrSymbol * __cdecl find_or_create_segment(CompilerNameEntry *, CompilerNameEntry *, unsigned, unsigned) { __asm { int 3 } return NULL; }
+extern "C" CompilerIrSymbol *__cdecl create_segment_symbol(CompilerNameEntry *, CompilerNameEntry *, unsigned, unsigned);
+extern "C" int __cdecl segment_has_suffix(const char *, const char *);
+extern "C" CompilerIrSymbol *__cdecl lookup_ir_symbol(CompilerIrSymbol *);
+extern "C" void __cdecl compiler_fatal(int);
+typedef char SegmentClassOffset[offsetof(CompilerIrSymbol, segment_class) == 32 ? 1 : -1];
+typedef char SegmentKindOffset[offsetof(CompilerIrSymbol, segment_kind) == 36 ? 1 : -1];
+extern "C" CompilerIrSymbol * __cdecl find_or_create_segment(CompilerNameEntry *name,
+    CompilerNameEntry *class_name, unsigned requested_kind, unsigned)
+{
+    CompilerIrSymbol *segment = c1_data.translation_unit->FindAllocatedSegment(name);
+    BYTE kind = (BYTE)requested_kind;
+    if (segment) {
+        BYTE previous = segment->segment_kind;
+        if (kind != 8 && kind != previous &&
+            ((kind == 0 || kind == 2) != (previous == 0 || previous == 2))) {
+            if ((previous == 0 || previous == 2) && (segment->record_id & 0xffffff) != 5)
+                compiler_warning(194, segment);
+            else if (kind != 1) compiler_warning(195, segment);
+        }
+        if (class_name && class_name != c1_data.builtin_names.unnamed) {
+            if (!segment->segment_class || segment->segment_class == c1_data.builtin_names.unnamed)
+                segment->segment_class = class_name;
+            if (class_name != segment->segment_class)
+                report_language_diagnostic(1, 613, segment);
+        }
+        if ((segment->record_id & 0xffffff) == 5 && (c1_data.lexer_flags & 0x20000) &&
+            (c1_bss.current_scope_symbol->function_flags & 1))
+            segment = lookup_ir_symbol(c1_bss.current_scope_symbol);
+        if (c1_data.function_context && (segment->record_id & 0xffffff) == 5)
+            segment = (CompilerIrSymbol *)c1_data.function_context;
+        if (declaration_reference_defaults.definition && (segment->record_id & 0xffffff) == 2)
+            segment = declaration_reference_defaults.definition;
+        if (segment->segment_kind == 2 && !kind) segment->segment_kind = 0;
+        return segment;
+    }
+    if (kind == 8 && segment_has_suffix(name->name, "_TEXT"))
+        requested_kind = (requested_kind & ~0xffU) | 2;
+    if (c1_data.next_symbol_record_id >= 0x7fffffffU) compiler_fatal(55);
+    return create_segment_symbol(name, class_name, c1_data.next_symbol_record_id++, requested_kind);
+}
+/* Genuine children: their bodies remain unavailable at this frontier. */
+extern "C" CompilerIrSymbol *__cdecl create_segment_symbol(CompilerNameEntry *name,
+    CompilerNameEntry *class_name, unsigned identifier, unsigned kind)
+{
+    if (c1_data.segment_symbol_cache_index != 9 ||
+        c1_data.record_sizes.known.segment_symbol_bytes != 52)
+        PRAGMA_UNSUPPORTED("segment symbol size or cache selector is outside the recovered cells");
+    CompilerSymbolBinding *binding = c1_data.abstract_symbol_free;
+    CompilerIrSymbol *symbol = NULL;
+    if (binding) {
+        c1_data.abstract_symbol_free = binding->next;
+        symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
+        binding->name = NULL;
+        binding->next = NULL;
+        memset(symbol, 0, c1_data.record_sizes.known.segment_symbol_bytes);
+        binding->name = name;
+        symbol->kind = 14;
+    }
+    if (!symbol) {
+        BYTE *memory = c1_bss.arenas[0].AllocateBytes(
+            (c1_data.record_sizes.known.segment_symbol_bytes + 3) & ~3U);
+        symbol = memory ? ((CompilerIrSymbol *)memory)->Initialize(14, name, 0) : NULL;
+    }
+    symbol->record_id = (symbol->record_id & 0xff000000U) | (identifier & 0xffffffU);
+    if (identifier < 16) symbol->reference_flags = (symbol->reference_flags & 7) | (identifier << 3);
+    symbol->segment_kind = (BYTE)kind;
+    symbol->value_type = c1_data.builtin_types.type_0802;
+    symbol->segment_class = class_name;
+    if (name && name != c1_data.builtin_names.unnamed) {
+        CompilerSymbolBinding *head = c1_data.translation_unit->symbols;
+        if (head) symbol->binding.next = head;
+        c1_data.translation_unit->symbols = &symbol->binding;
+    }
+    return symbol;
+}
+extern "C" int __cdecl segment_has_suffix(const char *, const char *)
+{ __asm { int 3 } return 0; }
 extern "C" void __cdecl enable_minimal_rebuild_component(void) { __asm { int 3 } }
 extern "C" void __cdecl enable_minimum_type_info_component(void) { __asm { int 3 } }
 extern "C" void __cdecl enable_browser_component(void) { __asm { int 3 } }

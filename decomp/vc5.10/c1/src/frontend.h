@@ -300,6 +300,7 @@ struct CompilerParameterBindings {
     union { CompilerSymbolBinding *first; CompilerParameterBindings *free_next; };
     CompilerSymbolBinding *last;
     CompilerIrSymbol *RECON_THISCALL Find(CompilerNameEntry *);
+    CompilerIrSymbol *RECON_THISCALL FindTag(CompilerNameEntry *);
 };
 typedef char CompilerParameterBindings_extent[sizeof(CompilerParameterBindings) == 12 ? 1 : -1];
 struct CompilerParameterScope : CompilerScopeTable {
@@ -332,7 +333,7 @@ struct CompilerTranslationUnit {
     BYTE depth;
     int lookup_mode;
     CompilerScopeTable *retired_scopes;
-    CompilerSymbolBinding *symbols; /* Linked embedded binding headers, original+532. */
+    CompilerSymbolBinding *symbols; /* Auxiliary binding chain at+532, also searched for segment names. */
     CompilerSourceFile *source_files;
     CompilerTranslationUnit *RECON_THISCALL Initialize(void);
     CompilerIrSymbol **RECON_THISCALL EndParameterScope(void);

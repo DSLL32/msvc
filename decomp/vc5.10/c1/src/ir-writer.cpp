@@ -570,7 +570,11 @@ extern "C" CompilerIrSymbol *__cdecl find_symbol_map_value(CompilerSymbolMap *ma
     CompilerSymbolMapEntry *entry = find_enum_entry(map, key, enum_symbol_bucket(map, key));
     return entry ? entry->symbol : NULL;
 }
-extern "C" CompilerIrSymbol *__cdecl lookup_ir_symbol(CompilerIrSymbol *symbol) { __asm { int 3 } return NULL; }
+extern "C" CompilerIrSymbol *__cdecl lookup_ir_symbol(CompilerIrSymbol *symbol)
+{
+    return find_symbol_map_value(c1_data.declaration_context_map,
+        (void *)(symbol->record_id & 0xffffff));
+}
 extern "C" unsigned __cdecl assign_symbol_output_index(CompilerIrSymbol *symbol) { __asm { int 3 } return 0; }
 extern "C" void __cdecl write_ir_integer_words(unsigned low, unsigned high, int width)
 {
