@@ -213,6 +213,12 @@ typedef struct CompilerInitializedState {
     unsigned diagnostic_prefix_characters; /* RVA5f8a8, initial0; _mbstrlen of the current prefix. */
     unsigned diagnostic_line; /* RVA5f8ac, initial0; reported source line. */
     void *diagnostic_source; /* RVA5f8b0, initialNULL; borrowed reported source owner. */
+    unsigned browser_last_line; /* RVA5e3bc, initial0. */
+    int browser_absolute_line; /* RVA5e3c0, initial0; next record uses an absolute line. */
+    FILE *browser_output_stream; /* RVA5f8b4, initialNULL; current encoding destination. */
+    int browser_suppressed; /* RVA5e3b8, actual initial0. */
+    long browser_header_position; /* RVA5e3c8, initial0; ftell before PCH browser records. */
+    BYTE browser_generation; /* RVA5eef0, initial0; browser record generation. */
 } CompilerInitializedState;
 typedef char CompilerInitializedState_fits_snapshot[sizeof(CompilerInitializedState) <= 6548 ? 1 : -1];
 #define abstract_symbol_free symbol_cache.known.head9
@@ -551,6 +557,8 @@ typedef struct CompilerBss {
 #else
     BYTE declaration_specs[60][20];
 #endif
+    struct CompilerIrSymbol *browser_last_symbol; /* RVA53bd8, BSS NULL; line transitions clear it. */
+    FILE *browser_stream; /* RVA55064, BSS NULL; named-browser stream. */
 } CompilerBss;
 /* Contextual scratch at RVA5c030; each known field is written before use.
  * The final two bytes have no initialized/default or semantic claim. */
@@ -580,10 +588,11 @@ typedef char CompilerBss_declaration_boundary[
 /* VC5 rounds the enclosing __int64-bearing BSS owner to8-byte alignment.
  * Its possible final4-byte padding has no semantic claim. */
 typedef char CompilerBss_reset_extent[
-    sizeof(CompilerBss) >= offsetof(CompilerBss, declaration_specs) +
+    offsetof(CompilerBss, browser_last_symbol) == offsetof(CompilerBss, declaration_specs) +
         sizeof(((CompilerBss *)0)->declaration_specs) &&
-    sizeof(CompilerBss) - offsetof(CompilerBss, declaration_specs) -
-        sizeof(((CompilerBss *)0)->declaration_specs) <= 4 ? 1 : -1];
+    offsetof(CompilerBss, browser_stream) == offsetof(CompilerBss, browser_last_symbol) + sizeof(void *) &&
+    sizeof(CompilerBss) >= offsetof(CompilerBss, browser_stream) + sizeof(FILE *) &&
+    sizeof(CompilerBss) - offsetof(CompilerBss, browser_stream) - sizeof(FILE *) <= 4 ? 1 : -1];
 #undef C1_DECLARATION_STORAGE_STRIDE
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

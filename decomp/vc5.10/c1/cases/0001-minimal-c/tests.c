@@ -374,7 +374,7 @@ static int type_arena_snapshot(void)
         c1_data.source_descriptor != -1 || c1_data.conditional_depth != -1 ||
         c1_bss.source_cursor || c1_data.type_arena_kind != 3 ||
         c1_data.inline_depth != 8 || c1_data.inline_recursion ||
-        c1_bss.forced_include_name ||
+        c1_bss.forced_include_name || c1_bss.browser_stream || c1_data.browser_last_line || c1_data.browser_absolute_line || c1_data.browser_output_stream || c1_data.browser_suppressed || c1_data.browser_header_position || c1_data.browser_generation ||
         c1_data.pragma_restore_options != 0x03fff800 || c1_data.pragma_disable_options != 0x037eb800 ||
         c1_data.anonymous_identifier_count != 1 || c1_bss.runtime_initializer_pending || c1_data.segment_symbol_cache_index != 9 || c1_data.declaration_context_map ||
         c1_data.record_sizes.known.segment_symbol_bytes != 52 ||
@@ -397,6 +397,12 @@ static int type_arena_snapshot(void)
     c1_data.abstract_symbol_free = &owned_symbols[0].binding;
     memset(c1_data.predefined_time_text, 0x37, 26);
     c1_data.source_include_depth = 13;
+    c1_data.browser_last_line = 239;
+    c1_data.browser_absolute_line = 17;
+    c1_data.browser_output_stream = (FILE *)&owned_symbols[0];
+    c1_data.browser_suppressed = 67;
+    c1_data.browser_header_position = 113;
+    c1_data.browser_generation = 137;
     c1_data.macro_reset_value = 83;
     c1_data.emit_global_locations = 37;
     c1_data.debug_module_kind = 37;
@@ -510,6 +516,13 @@ static int type_arena_snapshot(void)
     }
     memset(c1_data.predefined_time_text, 0x61, 26);
     c1_data.source_include_depth = 29;
+    c1_data.browser_last_line = 251;
+    c1_data.browser_absolute_line = 19;
+    c1_data.browser_output_stream = (FILE *)&owned_symbols[1];
+    c1_bss.browser_last_symbol = &owned_symbols[1];
+    c1_data.browser_suppressed = 71;
+    c1_data.browser_header_position = 127;
+    c1_data.browser_generation = 149;
     c1_data.macro_reset_value = 97;
     c1_data.emit_global_locations = 61;
     c1_data.debug_module_kind = 61;
@@ -534,6 +547,7 @@ static int type_arena_snapshot(void)
     c1_data.parser_flags = 0xa596;
     c1_data.function_return_type = (CompilerType *)&owned_symbols[1];
     c1_data.function_label_depth = 23;
+    c1_bss.browser_stream = (FILE *)&owned_symbols[1];
     c1_bss.function_reset_value = 0xabcdef;
     c1_bss.nonil_type_index = 0x456789;
     c1_data.local_symbol_limit = 0x56789;
@@ -639,7 +653,7 @@ static int type_arena_snapshot(void)
             saved->predefined_time_text[i] != 0x37) return 0;
     for (i = 0; i < sizeof(c1_bss.declaration_specs[0]); ++i)
         if (c1_bss.declaration_specs[0][i]) return 0;
-    if (c1_bss.forced_include_name) return 0;
+    if (c1_bss.forced_include_name || c1_bss.browser_stream || c1_bss.browser_last_symbol) return 0;
     if (c1_bss.runtime_initializer_pending || c1_bss.dereferenced_shape_value || c1_bss.token_input_finished || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_bss.function_entry_label || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting ||
         c1_bss.declaration_control[1].flags || c1_bss.declaration_depth || c1_bss.declaration_control[0].flags ||
         c1_bss.pending_scope_symbols || c1_data.try_depth || c1_data.finally_depth || c1_data.exception_filter_depth ||
@@ -647,7 +661,13 @@ static int type_arena_snapshot(void)
         c1_bss.type_descriptions[1].attributes || c1_bss.type_descriptions[1].shape ||
         c1_bss.type_descriptions[1].auxiliary || c1_bss.type_descriptions[1].debug_index)
         return 0;
-    return c1_data.function_directory_head == (struct CompilerFunctionDirectoryBlock *)&owned_symbols[0] &&
+    return c1_data.browser_last_line == 239 && saved->browser_last_line == 239 &&
+        c1_data.browser_absolute_line == 17 && saved->browser_absolute_line == 17 &&
+        c1_data.browser_output_stream == (FILE *)&owned_symbols[0] && saved->browser_output_stream == (FILE *)&owned_symbols[0] &&
+        c1_data.browser_suppressed == 67 && saved->browser_suppressed == 67 &&
+        c1_data.browser_header_position == 113 && saved->browser_header_position == 113 &&
+        c1_data.browser_generation == 137 && saved->browser_generation == 137 &&
+        c1_data.function_directory_head == (struct CompilerFunctionDirectoryBlock *)&owned_symbols[0] &&
         c1_data.function_directory_current == (struct CompilerFunctionDirectoryBlock *)&owned_symbols[1] &&
         c1_data.function_directory_index == 7 && c1_data.function_debug_handle == 37 && c1_data.function_cleanup_flags == 71 && c1_data.debug_symbol_index == 79 && c1_data.function_scope_cache == &owned_symbols[1] && c1_data.source_exhausted == 17 && c1_data.final_input_token_emitted == 29 && c1_data.omit_external_names == 37 && c1_data.pch_type_record_value == 0x1234 && c1_data.pch_record_name == (const char *)&owned_symbols[0] && c1_data.global_options == (struct CompilerGlobalOption *)&owned_symbols[1] && c1_data.pch_expression_stream_open == 17 && c1_data.pch_primary_stream_open == 19 && c1_data.pch_secondary_stream_open == 23 && c1_data.pch_cleanup_done == 29 && c1_data.saved_context_records == (struct CompilerSavedContextRecord *)&owned_symbols[0] && c1_data.saved_context_count == 17 &&
         c1_data.label_symbols == &owned_symbols[0] && saved->label_symbols == &owned_symbols[0] &&

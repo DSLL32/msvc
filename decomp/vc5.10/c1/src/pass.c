@@ -45,6 +45,12 @@ int __cdecl initialize_compiler_pass(void)
         saved->diagnostic_prefix_characters = c1_data.diagnostic_prefix_characters;
         saved->diagnostic_line = c1_data.diagnostic_line;
         saved->diagnostic_source = c1_data.diagnostic_source;
+        saved->browser_last_line = c1_data.browser_last_line;
+        saved->browser_absolute_line = c1_data.browser_absolute_line;
+        saved->browser_output_stream = c1_data.browser_output_stream;
+        saved->browser_suppressed = c1_data.browser_suppressed;
+        saved->browser_header_position = c1_data.browser_header_position;
+        saved->browser_generation = c1_data.browser_generation;
         c1_reuse_state = 0;
     } else {
         saved = c1_bss.saved_data;
@@ -79,6 +85,12 @@ int __cdecl initialize_compiler_pass(void)
         c1_data.diagnostic_prefix_characters = saved->diagnostic_prefix_characters;
         c1_data.diagnostic_line = saved->diagnostic_line;
         c1_data.diagnostic_source = saved->diagnostic_source;
+        c1_data.browser_last_line = saved->browser_last_line;
+        c1_data.browser_absolute_line = saved->browser_absolute_line;
+        c1_data.browser_output_stream = saved->browser_output_stream;
+        c1_data.browser_suppressed = saved->browser_suppressed;
+        c1_data.browser_header_position = saved->browser_header_position;
+        c1_data.browser_generation = saved->browser_generation;
         memset(&c1_bss, 0, sizeof(c1_bss));
         c1_bss.saved_data = saved;
         c1_reuse_state = !c1_pass_mode;

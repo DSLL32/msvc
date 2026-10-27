@@ -28,7 +28,7 @@ typedef char CompilerTokenPrototype_tag_offset[
  * four unrecovered bytes, one signed selector, then length-defined payload.
  * No value/default is assigned to the leading four bytes or allocation tail. */
 typedef struct CompilerMacroBody {
-    BYTE unmodeled_header[4];
+    unsigned browser_symbol_id; /* Packed generation/high byte and browser ID; producer leaves arena bytes untouched. */
     signed char kind;
     BYTE payload[1];
 } CompilerMacroBody;

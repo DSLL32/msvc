@@ -205,7 +205,9 @@ CompilerInitializedState c1_data = {
     1, 0, /* Conditional-expression lookahead and parenthesis depth. */
     0, 100, /* Diagnostic type-text context depth and next handle. */
     (struct CompilerParserToken *)&c1_bss.assembly_empty_token, 0, 0,
-    0, 0, NULL /* Diagnostic prefix length, line and source. */
+    0, 0, NULL, /* Diagnostic prefix length, line and source. */
+    0, 0, NULL, /* Browser last line, absolute mode and current output stream. */
+    0, 0, 0 /* Browser suppression, header position and generation. */
 
 };
 CompilerBss c1_bss;

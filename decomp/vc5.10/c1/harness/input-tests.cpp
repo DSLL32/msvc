@@ -151,12 +151,17 @@ extern "C" int c1_test_browser_factory(void)
     begin_browser_output(filename);
     if (!c1_data.named_browser || c1_data.browser_mode != 3 ||
         c1_data.initial_backend != default_object) return 0;
-    /* The only recovered named-browser data is its owned filename at +4.
-     * Its final four allocation bytes are deliberately never inspected. */
+    /* Construction leaves the saved-position field unwritten. Give that
+     * field a test-owned value before the ordinary non-reuse writer. */
     copy = *(char **)((BYTE *)c1_data.named_browser + 4);
     if (!copy || copy == filename) return 0;
     for (i = 0; i < sizeof(filename); ++i)
         if (copy[i] != filename[i]) return 0;
+    *(long *)((BYTE *)c1_data.named_browser + 8) = 0x12345678;
+    c1_data.browser_mode = 1;
+    c1_data.named_browser->Slot5c();
+    if (*(long *)((BYTE *)c1_data.named_browser + 8) != -1 ||
+        *(char **)((BYTE *)c1_data.named_browser + 4) != copy) return 0;
     recon_free(copy); /* _strdup owns a CRT allocation, not an operator-new block. */
     recon_cpp_delete(c1_data.named_browser);
     recon_cpp_delete(default_object);

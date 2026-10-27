@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "sdk": {
+    "path": "toolchains/5.10/include/STDIO.H",
+    "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+    "declaration": "int __cdecl _flsbuf(int, FILE *);"
+  },
+  "import": {
+    "dll": "msvcrt.dll",
+    "name": "_flsbuf",
+    "original_iat_rva": 380956
+  },
+  "preserves": [
+    "edi",
+    "ebx"
+  ],
+  "basis": "Identified ordinary Microsoft i386 cdecl normal-return ABI. EDI caches this import in emit_browser_record; EBX caches it in write_browser_string. No custom ABI, provider body, nonlocal-return or success-domain claim."
+}

@@ -862,6 +862,22 @@
             "path": "lexer-imports.json",
             "sha256": "1615864a8564c3310700a73493901ddd6150233773dbf8f1c8aef017f6e0d583"
           }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_flsbuf"
+            }
+          },
+          "preserves": [
+            "edi",
+            "ebx"
+          ],
+          "evidence": {
+            "path": "browser-imports.json",
+            "sha256": "ac6a33a5033844c1a1b2b2f0854f81c4ee511594264cd12cdb18e107a0a03fee"
+          }
         }
       ],
       "virtual_preservation_contracts": [
@@ -7735,6 +7751,315 @@
               ]
             }
           ]
+        }
+      },
+      "_fill_browser_record": {
+        "original": {
+          "switches": {
+            "274988059": [
+              274988106,
+              274988066,
+              274988106,
+              274988106,
+              274988106,
+              274988089,
+              274988106,
+              274988066,
+              274988102
+            ],
+            "274988126": [
+              274988227,
+              274988173,
+              274988133,
+              274988148,
+              274988213,
+              274988163,
+              274988198,
+              274988183,
+              274988133
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_fill_browser_record",
+                "offset": 315
+              },
+              {
+                "rebuilt_symbol": "_fill_browser_record",
+                "offset": 377
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "_fill_browser_record",
+                "offset": 377
+              },
+              {
+                "rebuilt_symbol": "_fill_browser_record",
+                "offset": 438
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_fill_browser_record",
+                "offset": 63
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 70
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 72
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 70
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 70
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 70
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 107
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 70
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 72
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 129
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_fill_browser_record",
+                "offset": 188
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 195
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 209
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 227
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 245
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 263
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 277
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 295
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 209
+                },
+                {
+                  "rebuilt_symbol": "_fill_browser_record",
+                  "offset": 311
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_queue_browser_record": {
+        "original": {
+          "switches": {
+            "274988370": [
+              274988430,
+              274988418,
+              274988430,
+              274988430,
+              274988459,
+              274988430,
+              274988377,
+              274988430,
+              274988471
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_queue_browser_record",
+                "offset": 331
+              },
+              {
+                "rebuilt_symbol": "_queue_browser_record",
+                "offset": 390
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_queue_browser_record",
+                "offset": 85
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_queue_browser_record",
+                  "offset": 160
+                },
+                {
+                  "rebuilt_symbol": "_queue_browser_record",
+                  "offset": 92
+                },
+                {
+                  "rebuilt_symbol": "_queue_browser_record",
+                  "offset": 160
+                },
+                {
+                  "rebuilt_symbol": "_queue_browser_record",
+                  "offset": 160
+                },
+                {
+                  "rebuilt_symbol": "_queue_browser_record",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_queue_browser_record",
+                  "offset": 160
+                },
+                {
+                  "rebuilt_symbol": "_queue_browser_record",
+                  "offset": 132
+                },
+                {
+                  "rebuilt_symbol": "_queue_browser_record",
+                  "offset": 160
+                },
+                {
+                  "rebuilt_symbol": "_queue_browser_record",
+                  "offset": 165
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_emit_browser_record": {
+        "original": {
+          "switches": {
+            "274988708": [
+              274988727,
+              274988983,
+              274989012,
+              274989299,
+              274989112,
+              274989112,
+              274988983,
+              274989012,
+              274988727,
+              274989786
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_emit_browser_record",
+                "offset": 1986
+              },
+              {
+                "rebuilt_symbol": "_emit_browser_record",
+                "offset": 2049
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_emit_browser_record",
+                "offset": 240
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_emit_browser_record",
+                  "offset": 247
+                },
+                {
+                  "rebuilt_symbol": "_emit_browser_record",
+                  "offset": 658
+                },
+                {
+                  "rebuilt_symbol": "_emit_browser_record",
+                  "offset": 685
+                },
+                {
+                  "rebuilt_symbol": "_emit_browser_record",
+                  "offset": 1198
+                },
+                {
+                  "rebuilt_symbol": "_emit_browser_record",
+                  "offset": 830
+                },
+                {
+                  "rebuilt_symbol": "_emit_browser_record",
+                  "offset": 830
+                },
+                {
+                  "rebuilt_symbol": "_emit_browser_record",
+                  "offset": 658
+                },
+                {
+                  "rebuilt_symbol": "_emit_browser_record",
+                  "offset": 685
+                },
+                {
+                  "rebuilt_symbol": "_emit_browser_record",
+                  "offset": 247
+                },
+                {
+                  "rebuilt_symbol": "_emit_browser_record",
+                  "offset": 1980
+                }
+              ]
+            }
+          ]
+        },
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_write_browser_string": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
         }
       }
     },
