@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "scope": "Finite normal-return nonvolatile premises for cached isspace and fwrite calls during macro/line preprocessing; no provider-body or pending helper implementation credit.",
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "caller": {
+    "function": "_define_command_line_macro",
+    "load_rva": 87059,
+    "call_rva": 87107,
+    "import": "msvcrt.dll!isspace"
+  },
+  "calling_convention": "Microsoft i386 __cdecl and __thiscall preserve EBX, ESI and EDI on normal return. Exceptional/nonlocal returns are unclaimed.",
+  "contracts": [
+    {
+      "qualified_import": {
+        "dll": "msvcrt.dll",
+        "name": "isspace"
+      },
+      "preserves": [
+        "ebx",
+        "edi",
+        "ebp"
+      ],
+      "sdk": {
+        "path": "toolchains/5.10/include/CTYPE.H",
+        "sha256": "91b8db05b72f8cd29cdb5991bf16f2973b555100bb812f5acc0015e7f7c859ff",
+        "line": 171,
+        "declaration": "_CRTIMP int __cdecl isspace(int);"
+      },
+      "consumption": "Only zero/nonzero result is consumed."
+    },
+    {
+      "function": "_grow_macro_text",
+      "preserves": [
+        "ebx"
+      ],
+      "abi": "BYTE *__cdecl(BYTE *cursor, BYTE *base, BYTE **limit)",
+      "basis": "Actual body RVA3c76b..3c7ef reads the three incoming stack arguments, saves EBX at3c76b and restores it at3c7bc before RET0 at3c7bd. All returning paths use that epilogue; ordinary stdcall VirtualAlloc and cdecl diagnostics preserve EBX. EAX returns the unchanged cursor; the helper commits within the existing reservation and updates the limit owner. It remains a named pending App body."
+    },
+    {
+      "qualified_import": {
+        "dll": "msvcrt.dll",
+        "name": "fwrite"
+      },
+      "preserves": [
+        "edi",
+        "esi",
+        "ebp"
+      ],
+      "sdk": {
+        "path": "toolchains/5.10/include/STDIO.H",
+        "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+        "declaration": "size_t __cdecl fwrite(const void *, size_t, size_t, FILE *);"
+      }
+    },
+    {
+      "function": "_quote_macro_filename",
+      "preserves": [
+        "esi"
+      ],
+      "abi": "BYTE *__cdecl(BYTE *,const char *)",
+      "basis": "Identified ordinary cdecl call at RVA3c589; two pushes and caller ADD ESP,8, with EAX used as the end pointer. No custom register or nonlocal-return role is claimed. Remains a named pending body."
+    },
+    {
+      "function": "CompilerContextState::FileName",
+      "preserves": [
+        "esi"
+      ],
+      "abi": "const char *__thiscall(void)",
+      "basis": "Existing identified method body RVAa3aa and its genuine ECX-only call at3c57e."
+    },
+    {
+      "function": "CompilerContextState::ReadToken",
+      "preserves": [
+        "esi",
+        "ebp"
+      ],
+      "abi": "CompilerParserToken *__thiscall(void)",
+      "basis": "Existing identified ECX-only context reader at RVA2e2d; ordinary i386 thiscall normal-return preservation. Current preprocessing caller43a52 caches fwrite in ESI. No nonlocal-return premise."
+    },
+    {
+      "function": "_classify_pragma_name",
+      "preserves": [
+        "ebp"
+      ],
+      "abi": "int __cdecl(const char *)",
+      "basis": "Identified ordinary i386 cdecl endpoint called by read_preprocessed_pragma, which caches fwrite in EBP. Normal-return preservation only; pending body availability is unchanged."
+    },
+    {
+      "function": "_read_include_alias_pragma",
+      "preserves": [
+        "ebp"
+      ],
+      "abi": "void __cdecl(void)",
+      "basis": "Identified ordinary i386 cdecl endpoint called by read_preprocessed_pragma, which caches fwrite in EBP. Normal-return preservation only; pending body availability is unchanged."
+    },
+    {
+      "function": "_mark_source_once",
+      "preserves": [
+        "ebp"
+      ],
+      "abi": "void __cdecl(void)",
+      "basis": "Identified ordinary i386 cdecl endpoint called by read_preprocessed_pragma, which caches fwrite in EBP. Normal-return preservation only; pending body availability is unchanged."
+    }
+  ],
+  "line_caller": {
+    "function": "_begin_line_output",
+    "load_rva": 247139,
+    "call_rvas": [
+      247156,
+      247206
+    ],
+    "import": "msvcrt.dll!fwrite"
+  }
+}

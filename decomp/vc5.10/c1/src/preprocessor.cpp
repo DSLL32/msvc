@@ -1,4 +1,5 @@
 #include <string.h>
+#include <ctype.h>
 #include <time.h>
 #include <io.h>
 #include <fcntl.h>
@@ -161,8 +162,50 @@ extern "C" void __cdecl initialize_macro_buffers(void)
     c1_bss.macro_text_cursor = c1_bss.work_buffers[1].data;
     c1_bss.saved_macro_text_cursor = c1_bss.work_buffers[1].data;
 }
+extern "C" BYTE *__cdecl grow_macro_text(BYTE *, BYTE *, BYTE **);
 extern "C" void __cdecl define_command_line_macro(char *definition)
-{ __asm { int 3 } }
+{
+    char *scan = definition;
+    char *equals = NULL;
+    BYTE *out = c1_bss.work_buffers[1].data;
+    BYTE *trailing_space = NULL;
+    while (*scan) {
+        if (c1_data.scanner.classes[(BYTE)*scan] == SC_LEAD) ++scan;
+        else if (*scan == '=') break;
+        ++scan;
+    }
+    if (*scan == '=') {
+        equals = scan;
+        *scan++ = 0;
+        while (*scan) {
+            if (out >= c1_bss.work_buffers[1].limit)
+                grow_macro_text(out, c1_bss.work_buffers[1].data, &c1_bss.work_buffers[1].limit);
+            *out++ = (BYTE)*scan;
+            if (c1_data.scanner.classes[(BYTE)*scan] == SC_LEAD) {
+                *out++ = (BYTE)*++scan;
+                trailing_space = NULL;
+            } else if ((isspace)((BYTE)*scan)) {
+                if (!trailing_space) trailing_space = out;
+            } else trailing_space = NULL;
+            ++scan;
+        }
+        if (trailing_space) out = trailing_space;
+    } else {
+        if (out >= c1_bss.work_buffers[1].limit)
+            grow_macro_text(out, out, &c1_bss.work_buffers[1].limit);
+        *out++ = '1';
+    }
+    find_or_create_identifier(definition);
+    if (out != c1_bss.work_buffers[1].data) {
+        if (out >= c1_bss.work_buffers[1].limit)
+            grow_macro_text(out, c1_bss.work_buffers[1].data, &c1_bss.work_buffers[1].limit);
+        *out++ = 0;
+        *out++ = 0x44; /* Encoded end of replacement text. */
+        define_preprocessor_macro((const char *)c1_bss.work_buffers[1].data,
+            (unsigned)(out - c1_bss.work_buffers[1].data), 0);
+    } else define_preprocessor_macro(NULL, 0, 0);
+    if (equals) *equals = '=';
+}
 extern "C" void __cdecl record_macro_definition(const char *, const char *, int);
 extern "C" int __cdecl compare_macro_text(const void *, const void *, unsigned);
 extern "C" void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
@@ -256,7 +299,12 @@ extern "C" int __cdecl open_source_file(const char *name, unsigned hash,
 }
 extern "C" CompilerNameEntry *__cdecl intern_name_span(const char *, unsigned, unsigned, int *);
 CompilerSourceFile *RECON_THISCALL CompilerTranslationUnit::LookupSourceFile(CompilerNameEntry *name)
-{ __asm { int 3 } return NULL; }
+{
+    CompilerSourceFile *file;
+    for (file = source_files; file; file = file->next)
+        if (file->name == name) return file;
+    return NULL;
+}
 CompilerSourceFile *RECON_THISCALL CompilerTranslationUnit::FindSourceFile(
     const char *name, unsigned hash)
 {
@@ -388,9 +436,6 @@ extern "C" void __cdecl push_source_context(CompilerSourceFile *file, int kind, 
         }
     }
     if (!c1_data.options.preprocess_no_lines) {
-#ifdef RECON_NATIVE_TEST
-        recon_unsupported("push_source_context: unmodeled line-output flag");
-#endif
         if (c1_bss.preprocessor_output) begin_line_output();
     }
     --c1_bss.source_cursor;
@@ -471,7 +516,7 @@ extern "C" int __cdecl restore_forced_source_input(void)
     const char *name;
     int status = 0;
     if (c1_data.source_include_depth == -1) return 0;
-    if ((unsigned)c1_data.source_include_depth > 1 || !frame || (frame->flags & 1) ||
+    if ((unsigned)c1_data.source_include_depth > 2 || !frame || (frame->flags & 1) ||
         !(frame->flags & 4) || c1_data.dependency_local || c1_data.options.dependency_output) {
 #ifdef __linux__
         recon_unsupported("deeper, PCH or dependency source restoration is not yet modeled");

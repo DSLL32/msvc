@@ -3195,7 +3195,7 @@ int __cdecl compare_debug_positions(unsigned, unsigned);
 void __cdecl begin_browser_function(void);
 int __cdecl compatible_parameter_types(CompilerType *, CompilerType *);
 CompilerType *__cdecl replace_function_parameters(CompilerType *, unsigned, WORD, unsigned *);
-void __cdecl save_type_context(void);
+unsigned __cdecl save_type_context(void);
 void __cdecl restore_type_context(void);
 void __cdecl write_function_declaration(CompilerIrSymbol *, FILE *);
 void __cdecl begin_function_body(void)
@@ -3903,8 +3903,50 @@ CompilerType *__cdecl replace_function_parameters(CompilerType *type, unsigned k
     --type_description_depth;
     return result;
 }
-void __cdecl save_type_context(void) { __asm { int 3 } }
-void __cdecl restore_type_context(void) { __asm { int 3 } }
+unsigned __cdecl create_diagnostic_text(void);
+unsigned __cdecl save_type_context(void)
+{
+    ++c1_data.diagnostic_context_depth;
+    return create_diagnostic_text();
+}
+void *__cdecl resize_compiler_memory(void *, unsigned);
+unsigned __cdecl create_diagnostic_text(void)
+{
+    CompilerSavedContextRecord *records = c1_data.saved_context_records;
+    CompilerSavedContextRecord *record;
+    int index;
+    for (index = 0; index < c1_data.saved_context_count; ++index)
+        if (!records[index].handle) break;
+    if (index == c1_data.saved_context_count) {
+        if (records)
+            records = (CompilerSavedContextRecord *)resize_compiler_memory(records,
+                (c1_data.saved_context_count + 64) * sizeof(*records));
+        else records = (CompilerSavedContextRecord *)allocate_compiler_memory(1280);
+        c1_data.saved_context_records = records;
+        if (!records) compiler_fatal(60);
+        memset(records + c1_data.saved_context_count, 0, 1280);
+        index = c1_data.saved_context_count;
+        c1_data.saved_context_count += 64;
+    }
+    record = &records[index];
+    if (!record->allocation) {
+        record->capacity = 128;
+        record->allocation = allocate_compiler_memory(128);
+    }
+    record->handle = c1_data.next_diagnostic_text_handle++;
+    record->prefix_offset = 64;
+    record->suffix_offset = 65;
+    memset(record->allocation, 0, record->capacity);
+    return record->handle;
+}
+void *__cdecl resize_compiler_memory(void *, unsigned) { __asm { int 3 } return NULL; }
+void __cdecl restore_type_context(void)
+{
+    int index;
+    if (!--c1_data.diagnostic_context_depth)
+        for (index = 0; index < c1_data.saved_context_count; ++index)
+            c1_data.saved_context_records[index].handle = 0;
+}
 void __cdecl write_function_declaration(CompilerIrSymbol *, FILE *) { __asm { int 3 } }
 /* RVA1153d */
 void __cdecl finish_function_definition(int);
@@ -6564,7 +6606,7 @@ int __cdecl returns_local_address(CompilerParserNode *value)
     return 0;
 }
 /* Shared BYTE column at63c78: two encountered semantic relations only. */
-CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, {0}, 61, {0}, 65, {0}, 101, {0}, 112, {0}, 116 } };
+CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, {0}, 61, {0}, 65, {0}, 128, 124, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126 } };
 CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *value)
 {
     for (;;) {
@@ -7906,7 +7948,7 @@ unsigned RECON_THISCALL CompilerLexer::Read(void)
              dispatch != SC_LBRACE && dispatch != SC_DQUOTE && dispatch != SC_SQUOTE && dispatch != SC_COMMA &&
              dispatch != SC_CARET && dispatch != SC_PERCENT && dispatch != SC_TILDE &&
              dispatch != SC_SLASH && dispatch != SC_BAR && dispatch != SC_DOT && dispatch != SC_GREATER && dispatch != SC_COLON && dispatch != SC_AMP && dispatch != SC_BANG && dispatch != SC_PLUS && dispatch != SC_LESS && dispatch != SC_STAR && dispatch != SC_MINUS && dispatch != SC_LBRACKET && dispatch != SC_RBRACKET && dispatch != SC_EQUAL) ||
-            (dispatch == SC_SPECIAL && character != '?' && (character || c1_bss.options.preprocess_stdout ||
+            (dispatch == SC_SPECIAL && character != '?' && (character ||
                 (lexical_skip_mode && (lexical_skip_mode > 1 || *c1_bss.source_cursor != 'R'))))) {
 #ifdef RECON_NATIVE_TEST
             recon_unsupported("lexer token domain is not yet modeled");
@@ -8547,8 +8589,8 @@ extern "C" int __cdecl splice_input_line(void)
         character = *c1_bss.source_cursor++;
     }
 }
-extern "C" unsigned __cdecl resolve_special_character(unsigned) { __asm { int 3 } return 0; }
-extern "C" void __cdecl copy_quoted_literal(unsigned, int) { __asm { int 3 }  }
+
+
 extern "C" int __cdecl scan_identifier_continuation(const BYTE *, unsigned, unsigned);
 /* RVA03dec. Only the low byte of the incoming character is consumed; the
  * original caller's other stack-slot bits are not identifier data. */
@@ -8682,7 +8724,7 @@ read_character:
     entry->flags = (entry->flags & 0xffff0000U) | folded;
     return marker == length;
 }
-extern "C" unsigned __cdecl collect_floating_token(char *) { __asm { int 3 } return 0; }
+
 extern "C" CompilerParserToken *__cdecl scan_floating_token(char *cursor)
 {
     BYTE character = read_numeric_character();
@@ -9661,7 +9703,6 @@ void RECON_THISCALL CompilerDeclarationScanner::ScanClass32(void)
     set_declaration_storage(&attributes, storage, 1);
     attributes_seen = 1;
 }
-extern "C" const char *c1_unmodeled_token_spellings[256]; /* Shared RVA638a0 column. */
 extern "C" void __cdecl set_declaration_storage(CompilerDeclarationAttributes *attributes,
                                                 unsigned storage, unsigned attribute, ...)
 {
@@ -9732,7 +9773,7 @@ extern "C" void __cdecl set_declaration_storage(CompilerDeclarationAttributes *a
 #else
             __asm { int 3 }
 #endif
-            report_language_diagnostic(1, 141, c1_unmodeled_token_spellings[diagnostic]);
+            report_language_diagnostic(1, 141, c1_token_spellings.indexed[diagnostic]);
         }
     }
 }

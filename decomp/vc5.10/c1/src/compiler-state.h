@@ -189,6 +189,8 @@ typedef struct CompilerInitializedState {
     struct CompilerCallContext *call_context; /* RVA5e3e4, initializedNULL; active call-analysis frame. */
     BYTE condition_token; /* RVA5e208, initial1; conditional-expression lookahead. */
     int condition_parentheses; /* RVA5e20c, initial0; expression nesting. */
+    unsigned diagnostic_context_depth; /* RVA5f3ac, initial0; nested type-text lifetime. */
+    unsigned next_diagnostic_text_handle; /* RVA5f4fc, initial100; monotonically assigned. */
 } CompilerInitializedState;
 typedef char CompilerInitializedState_fits_snapshot[sizeof(CompilerInitializedState) <= 6548 ? 1 : -1];
 #define abstract_symbol_free symbol_cache.known.head9
@@ -443,7 +445,10 @@ typedef struct CompilerBss {
     unsigned macro_line; /* RVA50038; saved source line during expansion */
     unsigned macro_argument_count; /* RVA50044; current replacement parameter count */
     BYTE *saved_macro_token_cursor; /* RVA50048; current encoded argument mark */
-    CompilerMacroExpansionFrame macro_expansions[3]; /* RVA50050, encountered0..2; not the original capacity */
+    /* The producer checks256 records of24 bytes at50050, ending at the
+     * existing work-buffer owner51850. Semantic access remains guarded to
+     * the encountered records; reserving this span credits no other fields. */
+    CompilerMacroExpansionFrame macro_expansions[256];
     const char *current_macro_text; /* RVA50028; encoded command-line/directive text */
     BYTE *source_cursor; /* RVA54f30, BSS; current byte input position */
     char incremental_database_path[256]; /* RVA578a8, BSS; cached .idb path */

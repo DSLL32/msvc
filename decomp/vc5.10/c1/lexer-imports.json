@@ -124,5 +124,19 @@
       "_classify_preprocessor_directive": "unsigned char __cdecl classify_preprocessor_directive(const char *);"
     },
     "abi": "Microsoft i386 cdecl normal-return EDI preservation; no private convention, body or nonlocal-return claim."
+  },
+  "quoted_preprocessor_caller": {
+    "function": "_copy_quoted_literal",
+    "entry_rva": 253606,
+    "cached_import": "msvcrt.dll!fputc",
+    "register": "ebp",
+    "basis": "Ordinary Microsoft i386 cdecl int fputc(int,FILE*) and the identified cdecl no-arg process_special_character/splice_input_line/read_multibyte_character plus unsigned resolve_special_character(unsigned) preserve EBP on normal return. These exact endpoints are used by the quoted-spelling copier; no nonlocal return or provider body credit."
+  },
+  "macro_comment_caller": {
+    "function": "_skip_macro_block_comment",
+    "entry_rva": 32332,
+    "cached_import": "msvcrt.dll!fputc",
+    "register": "esi",
+    "basis": "Identified ordinary i386 cdecl no-arg process_special_character/read_multibyte_character preserve ESI on normal return; no custom ABI, nonlocal return or body credit."
   }
 }

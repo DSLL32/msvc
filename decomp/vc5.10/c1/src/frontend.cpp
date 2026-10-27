@@ -391,13 +391,6 @@ extern "C" void __cdecl free_argument_allocation(void *);
 extern "C" void __cdecl cleanup_saved_contexts(void)
 {
     int index;
-    if (c1_data.saved_context_count > 0) {
-#ifdef __linux__
-        recon_unsupported("saved-context cleanup: nonempty table owners are not yet modeled");
-#else
-        __asm { int 3 }
-#endif
-    }
     for (index = 0; index < c1_data.saved_context_count; ++index)
         if (c1_data.saved_context_records[index].allocation)
             free_argument_allocation(c1_data.saved_context_records[index].allocation);
@@ -434,7 +427,39 @@ void RECON_THISCALL CompilerPchState::Release(void)
 }
 
 extern "C" void __cdecl print_compiler_statistics(void) { __asm { int 3 } }
-extern "C" void __cdecl preprocess_translation_unit(void) { __asm { int 3 } }
+extern "C" void __cdecl preprocess_translation_unit(void)
+{
+    CompilerParserToken *token;
+    const char *text;
+    for (;;) {
+        token = c1_bss.current_context.ReadToken();
+        switch (token->kind) {
+        case 0: case 109:
+            return;
+        case 1: case 136: case 240: case 242:
+            continue;
+        case 7: case 101:
+            /* Preprocessing retains the source spelling, including its NUL
+             * in the WORD length. Only that spelling is written to stdout. */
+            fwrite(token->value.string.text, (WORD)token->value.string.length - 1,
+                1, stdout);
+            break;
+        default:
+            /* Only encountered punctuation relations from the original
+             * token-name column at RVA638a0 are available at this boundary. */
+            if (!C1_HAS_TOKEN_SPELLING(token->kind)) {
+#ifdef __linux__
+            recon_unsupported("unmodeled preprocessor token spelling");
+#else
+            __asm { int 3 }
+#endif
+            }
+            text = c1_token_spellings.indexed[token->kind];
+            fwrite(text, strlen(text), 1, stdout);
+            break;
+        }
+    }
+}
 extern "C" void __cdecl finish_parser(int result) { __asm { int 3 } }
 extern "C" void __cdecl finish_parser_tables(void) { __asm { int 3 } }
 extern "C" void __cdecl compiler_warning(int code, ...) { __asm { int 3 } }

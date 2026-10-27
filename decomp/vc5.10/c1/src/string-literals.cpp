@@ -28,6 +28,84 @@ void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
 extern const signed char c1_primitive_widths[16];
 }
 
+/* RVA3dea6. Preprocessing prints the original spelling rather than decoding
+ * its value. parser_flags4000 suppresses recursive literal interpretation
+ * while escaped octal/hex digits are read. */
+extern "C" void __cdecl copy_quoted_literal(unsigned delimiter, int wide)
+{
+    BYTE character;
+    unsigned questions = 0, digits;
+    if (wide) fputc('L', c1_bss.preprocessor_output);
+    fputc((BYTE)delimiter, c1_bss.preprocessor_output);
+    for (;;) {
+        character = *c1_bss.source_cursor++;
+        switch (c1_data.scanner.classes[character]) {
+        case SC_SPACE:
+            if (character == '\r') continue;
+            break;
+        case SC_NEWLINE:
+            --c1_bss.source_cursor;
+            return;
+        case SC_SPECIAL:
+            if (character == '?') {
+                ++questions;
+                fputc('?', c1_bss.preprocessor_output);
+                continue;
+            }
+            questions = 0;
+            if (character != '\\') {
+                process_special_character();
+                continue;
+            }
+            fputc('\\', c1_bss.preprocessor_output);
+            if (splice_input_line()) continue;
+            c1_data.parser_flags |= 0x4000;
+            character = *c1_bss.source_cursor++;
+            if (c1_data.scanner.classes[character] == SC_SPECIAL)
+                character = (BYTE)resolve_special_character(character);
+            fputc(character, c1_bss.preprocessor_output);
+            if (c1_data.scanner.flags[character] & 8) {
+                character = *c1_bss.source_cursor++;
+                if (c1_data.scanner.classes[character] == SC_SPECIAL)
+                    character = (BYTE)resolve_special_character(character);
+                digits = 1;
+                while (c1_data.scanner.flags[character] & 8) {
+                    fputc(character, c1_bss.preprocessor_output);
+                    character = *c1_bss.source_cursor++;
+                    if (c1_data.scanner.classes[character] == SC_SPECIAL)
+                        character = (BYTE)resolve_special_character(character);
+                    if (++digits >= 3) break;
+                }
+                c1_data.parser_flags &= ~0x4000U;
+                break;
+            }
+            if ((character & 0xdf) == 'X') {
+                character = *c1_bss.source_cursor++;
+                if (c1_data.scanner.classes[character] == SC_SPECIAL)
+                    character = (BYTE)resolve_special_character(character);
+                while (c1_data.scanner.flags[character] & 2) {
+                    fputc(character, c1_bss.preprocessor_output);
+                    character = *c1_bss.source_cursor++;
+                    if (c1_data.scanner.classes[character] == SC_SPECIAL)
+                        character = (BYTE)resolve_special_character(character);
+                }
+                c1_data.parser_flags &= ~0x4000U;
+                break;
+            }
+            c1_data.parser_flags &= ~0x4000U;
+            continue;
+        case SC_LEAD:
+            fputc(character, c1_bss.preprocessor_output);
+            fputc(read_multibyte_character(), c1_bss.preprocessor_output);
+            continue;
+        }
+        fputc(character, c1_bss.preprocessor_output);
+        if (character == (BYTE)delimiter && (questions < 2 || (BYTE)delimiter != '\''))
+            return;
+        questions = 0;
+    }
+}
+
 /* RVA1fa2b. The incoming length is consumed as a WORD; ordinary multi-byte
  * character constants collect up to four bytes in source order. */
 extern "C" CompilerParserToken *__cdecl make_character_constant(unsigned wide,

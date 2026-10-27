@@ -222,7 +222,47 @@ escaped_character:
     goto append_character;
 }
 extern "C" BYTE *__cdecl grow_macro_text(BYTE *, BYTE *, BYTE **) { __asm { int 3 } return NULL; }
-extern "C" BYTE *__cdecl copy_macro_quoted_text(BYTE *, BYTE **, unsigned) { __asm { int 3 } return NULL; }
+/* RVAe32c. Preserve quoted replacement text, including encoded escapes;
+ * a newline warns and supplies the closing delimiter without consuming it. */
+extern "C" BYTE *__cdecl copy_macro_quoted_text(BYTE *out, BYTE **limit, unsigned quote)
+{
+    BYTE character;
+    unsigned special;
+    *out++ = (BYTE)quote;
+    for (;;) {
+        if (out >= *limit)
+            grow_macro_text(out, c1_bss.work_buffers[1].data, limit);
+        character = *c1_bss.source_cursor++;
+        switch (c1_data.scanner.classes[character]) {
+        case SC_NEWLINE:
+            compiler_warning(1);
+            --c1_bss.source_cursor;
+            character = (BYTE)quote;
+            /* FALL THROUGH */
+        case SC_SQUOTE: case SC_DQUOTE:
+            if (character == (BYTE)quote) {
+                *out++ = character;
+                return out;
+            }
+            break;
+        case SC_SPECIAL:
+            special = process_special_character();
+            if (!(special & 0x50)) continue;
+            if (special & 0x10) {
+                *out++ = c1_bss.source_cursor[-1];
+                character = *c1_bss.source_cursor++;
+                if (c1_data.scanner.classes[character] == SC_SPECIAL)
+                    character = (BYTE)resolve_special_character(character);
+            }
+            break;
+        case SC_LEAD:
+            *out++ = character;
+            character = read_multibyte_character();
+            break;
+        }
+        *out++ = character;
+    }
+}
 extern "C" int __cdecl find_macro_parameter(const char *name)
 {
     const BYTE *record = c1_bss.work_buffers[1].data;

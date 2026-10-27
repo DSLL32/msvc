@@ -8,6 +8,8 @@
 #include <recon.h>
 
 extern "C" {
+extern char c1_numeric_token_text[128];
+int __cdecl format_buffer(char *, const char *, unsigned, ...);
 int __cdecl macro_is_active(CompilerMacro *);
 void __cdecl push_macro_expansion(CompilerMacro *);
 void __cdecl begin_macro_replacement(void);
@@ -47,6 +49,7 @@ void __cdecl compiler_warning(int, ...);
 #else
 #define MACRO_UNSUPPORTED(s) __asm { int 3 }
 #endif
+enum { C1_MACRO_RESCAN_LAST = 4 }; /* Only records0..4 have encountered lifetimes. */
 #define MACRO_ASSERT(test,line) do { if (!(test)) compiler_error(73,".\\p0macros.c",line); } while (0)
 
 /* Original timestamp scratch at546a0. Its bytes are written by the timestamp
@@ -71,7 +74,7 @@ expand_identifier:
     if (kind < -3) {
         if (c1_bss.browser_filename) c1_data.backend->Slot24(macro);
         push_macro_expansion(macro);
-        if ((unsigned)c1_bss.lexical_skip_mode > 2)
+        if ((unsigned)c1_bss.lexical_skip_mode > C1_MACRO_RESCAN_LAST)
             MACRO_UNSUPPORTED("macro builtin rescan index outside encountered records");
         frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
         frame->active = 1;
@@ -284,7 +287,7 @@ extern "C" int __cdecl macro_is_active(CompilerMacro *macro)
 {
     int index;
     for (index = c1_bss.lexical_skip_mode; index >= 0; --index) {
-        if ((unsigned)index > 2)
+        if ((unsigned)index > C1_MACRO_RESCAN_LAST)
             MACRO_UNSUPPORTED("macro recursion lookup outside encountered records");
         if (c1_bss.macro_expansions[index].macro == macro &&
             c1_bss.macro_expansions[index].active) return 1;
@@ -296,7 +299,7 @@ extern "C" void __cdecl push_macro_expansion(CompilerMacro *macro)
     CompilerMacroExpansionFrame *frame;
     c1_bss.lexical_skip_mode = (int)((unsigned)c1_bss.lexical_skip_mode + 1);
     if ((int)c1_bss.lexical_skip_mode >= 256) compiler_fatal(9);
-    if ((unsigned)c1_bss.lexical_skip_mode > 2)
+    if ((unsigned)c1_bss.lexical_skip_mode > C1_MACRO_RESCAN_LAST)
         MACRO_UNSUPPORTED("macro push outside encountered rescan records");
     ++c1_bss.macro_active_count;
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
@@ -313,7 +316,7 @@ extern "C" void __cdecl begin_macro_replacement(void)
     CompilerMacroExpansionFrame *frame;
     CompilerMacroBody *body;
     int parameters;
-    if ((unsigned)c1_bss.lexical_skip_mode > 2)
+    if ((unsigned)c1_bss.lexical_skip_mode > C1_MACRO_RESCAN_LAST)
         MACRO_UNSUPPORTED("macro replacement outside encountered rescan records");
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
     body = frame->macro->body;
@@ -328,7 +331,7 @@ extern "C" int __cdecl finish_macro_replacement(void)
 {
     CompilerMacroExpansionFrame *frame;
     BYTE *out;
-    if ((unsigned)c1_bss.lexical_skip_mode > 2)
+    if ((unsigned)c1_bss.lexical_skip_mode > C1_MACRO_RESCAN_LAST)
         MACRO_UNSUPPORTED("macro finish outside encountered rescan records");
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
     --c1_bss.macro_active_count;
@@ -678,14 +681,57 @@ extern "C" void __cdecl append_macro_text(const char *text)
         *c1_bss.macro_text_cursor++ = (BYTE)*text++;
     }
 }
-extern "C" BYTE *__cdecl quote_macro_filename(BYTE *,const char *) { __asm { int 3 } return NULL; }
-extern "C" const char *__cdecl current_macro_line(void) { __asm { int 3 } return NULL; }
+extern "C" BYTE *__cdecl quote_macro_filename(BYTE *out, const char *filename)
+{
+    const BYTE *source = (const BYTE *)filename;
+    unsigned category;
+    *out++ = '"';
+    while ((*out = *source) != 0) {
+        category = c1_data.scanner.classes[*source];
+        if (category == SC_SPECIAL) *++out = '\\';
+        else if (category == SC_LEAD) *++out = *++source;
+        ++out;
+        ++source;
+    }
+    *out++ = '"';
+    return out;
+}
+/* Source-only expression context at RVA5e9a0. Its pointer and preceding
+ * field have no default, reset or native semantic contract. */
+struct CompilerMacroLineContext {
+    BYTE unmodeled_00[4];
+    const char *expression;
+};
+extern "C" CompilerMacroLineContext *c1_unmodeled_macro_line_context;
+CompilerMacroLineContext *c1_unmodeled_macro_line_context;
+extern "C" void __cdecl prepare_macro_line_expression(void) { __asm { int 3 } }
+extern "C" const char *__cdecl current_macro_line(void)
+{
+    CompilerIrSymbol *symbol;
+    if (c1_bss.debug_module->Slot7c() && !(c1_data.lexer_flags & 0x8000)) {
+        /* The contextual expression producer has not been reached. */
+        if (!(c1_data.lexer_flags & 0x8000))
+            MACRO_UNSUPPORTED("debug macro line expression is not modeled");
+        symbol = c1_bss.current_scope_symbol;
+        if (!symbol || !(symbol->symbol_qualifiers & 1) || (symbol->storage_class & 7) == 3) {
+            prepare_macro_line_expression();
+            format_buffer(c1_numeric_token_text, "(%s+%d)", 128,
+                c1_unmodeled_macro_line_context->expression,
+                c1_bss.current_context.value - c1_bss.nonil_type_index);
+            return c1_numeric_token_text;
+        }
+    }
+    if (!c1_bss.debug_module->Slot4c())
+        compiler_error(73, ".\\iccLINE.cpp", 114);
+    format_buffer(c1_numeric_token_text, "%d", 128, c1_bss.current_context.value);
+    return c1_numeric_token_text;
+}
 extern "C" const char *__cdecl macro_argument_text(void)
 {
     CompilerMacroExpansionFrame *frame;
     BYTE *argument;
     int index;
-    if ((unsigned)c1_bss.lexical_skip_mode > 2)
+    if ((unsigned)c1_bss.lexical_skip_mode > C1_MACRO_RESCAN_LAST)
         MACRO_UNSUPPORTED("macro stringification outside encountered rescan records");
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
     index = (signed char)*c1_bss.source_cursor++;
@@ -774,6 +820,30 @@ extern "C" int __cdecl expand_defined_operator(CompilerNameEntry *identifier)
 
 /* Zero introduces a replacement-stream control byte. The trailing R resumes
  * the genuine source pointer saved by the matching expansion frame. */
+/* RVA196a8. This byte-returning endpoint crosses source refills and line
+ * splices; it leaves encoded macro NULs for their active replacement owner. */
+extern "C" unsigned __cdecl resolve_special_character(unsigned input)
+{
+    BYTE character = (BYTE)input;
+    if (c1_data.scanner.classes[character] == SC_COLON) return character;
+    for (;;) {
+        while (!character && (int)c1_bss.macro_active_count <= 0) {
+            process_special_character();
+            character = *c1_bss.source_cursor++;
+        }
+        if (c1_data.scanner.classes[character] != SC_SPECIAL) return character;
+        if (character == '?' && (process_trigraph() & ~0x40U)) {
+            character = *c1_bss.source_cursor++;
+            continue;
+        }
+        if (character == '\\' && splice_input_line()) {
+            character = *c1_bss.source_cursor++;
+            continue;
+        }
+        return character;
+    }
+}
+
 extern "C" unsigned __cdecl process_special_character(void)
 {
     unsigned character = c1_bss.source_cursor[-1];
@@ -790,7 +860,7 @@ extern "C" unsigned __cdecl process_special_character(void)
     }
     operation = *c1_bss.source_cursor++;
     if (operation == 'A') {
-        if (c1_bss.lexical_skip_mode > 2)
+        if (c1_bss.lexical_skip_mode > C1_MACRO_RESCAN_LAST)
             MACRO_UNSUPPORTED("macro argument replay outside encountered rescan records");
         frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
         copy_macro_argument_range(frame->replacement,c1_bss.macro_text_cursor);
@@ -800,7 +870,7 @@ extern "C" unsigned __cdecl process_special_character(void)
     }
     if (operation == 'D') return finish_macro_replacement() ? 8 : 4;
     if (operation != 'R') return 0;
-    if (c1_bss.lexical_skip_mode > 2)
+    if (c1_bss.lexical_skip_mode > C1_MACRO_RESCAN_LAST)
         MACRO_UNSUPPORTED("macro source replay outside encountered rescan records");
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
     c1_bss.source_cursor = frame->source;
@@ -835,7 +905,7 @@ extern "C" void __cdecl finish_macro_argument(void)
     CompilerMacroExpansionFrame *frame;
     BYTE *argument;
     unsigned index;
-    if ((unsigned)c1_bss.lexical_skip_mode > 2)
+    if ((unsigned)c1_bss.lexical_skip_mode > C1_MACRO_RESCAN_LAST)
         MACRO_UNSUPPORTED("macro argument frame outside the encountered owners");
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
     if (frame->argument_count <= frame->argument_index) {
@@ -855,7 +925,7 @@ extern "C" const char *__cdecl resolve_macro_argument(int *mode)
     CompilerMacroExpansionFrame *frame;
     BYTE *argument;
     int index, continues;
-    if ((unsigned)c1_bss.lexical_skip_mode > 2)
+    if ((unsigned)c1_bss.lexical_skip_mode > C1_MACRO_RESCAN_LAST)
         MACRO_UNSUPPORTED("macro parameter frame outside the encountered owners");
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
     index = (signed char)*c1_bss.source_cursor++;

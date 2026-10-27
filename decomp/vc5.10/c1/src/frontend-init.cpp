@@ -1,10 +1,21 @@
 #include <io.h>
 #include <new.h>
 #include <string.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <mbctype.h>
+#include "keywords.h"
 #include "frontend.h"
 #include "packing.h"
-#pragma intrinsic(memset, memcpy, memcmp)
+#pragma intrinsic(memset, memcpy, memcmp, strlen, strcpy)
 #include <recon.h>
+
+/* The target reads the public _mbctype data import directly. VC5 /MD's
+ * optional accessor macro would introduce an extra function vertex. */
+#if defined(_MSC_VER) && defined(_M_IX86) && defined(_DLL)
+#undef _mbctype
+extern "C" { _CRTIMP extern unsigned char _mbctype[]; }
+#endif
 
 extern "C" {
 int __cdecl create_input(int, CompilerInput **, CompilerTextInput **);
@@ -263,7 +274,167 @@ extern "C" void __cdecl normalize_frontend_options(void)
     if (c1_data.options.minimal_rebuild)
         c1_bss.processor_instruction_mask |= 0x40;
 }
-extern "C" int __cdecl format_buffer(char *buffer, const char *format, unsigned size, ...) { __asm { int 3 } return 0; }
+extern "C" int __cdecl format_buffer_v(char *, const char *, unsigned, va_list);
+extern "C" int __cdecl format_buffer(char *buffer, const char *format, unsigned size, ...)
+{
+    va_list arguments;
+    va_start(arguments, size);
+    int result = format_buffer_v(buffer, format, size, arguments);
+    va_end(arguments);
+    return result;
+}
+/* Temporary diagnostic strings use the parser's existing type-text context.
+ * Their builder endpoints remain genuine outlined pending functions. */
+typedef unsigned CompilerDiagnosticText;
+extern "C" {
+unsigned __cdecl save_type_context(void);
+void __cdecl restore_type_context(void);
+const char *__cdecl tag_type_name(WORD);
+const char *__cdecl get_compiler_message(unsigned);
+const char *__cdecl format_initializer_integer(const unsigned __int64 *, char *, unsigned, int);
+CompilerDiagnosticText __cdecl build_diagnostic_declaration(CompilerIrSymbol *, CompilerType *, unsigned);
+const char *__cdecl diagnostic_text_data(CompilerDiagnosticText);
+}
+extern "C" CompilerDiagnosticText __cdecl build_diagnostic_declaration(CompilerIrSymbol *, CompilerType *, unsigned)
+{ __asm { int 3 } return 0; }
+extern "C" const char *__cdecl diagnostic_text_data(CompilerDiagnosticText)
+{ __asm { int 3 } return NULL; }
+
+extern "C" int __cdecl format_buffer_v(char *buffer, const char *format,
+    unsigned size, va_list arguments)
+{
+    char *out = buffer;
+    int remaining = size == (unsigned)-1 ? 0x7fffffff : (int)size;
+    char number[80];
+    const char *fragment;
+    int count;
+    unsigned code, radix;
+    unsigned __int64 wide;
+    CompilerIrSymbol *symbol;
+    CompilerType *type;
+    if (!format) return 0;
+    save_type_context();
+    while (*format && remaining > 0) {
+        if (*format != '%') {
+            BYTE character = (BYTE)*format++;
+            *out++ = character;
+            --remaining;
+            if ((_mbctype[character + 1] & 4) && remaining > 0) {
+                *out++ = *format++;
+                --remaining;
+            }
+            continue;
+        }
+        __try {
+            fragment = NULL;
+            code = (BYTE)format[1];
+            switch (code) {
+            case 's':
+                fragment = va_arg(arguments, const char *);
+                format += 2;
+                break;
+            case 'd': case 'u': case 'x': {
+                long value = va_arg(arguments, long);
+                radix = code == 'x' ? 16 : 10;
+                fragment = code == 'u' ? _ultoa((unsigned long)value, number, radix)
+                                       : _ltoa(value, number, radix);
+                format += 2;
+                break;
+            }
+            case 'D': case 'U': case 'X':
+                wide = va_arg(arguments, unsigned __int64);
+                radix = code == 'X' ? 16 : 10;
+                fragment = format_initializer_integer(&wide, number, radix, code == 'U');
+                format += 2;
+                break;
+            case 'c':
+                *out++ = (char)va_arg(arguments, int);
+                --remaining;
+                format += 2;
+                break;
+            case '$':
+                format += 2;
+                code = (BYTE)*format++;
+                while (code == '*') code = (BYTE)va_arg(arguments, int);
+                switch (code) {
+                case 'B':
+                    fragment = tag_type_name(*va_arg(arguments, WORD *));
+                    break;
+                case 'C': case 'S':
+                    /* Both interfaces read the existing symbol name binding
+                     * at+8; no whole-symbol transfer is implied. */
+                    symbol = va_arg(arguments, CompilerIrSymbol *);
+                    fragment = symbol->binding.name->name;
+                    break;
+                case 'D':
+                    symbol = va_arg(arguments, CompilerIrSymbol *);
+                    fragment = diagnostic_text_data(build_diagnostic_declaration(symbol, NULL, 0));
+                    break;
+                case 'E':
+                    code = va_arg(arguments, unsigned);
+                    FormatMessageA(0x1100, NULL, code, 0x400, (char *)&fragment, 0, NULL);
+                    break;
+                case 'I':
+                    fragment = va_arg(arguments, CompilerNameEntry *)->name;
+                    break;
+                case 'L':
+                    code = (BYTE)va_arg(arguments, int);
+                    /* Original indexes diagnostic names at RVA638a0. No
+                     * selector/name relation is recovered at this frontier. */
+#ifdef __linux__
+                    recon_unsupported("unmodeled diagnostic token-name column");
+#else
+                    __asm { int 3 }
+#endif
+                    break;
+                case 'M':
+                    code = va_arg(arguments, unsigned);
+                    if (code) fragment = get_compiler_message(code);
+                    break;
+                case 'T':
+                    type = va_arg(arguments, CompilerType *);
+                    fragment = type ? diagnostic_text_data(build_diagnostic_declaration(NULL, type, 0))
+                                    : get_compiler_message(345);
+                    break;
+                case 'e':
+                    fragment = strerror(va_arg(arguments, int));
+                    break;
+                case 's':
+                    fragment = va_arg(arguments, const char *);
+                    break;
+                default:
+                    fragment = get_compiler_message(308);
+                    break;
+                }
+                break;
+            default:
+                /* Authentic fallback writes '%' and skips three bytes. */
+                *out++ = *format;
+                --remaining;
+                format += 3;
+                break;
+            }
+            if (fragment) {
+                count = strlen(fragment);
+                if (count > remaining) count = remaining;
+                strncpy(out, fragment, count);
+                out += count;
+                remaining -= count;
+            }
+        } __except (compiler_exception_filter(GetExceptionInformation())) {
+            fragment = get_compiler_message(308);
+            count = strlen(fragment);
+            if (count > remaining) count = remaining;
+            strncpy(out, fragment, count);
+            out += count;
+            remaining -= count;
+        }
+    }
+    restore_type_context();
+    if (remaining > 0 || (int)size <= 0) *out = 0;
+    else strcpy(out - 4, "...");
+    return out - buffer;
+}
 extern "C" int __cdecl prepare_pch_input(const char *filename) { __asm { int 3 } return 0; }
 extern "C" void __cdecl read_initial_input(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_line_tables(void) { }
@@ -553,7 +724,16 @@ extern "C" void *__cdecl allocate_symbol_record(unsigned requested_size, unsigne
         storage->CommitExtent();
     return memory;
 }
-extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
+extern "C" BYTE *__cdecl quote_macro_filename(BYTE *, const char *);
+extern "C" void __cdecl begin_line_output(void)
+{
+    char buffer[512];
+    BYTE *end;
+    format_buffer(buffer, "#line %d ", 16, c1_bss.current_context.value + 1);
+    fwrite(buffer, strlen(buffer), 1, c1_bss.preprocessor_output);
+    end = quote_macro_filename((BYTE *)buffer, c1_bss.current_context.FileName());
+    fwrite(buffer, (unsigned)(end - (BYTE *)buffer), 1, c1_bss.preprocessor_output);
+}
 
 CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void)
 {

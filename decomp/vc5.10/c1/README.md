@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 640 application functions / 183,564 code bytes and
-7,033 bytes of owned text data. Application code is 56.96% of the original
+The reconstruction contains 665 application functions / 190,711 code bytes and
+7,887 bytes of owned text data. Application code is 59.17% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All six cached cases complete natively: DLL attach/export lookup/detach, the
+All seven cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, and the scalars workload below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, and the preprocessing workload below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -66,6 +66,18 @@ conversion, overlapping input/output, precision-controlled extended subtraction
 and division operand order, neighboring bytes and x87 stack depth. The case also
 corrects the numeric scanner's `int64`/`int128` remap distinction. Raw artifacts
 and intermediate failures remain in scratch `scalars-case-20261027/`.
+
+The preprocessing case combines nested and angle includes, repeated inclusion
+with pragma once, command-line definitions, function-like expansion, token
+pasting, stringification, conditional expressions, comments, line splicing and
+logical source locations. Its `-E` invocation exits zero with 282 first entries,
+exact 765-byte stdout, empty stderr and no output files. The final reference
+took 1,825.183 ms; its matching native run took 18.496 ms. Two focused tests
+cover diagnostic-text allocation/lifetime and bounded include-name trimming.
+The case adds 25 application functions and 7,147 code bytes. Current semantic
+projections retain explicit guards for unknown punctuation entries, wider
+rescan states, recorded line payloads and debug-expression contexts. Raw
+artifacts and preserved failures remain in scratch `preprocessor-case-20261027/`.
 
 The original extended-precision boundary uses ten-byte x87 values that VC5
 cannot express with its ordinary `long double`. Tiny documented assembly

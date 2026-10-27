@@ -7,6 +7,61 @@
 #include <recon.h>
 
 extern "C" int __cdecl create_input(int, CompilerInput **, CompilerTextInput **);
+extern "C" unsigned __cdecl save_type_context(void);
+extern "C" unsigned __cdecl create_diagnostic_text(void);
+extern "C" void __cdecl restore_type_context(void);
+extern "C" void __cdecl cleanup_saved_contexts(void);
+extern "C" char *__cdecl trim_include_name(char *, char *);
+
+extern "C" int c1_test_include_trailing_space(void)
+{
+    char bounded[] = "name \t_suffix";
+    char complete[] = " a b \t";
+    char unchanged[sizeof(bounded)];
+    memcpy(unchanged, bounded, sizeof(bounded));
+    return trim_include_name(bounded, bounded + 6) == bounded + 4 &&
+        memcmp(bounded, unchanged, sizeof(bounded)) == 0 &&
+        trim_include_name(complete, NULL) == complete + 4 &&
+        strcmp(complete, " a b \t") == 0 &&
+        trim_include_name(bounded, bounded) == bounded;
+}
+
+extern "C" int c1_test_diagnostic_text_lifetime(void)
+{
+    if (c1_data.saved_context_records || c1_data.saved_context_count ||
+        c1_data.diagnostic_context_depth || c1_data.next_diagnostic_text_handle != 100)
+        return 0;
+    unsigned first = save_type_context();
+    CompilerSavedContextRecord *rows = c1_data.saved_context_records;
+    if (first != 100 || c1_data.diagnostic_context_depth != 1 ||
+        c1_data.saved_context_count != 64 || rows[0].handle != first ||
+        rows[0].capacity != 128 || rows[0].prefix_offset != 64 ||
+        rows[0].suffix_offset != 65) return 0;
+    for (unsigned i = 0; i < 128; ++i)
+        if (((BYTE *)rows[0].allocation)[i]) return 0;
+    for (unsigned j = 1; j < 64; ++j)
+        if (rows[j].handle || rows[j].allocation || rows[j].prefix_offset ||
+            rows[j].suffix_offset || rows[j].capacity) return 0;
+    memset(rows[0].allocation, 0xa5, 128);
+    void *original_allocation = rows[0].allocation;
+    if (save_type_context() != 101 || c1_data.diagnostic_context_depth != 2)
+        return 0;
+    restore_type_context();
+    if (c1_data.diagnostic_context_depth != 1 || rows[0].handle != 100 ||
+        rows[1].handle != 101) return 0;
+    restore_type_context();
+    if (c1_data.diagnostic_context_depth || rows[0].handle || rows[1].handle ||
+        rows[0].allocation != original_allocation ||
+        ((BYTE *)rows[0].allocation)[127] != 0xa5) return 0;
+    if (create_diagnostic_text() != 102 || rows[0].allocation != original_allocation)
+        return 0;
+    for (unsigned k = 0; k < 128; ++k)
+        if (((BYTE *)rows[0].allocation)[k]) return 0;
+    cleanup_saved_contexts();
+    c1_data.saved_context_records = NULL;
+    c1_data.saved_context_count = 0;
+    return 1;
+}
 
 /* Independent factory contract: two interface subobjects, and the recorded
  * stream's initially empty token buffer. No pending virtual method is called. */

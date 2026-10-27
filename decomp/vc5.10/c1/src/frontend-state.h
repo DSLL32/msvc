@@ -20,8 +20,8 @@ struct CompilerLexer;
 struct CompilerTokenStream;
 struct CompilerTypeShape;
 struct CompilerNameEntry;
-/* BYTE column63c78. Only indirection61 and integer101 are semantic;
- * gap storage is representation and must not be indexed. */
+/* Encountered cells of BYTE column63c78. Gaps are representation-only and
+ * must not be indexed before their own semantic relation is established. */
 typedef union CompilerExpressionClasses {
     struct {
         BYTE unmodeled_00[6], symbol;
@@ -32,14 +32,19 @@ typedef union CompilerExpressionClasses {
         BYTE unmodeled_35[6], equality; /* kind59, RVA63cb3 ->110 */
         BYTE unmodeled_3c[1], indirection;
         BYTE unmodeled_3e[3], subscript; /* kind65, RVA63cb9 ->65 */
-        BYTE unmodeled_42[35], integer;
+        BYTE unmodeled_42[1], shift_left, less; /* kinds67/68 ->128/124 */
+        BYTE unmodeled_45[32], integer;
         BYTE unmodeled_66[10], call_argument;
         BYTE unmodeled_71[3], assignment; /* kind116, RVA63cec ->116 */
+        BYTE unmodeled_75[1], left_parenthesis; /* kind118 ->118 */
+        BYTE unmodeled_77[7], right_parenthesis; /* kind126 ->126 */
     } known;
     BYTE indexed[1];
 } CompilerExpressionClasses;
 #ifdef __cplusplus
 typedef char ExpressionSubscriptClassOffset[offsetof(CompilerExpressionClasses, known.subscript) == 65 ? 1 : -1];
+typedef char ExpressionShiftClassOffset[offsetof(CompilerExpressionClasses, known.shift_left) == 67 ? 1 : -1];
+typedef char ExpressionRightParenClassOffset[offsetof(CompilerExpressionClasses, known.right_parenthesis) == 126 ? 1 : -1];
 #endif
 #ifdef __cplusplus
 extern "C" {
@@ -48,6 +53,34 @@ extern CompilerExpressionClasses c1_expression_classes;
 #ifdef __cplusplus
 }
 #endif
+/* Selected spelling relations from pointer column638a0. Only the named
+ * punctuation cells have semantic values; all gaps are unread representation.
+ * This prefix view does not establish the original column's capacity. */
+typedef union CompilerTokenSpellings {
+    struct {
+        const char *unmodeled_0[52], *assignment;
+        const char *unmodeled_53[2], *comma;
+        const char *unmodeled_56[5], *star;
+        const char *unmodeled_62[12], *indirection;
+        const char *unmodeled_75[6], *plus;
+        const char *unmodeled_82[35], *left_brace, *left_parenthesis;
+        const char *unmodeled_119[4], *right_brace;
+        const char *unmodeled_124[2], *right_parenthesis, *semicolon;
+    } known;
+    const char *indexed[128];
+} CompilerTokenSpellings;
+#ifdef __cplusplus
+typedef char TokenSpellingParenOffset[offsetof(CompilerTokenSpellings, known.left_parenthesis) == 118 * sizeof(char *) ? 1 : -1];
+#endif
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern const CompilerTokenSpellings c1_token_spellings;
+#ifdef __cplusplus
+}
+#endif
+#define C1_HAS_TOKEN_SPELLING(k) ((k) == 52 || (k) == 55 || (k) == 61 || (k) == 74 || (k) == 81 || \
+    (k) == 117 || (k) == 118 || (k) == 123 || (k) == 126 || (k) == 127)
 /* Encoded two-DWORD declaration position; component meanings remain pending. */
 typedef struct CompilerSourcePosition { DWORD first, second; } CompilerSourcePosition;
 
@@ -262,12 +295,12 @@ struct CompilerTypeShapeEntry {
 };
 typedef char CompilerTypeShapeEntry_size[sizeof(struct CompilerTypeShapeEntry) == 16 ? 1 : -1];
 
-/* The cleanup owner establishes a20-byte row and only its+4 allocation.
- * No other field or row default is inferred from the empty current table. */
+/* Diagnostic text handles address20-byte rows. Creation clears a new group
+ * of64 rows, then reserves centered cursors in a zeroed allocation. */
 struct CompilerSavedContextRecord {
-    BYTE unmodeled_00[4];
+    unsigned handle;
     void *allocation;
-    BYTE unmodeled_08[12];
+    unsigned prefix_offset, suffix_offset, capacity;
 };
 typedef char CompilerSavedContextRecord_size[sizeof(struct CompilerSavedContextRecord) == 20 ? 1 : -1];
 struct CompilerFunctionDirectoryRecord {

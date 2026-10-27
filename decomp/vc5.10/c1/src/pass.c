@@ -35,6 +35,8 @@ int __cdecl initialize_compiler_pass(void)
         saved->call_context = c1_data.call_context;
         saved->condition_token = c1_data.condition_token;
         saved->condition_parentheses = c1_data.condition_parentheses;
+        saved->diagnostic_context_depth = c1_data.diagnostic_context_depth;
+        saved->next_diagnostic_text_handle = c1_data.next_diagnostic_text_handle;
         c1_reuse_state = 0;
     } else {
         saved = c1_bss.saved_data;
@@ -59,6 +61,8 @@ int __cdecl initialize_compiler_pass(void)
         c1_data.call_context = saved->call_context;
         c1_data.condition_token = saved->condition_token;
         c1_data.condition_parentheses = saved->condition_parentheses;
+        c1_data.diagnostic_context_depth = saved->diagnostic_context_depth;
+        c1_data.next_diagnostic_text_handle = saved->next_diagnostic_text_handle;
         memset(&c1_bss, 0, sizeof(c1_bss));
         c1_bss.saved_data = saved;
         c1_reuse_state = !c1_pass_mode;

@@ -1,13 +1,14 @@
 #include <new.h>
 #include <string.h>
 #include <mbctype.h>
+#include <ctype.h>
 #include <io.h>
 #include "frontend.h"
 #include "input.h"
 #include "keywords.h"
 #include "global-record.h"
 #include "pragma.h"
-#pragma intrinsic(memcpy, strlen, strcmp)
+#pragma intrinsic(memcpy, strlen, strcmp, strcpy)
 #include <recon.h>
 
 /* C1 reads imported _mbctype data at IAT5d094 directly, as scanner.c does;
@@ -76,7 +77,7 @@ extern "C" CompilerParserToken *__cdecl read_directive_token(void)
     const char *name = c1_data.current_identifier->name;
     unsigned character = *c1_bss.source_cursor++;
     unsigned directive, category, index, kind, saved_skip, arena_kind;
-    int skipped;
+    int skipped, saved_preprocess;
     __int64 value;
     CompilerParserToken *token;
     CompilerRecordedLexer *recording;
@@ -177,11 +178,11 @@ reclassify_if:
             if (c1_bss.forced_source_index == 2) goto transform_expression;
         }
         c1_data.lexer_flags |= 0x4000;
-        saved_skip = c1_bss.lexical_skip_mode;
-        c1_bss.lexical_skip_mode = 0;
+        saved_preprocess = c1_bss.options.preprocess_stdout;
+        c1_bss.options.preprocess_stdout = 0;
         value = read_condition_value();
         c1_data.lexer_flags &= ~0x4000U;
-        c1_bss.lexical_skip_mode = saved_skip;
+        c1_bss.options.preprocess_stdout = saved_preprocess;
         finish_directive_line("#if/#elif");
 transform_expression:
         if (!c1_data.source_include_depth && c1_bss.forced_source_index)
@@ -553,8 +554,27 @@ scan:
         read_multibyte_character();
     goto scan;
 }
-extern "C" void __cdecl skip_directive_literal(BYTE)
-{ __asm { int 3 } }
+extern "C" void __cdecl skip_directive_literal(BYTE quote)
+{
+    BYTE character;
+    for (;;) {
+        character = *c1_bss.source_cursor++;
+        switch (c1_data.scanner.classes[character]) {
+        case SC_NEWLINE:
+            --c1_bss.source_cursor;
+            return;
+        case SC_SQUOTE: case SC_DQUOTE:
+            if (character == quote) return;
+            break;
+        case SC_SPECIAL:
+            if (process_special_character() & 0x10) ++c1_bss.source_cursor;
+            break;
+        case SC_LEAD:
+            read_multibyte_character();
+            break;
+        }
+    }
+}
 
 /* The conditional evaluator's arena5 values are distinct from ordinary
  * 24-byte expression nodes. Only their QWORD payload is consumed here. */
@@ -857,7 +877,8 @@ extern "C" int __cdecl match_condition_token(unsigned expected)
     }
     token = c1_bss.current_context.ReadToken();
     kind = token->kind;
-    if (kind != 6 && kind != 45 && kind != 50 && kind != 59 && kind != 101) {
+    if (kind != 6 && kind != 45 && kind != 50 && kind != 59 && kind != 67 &&
+        kind != 68 && kind != 101 && kind != 118 && kind != 126) {
 #ifdef __linux__
         recon_unsupported("conditional token classification cell is not yet recovered");
 #else
@@ -996,24 +1017,55 @@ replacement:
     }
     define_preprocessor_macro(c1_bss.current_macro_text, length, c1_bss.macro_parameter_count);
 }
-extern "C" void __cdecl skip_macro_block_comment(void) { __asm { int 3 } }
+extern "C" void __cdecl skip_macro_block_comment(void)
+{
+    unsigned character;
+    for (;;) {
+        do { character = *c1_bss.source_cursor++; }
+        while (c1_data.scanner.flags[character] & 0x40);
+        if (!character) { process_special_character(); continue; }
+        if (character == '\n') {
+            ++c1_bss.current_context.value;
+            if (c1_bss.options.preprocess_stdout) fputc('\n', c1_bss.preprocessor_output);
+            continue;
+        }
+        if (character != '*') {
+            if (c1_data.scanner.classes[character] == SC_LEAD) read_multibyte_character();
+            continue;
+        }
+    after_star:
+        do { character = *c1_bss.source_cursor++; } while (character == '*');
+        if (character == '/') return;
+        if (!character) { process_special_character(); goto after_star; }
+        if (character == '\\') {
+            if (process_special_character() & 0x10) continue;
+            goto after_star;
+        }
+        if (c1_data.scanner.classes[character] == SC_LEAD) read_multibyte_character();
+        --c1_bss.source_cursor;
+    }
+}
 extern "C" void __cdecl skip_preserved_macro_comment(void) { __asm { int 3 } }
 
-/* The diagnostic spelling column is representation-only until a malformed
- * token actually requires it. No default or original256-cell extent follows
- * from the BYTE index; the guard precedes every unknown column read. */
-extern "C" { const char *c1_unmodeled_token_spellings[256]; } /* Original column RVA638a0. */
+/* The same spelling column serves diagnostics and preprocessing. Its gaps
+ * remain unmodeled; consumers guard before every unknown indexed read. */
+extern "C" {
+const CompilerTokenSpellings c1_token_spellings = { {
+    {0}, "=", {0}, ",", {0}, "*", {0}, "*", {0}, "+", {0}, "{", "(",
+    {0}, "}", {0}, ")", ";"
+} };
+}
 extern "C" const char *__cdecl parse_angle_include(int);
 extern "C" const char *__cdecl parse_include_name(int diagnose, unsigned *kind)
 {
-    unsigned saved_skip = c1_bss.lexical_skip_mode;
+    int saved_preprocess = c1_bss.options.preprocess_stdout;
     CompilerParserToken *token;
     const char *name;
     c1_data.lexer_flags |= 0x2000;
-    c1_bss.lexical_skip_mode = 0;
+    c1_bss.options.preprocess_stdout = 0;
     token = c1_bss.current_context.ReadToken();
     c1_data.lexer_flags &= ~0x2000U;
-    c1_bss.lexical_skip_mode = saved_skip;
+    c1_bss.options.preprocess_stdout = saved_preprocess;
     if (token->kind == 7) {
         if ((token->value.string_attributes.flags & 1) && diagnose)
             compiler_warning(2);
@@ -1032,13 +1084,58 @@ extern "C" const char *__cdecl parse_include_name(int diagnose, unsigned *kind)
 #else
         __asm { int 3 }
 #endif
-        compiler_warning(6, c1_unmodeled_token_spellings[token->kind]);
+        compiler_warning(6, c1_token_spellings.indexed[token->kind]);
     }
     discard_input_character();
     if (diagnose) c1_data.type_arena_kind = c1_data.expression_arena_kind = 3;
     return NULL;
 }
-extern "C" const char *__cdecl parse_angle_include(int) { __asm { int 3 } return NULL; }
+extern "C" char *__cdecl trim_include_name(char *, char *);
+extern "C" const char *__cdecl parse_angle_include(int diagnose)
+{
+    char *out = (char *)c1_bss.quoted_workspace;
+    BYTE character = *c1_bss.source_cursor++;
+    if (!(c1_data.scanner.flags[character] & 0x20)) {
+        while (c1_data.scanner.classes[character] == SC_SPACE)
+            character = *c1_bss.source_cursor++;
+        if (!(c1_data.scanner.flags[character] & 0x20))
+            character = (BYTE)parse_directive_character(character);
+    }
+    if (character == '\n') {
+        --c1_bss.source_cursor;
+        if (diagnose) compiler_warning(12);
+        return NULL;
+    }
+    while (character != '>') {
+        if (character == '\n') {
+            --c1_bss.source_cursor;
+            if (diagnose) compiler_warning(13);
+            return NULL;
+        }
+        *out++ = character;
+        if (_mbctype[character + 1] & 4)
+            *out++ = read_multibyte_character();
+        character = *c1_bss.source_cursor++;
+        if (c1_data.scanner.classes[character] == SC_SPECIAL)
+            character = (BYTE)resolve_special_character(character);
+    }
+    if (out != (char *)c1_bss.quoted_workspace)
+        out = trim_include_name((char *)c1_bss.quoted_workspace, out);
+    *out = 0;
+    return (const char *)c1_bss.quoted_workspace;
+}
+extern "C" char *__cdecl trim_include_name(char *begin, char *end)
+{
+    char *trailing = NULL;
+    if (!end) end = strchr(begin, 0);
+    while (begin < end) {
+        if ((isspace)((BYTE)*begin)) {
+            if (!trailing) trailing = begin;
+        } else trailing = NULL;
+        begin += (_mbctype[(BYTE)*begin + 1] & 4) ? 2 : 1;
+    }
+    return trailing ? trailing : end;
+}
 
 extern "C" CompilerParserToken *__cdecl open_include_file(const char *name, unsigned kind)
 {
@@ -1047,10 +1144,113 @@ extern "C" CompilerParserToken *__cdecl open_include_file(const char *name, unsi
     return (CompilerParserToken *)c1_data.predefined_tokens[1];
 }
 
-extern "C" CompilerParserToken * __cdecl read_line_directive(void)
-{ __asm { int 3 } return 0; }
+extern "C" CompilerParserToken *__cdecl read_line_directive(void)
+{
+    int saved_preprocess = c1_bss.options.preprocess_stdout;
+    CompilerParserToken *number, *filename, *result, *token;
+    CompilerRecordedLexer *recording;
+    CompilerContextFrame *frame;
+    CompilerPool *pool;
+    CompilerArena *arena;
+    void *memory;
+    c1_bss.options.preprocess_stdout = 0;
+    number = c1_bss.current_context.ReadToken();
+    if (number->kind != 101 || !(number->value.typed_constant.type->flags & 0x40)) {
+        /* The diagnostic spelling for arbitrary token kinds remains unknown. */
+#ifdef __linux__
+        recon_unsupported("line directive diagnostic token spelling is not modeled");
+#else
+        __asm { int 3 }
+#endif
+        compiler_warning(5, c1_token_spellings.indexed[number->kind]);
+        c1_bss.options.preprocess_stdout = saved_preprocess;
+        goto invalid_line;
+    }
+    if (number->value.typed_constant.value <= 0 || number->value.typed_constant.value > 32767)
+        report_language_diagnostic(c1_data.options.language_extensions ? 4 : 1, 112);
+    c1_bss.current_context.value = (unsigned)number->value.typed_constant.value - 1;
+    filename = c1_bss.current_context.ReadToken();
+    c1_bss.options.preprocess_stdout = saved_preprocess;
+    switch (filename->kind) {
+    case 7:
+        if (filename->value.string_attributes.flags & 1) {
+            compiler_warning(2);
+            filename = NULL;
+        } else if (strcmp(filename->value.string_attributes.text,
+                          c1_bss.current_context.FileName()) == 0) filename = NULL;
+        else c1_bss.current_context.object = c1_data.translation_unit->FindSourceFile(
+            filename->value.string_attributes.text, 0);
+        break;
+    case 45:
+        filename = NULL;
+        break;
+    case 1:
+        break;
+    default:
+        compiler_warning(130, (unsigned)filename->kind);
+    invalid_line:
+        discard_input_character();
+        c1_data.type_arena_kind = c1_data.expression_arena_kind = 3;
+        return (CompilerParserToken *)c1_data.predefined_tokens[1];
+    }
+    /* The recorded form copies the complete original24-byte literal and
+     * later replays its context. Its wider payload roles are pending. */
+    if (!c1_bss.options.preprocess_stdout) {
+#ifdef __linux__
+        recon_unsupported("recorded line directive literal payload is not modeled");
+#else
+        __asm { int 3 }
+#endif
+    }
+    if (c1_bss.options.preprocess_stdout) {
+        begin_line_output();
+        result = (CompilerParserToken *)c1_data.predefined_tokens[1];
+    } else {
+        recording = (CompilerRecordedLexer *)c1_bss.arenas[0].AllocateBytes(64);
+        if (recording) recording = recording->Initialize(0, 0);
+        c1_bss.context.Push((CompilerLexer *)recording, 0, 0, 0, &c1_bss.current_context);
+        if (c1_bss.symbol_arena_kind)
+            memory = c1_bss.arenas[c1_bss.symbol_arena_kind].AllocateBytes(32);
+        else memory = c1_bss.pools[6].AllocateBytes(32);
+        token = (CompilerParserToken *)memory;
+        if (token) { token->kind = 43; memcpy(&token->value, &c1_bss.literal, 24); }
+        c1_bss.context.saved_frame->stream->Trace((unsigned)token);
+        c1_bss.context.saved_frame->stream->Trace((unsigned)number);
+        if (filename) c1_bss.context.saved_frame->stream->Trace((unsigned)filename);
+        c1_bss.context.saved_frame->stream->Trace((unsigned)c1_data.predefined_tokens[45]);
+        frame = c1_bss.context.saved_frame;
+        if (frame) {
+            recording = (CompilerRecordedLexer *)frame->stream;
+            c1_bss.context.saved_frame = frame->next;
+            c1_bss.context.object = frame->object;
+            c1_bss.context.value = frame->value;
+            if (frame->second) ((C1Initializer)frame->second)();
+        } else recording = NULL;
+        c1_bss.literal.recorded_stream = recording;
+        if (c1_bss.symbol_arena_kind) {
+            arena = &c1_bss.arenas[c1_bss.symbol_arena_kind];
+            memory = arena->cursor; arena->cursor += 32;
+            if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        } else {
+            pool = &c1_bss.pools[6];
+            if (pool->remaining < 32) pool->Refill(32);
+            memory = pool->cursor; pool->cursor += 32; pool->remaining -= 32;
+        }
+        result = (CompilerParserToken *)memory;
+        if (result) { result->kind = 242; memcpy(&result->value, &c1_bss.literal, 24); }
+    }
+    finish_directive_line("#line");
+    c1_data.type_arena_kind = c1_data.expression_arena_kind = 3;
+    return result;
+}
 
 extern "C" CompilerParserToken *__cdecl read_preprocessed_pragma(void);
+extern "C" void __cdecl mark_source_once(void);
+extern "C" void __cdecl mark_source_once(void)
+{
+    CompilerSourceFile *file = (CompilerSourceFile *)c1_bss.current_context.object;
+    file->record_id = (file->record_id & 0x00ffffff) | 0x01000000;
+}
 extern "C" int __cdecl classify_pragma_name(const char *);
 extern "C" void __cdecl read_include_alias_pragma(void);
 extern "C" int __cdecl finish_recorded_source_tokens(void);
@@ -1131,7 +1331,58 @@ discard_line:
     return token;
 }
 extern "C" CompilerParserToken *__cdecl read_preprocessed_pragma(void)
-{ __asm { int 3 } return NULL; }
+{
+    CompilerParserToken *token;
+    const char *text;
+    int kind;
+    fwrite("#pragma ", 8, 1, c1_bss.preprocessor_output);
+    c1_data.type_arena_kind = c1_data.expression_arena_kind = 3;
+    c1_bss.options.preprocess_stdout = 0;
+    token = c1_bss.current_context.ReadToken();
+    c1_bss.options.preprocess_stdout = 1;
+    if (token->kind == 6) {
+        text = token->value.name->name;
+        fwrite(text, strlen(text), 1, c1_bss.preprocessor_output);
+        kind = classify_pragma_name(text);
+        if (kind == PRAGMA_INCLUDE_ALIAS) read_include_alias_pragma();
+        else if (kind == PRAGMA_ONCE) mark_source_once();
+    } else {
+        if (!C1_HAS_TOKEN_SPELLING(token->kind)) {
+#ifdef __linux__
+        recon_unsupported("unmodeled initial preprocessed pragma token spelling");
+#else
+        __asm { int 3 }
+#endif
+        }
+        text = c1_token_spellings.indexed[token->kind];
+        fwrite(text, strlen(text), 1, c1_bss.preprocessor_output);
+    }
+    for (;;) {
+        token = c1_bss.current_context.ReadToken();
+        switch (token->kind) {
+        case 1: case 136:
+            continue;
+        case 45:
+            c1_data.type_arena_kind = c1_data.expression_arena_kind = 3;
+            return (CompilerParserToken *)c1_data.predefined_tokens[1];
+        case 101:
+            fwrite(token->value.string.text, (WORD)token->value.string.length - 1,
+                1, c1_bss.preprocessor_output);
+            break;
+        default:
+            if (!C1_HAS_TOKEN_SPELLING(token->kind)) {
+#ifdef __linux__
+            recon_unsupported("unmodeled preprocessed pragma token spelling");
+#else
+            __asm { int 3 }
+#endif
+            }
+            text = c1_token_spellings.indexed[token->kind];
+            fwrite(text, strlen(text), 1, c1_bss.preprocessor_output);
+            break;
+        }
+    }
+}
 /* Encountered 'p' bucket, original relation indexes25..34. Other buckets
  * remain unsupported; no default entries are implied for them. */
 static const struct CompilerPragmaName {
@@ -1154,6 +1405,9 @@ extern "C" int __cdecl classify_pragma_name(const char *name)
     unsigned i;
     signed char first = (signed char)*name;
     if (first < '_') return PRAGMA_UNKNOWN;
+    /* Encountered relation24 in the 'o' bucket: suffix nce -> ONCE37.
+     * Other 'o' spellings remain unsupported rather than missing keywords. */
+    if (first == 'o' && strcmp(name + 1, "nce") == 0) return PRAGMA_ONCE;
     if (first != 'p') { __asm { int 3 } }
     ++name;
     for (i = 0; i != sizeof(pragma_p_names) / sizeof(pragma_p_names[0]); ++i)
@@ -1164,8 +1418,31 @@ extern "C" int __cdecl classify_pragma_name(const char *name)
 extern "C" void __cdecl read_include_alias_pragma(void)
 { __asm { int 3 } }
 
+extern "C" int __cdecl process_forced_macro_directive(unsigned, const char *, const char *);
+extern "C" int __cdecl process_forced_macro_directive(unsigned, const char *, const char *)
+{ __asm { int 3 } return 0; }
 extern "C" void __cdecl clear_macro_definition(void)
-{ __asm { int 3 } }
+{
+    CompilerNameEntry *identifier;
+    CompilerMacro *macro;
+    int action;
+    c1_bss.debug_module->Slot1c();
+    if (!c1_data.source_include_depth && c1_bss.forced_source_index) {
+        action = process_forced_macro_directive(10, NULL, c1_data.current_identifier->name);
+        if (action == 1 || (action == 2 && c1_bss.forced_source_index == 2)) return;
+    }
+    identifier = c1_data.current_identifier;
+    if (identifier == c1_data.builtin_names.defined_operator) {
+        report_language_diagnostic(1, 117, identifier, "#undef");
+        return;
+    }
+    macro = identifier->macro;
+    if (!macro) return;
+    if (macro->body->kind < -3)
+        report_language_diagnostic(1, 117, identifier, "#undef");
+    c1_data.current_identifier->macro = NULL;
+    if (c1_bss.browser_filename) c1_data.backend->Slot24(macro);
+}
 
 extern "C" unsigned char __cdecl read_multibyte_character(void)
 { __asm { int 3 } return 0; }
@@ -1174,7 +1451,7 @@ extern "C" {
 int __cdecl compare_pch_paths(const char *, const char *);
 unsigned __cdecl classify_pch_include(const char *);
 int __cdecl search_relative_include(const char *, int, char *);
-int __cdecl search_include_directories(const char *, int, int);
+int __cdecl search_include_directories(const char *, int, char *);
 int __cdecl open_source_file(const char *, unsigned, int, int, int);
 void __cdecl report_source_file_error(const char *, int);
 void __cdecl report_response_error(int, ...);
@@ -1289,5 +1566,71 @@ extern "C" int __cdecl search_relative_include(const char *name, int open_file, 
     if (resolved) *resolved = 0;
     return -1;
 }
-extern "C" int __cdecl search_include_directories(const char *, int, int)
-{ __asm { int 3 } return 0; }
+extern "C" int __cdecl search_include_directories(const char *name, int open_file,
+    char *resolved)
+{
+    char path[512];
+    CompilerVector *directories = c1_bss.options.include_directories;
+    const BYTE *directory, *last_character;
+    char *out;
+    unsigned hash, character;
+    short index = 0;
+    int attempted = 0, descriptor;
+    while (directories && index < directories->count) {
+        directory = (const BYTE *)directories->items[index++];
+        attempted = 1;
+        out = path;
+        hash = 0;
+        if (directory && strcmp((const char *)directory, "./") != 0) {
+            /* An empty entry reads an unwritten/carried stack pointer in
+             * the original. That domain is unsupported in both builds. */
+            if (!*directory) {
+#ifdef __linux__
+                recon_unsupported("empty include-directory last-character state");
+#else
+                __asm { int 3 }
+#endif
+            }
+            while (*directory && out < path + sizeof(path)) {
+                last_character = directory;
+                character = *directory;
+                *out++ = character;
+                hash = (hash >> 4) + hash * 4 + character;
+                if (_mbctype[character + 1] & 4) {
+                    character = *++directory;
+                    *out++ = character;
+                    hash = (hash >> 4) + hash * 4 + character;
+                }
+                ++directory;
+            }
+            if (!strchr(c1_data.options.path_separators, *last_character)) {
+                *out++ = '\\';
+                hash = (hash >> 4) + hash * 4 + '\\';
+            }
+        }
+        if (strlen(name) + (out - path) + 1 > sizeof(path)) {
+            *out = 0;
+            compiler_error(81, path, 512);
+        }
+        const BYTE *source = (const BYTE *)name;
+        while ((*out = *source++) != 0)
+            hash = (hash >> 4) + hash * 4 + (BYTE)*out++;
+        if (open_file) {
+            descriptor = open_source_file(path, hash, 0, 1, 1);
+            if (descriptor == -1) continue;
+            if (descriptor > 0 &&
+                (c1_bss.forced_source_index == 1 || c1_bss.pch_file_failed))
+                report_source_file_error(path, descriptor);
+            if (resolved) strcpy(resolved, path);
+            return descriptor;
+        }
+        if (_access(path, 0) == 0) {
+            if (resolved) strcpy(resolved, path);
+            return 0;
+        }
+    }
+    if (resolved) *resolved = 0;
+    if (!attempted) compiler_error(34, name);
+    else if (open_file) report_response_error(83, 343, name);
+    return -1;
+}

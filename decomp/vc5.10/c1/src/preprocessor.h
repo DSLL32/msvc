@@ -37,7 +37,7 @@ typedef struct CompilerMacro {
     CompilerMacroBody *body;
 } CompilerMacro;
 /* Rescan stack records have an authentic24-byte stride and256-entry bound.
- * The current projection exposes only the first three encountered records. */
+ * Only encountered rescan records have semantic support; wider accesses trap. */
 typedef struct CompilerMacroExpansionFrame {
     BYTE *source, *arguments, *replacement;
     CompilerMacro *macro;

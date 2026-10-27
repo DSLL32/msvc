@@ -215,7 +215,14 @@ invalid:
     return number;
 }
 
+void __cdecl grow_option_vector(CompilerVector *);
 void __cdecl append_option_vector(CompilerVector *vector, void *item)
+{
+    if (vector->count == vector->capacity) grow_option_vector(vector);
+    vector->items[vector->count] = item;
+    ++vector->count;
+}
+void __cdecl grow_option_vector(CompilerVector *vector)
 {
     __asm { int 3 }
 }

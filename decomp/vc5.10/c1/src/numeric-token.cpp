@@ -32,16 +32,40 @@ unsigned __cdecl collect_floating_token(char *);
 struct CompilerParserToken *__cdecl scan_floating_token(char *);
 void __cdecl copy_numeric_spelling(CompilerValue *, const char *, unsigned, unsigned);
 
+/* The caller has already stored the first character. Accept preprocessing
+ * number characters, including a sign immediately after an exponent marker.
+ * The returned size includes the terminator but excludes the caller's seed. */
+unsigned __cdecl collect_floating_token(char *out)
+{
+    char *begin = out;
+    BYTE character;
+    for (;;) {
+        character = *c1_bss.source_cursor++;
+        if (c1_data.scanner.classes[character] == SC_SPECIAL)
+            character = (BYTE)resolve_special_character(character);
+        if ((c1_data.scanner.flags[character] & 4) ||
+            ((character == '+' || character == '-') &&
+             ((BYTE)out[-1] & 0xdf) == 'E')) {
+            *out++ = character;
+            continue;
+        }
+        --c1_bss.source_cursor;
+        *out = 0;
+        return (unsigned)(out - begin) + 1;
+    }
+}
+
 CompilerParserToken *__cdecl scan_numeric_token(unsigned input, int alternate_base)
 {
     char *cursor = c1_numeric_token_text;
     BYTE character = (BYTE)input;
     unsigned base;
     unsigned length;
+    int spelling = 0;
     unsigned __int64 value;
     CompilerType *type = c1_data.builtin_types.type_0063;
     CompilerNumericToken *token;
-    if (input < '0' || input > '9' || alternate_base || c1_bss.options.preprocess_stdout ||
+    if (input < '0' || input > '9' || alternate_base ||
         (c1_data.lexer_flags & 0x800000)) {
 #ifdef __linux__
         recon_unsupported("numeric token mode is outside ordinary integer literals");
@@ -56,6 +80,7 @@ CompilerParserToken *__cdecl scan_numeric_token(unsigned input, int alternate_ba
         if (length >= 128) compiler_fatal(64);
         unsigned arena_kind = c1_bss.symbol_arena_kind;
         copy_numeric_spelling(&c1_bss.literal, cursor, length, arena_kind == 3 ? 0 : arena_kind);
+        spelling = 1;
         goto allocate_token;
     }
     if (character == '0') {
@@ -169,8 +194,13 @@ allocate_token:
     if (token) {
         token->kind = 101;
 #ifdef RECON_NATIVE_TEST
-        token->value.typed_constant.type = c1_bss.literal.typed_constant.type;
-        token->value.typed_constant.value = c1_bss.literal.typed_constant.value;
+        if (spelling) {
+            token->value.string_attributes.text = c1_bss.literal.string_attributes.text;
+            token->value.string_attributes.length = c1_bss.literal.string_attributes.length;
+        } else {
+            token->value.typed_constant.type = c1_bss.literal.typed_constant.type;
+            token->value.typed_constant.value = c1_bss.literal.typed_constant.value;
+        }
 #else
         memcpy(&token->value, &c1_bss.literal, 24);
 #endif

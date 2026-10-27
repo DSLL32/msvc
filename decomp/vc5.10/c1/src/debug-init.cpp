@@ -35,9 +35,8 @@ extern "C" void __cdecl begin_source_input(void)
     /* The current case reaches path construction using existing options and
      * session state. Other modes require their actual owners first. */
 #ifdef RECON_NATIVE_TEST
-    if (c1_bss.options.preprocess_stdout || c1_bss.options.prototypes_only ||
-        c1_reuse_state)
-        recon_unsupported("debug initialization: unmodeled debug or preprocessing state");
+    if (c1_bss.options.prototypes_only || c1_reuse_state)
+        recon_unsupported("debug initialization: unmodeled prototype or reused state");
 #endif
     if ((!c1_bss.options.preprocess_stdout || c1_data.options.dependency_output) &&
         !c1_bss.options.prototypes_only) {
