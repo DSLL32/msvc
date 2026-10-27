@@ -717,3 +717,21 @@ unsigned char ProcNoRedefs( void )
     LinkFlags &= ~0x40000000UL;
     return 1;
 }
+
+unsigned char ProcJapanese( void );
+unsigned char ProcChinese( void );
+unsigned char ProcKorean( void );
+static parse_entry Languages[] = {
+    { "JApanese", ProcJapanese, 0xffff },
+    { "CHinese", ProcChinese, 0xffff },
+    { "KOrean", ProcKorean, 0xffff },
+    { 0, 0, 0 }
+};
+unsigned char ProcLanguage( void )
+{
+    CmdFlags &= ~0x3000;
+    return ProcOne( Languages, SEP_NO, 0 );
+}
+unsigned char ProcJapanese( void ) { CmdFlags |= 0x1000; return 1; }
+unsigned char ProcChinese( void ) { CmdFlags |= 0x2000; return 1; }
+unsigned char ProcKorean( void ) { CmdFlags |= 0x3000; return 1; }

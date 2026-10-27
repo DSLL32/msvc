@@ -6106,6 +6106,56 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcPENoRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcLanguage": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IsORL": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ORLPass1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ORLPass2": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "forceSuppression": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ZeroAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcJapanese": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcChinese": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcKorean": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -6125,6 +6175,10 @@
     {
       "owner": "CleanStripInfo",
       "entry": "RefGroup"
+    },
+    {
+      "owner": "ORLPass1",
+      "entry": "ORLPass2"
     }
   ],
   "shared_terminal_epilogues": [

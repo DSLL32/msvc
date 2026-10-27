@@ -903,3 +903,26 @@ int CmpLn286( const void *a, const void *b )
     return (int)((const ln_off_286 *)a)->off -
            (int)((const ln_off_286 *)b)->off;
 }
+
+#pragma pack(1)
+typedef struct empty_addr_header {
+    unsigned long size;
+    unsigned short segment, num;
+} empty_addr_header;
+typedef struct empty_addr_entry {
+    unsigned long size;
+    unsigned short mod_idx;
+} empty_addr_entry;
+#pragma pack()
+void ZeroAddrInfo( debug_info *dptr )
+{
+    empty_addr_header header;
+    empty_addr_entry entry;
+    dptr->addr.size = 14;
+    dptr->addr.init = DBIAlloc( dptr->addr.size );
+    dptr->DBIWrite = dptr->addr.init;
+    header.size = 0; header.segment = 0; header.num = 1;
+    DumpInfo( dptr, &header, sizeof(header) );
+    entry.size = 0; entry.mod_idx = 0;
+    DumpInfo( dptr, &entry, sizeof(entry) );
+}

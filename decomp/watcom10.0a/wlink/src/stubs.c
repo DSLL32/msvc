@@ -135,7 +135,7 @@ void Syntax( void ) { TRAP(); }
 
 
 
-unsigned char ProcLanguage( void ) { TRAP(); return 0; }
+
 
 
 
@@ -277,11 +277,11 @@ unsigned char ProcLanguage( void ) { TRAP(); return 0; }
 void PrintIOError( unsigned error, const char *types, char *name ) { TRAP(); }
 
 
-unsigned char IsORL( file_list *list, unsigned long loc ) { TRAP(); return 0; }
 
 
 
-unsigned long ORLPass1( void ) { TRAP(); return 0; }
+
+
 
 
 
@@ -361,7 +361,6 @@ void BadObject( void ) { TRAP(); }
 
 
 
-void forceSuppression( output_desc *data ) { TRAP(); }
 
 
 
@@ -372,11 +371,12 @@ void forceSuppression( output_desc *data ) { TRAP(); }
 
 
 
-void ZeroAddrInfo( debug_info *dptr ) { TRAP(); }
 
 
 
-void ORLPass2( void ) { TRAP(); }
+
+
+
 
 
 
@@ -601,44 +601,3 @@ void ORLPass2( void ) { TRAP(); }
 
 
 void OpenOvlFile( outfilelist *file ) { TRAP(); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-unsigned char ProcPENoRelocs( void ) { TRAP(); return 0; }

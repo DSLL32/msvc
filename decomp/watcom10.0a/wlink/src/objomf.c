@@ -918,3 +918,14 @@ member_list *GetOMFMember( file_list *list, unsigned long *loc )
     else *owner = member->next;
     return member;
 }
+
+/* This1994 build has no ORL reader. These actual entries reject identification,
+ * return no pass1 object/index and perform no pass2 work. No COFF support is
+ * supplied by the later released ORL implementation. */
+unsigned char IsORL( file_list *list, unsigned long loc )
+{
+    list = list; loc = loc;
+    return 0;
+}
+unsigned long ORLPass1( void ) { return 0; }
+void ORLPass2( void ) {}

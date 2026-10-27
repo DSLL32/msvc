@@ -1496,3 +1496,8 @@ int special_type_names( output_desc *data, state_desc *state )
     }
     return 0;
 }
+
+void forceSuppression( output_desc *data )
+{
+    if( data->suppress_output <= 2 ) data->suppress_output += 3;
+}

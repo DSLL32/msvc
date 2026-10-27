@@ -1,9 +1,9 @@
-WLINK 10.0a has forty-one completed paired CLI cases and two source-backed native
-unit cases. The acceptance ledger contains **1,217 application functions /
-135,328 unique original code bytes**. Paired CLI evidence covers **1,179 /
-131,793 bytes**; **38** further functions have source/static/native-unit
-qualification only, owning **3,536 bytes**. Those add **3,535** unique bytes
-because PermShrink shares one genuine RET with an already qualified CLI body.
+WLINK 10.0a has forty-one completed paired CLI cases and four source-backed
+native unit cases. The acceptance ledger contains **1,231 application functions /
+135,620 unique original code bytes**. Paired CLI evidence covers **1,179 /
+131,793 bytes**; **52** further functions have source/static/native-unit
+qualification only, owning **3,841 bytes**. Those add **3,827** unique bytes;
+14 bytes are genuinely shared with already qualified CLI bodies and count once.
 Unit-only evidence is not claimed as observed original CLI execution.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
@@ -121,6 +121,8 @@ with manual data/explicit stack and a non-DLL LX virtual-device image.
 | `0041-resource-units` | Native-only typed resource assertions; no original execution/oracle claim |
 | `0042-cache-spill-units` | Native-only cache/dictionary/spill ownership assertions; no original execution/oracle claim |
 | `0043-stdin-overlay-trace` | Exit 0; exact 294-byte stdout, empty stderr, 10,395-byte MZ, 6,516-byte map and 48/32-byte overlays |
+| `0044-policy-units` | Native-only language/relocation-policy/disabled-ORL assertions; no original execution claim |
+| `0045-debug-name-units` | Native-only descriptor/debug-buffer/empty-callback assertions; no original execution claim |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -148,16 +150,16 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,222 source-ready identities, their actual graph,
+The complete audit passes for 1,232 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
-EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
-statically qualified empty shared entries excluded from the acceptance count;
-no observed separate invocation is claimed. The source-ready base_32_num sibling
-shares a genuine terminal suffix with base_10_num, but its own primary body has
-not executed and is also excluded from acceptance. The genuine TempFileOpen
-wrapper is source-ready but remains unaccepted because the spill unit uses an
-already-open owned file and does not execute its first-open branch. The original first-node AddAddrInfo
+EndTime and RefGroup have explicitly seeded first-entry exclusions in the CLI
+references. The latter three now have direct native-unit qualification only;
+no observed separate original invocation is claimed. The base_32_num sibling's
+primary body also has native-unit qualification, while its terminal suffix is
+genuinely shared with base_10_num. TempFileOpen alone remains source-ready and
+unaccepted: the spill unit has not executed its existing-file open wrapper.
+The original first-node AddAddrInfo
 sentinel read is preserved on Win32; its documented native-only deterministic
 zero choice is limited to the observed invalid sentinel control read.
 
@@ -890,3 +892,34 @@ unit cases and all 1,222 source-ready graph/ABI identities; its 86 native
 invocations took **16.409–56.571 ms**. Authoring, exact stdin inputs, failed
 comparisons and raw artifact files remain in scratch wlink-stdin-overlays.
 The new case contains only case.c and capture.bin.
+
+
+Two further source/static/native-unit cases qualify fourteen helpers without
+claiming new CLI reach. The policy case checks ProcPENoRelocs's actual bit clear,
+which the old ordinary NORELOCS dispatcher shadows. Real NewCommandSource-owned
+ASCII buffers select Japanese, Chinese and Korean, preserving unrelated flags
+and releasing parser owners immediately afterward. This qualifies ProcLanguage
+and its three real table/flag handlers; it stops before any subsequent multibyte
+tokenization, which remains unsupported. The original disabled IsORL, ORLPass1
+and ORLPass2 entries are false/zero/no-op glue, not COFF reader functionality.
+Their genuine shared final C3 retains both graph identities with one-byte union
+ownership; no synthetic original entry is supplied.
+
+The debug/name case checks forceSuppression and its existing inverse against
+whole typed descriptor snapshots, and directly executes base_32_num on small
+valid numbers with exact decoded values and input cursor bounds. ZeroAddrInfo
+uses real DBIAlloc/AllocStg ownership for its14-byte empty address header/entry;
+all bytes, descriptor fields, cursor bounds and adjacent canaries are asserted,
+then FreeVirtMem releases the allocation. Actual calls to the already reconstructed
+empty EndTime, RefGroup and ODBISectCleanup preserve typed owners/control state
+and upgrade only their native-unit evidence. Their original CLI first-entry
+exclusions and absence of separate observed-original invocation claims remain.
+
+The family native/period build took **1.777 s**, and its scoped fourteen-function
+graph/ABI check **391.527 ms**. Policy and debug/name DIRECT runs took
+**19.504 / 17.382 ms**; their three-test runs took **14.229 / 19.904 ms**,
+with setup/execution/check splits retained in scratch wlink-helper-units.
+The full build/regression/unit/audit took **1.960 s**, passing forty-one CLI
+cases, four unit cases and all 1,232 source-ready graph/ABI identities. Its 90
+native invocations took **14.333–58.680 ms**. No original application or provider
+run was used. Each new case contains only case.c, direct.c and capture.bin.

@@ -975,3 +975,9 @@ unsigned char ProcVirtDevice( void )
     FmtData.u.os2.flags |= 0x0800;
     return 1;
 }
+
+unsigned char ProcPENoRelocs( void )
+{
+    LinkState &= ~1;
+    return 1;
+}
