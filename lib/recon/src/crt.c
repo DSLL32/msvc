@@ -304,6 +304,7 @@ WEAK void recon_initterm(ReconInitializer *begin,ReconInitializer *end)
     }
 }
 
+static int native_entry_deferred_binding;
 void recon_crt_bind_arguments(int argc,char **argv,char **environment)
 {
     int n;
@@ -316,6 +317,9 @@ void recon_crt_bind_arguments(int argc,char **argv,char **environment)
         recon_unsupported("CRT arguments rebound");
     recon_crt_argc=argc; recon_crt_argv=argv; recon_crt_environment=environment;
     recon_crt_arguments_bound=1;
+    if(native_entry_deferred_binding) {
+        recon_crt_initenv=environment;native_entry_deferred_binding=0;
+    }
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     if(pending_os_environment) {
         recon_crt_bind_os_environment(pending_os_environment,pending_os_environment_units,
@@ -488,7 +492,7 @@ static char **native_parse_command_line(const char *line,int *argc)
     }
     arguments[count]=NULL;*argc=count;return arguments;
 }
-ReconNativeEntry *recon_native_entry_initialize(int argc,char **argv,char **environment)
+static ReconNativeEntry *native_entry_inputs(int argc,char **argv,char **environment,int bind_crt)
 {
     ReconNativeEntry *entry;char program[PATH_MAX],*cwd,*raw_environment,*cursor,*raw_command;
     char **arguments,**variables;WCHAR *os_block;ssize_t length;
@@ -523,7 +527,8 @@ ReconNativeEntry *recon_native_entry_initialize(int argc,char **argv,char **envi
     entry->command_line=raw_command?raw_command:native_quote_arguments(argc,arguments);
     entry->argc=argc;entry->argv=arguments;entry->environment=variables;
     native_entry_context=entry;
-    recon_crt_bind_arguments(argc,arguments,variables);recon_crt_initenv=variables;
+    if(bind_crt) {recon_crt_bind_arguments(argc,arguments,variables);recon_crt_initenv=variables;}
+    else native_entry_deferred_binding=1;
     recon_crt_os_environment=os_block;recon_crt_os_environment_units=units;
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     /* These are the actual owned startup namespaces, not a fixture provider
@@ -541,6 +546,11 @@ ReconNativeEntry *recon_native_entry_initialize(int argc,char **argv,char **envi
     errno=0;recon_doserrno=0;recon_SetLastError(0);
     return entry;
 }
+
+ReconNativeEntry *recon_native_entry_initialize(int argc,char **argv,char **environment)
+{ return native_entry_inputs(argc,argv,environment,1); }
+ReconNativeEntry *recon_native_entry_prepare(int argc,char **argv,char **environment)
+{ return native_entry_inputs(argc,argv,environment,0); }
 
 /* Host controls and application environment are separate namespaces. The
  * canonical getenv returns a borrowed pointer into its mutable environment. */
@@ -1846,8 +1856,15 @@ int __cdecl recon_watcom_setvbuf(ShimFILE *stream,char *buffer,int mode,size_t s
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
     if(stream!=&recon_iob[1] || !buffer || mode!=0x0200 || (size!=128 && size!=256) ||
        (uintptr_t)buffer>UINTPTR_MAX-size || stream->_file!=1 || stream->_tmpfname ||
-       recon_nhandle<=1 || (recon_osfile[1]&~8)!=0x81 || os_handles[1]<=0)
+       recon_nhandle<=1 || os_handles[1]<=0)
         recon_unsupported("Watcom supplied stdout line-buffer domain");
+    if((recon_osfile[1]&~8)!=0x81) {
+        int saved=errno,is_terminal;
+        if(!recon_native_entry_active() || recon_osfile[1]!=0xc1 || size!=128 || watcom_stdout_line_buffer)
+            recon_unsupported("Watcom canonical stdout terminal line-buffer domain");
+        is_terminal=isatty((int)os_handles[1]-1);errno=saved;
+        if(!is_terminal)recon_unsupported("Watcom stdout terminal identity");
+    }
     if(watcom_stdout_line_buffer) {
         if(size!=256 || watcom_stdout_line_size!=256 || stream->_flag!=0x102 ||
            stream->_base!=watcom_stdout_line_buffer || stream->_ptr!=stream->_base ||

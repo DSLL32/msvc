@@ -180,8 +180,11 @@ typedef struct ReconNativeEntry {
  const char *program_path,*current_directory,*command_line;
 } ReconNativeEntry;
 ReconNativeEntry *recon_native_entry_initialize(int,char **,char **);
+/* Own the same ordinary inputs, but defer CRT argv/environment publication.
+ * The root must call recon_crt_bind_arguments once with its live CRT view. */
+ReconNativeEntry *recon_native_entry_prepare(int,char **,char **);
 /* Explicit root-entry-only opt-in; do not set for general support/App objects.
- * The marked root must call initialize before invoking any App code. */
+ * The marked root must initialize, or prepare then bind, before App code. */
 #define RECON_NATIVE_ENTRY_PROTOCOL_TEXT "recon-native-command-line-v1"
 #ifdef RECON_NATIVE_ENTRY_PROTOCOL_V1
 static const char recon_native_entry_protocol_v1[]

@@ -2117,3 +2117,13 @@ model. Caller-owned output spans must fit the complete typed structures.
 Canonical temporary paths use the actual cwd, and the initial OS block and CRT
 vector have distinct startup-owned storage; the existing restricted LINK OS-only
 insertion can derive the child environment without changing the CRT snapshot.
+
+Ordinary roots that retain a target CRT's argument/environment publication may
+call recon_native_entry_prepare instead of recon_native_entry_initialize. Both
+own the actual argv, natural OS environment, Windows command line and executable/
+cwd paths. Prepare defers only CRT binding; the root supplies its live CRT view
+to recon_crt_bind_arguments once, which publishes _initenv for that prepared
+startup. The eager initializer and fixture binders retain their prior behavior.
+Canonical Watcom stdout may additionally use a fresh caller-owned 128-byte line
+buffer on a verified real TTY with exact lowio flags0xc1. This does not admit
+256-byte TTY buffering, replacement buffers or interactive stdin/getch support.

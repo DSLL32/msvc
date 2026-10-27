@@ -1200,3 +1200,7 @@ mbstrlen-ascii-check: build/mbstrlen-ascii-probe build/mbstrlen-ascii-generic
 .PHONY: native-system-check
 native-system-check:
 	$(PYTHON) tests/native-system/check.py
+
+.PHONY: native-prepare-check
+native-prepare-check:
+	$(PYTHON) tests/native-prepare/check.py
