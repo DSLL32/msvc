@@ -943,3 +943,9 @@ unsigned char ProcAnonExport( void )
     CmdFlags &= ~0x4000;
     return result;
 }
+
+unsigned char ProcRunPosix( void )
+{
+    FmtData.u.pe.subsystem = 7;
+    return 1;
+}

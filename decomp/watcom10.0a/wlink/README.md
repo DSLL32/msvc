@@ -1,5 +1,5 @@
-WLINK 10.0a has twenty-three completed native regression cases. The acceptance ledger
-contains **1,118 application functions / 127,619 unique original code bytes**.
+WLINK 10.0a has twenty-four completed native regression cases. The acceptance ledger
+contains **1,120 application functions / 127,934 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -51,6 +51,8 @@ The twenty-second combines NetWare LAN shared-image rebasing, referenced/export
 debug filtering, numeric string escapes and a caret response-source handoff.
 The twenty-third reads WLIB export-command text, including quoted/renamed and
 anonymous exports, with NE segment boundaries, alignment and relocation checks.
+The twenty-fourth combines compiler-generated OMF export definitions and iterated
+data, a WLIB import-definition member, DWARF and POSIX PE subsystem metadata.
 
 | Case | Result |
 | --- | --- |
@@ -77,6 +79,7 @@ anonymous exports, with NE segment boundaries, alignment and relocation checks.
 | `0021-tnt-symbols` | Exit 0; exact 422-byte stdout, empty stderr, 9,119-byte TNT DLL and 3,235-byte map |
 | `0022-novell-shared` | Exit 0; exact 255-byte stdout, empty stderr, 3,276-byte LAN image and 3,066-byte map |
 | `0023-wlib-exports` | Exit 0; exact 483-byte stdout, empty stderr, 935-byte NE DLL and 3,730-byte map |
+| `0024-omf-directives` | Exit 0; exact 253-byte stdout, empty stderr, 10,369-byte PE DLL and 3,276-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -479,4 +482,36 @@ genuine USE16 objects and archive. The initial full check exposed the missing
 map-clock comparison rule; offline derivation corrected only that established
 rule, without another original run. Raw captures, producer inputs and all
 failed setup/check diagnostics remain in scratch wlink-wlib-exports; the case
+contains only source and capture data.
+
+
+The compiler-directive case matches 537 first entries and complete output.
+Period WCC386 emits two function EXPDEF comments and one LIDATA record from the
+real initialized array. A genuine WLIB member supplies the GetTickCount IMPDEF;
+its name is bound explicitly in the producer source, and the small authored
+startup resolves the compiler's DLL-entry reference. POSIX selects the actual
+PE subsystem value 7. MSExportKeyword retains the old direct ObjBuff interface,
+copy/name ownership, IOPL/resident/ordinal fields and real symbol/export edges.
+The already reconstructed import and iterated-data readers need no new bodies;
+this case does not claim the remaining iterated-COMDAT or alternate debug readers.
+
+The complete-output comparison exposed a prior DWARF tuple-field error:
+DwarfGenSegInfo must read the actual leader+0x34 prev_offset, not saved_size at
++0x30. The original assembly establishes that layout. Correcting both tuple
+start and size makes the original eight-byte startup range match; no debug-byte
+normalization was added and the retained original was reused for native-only
+verification. Only the COFF timestamp DWORD at e_lfanew+8=136..140 and six known
+map-clock digit fields are excluded.
+
+The final parallel build/regression/unit/audit batch took **1.520 s**. All
+twenty-four cases and 1,124 source-ready graph/ABI identities pass; 48 native
+regression runs took **17.709–56.132 ms**. The final genuine capture command took
+**1,172.380 ms** (owned target **1,161.560 ms**); corrected native replay took
+**28.909 ms**, split **16.479 / 5.796 / 6.634 ms** for setup/execution/checks.
+The clean original baseline took **643.436 ms**; revised C/assembly production
+needed **587.281 / 677.304 ms**, and WLIB response-file production **483.803 ms**.
+An earlier direct import-production invocation was stopped after 44.706 s;
+its actual failure and the earlier unresolved-symbol baseline remain retained
+in scratch wlink-omf-directives with all authoring inputs/raw artifacts. No
+original was repeated to diagnose or fix the DWARF mismatch. The numbered case
 contains only source and capture data.

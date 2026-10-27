@@ -40,7 +40,7 @@
 #include <recon.h>
 
 #ifdef __WATCOMC__
-#pragma intrinsic(strlen,memcmp)
+#pragma intrinsic(strlen,memcmp,memcpy)
 #endif
 
 void AddToExportList( entry_export *exp )
@@ -460,4 +460,32 @@ entry_export *FindPlace( entry_export *entry )
         }
     }
     return ret;
+}
+
+/* The 1994 entry consumes the EXPDEF record directly, unlike the later
+ * length_name interface in the released source. */
+void MSExportKeyword( void )
+{
+    entry_export *exp;
+    unsigned char flags;
+    unsigned len;
+
+    exp = ChkLAlloc( sizeof(*exp) );
+    exp->flags = 2;
+    flags = *ObjBuff++;
+    exp->ordinal = 0;
+    exp->iopl_words = flags & 0x1f;
+    if( flags & 0x40 ) exp->flags |= 1;
+    len = *ObjBuff++;
+    exp->name = ChkLAlloc( len + 1 );
+    memcpy( exp->name, ObjBuff, len );
+    exp->name[len] = '\0';
+    ObjBuff += len;
+    len = *ObjBuff++;
+    if( len != 0 ) exp->sym = SymXOp( 0x12, (char *)ObjBuff, len );
+    else exp->sym = SymOp( 0x12, exp->name, strlen( exp->name ) );
+    if( LinkFlags & 0x00010000UL ) DataRef( exp->sym );
+    if( flags & 0x80 ) exp->ordinal = *(unsigned short *)ObjBuff;
+    else exp->flags |= 1;
+    AddToExportList( exp );
 }

@@ -210,7 +210,6 @@ unsigned char CheckFence( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcRunPosix( void ) { TRAP(); return 0; }
 unsigned char ProcRunOS2( void ) { TRAP(); return 0; }
 
 
@@ -350,7 +349,6 @@ void BadObject( void ) { TRAP(); }
 
 
 
-void MSExportKeyword( void ) { TRAP(); }
 void ProcExportKeyword( void ) { TRAP(); }
 void ProcImportKeyword( void ) { TRAP(); }
 

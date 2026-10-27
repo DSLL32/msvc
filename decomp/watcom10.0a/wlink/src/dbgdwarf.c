@@ -386,9 +386,9 @@ void DwarfGenSegInfo( seg_leader *seg )
     dwarf_arange_tuple tuple;
     dwarfmodinfo *info;
     if( seg->info & 0x40 ) {
-        tuple.offset = seg->seg_addr.off + seg->size - seg->saved_size;
+        tuple.offset = seg->seg_addr.off + seg->size - seg->u.p2.prev_offset;
         tuple.segment = seg->seg_addr.seg;
-        tuple.size = seg->saved_size;
+        tuple.size = seg->u.p2.prev_offset;
         info = CurrMod->d.d;
         memcpy( info->arange.addr, &tuple, sizeof(tuple) );
         info->arange.addr += sizeof(tuple);

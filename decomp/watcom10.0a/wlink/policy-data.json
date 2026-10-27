@@ -5606,6 +5606,16 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcRunPosix": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MSExportKeyword": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
