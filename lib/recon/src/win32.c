@@ -2395,11 +2395,15 @@ LPVOID WINAPI recon_VirtualAlloc(LPVOID address,DWORD bytes,DWORD kind,DWORD pro
             if(v->decommitted)recon_unsupported("VirtualAlloc recommit after decommit");
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
             if(v->decommit_eligible==2) {
-                size_t offset=(uintptr_t)address-(uintptr_t)v->address;
+                size_t offset=(uintptr_t)address-(uintptr_t)v->address,rounded;
                 if(protection!=PAGE_READWRITE || ((uintptr_t)address&4095) ||
-                   (bytes&4095) || offset>v->committed_prefix)
+                   offset>v->committed_prefix || bytes>SIZE_MAX-4095)
                     recon_unsupported("VirtualAlloc outside contiguous readwrite prefix");
-                end=offset+bytes;
+                /* An aligned request commits every page touched by its bytes. */
+                rounded=((size_t)bytes+4095)&~(size_t)4095;
+                if(rounded>v->length-offset)
+                    recon_unsupported("VirtualAlloc rounded commit outside reservation");
+                bytes=(DWORD)rounded;end=offset+rounded;
             }
 #endif
             if (mprotect(address,bytes,prot)<0) { last_error=error_code(errno); return NULL; }

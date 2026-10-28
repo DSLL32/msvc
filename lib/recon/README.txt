@@ -1558,7 +1558,9 @@ radices/profiles and NULL/wrapping output remain denied. Original per-call
 error/FP state is unmeasured.
 
 Explicit MSVCRT510 separately reserved RW arenas track only a page-aligned
-contiguous committed prefix. Overlapping/adjacent commits may extend it; holes,
+contiguous committed prefix. At an aligned start, commit byte counts round up to
+4096-byte pages with checked arithmetic and reservation bounds; tracking records
+the actual page extent. Overlapping/adjacent commits may extend it; holes,
 other protection and recommit after decommit remain denied. Exact-base decommit
 accepts the nonempty prefix or entire reservation (including size zero),
 discards storage and retains

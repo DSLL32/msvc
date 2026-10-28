@@ -1248,3 +1248,9 @@ borland-setjmp-check:
 .PHONY: trace-register-check
 trace-register-check:
 	$(PYTHON) tests/check-trace-register.py
+
+.PHONY: virtual-round-check
+build/virtual-round-probe: tests/virtual-round-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+virtual-round-check: build/virtual-round-probe
+	$(PYTHON) tests/check-virtual-round.py $<
