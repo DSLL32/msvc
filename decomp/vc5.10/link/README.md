@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-800 application functions / 290,696 original code bytes are reconstructed
-(70.08% of the 414,810-byte whole `.text` extent, which includes CRT and text
+803 application functions / 291,347 original code bytes are reconstructed
+(70.24% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 34 pending bodies with known extents totaling 3,156 bytes and
-129 entries whose body extents remain unknown; this is not a complete non-CRT
+126 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -1775,3 +1775,49 @@ case-end regression/unit/full graph/RET/EH batch passed in 8.097 s, covering
 60 cached cases, 813 graph vertices, 785 return contracts and the existing
 C++/OMF SEH role checks. These are incremental timings. The fixed-view and
 MSDIS cases remain blocked.
+
+
+The large PowerPC branch-island case links a transparent 33,558,780-byte COFF
+object with three REL24 calls to two destinations beyond the signed 32 MiB
+branch range. Its range-spanning contribution contains genuine serialized
+PowerPC NOP words; all branch fields, symbol/relocation spans and return words
+are independently checked before capture. This is format-authored input, not
+claimed historical compiler output. No target code is executed.
+
+Three whole bodies / 651 original code bytes recover the 24-byte linked-list
+island owner, target allocation and final writing/cleanup. The actual head and
+last-next-link identities are shared across these bodies, and cleanup frees
+both target arrays and nodes before resetting the tail. The full DWORD formals
+retain their transport, with only the original low BYTE absolute flag and low
+WORD section consumed. The encountered four-word LIS r11 / ADDI r11 / MTCTR r11 /
+BCTR template is text data with zero application credit.
+
+A zero-credit repair corrects an older relocation predicate: original 45a789
+reads the DWORD unresolved-symbol count at 47ef48, rather than the unrelated
+large-image BYTE at 47eec4. The earlier small-PPC paths did not reach an
+out-of-range branch and therefore could not distinguish these owners. The
+necessary source build and scoped graph gate bind the corrected operand; the
+compiler's changed switch-label addresses are refreshed from its actual table.
+No old receipt is relabeled and no historical replay is claimed.
+
+Both sides exit 0 after 240 first entries and produce matching 33,560,064-byte
+EXE and 685-byte MAP files. Independent decoding proves each branch destination,
+three distinct 16-byte island slots and both target values. The repeated target
+uses two separate slots, preserving the actual PowerPC behavior rather than
+borrowing Alpha's duplicate reuse. The complete NOP contribution and BLR tail
+are unchanged; all HIGHADJ/LOW relocation words, padding and zero reservation
+tail remain strict. Only PE COFF TimeDateStamp [184,188), MAP hex clock [26,34)
+and ctime [36,60) are normalized, after each raw MAP independently agrees with
+its raw PE timestamp. Raw original/native artifacts and derived receipts remain
+in scratch. The earlier partial clock mismatch and raw-copy GDB SIG9 diagnostic
+are retained; only the subsequent ordinary matching replay qualifies the prefix.
+
+Final original execution took 2,313.659 ms; ordinary native comparison took
+341.147 ms (31.716 setup, 43.234 execution, 266.197 checks). Necessary native/period
+builds and scoped RET12/RET20/RET0 graph/import/extent gates passed. The one
+case-end regression/unit/full graph/RET/EH batch passed in 8.126 s, covering
+61 cached cases, 816 graph vertices, 788 return contracts and the existing
+C++/OMF SEH checks. A necessary shared-tool rebuild took 39.374 s separately;
+its default-capture coherence was confirmed before reference execution. Target
+low halves are below 8000h, so high-adjust carry remains static evidence.
+Absolute/debug-fixup/error domains and target runtime behavior are unclaimed.

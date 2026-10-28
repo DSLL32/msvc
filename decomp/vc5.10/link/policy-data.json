@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 195248
+              "offset": 196048
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 195259
+              "offset": 196059
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 290832
+              "offset": 291616
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 290843
+              "offset": 291627
             }
           ]
         },
@@ -6944,23 +6944,23 @@
                 },
                 {
                   "rebuilt_symbol": "_process_ppc_relocations@28",
-                  "offset": 2013
+                  "offset": 2010
                 },
                 {
                   "rebuilt_symbol": "_process_ppc_relocations@28",
-                  "offset": 2059
+                  "offset": 2056
                 },
                 {
                   "rebuilt_symbol": "_process_ppc_relocations@28",
-                  "offset": 2130
+                  "offset": 2127
                 },
                 {
                   "rebuilt_symbol": "_process_ppc_relocations@28",
-                  "offset": 2200
+                  "offset": 2198
                 },
                 {
                   "rebuilt_symbol": "_process_ppc_relocations@28",
-                  "offset": 2329
+                  "offset": 2327
                 },
                 {
                   "rebuilt_symbol": "_process_ppc_relocations@28",
@@ -6972,7 +6972,7 @@
                 },
                 {
                   "rebuilt_symbol": "_process_ppc_relocations@28",
-                  "offset": 2994
+                  "offset": 2993
                 }
               ]
             }
@@ -7739,11 +7739,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 226256
+              "offset": 227056
             },
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 226267
+              "offset": 227067
             }
           ]
         }
@@ -8216,11 +8216,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 225296
+              "offset": 226096
             },
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 225307
+              "offset": 226107
             }
           ]
         }
@@ -13683,11 +13683,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 227248
+              "offset": 228048
             },
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 227256
+              "offset": 228056
             }
           ],
           "text_data": [
@@ -22129,6 +22129,21 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_add_ppc_branch_island@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_find_ppc_branch_target@20": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "_finish_ppc_branches": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -22138,21 +22153,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 195248
+            "offset": 196048
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 195259
+            "offset": 196059
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 195259
+            "offset": 196059
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 195269
+            "offset": 196069
           }
         ]
       ]
@@ -22162,21 +22177,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 290832
+            "offset": 291616
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 290843
+            "offset": 291627
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 290843
+            "offset": 291627
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 290853
+            "offset": 291637
           }
         ]
       ]
@@ -22258,21 +22273,21 @@
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 226256
+            "offset": 227056
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 226267
+            "offset": 227067
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 226267
+            "offset": 227067
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 226277
+            "offset": 227077
           }
         ]
       ]
@@ -22282,21 +22297,21 @@
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 225296
+            "offset": 226096
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 225307
+            "offset": 226107
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 225307
+            "offset": 226107
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 225317
+            "offset": 226117
           }
         ]
       ]
@@ -22306,21 +22321,21 @@
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 227248
+            "offset": 228048
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 227256
+            "offset": 228056
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 227256
+            "offset": 228056
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 227266
+            "offset": 228066
           }
         ]
       ]

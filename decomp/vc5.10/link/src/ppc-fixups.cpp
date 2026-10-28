@@ -6,7 +6,7 @@
 #include <recon.h>
 
 extern "C" {
-extern BYTE large_ppc_image;
+extern DWORD undefined_symbols;
 extern DWORD gp_base,gp_limit;
 extern StringNode *gp_symbol;
 extern BYTE *next_base_relocation;
@@ -17,7 +17,7 @@ const char *__stdcall output_symbol_name(LinkContext *,IMAGE_SYMBOL *);
 void __cdecl link_contribution_error(Contribution *,unsigned,...);
 void __stdcall count_relocation_error(LinkContext *);
 DWORD __stdcall find_ppc_branch_target(LinkContext *context,DWORD site,
-    DWORD absolute,DWORD section,DWORD value) { __asm { int 3 } return 0; }
+    DWORD absolute,DWORD section,DWORD value);
 }
 
 /* These record stores and diagnostics were inline at their actual call sites. */
@@ -113,7 +113,7 @@ extern "C" void __stdcall process_ppc_relocations(Contribution *contribution,
                 offset=word & 0x3fffffc;
                 if(offset & 0x2000000)offset|=0xfc000000;
                 offset=negative ? offset-value : offset+value;
-                if(!large_ppc_image && ((LONG)offset< -0x2000000 || (LONG)offset>=0x2000000)) {
+                if(!undefined_symbols && ((LONG)offset< -0x2000000 || (LONG)offset>=0x2000000)) {
                     /* Only the low BYTE of this physical absolute-state DWORD
                      * is consumed by the pending branch-target helper. */
                     offset=find_ppc_branch_target(context,site,absolute,section,absolute_value)-site;
