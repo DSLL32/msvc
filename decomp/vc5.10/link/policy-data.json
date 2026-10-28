@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 189520
+              "offset": 191040
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 189531
+              "offset": 191051
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 282672
+              "offset": 284192
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 282683
+              "offset": 284203
             }
           ]
         },
@@ -7739,11 +7739,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 218080
+              "offset": 219600
             },
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 218091
+              "offset": 219611
             }
           ]
         }
@@ -8216,11 +8216,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 217120
+              "offset": 218640
             },
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 217131
+              "offset": 218651
             }
           ]
         }
@@ -13683,11 +13683,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 219072
+              "offset": 220592
             },
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 219080
+              "offset": 220600
             }
           ],
           "text_data": [
@@ -21865,6 +21865,31 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_test_symbol_bit@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_write_mac_toc_slot@24": {
+        "expected_cleanup": [
+          24
+        ]
+      },
+      "_get_mac_indirect_glue@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_clear_symbol_bit@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_initialize_mac_indirect_glue": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -21874,21 +21899,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 189520
+            "offset": 191040
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 189531
+            "offset": 191051
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 189531
+            "offset": 191051
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 189541
+            "offset": 191061
           }
         ]
       ]
@@ -21898,21 +21923,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 282672
+            "offset": 284192
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 282683
+            "offset": 284203
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 282683
+            "offset": 284203
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 282693
+            "offset": 284213
           }
         ]
       ]
@@ -21994,21 +22019,21 @@
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 218080
+            "offset": 219600
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 218091
+            "offset": 219611
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 218091
+            "offset": 219611
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 218101
+            "offset": 219621
           }
         ]
       ]
@@ -22018,21 +22043,21 @@
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 217120
+            "offset": 218640
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 217131
+            "offset": 218651
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 217131
+            "offset": 218651
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 217141
+            "offset": 218661
           }
         ]
       ]
@@ -22042,21 +22067,21 @@
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 219072
+            "offset": 220592
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 219080
+            "offset": 220600
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 219080
+            "offset": 220600
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 219090
+            "offset": 220610
           }
         ]
       ]

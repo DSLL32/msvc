@@ -24,7 +24,10 @@ StringNode *__stdcall record_incremental_entry(const char *,Contribution *,LinkC
 void __stdcall prepare_mac_incremental_entry(StringNode *,LinkContext *);
 void __stdcall append_mac_map_symbol(StringNode *);
 BOOL __stdcall mark_symbol_bit(DWORD *,DWORD);
-BOOL __stdcall test_symbol_bit(DWORD *,DWORD) { __asm { int 3 } return 0; }
+BOOL __stdcall test_symbol_bit(DWORD *bits,DWORD index)
+{
+    return (bits[index>>5]&(1UL<<(index&31)))!=0;
+}
 BYTE __stdcall classify_mac_ppc_relocation(Contribution *contribution,WORD type,
     DWORD physical_flag,BYTE unused)
 {
@@ -64,10 +67,14 @@ IMAGE_SYMBOL *__stdcall create_incremental_symbol(LinkContext *,Contribution *,D
 void __stdcall write_mac_entry(const char *,StringNode *,DWORD,LinkContext *,DWORD);
 StringNode *__stdcall lookup_mac_entry_symbol(const char *,LinkContext *,DWORD);
 BYTE __stdcall is_mac_toc_symbol(LinkContext *,IMAGE_SYMBOL *) { __asm { int 3 } return 0; }
-DWORD __stdcall get_mac_indirect_glue(DWORD,OutputModule *,IMAGE_SYMBOL *,LinkContext *)
-{ __asm { int 3 } return 0; }
-void __stdcall write_mac_toc_slot(LinkContext *,OutputModule *,IMAGE_SYMBOL *,DWORD,DWORD,StringNode *)
-{ __asm { int 3 } }
+DWORD __stdcall get_mac_indirect_glue(DWORD,OutputModule *,IMAGE_SYMBOL *,LinkContext *);
+void __stdcall write_mac_toc_slot(LinkContext *,OutputModule *,IMAGE_SYMBOL *,DWORD,DWORD,StringNode *);
+BOOL __stdcall clear_symbol_bit(DWORD *bits,DWORD index)
+{
+    DWORD word=index>>5,mask=1UL<<(index&31),previous=bits[word]&mask;
+    if(previous)bits[word]&=~mask;
+    return previous!=0;
+}
 void __stdcall emit_mac_import_glue(DWORD,LinkContext *);
 extern Contribution *mac_glue_contribution;
 extern DWORD mac_data_base;
@@ -163,6 +170,84 @@ DWORD __stdcall resolve_mac_code_symbol(DWORD index,OutputModule *module,LinkCon
         if(!imported) { MAC_SYMBOL_NAME(mapped);link_fatal(NULL,1548,name); } \
     } \
 } while(0)
+
+extern "C" {
+extern Contribution *mac_toc;
+extern DWORD mac_toc_entry_count;
+extern int output_file;
+extern BYTE file_access_statistics;
+DWORD __cdecl get_mac_toc_bias(void);
+/* carrier is the real DWORD slot: either a small TOC index or a StringNode*.
+ * entry separately owns the descriptor/TOC flags and signed displacement. */
+void __stdcall write_mac_toc_slot(LinkContext *context,OutputModule *module,
+    IMAGE_SYMBOL *symbols,DWORD index,DWORD carrier,StringNode *entry)
+{
+    StringNode *fallback=NULL,*value_symbol=(StringNode *)carrier;
+    MacImportSymbolNode *imported;
+    DWORD displacement,value,relative,error=0;
+    BYTE imported_data,is_code;
+    WORD kind;
+    const char *name;
+    FileRecord *file;
+    int fd;
+    if(test_symbol_bit(module->symbol_bits[0],index)) {
+        if(entry->attributes&1)return;
+        if(entry->attributes&4) {
+            fallback=find_weak_default(entry);
+            if(fallback->attributes&1)return;
+        }
+        displacement=(DWORD)(LONG)(SHORT)entry->reserved36;
+        imported_data=(entry->attributes&2)!=0;
+        entry->attributes|=1;
+    } else {
+        if(!clear_symbol_bit(module->symbol_bits[1],index))return;
+        value=module->symbol_indices[index]*4;
+        displacement=(DWORD)(LONG)(SHORT)((LONG)value<0x8000?value:0x7ffc-value);
+        imported_data=0;
+    }
+    value=symbols[index].Value;
+    if(imported_data) {
+        imported=find_mac_import_symbol(context,entry);
+        fallback=NULL;
+        if(!imported) {
+            fallback=find_weak_default(value_symbol);
+            if(fallback) {
+                imported=find_mac_import_symbol(context,fallback);
+                fallback->attributes|=1;
+                if(entry->attributes&0x200)fallback->attributes|=0x200;
+            }
+        }
+        entry->attributes|=1;
+        if(entry->attributes&0x200)return;
+        if(!imported) { MAC_SYMBOL_NAME(entry);link_fatal(NULL,1548,name); }
+        append_mac_relocation(mac_toc_symbol->final_value+displacement-mac_data_base,
+            8,(DWORD)imported);
+        entry->attributes|=0x200;
+        if(fallback)fallback->attributes|=0x200;
+        return;
+    }
+    if(carrier>mac_toc_entry_count && (value_symbol->attributes&0x20))
+        value=value_symbol->symbol.Value+mac_jump_contribution->rva;
+    relative=byte_swap_dword(mac_section_relative_address(value,&is_code));
+    seek_file(output_file,get_mac_toc_bias()+mac_toc->file_offset+displacement,
+        FILE_BEGIN,&error);
+    fd=output_file;
+    if(file_access_statistics)record_file_access();
+    file=file_slots[fd];
+    if(file->flags&8)mapped_write(file,&relative,4);
+    else buffered_write(file,&relative,4);
+    if(carrier>mac_toc_entry_count) {
+        if(value_symbol->attributes&0x200)return;
+        value_symbol->attributes|=0x200;
+    }
+    if(context->options.debug_formats&8)
+        record_debug_fixup(2,0,mac_toc_symbol->final_value+displacement,value);
+    append_mac_relocation(mac_toc_symbol->final_value+displacement-mac_data_base,
+        1+(is_code!=0),0);
+    if(carrier>mac_toc_entry_count && (value_symbol->attributes&4) && fallback)
+        fallback->attributes|=0x201;
+}
+}
 
 extern "C" void __stdcall process_mac_ppc_relocations(Contribution *contribution,
     IMAGE_RELOCATION *relocations,DWORD count,BYTE *contents,IMAGE_SYMBOL *symbols,

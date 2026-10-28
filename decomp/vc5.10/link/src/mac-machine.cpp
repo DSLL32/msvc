@@ -971,6 +971,48 @@ DWORD mac_glue_extension[]={
     0x804c0004UL, /* lwz r2,4(r12) */
     0x4e800420UL  /* bctr */
 };
+/* Actual4673d0 is a separate mutable template from extension4673b8. */
+DWORD mac_indirect_glue[]={
+    0x800c0000UL, /* lwz r0,0(r12) */
+    0x90410014UL, /* stw r2,20(r1) */
+    0x7c0903a6UL, /* mtctr r0 */
+    0x804c0004UL, /* lwz r2,4(r12) */
+    0x4e800420UL  /* bctr */
+};
+void __cdecl initialize_mac_indirect_glue(void)
+{
+    unsigned index;
+    for(index=0;index<5;++index)swap_byte_order(mac_indirect_glue+index,4);
+}
+DWORD __stdcall get_mac_indirect_glue(DWORD index,OutputModule *module,
+    IMAGE_SYMBOL *,LinkContext *context)
+{
+    StringNode *symbol=(StringNode *)module->symbol_indices[index],*glue;
+    FileRecord *file;
+    DWORD offset,error=0;
+    int fd;
+    if(!(symbol->attributes&8)) {
+        glue=context->symbols->Lookup((const unsigned char *)"__glueptr",NULL);
+        if(!(glue->flags&1)) {
+            initialize_mac_indirect_glue();
+            offset=context->mac_glue_bytes_used;
+            seek_file(output_file,mac_glue_contribution->file_offset+offset,FILE_BEGIN,&error);
+            fd=output_file;
+            if(file_access_statistics)record_file_access();
+            file=file_slots[fd];
+            if(file->flags&8)mapped_write(file,mac_indirect_glue,20);
+            else buffered_write(file,mac_indirect_glue,20);
+            set_symbol_defined(glue,1,context->symbols);
+            glue->contribution=mac_glue_contribution;
+            glue->symbol.Value=context->mac_glue_bytes_used;
+            glue->final_value=glue->contribution->rva+context->mac_glue_bytes_used;
+            context->mac_glue_bytes_used+=20;
+        }
+        symbol->mac_glue_address=glue->symbol.Value+glue->contribution->rva;
+        symbol->attributes|=8;
+    }
+    return symbol->mac_glue_address;
+}
 /* Provisional name retained: append the new-glue dispatch extension. */
 void __stdcall prepare_mac_debug_information(LinkContext *context)
 {

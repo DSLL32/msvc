@@ -3,7 +3,7 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
-    {"_test_symbol_bit@8",0x61cd0,(const ReconExtent[]){{0x61cd0,0x61cd1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"test_symbol_bit",NULL,NULL,0,NULL},
+    {"_test_symbol_bit@8",0x61cd0,(const ReconExtent[]){{0x61cd0,0x61cf7}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"test_symbol_bit",NULL,NULL,0,NULL},
     {"_make_mac_entry_name@8",0x514c0,(const ReconExtent[]){{0x514c0,0x514c1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"make_mac_entry_name",NULL,NULL,0,NULL},
     {"_append_mac_import_symbol@12",0x55c50,(const ReconExtent[]){{0x55c50,0x55cd3}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"append_mac_import_symbol",NULL,NULL,0,NULL},
     {"_add_mac_import_library@12",0x55b70,(const ReconExtent[]){{0x55b70,0x55c42}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"add_mac_import_library",NULL,NULL,0,NULL},
@@ -780,8 +780,10 @@ static const ReconFunction functions[] = {
     {"_classify_mac_ppc_relocation@16",0x535f0,(const ReconExtent[]){{0x535f0,0x53649}},1,(const ReconExtent[]){{0x5364c,0x5369b},{0x8bd0,0x8bd6}},2,RECON_APP,RECON_IMPLEMENTED,"classify_mac_ppc_relocation",NULL,NULL,0,NULL},
     {"_process_mac_ppc_relocations@28",0x536a0,(const ReconExtent[]){{0x536a0,0x54d40}},1,(const ReconExtent[]){{0x54d40,0x54d82},{0x54d84,0x54de9},{0x8bd8,0x8be3},{0x8be4,0x8bf1},{0x8bf4,0x8c12}},5,RECON_APP,RECON_IMPLEMENTED,"process_mac_ppc_relocations",NULL,NULL,0,NULL},
     {"_is_mac_toc_symbol@8",0x53540,(const ReconExtent[]){{0x53540,0x53541}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"is_mac_toc_symbol",NULL,NULL,0,NULL},
-    {"_get_mac_indirect_glue@16",0x54df0,(const ReconExtent[]){{0x54df0,0x54df1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"get_mac_indirect_glue",NULL,NULL,0,NULL},
-    {"_write_mac_toc_slot@24",0x54fa0,(const ReconExtent[]){{0x54fa0,0x54fa1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"write_mac_toc_slot",NULL,NULL,0,NULL},
+    {"_get_mac_indirect_glue@16",0x54df0,(const ReconExtent[]){{0x54df0,0x54ef6}},1,(const ReconExtent[]){{0x8c14,0x8c1e}},1,RECON_APP,RECON_IMPLEMENTED,"get_mac_indirect_glue",NULL,NULL,0,NULL},
+    {"_initialize_mac_indirect_glue",0x54f00,(const ReconExtent[]){{0x54f00,0x54f3d}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_mac_indirect_glue",NULL,NULL,0,NULL},
+    {"_write_mac_toc_slot@24",0x54fa0,(const ReconExtent[]){{0x54fa0,0x55256}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"write_mac_toc_slot",NULL,NULL,0,NULL},
+    {"_clear_symbol_bit@8",0x61d40,(const ReconExtent[]){{0x61d40,0x61d77}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"clear_symbol_bit",NULL,NULL,0,NULL},
     {"_resolve_mac_code_symbol@12",0x55260,(const ReconExtent[]){{0x55260,0x554c0}},1,(const ReconExtent[]){{0x1ac4,0x1acc}},1,RECON_APP,RECON_IMPLEMENTED,"resolve_mac_code_symbol",NULL,NULL,0,NULL},
     {"_emit_mac_import_glue@8",0x554c0,(const ReconExtent[]){{0x554c0,0x55652}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"emit_mac_import_glue",NULL,NULL,0,NULL},
     {"_initialize_mac_ppc_backend@8",0x55660,(const ReconExtent[]){{0x55660,0x5586f}},1,(const ReconExtent[]){{0x55870,0x55894},{0x8c20,0x8c28}},2,RECON_APP,RECON_IMPLEMENTED,"initialize_mac_ppc_backend",NULL,NULL,0,NULL},
