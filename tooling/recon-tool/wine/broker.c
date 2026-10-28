@@ -742,10 +742,15 @@ int main(int argc, char **argv)
     int kind, ok = 0;
     char *command,*environment=NULL;
     const char *process_environment_receipt = NULL;
-    int callback_argument, environment_argument;
+    int callback_argument, environment_argument, stderr_to_stdout = 0;
     while (argc > 1)
     {
-        if (!strcmp(argv[argc - 1], "pe-self-child=1"))
+        if (!strcmp(argv[argc - 1], "stderr-to-stdout=1"))
+        {
+            if (stderr_to_stdout) return 2;
+            stderr_to_stdout = 1; --argc;
+        }
+        else if (!strcmp(argv[argc - 1], "pe-self-child=1"))
         {
             if (self_mode) return 2;
             self_mode = 1; --argc;
@@ -861,7 +866,7 @@ int main(int argc, char **argv)
     startup.dwFlags = STARTF_USESTDHANDLES;
     startup.hStdInput = input;
     startup.hStdOutput = output;
-    startup.hStdError = error_output;
+    startup.hStdError = stderr_to_stdout ? output : error_output;
     command = malloc(strlen(argv[1]) + 1);
     if (!command) { fputs("original command allocation failed\n",stderr); return 5; }
     strcpy(command, argv[1]);

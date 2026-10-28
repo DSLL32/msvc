@@ -23,8 +23,6 @@ static void check_clocks(void)
 }
 static int invoke(int argc, char **argv)
 {
-    if (dup2(1, 2) != 2)
-        return 89;
     if (atexit(check_clocks))
         return 89;
     return main(argc, argv, (char **)0);

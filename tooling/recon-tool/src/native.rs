@@ -393,6 +393,87 @@ fn dup(fd: RawFd, to: RawFd) -> Result<()> {
     }
     Ok(())
 }
+fn redirect_output(stdout: RawFd, stderr: RawFd, merge: bool) -> Result<()> {
+    dup(stdout, 1)?;
+    dup(if merge { stdout } else { stderr }, 2)
+}
+#[cfg(test)]
+mod stream_tests {
+    use super::*;
+
+    #[test]
+    fn routing_preserves_write_order_and_is_inherited_by_children() {
+        for merge in [false, true] {
+            let mut out = [0; 2];
+            let mut err = [0; 2];
+            assert_eq!(unsafe { libc::pipe(out.as_mut_ptr()) }, 0);
+            assert_eq!(unsafe { libc::pipe(err.as_mut_ptr()) }, 0);
+            let pid = fork().unwrap();
+            if pid == 0 {
+                unsafe {
+                    libc::close(out[0]);
+                    libc::close(err[0]);
+                    if redirect_output(out[1], err[1], merge).is_err() {
+                        libc::_exit(10);
+                    }
+                    libc::close(out[1]);
+                    libc::close(err[1]);
+                    if libc::write(1, b"A".as_ptr().cast(), 1) != 1
+                        || libc::write(2, b"B".as_ptr().cast(), 1) != 1
+                    {
+                        libc::_exit(11);
+                    }
+                    let child = libc::fork();
+                    if child < 0 {
+                        libc::_exit(12);
+                    }
+                    if child == 0 {
+                        let ok = libc::write(1, b"C".as_ptr().cast(), 1) == 1
+                            && libc::write(2, b"D".as_ptr().cast(), 1) == 1;
+                        libc::_exit(if ok { 0 } else { 13 });
+                    }
+                    let mut status = 0;
+                    libc::_exit(
+                        if libc::waitpid(child, &mut status, 0) == child && status == 0 {
+                            0
+                        } else {
+                            14
+                        },
+                    );
+                }
+            }
+            unsafe {
+                libc::close(out[1]);
+                libc::close(err[1]);
+            }
+            assert_eq!(wait(pid).unwrap(), 0);
+            let mut stdout = Vec::new();
+            let mut stderr = Vec::new();
+            unsafe { File::from_raw_fd(out[0]) }
+                .read_to_end(&mut stdout)
+                .unwrap();
+            unsafe { File::from_raw_fd(err[0]) }
+                .read_to_end(&mut stderr)
+                .unwrap();
+            assert_eq!(
+                stdout,
+                if merge {
+                    b"ABCD".as_slice()
+                } else {
+                    b"AC".as_slice()
+                }
+            );
+            assert_eq!(
+                stderr,
+                if merge {
+                    b"".as_slice()
+                } else {
+                    b"BD".as_slice()
+                }
+            );
+        }
+    }
+}
 fn clone_tree(src: &Path, dst: &Path) -> Result<()> {
     fs::create_dir_all(dst)?;
     for e in fs::read_dir(src)? {
@@ -439,8 +520,7 @@ unsafe fn executor(
     let trap_file = open_stream(&root.join("trap"))?;
     trap::install(trap_file.as_raw_fd())?;
     dup(stdin, 0)?;
-    dup(stdout.as_raw_fd(), 1)?;
-    dup(stderr.as_raw_fd(), 2)?;
+    redirect_output(stdout.as_raw_fd(), stderr.as_raw_fd(), f.stderr_to_stdout)?;
     // Fresh descriptor configuration must not accidentally activate legacy tracing.
     for key in [
         "RECON_TRACE_FD",

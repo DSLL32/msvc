@@ -9,8 +9,6 @@
 extern int main(int, char **, char **);
 static int invoke(int argc, char **argv)
 {
-    if (dup2(1, 2) != 2)
-        return 89;
     return main(argc, argv, (char **)0);
 }
 

@@ -229,6 +229,9 @@ pub struct Fixture {
     pub stdin_kind: StdinKind,
     #[serde(default)]
     pub hold_stdin_open: bool,
+    /// Give stderr the same destination as stdout before invoking the target.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub stderr_to_stdout: bool,
     #[serde(default)]
     pub stdout: Option<Bytes>,
     #[serde(default)]
@@ -265,6 +268,9 @@ pub struct Fixture {
 }
 fn version() -> u32 {
     VERSION
+}
+fn is_false(value: &bool) -> bool {
+    !value
 }
 fn timeout() -> u64 {
     30000
@@ -488,6 +494,39 @@ pub fn write(path: &Path, f: &Fixture) -> Result<()> {
 #[cfg(test)]
 mod transport_tests {
     use super::*;
+    #[test]
+    fn stream_routing_preserves_legacy_format_and_round_trips() {
+        // A version-2 payload without the new field is still valid unchanged.
+        let mut payload = Vec::new();
+        ciborium::into_writer(&serde_json::json!({"version": 2}), &mut payload).unwrap();
+        let mut legacy = MAGIC.to_vec();
+        legacy.extend(2u32.to_le_bytes());
+        legacy.extend((payload.len() as u64).to_le_bytes());
+        legacy.extend_from_slice(&payload);
+        let mut f = decode(&legacy).unwrap();
+        assert!(!f.stderr_to_stdout);
+        assert!(
+            serde_json::to_value(&f)
+                .unwrap()
+                .get("stderr_to_stdout")
+                .is_none()
+        );
+
+        f.stderr_to_stdout = true;
+        let value = serde_json::to_value(&f).unwrap();
+        assert_eq!(value["stderr_to_stdout"], true);
+        payload.clear();
+        ciborium::into_writer(&f, &mut payload).unwrap();
+        let mut merged = MAGIC.to_vec();
+        merged.extend(VERSION.to_le_bytes());
+        merged.extend((payload.len() as u64).to_le_bytes());
+        merged.extend(payload);
+        assert!(decode(&merged).unwrap().stderr_to_stdout);
+        assert!(
+            serde_json::from_value::<Fixture>(serde_json::json!({"stderr_to_stdout": "true"}))
+                .is_err()
+        );
+    }
     #[test]
     fn raw_command_line_is_optional_bounded_exact_input() {
         let mut f = Fixture::default();

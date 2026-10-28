@@ -104,7 +104,8 @@ def verify_overlay(block,overlay):
     return {'verified':True,'names':sorted(overlay,key=str.upper),'actual_entries':len(actual)}
 
 def validate_launch_command(argv):
-    require(len(argv)==15 and all(isinstance(item,str) and '\0' not in item and len(item)<=4096 for item in argv),
+    require((len(argv)==15 or (len(argv)==16 and argv[-1]=='stderr-to-stdout=1')) and
+            all(isinstance(item,str) and '\0' not in item and len(item)<=4096 for item in argv),
             'invalid CF subprocess argument shape')
     require(Path(argv[0]).is_absolute(),'Wine executable must be an absolute host path')
     return argv

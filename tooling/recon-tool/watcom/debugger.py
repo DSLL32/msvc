@@ -162,6 +162,8 @@ def execute(request):
                     shared.win(root / 'original-stdout'), shared.win(root / 'original-stderr'),
                     shared.win(root / 'cf-events'), '10010', 'e9', str(request['timeout_ms']),
                     '1000', shared.win(Path(request['environment']))]
+            if request.get('stderr_to_stdout', False):
+                argv.append('stderr-to-stdout=1')
             shared.validate_launch_command(argv)
             receipt['command'] = argv
             child = subprocess.Popen(argv, cwd=request['cwd'], stdin=subprocess.DEVNULL,

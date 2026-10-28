@@ -493,6 +493,13 @@ the terminator. An original input's declared raw text must equal the constructed
 launch text; use an inputs-only fixture without captured `raw_command_line` for
 a fresh invocation. Comparison derivation cannot change this invocation input.
 Rebuild the shared helper after updating these sources. Native replay is unchanged.
+
+Capture input `stderr_to_stdout: true` gives the target's stderr the same
+destination as stdout before invocation, including inherited child handles.
+Merged bytes are asserted as stdout; stderr remains a separate empty capture.
+This applies to native replay and PE/CF original capture. The optional field
+defaults to `false`; existing version-2 captures remain readable without changes.
+Keep this setting in `capture.bin`, rather than redirecting inside a case callback.
 `python3 tests/original-environment.py` checks this separation using a stand-in
 Wine plus the actual C merge routine; it never starts a Windows process.
 `capture` verifies the original SHA256 and entry against binary_descriptor. The

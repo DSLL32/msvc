@@ -1764,6 +1764,9 @@ fn capture_executor_inner(
             windows(&process_environment_receipt, repo)?
         ));
     }
+    if f.stderr_to_stdout {
+        command.arg("stderr-to-stdout=1");
+    }
     let mut child = command.spawn().context("launch explicit Wine debugger")?;
     let input = child.stdin.take().unwrap();
     let output = child.stdout.take().unwrap();

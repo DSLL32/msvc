@@ -469,6 +469,7 @@ pub fn capture(
         "target_env":f.env,"registry":info.functions,"first_entry_seen":info.first_entry_seen,"sources":sources,"root":root,"cwd":cwd,"target":target,"loader":loader,"helper":helper,
         "wine":launch_executable(&wine)?,"environment":environment,"arguments":args,
         "raw_command_line":raw_command_line,"inspection":inspection,
+        "stderr_to_stdout":f.stderr_to_stdout,
         "stdin":if f.stdin_kind==crate::fixture::StdinKind::Null {"NUL".into()}else{crate::wine::windows(&stdin,repo)?},
         "timeout_ms":f.timeout_ms,"seconds":(f.timeout_ms as f64/1000.+1.).min(300.)});
     let request_path = root.join("cf-request");

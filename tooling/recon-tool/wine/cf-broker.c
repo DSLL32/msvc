@@ -530,8 +530,11 @@ int main(int argc,char **argv)
     STARTUPINFOA startup;PROCESS_INFORMATION process;SECURITY_ATTRIBUTES security;
     DWORD high=0,operation,length,status=90,response_length;char command[4096];int ok,descriptor;unsigned i;
     HANDLE inherited[3];char *environment=NULL;
-    DWORD idle_since;unsigned idle_polls=0;
+    DWORD idle_since;unsigned idle_polls=0;int stderr_to_stdout=0;
     /* map,target,rawargs,cwd,stdin,stdout,stderr,log,entry-rva,entry-byte,global-ms,lease-ms */
+    if(argc>1 && !strcmp(argv[argc-1],"stderr-to-stdout=1")) {
+        stderr_to_stdout=1;--argc;
+    }
     if((argc!=13 && argc!=14) || strlen(argv[2])+strlen(argv[3])+5>=sizeof(command)) return 90;
     if(argc==14 && !(environment=target_environment(argv[13]))) return 90;
     entry_rva=strtoul(argv[9],NULL,16);entry_byte=strtoul(argv[10],NULL,16);
@@ -554,7 +557,7 @@ int main(int argc,char **argv)
     error_output=CreateFileA(argv[7],GENERIC_WRITE,FILE_SHARE_READ,&security,CREATE_NEW,0,NULL);
     if(input==INVALID_HANDLE_VALUE || output==INVALID_HANDLE_VALUE || error_output==INVALID_HANDLE_VALUE) goto done;
     memset(&startup,0,sizeof(startup));startup.cb=sizeof(startup);startup.dwFlags=STARTF_USESTDHANDLES;
-    startup.hStdInput=input;startup.hStdOutput=output;startup.hStdError=error_output;
+    startup.hStdInput=input;startup.hStdOutput=output;startup.hStdError=stderr_to_stdout?output:error_output;
     inherited[0]=GetStdHandle(STD_INPUT_HANDLE);inherited[1]=GetStdHandle(STD_OUTPUT_HANDLE);
     inherited[2]=GetStdHandle(STD_ERROR_HANDLE);
     for(i=0;i<3;i++) if(inherited[i] && inherited[i]!=INVALID_HANDLE_VALUE &&

@@ -162,6 +162,11 @@ output paths/hashes, input environment, exit code and synchronized input events 
 as Ctrl+C. Distinguish missing values/files from present-but-empty ones. Check
 unexpected and deleted outputs where relevant. Normalize only specifically
 identified nondeterministic fields, such as established clock fields.
+
+`stderr_to_stdout: true` routes stderr to stdout before invocation, including
+inherited child handles; compare the merged bytes as stdout and the empty stderr
+separately. Omission defaults to separate streams, preserving existing captures.
+Record routing in the capture rather than implementing it in case callbacks.
 Record environment settings needed by the case; do not copy old runner
 sanitization into case inputs without a behavioral reason. Wine transport
 settings belong to the launcher, separately from target environment inputs.
