@@ -107,7 +107,7 @@ pub fn imports(
     };
     let mut result = Vec::new();
     for s in &pe.sections {
-        if s.flags & 0x20 == 0 {
+        if !s.is_code() {
             continue;
         }
         let length = if raw { s.size } else { s.virtual_size } as usize;
@@ -232,6 +232,10 @@ impl Inputs {
                 let parsed = crate::watcom_map::parse(&map_path, r.require_pe()?)?;
                 (parsed.addresses, parsed.absolutes, Some(parsed.provenance))
             }
+            MapFormat::Tlink32 => {
+                let parsed = crate::tlink_map::parse(&map_path, r.require_pe()?)?;
+                (parsed.addresses, BTreeMap::new(), Some(parsed.provenance))
+            }
         };
         let raw_publics = publics.clone();
         let driver_key = if a.profile == Profile::Rcpp && cfg.get("driver").is_none() {
@@ -275,12 +279,9 @@ impl Inputs {
             for d in &drivers {
                 ensure!(
                     d.start < d.end
-                        && o.pe_sections()
-                            .into_iter()
-                            .flatten()
-                            .any(|s| s.flags & 0x20 != 0
-                                && s.start <= d.start
-                                && d.end <= s.start + s.virtual_size),
+                        && o.pe_sections().into_iter().flatten().any(|s| s.is_code()
+                            && s.start <= d.start
+                            && d.end <= s.start + s.virtual_size),
                     "invalid original extent: {}",
                     d.name
                 );
@@ -1362,7 +1363,7 @@ mod registry_tests {
         let invalid = BTreeMap::from([(0xfffffff0, BTreeSet::from(["bad".into()]))]);
         assert!(validate_registry_entry_bytes(&image, &invalid, "original").is_err());
         let mut data = crate::tests::image(&[0xc3]);
-        data.sections[0].flags &= !0x20;
+        data.sections[0].flags = 0xc0000040;
         assert!(
             validate_registry_entry_bytes(&Image::Pe(data), &entries.original, "rebuilt").is_err()
         );

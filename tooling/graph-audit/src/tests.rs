@@ -439,6 +439,37 @@ fn imported_image(code: &[u8], dll: &str, name: &str) -> Pe {
     Pe::parse(bytes).unwrap()
 }
 #[test]
+fn executable_only_pe_code_keeps_import_thunks_and_file_bounds() {
+    let mut code = vec![0xcc; 0x16];
+    code[0x10..].copy_from_slice(&[0xff, 0x25, 0x50, 0x11, 0x40, 0]);
+    for flags in [0x60000020u32, 0x60000000] {
+        let mut raw = imported_image(&code, "KERNEL32.DLL", "ExitProcess").data;
+        raw[0x178 + 36..0x178 + 40].copy_from_slice(&flags.to_le_bytes());
+        let pe = Pe::parse(raw).unwrap();
+        assert!(pe.file_backed_code(0x401010, 0x401016));
+        assert!(!pe.file_backed_code(0x401400, 0x401401));
+        let catalog = crate::imports::Catalog::load(&pe).unwrap();
+        assert_eq!(catalog.thunks[&0x401010].legacy_name(), "ExitProcess");
+        let records = crate::index::imports(&pe, false, Some(&catalog)).unwrap();
+        assert_eq!(records.len(), 1);
+        assert_eq!((records[0].start, records[0].end), (0x401010, 0x401016));
+        let mut noncode = pe.clone();
+        noncode.sections[0].flags = 0xc0000040;
+        assert!(!noncode.file_backed_code(0x401010, 0x401016));
+        assert!(
+            crate::imports::Catalog::load(&noncode)
+                .unwrap()
+                .thunks
+                .is_empty()
+        );
+        assert!(
+            crate::index::imports(&noncode, false, Some(&catalog))
+                .unwrap()
+                .is_empty()
+        );
+    }
+}
+#[test]
 fn known_import_boundary_fallthrough_uses_catalog_identity() {
     let pe = imported_image(
         &[0x90, 0xff, 0x25, 0x50, 0x11, 0x40, 0],

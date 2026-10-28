@@ -34,7 +34,7 @@ fn ownership(cfg: &Value, pe: &Pe, runtime: &Value, data: &Value, project: &Path
                 && pe
                     .sections
                     .iter()
-                    .filter(|s| s.flags & 0x20 != 0
+                    .filter(|s| s.is_code()
                         && s.start <= a
                         && b <= s.start + s.size.min(s.virtual_size)
                         && s.off + (b - s.start) as usize <= pe.data.len())

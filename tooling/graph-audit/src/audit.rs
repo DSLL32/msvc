@@ -84,7 +84,7 @@ fn linear_tables(
                 if profile == Profile::C1
                     && is_original
                     && pe.pe_sections().into_iter().flatten().any(|s| {
-                        s.flags & 0x20 != 0 && s.start <= table && table < s.start + s.virtual_size
+                        s.is_code() && s.start <= table && table < s.start + s.virtual_size
                     })
                 {
                     let mut cursor = table;

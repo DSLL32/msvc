@@ -21,6 +21,12 @@ pub struct Section {
     pub off: usize,
     pub flags: u32,
 }
+impl Section {
+    pub fn is_code(&self) -> bool {
+        // TLINK32 marks CODE executable without IMAGE_SCN_CNT_CODE.
+        self.flags & 0x20000020 != 0
+    }
+}
 #[derive(Clone)]
 pub struct Pe {
     pub data: Vec<u8>,
@@ -83,7 +89,7 @@ impl Pe {
     pub fn file_backed_code(&self, start: u32, end: u32) -> bool {
         start < end
             && self.sections.iter().any(|s| {
-                s.flags & 0x20 != 0
+                s.is_code()
                     && s.off != 0
                     && s.start <= start
                     && u64::from(end) <= u64::from(s.start) + u64::from(s.virtual_size.min(s.size))
@@ -143,7 +149,7 @@ impl Pe {
     pub fn code_end(&self) -> Result<u32> {
         self.sections
             .iter()
-            .filter(|s| s.flags & 0x20 != 0)
+            .filter(|s| s.is_code())
             .map(|s| s.start + s.virtual_size)
             .max()
             .context("no code")

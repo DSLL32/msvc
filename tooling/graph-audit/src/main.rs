@@ -14,6 +14,7 @@ mod register_imports;
 mod ret_checks;
 mod shared_returns;
 mod terminating_calls;
+mod tlink_map;
 mod virtual_preservation;
 mod watcom_map;
 use anyhow::Result;
@@ -41,6 +42,7 @@ pub enum Discovery {
 pub enum MapFormat {
     Msvc,
     Watcom10,
+    Tlink32,
 }
 #[derive(Parser, Debug)]
 #[command(

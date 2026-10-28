@@ -495,6 +495,26 @@ python3 tooling/graph-audit/check-register-imports.py \
 
 ## Watcom CF and PE MAP inputs
 
+`--map-format tlink32` reads the detailed TLINK32 PE MAP emitted by the BC4
+linker with `/m /s /Tpe`. Logical segment numbers are resolved through exact
+summary class names and actual PE section names, rather than PE section ordinals
+(the linker can insert `.icode` between `CODE` and `DATA`). Summary ranges,
+detailed contributions, initialized executable code and every public are checked
+against the actual PE. Both public tables must agree; aliases keep their exact
+MAP spelling, including C++ display names containing spaces. `Idle` is a display
+status and does not change ownership or execution permission. Conflicting display
+names fail instead of guessing mangled identities. Use TLINK32 `/Gm` when mangled
+C++ public names are needed; default demangled display spellings are not ABI names.
+
+The MAP and image hashes, anchors and contribution facts appear in the report.
+They identify coordinates, without classifying functions or qualifying runtime
+bodies. Executable PE sections such as TLINK's `CODE` are recognized through
+`IMAGE_SCN_MEM_EXECUTE` even when `IMAGE_SCN_CNT_CODE` is absent; file-backing and
+mapped-range checks still apply. Existing MSVC and Watcom coordinates are unchanged.
+Compact maps lacking detailed contributions or either public table, 16-bit maps,
+absolute symbols, unknown/ambiguous anchors, overlapping contributions and unknown
+public status/layout variants are unsupported and reject explicitly.
+
 `--map-format watcom10` reads the original Watcom 10 PE linker MAP without
 rewriting it. Group/segment offsets are anchored to matching sections of the
 actual rebuilt PE, with mapped bounds checked per public. A DGROUP offset may

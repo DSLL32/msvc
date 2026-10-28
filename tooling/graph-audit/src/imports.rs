@@ -182,11 +182,7 @@ impl Catalog {
         }
         ensure!(terminated, "unterminated import directory");
         let mut thunks = BTreeMap::new();
-        for section in pe
-            .sections
-            .iter()
-            .filter(|s| s.flags & 0x20 != 0 && s.off != 0)
-        {
+        for section in pe.sections.iter().filter(|s| s.is_code() && s.off != 0) {
             let length = section.size.min(section.virtual_size) as usize;
             let code = read.bytes(section.start, length)?;
             for (offset, bytes) in code.windows(6).enumerate() {
