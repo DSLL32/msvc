@@ -439,6 +439,107 @@ fn imported_image(code: &[u8], dll: &str, name: &str) -> Pe {
     Pe::parse(bytes).unwrap()
 }
 #[test]
+fn import_scan_stops_at_raw_section_end_before_next_section_bytes() {
+    let thunk = [0xff, 0x25, 0x50, 0x20, 0x40, 0];
+    let mut bytes = imported_image(&thunk, "ONE.DLL", "Function").data;
+    let put = |b: &mut Vec<u8>, at: usize, value: u32| {
+        b[at..at + 4].copy_from_slice(&value.to_le_bytes())
+    };
+    bytes[0x86..0x88].copy_from_slice(&2u16.to_le_bytes());
+    put(&mut bytes, 0x178 + 16, 0x100);
+    let section = 0x178 + 40;
+    bytes[section..section + 6].copy_from_slice(b".idata");
+    for (offset, value) in [
+        (8, 0x300),
+        (12, 0x2000),
+        (16, 0x300),
+        (20, 0x300),
+        (36, 0xc0000040),
+    ] {
+        put(&mut bytes, section + offset, value);
+    }
+    for (at, value) in [
+        (0x98 + 104, 0x2000),
+        (0x300, 0x2040),
+        (0x30c, 0x2080),
+        (0x310, 0x2050),
+        (0x340, 0x20c0),
+        (0x350, 0x20c0),
+    ] {
+        put(&mut bytes, at, value);
+    }
+    // These bytes are adjacent on disk but map as DATA at a different VA.
+    bytes[0x500..0x506].copy_from_slice(&thunk);
+    let pe = Pe::parse(bytes).unwrap();
+    assert!(pe.sections[0].virtual_size > pe.sections[0].size);
+    assert_ne!(
+        pe.sections[1].start,
+        pe.sections[0].start + pe.sections[0].size
+    );
+    let catalog = crate::imports::Catalog::load(&pe).unwrap();
+    assert_eq!(
+        catalog.thunks.keys().copied().collect::<Vec<_>>(),
+        vec![0x401000]
+    );
+    for raw in [false, true] {
+        for strict in [None, Some(&catalog)] {
+            let records = crate::index::imports(&pe, raw, strict).unwrap();
+            assert_eq!(records.len(), 1);
+            assert_eq!((records[0].start, records[0].end), (0x401000, 0x401006));
+            assert_eq!(records[0].name, "import:Function");
+        }
+    }
+}
+#[test]
+fn missing_import_lookup_uses_iat_in_ordinary_and_strict_discovery() {
+    let code = [0xff, 0x25, 0x50, 0x11, 0x40, 0];
+    for ordinal in [false, true] {
+        let mut present = imported_image(&code, "ONE.DLL", "Function").data;
+        if ordinal {
+            for offset in [0x340, 0x350] {
+                present[offset..offset + 4].copy_from_slice(&0x80000017u32.to_le_bytes());
+            }
+        }
+        let mut missing = present.clone();
+        missing[0x300..0x304].fill(0);
+        let expected = if ordinal {
+            "import:ordinal_23"
+        } else {
+            "import:Function"
+        };
+        let mut reference = None;
+        for bytes in [present.clone(), missing.clone()] {
+            let pe = Pe::parse(bytes).unwrap();
+            let catalog = crate::imports::Catalog::load(&pe).unwrap();
+            for raw in [false, true] {
+                for strict in [None, Some(&catalog)] {
+                    let records = crate::index::imports(&pe, raw, strict).unwrap();
+                    assert_eq!(records.len(), 1);
+                    assert_eq!(records[0].name, expected);
+                    assert_eq!((records[0].start, records[0].end), (0x401000, 0x401006));
+                    let value = serde_json::to_value(&records).unwrap();
+                    if let Some(previous) = &reference {
+                        assert_eq!(&value, previous);
+                    }
+                    reference = Some(value);
+                }
+            }
+        }
+        // Only a zero lookup RVA falls back; invalid nonzero lookup and IAT
+        // values remain errors rather than guessing a replacement table.
+        for (mut bad, field, value) in [
+            (present.clone(), 0x300, 0x200000u32),
+            (missing.clone(), 0x310, 0x200000),
+            (missing, 0x310, 0),
+        ] {
+            bad[field..field + 4].copy_from_slice(&value.to_le_bytes());
+            let pe = Pe::parse(bad).unwrap();
+            assert!(crate::imports::Catalog::load(&pe).is_err());
+            assert!(crate::index::imports(&pe, false, None).is_err());
+        }
+    }
+}
+#[test]
 fn executable_only_pe_code_keeps_import_thunks_and_file_bounds() {
     let mut code = vec![0xcc; 0x16];
     code[0x10..].copy_from_slice(&[0xff, 0x25, 0x50, 0x11, 0x40, 0]);

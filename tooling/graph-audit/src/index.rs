@@ -89,6 +89,8 @@ pub fn imports(
             }
             let names = pe.word(p)?;
             let iat = pe.word(p + 16)?;
+            // OriginalFirstThunk may be omitted; FirstThunk then holds lookup RVAs.
+            let names = if names == 0 { iat } else { names };
             for n in 0..10000 {
                 let v = pe.word(pe.base + names + 4 * n)?;
                 if v == 0 {
@@ -110,7 +112,11 @@ pub fn imports(
         if !s.is_code() {
             continue;
         }
-        let length = if raw { s.size } else { s.virtual_size } as usize;
+        let length = if raw {
+            s.size
+        } else {
+            s.size.min(s.virtual_size)
+        } as usize;
         let code = pe
             .data
             .get(s.off..(s.off + length).min(pe.data.len()))

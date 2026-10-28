@@ -1,0 +1,42 @@
+{
+  "scope": "Ordinary imports use FirstThunk for omitted OriginalFirstThunk; nonraw import scans stop at min(raw_size,virtual_size), raw mode unchanged.",
+  "validation_sha256": "cfbe95cd3cbc0eaeb44726dc3084facf6ce380d2098f2cef2812f1362b566a3f",
+  "release_sha256": "42f894051000048ca0f6f92a25847741a8c65b000b0b72d72216b70d5b42d5b7",
+  "source_sha256": {
+    "tooling/graph-audit/src/index.rs": "5ad1e78f8916856c9a3b5b06389949f2fb70f0eb1b31b66a331e639561029cff",
+    "tooling/graph-audit/src/tests.rs": "cd1c6546f0d5fd9cc93533fb649e66e96337620263d0d22a941cc511161436cd",
+    "tooling/graph-audit/README.md": "519b21b511ab5c40994a6810684e5376d2cca9d45a56b9e0dc7cfeec1484dd5a"
+  },
+  "actual_journal_equivalent_ms": {
+    "old-ordinary-failure": 14.287702739238739,
+    "journal-ordinary-mode": 30.157726258039474,
+    "journal-strict-import-mode": 29.729247093200684
+  },
+  "actual_bcc_scan": {
+    "before_nonraw": 76,
+    "catalog_thunks": 38,
+    "after_all_lookup_and_scan_modes": 38,
+    "phantom_after": 0
+  },
+  "focused_units": {
+    "new_missing_lookup": 1,
+    "new_adjacent_file_section": 1,
+    "existing_known_import": 2,
+    "result": "PASS",
+    "fmt": "PASS"
+  },
+  "prior_reports_byte_identical": [
+    "MSVC",
+    "Watcom"
+  ],
+  "limits": [
+    "Copied journal config/metadata/runtime/PE/MAP read-only equivalent; ordinary policy is not forced to enable check-imports. Both ordinary/strict export identical original and rebuilt index hashes.",
+    "Fresh scaffold default build/runtime.json is absent. An explicit empty rebuilt BODY catalog is used only in scratch, with zero selected App owners; not installed or claimed as project/runtime qualification.",
+    "Scratch-only actual-image probe reuses existing Pe/Catalog/index code, proves38/38 records with no extras in ordinary/strict raw/nonraw modes, and is excluded from published source.",
+    "No App classification, BCC file, native fixture, original target execution/capture or worker wake.",
+    "MSVC and Watcom existing whole-report byte parity retained."
+  ],
+  "scratch": "~/.ai-tmp/msvc2/bc4-import-lookup-fallback-20261028",
+  "canonical_build_seconds": 69.02355162706226,
+  "canonical_bit_identical": true
+}

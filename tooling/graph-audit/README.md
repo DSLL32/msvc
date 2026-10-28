@@ -153,6 +153,11 @@ original image hash binds these bytes. This is an extent-policy declaration, not
 a general permission to omit unrooted code; it is checked with `--check-extents`
 or the legacy CVPACK preset.
 
+Ordinary import indexing also uses `FirstThunk` when `OriginalFirstThunk` is
+zero. Nonraw thunk scans stop at `min(raw_size, virtual_size)` so the following
+section's file bytes cannot create false code addresses; raw-section scans keep
+their existing `raw_size` boundary. These fixes require no import-check policy change.
+
 `--check-imports` reads the standard PE32 import directory with bounded, file-backed
 lookup/IAT/string validation. Exact unprefixed absolute `FF 15` calls and `FF 25`
 jumps resolve to structured `{dll,name}` or `{dll,ordinal}` identities. Direct
