@@ -59,6 +59,11 @@ static void borland_find_time(const FILETIME *file,unsigned short *date,unsigned
     *date=(unsigned short)(((local.tm_year-80)<<9)|((local.tm_mon+1)<<5)|local.tm_mday);
     *clock=(unsigned short)((local.tm_hour<<11)|(local.tm_min<<5)|(local.tm_sec/2));
 }
+/* Complete-source link boundary; no continuation/ffblk access qualified yet. */
+int __cdecl recon_borland_400_findnext(struct ffblk *output)
+{
+    (void)output;recon_unsupported("Borland400 findnext continuation");return -1;
+}
 int __cdecl recon_borland_400_findfirst(const char *path,struct ffblk *output,int attributes)
 {
     uintptr_t source=(uintptr_t)path,destination=(uintptr_t)output;

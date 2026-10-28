@@ -1236,3 +1236,7 @@ borland-open-check:
 .PHONY: borland-fnsplit-check
 borland-fnsplit-check:
 	$(PYTHON) tests/borland-fnsplit/check.py
+
+.PHONY: volume-info-check
+volume-info-check:
+	$(PYTHON) tests/volume-info/check.py

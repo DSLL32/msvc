@@ -1,0 +1,45 @@
+Native volume model and evidence
+
+GetVolumeInformationA follows the SDK eight-argument optional-output surface.
+NULL or a single slash queries the actual current-directory filesystem; a DOS
+root uses the existing drive mapper. Native CLI uses its ordinary Z mapping.
+Unsupported UNC/non-ASCII roots and unclassified filesystems explicitly deny.
+Invalid/nonroot DOS spelling returns123/144; missing mappings return3. Insufficient
+requested string buffers return234 without partial native stores. Optional NULL
+string outputs ignore their capacities, as documented by Microsoft. Caller owns
+valid writable output spans; arithmetic/alignment/alias checks cannot discover
+allocation capacity. Win32 errors do not replace CRT errno/DOS slots.
+
+statfs64 identifies ext2/3/4 (sameEF53 magic, reported as family"ext"), tmpfs,
+overlay or ZFS. fpathconf(_PC_NAME_MAX) supplies the actual component bound.
+Serial is the XOR of the two native32-bit fsid words; this is a documented native
+projection, not a Windows format-time serial. The virtual drive has no configured
+label, so its label is empty. No persistent label subsystem is introduced.
+Only FILE_CASE_PRESERVED_NAMES is reported: these admitted native filesystem
+families retain spelling, and the shim's file search/copy preserves actual names.
+Case-sensitive search/Unicode/ACL/compression capabilities are not promised.
+Unknown filesystem families stay unsupported. No fixture/cwd/name predicate or
+captured volume value selects the result, and no Wine module is read at runtime.
+
+Primary references (paraphrased contracts, not copied implementations):
+https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationa
+https://openzfs.github.io/openzfs-docs/man/master/7/zfsprops.7.html
+  normalization changes comparisons; stored names retain their supplied bytes.
+https://raw.githubusercontent.com/openzfs/zfs/master/include/sys/fs/zfs.h
+  ZFS_SUPER_MAGIC is2fc12fc1.
+https://www.kernel.org/doc/html/v6.6/admin-guide/ext4.html
+  even case-insensitive ext4 lookup retains the supplied name bytes on disk.
+https://kernel.org/doc/html/latest/filesystems/overlayfs.html
+  directory lists merge original upper/lower names; no case rewrite is applied.
+https://docs.kernel.org/filesystems/tmpfs.html
+  tmpfs provides the ordinary in-memory filesystem namespace.
+Local Linux/glibc statfs and linux/magic headers define the query layout/constants.
+The public flags/signature are also in shipped BC4 WINNT.H/WINBASE.H.
+
+KERNEL32 known-absent exports are a small module metadata table. IsTNT retains
+its prior ordinary evidence; both IsTNT and Borland32 are absent from the pinned
+installed export inventory in export-evidence.json. This is static library
+metadata, not a captured API return or a caller/case selection rule. All other
+unknown/unimplemented exports still deny, and provider/fixture lease behavior is
+unchanged. Borland findnext is a typed no-access cold denial only; no search
+continuation is implemented until the App callback returns in a future scope.

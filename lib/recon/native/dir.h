@@ -29,6 +29,7 @@ struct ffblk {
 extern "C" {
 #endif
 int __cdecl recon_borland_400_findfirst(const char *,struct ffblk *,int);
+int __cdecl recon_borland_400_findnext(struct ffblk *);
 int __cdecl recon_borland_400_fnsplit(const char *,char *,char *,char *,char *);
 #ifdef __cplusplus
 }

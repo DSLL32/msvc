@@ -2262,3 +2262,23 @@ Focused controls cover22 source vectors under all16 optional-output masks,
 boundary truncation, exact guarded output spans, flags/types, errors/FP and
 profile isolation. BCC's ordinary29-entry pair reaches add_extension with the
 corrected initialize_options fnsplit call and is_library_file extension test.
+
+GetVolumeInformationA now supplies an ordinary native host snapshot, without
+fixture setup: statfs64 family ext/tmpfs/overlay/zfs, actual fpathconf NAME_MAX,
+XOR-folded native fsid serial and an empty unconfigured virtual-volume label.
+Only the justified case-preserved-name capability is advertised; unknown FS
+families and UNC/non-ASCII roots remain unsupported. Requested optional outputs
+are filled coherently with computed-span/prewrite guards; insufficient buffers
+return234, root/path errors use normal Win32 results, and CRT errno/DOS slots
+are preserved. Native success preserves LastError. Windows historical labels,
+serial values and broader capability/namespace equivalence are not claimed.
+See tests/volume-info/MODEL.txt for the bounded model and primary references.
+KERNEL32 lookup now uses a uniform small known-absent export table (prior IsTNT
+plus statically proven Borland32) with NULL/ERROR_PROC_NOT_FOUND; unknown exports
+still deny. The export inventory/hash is retained in the focused evidence.
+RECON_BORLAND_400_FIND also provides the int cdecl findnext typed cold no-access
+boundary; no continuation success is implemented or claimed. The actual BCC
+31-entry pair reaches process_input_file after first search, optional-extension
+lookup and volume query; its callback traps before findnext. Full native fields
+and error behavior are covered by authored controls, not directly observed as
+historically identical Windows volume metadata.

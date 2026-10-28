@@ -18,6 +18,8 @@
 #include <sys/resource.h>
 #include <sys/utsname.h>
 #include <sys/personality.h>
+#include <sys/statfs.h>
+#include <linux/magic.h>
 #include "native-files.h"
 
 /* File HANDLEs encode fd+1; mapping handles own a dup of their source fd. */
@@ -1863,6 +1865,97 @@ DWORD WINAPI recon_GetFileAttributesA(LPCSTR name)
      return attributes?attributes:FILE_ATTRIBUTE_NORMAL;}
 
 }
+/* Native volume view: no configured label, actual fsid projected by XOR
+ * to DWORD, actual fpathconf NAME_MAX, and only the case-preservation capability
+ * implemented by this namespace. statfs magic identifies admitted FS families;
+ * do not invent NTFS/Windows serials or infer capabilities from a case filename. */
+static const char *native_volume_family(unsigned long type)
+{
+    switch(type) {
+    case EXT4_SUPER_MAGIC:return "ext"; /* ext2/3/4 share this magic. */
+    case TMPFS_MAGIC:return "tmpfs";
+    case OVERLAYFS_SUPER_MAGIC:return "overlay";
+    case 0x2fc12fc1UL:return "zfs"; /* OpenZFS sys/fs/zfs.h ZFS_SUPER_MAGIC. */
+    default:return NULL;
+    }
+}
+static void native_volume_span(const void *pointer,size_t bytes,unsigned alignment)
+{
+    uintptr_t p=(uintptr_t)pointer;
+    if(p<4096 || p%alignment || p>UINTPTR_MAX-bytes)
+        recon_unsupported("GetVolumeInformationA caller-owned output span");
+}
+BOOL WINAPI recon_GetVolumeInformationA(LPCSTR root,LPSTR label,DWORD label_capacity,
+    LPDWORD serial,LPDWORD component,LPDWORD flags,LPSTR filesystem,DWORD filesystem_capacity)
+{
+    char host[PATH_MAX];struct statfs64 info;long limit;const char *family;
+    DWORD projected,maximum,capabilities=FILE_CASE_PRESERVED_NAMES,failure=0;
+    DWORD *numbers[3];const void *outputs[5];size_t sizes[5],length=0,n,i,j;
+    int fd=-1,saved_errno=errno;unsigned long saved_dos=recon_doserrno;
+    DWORD saved_error=last_error;uintptr_t input=(uintptr_t)root;BOOL success=FALSE;
+    numbers[0]=serial;numbers[1]=component;numbers[2]=flags;
+    for(i=0;i<3;++i)if(numbers[i])native_volume_span(numbers[i],sizeof(DWORD),4);
+    if(label && label_capacity)native_volume_span(label,label_capacity,1);
+    if(filesystem && filesystem_capacity)native_volume_span(filesystem,filesystem_capacity,1);
+    if((label && label_capacity>MAX_PATH+1) || (filesystem && filesystem_capacity>MAX_PATH+1))
+        recon_unsupported("GetVolumeInformationA bounded string capacity");
+    if(root) {
+        if(input<4096 || input>UINTPTR_MAX-MAX_PATH)
+            recon_unsupported("GetVolumeInformationA root input span");
+        length=strnlen(root,MAX_PATH);
+        if(!length || length==MAX_PATH) {failure=123;goto finished;} /* INVALID_NAME */
+        for(i=0;i<length;++i)if((unsigned char)root[i]>=128)
+            recon_unsupported("GetVolumeInformationA ASCII root");
+        if(length>=2 && (root[0]=='\\' || root[0]=='/') && (root[1]=='\\' || root[1]=='/'))
+            recon_unsupported("GetVolumeInformationA UNC root");
+        if(length==1 && (root[0]=='\\' || root[0]=='/'))strcpy(host,".");
+        else {
+            if(length!=3 || !isalpha((unsigned char)root[0]) || root[1]!=':' ||
+               (root[2]!='\\' && root[2]!='/')) {
+                failure=length>3 && (strchr(root+2,'\\') || strchr(root+2,'/'))?144:123;
+                goto finished; /* DIR_NOT_ROOT or INVALID_NAME */
+            }
+            if(recon_host_path(root,host,sizeof(host))) {
+                failure=(errno==ENOENT || errno==ENOTDIR)?ERROR_PATH_NOT_FOUND:error_code(errno);goto finished;
+            }
+        }
+    }else strcpy(host,".");
+    fd=open(host,O_RDONLY|O_DIRECTORY|O_CLOEXEC);
+    if(fd<0) {failure=(errno==ENOENT || errno==ENOTDIR)?ERROR_PATH_NOT_FOUND:error_code(errno);goto finished;}
+    if(fstatfs64(fd,&info)) {failure=error_code(errno);goto finished;}
+    errno=0;limit=fpathconf(fd,_PC_NAME_MAX);
+    if(limit<0) {
+        int query_errno=errno;close(fd);fd=-1;
+        if(!query_errno)recon_unsupported("GetVolumeInformationA indeterminate NAME_MAX");
+        failure=error_code(query_errno);goto finished;
+    }
+    if(close(fd)) {fd=-1;failure=error_code(errno);goto finished;}fd=-1;
+    family=native_volume_family((unsigned long)info.f_type);
+    if(!family || !limit || (uint64_t)(unsigned long)limit>UINT32_MAX || sizeof(info.f_fsid)!=8)
+        recon_unsupported("GetVolumeInformationA native filesystem capability domain");
+    {uint32_t native_id[2];memcpy(native_id,&info.f_fsid,sizeof(native_id));projected=native_id[0]^native_id[1];}
+    maximum=(DWORD)limit;n=strlen(family);
+    if((label && label_capacity<1) || (filesystem && filesystem_capacity<=n)) {
+        failure=234;goto finished; /* ERROR_MORE_DATA; no partial native outputs. */
+    }
+    outputs[0]=serial;outputs[1]=component;outputs[2]=flags;outputs[3]=label;outputs[4]=filesystem;
+    sizes[0]=sizes[1]=sizes[2]=4;sizes[3]=1;sizes[4]=n+1;
+    for(i=0;i<5;++i)if(outputs[i]) {
+        uintptr_t p=(uintptr_t)outputs[i];native_volume_span(outputs[i],sizes[i],i<3?4:1);
+        if(root && p<input+length+1 && input<p+sizes[i])
+            recon_unsupported("GetVolumeInformationA root/output overlap");
+        for(j=0;j<i;++j)if(outputs[j] && p<(uintptr_t)outputs[j]+sizes[j] &&
+            (uintptr_t)outputs[j]<p+sizes[i])
+            recon_unsupported("GetVolumeInformationA overlapping output fields");
+    }
+    if(serial)*serial=projected;if(component)*component=maximum;if(flags)*flags=capabilities;
+    if(label)*label=0;if(filesystem)memcpy(filesystem,family,n+1);success=TRUE;
+finished:
+    if(fd>=0 && close(fd) && !failure)failure=error_code(errno);
+    errno=saved_errno;recon_doserrno=saved_dos;last_error=failure?failure:saved_error;
+    return success;
+}
+
 HMODULE WINAPI recon_GetModuleHandleA(LPCSTR name)
 {
     unsigned n;
@@ -1990,9 +2083,15 @@ FARPROC WINAPI recon_GetProcAddress(HMODULE module,LPCSTR name)
     if (!strcmp(name,"CreateFileMappingA")) return (FARPROC)recon_CreateFileMappingA;
     if (!strcmp(name,"MapViewOfFile")) return (FARPROC)recon_MapViewOfFile;
     if (!strcmp(name,"UnmapViewOfFile")) return (FARPROC)recon_UnmapViewOfFile;
-    /* This absence is actually observed by LINK/CVPACK, not inferred for
-     * arbitrary unimplemented exports. */
-    if (!strcmp(name,"IsTNT")) { last_error=127; return NULL; }
+    /* Known-absent module export metadata, not caller/case selection.
+     * IsTNT retains its ordinary LINK/CVPACK absence evidence. Both names
+     * are absent from the pinned installed KERNEL32 export inventory in
+     * tests/volume-info/export-evidence.json. Unknown exports still deny. */
+    {
+        static const char *const absent[]={"IsTNT","Borland32"};
+        for(n=0;n<sizeof(absent)/sizeof(absent[0]);++n)
+            if(!strcmp(name,absent[n])) {last_error=ERROR_PROC_NOT_FOUND;return NULL;}
+    }
     recon_unsupported("unreviewed KERNEL32 export"); return NULL;
 }
 HANDLE WINAPI recon_CreateFileMappingA(HANDLE file,LPSECURITY_ATTRIBUTES security,DWORD protection,DWORD high,DWORD low,LPCSTR name)

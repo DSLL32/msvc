@@ -483,6 +483,7 @@ void recon_load_system_info_profile(const char *,const char *);
  X(HANDLE,FindFirstFileA,(LPCSTR,LPWIN32_FIND_DATAA)) \
  X(BOOL,FindNextFileA,(HANDLE,LPWIN32_FIND_DATAA)) \
  X(BOOL,FindClose,(HANDLE)) \
+ X(BOOL,GetVolumeInformationA,(LPCSTR,LPSTR,DWORD,LPDWORD,LPDWORD,LPDWORD,LPSTR,DWORD)) \
  X(PIMAGE_NT_HEADERS,CheckSumMappedFile,(LPVOID,DWORD,LPDWORD,LPDWORD)) \
  X(DWORD,MapFileAndCheckSumA,(LPSTR,LPDWORD,LPDWORD)) \
  X(void,CoUninitialize,(void)) \
@@ -550,6 +551,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #endif
 #ifdef RECON_BORLAND_400_FIND
 #define findfirst recon_borland_400_findfirst
+#define findnext recon_borland_400_findnext
 #endif
 #ifdef RECON_BORLAND_400_FNSPLIT
 #define fnsplit recon_borland_400_fnsplit
@@ -900,6 +902,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define FindFirstFileA recon_FindFirstFileA
 #define FindNextFileA recon_FindNextFileA
 #define FindClose recon_FindClose
+#define GetVolumeInformationA recon_GetVolumeInformationA
 #define CheckSumMappedFile recon_CheckSumMappedFile
 #define MapFileAndCheckSumA recon_MapFileAndCheckSumA
 #define CoUninitialize recon_CoUninitialize

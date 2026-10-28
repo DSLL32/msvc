@@ -1,0 +1,12 @@
+{
+  "provider": "/usr/lib/i386-linux-gnu/wine/i386-windows/kernel32.dll",
+  "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733",
+  "inventory": "kernel32-exports.txt",
+  "inventory_sha256": "bd25552cb5ad57beee778ae0eaeb9548339f0f06d88877491855074abe0a4a8c",
+  "known_absent": [
+    "IsTNT",
+    "Borland32"
+  ],
+  "qualification": "Read-only installed module export inventory, not an original API return observation; prior IsTNT ordinary evidence retained.",
+  "inventory_retained_at": "/root/.ai-tmp/msvc2/volume-info-borland-20261028/kernel32-exports.txt"
+}
