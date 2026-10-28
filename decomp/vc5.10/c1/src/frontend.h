@@ -41,7 +41,8 @@ struct CompilerBackend {
     virtual int RECON_THISCALL Disable(void) = 0;
     virtual void RECON_THISCALL CheckLocation(void) = 0;
     virtual unsigned RECON_THISCALL SymbolId(const void *) = 0;
-    virtual void RECON_THISCALL SetSymbolId(void *, unsigned) = 0;
+    /* Physical result-pointer ABI: two stack slots, EAX=result, RET8. */
+    virtual unsigned *RECON_THISCALL SetSymbolId(unsigned *, unsigned) = 0;
     virtual void RECON_THISCALL Slot58(void) = 0;
     virtual void RECON_THISCALL Slot5c(void) = 0;
     void RECON_THISCALL SetDebugMode(int);

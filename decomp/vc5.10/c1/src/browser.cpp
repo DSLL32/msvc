@@ -3,19 +3,161 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <io.h>
 #include <direct.h>
 #include "frontend.h"
 #include "keywords.h"
 #include "global-record.h"
 #include "browser.h"
 #include <recon.h>
-#pragma intrinsic(strlen, memcpy)
+#pragma intrinsic(strlen, memcpy, memset)
 
 extern "C" void __cdecl report_response_error(int, ...);
 extern "C" void __cdecl advance_browser_generation(void) { __asm { int 3 } }
-extern "C" void __cdecl fill_browser_symbol(CompilerBrowserRecord *, void *) { __asm { int 3 } }
-extern "C" void __cdecl fill_browser_reference(CompilerBrowserRecord *, void *) { __asm { int 3 } }
-extern "C" void __cdecl fill_browser_owner(CompilerBrowserRecord *, void *) { __asm { int 3 } }
+/* Encountered window of DWORD column62990: kind3/member, kind4/tag and
+ * kind5/enumerator cells6299c..629a8 are0. This is not the full column capacity. */
+static const unsigned browser_declaration_suppressed[3] = { 0, 0, 0 };
+/* Separate encountered cell629ac (kind7/function); intervening kind6 is
+ * still unread and unmodeled, with no implied value or column capacity. */
+static const unsigned browser_function_suppressed = 0;
+static const unsigned browser_value_suppressed[3] = { 0, 0, 1 }; /* kind10/static,11/parameter,12/local, cells629b8..629c0. */
+enum {
+    BROWSER_MEMBER_CATEGORY = 17, /* BYTE cell62973, kind3. */
+    BROWSER_ENUMERATOR_CATEGORY = 10, /* BYTE cell62975, kind5. */
+    BROWSER_FUNCTION_CATEGORY = 1, /* BYTE cell62977, kind7. */
+    BROWSER_STATIC_CATEGORY = 4, /* BYTE cell6297a, kind10. */
+    BROWSER_PARAMETER_CATEGORY = 3 /* BYTE cell6297b, kind11. */
+};
+extern "C" void __cdecl fill_browser_symbol_name(CompilerBrowserRecord *record, CompilerIrSymbol *symbol)
+{
+    record->symbol_id = symbol->record_id;
+    if (!record->name) {
+        record->name = symbol->binding.name->name;
+        record->identifier = symbol->binding.name;
+    }
+}
+extern "C" void __cdecl prepare_browser_symbol(CompilerBrowserRecord *record, CompilerIrSymbol *symbol)
+{
+    unsigned result;
+    /* The original uses its dead incoming symbol-pointer slot for this result;
+     * the live symbol receiver has already been retained separately. */
+    symbol->record_id = *c1_data.backend->SetSymbolId(&result, symbol->record_id);
+    fill_browser_symbol_name(record, symbol);
+}
+extern "C" void __cdecl fill_browser_symbol(CompilerBrowserRecord *record, void *value)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)value;
+    unsigned storage, member;
+    if ((symbol->kind < 3 || symbol->kind > 5) && symbol->kind != 7 && symbol->kind != 10 && symbol->kind != 11 && symbol->kind != 12) {
+#ifdef __linux__
+        recon_unsupported("browser symbol suppression column kind is not recovered");
+#else
+        __asm { int 3 }
+#endif
+    }
+    if ((symbol->kind == 7 ? browser_function_suppressed :
+         symbol->kind >= 10 ? browser_value_suppressed[symbol->kind - 10] :
+         browser_declaration_suppressed[symbol->kind - 3]) || (symbol->flags & 0x40)) {
+        record->kind = 20;
+        return;
+    }
+    prepare_browser_symbol(record, symbol);
+    storage = symbol->kind >= 1 && symbol->kind <= 14 && symbol->kind != 5
+        ? symbol->storage_class & 7 : 0;
+    if (storage == 7) {
+        record->attributes = 0;
+        record->category = 7;
+    } else {
+        member = symbol->kind == 2 || symbol->kind == 3;
+        if (storage >= 1 && storage <= 3) {
+            record->attributes = storage == 3 ? 2 : 0x40;
+            if (symbol->kind == 7 || symbol->kind == 8) {
+                if (!(symbol->flags & 1)) record->attributes |= 0x20;
+            } else if (storage == 1 && !(symbol->declaration_flags & 4)) {
+                record->attributes |= 0x20;
+            }
+        } else if (c1_bss.parameter_nesting >= 2) {
+            record->attributes |= 1;
+        }
+        if (member) record->attributes |= 0x40;
+        if (symbol->kind == 4) {
+            unsigned flags = symbol->value_type->flags;
+            if ((flags & 0x408) == 0x408) record->category = 15;
+            else if ((flags & 0x402) == 0x402) record->category = 8;
+            else if ((flags & 0x404) == 0x404) record->category = 11;
+            else if (flags & 0x200) record->category = 9;
+        } else if (symbol->kind == 3) {
+            record->category = BROWSER_MEMBER_CATEGORY;
+        } else if (symbol->kind == 5) {
+            record->category = BROWSER_ENUMERATOR_CATEGORY;
+        } else if (symbol->kind == 7) {
+            record->category = BROWSER_FUNCTION_CATEGORY;
+        } else if (symbol->kind == 10) {
+            record->category = BROWSER_STATIC_CATEGORY;
+        } else if (symbol->kind == 11) {
+            record->category = BROWSER_PARAMETER_CATEGORY;
+        } else {
+            /* Other BYTE category cells remain unrecovered. */
+#ifdef __linux__
+            recon_unsupported("browser symbol category column kind is not recovered");
+#else
+            __asm { int 3 }
+#endif
+        }
+    }
+    if (record->kind == 25) {
+        record->kind = 3;
+        record->attributes |= 0x20;
+    }
+}
+extern "C" int __cdecl check_browser_symbol_generation(CompilerBrowserRecord *record, CompilerIrSymbol *symbol)
+{
+    if ((BYTE)(symbol->record_id >> 24) == c1_data.browser_generation) return 0;
+    record->kind = 25;
+    fill_browser_symbol(record, symbol);
+    return 1;
+}
+extern "C" void __cdecl fill_browser_reference(CompilerBrowserRecord *record, void *value)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)value;
+    if ((symbol->kind < 3 || symbol->kind > 5) && symbol->kind != 7 && symbol->kind != 10 && symbol->kind != 11 && symbol->kind != 12) {
+#ifdef __linux__
+        recon_unsupported("browser reference suppression column kind is not recovered");
+#else
+        __asm { int 3 }
+#endif
+    }
+    record->kind = 20;
+    if ((symbol->kind == 7 ? browser_function_suppressed :
+         symbol->kind >= 10 ? browser_value_suppressed[symbol->kind - 10] :
+         browser_declaration_suppressed[symbol->kind - 3]) ||
+        symbol == c1_bss.browser_last_symbol || (symbol->flags & 0x40))
+        return;
+    if (!check_browser_symbol_generation(record, symbol)) {
+        fill_browser_symbol_name(record, symbol);
+        record->kind = 4;
+    }
+}
+extern "C" void __cdecl fill_browser_owner(CompilerBrowserRecord *record, void *value)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)value;
+    if ((symbol->kind < 3 || symbol->kind > 5) && symbol->kind != 7 && symbol->kind != 10 && symbol->kind != 11 && symbol->kind != 12) {
+#ifdef __linux__
+        recon_unsupported("browser owner suppression column kind is not recovered");
+#else
+        __asm { int 3 }
+#endif
+    }
+    if ((symbol->kind == 7 ? browser_function_suppressed :
+         symbol->kind >= 10 ? browser_value_suppressed[symbol->kind - 10] :
+         browser_declaration_suppressed[symbol->kind - 3]) || symbol == c1_bss.browser_last_symbol ||
+        (symbol->flags & 0x40)) {
+        record->kind = 20;
+        return;
+    }
+    c1_data.backend->SymbolId(symbol);
+    fill_browser_symbol_name(record, symbol);
+}
 extern "C" void __cdecl fill_browser_token(CompilerBrowserRecord *) { __asm { int 3 } }
 extern "C" char *__cdecl duplicate_browser_name(const char *name)
 {
@@ -30,8 +172,30 @@ extern "C" void __cdecl fill_browser_filename(CompilerBrowserRecord *record)
     record->name = duplicate_browser_name(c1_bss.current_context.FileName());
     record->identifier = NULL;
 }
-extern "C" void __cdecl fill_browser_source(CompilerBrowserRecord *, void *) { __asm { int 3 } }
-extern "C" void __cdecl fill_browser_generation(CompilerBrowserRecord *, void *) { __asm { int 3 } }
+extern "C" void __cdecl fill_browser_source(CompilerBrowserRecord *record, void *value)
+{
+    CompilerMacro *macro = (CompilerMacro *)value;
+    unsigned symbol;
+    record->attributes = 0;
+    record->name = macro->identifier->name;
+    record->identifier = macro->identifier;
+    record->kind = 3;
+    record->category = macro->body->kind != 0 ? 6 : 5;
+    macro->body->browser_symbol_id =
+        *c1_data.backend->SetSymbolId(&symbol, macro->body->browser_symbol_id);
+    record->symbol_id = macro->body->browser_symbol_id;
+}
+extern "C" void __cdecl fill_browser_generation(CompilerBrowserRecord *record, void *value)
+{
+    CompilerMacro *macro = (CompilerMacro *)value;
+    if ((BYTE)(macro->body->browser_symbol_id >> 24) == c1_data.browser_generation) {
+        record->kind = 4;
+        record->symbol_id = macro->body->browser_symbol_id;
+    } else {
+        fill_browser_source(record, macro);
+        record->attributes |= 0x20;
+    }
+}
 extern "C" void __cdecl fill_browser_record(CompilerBrowserRecord *record, void *value)
 {
     unsigned kind;
@@ -234,7 +398,7 @@ struct CompilerNullBrowser : CompilerBackend {
     int RECON_THISCALL Disable(void);
     void RECON_THISCALL CheckLocation(void);
     unsigned RECON_THISCALL SymbolId(const void *value);
-    void RECON_THISCALL SetSymbolId(void *object, unsigned value);
+    unsigned *RECON_THISCALL SetSymbolId(unsigned *result, unsigned value);
     void RECON_THISCALL Slot58(void);
     void RECON_THISCALL Slot5c(void);
     RECON_FORCEINLINE CompilerNullBrowser() {}
@@ -262,9 +426,10 @@ struct CompilerNamedBrowser : CompilerBackend {
     int RECON_THISCALL Disable(void);
     void RECON_THISCALL CheckLocation(void);
     unsigned RECON_THISCALL SymbolId(const void *value);
-    void RECON_THISCALL SetSymbolId(void *object, unsigned value);
+    unsigned *RECON_THISCALL SetSymbolId(unsigned *result, unsigned value);
     void RECON_THISCALL Slot58(void);
     void RECON_THISCALL Slot5c(void);
+    void RECON_THISCALL MergeRecords(void);
     char *filename;
     long saved_file_position; /* Original+8; constructor leaves this unwritten. */
     RECON_FORCEINLINE CompilerNamedBrowser(const char *name) : filename(_strdup(name)) {}
@@ -315,21 +480,79 @@ int RECON_THISCALL CompilerNullBrowser::Disable(void)
 }
 void RECON_THISCALL CompilerNullBrowser::CheckLocation(void) { __asm { int 3 }  }
 unsigned RECON_THISCALL CompilerNullBrowser::SymbolId(const void *value) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerNullBrowser::SetSymbolId(void *object, unsigned value) { __asm { int 3 }  }
+unsigned *RECON_THISCALL CompilerNullBrowser::SetSymbolId(unsigned *result, unsigned value) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerNullBrowser::Slot5c(void) {}
-void RECON_THISCALL CompilerNamedBrowser::Finish(void) { __asm { int 3 }  }
-void RECON_THISCALL CompilerNamedBrowser::Slot04(void) { __asm { int 3 }  }
-void RECON_THISCALL CompilerNamedBrowser::Slot08(void) { __asm { int 3 }  }
-void RECON_THISCALL CompilerNamedBrowser::Slot0c(void) { __asm { int 3 }  }
-void RECON_THISCALL CompilerNamedBrowser::Slot10(void) { __asm { int 3 }  }
-void RECON_THISCALL CompilerNamedBrowser::Slot14(unsigned value) { __asm { int 3 }  }
+extern "C" void __cdecl close_browser_stream(FILE *stream)
+{
+    char error_padding[512];
+    fflush(stream);
+    if (ferror(stream)) {
+        /* Original defect: the write-error path writes512 uninitialized stack
+         * bytes. Their values are undefined; emit zeros if this path is used. */
+        memset(error_padding, 0, sizeof(error_padding));
+        _write(_fileno(stream), error_padding, sizeof(error_padding));
+        report_response_error(85, 339, NULL);
+    }
+}
+void RECON_THISCALL CompilerNamedBrowser::MergeRecords(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerNamedBrowser::Finish(void)
+{
+    if (c1_bss.error_count + (c1_bss.options.warnings_are_errors > 1))
+        c1_data.backend->Slot38();
+    c1_data.backend->Slot04();
+    if (c1_data.browser_mode == 2) {
+        MergeRecords();
+        close_browser_stream(c1_bss.browser_stream);
+    } else {
+        c1_bss.debug_module->Slotd8(ftell(c1_bss.browser_stream));
+        close_browser_stream(c1_bss.browser_stream);
+    }
+}
+void RECON_THISCALL CompilerNamedBrowser::Slot04(void) {}
+void RECON_THISCALL CompilerNamedBrowser::Slot08(void)
+{
+    if (c1_data.browser_scope_depth <= 0) {
+        c1_data.browser_scope_depth = 0;
+        return;
+    }
+    --c1_data.browser_scope_depth;
+    write_browser_record(9, NULL);
+}
+void RECON_THISCALL CompilerNamedBrowser::Slot0c(void)
+{
+    c1_data.browser_scope_depth = (int)((unsigned)c1_data.browser_scope_depth + 1);
+    write_browser_record(8, NULL);
+}
+void RECON_THISCALL CompilerNamedBrowser::Slot10(void)
+{
+    write_browser_record(10, NULL);
+}
+void RECON_THISCALL CompilerNamedBrowser::Slot14(unsigned value)
+{
+    if (c1_data.browser_mode != 2 || value) Slot10();
+}
 void RECON_THISCALL CompilerNamedBrowser::Slot18(void)
 {
     write_browser_record(1, NULL);
 }
-void RECON_THISCALL CompilerNamedBrowser::Slot1c(void *value) { __asm { int 3 }  }
-void RECON_THISCALL CompilerNamedBrowser::Slot20(void *value) { __asm { int 3 }  }
-void RECON_THISCALL CompilerNamedBrowser::Slot24(void *value) { __asm { int 3 }  }
+void RECON_THISCALL CompilerNamedBrowser::Slot1c(void *value)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)value;
+    if (!(c1_data.function_record_flags & 0x8000) &&
+        !(symbol->binding.name->flags & 0x200000))
+        write_browser_record(4, symbol);
+}
+void RECON_THISCALL CompilerNamedBrowser::Slot20(void *value)
+{
+    write_browser_record(3, value);
+}
+void RECON_THISCALL CompilerNamedBrowser::Slot24(void *value)
+{
+    CompilerMacro *macro = (CompilerMacro *)value;
+    if (!(c1_data.function_record_flags & 0x8000) &&
+        !(macro->identifier->flags & 0x200000))
+        write_browser_record(18, macro);
+}
 void RECON_THISCALL CompilerNamedBrowser::Slot28(void *value)
 {
     CompilerMacro *macro = (CompilerMacro *)value;
@@ -337,7 +560,10 @@ void RECON_THISCALL CompilerNamedBrowser::Slot28(void *value)
         write_browser_record(19, value);
 }
 void RECON_THISCALL CompilerNamedBrowser::Slot2c(void) { __asm { int 3 }  }
-void RECON_THISCALL CompilerNamedBrowser::Slot30(void *value) { __asm { int 3 }  }
+void RECON_THISCALL CompilerNamedBrowser::Slot30(void *value)
+{
+    write_browser_record(11, value);
+}
 void RECON_THISCALL CompilerNamedBrowser::Slot34(void) { __asm { int 3 }  }
 void RECON_THISCALL CompilerNamedBrowser::Slot38(void) { __asm { int 3 }  }
 void RECON_THISCALL CompilerNamedBrowser::Slot3c(void *value) { __asm { int 3 }  }
@@ -392,8 +618,25 @@ int RECON_THISCALL CompilerNamedBrowser::Disable(void)
     return 1;
 }
 void RECON_THISCALL CompilerNamedBrowser::CheckLocation(void) { __asm { int 3 }  }
-unsigned RECON_THISCALL CompilerNamedBrowser::SymbolId(const void *value) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerNamedBrowser::SetSymbolId(void *object, unsigned value) { __asm { int 3 }  }
+unsigned RECON_THISCALL CompilerNamedBrowser::SymbolId(const void *value)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)value;
+    if ((BYTE)(symbol->record_id >> 24) != c1_data.browser_generation)
+        write_browser_record(25, symbol);
+    return symbol->record_id & 0xffffff;
+}
+unsigned *RECON_THISCALL CompilerNamedBrowser::SetSymbolId(unsigned *result, unsigned value)
+{
+    if ((BYTE)(value >> 24) != c1_data.browser_generation) {
+        if (!(value & 0xffffff)) {
+            if (c1_data.next_symbol_record_id >= 0x7fffffffU) compiler_fatal(55);
+            value = (value & 0xff000000U) | (c1_data.next_symbol_record_id++ & 0xffffff);
+        }
+        value = (value & 0xffffff) | ((unsigned)c1_data.browser_generation << 24);
+    }
+    *result = value;
+    return result;
+}
 void RECON_THISCALL CompilerNamedBrowser::Slot58(void) { __asm { int 3 }  }
 void RECON_THISCALL CompilerNamedBrowser::Slot5c(void)
 {

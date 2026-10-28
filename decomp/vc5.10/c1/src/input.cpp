@@ -85,7 +85,7 @@ void RECON_THISCALL CompilerLexer::Unread(unsigned token)
 #endif
     unread_tokens[unread_count++] = token;
 }
-void RECON_THISCALL CompilerLexer::Trace(unsigned token) { __asm { int 3 } }
+void RECON_THISCALL CompilerLexer::Trace(unsigned token) {}
 int RECON_THISCALL CompilerLexer::Valid(void) { return 1; }
 /* Canonical physical RET0 body, shared by the declared no-op aliases. */
 void RECON_THISCALL CompilerLexer::Reset(void) {}

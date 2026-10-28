@@ -113,9 +113,9 @@ typedef struct CompilerOptionBss {
     struct CompilerVector *defines;
     int prototypes_only;
     char *preprocessed_file;
-    char *browser_file;
+    char *browser_file; /* RVA54de8, -FR; also enables nested browser references. */
     int preprocess_stdout;
-    char *browser_local_file;
+    char *browser_local_file; /* RVA54f2c, -Fr and normalized output filename. */
     int preserve_comments;
     int dump_options;
     int option_xc;

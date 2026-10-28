@@ -50,6 +50,12 @@ static int browser_scalar_records(void)
     }
     return 1;
 }
-const ReconTest browser_tests[1] = {
+extern int c1_test_browser_symbol_ids(void);
+extern int c1_test_browser_scope_markers(void);
+extern int c1_test_browser_generation_records(void);
+const ReconTest browser_tests[4] = {
+    { "browser declaration generation records retain padding and encode the encountered symbol classes", 1, c1_test_browser_generation_records },
+    { "browser scope entry and exit balance markers and clamp empty depth without output", 1, c1_test_browser_scope_markers },
+    { "browser IDs preserve generation, allocation count, result alias and owned neighbors", 1, c1_test_browser_symbol_ids },
     { "browser scalar encodings retain stack-record padding and owned output neighbors", 1, browser_scalar_records }
 };

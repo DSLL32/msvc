@@ -199,6 +199,7 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
         !(symbol->kind == 12 && declarator && declarator->resolved_type &&
           (CDECL_INT_CALLBACK(declarator->resolved_type) || SCALAR_ARITHMETIC_TYPE(declarator->resolved_type) ||
            VOLATILE_SHORT_POINTER(declarator->resolved_type) || CONST_CHAR_POINTER(declarator->resolved_type) ||
+           CONST_INT_POINTER(declarator->resolved_type) ||
            COMPLETE_RECORD_VALUE(declarator->resolved_type) || COMPLETE_RECORD_POINTER(declarator->resolved_type) ||
            declarator->resolved_type == c1_data.builtin_types.type_0080 ||
            declarator->resolved_type == c1_data.builtin_types.type_0063 ||

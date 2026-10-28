@@ -25,8 +25,9 @@ typedef struct CompilerTokenPrototype {
 typedef char CompilerTokenPrototype_tag_offset[
     offsetof(CompilerTokenPrototype, tag) == 8 ? 1 : -1];
 /* Macro descriptor from pool5. Its body is a separately allocated span:
- * four unrecovered bytes, one signed selector, then length-defined payload.
- * No value/default is assigned to the leading four bytes or allocation tail. */
+ * packed browser ID, one signed selector, then length-defined payload.
+ * The producer leaves the ID bytes untouched; its initial contents come from
+ * the actual arena lifecycle, not a new per-object initialization. */
 typedef struct CompilerMacroBody {
     unsigned browser_symbol_id; /* Packed generation/high byte and browser ID; producer leaves arena bytes untouched. */
     signed char kind;

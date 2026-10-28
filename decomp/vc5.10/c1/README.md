@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 791 application functions / 217,138 code bytes and
-9,550 bytes of owned text data. Application code is 67.37% of the original
+The reconstruction contains 828 application functions / 221,623 code bytes and
+9,800 bytes of owned text data. Application code is 68.77% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All seventeen cached cases complete natively: DLL attach/export lookup/detach, the
+All eighteen cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, and the declaration-diagnostics workload below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, and browser output described below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -259,6 +259,23 @@ failures and explicit additive-asset derivation. The original resource asset
 and target inputs/outputs remain unchanged; a source-validated native catalog
 is added under a separate asset name. No output normalization is applied.
 Suppression-mode counting and unknown token-name cells remain unsupported.
+
+The browser-information case compiles macros, enum and record declarations,
+member references, local and static variables, functions, calls and an if/else
+branch with `-FRbrowser.sbr`. Both executions exit zero with 575 first entries
+and exact artifacts: `browser.sbr` (612 bytes), `browserex` (1,690), `browsergl`
+(161), `browserin` (22), and `browsersy` (233). The final reference capture took
+2,073.069 ms; its matching native run took 21.050 ms. The case adds 37 application
+functions / 4,485 code bytes and 250 bytes of owned switch data. Four focused
+tests cover record encodings, generation/ID assignment, declaration categories,
+suppressed locals, scope-depth markers and untouched record/object neighbors.
+All eighteen cached cases and their units passed in 1.632 s; the complete
+original/native graph and ABI audit passed in 1.452 s. Raw artifacts and retained
+failures are in `browser-information-case-20261027/` and
+`browser-resume-20261028/` under the binary's scratch directory. Browser reuse,
+error output, wider symbol categories and unencountered browser slots remain
+outside the exercised domain. The source documents and zeroes the original's
+uninitialized 512-byte write-error padding; that error path was not exercised.
 
 The completed cases exercise bounded domains. Larger readable parser, lexer,
 IR writer, PCH, debug and recorded-input bodies include unexercised branches;

@@ -2005,11 +2005,11 @@
             [
               {
                 "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                "offset": 10305
+                "offset": 10324
               },
               {
                 "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                "offset": 11309
+                "offset": 11328
               }
             ]
           ],
@@ -2366,7 +2366,7 @@
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8843
+                  "offset": 8862
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
@@ -2526,111 +2526,107 @@
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8737
+                  "offset": 8756
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8762
+                  "offset": 8781
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8813
+                  "offset": 8832
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8843
+                  "offset": 8862
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8858
+                  "offset": 8877
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8896
+                  "offset": 8915
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8957
+                  "offset": 8976
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9028
+                  "offset": 9047
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9057
+                  "offset": 9076
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9083
+                  "offset": 9102
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9109
+                  "offset": 9128
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9135
+                  "offset": 9154
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9230
+                  "offset": 9249
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9281
+                  "offset": 9300
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9307
+                  "offset": 9326
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9333
+                  "offset": 9352
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9390
+                  "offset": 9409
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9432
+                  "offset": 9451
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9465
+                  "offset": 9484
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9534
+                  "offset": 9553
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9582
+                  "offset": 9601
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9653
+                  "offset": 9672
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9674
+                  "offset": 9693
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9728
+                  "offset": 9747
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9759
+                  "offset": 9778
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9783
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9820
+                  "offset": 9802
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
@@ -2638,39 +2634,43 @@
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10004
+                  "offset": 9858
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10031
+                  "offset": 10023
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10049
+                  "offset": 10050
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10088
+                  "offset": 10068
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10190
+                  "offset": 10107
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10212
+                  "offset": 10209
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10234
+                  "offset": 10231
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10259
+                  "offset": 10253
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10287
+                  "offset": 10278
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 10306
                 }
               ]
             },
@@ -3363,11 +3363,11 @@
             [
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 4790
+                "offset": 4923
               },
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 4822
+                "offset": 4955
               }
             ]
           ],
@@ -3375,40 +3375,40 @@
             {
               "site": {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 3987
+                "offset": 4120
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4010
+                  "offset": 4143
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4137
+                  "offset": 4270
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4010
+                  "offset": 4143
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4024
+                  "offset": 4157
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3994
+                  "offset": 4127
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3994
+                  "offset": 4127
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 3994
+                  "offset": 4127
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4098
+                  "offset": 4229
                 }
               ]
             }
@@ -7776,7 +7776,8 @@
               274988163,
               274988198,
               274988183,
-              274988133
+              274988133,
+              274988227
             ]
           }
         },

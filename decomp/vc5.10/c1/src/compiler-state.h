@@ -219,6 +219,7 @@ typedef struct CompilerInitializedState {
     int browser_suppressed; /* RVA5e3b8, actual initial0. */
     long browser_header_position; /* RVA5e3c8, initial0; ftell before PCH browser records. */
     BYTE browser_generation; /* RVA5eef0, initial0; browser record generation. */
+    int browser_scope_depth; /* RVA5e3d8, initial0; browser scope markers. */
 } CompilerInitializedState;
 typedef char CompilerInitializedState_fits_snapshot[sizeof(CompilerInitializedState) <= 6548 ? 1 : -1];
 #define abstract_symbol_free symbol_cache.known.head9

@@ -71,7 +71,7 @@ typedef char ParserLabelStack_extent[sizeof(ParserLabelStack) == 8 ? 1 : -1];
 #define function_label_depth c1_data.function_label_depth /* RVA5f388 */
 #define c1_disable_inline_records c1_data.disable_inline_records /* RVA5f378 */
 #define c1_nonil_type_index c1_bss.nonil_type_index /* RVA54c80 */
-static int parameter_browser_suppressed;       /* RVA54de8, source-only */
+#define browser_parameter_references (c1_bss.options.browser_file != NULL) /* RVA54de8, -FR filename owner */
 #define unevaluated_type_depth c1_data.unevaluated_type_depth /* RVA5f3a8, initialized0 */
 static unsigned parser_symbol_cache_index;    /* RVA5f494 */
 #define enumerator_type c1_data.enumerator_type /* RVA5e400 */
@@ -599,6 +599,7 @@ read_action:
         case 148: /* Existing loop/continue/break heads and established condition node. */
         case 170: /* Known identifier name reaches its genuine label definition. */
         case 140: /* Completes the if statement at its established semantic label. */
+        case 141: /* The if/else continuation consumes the label written by rule174. */
         case 142: /* Established while condition uses the existing loop emitter. */
         case 143: /* Established loop heads enter the genuine shared completion. */
         case 146:
@@ -625,6 +626,7 @@ read_action:
         case 168:
         case 169:
         case 173: /* Established condition node and the genuine if-label producer. */
+        case 174: /* The else edge consumes rule173's label and writes its own. */
         case 175: /* Explicitly writes both DWORDs of an omitted array bound. */
         case 176: /* Propagates the written two-DWORD integer bound. */
         case 177: /* Established integer-expression node, then genuine constant-value helper. */
@@ -1552,6 +1554,13 @@ case 174:
     write_ir_record(58, c1_bss.parser_value.node);
     emit_ir_label(right[-2].value.node);
     emit_control_record(36);
+    if (declaration_depth < 0 || declaration_depth > 2) {
+#ifdef __linux__
+        recon_unsupported("else declaration-control index is not modeled");
+#else
+        __asm { int 3 }
+#endif
+    }
     declaration_control[declaration_depth].flags &= ~3;
     break;
 
@@ -2094,14 +2103,7 @@ CompilerIrSymbol *__cdecl declare_initialized_symbol(const CompilerParserDeclara
     if (symbol->scope_bits & 1) return NULL;
     if (symbol->kind == 4) return symbol;
     if (c1_bss.browser_filename) {
-        if (parameter_nesting) {
-#ifdef __linux__
-            recon_unsupported("declaration browser parameter state is not yet recovered");
-#else
-            __asm { int 3 }
-#endif
-        }
-        if (!parameter_nesting || parameter_browser_suppressed) {
+        if (!parameter_nesting || browser_parameter_references) {
             if (!(symbol->record_id & 0xffffff)) {
                 if (c1_data.next_symbol_record_id >= 0x7fffffffU) compiler_fatal(55);
                 symbol->record_id = (symbol->record_id & 0xff000000U) |
@@ -2214,14 +2216,7 @@ void __cdecl begin_record_definition(CompilerIrSymbol *symbol, CompilerType *typ
         !c1_bss.debug_module->Slot38(c1_bss.current_context.value, 0))
         compiler_error(73, ".\\esu.c", 306);
     if (c1_bss.browser_filename) {
-        if (parameter_nesting) {
-#ifdef __linux__
-            recon_unsupported("record browser parameter state is not yet recovered");
-#else
-            __asm { int 3 }
-#endif
-        }
-        if ((!parameter_nesting || parameter_browser_suppressed) &&
+        if ((!parameter_nesting || browser_parameter_references) &&
             symbol->binding.name != c1_data.builtin_names.unnamed) {
             c1_data.backend->Slot0c();
             c1_data.backend->Slot20(symbol);
@@ -2327,14 +2322,7 @@ int __cdecl add_record_member(const CompilerParserDeclaration *declaration,
         frame->bitfield_type_flags = 0;
     }
     if (c1_bss.browser_filename) {
-        if (parameter_nesting) {
-#ifdef __linux__
-            recon_unsupported("record member browser parameter state is not yet recovered");
-#else
-            __asm { int 3 }
-#endif
-        }
-        if ((!parameter_nesting || parameter_browser_suppressed) &&
+        if ((!parameter_nesting || browser_parameter_references) &&
             frame->symbol->binding.name != c1_data.builtin_names.unnamed)
             c1_data.backend->Slot20(symbol);
     }
@@ -2706,14 +2694,7 @@ CompilerType * __cdecl parse_record_specifier(void)
     symbol = frame->symbol;
     type = frame->type;
     if (symbol->binding.name != c1_data.builtin_names.unnamed && c1_bss.browser_filename) {
-        if (parameter_nesting) {
-#ifdef __linux__
-            recon_unsupported("record finalization browser parameter state is not yet recovered");
-#else
-            __asm { int 3 }
-#endif
-        }
-        if (!parameter_nesting || parameter_browser_suppressed) c1_data.backend->Slot08();
+        if (!parameter_nesting || browser_parameter_references) c1_data.backend->Slot08();
     }
     if (frame->bitfield_type_flags && frame->initialized_14) {
         unsigned flags = frame->bitfield_type_flags;
@@ -2857,7 +2838,7 @@ void __cdecl add_enumerator(CompilerNameEntry *name, CompilerType *type, __int64
             report_language_diagnostic(c1_data.options.language_extensions ? 3 : 1, 341, symbol);
         symbol->integer_value = (int)(unsigned)value;
         enumerator_value = value;
-        if (c1_bss.browser_filename && (!parameter_nesting || parameter_browser_suppressed))
+        if (c1_bss.browser_filename && (!parameter_nesting || browser_parameter_references))
             c1_data.backend->Slot20(symbol);
     }
 }
@@ -2987,14 +2968,7 @@ CompilerType *__cdecl parse_enum_specifier(void)
         !enum_entry_count((CompilerSymbolMap *)symbol->kind4_context))
         compiler_warning(138);
     if (symbol->binding.name != c1_data.builtin_names.unnamed && c1_bss.browser_filename) {
-        if (parameter_nesting) {
-#ifdef __linux__
-            recon_unsupported("enum browser parameter suppression state is not yet recovered");
-#else
-            __asm { int 3 }
-#endif
-        }
-        if (!parameter_nesting || parameter_browser_suppressed)
+        if (!parameter_nesting || browser_parameter_references)
             c1_data.backend->Slot08();
     }
     parser_flags |= 0x400;
@@ -4095,7 +4069,32 @@ unsigned __cdecl parameter_type_size(CompilerType *type, int promote_float)
     return global_type_size(type);
 }
 int __cdecl compare_debug_positions(unsigned, unsigned) { __asm { int 3 } return 0; }
-void __cdecl begin_browser_function(void) { __asm { int 3 } }
+void __cdecl begin_browser_function(void)
+{
+    typedef char BrowserParameterFirstOffset[offsetof(CompilerParameterBindings, first) == 4 ? 1 : -1];
+    typedef char BrowserParameterSymbolOffset[offsetof(CompilerIrSymbol, binding) == 8 ? 1 : -1];
+    unsigned saved_pending = c1_bss.macro_rescan_output_pending;
+    CompilerIrSymbol *function;
+    CompilerParameterBindings *parameters;
+    CompilerSymbolBinding *binding;
+    c1_bss.macro_rescan_output_pending = 0;
+    c1_data.backend->Slot0c();
+    function = c1_bss.current_scope_symbol;
+    if (!(function->record_id & 0xffffff)) {
+        if (c1_data.next_symbol_record_id >= 0x7fffffffU) compiler_fatal(55);
+        function = c1_bss.current_scope_symbol;
+        function->record_id = (function->record_id & 0xff000000U) |
+                              (c1_data.next_symbol_record_id++ & 0xffffff);
+    }
+    c1_data.backend->Slot20(c1_bss.current_scope_symbol);
+    c1_data.backend->Slot30(c1_bss.current_scope_symbol);
+    c1_bss.macro_rescan_output_pending = saved_pending;
+    parameters = (CompilerParameterBindings *)parameter_scope_value;
+    for (binding = parameters ? parameters->first : NULL; binding; binding = binding->next) {
+        CompilerIrSymbol *symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
+        if (symbol->value_type) c1_data.backend->Slot20(symbol);
+    }
+}
 int __cdecl compatible_parameter_types(CompilerType *, CompilerType *) { __asm { int 3 } return 0; }
 CompilerTypeShape *__cdecl make_type_shape(unsigned, unsigned, unsigned *);
 CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *);
@@ -5961,14 +5960,7 @@ CompilerIrSymbol *__cdecl declare_implicit_function(CompilerNameEntry *name, BYT
 CompilerParserNode *__cdecl make_symbol_expression(CompilerIrSymbol *symbol)
 {
     if (c1_bss.browser_filename) {
-        if (c1_bss.browser_name_deferred) {
-#ifdef __linux__
-            recon_unsupported("deferred symbol browser nesting is not yet recovered");
-#else
-            __asm { int 3 }
-#endif
-        }
-        if (!c1_bss.browser_name_deferred || parameter_browser_suppressed)
+        if (!c1_bss.browser_name_deferred || browser_parameter_references)
             c1_data.backend->Slot1c(symbol);
     }
     return make_symbol_reference(symbol, 0);
@@ -6945,20 +6937,12 @@ CompilerParserNode * __cdecl make_based_expression(CompilerNameEntry *name)
         symbol = declare_undeclared_function(name);
         symbol->qualifier_flags |= 8;
         if (c1_bss.browser_filename) {
-            /* Win32 retains the recovered browser branch. Native browser
-             * object ownership is not part of the current input domain. */
-#ifdef __linux__
-            recon_unsupported("implicit call browser domain is not yet modeled");
-#endif
-            if (!c1_bss.browser_name_deferred || parameter_browser_suppressed)
+            if (!c1_bss.browser_name_deferred || browser_parameter_references)
                 c1_data.backend->Slot20(symbol);
         }
     }
     if (c1_bss.browser_filename) {
-#ifdef __linux__
-        recon_unsupported("named call browser domain is not yet modeled");
-#endif
-        if (!c1_bss.browser_name_deferred || parameter_browser_suppressed)
+        if (!c1_bss.browser_name_deferred || browser_parameter_references)
             c1_data.backend->Slot1c(symbol);
     }
     CompilerTypeShape *shape = symbol->value_type->shape;
@@ -8269,10 +8253,7 @@ extern "C" CompilerParserToken *__cdecl resolve_identifier_type(CompilerParserTo
             return token;
     }
     if (c1_bss.browser_filename) {
-#ifdef RECON_NATIVE_TEST
-        recon_unsupported("identifier browser parameter state is not yet modeled");
-#endif
-        if (!parameter_nesting || parameter_browser_suppressed)
+        if (!parameter_nesting || browser_parameter_references)
             c1_data.backend->Slot1c(symbol);
     }
     c1_bss.literal.symbol = symbol;
@@ -10009,7 +9990,7 @@ extern "C" CompilerIrSymbol *__cdecl create_tag_symbol(CompilerNameEntry *name, 
         if (declaration_depth > 0) report_language_diagnostic(1, 116);
         symbol->binding.name = c1_data.builtin_names.unnamed;
     }
-    if (c1_bss.browser_filename && (!parameter_nesting || parameter_browser_suppressed))
+    if (c1_bss.browser_filename && (!parameter_nesting || browser_parameter_references))
         c1_data.backend->Slot20(symbol);
     c1_bss.tag_declaration_seen = 1;
     return symbol;
@@ -10089,7 +10070,7 @@ extern "C" CompilerIrSymbol *__cdecl begin_existing_tag_definition(CompilerIrSym
     symbol->flags |= 1;
     enumerator_type = symbol->value_type;
     c1_bss.current_tag_symbol = symbol;
-    if (c1_bss.browser_filename && (!parameter_nesting || parameter_browser_suppressed) &&
+    if (c1_bss.browser_filename && (!parameter_nesting || browser_parameter_references) &&
         symbol->binding.name != c1_data.builtin_names.unnamed) {
         c1_data.backend->Slot0c();
         c1_data.backend->Slot20(symbol);
@@ -10203,14 +10184,7 @@ extern "C" CompilerIrSymbol *__cdecl validate_tag_reference(CompilerIrSymbol *sy
     if (!symbol) return NULL;
     symbol = match_tag_type(symbol, flags);
     if (c1_bss.browser_filename) {
-        if (parameter_nesting) {
-#ifdef __linux__
-            recon_unsupported("nested tag-reference browser suppression is not yet modeled");
-#else
-            __asm { int 3 }
-#endif
-        }
-        if (!parameter_nesting || parameter_browser_suppressed)
+        if (!parameter_nesting || browser_parameter_references)
             c1_data.backend->Slot1c(symbol);
     }
     return symbol;

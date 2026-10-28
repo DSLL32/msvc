@@ -4,6 +4,7 @@
 #include "frontend.h"
 #include "global-record.h"
 #include "packing.h"
+#include "browser.h"
 #include <recon.h>
 
 extern "C" int __cdecl create_input(int, CompilerInput **, CompilerTextInput **);
@@ -165,6 +166,156 @@ extern "C" int c1_test_browser_factory(void)
     recon_free(copy); /* _strdup owns a CRT allocation, not an operator-new block. */
     recon_cpp_delete(c1_data.named_browser);
     recon_cpp_delete(default_object);
+    return 1;
+}
+
+extern "C" int __cdecl check_browser_symbol_generation(CompilerBrowserRecord *, CompilerIrSymbol *);
+extern "C" int c1_test_browser_generation_records(void)
+{
+    static const struct { BYTE kind, storage, category; WORD attributes; } rows[] = {
+        { 3, 0, 17, 0x60 }, { 4, 0, 8, 0x20 },
+        { 5, 0, 10, 0x20 }, { 7, 1, 1, 0x60 },
+        { 10, 3, 4, 0x22 }, { 11, 4, 3, 0x20 }
+    };
+    CompilerNameEntry name;
+    CompilerType type;
+    CompilerIrSymbol symbol;
+    CompilerBrowserRecord record, before;
+    begin_browser_output("owned-generations.sbr");
+    CompilerBackend *browser = c1_data.named_browser;
+    char *filename = *(char **)((BYTE *)browser + 4);
+    c1_data.backend = browser;
+    c1_data.browser_generation = 7;
+    c1_data.next_symbol_record_id = 0x1234;
+    c1_bss.parameter_nesting = 0;
+    memset(&record, 0xa5, sizeof(record));
+    memset(&symbol, 0x96, sizeof(symbol));
+    symbol.record_id = 0x07123456;
+    before = record;
+    if (check_browser_symbol_generation(&record, &symbol) ||
+        memcmp(&record, &before, sizeof(record)) ||
+        c1_data.next_symbol_record_id != 0x1234) return 0;
+    memset(&name, 0x97, sizeof(name));
+    name.name = (char *)"owned-declaration";
+    name.flags = 0;
+    memset(&type, 0x69, sizeof(type));
+    type.flags = 0x402;
+    for (unsigned i = 0; i < sizeof(rows) / sizeof(rows[0]); ++i) {
+        memset(&symbol, 0x96, sizeof(symbol));
+        symbol.kind = rows[i].kind;
+        symbol.flags = 0;
+        symbol.storage_class = rows[i].storage;
+        symbol.binding.name = &name;
+        symbol.value_type = &type;
+        symbol.record_id = 0;
+        memset(&record, 0xa5, sizeof(record));
+        record.kind = 4;
+        record.category = 0;
+        record.line = 17;
+        record.symbol_id = 0;
+        record.name = NULL;
+        record.identifier = NULL;
+        record.attributes = 0;
+        if (check_browser_symbol_generation(&record, &symbol) != 1 ||
+            record.kind != 3 || record.category != rows[i].category ||
+            record.attributes != rows[i].attributes || record.line != 17 ||
+            record.symbol_id != 0x07001234U + i ||
+            symbol.record_id != record.symbol_id || record.name != name.name ||
+            record.identifier != &name || record.unmodeled_02[0] != 0xa5 ||
+            record.unmodeled_02[1] != 0xa5 || record.unmodeled_16[0] != 0xa5 ||
+            record.unmodeled_16[1] != 0xa5 ||
+            c1_data.next_symbol_record_id != 0x1235U + i) return 0;
+    }
+    /* Local kind12 is suppressed by its actual DWORD column cell. It must
+     * not reach its unrecovered category byte or the ID/name/type consumers. */
+    memset(&symbol, 0x96, sizeof(symbol));
+    symbol.kind = 12;
+    symbol.flags = 0;
+    symbol.record_id = 0;
+    CompilerIrSymbol symbol_before = symbol;
+    memset(&record, 0xa5, sizeof(record));
+    before = record;
+    before.kind = 20;
+    unsigned count_before = c1_data.next_symbol_record_id;
+    if (check_browser_symbol_generation(&record, &symbol) != 1 ||
+        memcmp(&record, &before, sizeof(record)) ||
+        memcmp(&symbol, &symbol_before, sizeof(symbol)) ||
+        c1_data.next_symbol_record_id != count_before) return 0;
+    recon_free(filename);
+    recon_cpp_delete(browser);
+    return 1;
+}
+
+extern "C" int c1_test_browser_scope_markers(void)
+{
+    FILE stream, stream_before;
+    BYTE output[16];
+    begin_browser_output("owned-scopes.sbr");
+    CompilerBackend *browser = c1_data.named_browser;
+    char *filename = *(char **)((BYTE *)browser + 4);
+    memset(&stream, 0x69, sizeof(stream));
+    memset(output, 0xa5, sizeof(output));
+    stream._ptr = (char *)output + 3;
+    stream._cnt = 10;
+    stream_before = stream;
+    c1_bss.browser_stream = &stream;
+    c1_bss.current_context.value = 17;
+    c1_data.browser_scope_depth = 0;
+    browser->Slot0c();
+    if (c1_data.browser_scope_depth != 1 || output[3] != 8) return 0;
+    browser->Slot08();
+    if (c1_data.browser_scope_depth || output[4] != 9) return 0;
+    browser->Slot08();
+    c1_data.browser_scope_depth = -7;
+    browser->Slot08();
+    if (c1_data.browser_scope_depth || stream._ptr != (char *)output + 5 ||
+        stream._cnt != 8 || c1_data.browser_output_stream != &stream ||
+        c1_bss.browser_stream != &stream || c1_bss.current_context.value != 17) return 0;
+    stream_before._ptr = stream._ptr;
+    stream_before._cnt = stream._cnt;
+    if (memcmp(&stream, &stream_before, sizeof(stream))) return 0;
+    for (unsigned i = 0; i < sizeof(output); ++i)
+        if ((i < 3 || i >= 5) && output[i] != 0xa5) return 0;
+    recon_free(filename);
+    recon_cpp_delete(browser);
+    return 1;
+}
+
+extern "C" int c1_test_browser_symbol_ids(void)
+{
+    static const unsigned values[] = { 0, 0x0100abcdU, 0x07001234U, 0x55, 0x07000000U, 0xff000000U, 0x00fffffeU };
+    static const unsigned expected[] = { 0x07001234U, 0x0700abcdU, 0x07001234U, 0x07000055U, 0x07000000U, 0x07001235U, 0x07fffffeU };
+    begin_browser_output("owned-ids.sbr");
+    CompilerBackend *browser = c1_data.named_browser;
+    char *filename = *(char **)((BYTE *)browser + 4);
+    BYTE before[12];
+    *(long *)((BYTE *)browser + 8) = 0x12345678;
+    memcpy(before, browser, sizeof(before));
+    c1_data.browser_generation = 7;
+    c1_data.next_symbol_record_id = 0x1234;
+    for (unsigned i = 0; i < sizeof(values) / sizeof(values[0]); ++i) {
+        unsigned owned[3] = { 0xa5a5a5a5U, 0x96969696U, 0x5a5a5a5aU };
+        unsigned *result = browser->SetSymbolId(owned + 1, values[i]);
+        if (result != owned + 1 || owned[1] != expected[i] ||
+            owned[0] != 0xa5a5a5a5U || owned[2] != 0x5a5a5a5aU ||
+            c1_data.next_symbol_record_id != (i >= 5 ? 0x1236U : 0x1235U) ||
+            memcmp(browser, before, sizeof(before))) return 0;
+    }
+    c1_data.browser_generation = 0;
+    unsigned result;
+    if (browser->SetSymbolId(&result, 0) != &result || result ||
+        c1_data.next_symbol_record_id != 0x1236U) return 0;
+    c1_data.browser_generation = 7;
+    CompilerIrSymbol symbol, symbol_before;
+    memset(&symbol, 0x96, sizeof(symbol));
+    symbol.record_id = 0x07123456U;
+    symbol_before = symbol;
+    if (browser->SymbolId(&symbol) != 0x123456U ||
+        memcmp(&symbol, &symbol_before, sizeof(symbol)) ||
+        memcmp(browser, before, sizeof(before)) ||
+        c1_data.next_symbol_record_id != 0x1236U) return 0;
+    recon_free(filename);
+    recon_cpp_delete(browser);
     return 1;
 }
 
