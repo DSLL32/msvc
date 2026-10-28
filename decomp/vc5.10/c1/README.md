@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 870 application functions / 228,653 code bytes and
-10,057 bytes of owned text data. Application code is 70.95% of the original
+The reconstruction contains 872 application functions / 228,839 code bytes and
+10,057 bytes of owned text data. Application code is 71.00% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All twenty-four cached cases complete natively: DLL attach/export lookup/detach, the
+All twenty-five cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, browser output, callback/union, prototype-output, conversions, assembly-addressing, intrinsic/macro and based-pointer workloads described below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, browser output, callback/union, prototype-output, conversions, assembly-addressing, intrinsic/macro, based-pointer and legacy-interface workloads described below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -394,6 +394,28 @@ Scratch `based-pointers-case-20261028/` and
 `based-pointers-resume-20261028-134158/` retain genuine raw artifacts and failed
 native catch-up attempts. Source-only qualification repairs reuse those original
 references; no output normalization was needed.
+
+The legacy-interface case combines function-typed parameters, K&R definitions
+with default argument promotions, a call before its implicit declaration,
+block-scope extern declarations, callback selection/results, and casts between
+function and void pointers. Both executions exit zero with 449 first entries
+and exact artifacts: `legacyex` (1,897 bytes), `legacygl` (326), `legacyin` (27),
+and `legacysy` (426). The final reference took 2,035.032 ms; the matching native
+run took 21.184 ms. Function-parameter adjustment and implicit function
+declaration add two application owners / 186 code bytes. Only the encountered
+kind7 size cell joins the existing table/default/snapshot owner, with its actual
+52-byte value. Scoped extern copies retain the complete established storage,
+including uninterpreted bytes; other unknown size rows remain guarded.
+The dirty-storage test now includes function records and checks full-copy
+retention and neighboring bytes. The snapshot test separately checks the new
+known cell's default/nonzero restore while retaining distinct sentinels in the
+remaining unknown rows. The complete graph/ABI audit passed in 1.559 s.
+After correcting that test's old unknown-slot inventory, all twenty-five cached
+cases and units passed in 0.494 s. Final native/period/case builds took 0.718 s
+and 0.465 s for the test correction. Scratch
+`legacy-interfaces-case-20261028-140925/` retains actual raw artifacts and failed
+catch-up/closeout reports. No original was repeated for source-only corrections,
+and no output normalization was needed.
 
 The completed cases exercise bounded domains. Larger readable parser, lexer,
 IR writer, PCH, debug and recorded-input bodies include unexercised branches;

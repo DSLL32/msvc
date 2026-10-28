@@ -766,10 +766,9 @@ extern "C" void __cdecl record_scoped_declaration(CompilerIrSymbol *symbol)
     unsigned size, index;
     if (c1_data.options.language_extensions && (symbol->kind == 7 || symbol->kind == 8)) {
         report_language_diagnostic(4, 210);
-        /* Function-record size rows have not been recovered. The original
-         * indexed allocation/copy remains visible below, but neither build
-         * may consume an unknown row. */
-        if (symbol->kind != 10) {
+        /* Only the encountered kind7 row is known here. Kind8 remains a
+         * valid original domain, unsupported before its indexed read. */
+        if (symbol->kind != 7) {
 #ifdef __linux__
             recon_unsupported("scoped function-copy record size is not yet recovered");
 #else
@@ -886,7 +885,7 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
     } else if (symbol->kind == 12 && !typedef_name && type == c1_data.builtin_types.type_0080) {
         /* An unnamed void parameter retains the already interned scalar type. */
     } else if (symbol->kind == 11 || symbol->kind == 12) {
-        if (typedef_name || !(DECLARED_SCALAR_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
+        if (typedef_name || !(CDECL_INT_FUNCTION(type) || DECLARED_SCALAR_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
             (symbol->kind == 11 && type->flags == 0x62 && !type->attributes && !shape && !type->auxiliary) ||
             BASED_UNSIGNED_POINTER(type) || VOID_PARAMETER_POINTER(type) || VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_UNSIGNED_CHAR_POINTER(type) || QUALIFIED_INT_POINTER(type) || CONST_INT_MATRIX(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
             type == c1_data.builtin_types.type_0063 ||
@@ -1021,7 +1020,18 @@ CompilerType *RECON_THISCALL CompilerType::WithShapeFlags(unsigned bits)
     return intern_type(&description);
 }
 CompilerType *RECON_THISCALL CompilerType::WithFunctionConvention(unsigned) { __asm { int 3 } return NULL; }
-CompilerType *RECON_THISCALL CompilerType::DecayFunction(void) { __asm { int 3 } return NULL; }
+CompilerType *RECON_THISCALL CompilerType::DecayFunction(void)
+{
+    CompilerTypeShape pointer;
+    pointer.flags = 11;
+    pointer.attributes = (WORD)((attributes & 3) | (shape->attributes & 0x70));
+    pointer.base = shape;
+    pointer.value = 0;
+    CompilerType description = *this;
+    description.shape = intern_type_shape(&pointer);
+    description.attributes &= 0xfffc;
+    return intern_type(&description);
+}
 CompilerType *RECON_THISCALL CompilerType::DecayArray(void)
 {
     CompilerTypeShape pointer;
@@ -1546,9 +1556,9 @@ CompilerIrSymbol *RECON_THISCALL CompilerIrSymbol::CopyFrom(CompilerIrSymbol *so
 {
     unsigned bytes;
     /* This copy consumes the complete storage, including uninterpreted bytes.
-     * The encountered static and member owners and their size rows are52 bytes;
+     * The encountered function, static and member owners and their size rows are52 bytes;
      * other original kinds remain valid but unsupported here. */
-    if (source->kind != 3 && source->kind != 10) {
+    if (source->kind != 3 && source->kind != 7 && source->kind != 10) {
 #ifdef __linux__
         recon_unsupported("symbol copy kind has no encountered storage contract");
 #else

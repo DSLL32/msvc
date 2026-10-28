@@ -21,6 +21,7 @@ int __cdecl initialize_compiler_pass(void)
         saved->record_sizes.known.tag_symbol_bytes = c1_data.record_sizes.known.tag_symbol_bytes;
         saved->record_sizes.known.enumerator_symbol_bytes = c1_data.record_sizes.known.enumerator_symbol_bytes;
         saved->record_sizes.known.intrinsic_symbol_bytes = c1_data.record_sizes.known.intrinsic_symbol_bytes;
+        saved->record_sizes.known.function_symbol_bytes = c1_data.record_sizes.known.function_symbol_bytes;
         saved->record_sizes.known.global_symbol_bytes = c1_data.record_sizes.known.global_symbol_bytes;
         saved->record_sizes.known.static_symbol_bytes = c1_data.record_sizes.known.static_symbol_bytes;
         saved->record_sizes.known.named_parameter_symbol_bytes = c1_data.record_sizes.known.named_parameter_symbol_bytes;
@@ -65,6 +66,7 @@ int __cdecl initialize_compiler_pass(void)
         c1_data.record_sizes.known.tag_symbol_bytes = saved->record_sizes.known.tag_symbol_bytes;
         c1_data.record_sizes.known.enumerator_symbol_bytes = saved->record_sizes.known.enumerator_symbol_bytes;
         c1_data.record_sizes.known.intrinsic_symbol_bytes = saved->record_sizes.known.intrinsic_symbol_bytes;
+        c1_data.record_sizes.known.function_symbol_bytes = saved->record_sizes.known.function_symbol_bytes;
         c1_data.record_sizes.known.global_symbol_bytes = saved->record_sizes.known.global_symbol_bytes;
         c1_data.record_sizes.known.static_symbol_bytes = saved->record_sizes.known.static_symbol_bytes;
         c1_data.record_sizes.known.named_parameter_symbol_bytes = saved->record_sizes.known.named_parameter_symbol_bytes;

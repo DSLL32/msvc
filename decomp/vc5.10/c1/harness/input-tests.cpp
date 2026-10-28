@@ -2014,16 +2014,17 @@ extern "C" int c1_test_symbol_copy_storage(void)
     struct { DWORD before; CompilerIrSymbol value; DWORD after; } source, destination;
     CompilerIrSymbol expected;
     if (sizeof(CompilerIrSymbol) != 52) return 0;
-    for (unsigned kind_index = 0; kind_index < 2; ++kind_index) {
+    for (unsigned kind_index = 0; kind_index < 3; ++kind_index) {
     memset(&source, 0x3d, sizeof(source));
     memset(&destination, 0xa7, sizeof(destination));
-    source.value.kind = kind_index ? 3 : 10;
+    source.value.kind = kind_index == 2 ? 7 : kind_index ? 3 : 10;
     source.value.binding.name = (CompilerNameEntry *)&source.before;
     source.value.binding.next = (CompilerSymbolBinding *)&source.after;
     memcpy(&expected, &source.value, 52);
     expected.binding.next = NULL;
     c1_data.record_sizes.known.static_symbol_bytes = 52;
     c1_data.record_sizes.known.member_symbol_bytes = 52;
+    c1_data.record_sizes.known.function_symbol_bytes = 52;
     if (destination.value.CopyFrom(&source.value, 0) != &destination.value) return 0;
     if (memcmp(&destination.value, &expected, 52) ||
         destination.before != 0xa7a7a7a7U || destination.after != 0xa7a7a7a7U ||

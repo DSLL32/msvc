@@ -14,7 +14,7 @@
 
 /* Only recovered semantic fields live here. Other historical bytes are
  * UNMODELED; neither zero defaults nor byte equivalence are assumed. */
-/* Original RVA5f400 has26 DWORD slots. Only kinds1/2/3/4/5/6/9/10/11/12/13/14 are known.
+/* Original RVA5f400 has26 DWORD slots. Only kinds1/2/3/4/5/6/7/9/10/11/12/13/14 are known.
  * Gap storage supplies layout, never defaults, snapshot bytes or read access. */
 typedef struct CompilerMessageText { unsigned id; char *text; } CompilerMessageText;
 typedef char CompilerMessageText_size[sizeof(CompilerMessageText) == 8 ? 1 : -1];
@@ -26,7 +26,8 @@ typedef struct CompilerRecordSizeFields {
         unsigned tag_symbol_bytes; /* slot4, RVA5f410, default52 */
         unsigned enumerator_symbol_bytes; /* slot5, RVA5f414, default40 */
         unsigned intrinsic_symbol_bytes; /* slot6, RVA5f418, default52 */
-        unsigned unmodeled_07[2];
+        unsigned function_symbol_bytes; /* slot7, RVA5f41c, default52 */
+        unsigned unmodeled_08[1];
         unsigned global_symbol_bytes; /* slot9, RVA5f424, default52 */
         unsigned static_symbol_bytes; /* slot10, RVA5f428, default52 */
         unsigned named_parameter_symbol_bytes; /* slot11, RVA5f42c, default52 */
@@ -46,6 +47,7 @@ typedef char CompilerRecordSizes_kind3[offsetof(CompilerRecordSizeFields, member
 typedef char CompilerRecordSizes_kind4[offsetof(CompilerRecordSizeFields, tag_symbol_bytes) == 16 ? 1 : -1];
 typedef char CompilerRecordSizes_kind5[offsetof(CompilerRecordSizeFields, enumerator_symbol_bytes) == 20 ? 1 : -1];
 typedef char CompilerRecordSizes_kind6[offsetof(CompilerRecordSizeFields, intrinsic_symbol_bytes) == 24 ? 1 : -1];
+typedef char CompilerRecordSizes_kind7[offsetof(CompilerRecordSizeFields, function_symbol_bytes) == 28 ? 1 : -1];
 typedef char CompilerRecordSizes_kind9[offsetof(CompilerRecordSizeFields, global_symbol_bytes) == 36 ? 1 : -1];
 typedef char CompilerRecordSizes_kind10[offsetof(CompilerRecordSizeFields, static_symbol_bytes) == 40 ? 1 : -1];
 typedef char CompilerRecordSizes_kind11[offsetof(CompilerRecordSizeFields, named_parameter_symbol_bytes) == 44 ? 1 : -1];

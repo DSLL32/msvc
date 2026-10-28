@@ -287,8 +287,9 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
         symbol->value_type->shape && symbol->value_type->shape->flags == 1 &&
         !symbol->value_type->shape->attributes && !symbol->value_type->shape->base) ||
         ((symbol->value_type->flags == 0x63 || symbol->value_type->flags == 0x4063 || symbol->value_type->flags == 0x64) &&
-        !symbol->value_type->attributes && symbol->value_type->shape &&
-        symbol->value_type->shape->flags == 3 &&
+        (!symbol->value_type->attributes ||
+         (symbol->kind == 11 && symbol->value_type->attributes == 0x10)) && symbol->value_type->shape &&
+        (symbol->value_type->shape->flags & ~8U) == 3 &&
         (symbol->value_type->shape->attributes == 0x10 ||
          symbol->value_type->shape->attributes == 0x40 ||
          symbol->value_type->shape->attributes == 0x60) &&

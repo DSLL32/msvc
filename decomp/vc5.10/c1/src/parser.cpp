@@ -6670,7 +6670,7 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
 /* A conditional choice between two cdecl function designators shares the
  * exact return type and canonical parameter/function base. The outer shape
  * is the temporary function-designator view made by each operand. */
-#define CDECL_UNSIGNED_FUNCTION_CHOICE(d,s) ((d)->flags == 0x4063 && (s)->flags == 0x4063 && \
+#define CDECL_FUNCTION_CHOICE(d,s) (((d)->flags == 0x63 || (d)->flags == 0x4063) && (s)->flags == (d)->flags && \
     (d)->attributes == 0x10 && (s)->attributes == 0x10 && (d)->shape && (s)->shape && \
     (d)->shape->flags == 11 && (s)->shape->flags == 11 && \
     (d)->shape->attributes == 0x10 && (s)->shape->attributes == 0x10 && \
@@ -6695,6 +6695,15 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
     (d)->shape->flags == 3 && (d)->shape->attributes == 0x10 && \
     (d)->shape->base && (d)->shape->base->flags == 0x404 && \
     (d)->shape->base->attributes == 0x10 && !(d)->shape->base->base)
+/* A function-declared parameter has the adjusted outer11 view; an ordinary
+ * callback argument keeps outer3. Both retain the same function base. */
+#define CDECL_CALLBACK_PARAMETER(d,s) ((d)->flags == 0x63 && (s)->flags == 0x63 && \
+    (d)->attributes == 0x10 && !(s)->attributes && !(d)->auxiliary && !(s)->auxiliary && \
+    (d)->shape && (s)->shape && (d)->shape->flags == 11 && (s)->shape->flags == 3 && \
+    (d)->shape->attributes == 0x10 && (s)->shape->attributes == 0x10 && \
+    (d)->shape->base && (d)->shape->base == (s)->shape->base && \
+    (d)->shape->base->flags == 0x404 && (d)->shape->base->attributes == 0x10 && \
+    !(d)->shape->base->base)
 #define WIN32_CALLBACK_ARGUMENT(d,s) ((d)->flags == 0x63 && (s)->flags == 0x63 && \
     !(d)->attributes && ((s)->attributes == 0x40 || (s)->attributes == 0x60) && (d)->shape && (s)->shape && \
     (d)->shape->flags == 3 && (s)->shape->flags == 11 && \
@@ -6797,7 +6806,7 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
           type->flags == 0x402 && !type->attributes && type->symbol_owner &&
           type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) &&
         !(operation == 125 && CONST_RECORD_RETURN(type, value->type)) &&
-        !(operation == 54 && CDECL_UNSIGNED_FUNCTION_CHOICE(type, value->type)) &&
+        !(operation == 54 && CDECL_FUNCTION_CHOICE(type, value->type)) &&
         !(operation == 116 && RECORD_TO_INT_DIAGNOSTIC(type, value->type)) &&
         !((operation == 112 || operation == 116 || operation == 125) && CDECL_CALLBACK_ASSIGNMENT(type, value->type)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(type, value->type)) &&
@@ -6813,6 +6822,7 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
         !(operation == 52 && VOID_FROM_UNSIGNED_POINTER(type, value->type)) &&
         !(operation == 52 && BASED_UNSIGNED_FROM_PLAIN(type, value->type)) &&
         !(operation == 116 && CDECL_CALLBACK_VALUE_COPY(type, value->type)) &&
+        !(operation == 112 && CDECL_CALLBACK_PARAMETER(type, value->type)) &&
         !(operation == 116 && type->flags == 0x402 && value->type->flags == 0x402 &&
           !type->attributes && !value->type->attributes &&
           type->shape && type->shape == value->type->shape &&
@@ -6880,7 +6890,7 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
           (source->flags == 0x106 || source->flags == 0x107) &&
           !(destination->attributes & ~0x100U) && !(source->attributes & ~0x110U)) &&
         !(operation == 125 && CONST_RECORD_RETURN(destination, source)) &&
-        !(operation == 54 && CDECL_UNSIGNED_FUNCTION_CHOICE(destination, source)) &&
+        !(operation == 54 && CDECL_FUNCTION_CHOICE(destination, source)) &&
         !(operation == 116 && RECORD_TO_INT_DIAGNOSTIC(destination, source)) &&
         !((operation == 112 || operation == 116 || operation == 125) && CDECL_CALLBACK_ASSIGNMENT(destination, source)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(destination, source)) &&
@@ -6896,6 +6906,7 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
         !(operation == 52 && VOID_FROM_UNSIGNED_POINTER(destination, source)) &&
         !(operation == 52 && BASED_UNSIGNED_FROM_PLAIN(destination, source)) &&
         !(operation == 116 && CDECL_CALLBACK_VALUE_COPY(destination, source)) &&
+        !(operation == 112 && CDECL_CALLBACK_PARAMETER(destination, source)) &&
         !(operation == 116 && destination->flags == 0x402 && source->flags == 0x402 &&
           !destination->attributes && !source->attributes && destination->shape &&
           destination->shape == source->shape && destination->shape->flags == 1 &&
@@ -7346,8 +7357,16 @@ CompilerParserNode * __cdecl make_based_expression(CompilerNameEntry *name)
         (shape->flags & ~4U) | 3, shape->storage & 0x73, NULL);
     return normalize_based_expression(value);
 }
-extern "C" CompilerIrSymbol *__cdecl declare_undeclared_function(CompilerNameEntry *)
-{ __asm { int 3 } return NULL; }
+extern "C" CompilerIrSymbol *__cdecl declare_undeclared_function(CompilerNameEntry *name)
+{
+    CompilerIrSymbol *symbol = declare_implicit_function(name,
+        c1_data.options.language_extensions ? 0 : 2);
+    symbol->kind = 7;
+    symbol->identifier_flags |= 0x80;
+    symbol->function_type = c1_data.builtin_types.implicit_int_function;
+    symbol->storage_class = (symbol->storage_class & ~7U) | 1;
+    return symbol;
+}
 /* RVA1e3a8 */
 /* Call analysis owns one36-byte linked context. These source declarations
  * describe later fields; the current prefix stops at PushCallContext before

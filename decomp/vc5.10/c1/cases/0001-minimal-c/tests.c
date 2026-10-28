@@ -384,6 +384,7 @@ static int type_arena_snapshot(void)
         c1_data.record_sizes.known.bitfield_symbol_bytes != 52 ||
         c1_data.record_sizes.known.named_parameter_symbol_bytes != 52 ||
         c1_data.record_sizes.known.intrinsic_symbol_bytes != 52 ||
+        c1_data.record_sizes.known.function_symbol_bytes != 52 ||
         c1_data.record_sizes.known.global_symbol_bytes != 52 ||
         c1_data.record_sizes.known.abstract_symbol_bytes != 52 ||
         memcmp(c1_data.predefined_time_text, "......Unknown date......\0", 26) ||
@@ -434,6 +435,7 @@ static int type_arena_snapshot(void)
     c1_data.record_sizes.known.bitfield_symbol_bytes = 49;
     c1_data.record_sizes.known.named_parameter_symbol_bytes = 41;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 37;
+    c1_data.record_sizes.known.function_symbol_bytes = 31;
     c1_data.record_sizes.known.global_symbol_bytes = 41;
     c1_data.record_sizes.known.abstract_symbol_bytes = 43;
     c1_data.record_sizes.known.segment_symbol_bytes = 45;
@@ -495,6 +497,7 @@ static int type_arena_snapshot(void)
         saved->record_sizes.known.bitfield_symbol_bytes != 49 ||
         saved->record_sizes.known.named_parameter_symbol_bytes != 41 ||
         saved->record_sizes.known.intrinsic_symbol_bytes != 37 ||
+        saved->record_sizes.known.function_symbol_bytes != 31 ||
         saved->record_sizes.known.global_symbol_bytes != 41 ||
         saved->record_sizes.known.abstract_symbol_bytes != 43 ||
         saved->record_sizes.known.segment_symbol_bytes != 45 ||
@@ -513,9 +516,9 @@ static int type_arena_snapshot(void)
     memset(c1_data.symbol_cache.known.unmodeled_00, 0x5a, sizeof(c1_data.symbol_cache.known.unmodeled_00));
     c1_data.abstract_symbol_free = &owned_symbols[1].binding;
     /* Owned representation sentinels are not original table defaults.
-     * Restore must not transfer any of these14 unknown slots. */
+     * Restore must not transfer any of these13 unknown slots. */
     for (i = 0; i < 26; ++i) {
-        if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 ||
+        if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7 ||
             i == 9 || i == 10 || i == 11 || i == 12 || i == 13 || i == 14) continue;
         saved->record_sizes.indexed[i] = 0xa5000000 + i;
         c1_data.record_sizes.indexed[i] = 0x5a000000 + i;
@@ -625,6 +628,7 @@ static int type_arena_snapshot(void)
     c1_data.record_sizes.known.bitfield_symbol_bytes = 79;
     c1_data.record_sizes.known.named_parameter_symbol_bytes = 47;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 61;
+    c1_data.record_sizes.known.function_symbol_bytes = 59;
     c1_data.record_sizes.known.global_symbol_bytes = 67;
     c1_data.record_sizes.known.abstract_symbol_bytes = 71;
     c1_data.record_sizes.known.segment_symbol_bytes = 77;
@@ -652,7 +656,7 @@ static int type_arena_snapshot(void)
         if (saved->symbol_cache.known.unmodeled_00[i] != 0xa5 ||
             c1_data.symbol_cache.known.unmodeled_00[i] != 0x5a) return 0;
     for (i = 0; i < 26; ++i) {
-        if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 ||
+        if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7 ||
             i == 9 || i == 10 || i == 11 || i == 12 || i == 13 || i == 14) continue;
         if (c1_data.record_sizes.indexed[i] != 0x5a000000 + i ||
             saved->record_sizes.indexed[i] != 0xa5000000 + i) return 0;
@@ -720,6 +724,7 @@ static int type_arena_snapshot(void)
         c1_data.record_sizes.known.bitfield_symbol_bytes == 49 && saved->record_sizes.known.bitfield_symbol_bytes == 49 &&
         saved->record_sizes.known.declaration_symbol_bytes == 47 &&
         c1_data.record_sizes.known.intrinsic_symbol_bytes == 37 &&
+        c1_data.record_sizes.known.function_symbol_bytes == 31 && saved->record_sizes.known.function_symbol_bytes == 31 &&
         c1_data.record_sizes.known.global_symbol_bytes == 41 &&
         c1_data.record_sizes.known.abstract_symbol_bytes == 43 &&
         c1_data.record_sizes.known.segment_symbol_bytes == 45 && saved->record_sizes.known.segment_symbol_bytes == 45 &&
@@ -819,6 +824,7 @@ static int symbol_size_indexing(void)
     unsigned i;
     memset(owned, 0xa5, sizeof(owned));
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 37;
+    c1_data.record_sizes.known.function_symbol_bytes = 31;
     c1_data.record_sizes.known.global_symbol_bytes = 41;
     c1_data.record_sizes.known.abstract_symbol_bytes = 43;
     c1_bss.arenas[1].cursor = owned + 1;
