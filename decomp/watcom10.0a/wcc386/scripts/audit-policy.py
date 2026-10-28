@@ -76,6 +76,10 @@ def code_contribution(raw, owner):
     if owner == 'Wait_for_return':
         total, start = 173, 113
         expected = [('CCusage_', 0), ('Wait_for_return_', 113)]
+    elif owner == 'Zoiks':
+        # One real90B CODE contribution; the following11B are linker zeros.
+        total, start = 90, 0
+        expected = [('Zoiks_', 0)]
     elif owner == 'TransferMemoryFlags':
         # The final genuine varusage public ends its CODE contribution. Earlier
         # bodies grow as this case progresses; no instruction graph is inferred.
@@ -146,7 +150,7 @@ def main():
     rva, size, offset = code[0]
     assert rva == 0x10000
     digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
-    for owner, source, expected_length in [('Wait_for_return', 'usage', 60), ('Length', 'utils', 43), ('TransferMemoryFlags', 'varusage', 157)]:
+    for owner, source, expected_length in [('Wait_for_return', 'usage', 60), ('Length', 'utils', 43), ('TransferMemoryFlags', 'varusage', 157), ('Zoiks', 'zoiks', 90)]:
         relative = 'build/obj/src/' + source + '.c.obj'
         obj = project / relative
         length = code_contribution(obj.read_bytes(), owner)

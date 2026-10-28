@@ -317,11 +317,6 @@
     "path": "build/WCC386.EXE",
     "map": "build/wcc386.map"
   },
-  "identity_only_entries": [
-    {
-      "name": "write"
-    }
-  ],
   "shared_return_entries": [
     {
       "owner": "CTypeInit",
@@ -358,6 +353,14 @@
     {
       "owner": "PushOneParm",
       "entry": "PreCall"
+    },
+    {
+      "owner": "WVInitDbgInfo",
+      "entry": "WVFiniDbgInfo"
+    },
+    {
+      "owner": "TypeSize",
+      "entry": "TypesPurge"
     }
   ],
   "shared_terminal_epilogues": [
@@ -2510,6 +2513,36 @@
         "start": 384196,
         "bytes_hex": "5f5e5a595bc3"
       }
+    },
+    {
+      "owners": [
+        "PutStream",
+        "GetStream"
+      ],
+      "original": {
+        "start": 275406,
+        "bytes_hex": "5f5e59c3"
+      }
+    },
+    {
+      "owners": [
+        "DoCCompile",
+        "FreeFNames"
+      ],
+      "original": {
+        "start": 5278,
+        "bytes_hex": "5ac3"
+      }
+    },
+    {
+      "owners": [
+        "SrcPurge",
+        "Purge"
+      ],
+      "original": {
+        "start": 84678,
+        "bytes_hex": "5ac3"
+      }
     }
   ],
   "function_properties": {
@@ -2700,6 +2733,21 @@
       "pending_extent": false
     },
     "WVSetBase": {
+      "pending_extent": false
+    },
+    "CErr2p": {
+      "pending_extent": false
+    },
+    "DFFiniDbgInfo": {
+      "pending_extent": false
+    },
+    "CVFiniDbgInfo": {
+      "pending_extent": false
+    },
+    "WVFiniDbgInfo": {
+      "pending_extent": false
+    },
+    "Purge": {
       "pending_extent": false
     }
   },
@@ -4277,6 +4325,265 @@
             "bytes_hex": "5f5e5a595bc3"
           }
         ]
+      }
+    },
+    {
+      "owners": [
+        "NeedMore",
+        "GenImport"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 223356,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "DoASegDef",
+        "GenImport"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 223356,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "CheckLEDataSize",
+        "GenImport"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 223356,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "NeedMore",
+        "DumpImportResolve"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 223356,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "DoASegDef",
+        "DumpImportResolve"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 223356,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "CheckLEDataSize",
+        "DumpImportResolve"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 223356,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "GenImport",
+        "DumpImportResolve"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 223356,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "OutReloc",
+        "OutSpecialCommon"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 228255,
+            "bytes_hex": "89f1e845feffffc95e59c3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 228257,
+            "target": "DoFix"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "FlushNames",
+        "ObjFini"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 219548,
+            "bytes_hex": "c95e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "AskSegIndex",
+        "ObjFini"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 219550,
+            "bytes_hex": "5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "FlushNames",
+        "FiniTarg"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 219548,
+            "bytes_hex": "c95e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ObjFini",
+        "FiniTarg"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 219548,
+            "bytes_hex": "c95e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "AskSegIndex",
+        "FiniTarg"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 219550,
+            "bytes_hex": "5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "FlushNames",
+        "GenComdef"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 219548,
+            "bytes_hex": "c95e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ObjFini",
+        "GenComdef"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 219548,
+            "bytes_hex": "c95e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "FiniTarg",
+        "GenComdef"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 219548,
+            "bytes_hex": "c95e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "AskSegIndex",
+        "GenComdef"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 219550,
+            "bytes_hex": "5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "TellNoSymbol",
+        "TellFreeAllLabels"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 282359,
+            "bytes_hex": "ff0d94f807005ac3"
+          }
+        ],
+        "branches": []
       }
     }
   ],

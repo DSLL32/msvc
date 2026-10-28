@@ -62,6 +62,19 @@ void TInit(void)
     InitFrl(&TreeFrl);
 }
 
+unsigned char FrlFreeAll(void **head,int size);
+unsigned char TreeFrlFree(void)
+{
+    return FrlFreeAll(&TreeFrl,sizeof(tree_node));
+}
+
+/* Later TFini calls TreeFrlFree; this old body contains its direct pool
+ * release, with a distinct entry and no intervening helper vertex. */
+void TFini(void)
+{
+    FrlFreeAll(&TreeFrl,sizeof(tree_node));
+}
+
 void InitFrl(void **list)
 {
     *list=NULL;

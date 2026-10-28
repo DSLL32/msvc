@@ -37,14 +37,39 @@
 #include "scanner.h"
 #include "expression.h"
 #include <recon.h>
-#ifdef __WATCOMC__
-#pragma intrinsic(memcpy)
+#if defined(__WATCOMC__)
+/* Intrinsic flags are global at deferred codegen, not lexical per-function.
+ * Keep buffer copies as real memcpy calls; the supported _inline_ spelling
+ * forces only the fixed record copies below through the compiler intrinsic. */
+#pragma function(memcpy)
+void *_inline_memcpy(void *destination,const void *source,size_t size);
 #endif
 
 unsigned LeafFreeList;
 /* Provisional descriptive names for the older quad-chain state. */
 unsigned FirstQuad,FirstCallQuad,LastCallQuad,DefaultLeaf;
 struct seg_info QuadSegs[49],LeafSegs[98];
+void CSegFree(SEGADDR_T segment);
+/* Descriptive name for actual2b63f. This is the same allocated/farmem
+ * segment ownership rule as csym.c SymFini, applied to the quad/leaf arrays. */
+void FreeSegments(struct seg_info *segments,unsigned count)
+{
+    unsigned index;
+    for (index=0;index<count;++index) {
+        if (segments[index].allocated && segments[index].in_farmem)
+            CSegFree(segments[index].index);
+    }
+}
+void FreeDataQuads(void);
+/* The old serialized-quad module finalizer, named by cpurge.c's surviving
+ * QuadFini declaration. Table bounds49/98 are the actual initialized ABI. */
+void QuadFini(void)
+{
+    FreeSegments(QuadSegs,49);
+    FreeSegments(LeafSegs,98);
+    FreeDataQuads();
+}
+
 void QuadInit(void)
 {
     unsigned i;
@@ -253,7 +278,7 @@ void QuadReplace(QUAD *quad,unsigned index)
 {
     QUAD *dst;
     dst=AccessFileInfo(index,&QuadFileInfo);
-    memcpy(dst,quad,sizeof(QUAD));
+    _inline_memcpy(dst,quad,sizeof(QUAD));
     QuadFileInfo.curr_buf_dirty=1;
 }
 
@@ -276,7 +301,7 @@ void QuadGet(QUAD *quad,unsigned index)
 {
     QUAD *source;
     source=AccessFileInfo(index,&QuadFileInfo);
-    memcpy(quad,source,sizeof(QUAD));
+    _inline_memcpy(quad,source,sizeof(QUAD));
 }
 
 unsigned GenQuadNoResult(unsigned first,int op,unsigned second)

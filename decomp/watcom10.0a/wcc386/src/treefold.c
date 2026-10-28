@@ -468,7 +468,11 @@ int GetLog2(unsigned long value)
 {
     unsigned long count;
     int log;
-    if (value!=0 && (value&(value-1))==0) {
+    /* Actual51ac4 tests ((1-value)&value)==value, then excludes zero.
+     * For an unsigned DWORD this admits powers of two starting at2;
+     * unlike the later predicate, GetLog2(1) returns-1. Multiply therefore
+     * emits an arithmetic multiply-by-one for the loop-hoisting pass. */
+    if (value>1 && (value&(value-1))==0) {
         count=1;
         log=0;
         for (;;) {

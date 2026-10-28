@@ -46,6 +46,12 @@ void InitConflict(void)
     ConfList=NULL;
 }
 
+unsigned char FrlFreeAll(void **head,int size);
+unsigned char ConfFrlFree(void)
+{
+    return FrlFreeAll(&ConfFrl,sizeof(conflict_node));
+}
+
 conflict_node *AddConflictNode(name *opnd)
 {
     conflict_node *new_node;

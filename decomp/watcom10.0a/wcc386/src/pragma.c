@@ -136,6 +136,52 @@ void PragPack(void)
 }
 
 struct aux_entry *AuxList;
+void FreeInfo(struct aux_info *info)
+{
+    if (info->code!=NULL) {
+        CMemFree(info->code);
+        info->code=NULL;
+    }
+    if (info->parms!=NULL && info->parms!=DefaultParms) {
+        CMemFree(info->parms);
+        info->parms=NULL;
+    }
+    if (info->objname!=NULL) {
+        CMemFree(info->objname);
+        info->objname=NULL;
+    }
+}
+/* caux.c before OptlinkInfo: the actual finalizer releases these five
+ * standard descriptors, deliberately excluding StdcallInfo/Far16 copies. */
+void PragmaFini(void)
+{
+    struct aux_entry *entry,*next;
+    struct library_list *library;
+    entry=AuxList;
+    while (entry!=NULL) {
+        next=entry->next;
+        if (entry->u.info!=NULL) {
+            if (entry->u.info->use!=1) --entry->u.info->use;
+            else {
+                FreeInfo(entry->u.info);
+                if (entry->u.info!=&DefaultInfo) CMemFree(entry->u.info);
+            }
+        }
+        CMemFree(entry);
+        entry=next;
+    }
+    FreeInfo(&DefaultInfo);
+    FreeInfo(&CdeclInfo);
+    FreeInfo(&PascalInfo);
+    FreeInfo(&SyscallInfo);
+    FreeInfo(&FortranInfo);
+    AuxList=NULL;
+    while ((library=HeadLibs)!=NULL) {
+        HeadLibs=library->next;
+        CMemFree(library);
+    }
+}
+
 struct aux_entry *AuxLookup(char *name)
 {
     struct aux_entry *entry;

@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "compiler.h"
+#include "files.h"
 #include <recon.h>
 
 struct comp_flags CompFlags;
@@ -125,5 +126,16 @@ void CloseFiles(void)
         remove(fname);
         PageHandle=-1;
         PageFile=NULL;
+    }
+}
+
+/* ccmain.c before fname_list acquired a separate fullpath allocation.
+ * The encountered1994 node owns only its inline filename here. */
+void FreeFNames(void)
+{
+    struct fname_list *entry;
+    while ((entry=FNames)!=NULL) {
+        FNames=entry->next;
+        CMemFree(entry);
     }
 }

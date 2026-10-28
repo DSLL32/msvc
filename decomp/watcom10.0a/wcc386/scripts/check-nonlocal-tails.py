@@ -125,4 +125,40 @@ assert '#pragma aux MyExit aborts;' in (project/'src/command.h').read_text()
 assert '#define WCC_CSUICIDE_ABORTS' in (project/'src/symbols.c').read_text()
 assert '#define WCC_CSUICIDE_ABORTS' in (project/'src/quads.c').read_text()
 assert '#pragma aux CSuicide aborts;'  in (project/'src/compiler.h').read_text()
-print('PASS NewSym/NewLeaf/NewQuad RET0; CCusage noreturn; MyExit localRET[]/[0], sole exit call; nonlocal closure retained')
+# FEMessage has ordinary RET0 exits AND the older fatal callback. Keep
+# its recursive shared checked cleanup null: no returning ABI is invented
+# for the pending ImmediateExit/_exit branch. Complete CFG/ownership/edge
+# checks remain the common graph auditor's job, as for the residuals above.
+assert hashlib.sha256(original[0xe328:0xe518]).hexdigest()=="194af0516571644360c656db8143dba770502123853237d59c881acf3f330818"
+assert original[0xe3fc:0xe403]==bytes.fromhex('b85e04000089da')
+for site,target in [(0xe403,0x60ca),(0xe408,0x130b)]:
+    assert original[site]==0xe8 and site+5+struct.unpack_from('<i',original,site+1)[0]==target
+assert original[0xe40d:0xe412]==bytes.fromhex('b801000000')
+jump(original,0xe412,0x1ad06)
+assert original[0x1ad06:0x1ad0b]==bytes.fromhex('e939520100')
+jump(original,0x1ad06,0x2ff44) # immediate _exit, distinct from MyExit/exit
+# These exact normal local exits restore the ENTER frame and saved EBX.
+for ret in [0xe3af,0xe3c0,0xe3ef,0xe425,0xe480,0xe4c7,0xe517]:
+    assert original[ret-2:ret+1]==bytes.fromhex('c95bc3')
+start=symbols['FEMessage_'];end=min(a for a in symbols.values() if a>start)
+text=subprocess.check_output(['objdump','-D','-Mintel','--no-show-raw-insn',
+    '--start-address='+hex(start),'--stop-address='+hex(end),str(rebuilt)],text=True)
+code=[(int(a,16),m,args.strip()) for a,m,args in
+    re.findall(r'^\s*([0-9a-f]+):\s+(\S+)\s*(.*?)$',text,re.M)]
+returns=[(a,args) for a,m,args in code if m.startswith('ret')]
+assert len(returns)==1 and returns[0][1]==''
+assert read_va(start,7)==bytes.fromhex('535156575589e5')
+assert read_va(returns[0][0]-5,6)==bytes.fromhex('c95f5e595bc3')
+# Locate the actual emitted call; assert its preceding real status and
+# diagnostic/CloseFiles sequence, independent of unrelated link addresses.
+fatal=[k for k,(a,m,args) in enumerate(code) if m=='call' and
+    read_va(a,1)==b'\xe8' and a+5+struct.unpack('<i',read_va(a+1,4))[0]==symbols['ImmediateExit_']]
+assert len(fatal)==1
+k=fatal[0]
+assert read_va(code[k-1][0],5)==bytes.fromhex('b801000000')
+for index,target in [(k-2,'CloseFiles_'),(k-3,'CErr2p_')]:
+    a=code[index][0]
+    assert code[index][1]=='call' and read_va(a,1)==b'\xe8'
+    assert a+5+struct.unpack('<i',read_va(a+1,4))[0]==symbols[target]
+assert read_va(code[k-4][0],5)==bytes.fromhex('b85e040000')
+print('PASS NewSym/NewLeaf/NewQuad and FEMessage localRET0/nonlocal-tail residuals; CCusage noreturn; MyExit localRET[]/[0]; exact exit closures retained')

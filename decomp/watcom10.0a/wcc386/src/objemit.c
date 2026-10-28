@@ -48,8 +48,13 @@ struct segdef {
     unsigned short id;
     unsigned char align,attr;
 };
+struct unsafe_fixup_comment {
+    unsigned short type;
+    unsigned char directive;
+};
 #pragma pack()
 typedef char old_segdef_size[(sizeof(struct segdef)==12)?1:-1];
+typedef char old_unsafe_fixup_comment_size[(sizeof(struct unsafe_fixup_comment)==3)?1:-1];
 #pragma pack(4)
 struct lname_cache {
     struct lname_cache *next;
@@ -240,9 +245,11 @@ void FillArray(array_control *array,int size,int initial,int increment)
     array->inc=increment;
 }
 
-void OutName(char *name,array_control *dest)
+void OutName(char *name,void *context)
 {
+    array_control *dest;
     unsigned length;
+    dest=context;
     length=Length(name);
     NeedMore(dest,length+1);
     ((unsigned char *)dest->array)[dest->used++]=length;
@@ -703,6 +710,104 @@ void CheckLEDataSize(unsigned maximum,unsigned char need_init)
     if (need_init) OutLEDataStart(0);
 }
 
+void EjectImports(void)
+{
+    unsigned char command;
+    if (Imports!=NULL && Imports->used!=0) {
+        command=GenStaticImports ? 0xb4:0x8c;
+        PutObjRec(command,Imports->array,Imports->used);
+        Imports->used=0;
+    }
+}
+void SetPatches(void)
+{
+    struct temp_patch *current,*old;
+    array_control *control;
+    struct patch *patch;
+    current=CurrSeg->obj->patches;
+    while (current!=NULL) {
+        control=AskLblPatch(current->label);
+        NeedMore(control,1);
+        patch=(struct patch *)control->array+control->used++;
+        patch->ref=AskObjHandle();
+        patch->where=current->patch.where;
+        patch->attr=current->patch.attr;
+        old=current;
+        current=current->link;
+        CGFreeSize(old,sizeof(*old));
+    }
+}
+void SetAbsPatches(void)
+{
+    struct object *object;
+    struct abspatch *patch;
+    object=CurrSeg->obj;
+    for (patch=AbsPatches;patch!=NULL;patch=patch->link) {
+        if (patch->patch.ref==0 && patch->obj==object) {
+            patch->patch.ref=AskObjHandle();
+            patch->flags|=2;               /* AP_HAVE_OFFSET */
+        }
+    }
+}
+
+void DoPatch(struct patch *patch,unsigned long value)
+{
+    unsigned long lword;
+    unsigned short word;
+    unsigned char bite,*bytes;
+    int length;
+    if (patch->attr&4) {                  /* LONG_PATCH */
+        if (patch->attr&1) {
+            GetFromObj(patch->ref,patch->where,(unsigned char *)&lword,4);
+            lword+=value;
+        } else lword=value;
+        bytes=(unsigned char *)&lword;
+        length=4;
+    } else if (patch->attr&2) {           /* WORD_PATCH */
+        if (patch->attr&1) {
+            GetFromObj(patch->ref,patch->where,(unsigned char *)&word,2);
+            word+=value;
+        } else word=value;
+        bytes=(unsigned char *)&word;
+        length=2;
+    } else {
+        if (patch->attr&1) {
+            GetFromObj(patch->ref,patch->where,&bite,1);
+            bite+=value;
+        } else bite=value;
+        bytes=&bite;
+        length=1;
+    }
+    PatchObj(patch->ref,patch->where,bytes,length);
+}
+
+void EjectLEData(void)
+{
+    struct object *object;
+    struct unsafe_fixup_comment comment;
+    unsigned char command;
+    EjectImports();
+    object=CurrSeg->obj;
+    if (object->data.used>CurrSeg->data_prefix_size) {
+        SetPatches();
+        SetAbsPatches();
+        command=CurrSeg->comdat_label!=NULL ? 0xc2:0xa0;
+        PutObjRec(PickOMF(command),object->data.array,object->data.used);
+        if (object->fixes.used!=0) {
+            if (CurrSeg->data_ptr_in_code) {
+                comment.type=0xfe80;       /* LINKER_COMMENT */
+                comment.directive=0x55;    /* LDIR_OPT_UNSAFE */
+                PutObjRec(0x88,&comment,sizeof(comment));
+            }
+            PutObjRec(PickOMF(0x9c),object->fixes.array,object->fixes.used);
+            object->fixes.used=0;
+        }
+        CurrSeg->data_ptr_in_code=0;
+        object->data.used=0;
+        object->patches=NULL;
+    }
+}
+
 void OutLabel(struct code_lbl *label)
 {
     struct temp_patch **owner,*current;
@@ -839,8 +944,8 @@ void OutObjectName(void *symbol,array_control *array)
 
 /* objname.c before fixed output buffers and FEExtName replaced this
  * dynamically expanded AUX_LOOKUP/OBJECT_NAME pattern. */
-void DoOutObjectName(void *symbol,void (*output)(char *,array_control *),
-                     array_control *array,unsigned char type)
+void DoOutObjectName(void *symbol,void (*output)(char *,void *),
+                     void *context,unsigned char type)
 {
     void *aux;
     char *pattern,*source,*buffer,*dest,*end;
@@ -883,7 +988,7 @@ void DoOutObjectName(void *symbol,void (*output)(char *,array_control *),
         }
     }
     *dest='\0';
-    output(buffer,array);
+    output(buffer,context);
     CGFreeSize(pattern,Length(pattern)+1);
     CGFreeSize(buffer,required);
 }
@@ -1199,13 +1304,296 @@ unsigned char AskSegPrivate(int segment)
     return record->private || record->exec;
 }
 
-void ObjFini(void) { STUB_TRAP(); }
+/* The old debug segment visitor returns a continuation flag; the later
+ * released ObjFini inlines this scan with a void DoSegARange callback. */
+int DoSegARange(void *context,struct index_rec *record)
+{
+    (void)context;(void)record;STUB_TRAP();return 0;
+}
+int EnumObjSegments(int (*visit)(void *,struct index_rec *),void *context)
+{
+    (void)visit;(void)context;STUB_TRAP();return 0;
+}
+void FiniWVTypes(void) { STUB_TRAP(); }
+void FiniTarg(void)
+{
+    struct index_rec *record;
+    struct object *object;
+    unsigned long size;
+    unsigned char attr;
+    FlushObject();
+    object=CurrSeg->obj;
+    if (object->exports!=NULL) {
+        KillArray(object->exports);
+        object->exports=NULL;
+    }
+    record=AskIndexRec(object->index);
+    size=record->max_size;
+    if (record->exec) CodeSize+=record->max_size+record->total_comdat_size;
+    else if (record->cidx==3) DataSize+=record->max_size+record->total_comdat_size;
+    if (record->big) {
+        attr=record->attr|2;               /* SEG_BIG */
+        PatchObj(object->segfix,0,&attr,1); /* SEGDEF_ATTR */
+    } else {
+        PatchObj(object->segfix,1,(unsigned char *)&size,4); /* SEGDEF_SIZE */
+    }
+    if (object->exports!=NULL) KillArray(object->exports);
+    KillStatic(&object->data);
+    KillStatic(&object->fixes);
+    CGFreeSize(object,sizeof(*object));
+}
+void FiniAbsPatches(void)
+{
+    struct abspatch *patch,*old;
+    patch=AbsPatches;
+    while (patch!=NULL) {
+        DoPatch(&patch->patch,patch->value);
+        old=patch;
+        patch=patch->link;
+        CGFreeSize(old,sizeof(*old));
+    }
+}
+void EndModule(void)
+{
+    unsigned char flags;
+    flags=0;                             /* Non-main; no start address. */
+    /* Use16-bit MODEND even for386 records: the old writer avoids the
+     * documented LINK386 MODEND386 incompatibility. */
+    PutObjRec(0x8a,&flags,1);
+}
+void GenComdef(void)
+{
+    array_control *comdef;
+    unsigned count;
+    unsigned char type,indicator,command;
+    unsigned long size;
+    void *symbol;
+    if (CurrSeg->comdat_label==NULL || CurrSeg->max_written>=CurrSeg->comdat_size)
+        return;
+    if (CurrSeg->max_written!=0) Zoiks(80);
+    EjectImports();
+    size=CurrSeg->comdat_size-CurrSeg->max_written;
+    comdef=InitArray(1,256,50);
+    symbol=CurrSeg->comdat_symbol;
+    OutObjectName(symbol,comdef);
+    NeedMore(comdef,4);
+    ((unsigned char *)comdef->array)[comdef->used++]=0; /* Type index */
+    type=CurrSeg->btype==1 && CurrSeg->base==DGroupIndex ? 0x62:0x61;
+    ((unsigned char *)comdef->array)[comdef->used++]=type;
+    if (type==0x61) ((unsigned char *)comdef->array)[comdef->used++]=1;
+    /* Keep128 out of the single-byte encoding, as in the original writer. */
+    if (size<0x80) { count=1;indicator=0; }
+    else if (size<0x1000) { count=2;indicator=0x81; }
+    else if (size<0x100000) { count=3;indicator=0x84; }
+    else { count=4;indicator=0x88; }
+    if (indicator!=0) ((unsigned char *)comdef->array)[comdef->used++]=indicator;
+    NeedMore(comdef,count);
+    do {
+        ((unsigned char *)comdef->array)[comdef->used++]=(unsigned char)size;
+        size>>=8;
+    } while (--count!=0);
+    command=(FEAttr(symbol)&4) ? 0xb0:0xb8;
+    PutObjRec(command,comdef->array,comdef->used);
+    KillArray(comdef);
+    TellImportHandle(symbol,ImportHdl++);
+}
+void FlushLineNum(void) { STUB_TRAP(); }
+unsigned char FreeObjCache(void)
+{
+    struct lname_cache *next;
+    if (NameCache==NULL) return 0;
+    FlushNames();
+    while (NameCache!=NULL) {
+        next=NameCache->next;
+        CGFreeSize(NameCache,sizeof(*NameCache)+NameCache->name[0]);
+        NameCache=next;
+    }
+    NameCacheDumped=NULL;
+    return 1;
+}
+
+void FlushObject(void)
+{
+    struct object *object;
+    SetUpObj(0);
+    GenComdef();
+    CurrSeg->total_comdat_size+=CurrSeg->comdat_size;
+    EjectLEData();
+    EjectExports();
+    object=CurrSeg->obj;
+    if (object->lines!=NULL) {
+        FlushLineNum();
+        KillArray(object->lines);
+        object->lines=NULL;
+    }
+    FreeObjCache();
+}
+
+void ObjFini(void)
+{
+    struct index_rec *record;
+    unsigned long code_size;
+    void *auto_import;
+    char *library;
+    int i;
+    if (Model&0x10000000) {
+        code_size=0;
+        EnumObjSegments(DoSegARange,&code_size);
+        DFObjFiniDbgInfo(code_size);
+    } else if (Model&0x08000000) CVObjFiniDbgInfo();
+    else if (Model&0x01000000) FiniWVTypes();
+    i=0;
+    record=SegInfo->array;
+    while (++i<=SegInfo->used) {
+        if (record->obj!=NULL) {
+            CurrSeg=record;
+            FiniTarg();
+        }
+        ++record;
+    }
+    auto_import=NULL;
+    if (Imports==NULL) Imports=InitArray(1,20,20);
+    if (Used87) FEAuxInfo(NULL,38);         /* USED_8087 */
+    for (;;) {
+        auto_import=FEAuxInfo(auto_import,35); /* NEXT_IMPORT */
+        if (auto_import==NULL) break;
+        OutName(FEAuxInfo(auto_import,33),Imports); /* IMPORT_NAME */
+        OutIdx(0,Imports);
+        if (Imports->used>=192) {
+            PutObjRec(0x8c,Imports->array,Imports->used);
+            Imports->used=0;
+        }
+    }
+    if (Imports->used!=0) {
+        PutObjRec(0x8c,Imports->array,Imports->used);
+        Imports->used=0;
+    }
+    library=NULL;
+    for (;;) {
+        library=FEAuxInfo(library,36);      /* NEXT_LIBRARY */
+        if (library==NULL) break;
+        NeedMore(Imports,2);
+        *(unsigned short *)((unsigned char *)Imports->array+Imports->used)=0x9f80;
+        Imports->used+=2;
+        OutString((char *)FEAuxInfo(library,34)+1,Imports); /* LIBRARY_NAME */
+        PutObjRec(0x88,Imports->array,Imports->used);
+        Imports->used=0;
+    }
+    KillArray(Imports);
+    Imports=NULL;
+    KillArray(SegInfo);
+    FiniAbsPatches();
+    EndModule();
+    CloseObj();
+    FEMessage(1,(void *)CodeSize);
+    FEMessage(2,(void *)DataSize);
+}
 
 void OutRTImport(int symbol,unsigned char fix_class) { STUB_TRAP(); }
 
-void OutSpecialCommon(int symbol,unsigned char fix_class,unsigned char relative) { STUB_TRAP(); }
+void OutSpecialCommon(int symbol,unsigned char fix_class,unsigned char relative)
+{
+    CheckLEDataSize(12,1);
+    DoFix((unsigned)symbol,relative,2,fix_class,0); /* BASE_IMP */
+}
 
-void OutImport(void *symbol,unsigned char fix_class,unsigned char relative) { STUB_TRAP(); }
+void CheckImportSwitch(unsigned char next_static)
+{
+    if ((GenStaticImports!=0)!=(next_static!=0)) EjectImports();
+    GenStaticImports=next_static;
+}
+void GetSymLName(char *name,void *context)
+{
+    (void)name;(void)context;STUB_TRAP();
+}
+void DumpImportResolve(void *symbol,unsigned handle)
+{
+    void *default_symbol,*condition;
+    unsigned default_handle,name_index;
+    array_control *comment;
+    int type;
+    default_symbol=FEAuxInfo(symbol,17);    /* DEFAULT_IMPORT_RESOLVE */
+    if (default_symbol==NULL || default_symbol==symbol) return;
+    default_handle=GenImport(default_symbol,0);
+    EjectImports();
+    comment=InitArray(1,50,50);
+    type=(int)FEAuxInfo(symbol,43);         /* IMPORT_TYPE */
+    switch (type) {
+    case 1:                              /* IMPORT_IS_LAZY */
+        NeedMore(comment,2);
+        *(unsigned short *)((unsigned char *)comment->array+comment->used)=0xa980;
+        comment->used+=2;
+        OutIdx(handle,comment);
+        OutIdx(default_handle,comment);
+        break;
+    case 0:                              /* IMPORT_IS_WEAK */
+        NeedMore(comment,2);
+        *(unsigned short *)((unsigned char *)comment->array+comment->used)=0xa880;
+        comment->used+=2;
+        OutIdx(handle,comment);
+        OutIdx(default_handle,comment);
+        break;
+    case 3:                              /* IMPORT_IS_CONDITIONAL_PURE */
+        NeedMore(comment,2);
+        *(unsigned short *)((unsigned char *)comment->array+comment->used)=0xa880;
+        comment->used+=2;
+        OutIdx(handle,comment);
+        OutIdx(default_handle,comment);
+        PutObjRec(0x88,comment->array,comment->used);
+        comment->used=0;
+        /* fall through */
+    case 2:                              /* IMPORT_IS_CONDITIONAL */
+        NeedMore(comment,2);
+        *(unsigned short *)((unsigned char *)comment->array+comment->used)=0xfe80;
+        comment->used+=2;
+        NeedMore(comment,1);
+        ((unsigned char *)comment->array)[comment->used++]=type==2 ? 0x56:0x50;
+        OutIdx(handle,comment);
+        OutIdx(default_handle,comment);
+        condition=FEAuxInfo(symbol,44);    /* CONDITIONAL_IMPORT */
+        while (condition!=NULL) {
+            symbol=FEAuxInfo(condition,46); /* CONDITIONAL_SYMBOL */
+            DoOutObjectName(symbol,GetSymLName,&name_index,0);
+            OutIdx(name_index,comment);
+            condition=FEAuxInfo(condition,45); /* NEXT_CONDITIONAL */
+        }
+        FlushNames();
+        break;
+    }
+    PutObjRec(0x88,comment->array,comment->used);
+    KillArray(comment);
+}
+unsigned GenImport(void *symbol,unsigned char type)
+{
+    unsigned handle;
+    handle=AskImportHandle(symbol);
+    if (handle==0 || type!=0) {
+        handle=ImportHdl++;
+        if (Imports==NULL) Imports=InitArray(1,256,50);
+        CheckImportSwitch(!(FEAttr(symbol)&4)); /* !FE_GLOBAL */
+        if (type==0) TellImportHandle(symbol,handle);
+        /* The older NORMAL/SPECIAL path has no later DLLIMPORT/TLS rewrite. */
+        DoOutObjectName(symbol,OutName,Imports,type);
+        OutIdx(0,Imports);
+        if (type==0) DumpImportResolve(symbol,handle);
+    }
+    return handle;
+}
+
+void OutImport(void *symbol,unsigned char fix_class,unsigned char relative)
+{
+    void *aux;
+    unsigned *call_class;
+    /* The 1994 body queries attributes only for an absolute offset and
+     * predates the later FE_THREAD_DATA fixup adjustment. Its FAR16 class
+     * is the actual byte sentinel255, rather than the later OR mask. */
+    if (!relative && fix_class==1 && (FEAttr(symbol)&1)) {
+        aux=FEAuxInfo(symbol,0);           /* AUX_LOOKUP */
+        call_class=FEAuxInfo(aux,2);       /* CALL_CLASS */
+        if (*call_class&0x40000000UL) fix_class=255;
+    }
+    OutSpecialCommon((int)GenImport(symbol,0),fix_class,relative);
+}
 
 unsigned long AskLocation(void)
 {

@@ -55,6 +55,20 @@ void InitDbgInfo(void)
     else WVInitDbgInfo();
 }
 
+void DBSrcFileFini(void);
+void SourceCueFini(cue_ctl *ctl);
+void DFFiniDbgInfo(void);
+void CVFiniDbgInfo(void);
+void WVFiniDbgInfo(void);
+void FiniDbgInfo(void)
+{
+    DBSrcFileFini();
+    SourceCueFini(&LineInfo);
+    if (Model&0x10000000) DFFiniDbgInfo();
+    else if (Model&0x08000000) CVFiniDbgInfo();
+    else WVFiniDbgInfo();
+}
+
 struct fname_ctl DBFiles;
 
 void SrcFileNoInit(void)
@@ -63,12 +77,39 @@ void SrcFileNoInit(void)
     DBFiles.count=0;
 }
 
+void DBSrcFileFini(void)
+{
+    struct fname_lst *file,*next;
+    for (file=DBFiles.lst;file!=NULL;file=next) {
+        next=file->next;
+        CGFreeSize(file,sizeof(*file));
+    }
+    DBFiles.lst=NULL;
+}
+
 static char Nested;
 
 char DBNested(char nested)
 {
     Nested=nested;
     return nested;
+}
+
+/* dbcue.h's200-state block with the recovered1994 eight-byte state,
+ * before the later widened cue index/line fields. Actual free size1604. */
+struct cue_blk {
+    struct cue_blk *next;
+    cue_state info[200];
+};
+typedef char old_cue_block_size[(sizeof(struct cue_blk)==1604)?1:-1];
+void SourceCueFini(cue_ctl *ctl)
+{
+    struct cue_blk *block,*next;
+    for (block=ctl->head;block!=NULL;block=next) {
+        next=block->next;
+        CGFreeSize(block,sizeof(*block));
+    }
+    ctl->head=NULL;
 }
 
 void SourceCueInit(cue_ctl *ctl)
@@ -142,6 +183,12 @@ void WVInitDbgInfo(void)
     TypeIdx=0;
     DbgLocals=0;
     DbgTypes=0;
+}
+
+/* intel/wvsyms.c exact empty hook; physical352ff C3 is also the
+ * WVInitDbgInfo terminal byte. Static-only logical entry, no new code byte. */
+void WVFiniDbgInfo(void)
+{
 }
 
 void WVObjInitInfo(void)
@@ -310,3 +357,9 @@ void DbgRtnBeg(void *handle,unsigned long location) { STUB_TRAP(); }
 void DbgBlkBeg(void *handle,unsigned long location) { STUB_TRAP(); }
 
 void DbgEpiBeg(void *handle,unsigned long location) { STUB_TRAP(); }
+
+void DFObjFiniDbgInfo(unsigned long code_size)
+{
+    (void)code_size;STUB_TRAP();
+}
+void CVObjFiniDbgInfo(void) { STUB_TRAP(); }

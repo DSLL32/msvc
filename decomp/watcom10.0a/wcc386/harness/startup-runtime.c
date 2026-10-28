@@ -229,6 +229,7 @@ int wcc_startup_run(const char *program, char **environment,
                     int (*application)(void))
 {
     unsigned i;
+    int status;
     char *command_tail;
     if (!program || !environment || !application) abort();
     /* Zero only declared runtime state; no copied original data section.
@@ -264,8 +265,10 @@ int wcc_startup_run(const char *program, char **environment,
         !wcc_startup.efg_scanf) abort();
     /* App atexit callbacks are registered later and therefore run first. */
     if (atexit(finish_files)) abort();
-    application();
-    /* Main/CRT exit and finalizer behavior is still an unreached boundary. */
-    recon_unsupported("WCC main return/finalization not reached");
-    return 0;
+    status=application();
+    /* Actual __CMain485cc calls main, then485d1 calls exit with its EAX
+     * result. Keep this caller's borrowed CRT bindings live through the
+     * genuine registered callbacks, as on the original startup stack. */
+    exit(status);
+    return status;
 }

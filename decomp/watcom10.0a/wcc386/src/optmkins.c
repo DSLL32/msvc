@@ -36,6 +36,12 @@
 #include "memory.h"
 #include <recon.h>
 
+unsigned char FrlFreeAll(void **head,int size);
+unsigned char InstrFrlFree(void)
+{
+    return FrlFreeAll(&InstrFrl,20); /* actual INSTR_FRLSIZE */
+}
+
 ins_entry *NewInstr(any_oc *record)
 {
     ins_entry *entry;

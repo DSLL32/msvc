@@ -45,6 +45,12 @@ void ScoreInit(void)
     InitFrl(&ScListFrl);
 }
 
+/* scmain.c's finalizer is genuinely empty, as is actual54a11 C3.
+ * This entry was observed normally; no seed or alias is involved. */
+void ScoreFini(void)
+{
+}
+
 struct score_info;
 struct score_reg;
 struct score_info *ScZero;
@@ -250,5 +256,3 @@ void ScoreCleanUp(void)
     ScFree(ScZero,sizeof(score_info));
 }
 void ProcMessage(int message) { STUB_TRAP(); }
-
-void ScoreFini(void) { STUB_TRAP(); }

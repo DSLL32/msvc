@@ -42,6 +42,15 @@ void RegTreeInit(void)
     InitFrl(&TreeFrl);
 }
 
+unsigned char FrlFreeAll(void **head,int size);
+unsigned char RegTreeFrlFree(void)
+{
+    unsigned char freed;
+    freed=FrlFreeAll(&TreeFrl,sizeof(reg_tree));
+    freed|=FrlFreeAll(&RegFrl,51*sizeof(hw_reg_set));
+    return freed;
+}
+
 reg_tree *BuildTree(name *whole,name *temp,long offset,long size);
 reg_tree *CheckTree(reg_tree *tree);
 void TrimTree(reg_tree *tree);

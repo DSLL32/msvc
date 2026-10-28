@@ -231,6 +231,13 @@ unsigned long TypeSize(TYPEPTR typ)
     return size;
 }
 
+/* ctype.c TypesPurge has its entire freeing loop under#if0 because
+ * type entries are in permanent memory. Exact empty19dd4 C3 is physically
+ * shared with TypeSize; no distinct observed hook frontier is claimed. */
+void TypesPurge(void)
+{
+}
+
 unsigned long SizeOfArg(TYPEPTR typ)
 {
     unsigned long size;

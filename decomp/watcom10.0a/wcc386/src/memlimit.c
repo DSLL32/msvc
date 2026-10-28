@@ -65,3 +65,29 @@ unsigned char ChkMemLimit(unsigned limit)
     if (MemInUse()-FrlSize<=limit) return 0;
     return 1;
 }
+
+unsigned char AddrFrlFree(void);
+unsigned char ScoreFrlFree(void);
+unsigned char TreeFrlFree(void);
+unsigned char RegTreeFrlFree(void);
+unsigned char InsFrlFree(void);
+unsigned char InstrFrlFree(void);
+unsigned char CFFrlFree(void);
+unsigned char ConfFrlFree(void);
+unsigned char NameFrlFree(void);
+unsigned char SchedFrlFree(void);
+/* memlimit.c's actual1994 ten-pool sweep, including its final tail to
+ * SchedFrlFree. Each named pending pool keeps its own real trap. */
+void BlowAwayFreeLists(void)
+{
+    AddrFrlFree();
+    ScoreFrlFree();
+    TreeFrlFree();
+    RegTreeFrlFree();
+    InsFrlFree();
+    InstrFrlFree();
+    CFFrlFree();
+    ConfFrlFree();
+    NameFrlFree();
+    SchedFrlFree();
+}

@@ -45,6 +45,14 @@ void CFInit(void)
     InitFrl(&cfFrlList);
 }
 
+unsigned char FrlFreeAll(void **head,int size);
+unsigned char CFFrlFree(void)
+{
+    /* Same older33-byte pool used by CFAlloc/CFFree above, before the
+     * released miniFrl allocator callback implementation. */
+    return FrlFreeAll(&cfFrlList,33);
+}
+
 struct cfloat *CFAlloc(int size)
 {
     struct cfloat *number;

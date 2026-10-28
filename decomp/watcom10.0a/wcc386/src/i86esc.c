@@ -368,7 +368,45 @@ void OutShortDisp(struct code_lbl *label)
     OutDataByte((unsigned char)(address-AskLocation()-1));
 }
 void OutCodeDisp(struct code_lbl *label,unsigned char fix_class,
-                 unsigned char relative,unsigned char kind) { STUB_TRAP(); }
+                 unsigned char relative,unsigned char kind)
+{
+    unsigned long address;
+    void *symbol;
+    symbol=AskForLblSym(label);
+    if (AskIfRTLabel(label)) {
+        OutRTImport((int)symbol,fix_class);
+        goto out_zero;
+    }
+    if (AskIfCommonLabel(label)) {
+        OutSpecialCommon((int)symbol,fix_class,relative);
+        address=0;
+        goto out_value;
+    }
+    if (symbol!=NULL && UseImportForm((unsigned short)FEAttr(symbol))) {
+        OutImport(symbol,fix_class,relative);
+        goto out_zero;
+    }
+    address=AskAddress(label);
+    if (!(kind&0x10)) {
+        if (address==0xffffffffUL) {
+            OutPatch(label,5);            /* ADD_PATCH | LONG_PATCH */
+            address=0;
+        }
+        address=address-AskLocation()-4;
+        goto out_value;
+    }
+    if (address==0xffffffffUL) OutPatch(label,4); /* LONG_PATCH */
+    OutDataLong((long)address);
+    OutReloc((unsigned short)AskSegID(symbol,CG_FE),2,0);
+    OutDataInt(0);
+    return;
+out_zero:
+    /* jumps.h's80386 _OutFarD emits the segment before the offset. */
+    if (kind&0x10) OutDataInt(0);
+    address=0;
+out_value:
+    OutDataLong((long)address);
+}
 void ExpandCJ(any_oc *record)
 {
     struct code_lbl *label;

@@ -43,6 +43,13 @@ void InitIns(void)
     InitFrl(&InsFrl);
 }
 
+unsigned char FrlFreeAll(void **head,int size);
+unsigned char InsFrlFree(void)
+{
+    /* Our recovered84B instruction includes all four operand slots. */
+    return FrlFreeAll(&InsFrl,sizeof(instruction));
+}
+
 instruction *MakeNop(void)
 {
     instruction *entry;

@@ -62,6 +62,8 @@ void EndType(unsigned char check_size);
 void BuffEnd(unsigned short segment);
 void ChkDbgSegSize(unsigned size,unsigned char need);
 void WVSrcCueLoc(void);
+void DFObjFiniDbgInfo(unsigned long code_size);
+void CVObjFiniDbgInfo(void);
 extern unsigned short TypeIdx;
 extern short DbgLocals,DbgTypes;
 #endif

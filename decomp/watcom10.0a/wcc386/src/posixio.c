@@ -31,12 +31,14 @@
 
 #include <string.h>
 #include <fcntl.h>
+#include <io.h>
 #include <errno.h>
 #include "codegen.h"
 #include "memory.h"
 #include "cgmemory.h"
 #include "pragma.h"
 #include "objemit.h"
+#include "stubs.h"
 #include <recon.h>
 
 static char ObjName[128];
@@ -182,6 +184,85 @@ unsigned long AskObjHandle(void)
     return Offset(ObjOffset);
 }
 
+unsigned long Byte(unsigned long reference)
+{
+    /* The 1994 handle format packs offsets above32K into64-byte blocks;
+     * later posixio.c uses uncompressed handles and an identity Byte. */
+    if (reference&0x8000) return ((reference&0x7fff)<<6)+0x8000;
+    return reference;
+}
+void GetStream(int handle,void *buffer,unsigned length)
+{
+    unsigned count;
+    char *cursor;
+    (void)handle;
+    cursor=buffer;
+    for (;;) {
+        count=length;
+        if (count>CurBuf->bytes_left) count=CurBuf->bytes_left;
+        memcpy(cursor,CurBuf->bufptr,count);
+        cursor+=count;
+        CurBuf->bufptr+=count;
+        CurBuf->bytes_left-=count;
+        length-=count;
+        if (length==0) break;
+        CurBuf=CurBuf->nextbuf;
+        if (CurBuf==NULL) Zoiks(6);
+        CurBuf->bufptr=CurBuf->buf;
+        CurBuf->bytes_left=8192;
+    }
+}
+
+void SeekStream(int handle,unsigned long offset)
+{
+    struct obj_buffer *buffer;
+    unsigned long position;
+    (void)handle;
+    buffer=BufList;
+    position=0;
+    for (;;) {
+        position+=8192;
+        if (position>offset) break;
+        if (buffer->nextbuf==NULL) {
+            buffer->bytes_written=8192;
+            buffer->nextbuf=NewBuffer();
+        }
+        buffer=buffer->nextbuf;
+    }
+    position=offset-(position-8192);
+    buffer->bufptr=buffer->buf+position;
+    buffer->bytes_left=8192-position;
+    if (buffer->nextbuf==NULL) cleanupLastBuffer(buffer);
+    CurBuf=buffer;
+}
+
+void PatchObj(unsigned long reference,unsigned offset,unsigned char *buffer,int length)
+{
+    unsigned long record_offset;
+    unsigned short record_length;
+    unsigned char checksum,old_bytes[80];
+    record_offset=Byte(reference);
+    SeekStream(ObjFile,record_offset+1);
+    GetStream(ObjFile,&record_length,2);
+    SeekStream(ObjFile,record_offset+offset+3);
+    GetStream(ObjFile,old_bytes,length);
+    SeekStream(ObjFile,record_offset+offset+3);
+    PutStream(ObjFile,buffer,length);
+    SeekStream(ObjFile,record_offset+2+record_length);
+    GetStream(ObjFile,&checksum,1);
+    checksum+=DoSum(old_bytes,length);
+    checksum-=DoSum(buffer,length);
+    SeekStream(ObjFile,record_offset+2+record_length);
+    PutStream(ObjFile,&checksum,1);
+    NeedSeek=1;
+}
+void GetFromObj(unsigned long reference,unsigned offset,unsigned char *buffer,int length)
+{
+    SeekStream(ObjFile,Byte(reference)+offset+3);
+    GetStream(ObjFile,buffer,length);
+    NeedSeek=1;
+}
+
 unsigned long Offset(unsigned long byte_offset)
 {
     if (byte_offset>0x207fc0) {
@@ -190,4 +271,36 @@ unsigned long Offset(unsigned long byte_offset)
     }
     if (byte_offset>0x7fff) return ((byte_offset-0x8000)>>6)|0x8000;
     return byte_offset;
+}
+
+void FlushBuffers(int handle)
+{
+    struct obj_buffer *buffer;
+    int written;
+    for (;;) {
+        buffer=BufList;
+        if (buffer==NULL) break;
+        written=write(handle,buffer->buf,buffer->bytes_written);
+        if ((unsigned short)written!=buffer->bytes_written) {
+            /* The 1994 body reports errno before its disk-full fatal path. */
+            if (written==-1) ObjError(errno);
+            FatalError("Error writing object file - disk is full");
+        }
+        BufList=buffer->nextbuf;
+        CGFreeSize(buffer->buf,8192);
+        CGFreeSize(buffer,sizeof(*buffer));
+    }
+    CurBuf=NULL;
+}
+void CloseStream(int handle) { (void)handle;STUB_TRAP(); }
+void CloseObj(void)
+{
+    /* The 1994 writer uses zero as its unopened sentinel; its separate
+     * discard routine handles deletion rather than a later AbortObj flag. */
+    if (ObjFile!=0) {
+        FlushBuffers(ObjFile);
+        /* This old caller directly calls close, unlike later CloseStream. */
+        close(ObjFile);
+        ObjFile=0;
+    }
 }

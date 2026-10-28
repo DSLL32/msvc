@@ -200,6 +200,12 @@ void ScoreFreeList(score *sc)
         *sc->list=NULL;
     }
 }
+unsigned char FrlFreeAll(void **head,int size);
+unsigned char ScoreFrlFree(void)
+{
+    return FrlFreeAll(&ScListFrl,sizeof(score_list));
+}
+
 void FreeScListEntry(score_list *entry)
 {
     FrlFreeSize(&ScListFrl,entry,sizeof(score_list));

@@ -87,6 +87,13 @@ void CGMemInit(void)
     CalcMemLimit();
 }
 
+/* memmgt.c's old chunk-tracking branch. Actual33a19 has no MemFini call;
+ * its only nonempty branch returns through Zoiks(2), which may be hidden. */
+void CGMemFini(void)
+{
+    if (Chunks!=0) Zoiks(2);
+}
+
 /* memmgt.c's tracked allocator calls the compiler-private allocator. The
  * initial MemLow check predates the later per-allocation tracking build. */
 int InOptimizer;
@@ -124,6 +131,21 @@ void FiniCG(void);
 void BEStop(void)
 {
     FiniCG();
+}
+
+void FiniDbgInfo(void);
+void TypeFini(void);
+void TFini(void);
+void CGMemFini(void);
+/* Integrated1994 finalization predates BEFiniCg/BckInfo carve blocks.
+ * FiniBlip/BEMemFini fold to the already known empty BEMemInit entry. */
+void BEFini(void)
+{
+    FiniDbgInfo();
+    TypeFini();
+    TFini();
+    CGMemFini();
+    BEMemInit();
 }
 
 void BEStart(void)
@@ -416,6 +438,15 @@ void CGProcDecl(void *symbol,cg_type type)
     }
 }
 
+unsigned AskImportHandle(void *symbol)
+{
+    return ((struct bck_info *)FEBack((SYM_HANDLE)(unsigned)symbol))->imp;
+}
+void TellImportHandle(void *symbol,unsigned handle)
+{
+    ((struct bck_info *)FEBack((SYM_HANDLE)(unsigned)symbol))->imp=handle;
+}
+
 struct code_lbl *AskForSymLabel(void *symbol,unsigned char kind)
 {
     switch (kind) {
@@ -572,7 +603,15 @@ void TellScrapLabel(struct code_lbl *label)
     --InOptimizer;
 }
 
-unsigned char AskIfRTLabel(struct code_lbl *label) { STUB_TRAP(); return 0; }
+unsigned char AskIfRTLabel(struct code_lbl *label)
+{
+    unsigned char result;
+    ++InOptimizer;
+    ValidLbl(label);
+    result=label->label.status&0x40;
+    --InOptimizer;
+    return result;
+}
 
 /* opttell.c label reachability, with the actual old REACHED bit. */
 void TellReachedLabel(struct code_lbl *label)
@@ -686,7 +725,25 @@ void *CGVolatile(void *value)
     return TGVolatile(value);
 }
 
-void TellFreeAllLabels(void) { STUB_TRAP(); }
+/* opttell.c final handle sweep. The old debug check sets its once-only
+ * marker BEFORE Zoiks(1), as shown by44fc4, rather than afterward. */
+void TellFreeAllLabels(void)
+{
+    unsigned char unfreed;
+    ++InOptimizer;
+    unfreed=0;
+    while (Handles!=NULL) {
+        if ((Handles->label.status&1) && Handles->label.symbol==NULL &&
+            !(Handles->label.status&0x80) && !unfreed) {
+            unfreed=1;
+            Zoiks(1);
+        }
+        /* This old direct-list removal is the existing physical
+         * TellScrapLabel vertex; later source calls ReallyScrapLabel. */
+        TellScrapLabel(Handles);
+    }
+    --InOptimizer;
+}
 
 unsigned char AskIfUniqueLabel(struct code_lbl *label)
 {
@@ -696,4 +753,10 @@ unsigned char AskIfUniqueLabel(struct code_lbl *label)
     return (label->label.status&0x100)!=0;
 }
 
-unsigned char AskIfCommonLabel(struct code_lbl *label) { STUB_TRAP();return 0; }
+unsigned char AskIfCommonLabel(struct code_lbl *label)
+{
+    ++InOptimizer;
+    ValidLbl(label);
+    --InOptimizer;
+    return (label->label.status&0x200)!=0;
+}

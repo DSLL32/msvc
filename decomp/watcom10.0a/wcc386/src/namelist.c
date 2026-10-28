@@ -117,6 +117,19 @@ static int Size[]={
     sizeof(register_name),sizeof(indexed_name)
 };
 
+unsigned char FrlFreeAll(void **head,int size);
+unsigned char NameFrlFree(void)
+{
+    int class;
+    unsigned char freed;
+    freed=0;
+    for (class=0;class<5;++class) {
+        freed|=FrlFreeAll(&FrlHead[class],Size[class]);
+    }
+    freed|=FrlFreeAll(&ConstDefnFrl,sizeof(struct constant_defn));
+    return freed;
+}
+
 name *AllocName(int class,unsigned char type_class,long size)
 {
     name *entry;

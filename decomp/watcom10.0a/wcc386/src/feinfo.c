@@ -30,7 +30,11 @@
 
 
 #include <string.h>
+#include <stdio.h>
 #include "compiler.h"
+#include "command.h"
+#include "options.h"
+#include "codegen.h"
 #include "symbols.h"
 #include "pragma.h"
 #include "genquads.h"
@@ -175,4 +179,84 @@ int FEStackChk(void *symbol)
     SYMPTR sym;
     sym=SymGetPtr((SYM_HANDLE)(unsigned)symbol);
     return (sym->flags&0x40)!=0; /* SYM_CHECK_STACK */
+}
+
+/* cinfo.c FEMessage, restored to the actual1994 console host. Later source
+ * routed NoteMsg/ConBlip through host callbacks and used a second message
+ * buffer. Here ConPrintf owns the real variadic output, and putchar is the
+ * SDK's inline stdout operation. The dispatcher consumes only AL. */
+static SYM_HANDLE LastFuncOutOfMem;
+void FEMessage(unsigned message,void *data)
+{
+    char text[80];
+    switch ((unsigned char)message) {
+    case 0:                         /* MSG_INFO_FILE */
+    case 5:                         /* MSG_INFO_PROC */
+        ConPrintf("\r%s\n",(char *)data);
+        break;
+    case 1:                         /* MSG_CODE_SIZE */
+        if (!CompFlags.quiet_mode) {
+            CGetMsg(text,0x7d4);
+            ConPrintf("\r%s: %u\n",text,(unsigned)data);
+        }
+        break;
+    case 2:                         /* MSG_DATA_SIZE */
+    case 13:                        /* MSG_WANT_MORE_DATA */
+        break;
+    case 3:                         /* MSG_ERROR */
+        CErr2p(0x443,(char *)data);
+        break;
+    case 4:                         /* MSG_FATAL */
+        CErr2p(0x45e,(char *)data);
+        CloseFiles();
+        /* The actual old host takes its separate _exit callback here,
+         * not the ordinary MyExit/exit finalizer route of later source. */
+        ImmediateExit(1);
+        break;
+    case 6:                         /* MSG_BAD_PARM_REGISTER */
+        CErr2p(0x460,(char *)data);
+        break;
+    case 7:                         /* MSG_BAD_RETURN_REGISTER */
+        CErr2p(0x461,FEName(data));
+        break;
+    case 8:                         /* MSG_REGALLOC_DIED */
+    case 9:                         /* MSG_SCOREBOARD_DIED */
+    case 16:                        /* MSG_SCHEDULER_DIED */
+        if (!(GenSwitches&0x80000000U) &&
+            LastFuncOutOfMem!=(unsigned)data) {
+            ConPrintf("\r");
+            CInfoMsg(0x7d0,FEName(data));
+            LastFuncOutOfMem=(SYM_HANDLE)(unsigned)data;
+        }
+        break;
+    case 10:                        /* MSG_PEEPHOLE_FLUSHED */
+        if (!(GenSwitches&0x80000000U) && WngLevel>=4 &&
+            !CompFlags.low_on_memory_printed) {
+            ConPrintf("\r");
+            CInfoMsg(0x7d1);
+            CompFlags.low_on_memory_printed=1;
+        }
+        break;
+    case 11:                        /* MSG_BACK_END_ERROR */
+        CErr2p(0x45f,(char *)data);
+        break;
+    case 12:                        /* MSG_BAD_SAVE */
+        CErr2p(0x462,FEName(data));
+        break;
+    case 14:                        /* MSG_BLIP */
+        if (!CompFlags.quiet_mode) {
+            putchar('.');
+            fflush(stdout);
+        }
+        break;
+    case 15:                        /* MSG_BAD_LINKAGE */
+        CErr2p(0x477,FEName(data));
+        break;
+    case 17:                        /* MSG_NO_SEG_REGS */
+        CErr2p(0x488,FEName(data));
+        break;
+    case 18:                        /* MSG_BAD_PEG_REG */
+        CErr2p(0x48a,FEName(data));
+        break;
+    }
 }

@@ -67,8 +67,39 @@ done:
 }
 
 unsigned char CodeHasAbsPatch(oc_header *code);
-unsigned char FindShort(ins_entry *ins,ins_entry *end) { STUB_TRAP();return 0; }
-void DoCloneCode(ins_entry *jump,ins_entry *hoist) { STUB_TRAP(); }
+unsigned char FindShort(ins_entry *ins,ins_entry *end)
+{
+    while (ins!=NULL && ins!=end) {
+        if ((ins->oc.op.kind&15)==6) {
+            if (ins->oc.op.kind&0x20) return 1; /* ATTR_SHORT */
+            ins->oc.handle.handle->label.status&=~0x10u; /* SHORTREACH */
+        }
+        ins=NextIns(ins);
+    }
+    return 0;
+}
+void DoCloneCode(ins_entry *jump,ins_entry *hoist)
+{
+    ins_entry *point,*clone;
+    unsigned char kind;
+    point=PrevIns(jump);
+    for (;;) {
+        kind=hoist->oc.op.kind&15;
+        switch (kind) {
+        case 1:                         /* OC_INFO */
+        case 6:                         /* OC_LABEL */
+        case 7:                         /* OC_LREF */
+            break;
+        default:
+            clone=NewInstr(&hoist->oc);
+            AddInstr(clone,point);
+            if (kind>=12) return;
+            point=clone;
+            break;
+        }
+        hoist=NextIns(hoist);
+    }
+}
 void CloneCode(struct code_lbl *label)
 {
     ins_entry *next,*hoist,*jump;
@@ -157,7 +188,19 @@ done:
     --InOptimizer;
     return result;
 }
-void CheckStraightenCode(ins_entry *label) { STUB_TRAP(); }
+void CheckStraightenCode(ins_entry *label)
+{
+    ins_entry *jump;
+    ++InOptimizer;
+    if (label!=NULL) {
+        for (jump=label->oc.handle.handle->refs;jump!=NULL;
+             jump=jump->oc.handle.ref) {
+            if ((jump->oc.op.kind&15)<12) continue;
+            if (StraightenCode(jump)) break;
+        }
+    }
+    --InOptimizer;
+}
 
 
 ins_entry *IsolatedCode(ins_entry *entry)

@@ -117,6 +117,14 @@ void SetSegment(SYMPTR sym)
     } else sym->u.var.segment=SymSegId(sym);
 }
 
+void FEfree(void *memory);
+/* cems.c uses a flat segment address here; its32-bit bit pattern is the
+ * ordinary pointer returned by FEmalloc, not a host selector translation. */
+void CSegFree(SEGADDR_T segment)
+{
+    FEfree((void *)segment);
+}
+
 SEGADDR_T AllocSegment(struct seg_info *segment)
 {
     segment->in_farmem=0;

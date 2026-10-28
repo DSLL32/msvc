@@ -70,6 +70,17 @@ void InitTyping(void)
     TypeList=NULL;
 }
 
+void TypeFini(void)
+{
+    type_list *list,*next;
+    for (list=TypeList;list!=NULL;list=next) {
+        next=list->link;
+        CGFreeSize(list,sizeof(*list));
+    }
+    /* The original leaves TypeList untouched; InitTyping resets it on
+     * the next initialization, rather than this finalizer doing so. */
+}
+
 type_def *PTInteger,*PTUnsigned,*PTCodePointer,*PTPointer;
 
 void TargTypeInit(void)

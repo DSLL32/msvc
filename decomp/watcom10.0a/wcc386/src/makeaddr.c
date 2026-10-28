@@ -47,6 +47,12 @@ void InitMakeAddr(void)
     AddrList=NULL;
 }
 
+unsigned char FrlFreeAll(void **head,int size);
+unsigned char AddrFrlFree(void)
+{
+    return FrlFreeAll(&AddrNameFrl,sizeof(address_name));
+}
+
 /* makeaddr.c before FE_UNALIGNED and the later alignment field. */
 struct address_name *MakeAddrName(unsigned char kind,void *symbol,type_def *type)
 {

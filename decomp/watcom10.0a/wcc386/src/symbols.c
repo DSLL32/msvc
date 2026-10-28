@@ -38,6 +38,7 @@
 #include "memory.h"
 #include "options.h"
 #include "declarations.h"
+#include "statement.h"
 #include <recon.h>
 #if defined(__WATCOMC__)
 #pragma intrinsic(memcpy)
@@ -88,6 +89,37 @@ void SymInit(void)
     SymSegment=AllocSegment(&SymSegs[0]);
     SymBufPtr=SymSegment ? (char *)SymSegment : SymBuffer;
     EnumInit();
+}
+
+void CSegFree(SEGADDR_T segment);
+void SymFini(void)
+{
+    unsigned seg_num;
+    struct seg_info *segment;
+    for (seg_num=0;seg_num<MAX_SYM_SEGS;++seg_num) {
+        segment=&SymSegs[seg_num];
+        if (segment->allocated && segment->in_farmem) CSegFree(segment->index);
+    }
+    if (CompFlags.extra_stats_wanted) {
+        printf("SymStats: get = %u, rep = %u, read = %u, write = %u, typedef = %u\n",
+               SymStats.get,SymStats.replace,SymStats.read,SymStats.write,
+               (unsigned)SymTypedef);
+    }
+}
+
+void TypesPurge(void);
+void SymsPurge(void)
+{
+    struct label_entry *label;
+    while ((label=LabelHead)!=NULL) {
+        LabelHead=label->next_label;
+        CMemFree(label);
+    }
+    /* Tags are in the permanent area; like the actual csym.c body, drop
+     * their lists here without freeing the individual permanent objects. */
+    TagHead=NULL;
+    DeadTags=NULL;
+    TypesPurge();
 }
 
 SYM_HANDLE CharSymHandle,TrySymHandle,Sym_CS,Sym_SS,SpecialSyms;

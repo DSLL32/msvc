@@ -37,6 +37,8 @@
 #include "compiler.h"
 #include "codegen.h"
 #include "quads.h"
+#include "genquads.h"
+#include "scanner.h"
 #include "options.h"
 #include "declarations.h"
 #include "cstring.h"
@@ -121,6 +123,65 @@ void GenerateCode(void)
 unsigned NewRefno(void)
 {
     return Refno++;
+}
+
+void FreeTryTableBackHandles(void)
+{
+    struct try_table_back_handle *entry;
+    while ((entry=TryTableBackHandles)!=NULL) {
+        TryTableBackHandles=entry->next;
+        BEFreeBack(entry->try_table_back_handle);
+        CMemFree(entry);
+    }
+}
+
+/* cgen2.c releases each recorded back handle without clearing the symbol
+ * cell. Save the next16-bit handle before the backend free callback. */
+void FreeGblVars(SYM_HANDLE first)
+{
+    SYMPTR sym;
+    while (first!=0) {
+        sym=SymGetPtr(first);
+        first=sym->handle;
+        if (sym->info.backinfo!=NULL) BEFreeBack(sym->info.backinfo);
+    }
+}
+
+/* Earlier RelExtVars lacks the later SC_STATIC/SYM_FUNC_RETURN_VAR
+ * conditions: actuald465 accepts SC_EXTERN, or TYPE_VOID, and nothing else. */
+void RelExtVars(SYM_HANDLE first)
+{
+    SYMPTR sym;
+    while (first!=0) {
+        sym=SymGetPtr(first);
+        first=sym->handle;
+        if (sym->stg_class==SC_EXTERN || sym->sym_type->decl_type==TYPE_VOID) {
+            if (sym->info.backinfo!=NULL) BEFreeBack(sym->info.backinfo);
+        }
+    }
+}
+/* This1994 body walks the one-based serialized quad chain, before later
+ * cgen2.c used SymListHeads. Function and lexical-block leaves retain the
+ * list of symbol handles whose external back handles must be released. */
+void FreeExtVars(void)
+{
+    unsigned index;
+    QUAD quad;
+    LEAF leaf;
+    SYMPTR sym;
+    index=FirstQuad;
+    while (index!=0) {
+        QuadGet(&quad,index-1);
+        index=quad.operand1;
+        if (quad.quad_class==T_FUNC_DEFN) {
+            LeafGet(&leaf,quad.operand2);
+            sym=SymGetPtr(leaf.u.symbol.handle);
+            RelExtVars(sym->u.func.locals);
+        } else if (quad.quad_class==0x0a && quad.operand2!=0) {
+            LeafGet(&leaf,quad.operand2);
+            RelExtVars(leaf.u.symbol.handle);
+        }
+    }
 }
 
 void EmitSyms(void)

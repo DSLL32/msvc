@@ -33,11 +33,15 @@ int myatoi(char *text) { (void)text; STUB_TRAP(); return 0; }
 void myitoa(int value,char *text) { (void)value; (void)text; STUB_TRAP(); }
 
 
-void PurgeMemory(void) { STUB_TRAP(); }
 
 
-void PragmaFini(void) { STUB_TRAP(); }
-void FreeFNames(void) { STUB_TRAP(); }
+
+
+
+
+
+
+
 void CErr1(int code) { (void)code; STUB_TRAP(); }
 void AddIncList(char *text,unsigned length) { (void)text; (void)length; STUB_TRAP(); }
 void PrtChar(int character) { (void)character; STUB_TRAP(); }
@@ -158,7 +162,6 @@ void CVInitDbgInfo(void) { STUB_TRAP(); }
 
 
 
-void FreeGblVars(SYM_HANDLE first) { (void)first;STUB_TRAP(); }
 
 
 
@@ -176,7 +179,7 @@ void FreeGblVars(SYM_HANDLE first) { (void)first;STUB_TRAP(); }
 
 
 
-void SeekStream(int handle,unsigned long offset) { (void)handle;(void)offset;STUB_TRAP(); }
+
 
 
 
@@ -190,7 +193,14 @@ void DFObjInitInfo(void) { STUB_TRAP(); }
 void CVObjInitInfo(void) { STUB_TRAP(); }
 
 
-void BEFini(void) { STUB_TRAP(); }
+
+
+void DFFiniDbgInfo(void) { STUB_TRAP(); }
+void CVFiniDbgInfo(void) { STUB_TRAP(); }
+
+
+
+
 void WrongCodeGen(void) { STUB_TRAP(); }
 void OutCGroup(unsigned segment) { (void)segment;STUB_TRAP(); }
 char *FEModuleName(void) { STUB_TRAP();return NULL; }
@@ -199,10 +209,10 @@ unsigned long BETypeLength(cg_type type) { (void)type;STUB_TRAP();return 0; }
 void EmitDBType(void) { STUB_TRAP(); }
 
 
-void FreeExtVars(void) { STUB_TRAP(); }
-void FreeTryTableBackHandles(void) { STUB_TRAP(); }
 
-void SymFini(void) { STUB_TRAP(); }
+
+
+
 
 
 
@@ -453,11 +463,15 @@ struct inline_funcs *IF_Lookup(char *name) { (void)name;STUB_TRAP();return NULL;
 
 
 
-void FEMessage(unsigned message,void *data) { (void)message;(void)data;STUB_TRAP(); }
+
+void __cdecl CInfoMsg(int code,...) { (void)code;STUB_TRAP(); }
+/* Descriptive identity for the distinct old immediate-exit host callback.
+ * This pending body must not be confused with qualified MyExit. */
+void ImmediateExit(int status) { (void)status;STUB_TRAP(); }
 unsigned PadObj(unsigned length) { (void)length;STUB_TRAP();return 0; }
 
 void BuffOffset(unsigned long value) { (void)value;STUB_TRAP(); }
-void Zoiks(int message) { (void)message;STUB_TRAP(); }
+unsigned char WantZoiks2(void) { STUB_TRAP(); return 0; }
 void BuffEnd(unsigned short segment) { (void)segment;STUB_TRAP(); }
 void ChkDbgSegSize(unsigned size,unsigned char need) { (void)size;(void)need;STUB_TRAP(); }
 
@@ -473,14 +487,12 @@ void DGAlign(unsigned alignment) { (void)alignment;STUB_TRAP(); }
 
 void DoEmptyQueue(void) { STUB_TRAP(); }
 void DFSymRange(void *symbol,unsigned long size) { (void)symbol;(void)size;STUB_TRAP(); }
-void EjectLEData(void) { STUB_TRAP(); }
 void OutSelect(unsigned char first) { (void)first;STUB_TRAP(); }
 
 void ComdatData(struct code_lbl *label) { (void)label;STUB_TRAP(); }
 void NormalData(void) { STUB_TRAP(); }
 void OutVirtFuncRef(void *symbol) { (void)symbol;STUB_TRAP(); }
 void TellCommonLabel(struct code_lbl *label,unsigned import) { (void)label;(void)import;STUB_TRAP(); }
-void DoPatch(struct patch *patch,unsigned long value) { (void)patch;(void)value;STUB_TRAP(); }
 void DumpCS_Strings(void) { STUB_TRAP(); }
 
 void DGFEPtr(void *symbol,cg_type type,long offset) { (void)symbol;(void)type;(void)offset;STUB_TRAP(); }
@@ -501,7 +513,6 @@ unsigned NeedComdatNidx(unsigned char type) { (void)type;STUB_TRAP();return 0; }
 
 
 
-unsigned GenImport(void *symbol,unsigned char type) { (void)symbol;(void)type;STUB_TRAP();return 0; }
 
 
 
@@ -686,7 +697,6 @@ void FreePendingDeletes(void);
 
 void BGProcInline(void *symbol,type_def *type) { (void)symbol;(void)type;STUB_TRAP(); }
 
-void FlushObject(void) { STUB_TRAP(); }
 
 
 
@@ -756,7 +766,15 @@ void FlushBlocks(unsigned char routine_done) { (void)routine_done;STUB_TRAP(); }
 
 void FreeExtraSyms(name *last) { (void)last;STUB_TRAP(); }
 
-void BlowAwayFreeLists(void) { STUB_TRAP(); }
+
+
+
+
+
+
+
+
+
 
 void GenPartialRoutine(unsigned char routine_done) { (void)routine_done;STUB_TRAP(); }
 
