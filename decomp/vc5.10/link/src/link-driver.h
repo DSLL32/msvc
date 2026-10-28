@@ -126,7 +126,9 @@ struct LinkContext {
     const DefaultDosImage *dos_image;
     DWORD dos_image_size, pe_header_offset;
     int is_vxd;
-    DWORD reserved1e8;
+    /* Same physical+1e8 DWORD: ROM paths retain their existing BSS view;
+     * Mac initialization retires that role and starts the glue cursor at zero. */
+    union { DWORD reserved1e8,mac_glue_bytes_used; };
     BYTE dynamic_vxd, reserved1ed[3];
     DWORD vxd_header_bytes, reserved1f4, vxd_page_map_cursor;
     DWORD vxd_page_count, vxd_fixup_pages, vxd_fixup_records, vxd_first_data;

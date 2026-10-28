@@ -410,3 +410,17 @@ OutputSection *__stdcall find_input_output_section(OutputModule *module,const ch
     end_section_enumerator(&enumerator);
     return enumerator.current;
 }
+
+/* Provisional registry name retained: the physical owner moves this node to
+ * the group's HEAD. It changes only first/next, not the separate last field. */
+void __stdcall move_contribution_to_end(Contribution *contribution)
+{
+    ContributionGroup *group=contribution->group;
+    Contribution *previous=group->first;
+    if(previous!=contribution) {
+        while(previous->next!=contribution)previous=previous->next;
+        previous->next=contribution->next;
+        contribution->next=group->first;
+        group->first=contribution;
+    }
+}

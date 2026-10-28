@@ -16,7 +16,7 @@ extern BYTE no_base_relocations,large_alpha_image,large_ppc_image;
 extern OutputModule *output_module;
 extern OutputSection *relocation_section;
 extern ContributionGroup *mac_procedure_group;
-extern Contribution *mac_data,*mac_toc,*incremental_code;
+extern Contribution *mac_jump_contribution,*mac_toc,*incremental_code;
 /* Original 47ef88: indexed only by contributions belonging to output_module. */
 Contribution **output_contribution_map;
 DWORD __stdcall align_section_size(DWORD,DWORD);
@@ -227,8 +227,8 @@ void RECON_THISCALL LinkContext::LayoutSections(DWORD *rva,DWORD *file_offset,DW
                 else if(group==xdata)requested=(size-existing_padding)*10/100+0x200;
                 else {
                     if(mac_target && !strcmp(group->name,".data")) {
-                        size-=mac_data->raw_size+mac_toc->raw_size;
-                        existing_padding-=mac_toc->padding+mac_data->padding;
+                        size-=mac_jump_contribution->raw_size+mac_toc->raw_size;
+                        existing_padding-=mac_toc->padding+mac_jump_contribution->padding;
                     }
                     requested=(size-existing_padding)*20/100+0x100;
                 }

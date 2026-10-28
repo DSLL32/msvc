@@ -31,7 +31,7 @@ DWORD __cdecl pdb_get_age(void);
 BYTE __cdecl pdb_get_separate_types(void);
 void __stdcall pdb_set_separate_types(BYTE);
 void __stdcall pdb_select_image(const char *);
-void __stdcall pdb_define_section(const char *,WORD,DWORD);
+void __stdcall pdb_define_section(const char *,DWORD,DWORD);
 void __stdcall prepare_mac_pass_two(LinkContext *);
 BYTE __stdcall pdb_select_library(OutputLibrary *);
 BYTE __stdcall is_precompiled_module(OutputModule *);
@@ -86,10 +86,15 @@ void RECON_THISCALL LinkContext::PassTwo(void)
             if(!mac_target || options.mppc32_types)pdb_set_separate_types(separate_types);
             if(mac_target) {
                 OutputSection *section=mac_toc_symbol->contribution->group->section;
-                pdb_define_section("__TocTb",section->index,
+                /* Full DWORD carrier at44de14: contribution high bits, index low16.
+                 * The unqualified PDB receiver has no high-bit semantic claim. */
+                pdb_define_section("__TocTb",
+                    ((DWORD)mac_toc_symbol->contribution&0xffff0000)|section->index,
                     mac_toc_symbol->final_value-section->rva);
                 section=mac_function_symbol->contribution->group->section;
-                pdb_define_section("__FTInfo",section->index,
+                /* The second physical carrier instead comes from the group pointer. */
+                pdb_define_section("__FTInfo",
+                    ((DWORD)mac_function_symbol->contribution->group&0xffff0000)|section->index,
                     mac_function_symbol->final_value-section->rva);
             }
         }
@@ -167,8 +172,8 @@ DWORD __cdecl pdb_get_age(void) { __asm { int 3 } return 0; }
 BYTE __cdecl pdb_get_separate_types(void) { __asm { int 3 } return 0; }
 void __stdcall pdb_set_separate_types(BYTE) { __asm { int 3 } }
 void __stdcall pdb_select_image(const char *) { __asm { int 3 } }
-void __stdcall pdb_define_section(const char *,WORD,DWORD) { __asm { int 3 } }
-void __stdcall prepare_mac_pass_two(LinkContext *) { __asm { int 3 } }
+void __stdcall pdb_define_section(const char *,DWORD,DWORD) { __asm { int 3 } }
+
 BYTE __stdcall pdb_select_library(OutputLibrary *) { __asm { int 3 } return 0; }
 BYTE __stdcall is_precompiled_module(OutputModule *module)
 {

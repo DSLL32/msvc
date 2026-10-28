@@ -31,7 +31,8 @@ OutputSection *small_data_section, *read_only_section, *data_section;
 OutputSection *bss_section, *exception_section, *procedure_section;
 OutputSection *export_section, *debug_section;
 Contribution *debug_directory, *coff_debug, *misc_debug, *fixup_debug, *codeview_debug;
-Contribution *incremental_code, *mac_toc, *mac_function_info, *mac_data;
+Contribution *incremental_code, *mac_toc, *mac_function_info;
+extern Contribution *mac_jump_contribution; /* Actual494528, created at451747. */
 ContributionGroup *mac_procedure_group;
 StringNode *entry_symbol, *gp_symbol, *mac_toc_symbol, *mac_function_symbol;
 ComdatRoot *comdat_roots;
@@ -318,7 +319,7 @@ sections_ready:
     if (incremental_enabled) incremental_code=CreateIncrementalContribution();
     if (mac_target) {
         move_contribution_to_end(mac_function_info);
-        move_contribution_to_end(mac_data);
+        move_contribution_to_end(mac_jump_contribution);
         move_contribution_to_end(mac_toc);
         move_group_to_end(mac_toc->group);
     }

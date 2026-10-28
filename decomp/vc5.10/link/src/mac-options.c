@@ -4,21 +4,8 @@
 #include <string.h>
 #include "options.h"
 #include "memory.h"
+#include "mac-options.h"
 #include <recon.h>
-
-typedef struct MacImportVersion {
-    const char *library;
-    void *owner;
-    DWORD version, reserved;
-    struct MacImportVersion *next;
-} MacImportVersion;
-typedef struct MacImportVersions {
-    MacImportVersion *first,*last;
-    WORD count,reserved;
-} MacImportVersions;
-typedef char MacVersionLayout[(sizeof(MacImportVersion)==20 &&
-    offsetof(MacImportVersion,version)==8 &&
-    offsetof(MacImportVersion,next)==16 && sizeof(MacImportVersions)==12)?1:-1];
 
 /* Distinct original owners: 494558,494518,494580,494530,4944c8. */
 MacImportVersions mac_library_current_versions,mac_library_old_code_versions;
@@ -197,4 +184,19 @@ void __stdcall set_mac_terminator(LinkContext *context,const char *name)
         strcpy(decorated,"_");
         strcat(decorated,name);
     } else strcpy(decorated,name);
+}
+
+void __stdcall release_mac_import_versions(MacImportVersions *list)
+{
+    MacImportVersion *entry,*next;
+    if(!list->count)return;
+    entry=list->first;
+    while(entry) {
+        next=entry->next;
+        release_memory(entry);
+        entry=next;
+    }
+    list->count=0;
+    list->last=NULL;
+    list->first=NULL;
 }

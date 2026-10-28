@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-720 application functions / 263,415 original code bytes are reconstructed
-(63.50% of the 414,810-byte whole `.text` extent, which includes CRT and text
+763 application functions / 274,540 original code bytes are reconstructed
+(66.18% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 38 pending bodies with known extents totaling 4,066 bytes and
-160 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 38 pending bodies with known extents totaling 4,057 bytes and
+146 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all fifty cached native cases and their narrow checks;
+`make -j4 check unit` runs all fifty-one cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-733-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 712 ordinary application bodies and six CRT bodies. Seven import
+776-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 742 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -60,7 +60,7 @@ justified lifetime/operation TUs use special optimization and instrumentation
 settings, with one physical cleanup owner and actual Win32 EH actions.
 
 The completed workloads cover ordinary x86, nonincremental, no-PDB output.
-Unreached Mac, PDB, callback, packed CodeView and further librarian listing/edit domains retain
+Unreached Mac import/incremental, PDB, callback, packed CodeView and further librarian listing/edit domains retain
 named traps or explicit native qualification guards. The diagnostic current_phase
 owner supports the observed 41-byte prefix, with guards before copies and
 concatenations; its original full capacity is unknown. Physical DWORD flag
@@ -1394,3 +1394,37 @@ hash after 2.845 s. Correcting that metadata and running only the remaining
 cached cases plus full audit took 4.925 s. All fifty cached cases, unit checks,
 original build, 733 graph vertices, 718 scoped RET bodies and the existing nine
 EH/SEH owners passed; completed checks were not repeated for the metadata fix.
+
+The MPPC shared-data case links a transparent SDK-format data-only COFF object
+with four DATA exports through the genuine Mac backend and synchronous `/lib`
+SELF child. Parent and child both exit 0 with 315 combined first entries. It
+produces a matching 1,088-byte PE-wrapped MPPC DLL, 1,612-byte EXP and 1,124-byte
+LIB. This qualifies serialization and cleanup; it does not execute or load the
+emitted MPPC image. The recovered path includes export hashing, bucket/key/name
+and packed export records, section ordering, loader-header serialization and
+relocation-stream emission. The single 56-byte loader header aliases the already
+encountered fields; no copied section image or additional data credit is used.
+The no-import, no-entry/init/term, nonincremental, no-PDB domain is observed.
+Import/version, glue-extension and PDB branches retain their source-only or
+pending qualifications. The five version-list calls observe empty lists.
+
+The original completion retains all three raw artifacts. Only the DLL PE COFF
+TimeDateStamp DWORD at 0xb8..0xbc, EXP COFF timestamp, and exact LIB Date/contained
+COFF timestamp fields are normalized. An offline comparison receipt binds the
+untouched original report/capture and those rules; all remaining raw bytes and
+the complete inventory match. Raw native files were retained through the
+existing GDB exit-group inspection route. Earlier mismatches, including the
+missing format literal and duplicate Mac contribution owner, remain limited
+evidence in scratch. Their corrections add no application credit.
+
+Each new reference invocation uses the authored inputs-only recipe and captures
+its actual complete target OS environment/provider; native and SELF stage and
+validate that exact block. The earlier frozen-environment preflight failures
+and explicit LANG-overlay attempt are preserved separately. No claim is made
+that those ambient fields caused target behavior or that an old block was
+reproduced by the new invocation. The final original took 3,101.677 ms; native
+completion took 48.680 ms (17.594 setup, 27.312 execution, 3.774 checks). The
+combined case-end regression/unit/full graph/ABI/EH batch passed in 7.409 s.
+Necessary native and original-compiler builds passed before the final pair.
+These are incremental measurements; the fixed-view and MSDIS cases remain
+blocked with their original evidence unchanged.

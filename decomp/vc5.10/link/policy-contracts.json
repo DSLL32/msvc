@@ -6100,5 +6100,67 @@
         "basis": "Identified ordinary void stdcall(void*,DWORD)/RET8 preserves nonvolatile EBP on normal return."
       }
     ]
+  },
+  "mac_export_reader_ordinary_abi": {
+    "owner": "_prepare_mac_export_table@4",
+    "cache": "Actual original451c65 loads identified msvcrt.dll!strchr IAT401248 in ESI; CALL ESI451cb7 is reused in the name-reading loop.",
+    "facts": [
+      {
+        "target": "_mapped_read@12",
+        "preserves": [
+          "esi"
+        ],
+        "basis": "Recovered void stdcall(FileRecord*,void*,unsigned)/RET12; ordinary x86 normal-return nonvolatile ESI across actual451c96."
+      },
+      {
+        "target": "_buffered_read@12",
+        "preserves": [
+          "esi"
+        ],
+        "basis": "Recovered void stdcall(FileRecord*,void*,unsigned)/RET12; ordinary x86 normal-return nonvolatile ESI across actual451ca3."
+      },
+      {
+        "target": "StringTable::FindSymbol",
+        "preserves": [
+          "esi"
+        ],
+        "basis": "Recovered thiscall(const char*)/RET4 preserves nonvolatile ESI on normal return across451cd7 and the loop join."
+      },
+      {
+        "target": "_add_mac_export@20",
+        "preserves": [
+          "esi"
+        ],
+        "basis": "Actual five pushes451ce9..451cf1 and complete target451e50..452038 establish stdcall5/RET20. ESI is saved451e56 and restored45202c before sole normal RET20 at452035. Native body remains named pending trap; ABI fact grants no implementation credit."
+      }
+    ],
+    "scope": "Only ESI normal-return preservation at this finite cached strchr loop. Existing record_file_access and strchr ESI contracts reused. No nonlocal-return, unvisited body acceptance or provider implementation claim."
+  },
+  "mac_pass_two_ordinary_abi": {
+    "owner": "_prepare_mac_pass_two@4",
+    "cache": "Actual4512db caches msvcrt.dll!strncpy IAT401278 in EBX, reused at451351 across the symbol enumeration loop.",
+    "facts": [
+      {
+        "target": "_pdb_define_section@12",
+        "preserves": [
+          "ebx"
+        ],
+        "basis": "Identified ordinary stdcall3/RET12 pending boundary; normal x86 nonvolatile EBX preservation. Actual451365 occurs before the joined subsequent strncpy call. No provider implementation or nonlocal-return claim."
+      }
+    ],
+    "physical_section_transport": "The pending second formal is DWORD:451359..451363 carries section RVA upper16 and index low16; earlier44de14 carries contribution-pointer upper16 and index;44de3b carries group-pointer upper16 and index. Full415910 boundary forwards all32bits. PDB-enabled paths remain pending; high16 semantic meaning is unqualified."
+  },
+  "mac_loader_ordinary_abi": {
+    "owner": "_finish_mac_entry_point@8",
+    "cache": "Actual452c83 caches identified msvcrt.dll!_stricmp IAT40113c in EBX; sites452ca6/452cee/452d30 reuse it across the imported-library loop.",
+    "facts": [
+      {
+        "target": "_swap_byte_order@8",
+        "preserves": [
+          "ebx"
+        ],
+        "basis": "Identified void stdcall(void*,DWORD)/RET8 normal-return x86 nonvolatile EBX preservation. Actual swap call452d6c lies before the loop returns to the cached _stricmp calls. Existing _stricmp/file-cache EBX contracts reused. No nonlocal return or import/version runtime coverage claim."
+      }
+    ]
   }
 }
