@@ -12,7 +12,7 @@ use std::{
     fs,
     path::Path,
 };
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct Record {
     pub name: String,
     pub start: u32,
@@ -41,6 +41,13 @@ pub fn json(path: &Path) -> Result<Value> {
 }
 pub fn records(v: &Value) -> Result<Vec<Record>> {
     Ok(serde_json::from_value(v.clone())?)
+}
+fn append_original_drivers(original: &mut Vec<Record>, drivers: &[Record]) {
+    // Registry-backed native CRT bodies can occur in both projections. Keep
+    // one complete identical Record, not two copies of the same named body.
+    // Conflicts, distinct aliases and different evidence remain untouched.
+    original.retain(|record| !drivers.contains(record));
+    original.extend_from_slice(drivers);
 }
 pub fn num(v: &Value) -> Result<u32> {
     v.as_u64()
@@ -339,7 +346,7 @@ impl Inputs {
                 original_imports.as_ref(),
             )?);
         }
-        oi.extend(drivers.clone());
+        append_original_drivers(&mut oi, &drivers);
         let mut ri = if a.profile == Profile::Rcpp {
             Vec::new()
         } else {
@@ -1194,6 +1201,41 @@ pub(crate) fn integer_bytes(value: u64, width: usize) -> Result<[u8; 8]> {
 mod registry_tests {
     use super::*;
     use serde_json::json;
+    #[test]
+    fn original_runtime_driver_merge_coalesces_only_complete_equal_records() {
+        let driver = Record {
+            name: "crt".into(),
+            start: 0x401000,
+            end: 0x401004,
+            shared: vec![(0x402000, 0x402004)],
+            code_chunks: vec![(0x401010, 0x401014)],
+            pending_extent: false,
+            evidence: serde_json::json!({"witness":"qualified"}),
+        };
+        let mut original = vec![driver.clone()];
+        append_original_drivers(&mut original, std::slice::from_ref(&driver));
+        assert_eq!(original, vec![driver.clone()]);
+        for kind in 0..6 {
+            let mut conflicting = driver.clone();
+            match kind {
+                0 => conflicting.start += 1,
+                1 => conflicting.end += 1,
+                2 => conflicting.code_chunks[0].1 += 1,
+                3 => conflicting.shared[0].1 += 1,
+                4 => conflicting.pending_extent = true,
+                _ => conflicting.evidence = serde_json::json!({"witness":"other"}),
+            }
+            let mut original = vec![conflicting.clone()];
+            append_original_drivers(&mut original, std::slice::from_ref(&driver));
+            assert_eq!(original, vec![conflicting, driver.clone()]);
+            assert_eq!(original.iter().filter(|r| r.name == "crt").count(), 2);
+        }
+        let mut alias = driver.clone();
+        alias.name = "different_logical_identity".into();
+        let mut original = vec![alias.clone(), driver.clone()];
+        append_original_drivers(&mut original, std::slice::from_ref(&driver));
+        assert_eq!(original, vec![alias, driver]);
+    }
     #[test]
     fn exact_rebuilt_end_checks_padding_and_all_bound_inputs() {
         let image = Image::Pe(crate::tests::image(&[0xc3, 0]));

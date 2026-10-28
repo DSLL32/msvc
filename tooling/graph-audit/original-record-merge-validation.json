@@ -1,0 +1,40 @@
+{
+  "scope": "Coalesce only complete identical original runtime/driver Record copies; retain conflicts, distinct aliases, evidence, classification and all checked owners.",
+  "validation_sha256": "d979bf2ba25d9c6ac3256641c18c2a8574b459a1cb4f8b90cdcbf45a6790c9e0",
+  "release_sha256": "7811da42f42cceaf1331863d10834a7663b0ef61851bffffd931b1b53a4d8637",
+  "source_sha256": {
+    "tooling/graph-audit/src/index.rs": "f6dcac847881454ab90262e494ca119f1325709c9d8da0222c50e1ab5695e14c",
+    "tooling/graph-audit/README.md": "308357ee73b69a01c2ae320d14bec30be3160e7726ff9d388caea5405bd790d1"
+  },
+  "selected_owners": 1307,
+  "ret_contracts": 1306,
+  "frozen_full_audit_seconds": 4.680110438726842,
+  "conflicting_evidence_denial_ms": 168.5943715274334,
+  "focused_units": {
+    "exact_Record_merge": 1,
+    "controls": [
+      "identical duplicate",
+      "different start",
+      "different end",
+      "different chunks",
+      "different text data",
+      "different pending status",
+      "different evidence",
+      "distinct alias"
+    ],
+    "passed": true,
+    "fmt": "PASS"
+  },
+  "limits": [
+    "One justified frozen complete C2 audit retry; full standard flags and catalogs retained. No owner or RET assertion excluded by this fix.",
+    "Six duplicate CRT body copies coalesced, while driver selection and canonical CRT3 classification/extents/native providers remain unchanged.",
+    "Rebuilt index is unchanged. Conflicting same-name evidence remains ambiguous and rejects.",
+    "Dispatcher indirect-tail ABI residual remains binary-owned; shared merge adds no ABI or body availability inference.",
+    "No original/native target execution, capture, full regression suite or BCC change."
+  ],
+  "scratch": "~/.ai-tmp/msvc2/c2-original-record-merge-20261028",
+  "frozen_report_sha256": "a182fe3f3a887520d7799f5036788166125a70e46f1cc9e50955d0a5aaebddd3",
+  "frozen_inputs_sha256": "6f635bc936fd2d59c225a9ff8f5568ed4550659277cd9829ca18d521c053230b",
+  "canonical_build_seconds": 67.82672045007348,
+  "canonical_bit_identical": true
+}

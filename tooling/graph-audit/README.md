@@ -153,6 +153,13 @@ original image hash binds these bytes. This is an extent-policy declaration, not
 a general permission to omit unrooted code; it is checked with `--check-extents`
 or the legacy CVPACK preset.
 
+When an original runtime catalog and the driver projection contain the same
+complete named `Record`, the merged original index keeps one copy. Bounds,
+chunks, text data, pending status and evidence must all match. Different logical
+aliases and conflicting records remain distinct; RET uniqueness and all other
+validation still apply. This does not change CRT classification or checked-owner
+selection.
+
 Ordinary import indexing also uses `FirstThunk` when `OriginalFirstThunk` is
 zero. Nonraw thunk scans stop at `min(raw_size, virtual_size)` so the following
 section's file bytes cannot create false code addresses; raw-section scans keep
