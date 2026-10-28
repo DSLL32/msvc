@@ -9,6 +9,100 @@
 #include <pthread.h>
 #include <recon.h>
 
+/* BC4 FINDFRST.C / Win32 DOSFIND.C: findfirst owns a search record
+ * keyed by the result object's address. This is independent of CRT _find's
+ * singleton and keeps the actual Win32 search until this buffer is reused.
+ * Only attr0 is qualified; native filesystem/mtime policy follows FindFile. */
+#ifdef RECON_BORLAND_400_FIND
+typedef struct BorlandFind {
+    struct BorlandFind *next;
+    struct ffblk *owner;
+    HANDLE search;
+} BorlandFind;
+static BorlandFind *borland_finds;
+static pthread_mutex_t borland_find_lock=PTHREAD_MUTEX_INITIALIZER;
+/* Exact Borland ERRNO.H numbers; these are not Linux errno constants. The
+ * existing Win32 backend reports this finite subset of IOERROR.C's table. */
+static int borland_find_error(DWORD error)
+{
+    int value;
+    switch(error) {
+    case 2: case 3: case 18: value=2;break;
+    case 4: value=4;break;
+    case 5: case 12: case 15: case 16: case 32: case 33: value=5;break;
+    case 6: value=6;break;
+    case 7: case 8: case 9: value=8;break;
+    case 10: value=20;break;
+    case 11: value=21;break;
+    case 14: value=14;break;
+    case 17: value=17;break;
+    case 50: value=15;break;
+    case 112: value=28;break;
+    default: value=19;break;
+    }
+    recon_doserrno=error;errno=value;return -1;
+}
+static void borland_find_time(const FILETIME *file,unsigned short *date,unsigned short *clock)
+{
+    uint64_t ticks=((uint64_t)file->dwHighDateTime<<32)|file->dwLowDateTime;
+    int64_t seconds=(int64_t)(ticks/10000000)-11644473600LL;
+    time_t native=(time_t)seconds;struct tm local;
+    if((int64_t)native!=seconds || !localtime_r(&native,&local) ||
+       local.tm_year<80 || local.tm_year>207 || local.tm_mon<0 || local.tm_mon>11 ||
+       local.tm_mday<1 || local.tm_mday>31 || local.tm_hour<0 || local.tm_hour>23 ||
+       local.tm_min<0 || local.tm_min>59 || local.tm_sec<0 || local.tm_sec>59)
+        recon_unsupported("Borland400 find DOS local timestamp domain");
+    *date=(unsigned short)(((local.tm_year-80)<<9)|((local.tm_mon+1)<<5)|local.tm_mday);
+    *clock=(unsigned short)((local.tm_hour<<11)|(local.tm_min<<5)|(local.tm_sec/2));
+}
+int __cdecl recon_borland_400_findfirst(const char *path,struct ffblk *output,int attributes)
+{
+    uintptr_t source=(uintptr_t)path,destination=(uintptr_t)output;
+    size_t n;BorlandFind *record;WIN32_FIND_DATAA found;BOOL success;
+    unsigned short date,clock;DWORD failure;int saved_errno=errno;
+    unsigned long saved_dos=recon_doserrno;
+    if(attributes || source<4096 || source>UINTPTR_MAX-MAX_PATH ||
+       destination<4096 || destination>UINTPTR_MAX-sizeof(*output))
+        recon_unsupported("Borland400 findfirst attr0/caller spans");
+    n=strnlen(path,MAX_PATH);
+    if(!n || n==MAX_PATH || (source<destination+sizeof(*output) && destination<source+n+1))
+        recon_unsupported("Borland400 findfirst path/result domain");
+    pthread_mutex_lock(&borland_find_lock);
+    for(record=borland_finds;record && record->owner!=output;record=record->next){}
+    if(record)recon_FindClose(record->search);
+    else {
+        record=malloc(sizeof(*record));
+        if(!record) {
+            output->ff_reserved=0;
+            pthread_mutex_unlock(&borland_find_lock);
+            recon_SetLastError(ERROR_NOT_ENOUGH_MEMORY);
+            return borland_find_error(ERROR_NOT_ENOUGH_MEMORY);
+        }
+        record->owner=output;record->next=borland_finds;borland_finds=record;
+    }
+    output->ff_reserved=(long)(uintptr_t)record;
+    record->search=recon_FindFirstFileA(path,&found);
+    success=record->search!=INVALID_HANDLE_VALUE;
+    /* DOSFIND attr0 includes ordinary/readonly/archive files, excluding
+     * the SPECIAL_BITS hidden/system/directory set. Do not hide them in
+     * the shared Win32 enumeration API itself. */
+    while(success && (found.dwFileAttributes&0x16))
+        success=recon_FindNextFileA(record->search,&found);
+    if(!success) {
+        failure=recon_GetLastError();pthread_mutex_unlock(&borland_find_lock);
+        return borland_find_error(failure);
+    }
+    n=strlen(found.cFileName);
+    if(n>=sizeof(output->ff_name))recon_unsupported("Borland400 findfirst native filename span");
+    borland_find_time(&found.ftLastWriteTime,&date,&clock);
+    output->ff_fsize=(long)found.nFileSizeLow;output->ff_attrib=found.dwFileAttributes;
+    output->ff_ftime=clock;output->ff_fdate=date;
+    memcpy(output->ff_name,found.cFileName,n+1);
+    pthread_mutex_unlock(&borland_find_lock);
+    recon_doserrno=saved_dos;errno=saved_errno;return 0;
+}
+#endif
+
 /* BC4.0 BCC32 VA d4026..d403b and EXCEPT.C: process-global pointer swap.
  * Native defaults preserve distinct initial/GP identities, but do not implement
  * unwinding, register diagnostics, signals or Windows exception dispatch. */

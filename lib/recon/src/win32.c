@@ -1679,7 +1679,7 @@ BOOL WINAPI recon_GetConsoleScreenBufferInfo(HANDLE handle,CONSOLE_SCREEN_BUFFER
     info->dwMaximumWindowSize=info->dwSize;
     last_error=0; return TRUE;
 }
-#ifdef RECON_CRT_PROFILE_MSVCRT_510
+#if defined(RECON_CRT_PROFILE_MSVCRT_510) || defined(RECON_BORLAND_400_FIND)
 /* Search handles own directory streams, independently of CRT _find's singleton.
  * Results describe the native filesystem: no synthesized 8.3 names, Windows
  * archive bits or Windows directory order. The caller owns a full SDK result. */
@@ -1761,7 +1761,7 @@ static BOOL find_next_native(NativeFind *search,LPWIN32_FIND_DATAA output,DWORD 
 #endif
 HANDLE WINAPI recon_FindFirstFileA(LPCSTR pattern,LPWIN32_FIND_DATAA output)
 {
-#ifdef RECON_CRT_PROFILE_MSVCRT_510
+#if defined(RECON_CRT_PROFILE_MSVCRT_510) || defined(RECON_BORLAND_400_FIND)
     char directory[MAX_PATH],host[PATH_MAX],*slash,*backslash;const char *mask;
     size_t length,n;DIR *stream;NativeFind *search;HANDLE result=INVALID_HANDLE_VALUE;
     int saved_errno=errno;unsigned long saved_dos=recon_doserrno;DWORD saved_error=last_error;
@@ -1792,7 +1792,8 @@ HANDLE WINAPI recon_FindFirstFileA(LPCSTR pattern,LPWIN32_FIND_DATAA output)
         recon_unsupported("FindFirstFileA leaf pattern");
     if(recon_host_path(directory,host,sizeof(host)) || find_directory_kind(host) ||
        !(stream=opendir(host))) {
-        last_error=(errno==ENOENT || errno==ENOTDIR)?ERROR_PATH_NOT_FOUND:error_code(errno);
+        last_error=(errno==ENOENT || errno==ENOTDIR)?ERROR_PATH_NOT_FOUND:
+            ((errno==EMFILE || errno==ENFILE)?4 /* ERROR_TOO_MANY_OPEN_FILES */:error_code(errno));
         goto finished;
     }
     search=malloc(sizeof(*search));
@@ -1812,7 +1813,7 @@ finished:
 }
 BOOL WINAPI recon_FindNextFileA(HANDLE handle,LPWIN32_FIND_DATAA output)
 {
-#ifdef RECON_CRT_PROFILE_MSVCRT_510
+#if defined(RECON_CRT_PROFILE_MSVCRT_510) || defined(RECON_BORLAND_400_FIND)
     NativeFind *search;BOOL result=FALSE;int saved_errno=errno;
     unsigned long saved_dos=recon_doserrno;DWORD saved_error=last_error;
     find_output_span(output,NULL);pthread_mutex_lock(&native_find_lock);
@@ -1829,7 +1830,7 @@ BOOL WINAPI recon_FindNextFileA(HANDLE handle,LPWIN32_FIND_DATAA output)
 }
 BOOL WINAPI recon_FindClose(HANDLE handle)
 {
-#ifdef RECON_CRT_PROFILE_MSVCRT_510
+#if defined(RECON_CRT_PROFILE_MSVCRT_510) || defined(RECON_BORLAND_400_FIND)
     NativeFind **link,*search;BOOL result=FALSE;int saved_errno=errno;
     unsigned long saved_dos=recon_doserrno;DWORD saved_error=last_error;
     pthread_mutex_lock(&native_find_lock);

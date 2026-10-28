@@ -28,6 +28,9 @@
 #ifdef RECON_BORLAND_400_DOS_TIME
 #include <dos.h>
 #endif
+#ifdef RECON_BORLAND_400_FIND
+#include <dir.h>
+#endif
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -541,6 +544,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define SigForPbCb recon_mspdb_SigForPbCb
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
 #define TruncStFromSz recon_mspdb_TruncStFromSz
+#endif
+#ifdef RECON_BORLAND_400_FIND
+#define findfirst recon_borland_400_findfirst
 #endif
 #ifdef RECON_BORLAND_400_USER_HANDLER
 #define _SetUserHandler recon_borland_400_SetUserHandler

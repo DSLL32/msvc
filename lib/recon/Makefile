@@ -1224,3 +1224,7 @@ borland-live-time-check:
 .PHONY: system-default-check
 system-default-check:
 	$(PYTHON) tests/system-default/check.py
+
+.PHONY: borland-find-check
+borland-find-check:
+	$(PYTHON) tests/borland-find/check.py

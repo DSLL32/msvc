@@ -2200,3 +2200,25 @@ the unbound fixture GlobalMemoryStatus domain is unchanged. New unbound controls
 verify full writes/tails/errors/semantic x87 and real64MiB reservation, page commit,
 write and release. BCC's saved native-only replay passes ten App entries through
 reserve_compiler_arena to initialize_block_lists; no per-case values or new flag.
+
+RECON_BORLAND_400_FIND selects BC4 flat-model findfirst(path,ffblk,0).
+Native dir.h preserves the packed272B layout and cdecl signature. The adapter
+reuses genuine owned-DIR Win32 enumeration, retaining a record keyed by ffblk
+address; same-buffer reuse closes its previous search, independent buffers keep
+independent searches. ff_reserved is a native opaque record identity, not an
+original heap address. Attr0 filters directory/hidden/system results as DOSFIND.C
+does; successful size/attributes/name and local DOS write date/time come from
+real filesystem metadata. Name stores stop at NUL; unused tails remain intact.
+Normal absence and OS errors return-1 with Borland ERRNO.H/IOERROR.C numbers and
+_doserrno; success preserves prior error slots. The shared Win32 backend now maps
+actual directory descriptor exhaustion to ERROR_TOO_MANY_OPEN_FILES.
+Caller-owned readable path and writable272B result spans are required and may
+be unaligned. Other attribute masks, non-ASCII/symlink/special/wildcard-parent
+paths remain unsupported. Existing native ordering/attribute/no8.3 policy is
+retained, using host localtime/time_t and DOS years1980..2107; old timezone rules,
+private record addresses and general Borland search/errno compatibility are not
+claimed. Unselected profiles and CRT _find singleton behavior remain unchanged.
+Focused checks cover ABI, real present/missing paths, metadata/tails, search
+reuse, independent owners, directory filtering and real permission/FD errors.
+BCC's ordinary compile-only pair matches17 App entries to parse_option; its
+file_exists caller consumes only the boolean, not the returned metadata fields.
