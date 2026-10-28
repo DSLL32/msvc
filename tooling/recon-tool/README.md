@@ -407,9 +407,11 @@ Profiles cover `1.0-nt`, `5.10` (native MSVCRT override), `bc4.0`
 BC4.0 build invocations prepend installed include/library paths before the caller's
 arguments to override the shipped CFG files' `D:\BC4` defaults. No-argument
 invocations remain argument-free, and original CFG files are never edited.
-A header-using BCC32 compile-only smoke passes. The shipped TLINK32 currently
-faults under Wine even without arguments, so a complete Borland-linked original
-build is not yet qualified.
+A header-using BCC32 compile-only smoke passes. Explicit `TLINK32` invocations
+select a hash-verified `.patched/TLINK32.EXE` compatibility copy; see the
+[patch report](../../docs/reports/TLINK32-STARTUP-PATCH.md). This does not redirect
+children spawned internally by BCC32: use compile-only invocations followed by
+an explicit linker command.
 Selecting `WASM` or `WASM.EXE` uses the already-qualified
 `.patched/binnt/WASM.EXE` loader and verifies both that loader and its sibling
 `.patched/binb/WASM.EXE` payload before execution. The payload includes the

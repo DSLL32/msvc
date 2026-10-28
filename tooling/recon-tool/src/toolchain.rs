@@ -105,6 +105,21 @@ fn watcom_executable(root: &Path, tool: &str) -> Result<PathBuf> {
     Ok(program)
 }
 
+fn borland_executable(root: &Path, tool: &str) -> Result<PathBuf> {
+    if tool.eq_ignore_ascii_case("TLINK32") || tool.eq_ignore_ascii_case("TLINK32.EXE") {
+        use sha2::{Digest, Sha256};
+        let program = executable(&root.join(".patched"), tool)?;
+        anyhow::ensure!(
+            crate::fixture::hex(&Sha256::digest(fs::read(&program)?))
+                == "5d9f6feb63f2a588936cd46cd616ec223cddd62dc7505880c611af1fca488ed2",
+            "Borland TLINK32 startup-patched image differs"
+        );
+        Ok(program)
+    } else {
+        executable(&root.join("BC4/BIN"), tool)
+    }
+}
+
 pub fn command(repo: &Path, name: &str, tool: &str) -> Result<Command> {
     anyhow::ensure!(
         matches!(name, "1.0-nt" | "5.10" | "watcom10.0a" | "bc4.0"),
@@ -131,8 +146,8 @@ pub fn command(repo: &Path, name: &str, tool: &str) -> Result<Command> {
             .env("WATCOM", crate::wine::windows(&root, repo)?)
             .env("WINEPATH", crate::wine::windows(&root.join("binnt"), repo)?);
     } else if name == "bc4.0" {
+        program = borland_executable(&root, tool)?;
         let root = root.join("BC4");
-        program = executable(&root.join("BIN"), tool)?;
         command
             .env(
                 "INCLUDE",
@@ -226,6 +241,15 @@ mod tests {
         assert!(command(&repo, "bc4.0", "../BCC32").is_err());
         let help = command_with_args(&repo, "bc4.0", "BCC32.EXE", &[])?;
         assert_eq!(help.get_args().count(), 1);
+        for tool in ["TLINK32", "tlink32.exe"] {
+            let link = command_with_args(&repo, "bc4.0", tool, &[])?;
+            assert_eq!(
+                link.get_args().collect::<Vec<_>>(),
+                [std::ffi::OsStr::new(
+                    r"R:\toolchains\bc4.0\.patched\TLINK32.EXE"
+                )]
+            );
+        }
         Ok(())
     }
 

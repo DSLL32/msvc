@@ -1,0 +1,49 @@
+{
+  "scope": "User-authorized TLINK32 runtime stack-layout compatibility copy for Wine; no application reconstruction credit",
+  "original": "../BC4/BIN/TLINK32.EXE",
+  "original_sha256": "476fdc04c03e9610763f6d06a8bd59904ead98fe7018b3a84d6aa6e066bfe522",
+  "patched": "TLINK32.EXE",
+  "patched_sha256": "5d9f6feb63f2a588936cd46cd616ec223cddd62dc7505880c611af1fca488ed2",
+  "bytes": 290816,
+  "patches": [
+    {
+      "file_offset": "0x2474c",
+      "before": "4c",
+      "after": "50"
+    },
+    {
+      "file_offset": "0x24778",
+      "before": "fc",
+      "after": "b0"
+    },
+    {
+      "file_offset": "0x2477f",
+      "before": "c4",
+      "after": "bc"
+    },
+    {
+      "file_offset": "0x24789",
+      "before": "f6",
+      "after": "ee"
+    },
+    {
+      "file_offset": "0x2478c",
+      "before": "f8",
+      "after": "f0"
+    },
+    {
+      "file_offset": "0x247bf",
+      "before": "fc",
+      "after": "b0"
+    },
+    {
+      "file_offset": "0x24856",
+      "before": "fc",
+      "after": "b0"
+    }
+  ],
+  "changed_byte_count": 7,
+  "documentation": "../../../docs/reports/TLINK32-STARTUP-PATCH.md",
+  "original_unchanged": true,
+  "documentation_sha256": "67390580b71e9488a082a4f5e55ca8c5a01d1adb620cc86f21a07c4804beb064"
+}
