@@ -156,7 +156,7 @@ void __stdcall write_omf_indirect_section_data(DWORD,DWORD,char *const *,DWORD);
 void __stdcall read_omf_lnames(DWORD);
 void __cdecl read_omf_lheadr(void);
 void __cdecl read_omf_comdat(void);
-void __cdecl read_omf_alias(void);
+void __cdecl read_omf_named_bakpat(void);
 void __cdecl read_omf_bakpat(void);
 void __cdecl read_omf_linsym(void);
 void __cdecl finish_omf_record(void);

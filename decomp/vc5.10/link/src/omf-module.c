@@ -86,8 +86,10 @@ void __cdecl read_omf_modend(void)
     WORD i;
     if(omf_comment_count) {
         section=create_omf_section(".comment",1,0,omf_comment_bytes,0x840);
-        /* Preserve the actual pointer-to-pointer call and low-WORD count;
-         * its separate body remains a named pending frontier. */
+        /* Original truncation: this helper consumes the low WORD as a byte
+         * count and copies only from the first pointer. Passing comment_count
+         * therefore preserves just that prefix, not all the declared strings.
+         * The remaining .comment storage is the fresh section's defined zero. */
         write_omf_indirect_section_data(section,0,omf_comments,omf_comment_count);
         for(i=0;(SHORT)i<(SHORT)omf_comment_count;++i) {
             release_memory(omf_comments[(SHORT)i]);

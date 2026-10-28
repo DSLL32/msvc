@@ -190,6 +190,31 @@ void __stdcall write_omf_section_data(DWORD section,DWORD offset,
     memcpy(omf_section_data[index]+offset,bytes,size);
 }
 
+void __stdcall write_omf_indirect_section_data(DWORD section,DWORD offset,
+    char *const *sources,DWORD count)
+{
+    SHORT index=(SHORT)(section-1);
+    DWORD bytes=(DWORD)(LONG)(SHORT)count;
+    DWORD capacity;
+    BYTE *larger;
+#ifdef __linux__
+    if(index<0 || index>=omf_output_section_count || (SHORT)count<0 ||
+       !sources || offset>0xffffffffUL-bytes) { __asm { int 3 } }
+#endif
+    capacity=omf_section_capacities[index];
+    if(offset+bytes>capacity) {
+        larger=zero_allocate(capacity+bytes+0x20000);
+        memcpy(larger,omf_section_data[index],capacity);
+        release_memory(omf_section_data[index]);
+        omf_section_data[index]=larger;
+        omf_section_capacities[index]=capacity+bytes+0x20000;
+    }
+    /* The original dereferences just the first source pointer. Its fourth
+     * physical DWORD is consumed as a signed low-WORD BYTE count, not a
+     * number of pointers or strings to concatenate. */
+    memcpy(omf_section_data[index]+offset,*sources,bytes);
+}
+
 DWORD __stdcall read_omf_iterated_block(DWORD offset)
 {
     BYTE data[2048];
@@ -267,6 +292,48 @@ void __cdecl read_omf_bakpat(void)
             wide+=value;
             memcpy(destination,&wide,sizeof(wide));break;
         default:omf_error("Ilegal LocTyp in BAKPAT record");break;
+        }
+    }
+}
+
+/* C8/C9 is NBKPAT. The old provisional alias name did not denote C6 ALIAS. */
+void __cdecl read_omf_named_bakpat(void)
+{
+    BYTE location=(BYTE)read_omf_byte();
+    DWORD offset,value,wide;
+    WORD word_value;
+    SHORT segment,section;
+    BYTE *destination;
+    /* Consume the logical COMDAT name, but retain the original current-data
+     * owner lookup. Valid records immediately follow that COMDAT/FIXUPP block. */
+    read_omf_index();
+    while(omf_record_length>1) {
+        offset=omf_record_is32?read_omf_dword():(read_omf_word()&0xffff);
+        value=omf_record_is32?read_omf_dword():(read_omf_word()&0xffff);
+        segment=(SHORT)omf_data_segment;
+#ifdef __linux__
+        if(segment<0 || segment>=256) { __asm { int 3 } }
+#endif
+        section=(SHORT)(omf_segments[segment].output_section-1);
+#ifdef __linux__
+        if(section<0 || section>=omf_output_section_count ||
+            offset>omf_section_capacities[section] ||
+            (location<=2 && (1U<<location)>omf_section_capacities[section]-offset)) {
+            __asm { int 3 }
+        }
+#endif
+        destination=omf_section_data[section]+offset;
+        switch(location) {
+        case 0:*destination=(BYTE)(*destination+(BYTE)value);break;
+        case 1:
+            memcpy(&word_value,destination,sizeof(word_value));
+            word_value=(WORD)(word_value+(WORD)value);
+            memcpy(destination,&word_value,sizeof(word_value));break;
+        case 2:
+            memcpy(&wide,destination,sizeof(wide));
+            wide+=value;
+            memcpy(destination,&wide,sizeof(wide));break;
+        default:omf_error("Ilegal LocTyp in NBKPAT record");break;
         }
     }
 }

@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-793 application functions / 289,368 original code bytes are reconstructed
-(69.76% of the 414,810-byte whole `.text` extent, which includes CRT and text
+795 application functions / 289,722 original code bytes are reconstructed
+(69.84% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 34 pending bodies with known extents totaling 3,156 bytes and
-132 entries whose body extents remain unknown; this is not a complete non-CRT
+130 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all fifty-eight cached native cases and their narrow checks;
+`make -j4 check unit` runs all fifty-nine cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-806-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 772 ordinary application bodies and six CRT bodies. Seven import
+808-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 774 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1680,3 +1680,54 @@ regression/unit/full graph/RET/EH batch passed in 10.452 s, covering 58 cached
 cases, 806 graph vertices, 778 return contracts and existing C++/OMF SEH checks.
 Necessary native/period builds and scoped owner gates passed before new masks.
 These are incremental timings. Fixed-view and MSDIS cases remain blocked.
+
+
+The named-backpatch archive case converts a transparent 322-byte OMF object
+with 17 checksum-valid records into an indexed COFF archive. Its data COMDAT
+immediately precedes C8/C9 named backpatches at byte, WORD and DWORD widths,
+including unsigned wraparound. An ordinary x86 address operand has a real
+FIXUPP reference to the same named COMDAT, and three EXESTR records exercise
+comment storage. Independent preparation checks bind record lengths, checksums,
+name/segment indices, COMDAT adjacency and the unchanged data/FIXUPP context.
+This is format-authored input under the TIS OMF definition, not claimed compiler
+output. No input program is executed.
+
+Two whole bodies / 354 original bytes recover the named backpatch reader and
+the indirect section writer. The C8/C9 owner at 141b0 is now accurately named
+read_omf_named_bakpat; its old alias label was provisional and did not identify
+the separate C6 ALIAS record. There is one physical owner and no identity or
+data credit. The reader consumes the logical name but preserves the original
+current-COMDAT lookup, rather than inventing a name-based search. The current
+valid immediate records bind the same owner. The writer consumes the signed
+low WORD of its full DWORD formal as a byte count and dereferences only the
+first source pointer. MODEND actually passes the comment count, so this case
+preserves only `Nam` in a declared 76-byte comment section; the other 73 bytes
+are defined zeros from the genuine fresh section allocation. The source flags
+that original truncation without repairing it or claiming uninitialized bytes.
+
+Original and native exit 0 after 192 first entries, retain the genuine LNK4033
+conversion warning and produce a matching 808-byte archive. Both real temporary
+files are deleted; the earlier prefix comparisons with independent live names
+remain failed evidence. Final membership and filenames are wholly strict.
+Independent decoding verifies all patched values, unchanged ordinary data,
+the actual raw `_DATA` COMDAT section name, both archive indexes and the real
+DIR32 relocation. Its undefined external record retains the same name as the
+separate defined COMDAT symbol; the raw records are not merged or normalized.
+Only parsed archive Date [24,34)/[118,128)/[216,226) and contained COFF timestamp
+[264,268) are normalized. Every other raw byte is identical.
+
+The native fixture reuses the exact authentic OMF warning resource bank from
+case 43. The missing-bank exit125 and old asset recipe are preserved. Because
+only native setup and an additive read-only harness asset changed, the existing
+modern completed original is reused through the shared additive derive-reference
+route. Its original report, raw capture, CLI, target inputs, OS block and mask
+remain unchanged; no new original was run merely for the resource addition.
+The final reference also binds only the stated clock comparison fields.
+
+Final original execution took 1,648.750 ms; ordinary native comparison took
+19.479 ms (11.567 setup, 4.012 execution, 3.900 checks). Necessary native/period
+builds and scoped RET0/RET16 graph/import/extent gates passed. The one case-end
+regression/unit/full graph/RET/EH batch passed in 5.986 s, covering 59 cached
+cases, 808 graph vertices, 780 return contracts and existing C++/OMF SEH checks.
+These are incremental timings. Array growth, invalid records and alternative
+COMDAT-name histories are not dynamically qualified. Blocked cases stay excluded.

@@ -5852,7 +5852,7 @@
           "ebp",
           "edi"
         ],
-        "_read_omf_alias": [
+        "_read_omf_named_bakpat": [
           "ebp",
           "edi"
         ],
@@ -6226,5 +6226,11 @@
         "basis": "Recovered ordinary x86 stdcall4 normal-return ABI; existing complete allocate_virtual_memory body44f5b0..44f5dc. EDI carries the qualified import across its40e30d call. No nonlocal-return claim."
       }
     ]
+  },
+  "omf_named_backpatch_identity": {
+    "rva": "0x141b0",
+    "previous_provisional_name": "_read_omf_alias",
+    "name": "_read_omf_named_bakpat",
+    "basis": "Actual C8/C9 NBKPAT dispatcher, complete body and literal Ilegal LocTyp in NBKPAT record. Unknown original stripped symbol; same physical owner/ABI. No C6 ALIAS semantics or extra credit."
   }
 }

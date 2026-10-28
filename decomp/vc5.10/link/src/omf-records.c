@@ -81,7 +81,7 @@ void __stdcall read_omf_module(const char *input)
         case 0xbc: read_omf_extdefs(1,2);break;
         case 0xc2: read_omf_comdat();break;
         case 0xc4: read_omf_linsym();break;
-        case 0xc8: read_omf_alias();break;
+        case 0xc8: read_omf_named_bakpat();break;
         case 0xca: read_omf_lnames((DWORD)-1);break;
         default: omf_error("Unknown or bad record type %x",kind);break;
         }
