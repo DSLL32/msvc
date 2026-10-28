@@ -9,6 +9,46 @@
 #include <pthread.h>
 #include <recon.h>
 
+/* BC4.0 BCC32 VA d4026..d403b and EXCEPT.C: process-global pointer swap.
+ * Native defaults preserve distinct initial/GP identities, but do not implement
+ * unwinding, register diagnostics, signals or Windows exception dispatch. */
+#ifdef RECON_BORLAND_400_USER_HANDLER
+static ULONG WINAPI borland_initial_user_handler(EXCEPTION_RECORD *record,void *frame,CONTEXT *context,void *dispatch)
+{
+    (void)record;(void)frame;(void)context;(void)dispatch;
+    recon_unsupported("Borland400 initial exception handler invocation");
+    __builtin_unreachable();
+}
+static ULONG WINAPI borland_gp_user_handler(EXCEPTION_RECORD *record,void *frame,CONTEXT *context,void *dispatch)
+{
+    (void)record;(void)frame;(void)context;(void)dispatch;
+    recon_unsupported("Borland400 GP exception handler invocation");
+    __builtin_unreachable();
+}
+static ReconBorland400UserHandler borland_user_handler=borland_initial_user_handler;
+#endif
+ReconBorland400UserHandler __cdecl recon_borland_400_SetUserHandler(ReconBorland400UserHandler handler)
+{
+#ifdef RECON_BORLAND_400_USER_HANDLER
+    ReconBorland400UserHandler previous=borland_user_handler;
+    borland_user_handler=handler;
+    return previous;
+#else
+    (void)handler;recon_unsupported("Borland400 user handler requires explicit opt-in");
+    __builtin_unreachable();
+#endif
+}
+/* Host startup boundary for the actual later priority100 callback at db319:
+ * its entire effect is _SetUserHandler(GP default), before App main. */
+void recon_borland_400_initialize_gp_handler(void)
+{
+#ifdef RECON_BORLAND_400_USER_HANDLER
+    recon_borland_400_SetUserHandler(borland_gp_user_handler);
+#else
+    recon_unsupported("Borland400 GP startup requires explicit opt-in");
+#endif
+}
+
 /* Compiler-generated abstract vtables may reference this boundary during
  * otherwise inlined construction. Invocation remains unsupported; this does
  * not model an original CRT purecall diagnostic or successful return. */

@@ -1204,3 +1204,7 @@ native-system-check:
 .PHONY: native-prepare-check
 native-prepare-check:
 	$(PYTHON) tests/native-prepare/check.py
+
+.PHONY: borland-user-handler-check
+borland-user-handler-check:
+	$(PYTHON) tests/borland-user-handler/check.py

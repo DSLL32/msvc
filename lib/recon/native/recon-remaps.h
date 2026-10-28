@@ -28,6 +28,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+/* BC4.0 BCC32 uses stdcall exception callbacks despite the later shipped
+ * DOSEXCPT.H Win32 typedef. Setter itself is cdecl; dispatch is unsupported. */
+typedef ULONG (WINAPI *ReconBorland400UserHandler)(EXCEPTION_RECORD *,void *,CONTEXT *,void *);
+ReconBorland400UserHandler __cdecl recon_borland_400_SetUserHandler(ReconBorland400UserHandler);
+void recon_borland_400_initialize_gp_handler(void);
 void __cdecl __cxa_pure_virtual(void) __attribute__((noreturn));
 
 #ifndef _ONEXIT_T_DEFINED
@@ -527,6 +532,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define SigForPbCb recon_mspdb_SigForPbCb
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
 #define TruncStFromSz recon_mspdb_TruncStFromSz
+#endif
+#ifdef RECON_BORLAND_400_USER_HANDLER
+#define _SetUserHandler recon_borland_400_SetUserHandler
 #endif
 #define setlocale recon_setlocale
 #define _setmbcp recon_setmbcp

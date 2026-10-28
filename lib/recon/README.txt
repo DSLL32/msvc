@@ -2127,3 +2127,17 @@ startup. The eager initializer and fixture binders retain their prior behavior.
 Canonical Watcom stdout may additionally use a fresh caller-owned 128-byte line
 buffer on a verified real TTY with exact lowio flags0xc1. This does not admit
 256-byte TTY buffering, replacement buffers or interactive stdin/getch support.
+
+BC4.0 BCC32 user-handler registration is selected explicitly with
+RECON_BORLAND_400_USER_HANDLER on native App and support compilations. It maps
+_SetUserHandler to a cdecl setter returning the previous four-argument stdcall
+callback pointer. The process-global pointer supports NULL, repeat and restore;
+registration does not call the supplied handler or change error/FP state.
+Initial native state represents the completed early RTL handler initialization.
+Target BCC32 d4026..d403b establishes the swap; callbacks use RET16, unlike the
+cdecl Win32 ERR typedef in the later shipped DOSEXCPT.H. Native startup glue may
+call recon_borland_400_initialize_gp_handler after the App initializer/before
+main, matching the later db319..db32b CRT pointer replacement. Initial RTL and
+later GP default identities are distinct and both deny125 if invoked: no unwind,
+signal, GP diagnostic or OS exception dispatch is implemented. This feature does
+not select a general Borland CRT profile or alter unselected MSVC/Watcom callers.
