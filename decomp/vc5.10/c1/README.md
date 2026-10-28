@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 828 application functions / 221,623 code bytes and
-9,800 bytes of owned text data. Application code is 68.77% of the original
+The reconstruction contains 831 application functions / 223,485 code bytes and
+9,800 bytes of owned text data. Application code is 69.34% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All eighteen cached cases complete natively: DLL attach/export lookup/detach, the
+All nineteen cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, and browser output described below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, browser output and the callback/union workload described below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -276,6 +276,24 @@ failures are in `browser-information-case-20261027/` and
 error output, wider symbol categories and unencountered browser slots remain
 outside the exercised domain. The source documents and zeroes the original's
 uninitialized 512-byte write-error padding; that error path was not exercised.
+
+The callback/union case combines repeated function and callback declarations,
+K&R/default-promotion compatibility, anonymous union members, array/function
+decay, aggregate parameters and returns, typed callback arguments and a variadic
+external call. Both executions exit zero with 557 first entries and exact
+artifacts: `callbacksex` (2,474 bytes), `callbacksgl` (357), `callbacksin` (128),
+and `callbackssy` (664). The final reference took 2,183.331 ms; the matching
+native run took 18.591 ms. Three application functions add 1,862 code bytes;
+existing storage and type owners are retained. Three focused checks cover nested
+record-frame/member-allocation boundaries, opaque 52-byte symbol copies and
+simple prototype selection without input mutation. All nineteen cached cases
+and units passed in 1.715 s; the full graph/ABI audit passed in 1.453 s.
+Scratch `callback-union-case-20261028/` retains the raw artifacts, references
+and failed native catchup attempts. The original nested-prototype merge has a
+reversed copy from fresh arena storage into an existing parameter list. Its
+Win32 source preserves that defect; native guards this unexercised incidental
+storage domain before the read or effect. No zero initialization or comparison
+mask is substituted for it.
 
 The completed cases exercise bounded domains. Larger readable parser, lexer,
 IR writer, PCH, debug and recorded-input bodies include unexercised branches;

@@ -276,7 +276,7 @@ int RECON_THISCALL CompilerParser::Run(void)
             value_top->value.string_attributes = c1_bss.parser_value.string_attributes;
         else if (state == 16 || state == 15 || state == 12 || state == 10 || state == 22 || state == 17 || state == 20 || state == 18 || state == 176 || state == 245)
             value_top->value.declaration = c1_bss.parser_value.declaration;
-        else if (state == 254 || state == 31 || state == 149)
+        else if (state == 254 || state == 31 || state == 149 || state == 220 || state == 276)
             value_top->value.attributes = c1_bss.parser_value.attributes;
         else if (state == 103 || state == 104 || state == 163 || state == 268)
             value_top->value.integer = c1_bss.parser_value.integer;
@@ -458,7 +458,7 @@ read_action:
                 recon_unsupported("bitfield declarator and integer source are not yet modeled");
             c1_bss.parser_value.declarator_symbol = value_top[1].value.declarator_symbol;
         } else if (rule == 78 || rule == 77) {
-            if ((rule == 78 && state_top[1] != 27 && state_top[1] != 150 && state_top[1] != 101) || (rule == 77 && ((state_top[1] != 27 && state_top[1] != 212 && state_top[1] != 150 && state_top[1] != 101) || state_top[2] != 55 ||
+            if ((rule == 78 && state_top[1] != 27 && state_top[1] != 150 && state_top[1] != 101 && state_top[1] != 218) || (rule == 77 && ((state_top[1] != 27 && state_top[1] != 212 && state_top[1] != 150 && state_top[1] != 101 && state_top[1] != 218) || state_top[2] != 55 ||
                     state_top[3] != 103 || state_top[4] != 169)))
                 recon_unsupported("declarator pair reduction source state is not yet modeled");
             c1_bss.parser_value.declarator_symbol = value_top[1].value.declarator_symbol;
@@ -530,6 +530,7 @@ read_action:
         case 45:
         case 46:
         case 47: /* Member terminator clears the established temporary arena/control bits. */
+        case 48: /* Existing completed type enters the anonymous-member owner. */
         case 49:
         case 50: /* Established record-member declarator then genuine member owner. */
         case 51: /* A comma-separated member retains the same declarator/symbol pair. */
@@ -966,6 +967,10 @@ case 47:
     declaration_control[declaration_depth].flags &= ~3;
     break;
 case 48:
+#ifdef RECON_NATIVE_TEST
+    if (declaration_depth != 0 || !declaration_specs[0].type)
+        recon_unsupported("anonymous member declaration source is not yet modeled");
+#endif
     add_record_member(&declaration_specs[declaration_depth], NULL, NULL);
     break;
 case 50:
@@ -974,7 +979,7 @@ case 52:
     if (rule == 52)
         report_language_diagnostic(1, 228);
 #ifdef RECON_NATIVE_TEST
-    if ((rule != 50 && rule != 51) || declaration_depth != 0 || c1_constant_diagnostic_mode != 0 ||
+    if ((rule != 50 && rule != 51) || declaration_depth != 0 || c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1 ||
         !right[0].value.declarator || !right[0].value.declarator_symbol.symbol)
         recon_unsupported("record member semantic alternative is not yet modeled");
 #endif
@@ -2225,7 +2230,7 @@ void __cdecl begin_record_definition(CompilerIrSymbol *symbol, CompilerType *typ
     }
     depth = ++c1_constant_diagnostic_mode;
     if (depth == 16) compiler_error(46, symbol->value_type);
-    if (depth != 0) {
+    if (depth < 0 || depth > 1) {
 #ifdef __linux__
         recon_unsupported("record-definition index is not yet recovered");
 #else
@@ -2263,6 +2268,7 @@ void __cdecl append_record_member(CompilerIrSymbol *);
 void __cdecl layout_bitfield_member(CompilerIrSymbol *, WORD);
 void __cdecl report_extension_diagnostic(unsigned, unsigned, ...);
 void __cdecl emit_anonymous_record_member(CompilerType *);
+extern "C" CompilerIrSymbol *__cdecl lookup_cached_symbol_record(unsigned, CompilerNameEntry *, unsigned);
 CompilerIrSymbol *__cdecl lookup_ir_symbol(CompilerIrSymbol *);
 int __cdecl add_record_member(const CompilerParserDeclaration *declaration,
     CompilerIrSymbol *symbol, CompilerDeclarator *declarator)
@@ -2273,7 +2279,7 @@ int __cdecl add_record_member(const CompilerParserDeclaration *declaration,
         compiler_warning(28);
         return 0;
     }
-    if (c1_constant_diagnostic_mode != 0) {
+    if ((c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1)) {
 #ifdef __linux__
         recon_unsupported("record member frame index is not yet recovered");
 #else
@@ -2335,7 +2341,7 @@ int __cdecl check_record_member_name(CompilerNameEntry *name)
     CompilerSymbolBinding *binding;
     if (c1_constant_diagnostic_mode < 0 || !name ||
         name == c1_data.builtin_names.alignment_member || !(name->flags & 0x40000)) return 0;
-    if (c1_constant_diagnostic_mode != 0) {
+    if ((c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1)) {
 #ifdef __linux__
         recon_unsupported("duplicate member frame index is not yet recovered");
 #else
@@ -2367,7 +2373,7 @@ unsigned __cdecl layout_record_member(CompilerIrSymbol *member)
     CompilerType *type;
     CompilerIrSymbol *tag;
     unsigned size, alignment, offset;
-    if (c1_constant_diagnostic_mode != 0) {
+    if ((c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1)) {
 #ifdef __linux__
         recon_unsupported("record layout frame index is not yet recovered");
 #else
@@ -2453,7 +2459,7 @@ void __cdecl finish_record_bitfield(void)
 {
     CompilerRecordDefinition *frame;
     unsigned flags, bytes;
-    if (c1_constant_diagnostic_mode != 0) {
+    if ((c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1)) {
 #ifdef __linux__
         recon_unsupported("bitfield completion record index is not yet recovered");
 #else
@@ -2473,7 +2479,7 @@ void __cdecl align_record_member(unsigned alignment)
 {
     CompilerRecordDefinition *frame;
     unsigned packing, bounded, padding;
-    if (c1_constant_diagnostic_mode != 0) {
+    if ((c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1)) {
 #ifdef __linux__
         recon_unsupported("record alignment frame index is not yet recovered");
 #else
@@ -2494,7 +2500,7 @@ void __cdecl align_record_member(unsigned alignment)
 unsigned __cdecl calculate_alignment_padding(unsigned, unsigned);
 unsigned __cdecl record_alignment_padding(unsigned alignment)
 {
-    if (c1_constant_diagnostic_mode != 0) {
+    if ((c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1)) {
 #ifdef __linux__
         recon_unsupported("record padding frame index is not yet recovered");
 #else
@@ -2519,7 +2525,7 @@ void __cdecl append_record_padding(unsigned bytes)
     unsigned arena_kind = parameter_nesting ? 2 : 0;
     unsigned size = c1_data.record_sizes.known.member_symbol_bytes;
     CompilerArena *arena;
-    if (c1_constant_diagnostic_mode != 0 ||
+    if ((c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1) ||
         (!arena_kind && c1_data.member_symbol_cache_index != 9) || size != 52) {
 #ifdef __linux__
         recon_unsupported("padding symbol cache or record frame is not modeled");
@@ -2592,7 +2598,7 @@ void __cdecl append_record_member(CompilerIrSymbol *symbol)
     CompilerSymbolBinding *binding = &symbol->binding;
     CompilerRecordMembers *members;
     if (binding->name) binding->name->flags |= 0x40000;
-    if (c1_constant_diagnostic_mode != 0) {
+    if ((c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1)) {
 #ifdef __linux__
         recon_unsupported("record member append frame index is not yet recovered");
 #else
@@ -2609,7 +2615,7 @@ void __cdecl layout_bitfield_member(CompilerIrSymbol *member, WORD type_flags)
 {
     CompilerRecordDefinition *frame;
     unsigned flags = type_flags, width, encoding, bytes, old_flags, old_bytes;
-    if (c1_constant_diagnostic_mode != 0) {
+    if ((c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1)) {
 #ifdef __linux__
         recon_unsupported("bitfield record-definition index is not yet recovered");
 #else
@@ -2675,7 +2681,91 @@ place:
         member->symbol_value = frame->byte_size;
     } else member->symbol_value = 0;
 }
-void __cdecl emit_anonymous_record_member(CompilerType *) { __asm { int 3 } }
+void __cdecl emit_anonymous_record_member(CompilerType *type)
+{
+    CompilerRecordDefinition *frame;
+    CompilerIrSymbol *symbol, *owner, *source;
+    CompilerRecordMembers *members;
+    CompilerSymbolBinding *binding;
+    CompilerNameEntry *name = c1_data.builtin_names.alignment_member;
+    CompilerArena *arena = &c1_bss.arenas[0];
+    unsigned offset, bytes, index;
+    BYTE *memory;
+    if (c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1 ||
+        c1_data.record_sizes.known.member_symbol_bytes != 52 ||
+        c1_data.member_symbol_cache_index != 9) {
+#ifdef __linux__
+        recon_unsupported("anonymous member record frame or cache is not modeled");
+#else
+        __asm { int 3 }
+#endif
+    }
+    frame = &c1_bss.record_definitions[c1_constant_diagnostic_mode];
+    frame->symbol->qualifier_flags |= 2;
+    symbol = lookup_cached_symbol_record(3, name, 0);
+    if (!symbol) {
+        memory = arena->AllocateBytes((c1_data.record_sizes.known.member_symbol_bytes + 3) & ~3U);
+        symbol = memory ? ((CompilerIrSymbol *)memory)->Initialize(3, name, 0) : NULL;
+    }
+    symbol->flags |= 0x40;
+    symbol->qualifier_flags |= 8;
+    symbol->value_type = type;
+    offset = layout_record_member(symbol);
+    symbol->symbol_value = offset;
+    owner = type->symbol_owner;
+    frame->symbol->qualifier_flags = (frame->symbol->qualifier_flags & ~1U) |
+        (owner->qualifier_flags & 1);
+    frame->symbol->tag_definition_flags =
+        (frame->symbol->tag_definition_flags & ~0x100U) |
+        (((owner->tag_definition_flags & 0x100) || (type->flags & 0x404) == 0x404) ? 0x100 : 0);
+    append_record_member(symbol);
+    members = (CompilerRecordMembers *)owner->kind4_context;
+    binding = members ? members->first : NULL;
+    for (; binding; binding = binding->next) {
+        source = (CompilerIrSymbol *)((BYTE *)binding - 8);
+        unsigned kind = source->kind;
+        if (kind == 15 || kind == 17 || kind == 8 || kind == 4) continue;
+        if (check_record_member_name(binding->name)) continue;
+        /* Only the encountered52-byte member owner is currently supported.
+         * Other original symbol kinds are valid but their copies remain held. */
+        if (kind != 3) {
+#ifdef __linux__
+            recon_unsupported("anonymous member copy kind is not modeled");
+#else
+            __asm { int 3 }
+#endif
+        }
+        bytes = c1_data.record_sizes.indexed[kind];
+        memory = arena->AllocateBytes((bytes + 3) & ~3U);
+        symbol = memory ? ((CompilerIrSymbol *)memory)->CopyFrom(source, 0) : NULL;
+        append_record_member(symbol);
+        if ((frame->flags & 1) && symbol->binding.name != name &&
+            !(symbol->qualifier_flags & 0x18))
+            symbol->symbol_value += offset;
+    }
+    /* Closing marker uses the same physical cache head and member owner. */
+    index = c1_data.member_symbol_cache_index;
+    binding = c1_data.symbol_cache.indexed[index];
+    symbol = NULL;
+    if (binding) {
+        c1_data.symbol_cache.indexed[index] = binding->next;
+        binding->name = NULL;
+        binding->next = NULL;
+        symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
+        memset(symbol, 0, c1_data.record_sizes.known.member_symbol_bytes);
+        symbol->binding.name = name;
+        symbol->kind = 3;
+    }
+    if (!symbol) {
+        memory = arena->AllocateBytes((c1_data.record_sizes.known.member_symbol_bytes + 3) & ~3U);
+        symbol = memory ? ((CompilerIrSymbol *)memory)->Initialize(3, name, 0) : NULL;
+    }
+    symbol->flags |= 0x40;
+    symbol->qualifier_flags |= 0x10;
+    symbol->value_type = type;
+    append_record_member(symbol);
+    frame->bitfield_type_flags = 0;
+}
 /* RVA0c0a9 */
 CompilerType * __cdecl parse_record_specifier(void)
 {
@@ -2683,7 +2773,7 @@ CompilerType * __cdecl parse_record_specifier(void)
     CompilerIrSymbol *symbol;
     CompilerType *type;
     unsigned debug_index = 0;
-    if (c1_constant_diagnostic_mode != 0) {
+    if ((c1_constant_diagnostic_mode < 0 || c1_constant_diagnostic_mode > 1)) {
 #ifdef __linux__
         recon_unsupported("record finalization frame index is not yet recovered");
 #else
@@ -2849,7 +2939,9 @@ extern "C" CompilerIrSymbol *__cdecl lookup_cached_symbol_record(unsigned kind,
     CompilerIrSymbol *symbol;
     if (arena_kind) return NULL;
     kind &= 0xff;
-    if (!((kind == 5 && c1_data.enumerator_symbol_cache_index == 5 &&
+    if (!((kind == 3 && c1_data.member_symbol_cache_index == 9 &&
+           c1_data.record_sizes.known.member_symbol_bytes == 52) ||
+          (kind == 5 && c1_data.enumerator_symbol_cache_index == 5 &&
            c1_data.record_sizes.known.enumerator_symbol_bytes == 40) ||
           (kind == 12 && c1_data.parameter_symbol_cache_index == 9 &&
            c1_data.record_sizes.known.parameter_symbol_bytes == 52) ||
@@ -2861,7 +2953,8 @@ extern "C" CompilerIrSymbol *__cdecl lookup_cached_symbol_record(unsigned kind,
         __asm { int 3 }
 #endif
     }
-    unsigned index = kind == 5 ? c1_data.enumerator_symbol_cache_index :
+    unsigned index = kind == 3 ? c1_data.member_symbol_cache_index :
+        kind == 5 ? c1_data.enumerator_symbol_cache_index :
         kind == 10 ? c1_data.static_symbol_cache_index : c1_data.parameter_symbol_cache_index;
     binding = c1_data.symbol_cache.indexed[index];
     if (!binding) return NULL;
@@ -6429,6 +6522,16 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
     (d)->shape->flags == 1 && (s)->shape->flags == 2 && \
     !(d)->shape->attributes && !(s)->shape->attributes && \
     !(d)->shape->base && !(s)->shape->base)
+/* The encountered matrix argument decays only its outer array dimension;
+ * the canonical inner row shape, bound and const-qualified element remain. */
+#define CONST_INT_MATRIX_ARGUMENT(d,s) ((d)->flags == 0x63 && (s)->flags == 0x63 && \
+    (d)->attributes == 0x100 && (s)->attributes == 0x100 && \
+    !(d)->auxiliary && !(s)->auxiliary && (d)->shape && (s)->shape && \
+    (d)->shape->flags == 1 && (s)->shape->flags == 2 && (s)->shape->value && \
+    !(d)->shape->attributes && !(s)->shape->attributes && \
+    (d)->shape->base && (d)->shape->base == (s)->shape->base && \
+    (d)->shape->base->flags == 2 && !(d)->shape->base->attributes && \
+    !(d)->shape->base->base && (d)->shape->base->value)
 #define RECORD_POINTER_ASSIGNMENT(d,s) ((d)->flags == 0x402 && (s)->flags == 0x402 && \
     (d)->attributes == 0x100 && !(s)->attributes && (d)->shape && (s)->shape && \
     (d)->shape->flags == 1 && (s)->shape->flags == 1 && !(d)->shape->attributes && \
@@ -6466,11 +6569,12 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
           type->flags == 0x402 && !type->attributes && type->symbol_owner &&
           type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) &&
         !(operation == 116 && RECORD_TO_INT_DIAGNOSTIC(type, value->type)) &&
-        !(operation == 116 && CDECL_CALLBACK_ASSIGNMENT(type, value->type)) &&
+        !((operation == 112 || operation == 116) && CDECL_CALLBACK_ASSIGNMENT(type, value->type)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(type, value->type)) &&
         !(operation == 112 && CONST_INT_ARRAY_ARGUMENT(type, value->type)) &&
+        !(operation == 112 && CONST_INT_MATRIX_ARGUMENT(type, value->type)) &&
         !(operation == 112 && WIN32_CALLBACK_ARGUMENT(type, value->type)) &&
-        !((operation == 112 || operation == 116) && CHAR_POINTER_ASSIGNMENT(type, value->type)) &&
+        !((operation == 52 || operation == 112 || operation == 116) && CHAR_POINTER_ASSIGNMENT(type, value->type)) &&
         !(operation == 52 && RECORD_POINTER_ASSIGNMENT(type, value->type)) &&
         !((operation == 52 || operation == 116) && RECORD_VALUE_ASSIGNMENT(type, value->type)) &&
         !(operation == 116 && VOID_FROM_RECORD_POINTER(type, value->type)) &&
@@ -6541,11 +6645,12 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
           (source->flags == 0x106 || source->flags == 0x107) &&
           !(destination->attributes & ~0x100U) && !(source->attributes & ~0x110U)) &&
         !(operation == 116 && RECORD_TO_INT_DIAGNOSTIC(destination, source)) &&
-        !(operation == 116 && CDECL_CALLBACK_ASSIGNMENT(destination, source)) &&
+        !((operation == 112 || operation == 116) && CDECL_CALLBACK_ASSIGNMENT(destination, source)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(destination, source)) &&
         !(operation == 112 && CONST_INT_ARRAY_ARGUMENT(destination, source)) &&
+        !(operation == 112 && CONST_INT_MATRIX_ARGUMENT(destination, source)) &&
         !(operation == 112 && WIN32_CALLBACK_ARGUMENT(destination, source)) &&
-        !((operation == 112 || operation == 116) && CHAR_POINTER_ASSIGNMENT(destination, source)) &&
+        !((operation == 52 || operation == 112 || operation == 116) && CHAR_POINTER_ASSIGNMENT(destination, source)) &&
         !(operation == 52 && RECORD_POINTER_ASSIGNMENT(destination, source)) &&
         !((operation == 52 || operation == 116) && RECORD_VALUE_ASSIGNMENT(destination, source)) &&
         !(operation == 116 && VOID_FROM_RECORD_POINTER(destination, source)) &&
@@ -10410,7 +10515,7 @@ int RECON_THISCALL CompilerDeclarationScanner::ScanClass40(void)
 {
     unsigned i;
     if (!(parser_flags & 8)) {
-        if (declaration_depth < 0 || declaration_depth > 1) {
+        if (declaration_depth < 0 || declaration_depth > 2) {
 #ifdef __linux__
             recon_unsupported("type qualifier declaration control index is not yet recovered");
 #else

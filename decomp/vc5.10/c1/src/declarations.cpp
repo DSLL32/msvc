@@ -69,6 +69,12 @@ struct DeclarationTagNameView {
     (t)->shape && ((t)->shape->flags & 7) == 4 && \
     (t)->shape->attributes == 0x10 && !(t)->shape->base)
 
+/* Encountered extern function returning an already complete record. */
+#define CDECL_RECORD_FUNCTION(t) ((t) && (t)->flags == 0x402 && (t)->attributes == 0x10 && \
+    (t)->shape && ((t)->shape->flags & 7) == 4 && (t)->shape->attributes == 0x10 && \
+    !(t)->shape->base && (t)->symbol_owner && (t)->symbol_owner->kind == 4 && \
+    ((t)->symbol_owner->flags & 1))
+
 #define STDCALL_INT_FUNCTION(t) ((t) && (t)->flags == 0x63 && (t)->attributes == 0x60 && \
     (t)->shape && ((t)->shape->flags & 7) == 4 && \
     (t)->shape->attributes == 0x60 && !(t)->shape->base)
@@ -194,7 +200,7 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
           !(original.flags == 0x20003 && symbol->kind == 10 && declarator &&
             declarator->resolved_type == c1_data.builtin_types.type_0063) &&
           !(original.flags == 0x1001 && symbol->kind == 10 && declarator &&
-            (CDECL_INT_FUNCTION(declarator->resolved_type) || INT_ARRAY_TYPE(declarator->resolved_type)))) ||
+            (CDECL_INT_FUNCTION(declarator->resolved_type) || CDECL_RECORD_FUNCTION(declarator->resolved_type) || INT_ARRAY_TYPE(declarator->resolved_type)))) ||
         original.context || (symbol->kind != 10 && symbol->kind != 2 && symbol->kind != 3 && symbol->kind != 11 &&
         !(symbol->kind == 12 && declarator && declarator->resolved_type &&
           (CDECL_INT_CALLBACK(declarator->resolved_type) || SCALAR_ARITHMETIC_TYPE(declarator->resolved_type) ||
@@ -421,7 +427,7 @@ extern "C" CompilerIrSymbol *__cdecl declare_declarator(
         (flags != 0x20 && flags != 7 && flags != 3 &&
          !(flags == 0x40020 && symbol->kind == 1 && STDCALL_INT_FUNCTION(declarator->resolved_type)) &&
          !(flags == 0x20003 && symbol->kind == 1 && declarator->resolved_type == c1_data.builtin_types.type_0063) &&
-         !(flags == 0x1001 && symbol->kind == 1 && (CDECL_INT_FUNCTION(declarator->resolved_type) || INT_ARRAY_TYPE(declarator->resolved_type)))) || context) {
+         !(flags == 0x1001 && symbol->kind == 1 && (CDECL_INT_FUNCTION(declarator->resolved_type) || CDECL_RECORD_FUNCTION(declarator->resolved_type) || INT_ARRAY_TYPE(declarator->resolved_type)))) || context) {
 #ifdef __linux__
         recon_unsupported("declaration publication flags or symbol alternative is not yet modeled");
 #else
@@ -837,11 +843,13 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
     } else if (symbol->kind == 11 || symbol->kind == 12) {
         if (typedef_name || !(DECLARED_INT_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
             (symbol->kind == 11 && type->flags == 0x62 && !type->attributes && !shape && !type->auxiliary) ||
-            VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_INT_POINTER(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
+            VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_INT_POINTER(type) || CONST_INT_MATRIX(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
             type == c1_data.builtin_types.type_0063 ||
             type == c1_data.builtin_types.type_4063_first ||
-            (shape && (shape->flags & 7) == 1 && type->flags == 0x402 &&
-             type->attributes == 0x100 && type->symbol_owner && type->symbol_owner->kind == 4 &&
+            (shape && ((shape->flags & 7) == 1 ||
+                       (shape->flags == 2 && !shape->attributes && !shape->base)) &&
+             type->flags == 0x402 && type->attributes == 0x100 &&
+             type->symbol_owner && type->symbol_owner->kind == 4 &&
              (type->symbol_owner->flags & 1))))
             recon_unsupported("parameter pointer type domain is not yet modeled");
     } else if (symbol->kind == 13 && !typedef_name && CDECL_INT_CALLBACK(type)) {
@@ -963,7 +971,17 @@ CompilerType *RECON_THISCALL CompilerType::WithShapeFlags(unsigned bits)
 }
 CompilerType *RECON_THISCALL CompilerType::WithFunctionConvention(unsigned) { __asm { int 3 } return NULL; }
 CompilerType *RECON_THISCALL CompilerType::DecayFunction(void) { __asm { int 3 } return NULL; }
-CompilerType *RECON_THISCALL CompilerType::DecayArray(void) { __asm { int 3 } return NULL; }
+CompilerType *RECON_THISCALL CompilerType::DecayArray(void)
+{
+    CompilerTypeShape pointer;
+    CompilerType description = *this;
+    pointer.flags = 1;
+    pointer.attributes = 0;
+    pointer.base = shape->base;
+    pointer.value = 0;
+    description.shape = intern_type_shape(&pointer);
+    return intern_type(&description);
+}
 
 extern "C" void __cdecl compiler_warning_v(unsigned, va_list);
 extern "C" void __cdecl report_extension_diagnostic(unsigned extension, unsigned warning, ...)
@@ -1137,7 +1155,111 @@ extern "C" int __cdecl compare_declaration_types(CompilerIrSymbol *previous,
     }
     return 0;
 }
-extern "C" CompilerType *__cdecl compose_declaration_type(CompilerType *, CompilerType *, int, int, int) { __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl promoted_integer_type(CompilerType *);
+extern "C" CompilerType *__cdecl copy_type_description(const CompilerType *);
+extern "C" CompilerTypeShape *__cdecl make_type_shape(unsigned, unsigned, unsigned *);
+extern "C" int __cdecl is_function_pointer_type(const CompilerType *) { __asm { int 3 } return 0; }
+extern "C" CompilerType *__cdecl compose_declaration_type(CompilerType *left,
+    CompilerType *right, int direct_function, int check_parameters, int intrinsic)
+{
+    CompilerTypeShape *left_function, *right_function, *replacement, *outer, *function_result;
+    CompilerTypeList *left_parameters, *right_parameters, *changed = NULL;
+    CompilerType *selected, *first, *second, *composite, *description;
+    CompilerArena *arena;
+    unsigned bytes, list_value;
+    int left_count, right_count, count, i;
+    if (direct_function) {
+        left_function = left->shape;
+        while ((left_function->flags & 7) != 4) left_function = left_function->base;
+        right_function = right->shape;
+        while ((right_function->flags & 7) != 4) right_function = right_function->base;
+    } else {
+        left_function = left->shape->base;
+        right_function = right->shape->base;
+        if (((left->flags ^ right->flags) & 0xefcf) || left->auxiliary != right->auxiliary)
+            return NULL;
+    }
+    left_parameters = left_function->parameters;
+    right_parameters = right_function->parameters;
+    left_count = left_parameters->count;
+    right_count = right_parameters->count;
+    if (!left_count && !right_count) return right;
+    if (!left_count || !right_count) {
+        selected = left_count ? left : right;
+        if (!check_parameters) return selected;
+        CompilerTypeList *parameters = left_count ? left_parameters : right_parameters;
+        count = left_count + right_count;
+        for (i = 0; i < count; ++i) {
+            first = parameters->types[i];
+            if (!first) break;
+            composite = promoted_integer_type(first);
+            if ((composite && composite != first) || (!first->shape && first->flags == 0x106)) {
+                if (c1_data.options.language_extensions)
+                    report_language_diagnostic(4, 32, i + 1);
+                else compiler_warning(379, i + 1);
+            }
+        }
+        return selected;
+    }
+    if (!direct_function && left_count != right_count) return NULL;
+    count = left_count;
+    if (direct_function && right_count < left_count) {
+        count = right_count;
+        if (c1_data.options.language_extensions) report_language_diagnostic(1, 30);
+        else compiler_warning(190);
+    } else if (direct_function && right_count > left_count) {
+        if (c1_data.options.language_extensions) report_language_diagnostic(1, 31);
+        else compiler_warning(191);
+    }
+    for (i = 0; i < count; ++i) {
+        first = left_parameters->types[i];
+        second = right_parameters->types[i];
+        if (first == second) continue;
+        if (check_parameters && first && is_function_pointer_type(first) &&
+            second && is_function_pointer_type(second)) {
+            composite = compose_declaration_type(first, second, 0, 1, intrinsic);
+            if (composite) {
+                if (composite != second) {
+                    if (!changed) {
+#ifdef __linux__
+                        recon_unsupported("nested prototype merge reads incidental fresh-arena bytes");
+#endif
+                        bytes = right_count * 4 + 8;
+                        arena = &c1_bss.arenas[3];
+                        changed = (CompilerTypeList *)arena->cursor;
+                        arena->cursor += (bytes + 3) & ~3U;
+                        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+                        /* Original defect: REP MOVS copies fresh, unwritten
+                         * storage into the old list, in this direction. The
+                         * new list is not initialized by this transfer. */
+                        memcpy(right_parameters, changed, bytes);
+                    }
+                    changed->types[i] = composite;
+                }
+                continue;
+            }
+        }
+        if (!check_parameters) return NULL;
+        if (c1_data.options.language_extensions) report_language_diagnostic(1, 28, i + 1);
+        else compiler_warning(192, i + 1);
+    }
+    if (!changed) return right;
+    list_value = (unsigned)changed;
+    replacement = intern_type_shape(make_type_shape(right_function->flags,
+        right_function->attributes, &list_value));
+    if (!direct_function || right_function != right->shape) {
+        outer = right->shape;
+        function_result = replacement;
+        replacement = make_type_shape(outer->flags, outer->attributes, &outer->value);
+        replacement->base = function_result;
+        replacement = intern_type_shape(replacement);
+    }
+    description = copy_type_description(right);
+    description->shape = replacement;
+    selected = intern_type(description);
+    --c1_bss.type_description_depth;
+    return selected;
+}
 extern "C" int __cdecl compatible_declaration_qualifiers(WORD previous, WORD added,
     CompilerIrSymbol *, int)
 {
@@ -1373,9 +1495,9 @@ CompilerIrSymbol *RECON_THISCALL CompilerIrSymbol::CopyFrom(CompilerIrSymbol *so
 {
     unsigned bytes;
     /* This copy consumes the complete storage, including uninterpreted bytes.
-     * The encountered static-symbol owner and its size row are both52 bytes;
+     * The encountered static and member owners and their size rows are52 bytes;
      * other original kinds remain valid but unsupported here. */
-    if (source->kind != 10) {
+    if (source->kind != 3 && source->kind != 10) {
 #ifdef __linux__
         recon_unsupported("symbol copy kind has no encountered storage contract");
 #else

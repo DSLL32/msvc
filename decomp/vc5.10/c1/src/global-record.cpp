@@ -284,7 +284,11 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
         !(symbol->scope_bits & 1) && (symbol->storage_class & 7) != 7 &&
         !(symbol->function_flags & 1) && symbol->value_type == c1_data.builtin_types.type_0063) ||
         ((opcode == 4 || opcode == 14) && symbol->kind == 7 && !(symbol->scope_bits & 1) &&
-        (symbol->storage_class & 7) != 7 &&
+        ((symbol->storage_class & 7) != 7 ||
+         (symbol->value_type->flags == 0x63 && symbol->value_type->attributes == 0x10 &&
+          !symbol->value_type->auxiliary && symbol->value_type->shape &&
+          symbol->value_type->shape->flags == 0x404 &&
+          symbol->value_type->shape->attributes == 0x10 && !symbol->value_type->shape->base)) &&
         (!(symbol->function_flags & 1) || symbol->function_flags == 3) &&
         symbol->value_type->shape && (symbol->value_type->shape->flags & 7) == 4 &&
         !c1_data.options.debug_info))) {

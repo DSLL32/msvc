@@ -1300,6 +1300,64 @@ extern "C" int c1_test_record_definition_write_extent(void)
     return member_storage[0] == 0xa6a6a6a6 && member_storage[4] == 0xa6a6a6a6;
 }
 
+extern "C" int c1_test_nested_record_definition_write_extent(void)
+{
+    DWORD objects[18], blocks[34], member_storage[8];
+    CompilerContextFrame context;
+    CompilerIrSymbol symbol;
+    CompilerType type;
+    CompilerRecordDefinition *frame = &c1_bss.record_definitions[0];
+    memset(objects, 0xa5, sizeof(objects));
+    memset(blocks, 0x96, sizeof(blocks));
+    memset(member_storage, 0xa6, sizeof(member_storage));
+    memset(&c1_bss.record_definitions[0], 0xa5, 3 * sizeof(*frame));
+    memset(&type, 0, sizeof(type));
+    type.flags = 0x402;
+    c1_bss.arenas[2].cursor = (BYTE *)(blocks + 1);
+    c1_bss.arenas[2].committed_limit = (BYTE *)(blocks + 33);
+    CompilerRecordedLexer *lexer = ((CompilerRecordedLexer *)(objects + 1))->Initialize(2, 0);
+    context.stream = (CompilerLexer *)lexer;
+    c1_bss.current_context.saved_frame = &context;
+    c1_bss.browser_filename = NULL;
+    c1_bss.pools[7].cursor = (BYTE *)(member_storage + 1);
+    c1_bss.pools[7].remaining = 24;
+    symbol.Initialize(4, NULL, 0);
+    symbol.value_type = &type;
+    c1_data.record_definition_depth = -1;
+    begin_record_definition(&symbol, &type);
+    CompilerRecordMembers *members = (CompilerRecordMembers *)(member_storage + 1);
+    if (c1_data.record_definition_depth || frame->symbol != &symbol || frame->type != &type ||
+        frame->initialized_04 || frame->byte_size || frame->bitfield_type_flags ||
+        frame->alignment != 1 || frame->initialized_14 || frame->flags != 0xa1 ||
+        frame->unmodeled_16[0] != 0xa5 || frame->unmodeled_16[1] != 0xa5 ||
+        symbol.kind4_context != members || members->unmodeled_00 || members->first || members->last ||
+        c1_bss.pools[7].cursor != (BYTE *)(member_storage + 4) || c1_bss.pools[7].remaining != 12)
+        return 0;
+    for (unsigned i = 0; i < sizeof(*frame); ++i)
+        if (((BYTE *)&c1_bss.record_definitions[1])[i] != 0xa5) return 0;
+    CompilerRecordDefinition parent = *frame;
+    CompilerIrSymbol child;
+    CompilerType child_type = type;
+    child_type.flags = 0x404;
+    child.Initialize(4, NULL, 0);
+    child.value_type = &child_type;
+    begin_record_definition(&child, &child_type);
+    frame = &c1_bss.record_definitions[1];
+    members = (CompilerRecordMembers *)(member_storage + 4);
+    if (c1_data.record_definition_depth != 1 ||
+        memcmp(&c1_bss.record_definitions[0], &parent, sizeof(parent)) ||
+        frame->symbol != &child || frame->type != &child_type ||
+        frame->initialized_04 || frame->byte_size || frame->bitfield_type_flags ||
+        frame->alignment != 1 || frame->initialized_14 || frame->flags != 0xa0 ||
+        frame->unmodeled_16[0] != 0xa5 || frame->unmodeled_16[1] != 0xa5 ||
+        child.kind4_context != members || members->unmodeled_00 || members->first || members->last ||
+        c1_bss.pools[7].cursor != (BYTE *)(member_storage + 7) || c1_bss.pools[7].remaining)
+        return 0;
+    for (unsigned i = 0; i < sizeof(*frame); ++i)
+        if (((BYTE *)&c1_bss.record_definitions[2])[i] != 0xa5) return 0;
+    return member_storage[0] == 0xa6a6a6a6 && member_storage[7] == 0xa6a6a6a6;
+}
+
 extern "C" int c1_test_parameter_link_write_extent(void)
 {
     DWORD storage[8];
@@ -1920,19 +1978,23 @@ extern "C" int c1_test_symbol_copy_storage(void)
     struct { DWORD before; CompilerIrSymbol value; DWORD after; } source, destination;
     CompilerIrSymbol expected;
     if (sizeof(CompilerIrSymbol) != 52) return 0;
+    for (unsigned kind_index = 0; kind_index < 2; ++kind_index) {
     memset(&source, 0x3d, sizeof(source));
     memset(&destination, 0xa7, sizeof(destination));
-    source.value.kind = 10;
+    source.value.kind = kind_index ? 3 : 10;
     source.value.binding.name = (CompilerNameEntry *)&source.before;
     source.value.binding.next = (CompilerSymbolBinding *)&source.after;
     memcpy(&expected, &source.value, 52);
     expected.binding.next = NULL;
     c1_data.record_sizes.known.static_symbol_bytes = 52;
+    c1_data.record_sizes.known.member_symbol_bytes = 52;
     if (destination.value.CopyFrom(&source.value, 0) != &destination.value) return 0;
-    return !memcmp(&destination.value, &expected, 52) &&
-        destination.before == 0xa7a7a7a7U && destination.after == 0xa7a7a7a7U &&
-        source.before == 0x3d3d3d3dU && source.after == 0x3d3d3d3dU &&
-        source.value.binding.next == (CompilerSymbolBinding *)&source.after;
+    if (memcmp(&destination.value, &expected, 52) ||
+        destination.before != 0xa7a7a7a7U || destination.after != 0xa7a7a7a7U ||
+        source.before != 0x3d3d3d3dU || source.after != 0x3d3d3d3dU ||
+        source.value.binding.next != (CompilerSymbolBinding *)&source.after) return 0;
+    }
+    return 1;
 }
 
 extern "C" char *__cdecl encode_declaration_number(char *, unsigned);
@@ -2204,4 +2266,41 @@ extern "C" int c1_test_segment_symbol_storage(void)
             owned[0] != 0xa5a5a5a5U || owned[14] != 0xa5a5a5a5U) return 0;
     }
     return 1;
+}
+
+extern "C" CompilerType *__cdecl compose_declaration_type(CompilerType *, CompilerType *, int, int, int);
+extern "C" int c1_test_simple_function_type_composition(void)
+{
+    struct { DWORD before; CompilerTypeList value; DWORD after; } empty, single;
+    CompilerType scalar, left, right, scalar_before, left_before, right_before;
+    CompilerTypeShape left_shape, right_shape, left_shape_before, right_shape_before;
+    BYTE empty_before[sizeof(empty)], single_before[sizeof(single)];
+    memset(&empty, 0x96, sizeof(empty));
+    memset(&single, 0xa7, sizeof(single));
+    memset(&scalar, 0x69, sizeof(scalar));
+    scalar.flags = 0x63; scalar.attributes = 0; scalar.shape = NULL; scalar.auxiliary = 0;
+    empty.value.count = 0;
+    single.value.count = 1;
+    single.value.types[0] = &scalar;
+    memset(&left_shape, 0x97, sizeof(left_shape));
+    memset(&right_shape, 0x68, sizeof(right_shape));
+    left_shape.flags = right_shape.flags = 0x404;
+    left_shape.base = right_shape.base = NULL;
+    left_shape.parameters = &empty.value; right_shape.parameters = &single.value;
+    memset(&left, 0x59, sizeof(left)); memset(&right, 0x6a, sizeof(right));
+    left.shape = &left_shape; right.shape = &right_shape;
+    left_before = left; right_before = right; scalar_before = scalar;
+    left_shape_before = left_shape; right_shape_before = right_shape;
+    memcpy(empty_before, &empty, sizeof(empty)); memcpy(single_before, &single, sizeof(single));
+    if (compose_declaration_type(&left, &right, 1, 1, 0) != &right ||
+        compose_declaration_type(&right, &left, 1, 1, 0) != &right ||
+        compose_declaration_type(&left, &left, 1, 1, 0) != &left)
+        return 0;
+    return !memcmp(&left, &left_before, sizeof(left)) &&
+        !memcmp(&right, &right_before, sizeof(right)) &&
+        !memcmp(&scalar, &scalar_before, sizeof(scalar)) &&
+        !memcmp(&left_shape, &left_shape_before, sizeof(left_shape)) &&
+        !memcmp(&right_shape, &right_shape_before, sizeof(right_shape)) &&
+        !memcmp(&empty, empty_before, sizeof(empty)) &&
+        !memcmp(&single, single_before, sizeof(single));
 }
