@@ -1212,3 +1212,7 @@ borland-user-handler-check:
 .PHONY: borland-signal-time-check
 borland-signal-time-check:
 	$(PYTHON) tests/borland-signal-time/check.py
+
+.PHONY: borland-stdout-check
+borland-stdout-check:
+	$(PYTHON) tests/borland-stdout/check.py

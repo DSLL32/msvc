@@ -2154,3 +2154,19 @@ structures and cdecl getdate/gettime spellings; both calls are cold125/no-access
 In particular no real-time or hundredths behavior is implemented by silently
 reusing the existing seconds-only GetLocalTime. Original builds use shipped SDK
 headers and ordinary call spellings, with no native feature remapping.
+
+RECON_BORLAND_400_STDOUT selects the reached BC4 printf("%s",NUL text) route
+on fresh/adapter-owned redirected writable regular text stdout. Text is bounded
+to65535 bytes; other formats/stream roles and I/O failures remain unsupported.
+The native stream is512B, and each printf stages at most80 bytes per write,
+preflushing before a whole next chunk would exceed capacity. These sizes and
+boundaries follow ALLOCBUF/STREAMS/VPRINTER/FPUTN and actual BCC32 code; no catalog
+text, expected output count or case-specific spelling is part of the shim.
+The existing flush/fwrite/CRLF backend and normal cleanup remain available.
+The same opt-in _exit route publishes actual full status then terminates without
+atexit, pragma-exit callbacks or final stdio flush, preserving deliberate pending
+output loss. This is not general Borland stdio/private-FILE or error behavior;
+unselected printf/_exit routes and MSVC/Watcom configurations are unchanged.
+The saved BCC32 no-arguments reference is adopted by native-only replay: exit0,
+five App first entries and all1458 stdout bytes match (5.383ms native). The cold
+signal/default delivery and date/time boundaries remain uninvoked in this case.

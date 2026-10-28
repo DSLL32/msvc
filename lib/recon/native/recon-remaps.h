@@ -433,6 +433,8 @@ int recon_cenvarg(const char *const *,const char *const *,char **,char **,const 
 char *__cdecl recon_ctime(const time_t *);
 time_t recon_time(time_t *);
 void recon_assert(void *,void *,unsigned);
+int __cdecl recon_borland_400_printf(const char *,...);
+void __cdecl recon_borland_400_quick_exit(int) __attribute__((noreturn));
 void recon_exit(int);
 void __cdecl recon_perror(const char *);
 void recon_record_terminal_status(uint32_t);
@@ -704,7 +706,12 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define fputs recon_fputs
 #define puts recon_puts
 #define fprintf recon_fprintf
+#ifdef RECON_BORLAND_400_STDOUT
+#define printf recon_borland_400_printf
+#define _exit recon_borland_400_quick_exit
+#else
 #define printf recon_printf
+#endif
 #define vfprintf recon_vfprintf
 #define vprintf recon_vprintf
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
