@@ -10,7 +10,9 @@ with tempfile.TemporaryDirectory() as tmp:
     path=Path(tmp)/'profile';good=encode_profile(reference,system,memory);path.write_bytes(good)
     p=subprocess.run([binary,str(path),reference],capture_output=True)
     assert p.returncode==0 and p.stdout==system+memory and not p.stderr,(p.returncode,p.stderr)
-    modes=['unbound','rebind','wrong-order','null','extra-system','extra-memory']
+    p=subprocess.run([binary,str(path),reference,'unbound'],capture_output=True)
+    assert p.returncode==0 and not p.stdout and not p.stderr,(p.returncode,p.stderr)
+    modes=['unbound-memory','rebind','wrong-order','null','extra-system','extra-memory']
     for mode in modes:
         p=subprocess.run([binary,str(path),reference,mode],capture_output=True)
         assert p.returncode==125,(mode,p.returncode,p.stderr)
@@ -22,4 +24,4 @@ for args in [('bad',system,memory),(reference,system[:-1],memory),(reference,sys
     try: encode_profile(*args)
     except ValueError: pass
     else: raise AssertionError('invalid encoder input accepted')
-print('captured system profile exact68 bytes, 12 native controls and3encoder controls passed')
+print('captured system profile exact68 bytes, unbound liveSYSTEM_INFO, 12 native controls and3encoder controls passed')

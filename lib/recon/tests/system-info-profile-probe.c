@@ -17,7 +17,12 @@ int main(int argc,char **argv)
     if(!strcmp(mode,"repeat"))recon_GetSystemInfo(&data.system);
     if(!strcmp(mode,"memory"))recon_GlobalMemoryStatus(&memory);
     __asm__ __volatile__("fnsave %0\n\tfrstor %0":"=m"(after));
-    assert(!memcmp(before,after,108));
+    if(!strcmp(mode,"unbound")) {
+        /* Real host queries may update x87 instruction/data bookkeeping and
+         * inactive register slots; preserve semantic fields and live ST0. */
+        assert(!memcmp(before,after,2) && !memcmp(before+4,after+4,2) &&
+               !memcmp(before+8,after+8,2) && !memcmp(before+28,after+28,10));
+    } else assert(!memcmp(before,after,108));
     assert(errno==111 && recon_doserrno==77 && recon_GetLastError()==0x12345678);
     for(i=0;i<16;++i)assert(data.before[i]==0xa5 && data.after[i]==0xa5);
     assert(fwrite(&data.system,1,36,stdout)==36);

@@ -936,7 +936,7 @@ static void native_system_output(const void *output,size_t bytes)
 
 void WINAPI recon_GetSystemInfo(LPSYSTEM_INFO output)
 {
-    if(recon_native_entry_active()) {
+    if(recon_native_entry_active() || !native_system_profile.bound) {
         SYSTEM_INFO system;MEMORYSTATUS memory;int saved=errno,*target=recon_errno(),saved_target=*target;
         unsigned long dos=recon_doserrno;DWORD error=last_error;
         native_system_output(output,sizeof(*output));native_system_snapshot(&system,&memory);*output=system;

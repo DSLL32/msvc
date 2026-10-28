@@ -2190,3 +2190,13 @@ Clock values across the original/native launches are not compared as identical.
 Actual empty-environment BCC noargs CLI checks cover PTY, pipe, file and NUL.
 Terminals print complete help; pipe/file preserve the exact1458B quick-exit
 reference. Focused controls include device output errors and closed descriptors.
+
+GetSystemInfo now defaults to the existing real host SYSTEM_INFO snapshot when
+no explicit system inventory is bound; it does not require canonical-entry or
+fixture setup. Real page facts and Win32 allocation granularity65536 are retained,
+with the already documented admitted Linux ABI/host-field projections. Explicit
+RSI1/RSE1 inventories retain their exact bytes, one-call/order/error controls;
+the unbound fixture GlobalMemoryStatus domain is unchanged. New unbound controls
+verify full writes/tails/errors/semantic x87 and real64MiB reservation, page commit,
+write and release. BCC's saved native-only replay passes ten App entries through
+reserve_compiler_arena to initialize_block_lists; no per-case values or new flag.

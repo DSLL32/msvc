@@ -1220,3 +1220,7 @@ borland-stdout-check:
 .PHONY: borland-live-time-check
 borland-live-time-check:
 	$(PYTHON) tests/borland-live-time/check.py
+
+.PHONY: system-default-check
+system-default-check:
+	$(PYTHON) tests/system-default/check.py
