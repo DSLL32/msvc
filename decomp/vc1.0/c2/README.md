@@ -1,5 +1,35 @@
 # VC1.0 C2 reconstruction
 
+Case0049 fixes the next real self-host descriptor gap: compiling RC's existing
+crt/startup.c uses GetExceptionInformation(), whose SDK macro and C1 builtin
+identify _exception_info ID218(0xDA). Only its encountered16B original descriptor
+84778..84788 is added: argument type404, reserved0, empty commands/runtime name,
+flags20. The existing SEH selector already reads exception pointers from the live
+registration at offset20; no selector body, generated call, CRT implementation,
+function graph or ABI changes. Unrecovered intrinsic IDs still trap in both builds.
+
+The actual native CL/C1 pre-C2 transport freezes four1657/115/16/779B inputs,
+no db, executable-only argv and sole MSC_CMD_FLAGS. This is actual native-C1 IR
+from the preserved dogfood source, not an original-CL claim. Only catalog, prefix
+and output paths are rebased for standalone replay. Fresh masked original C2
+and corrected native match the complete2240B object, empty streams/status0,
+with only established COFF timestamp4..8 normalization. NormalizedSHA256:
+`669752c30886a9c983a8a15832e7481dd73bc0a3402f20b566d1084128f8b300`.
+Original/canonical descriptor size/fields/strings are independently checked.
+Before correction, native records lower_intrinsic's seeded entry then hits its
+inline data guard; the original completes, so this is no new function trap or
+new function/code-coverage credit.
+
+All50 cases(39IO/11DIRECT),273 units,1414 graphs and218 scoped RET checks pass;
+final make-j4 audit/check/unit5.264s(concurrent phases unsplit), original W3
+compile1.259s. Case build6.133s, canonical/native build3.837s, original capture
+0.816s, pre-fix native failure0.065s and corrected pair0.054s. Corrected runner
+20.708ms splits setup13.307/execution2.516/checks4.885ms. Read-only native GDB
+transport/ID observation0.265s; analysis/authoring/static data-check elapsed is
+unmeasured. Exact inputs, original raw artifact, source/ELF hashes and all timing
+records are retained in
+`~/.ai-tmp/msvc2/vc1.0/c2/selfhost-startup-intrinsics-20261028/`.
+
 Case0048 fixes the native self-host failure while compiling the reconstructed
 C1XX expression-preparation source. Native CL/C1 emitted genuine setjmp intrinsic
 219(0xDB); the already implemented lower_intrinsic owner lacked its descriptor
@@ -105,7 +135,7 @@ unchanged source regressions above were not needlessly repeated. Specific member
 hashes/relocations/raw gap disassembly are retained in scratch
 `~/.ai-tmp/msvc2/vc1.0/c2/residual-classification/`.
 
-`binary.c` is the sole registry. All38 cached IO cases, eleven INTERNAL DIRECT
+`binary.c` is the sole registry. All39 cached IO cases, eleven INTERNAL DIRECT
 cases and273 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR where required, stable cwd and explicit entry seeds. Only established
 COFF timestamp bytes4..8 are normalized in completed object cases; listings/OMF/

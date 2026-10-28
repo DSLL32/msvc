@@ -12,7 +12,7 @@ enum { INTRINSIC_ABSOLUTE_INTEGER = 15, INTRINSIC_ABSOLUTE_DOUBLE = 17, INTRINSI
     INTRINSIC_STRING_CONCATENATE = 166, INTRINSIC_MEMORY_COMPARE = 170,
     INTRINSIC_AGGREGATE_COPY = 172, INTRINSIC_AGGREGATE_FILL = 173,
     INTRINSIC_POWER_DOUBLE = 174, INTRINSIC_AGGREGATE_VALUE = 179,
-    INTRINSIC_SEH_STATUS = 215, INTRINSIC_SEH_D9 = 217, INTRINSIC_SETJMP = 219, INTRINSIC_SCOPE_FINALLY = 241, INTRINSIC_FINALLY_DEPTH = 242, INTRINSIC_SCOPE_STATE = 244 };
+    INTRINSIC_SEH_STATUS = 215, INTRINSIC_SEH_D9 = 217, INTRINSIC_EXCEPTION_INFORMATION = 218, INTRINSIC_SETJMP = 219, INTRINSIC_SCOPE_FINALLY = 241, INTRINSIC_FINALLY_DEPTH = 242, INTRINSIC_SCOPE_STATE = 244 };
 
 Node *current_intrinsic; /* original0007b9b4 */
 /* Original83ae8..83af8, actual mixed-wave fabs ID17. The two-byte
@@ -88,6 +88,12 @@ const IntrinsicDescription seh_status_intrinsic = { 0, 0, "", "", 0x10 };
 /* Original84768..84778, actual SEH IDd9: scalar default202, call-class20,
    no command/runtime spelling. Its exact source intrinsic name is pending. */
 const IntrinsicDescription seh_d9_intrinsic = { 0x202, 0, "", "", 0x20 };
+/* Original84778..84788, actual RC-startup _exception_info ID218
+   (GetExceptionInformation in EXCPT.H). Pointer argument default404, call
+   class20, no recipe/runtime name (both839d0). The zero-argument intrinsic
+   retains its call tree; the existing SEH selector reads the live exception
+   pointers from registration+20. No generated external call is introduced. */
+const IntrinsicDescription exception_information_intrinsic = { 0x404, 0, "", "", 0x20 };
 /* Original84788..84798, actual self-host setjmp ID219. The first word
    normalizes its jump-buffer argument to pointer404; the call result remains
    the node's signed-int104 type. No command rewrites it or generates a call:
@@ -127,6 +133,7 @@ const IntrinsicDescription scope_state_intrinsic = { 0, 0, "", "", 0 };
     case INTRINSIC_POWER_DOUBLE: (description) = &power_double_intrinsic; break; \
     case INTRINSIC_AGGREGATE_VALUE: (description) = &aggregate_value_intrinsic; break; \
     case INTRINSIC_SEH_D9: (description) = &seh_d9_intrinsic; break; \
+    case INTRINSIC_EXCEPTION_INFORMATION: (description) = &exception_information_intrinsic; break; \
     case INTRINSIC_SETJMP: (description) = &setjmp_intrinsic; break; \
     case INTRINSIC_SEH_STATUS: (description) = &seh_status_intrinsic; break; \
     case INTRINSIC_SCOPE_FINALLY: (description) = &scope_finally_intrinsic; break; \
