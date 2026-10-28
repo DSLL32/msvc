@@ -360,7 +360,42 @@ extern "C" void __cdecl write_initializer_integer(const unsigned __int64 *value,
         }
     }
 }
-extern "C" const char *__cdecl format_initializer_integer(const unsigned __int64 *, char *, unsigned, int) { __asm { int 3 } return NULL; }
+extern "C" void __cdecl write_initializer_digits(const unsigned __int64 *input, char *text,
+    unsigned radix, int negative)
+{
+    unsigned __int64 value = *input;
+    char *first, *last;
+    if (radix < 2 || radix > 36) {
+#ifdef __linux__
+        recon_unsupported("integer formatter radix is outside the recovered digit alphabet");
+#else
+        __asm { int 3 }
+#endif
+    }
+    if (negative) {
+        *text++ = '-';
+        value = 0 - value;
+    }
+    first = text;
+    do {
+        *text++ = "0123456789abcdefghijklmnopqrstuvwxyz"[(unsigned)(value % radix)];
+        value /= radix;
+    } while (value);
+    *text = 0;
+    last = text - 1;
+    while (first < last) {
+        char temporary = *first;
+        *first++ = *last;
+        *last-- = temporary;
+    }
+}
+extern "C" const char *__cdecl format_initializer_integer(const unsigned __int64 *value,
+    char *text, unsigned radix, int unsigned_value)
+{
+    int negative = !unsigned_value && radix == 10 && (__int64)*value < 0;
+    write_initializer_digits(value, text, radix, negative);
+    return text;
+}
 extern "C" int __stdcall parse_initializer_real(const char *text, InitializerExtendedReal *output)
 {
     InitializerExtendedReal parsed;

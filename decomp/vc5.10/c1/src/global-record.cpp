@@ -193,7 +193,7 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
         !(symbol->scope_bits & 1) && ((symbol->storage_class & 7) == 7 ||
         (symbol->storage_class & 7) == 3) &&
         !(symbol->function_flags & 1) && !c1_data.options.debug_info &&
-        !symbol->value_type->shape && (symbol->value_type->flags == 0x63 || symbol->value_type->flags == 0x64 || symbol->value_type->flags == 0x4c ||
+        !symbol->value_type->shape && (symbol->value_type->flags == 0x63 || symbol->value_type->flags == 0x4063 || symbol->value_type->flags == 0x64 || symbol->value_type->flags == 0x4c ||
         symbol->value_type->flags == 0x404c || symbol->value_type->flags == 0x106 ||
         symbol->value_type->flags == 0x107) && !symbol->value_type->attributes) ||
         (opcode == 1 && symbol->kind == 10 && !(symbol->scope_bits & 1) &&
@@ -211,7 +211,8 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
          !symbol->value_type->auxiliary) ||
         (opcode == 1 && symbol->kind == 10 && !(symbol->scope_bits & 1) &&
         (symbol->storage_class & 7) == 7 && !(symbol->function_flags & 1) &&
-        !c1_data.options.debug_info && symbol->value_type->flags == 0x63 &&
+        !c1_data.options.debug_info &&
+        (symbol->value_type->flags == 0x63 || symbol->value_type->flags == 0x64) &&
         !symbol->value_type->attributes && symbol->value_type->shape &&
         symbol->value_type->shape->flags == 3 &&
         (symbol->value_type->shape->attributes == 0x10 ||
@@ -236,13 +237,15 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
          !symbol->value_type->shape->base->base->base->base) ||
         (!symbol->value_type->shape && !symbol->value_type->attributes &&
         ((symbol->value_type->flags & ~0x4000) == 0x63 ||
-         (symbol->kind == 11 && symbol->value_type->flags == 0x62) ||
+         symbol->value_type->flags == 0x62 ||
          (symbol->value_type->flags & ~0x4000) == 0x4c ||
          symbol->value_type->flags == 0x4064 || symbol->value_type->flags == 0x44 ||
          symbol->value_type->flags == 0x64 || symbol->value_type->flags == 0x4062 ||
-         symbol->value_type->flags == 0x61 || symbol->value_type->flags == 0x106 ||
+         (symbol->value_type->flags & ~0x4000U) == 0x61 || symbol->value_type->flags == 0x106 ||
          symbol->value_type->flags == 0x107)) ||
-        (symbol->value_type->flags == 0x63 && symbol->value_type->attributes == 0x100 &&
+        (symbol->value_type->flags == 0x63 &&
+         (!symbol->value_type->attributes || symbol->value_type->attributes == 0x100 ||
+          symbol->value_type->attributes == 0x300) &&
          !symbol->value_type->auxiliary && symbol->value_type->shape &&
          symbol->value_type->shape->flags == 1 && !symbol->value_type->shape->attributes &&
          !symbol->value_type->shape->base) ||
@@ -257,7 +260,7 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
         (symbol->value_type->flags == 0x80 && !symbol->value_type->attributes &&
         symbol->value_type->shape && symbol->value_type->shape->flags == 1 &&
         !symbol->value_type->shape->attributes && !symbol->value_type->shape->base) ||
-        (symbol->value_type->flags == 0x63 &&
+        ((symbol->value_type->flags == 0x63 || symbol->value_type->flags == 0x64) &&
         !symbol->value_type->attributes && symbol->value_type->shape &&
         symbol->value_type->shape->flags == 3 &&
         (symbol->value_type->shape->attributes == 0x10 ||

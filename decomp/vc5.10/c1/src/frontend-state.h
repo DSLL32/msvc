@@ -39,7 +39,8 @@ typedef union CompilerExpressionClasses {
         BYTE unmodeled_66[10], call_argument;
         BYTE unmodeled_71[3], assignment; /* kind116, RVA63cec ->116 */
         BYTE unmodeled_75[1], left_parenthesis; /* kind118 ->118 */
-        BYTE unmodeled_77[7], right_parenthesis; /* kind126 ->126 */
+        BYTE unmodeled_77[6], return_statement; /* kind125, RVA63cf5 ->125 */
+        BYTE right_parenthesis; /* kind126 ->126 */
         BYTE semicolon; /* kind127 ->127 */
     } known;
     BYTE indexed[1];
@@ -52,6 +53,7 @@ typedef char ExpressionMultiplyClassOffset[offsetof(CompilerExpressionClasses, k
 typedef char ExpressionAdditionClassOffset[offsetof(CompilerExpressionClasses, known.addition) == 81 ? 1 : -1];
 typedef char ExpressionMemberAddressOffset[offsetof(CompilerExpressionClasses, known.member_address) == 83 ? 1 : -1];
 typedef char ExpressionRightParenClassOffset[offsetof(CompilerExpressionClasses, known.right_parenthesis) == 126 ? 1 : -1];
+typedef char ExpressionReturnClassOffset[offsetof(CompilerExpressionClasses, known.return_statement) == 125 ? 1 : -1];
 #endif
 #ifdef __cplusplus
 extern "C" {

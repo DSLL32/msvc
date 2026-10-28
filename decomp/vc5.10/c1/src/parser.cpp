@@ -6365,8 +6365,13 @@ unsigned __cdecl classify_type_shapes(CompilerType *destination, CompilerType *s
     if (result & 0x100) return result;
     return 0x2000;
 }
-unsigned __cdecl classify_shape_pair(unsigned, CompilerTypeShape *, CompilerTypeShape *)
-{ __asm { int 3 } return 0; }
+unsigned __cdecl classify_shape_pair(unsigned result, CompilerTypeShape *destination,
+    CompilerTypeShape *source)
+{
+    if (source && !destination->base && (destination->flags & 7) == 1)
+        return 0x100;
+    return result;
+}
 unsigned __cdecl classify_qualifier_conversion(unsigned, unsigned result,
     unsigned destination, unsigned source)
 {
@@ -6594,9 +6599,13 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
     (d)->attributes == 0x200 && (s)->attributes == 0x200 && (d)->shape && (s)->shape && \
     (d)->shape->flags == 1 && ((s)->shape->flags == 1 || (s)->shape->flags == 2) && \
     !(d)->shape->attributes && !(s)->shape->attributes && !(d)->shape->base && !(s)->shape->base)
+#define QUALIFIED_INT_POINTER_ARGUMENT(d,s) ((d)->flags == 0x63 && (s)->flags == 0x63 && \
+    (d)->attributes == 0x300 && !(s)->attributes && !(d)->auxiliary && !(s)->auxiliary && \
+    (d)->shape && (d)->shape == (s)->shape && (d)->shape->flags == 1 && \
+    !(d)->shape->attributes && !(d)->shape->base)
 #define CHAR_POINTER_ASSIGNMENT(d,s) ((d)->flags == 0x61 && (s)->flags == 0x61 && \
     (d)->attributes == 0x100 && !(s)->attributes && (d)->shape && (s)->shape && \
-    (d)->shape->flags == 1 && (s)->shape->flags == 2 && \
+    (d)->shape->flags == 1 && ((s)->shape->flags == 1 || (s)->shape->flags == 2) && \
     !(d)->shape->attributes && !(s)->shape->attributes && \
     !(d)->shape->base && !(s)->shape->base)
 /* The ordinary array argument preserves its element type and adds const
@@ -6630,6 +6639,12 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
     !(d)->attributes && !((s)->attributes & ~0x10U) && !(d)->shape && !(s)->shape && \
     (d)->symbol_owner && (d)->symbol_owner == (s)->symbol_owner && \
     (d)->symbol_owner->kind == 4 && ((d)->symbol_owner->flags & 1))
+/* Returning the dereferenced const record retains its complete tag owner;
+ * top-level const does not change the by-value record identity. */
+#define CONST_RECORD_RETURN(d,s) ((d)->flags == 0x402 && (s)->flags == 0x402 && \
+    !(d)->attributes && (s)->attributes == 0x100 && !(d)->shape && !(s)->shape && \
+    (d)->symbol_owner && (d)->symbol_owner == (s)->symbol_owner && \
+    (d)->symbol_owner->kind == 4 && ((d)->symbol_owner->flags & 1))
 /* This known incompatible alternative takes the real C2115 path before any
  * structured conversion. Only the complete record's established owner is read. */
 #define RECORD_TO_INT_DIAGNOSTIC(d,s) (!(d)->shape && (d)->flags == 0x63 && \
@@ -6652,15 +6667,17 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
         !((operation == 125 || operation == 112) && type == value->type && !type->shape &&
           type->flags == 0x402 && !type->attributes && type->symbol_owner &&
           type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) &&
+        !(operation == 125 && CONST_RECORD_RETURN(type, value->type)) &&
         !(operation == 116 && RECORD_TO_INT_DIAGNOSTIC(type, value->type)) &&
         !((operation == 112 || operation == 116) && CDECL_CALLBACK_ASSIGNMENT(type, value->type)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(type, value->type)) &&
+        !(operation == 112 && QUALIFIED_INT_POINTER_ARGUMENT(type, value->type)) &&
         !(operation == 112 && CONST_INT_ARRAY_ARGUMENT(type, value->type)) &&
         !(operation == 112 && CONST_INT_MATRIX_ARGUMENT(type, value->type)) &&
         !(operation == 112 && WIN32_CALLBACK_ARGUMENT(type, value->type)) &&
-        !((operation == 52 || operation == 112 || operation == 116) && CHAR_POINTER_ASSIGNMENT(type, value->type)) &&
+        !((operation == 52 || operation == 112 || operation == 116 || operation == 125) && CHAR_POINTER_ASSIGNMENT(type, value->type)) &&
         !(operation == 52 && RECORD_POINTER_ASSIGNMENT(type, value->type)) &&
-        !((operation == 52 || operation == 116) && RECORD_VALUE_ASSIGNMENT(type, value->type)) &&
+        !((operation == 52 || operation == 112 || operation == 116) && RECORD_VALUE_ASSIGNMENT(type, value->type)) &&
         !(operation == 116 && VOID_FROM_RECORD_POINTER(type, value->type)) &&
         !(operation == 116 && type->flags == 0x402 && value->type->flags == 0x402 &&
           !type->attributes && !value->type->attributes &&
@@ -6728,15 +6745,17 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
           (destination->flags == 0x106 || destination->flags == 0x107) &&
           (source->flags == 0x106 || source->flags == 0x107) &&
           !(destination->attributes & ~0x100U) && !(source->attributes & ~0x110U)) &&
+        !(operation == 125 && CONST_RECORD_RETURN(destination, source)) &&
         !(operation == 116 && RECORD_TO_INT_DIAGNOSTIC(destination, source)) &&
         !((operation == 112 || operation == 116) && CDECL_CALLBACK_ASSIGNMENT(destination, source)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(destination, source)) &&
+        !(operation == 112 && QUALIFIED_INT_POINTER_ARGUMENT(destination, source)) &&
         !(operation == 112 && CONST_INT_ARRAY_ARGUMENT(destination, source)) &&
         !(operation == 112 && CONST_INT_MATRIX_ARGUMENT(destination, source)) &&
         !(operation == 112 && WIN32_CALLBACK_ARGUMENT(destination, source)) &&
-        !((operation == 52 || operation == 112 || operation == 116) && CHAR_POINTER_ASSIGNMENT(destination, source)) &&
+        !((operation == 52 || operation == 112 || operation == 116 || operation == 125) && CHAR_POINTER_ASSIGNMENT(destination, source)) &&
         !(operation == 52 && RECORD_POINTER_ASSIGNMENT(destination, source)) &&
-        !((operation == 52 || operation == 116) && RECORD_VALUE_ASSIGNMENT(destination, source)) &&
+        !((operation == 52 || operation == 112 || operation == 116) && RECORD_VALUE_ASSIGNMENT(destination, source)) &&
         !(operation == 116 && VOID_FROM_RECORD_POINTER(destination, source)) &&
         !(operation == 116 && destination->flags == 0x402 && source->flags == 0x402 &&
           !destination->attributes && !source->attributes && destination->shape &&
@@ -6923,7 +6942,7 @@ int __cdecl check_type_qualifiers(unsigned operation, unsigned destination,
     unsigned source, int first, int character_type)
 {
     operation &= 255;
-    if (operation != 112 && operation != 116 && operation != 52) {
+    if (operation != 112 && operation != 116 && operation != 52 && operation != 125) {
 #ifdef __linux__
         recon_unsupported("conversion qualifier operation column is not yet recovered");
 #else
@@ -7068,7 +7087,7 @@ int __cdecl returns_local_address(CompilerParserNode *value)
     return 0;
 }
 /* Encountered semantic cells of shared BYTE column63c78; gaps remain unmodeled. */
-CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, 60, 61, 124, {0}, 65, {0}, 128, 124, {0}, 70, {0}, 74, {0}, 79, {0}, 81, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126, 127 } };
+CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, 60, 61, 124, {0}, 65, {0}, 128, 124, {0}, 70, {0}, 74, {0}, 79, {0}, 81, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 125, 126, 127 } };
 CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *value)
 {
     for (;;) {

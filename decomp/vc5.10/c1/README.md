@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 852 application functions / 226,531 code bytes and
-10,057 bytes of owned text data. Application code is 70.29% of the original
+The reconstruction contains 855 application functions / 226,794 code bytes and
+10,057 bytes of owned text data. Application code is 70.37% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All twenty cached cases complete natively: DLL attach/export lookup/detach, the
+All twenty-one cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, browser output the callback/union workload and prototype output described below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, browser output the callback/union, prototype-output and conversions workloads described below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -311,6 +311,25 @@ attempts remain in scratch `prototype-output-case-20261028/`. This case unifies
 the prototype-mode option and lexer spelling workspace with their existing
 physical owners. Unvisited pointer-qualifier and formatter diagnostic domains
 remain behind genuine pending children; no clock normalization is used.
+
+The conversions case combines signed/unsigned scalar and floating conversions,
+const/volatile pointer qualification, callback casts and calls, aggregate
+parameters/returns and literal conversions under the actual `-ZB64` setting.
+Both executions exit zero with 528 first entries and exact artifacts:
+`conversionsex` (2,346 bytes), `conversionsgl` (428), `conversionsin` (99), and
+`conversionssy` (636). The final reference took 2,244.205 ms; the matching native
+run took 23.285 ms. Three application functions add 263 code bytes: the integer
+text formatter, its radix-digit writer and the pointer-shape classification
+leaf. A focused test covers signed minimum, unsigned maximum, bases 2/8/10/16/36,
+input retention and output neighbors. Existing declaration, conversion and IR
+owners now admit the encountered pointer/callback/record domains; unknown
+semantic alternatives remain guarded. The return-expression classification
+adds only its actual BYTE cell at index125 to the partial shared column. All twenty-one
+cached cases and units passed in 0.404 s; the full graph/ABI audit passed in
+1.521 s, and the final original/native build took 3.962 s. Scratch
+`conversion-case-20261028/` preserves actual raw artifacts and all failed native
+catchup attempts. No additional original was launched for those source-only
+corrections, and no comparison normalization was required.
 
 The completed cases exercise bounded domains. Larger readable parser, lexer,
 IR writer, PCH, debug and recorded-input bodies include unexercised branches;
