@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 285184
+              "offset": 287632
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 285195
+              "offset": 287643
             }
           ]
         },
@@ -7739,11 +7739,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 220592
+              "offset": 223040
             },
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 220603
+              "offset": 223051
             }
           ]
         }
@@ -8216,11 +8216,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 219632
+              "offset": 222080
             },
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 219643
+              "offset": 222091
             }
           ]
         }
@@ -13683,11 +13683,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 221584
+              "offset": 224032
             },
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 221592
+              "offset": 224040
             }
           ],
           "text_data": [
@@ -22016,6 +22016,16 @@
         "expected_cleanup": [
           20
         ]
+      },
+      "_dump_delay_dependents@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_dump_delay_imports@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },
@@ -22049,21 +22059,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 285184
+            "offset": 287632
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 285195
+            "offset": 287643
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 285195
+            "offset": 287643
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 285205
+            "offset": 287653
           }
         ]
       ]
@@ -22145,21 +22155,21 @@
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 220592
+            "offset": 223040
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 220603
+            "offset": 223051
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 220603
+            "offset": 223051
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 220613
+            "offset": 223061
           }
         ]
       ]
@@ -22169,21 +22179,21 @@
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 219632
+            "offset": 222080
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 219643
+            "offset": 222091
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 219643
+            "offset": 222091
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 219653
+            "offset": 222101
           }
         ]
       ]
@@ -22193,21 +22203,21 @@
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 221584
+            "offset": 224032
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 221592
+            "offset": 224040
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 221592
+            "offset": 224040
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 221602
+            "offset": 224050
           }
         ]
       ]

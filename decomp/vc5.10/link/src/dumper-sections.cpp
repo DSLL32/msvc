@@ -790,7 +790,59 @@ void __stdcall dump_dependents(IMAGE_SECTION_HEADER *section)
     }
     fputc('\n',map_output);
 }
-void __stdcall dump_delay_dependents(IMAGE_SECTION_HEADER *) { __asm { int 3 } }
+/* The encountered earlier delay-load format stores VAs in these fields;
+ * attributes bit zero is clear in this qualified inspection input. */
+typedef struct DumperDelayImport {
+    DWORD attributes,name,module_handle,addresses,names,bound,unload,timestamp;
+} DumperDelayImport;
+typedef char DumperDelayImportSize[(sizeof(DumperDelayImport)==32)?1:-1];
+void __stdcall dump_delay_dependents(IMAGE_SECTION_HEADER *section)
+{
+    DumperDelayImport descriptor;
+    FileRecord *record;
+    DWORD position,next_position,error,name_position,base;
+    WORD index,i;
+    BYTE ch;
+    default_phase="DumpDelayLoadDependencies";
+    fputs("\n  Image has the following delay load dependencies:\n",map_output);
+    position=section->PointerToRawData-section->VirtualAddress+
+        dumper_context->optional_header.DataDirectory[13].VirtualAddress;
+    if(!dumper_file_range_valid(position,0)) {
+        link_warning(NULL,4030,position,"IMPORTS");
+        return;
+    }
+    for(;;) {
+        base=dumper_context->optional_header.ImageBase;
+        index=0;
+        error=0;seek_file(current_input_file,position,FILE_BEGIN,&error);
+        if(file_access_statistics)record_file_access();
+        record=file_slots[current_input_file];
+        if(record->flags&8)mapped_read(record,&descriptor,sizeof(descriptor));
+        else buffered_read(record,&descriptor,sizeof(descriptor));
+        next_position=position+sizeof(descriptor);
+        if(!descriptor.addresses || !descriptor.names || !descriptor.module_handle)break;
+        for(i=0;i<dumper_context->file_header.NumberOfSections;++i) {
+            IMAGE_SECTION_HEADER *candidate=dump_section_headers+i;
+            if(descriptor.name>=base+candidate->VirtualAddress &&
+               descriptor.name<base+candidate->VirtualAddress+candidate->SizeOfRawData)index=i;
+        }
+        name_position=dump_section_headers[index].PointerToRawData-
+            dump_section_headers[index].VirtualAddress+descriptor.name-base;
+        error=0;seek_file(current_input_file,name_position,FILE_BEGIN,&error);
+        fputs("\n    ",map_output);
+        for(;;) {
+            if(file_access_statistics)record_file_access();
+            record=file_slots[current_input_file];
+            if(record->flags&8)mapped_read(record,&ch,1);
+            else buffered_read(record,&ch,1);
+            if(!ch)break;
+            fputc((signed char)ch,map_output);
+        }
+        position=next_position;
+    }
+    fputc('\n',map_output);
+}
+
 /* The two bound-import record kinds share this encountered eight-byte prefix. */
 typedef struct DumperBoundImport {
     DWORD timestamp;
@@ -969,7 +1021,134 @@ void __stdcall dump_imports(IMAGE_SECTION_HEADER *section)
     }
 #undef IMPORT_READ
 }
-void __stdcall dump_delay_imports(IMAGE_SECTION_HEADER *) { __asm { int 3 } }
+void __stdcall dump_delay_imports(IMAGE_SECTION_HEADER *section)
+{
+    DumperDelayImport descriptor;
+    FileRecord *record;
+    IMAGE_SECTION_HEADER *candidate;
+    DWORD position,next_position,error,base,name_position,lookup_position;
+    DWORD bound_position,thunk,bound_value;
+    WORD name_index,bound_index,names_index,i,hint;
+    BYTE ch;
+    time_t timestamp;
+    const char *time_text;
+#ifdef __linux__
+    BYTE names_found;
+#endif
+#define DELAY_READ(destination,length) do { \
+    if(file_access_statistics)record_file_access(); \
+    record=file_slots[current_input_file]; \
+    if(record->flags&8)mapped_read(record,(destination),(length)); \
+    else buffered_read(record,(destination),(length)); \
+} while(0)
+    default_phase="DumpDelayLoadImports";
+    fputs("\n  Section contains the following delay load imports:\n",map_output);
+    position=section->PointerToRawData-section->VirtualAddress+
+        dumper_context->optional_header.DataDirectory[13].VirtualAddress;
+    if(!dumper_file_range_valid(position,0)) {
+        link_warning(NULL,4030,position,"DELAY LOAD IMPORTS");
+        return;
+    }
+    for(;;) {
+        name_index=bound_index=0;
+        error=0;seek_file(current_input_file,position,FILE_BEGIN,&error);
+        DELAY_READ(&descriptor,sizeof(descriptor));
+        next_position=position+sizeof(descriptor);
+        if(!descriptor.addresses || !descriptor.names || !descriptor.module_handle)break;
+        base=dumper_context->optional_header.ImageBase;
+#ifdef __linux__
+        names_found=0;
+#endif
+        for(i=0;i<dumper_context->file_header.NumberOfSections;++i) {
+            candidate=dump_section_headers+i;
+            if(descriptor.name>=base+candidate->VirtualAddress &&
+               descriptor.name<base+candidate->VirtualAddress+candidate->SizeOfRawData)name_index=i;
+            if(descriptor.names>=base+candidate->VirtualAddress &&
+               descriptor.names<base+candidate->VirtualAddress+candidate->SizeOfRawData) {
+                names_index=i;
+#ifdef __linux__
+                names_found=1;
+#endif
+            }
+            if(descriptor.bound>=base+candidate->VirtualAddress &&
+               descriptor.bound<base+candidate->VirtualAddress+candidate->SizeOfRawData)bound_index=i;
+        }
+#ifdef __linux__
+        /* The original has no defined names_index when no section contains
+         * the VA. Do not consume incidental native stack bytes on that path. */
+        if(!names_found)recon_unsupported("delay import names VA outside modeled sections");
+#endif
+        candidate=dump_section_headers+name_index;
+        name_position=candidate->PointerToRawData-candidate->VirtualAddress+descriptor.name-base;
+        error=0;seek_file(current_input_file,name_position,FILE_BEGIN,&error);
+        fputs("\n    ",map_output);
+        for(;;) {
+            DELAY_READ(&ch,1);
+            if(!ch)break;
+            fputc((signed char)ch,map_output);
+        }
+        fputc('\n',map_output);
+        candidate=dump_section_headers+names_index;
+        lookup_position=candidate->PointerToRawData-candidate->VirtualAddress+descriptor.names-base;
+        bound_position=0;
+        if(descriptor.timestamp) {
+            fprintf(map_output,"\n      %8lX time date stamp",descriptor.timestamp);
+            timestamp=descriptor.timestamp;
+            time_text=ctime(&timestamp);
+            if(time_text)fprintf(map_output," %s",time_text);
+            else fputc('\n',map_output);
+            /* Preserve the original index test: a table in section zero
+             * does not enter this bound-address display path. */
+            if(bound_index) {
+                candidate=dump_section_headers+bound_index;
+                bound_position=candidate->PointerToRawData-candidate->VirtualAddress+descriptor.bound-base;
+            }
+        } else fputc('\n',map_output);
+        if(descriptor.unload)fprintf(map_output,"      %8lX Unload IAT\n",descriptor.unload);
+        fputc('\n',map_output);
+        for(;;) {
+            error=0;seek_file(current_input_file,lookup_position,FILE_BEGIN,&error);
+            DELAY_READ(&thunk,4);
+            lookup_position+=4;
+            if(!thunk)break;
+            if(bound_position) {
+                error=0;seek_file(current_input_file,bound_position,FILE_BEGIN,&error);
+                DELAY_READ(&bound_value,4);
+                bound_position+=4;
+            }
+            fputs("      ",map_output);
+            if(bound_position)fprintf(map_output,"%8X  ",bound_value);
+            else fprintf(map_output,"          ");
+            if(thunk&0x80000000) {
+                fprintf(map_output,"       Ordinal %5lu\n",thunk&0xffff);
+                continue;
+            }
+            for(i=0;i<dumper_context->file_header.NumberOfSections;++i) {
+                candidate=dump_section_headers+i;
+                if(thunk>=base+candidate->VirtualAddress &&
+                   thunk<base+candidate->VirtualAddress+candidate->SizeOfRawData)break;
+            }
+#ifdef __linux__
+            if(i==dumper_context->file_header.NumberOfSections)
+                recon_unsupported("delay import hint/name VA outside modeled sections");
+#endif
+            candidate=dump_section_headers+i;
+            name_position=candidate->PointerToRawData-candidate->VirtualAddress+thunk-base;
+            error=0;seek_file(current_input_file,name_position,FILE_BEGIN,&error);
+            DELAY_READ(&hint,2);
+            fprintf(map_output,"% 4hX   ",hint);
+            for(;;) {
+                DELAY_READ(&ch,1);
+                if(!ch)break;
+                fputc((signed char)ch,map_output);
+            }
+            fputc('\n',map_output);
+        }
+        position=next_position;
+    }
+#undef DELAY_READ
+}
+
 void __stdcall dump_exports(IMAGE_SECTION_HEADER *section)
 {
     IMAGE_EXPORT_DIRECTORY directory;

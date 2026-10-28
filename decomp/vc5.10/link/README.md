@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-787 application functions / 286,261 original code bytes are reconstructed
-(69.01% of the 414,810-byte whole `.text` extent, which includes CRT and text
+789 application functions / 288,224 original code bytes are reconstructed
+(69.48% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 34 pending bodies with known extents totaling 3,156 bytes and
-138 entries whose body extents remain unknown; this is not a complete non-CRT
+136 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all fifty-six cached native cases and their narrow checks;
+`make -j4 check unit` runs all fifty-seven cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-800-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 766 ordinary application bodies and six CRT bodies. Seven import
+802-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 768 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1592,3 +1592,42 @@ The one case-end regression/unit/full graph/RET/EH batch passed in 7.784 s,
 covering 56 cached cases, 800 graph vertices, 772 return contracts and the
 existing C++/OMF SEH residuals. Necessary native and period builds passed. These
 are incremental measurements; fixed-view and MSDIS cases remain blocked.
+
+
+The delay-import inspection case extends the retained original-produced x86 PE
+with one transparent format-authored section. Its legacy 32-byte descriptors
+use virtual addresses, as documented for attributes bit zero being clear; this
+is the pre-VC7 descriptor form. Independent construction checks bind complete
+PE section/header/directory sizes, every descriptor address and table bound,
+named hint strings, ordinal words, terminators and the optional unload-copy
+contents. The two modules exercise named and ordinal lookup records, one bound
+timestamp/address table, one unbound module and an unload-table address. The
+binding pointer words are declared authored format data, not observed provider
+addresses. No instruction bytes from the producer image change. The image,
+delay helper and named providers are never executed, loaded or reconstructed.
+Format provenance is the Microsoft PE delay-import documentation, rather than
+a claim that the unavailable shipped DELAYIMP/helper produced these records.
+
+Two whole bodies / 1,963 original bytes recover the complete delay dependency
+list and detailed import reader. The encountered descriptor is a typed eight-
+DWORD owner; both bodies retain their actual stdcall1/RET4 ABI, stream/file
+calls, hint/name/ordinal display and section lookup. The bound-address path
+preserves the original nonzero section-index test. Native guards stop invalid
+name-table mappings before consuming a Win32 local the original leaves unwritten
+on that unsupported path; no malformed-input behavior is qualified. This case
+qualifies legacy VA inspection only, with no later RVA-based format claim.
+
+Original and native both exit 0 after 89 first entries with wholly byte-exact
+stdout, empty stderr and no generated files. There is no output normalization:
+the displayed PE/binding clocks are fixed input data. The original took
+1,178.078 ms and native comparison 20.048 ms (12.876 setup, 3.050 execution,
+4.120 checks). Raw capture/artifact inventory, input construction and the failed
+missing-SDK-macro build remain separate in scratch; no target was launched
+after that failed build. The numeric ordinal flag follows the existing dumper
+until the shared SDK declaration is consumed naturally.
+
+The one case-end regression/unit/full graph/RET/EH batch passed in 5.695 s,
+covering 57 cached cases, 802 graph vertices, 774 return contracts and existing
+C++/OMF SEH residuals. Native and genuine period builds passed before new masks.
+These are incremental timings. Fixed-view, MSDIS and provider/PDB limitations
+remain unchanged.
