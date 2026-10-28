@@ -373,13 +373,48 @@ recon-tool identify-runtime 1.0-nt toolchains/1.0-nt/bin/C1XX3232.EXE \
   --bindings decomp/vc1.0/c1xx/runtime-compatible.json --output ~/.ai-tmp/original-runtime.json
 ```
 
-This is read-only PE32/i386 COFF/archive analysis; it never launches Wine.
+This is read-only PE32/i386 COFF or USE32 OMF analysis; it never launches Wine.
+PE code is selected by CNT_CODE or MEM_EXECUTE characteristics, irrespective of
+section names, using only initialized file-backed bytes. A zero import lookup
+RVA uses the original IAT, as specified by PE32.
 Identification masks relocation operands for byte matching, then validates REL32
 callee identities to reject misleading byte matches. Whole-section matches take
 precedence, with per-function fallback where neighboring code differs.
 The 1.0-nt default is LIBC.LIB plus SETARGV.OBJ. `--library PATH` and `--object PATH`
 replace these inputs explicitly; other toolchains require explicit inputs until
 their identification variant is migrated into the shared tool.
+
+For BC4.0, select the installed inputs explicitly (paths are relative to cwd):
+
+```sh
+recon-tool identify-runtime bc4.0 toolchains/bc4.0/BC4/BIN/BCC32.EXE \
+  --library toolchains/bc4.0/BC4/LIB/CW32.LIB \
+  --object toolchains/bc4.0/BC4/LIB/C0X32.OBJ --output "$HOME/.ai-tmp/bcc-runtime.json"
+```
+
+The OMF reader validates record lengths/checksums, library pages/dictionary
+bounds, USE32 segments, publics, initialized data, explicit/threaded fixups and
+Borland VIRDEF contribution indices/sizes. Only complete supported code
+contributions enter matching; iterated code data, segmented/nonflat references,
+overlapping fixups and unsupported encodings do not become wildcard matches.
+The shipped CW32 compiler-name COMENT A3 records have stale nonzero checksums;
+only that exact documentary shape is exempt, and supplies no matching facts.
+The existing matcher masks absolute operands and checks same-member/known REL32
+identities; an unresolved external does not prove that callee's identity.
+Borland plain/underscore import names are checked against actual PE thunks.
+The MSVC-specific strcat/strcpy shared-tail rule is not applied to OMF inputs.
+All 724 CW32 members parse; this does not mean all their functions match BCC32.
+In the tested BCC32 image, 188 records match, including C0X32's `__acrtused`
+entry and `__GetExceptDLLinfo`. `__startup` and `__ExceptInit` remain unmatched;
+the result is not a complete runtime restoration plan or App acceptance.
+
+Detailed TLINK32 `/m /s /Tpe` MAPs use the same checked coordinate parser as
+graph-audit (`--map-format tlink32` there). Exporter `rebuilt_symbol` resolution
+auto-detects this layout; identifier `--map` can restrict already matched
+records by exact public spelling/address, never add bodies. Use TLINK `/Gm`
+when ABI-mangled C++ publics are required; displayed/demangled names are not
+converted into inferred ABI identities. Historical compiled override-object
+qualification remains MSVC MAP/i386 COFF-only.
 
 `--bindings FILE` adds an already approved compatible-library record only after
 checking its target/body/library/member hashes and zero reconstruction credit.

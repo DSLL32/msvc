@@ -45,7 +45,7 @@ enum Command {
     BuildAliases(symbol_aliases::Options),
     /// Execute a fresh native application child in an existing case workspace.
     NativeChild(self_child::Options),
-    /// Identify shipped i386 COFF runtime code without executing the image.
+    /// Identify shipped i386 COFF/OMF runtime code without executing the image.
     IdentifyRuntime(runtime::Options),
     /// Inspect descriptors without running the case.
     Inspect {

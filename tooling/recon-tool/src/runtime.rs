@@ -1,5 +1,7 @@
 //! Exact shipped-code identification, with relocation-aware fixed-point pruning.
 //! This recognizes runtime boundaries; it does not reconstruct or credit code.
+#[path = "runtime_omf.rs"]
+mod omf;
 use anyhow::{Context, Result, bail, ensure};
 use clap::Args;
 use serde::{Deserialize, Serialize};
@@ -18,10 +20,10 @@ pub struct Options {
     pub output: PathBuf,
     #[arg(long)]
     pub repo: Option<PathBuf>,
-    /// COFF archives; explicit inputs replace the toolchain defaults.
+    /// COFF ar or OMF libraries; explicit inputs replace the toolchain defaults.
     #[arg(long = "library")]
     pub libraries: Vec<PathBuf>,
-    /// Standalone COFF objects; explicit inputs replace the toolchain defaults.
+    /// Standalone i386 COFF or USE32 OMF objects; explicit inputs replace defaults.
     #[arg(long = "object")]
     pub objects: Vec<PathBuf>,
     /// Reviewed original-only bindings, checked against all declared hashes.
@@ -126,7 +128,27 @@ impl Pe {
         }
         bail!("unbacked address {va:08x}")
     }
+    fn code(&self, section: &PeSection) -> Result<&[u8]> {
+        let size = if section.virtual_size == 0 {
+            section.raw_size
+        } else {
+            section.virtual_size.min(section.raw_size)
+        };
+        bytes(&self.data, section.offset, size)
+    }
     fn read(&self, va: u32, count: usize) -> Result<&[u8]> {
+        let rva = va
+            .checked_sub(self.base)
+            .context("address below image base")?;
+        ensure!(
+            self.sections
+                .iter()
+                .filter(|s| rva >= s.rva
+                    && u64::from(rva) + count as u64 <= u64::from(s.rva) + s.raw_size as u64)
+                .count()
+                == 1,
+            "read is not uniquely file-backed"
+        );
         bytes(&self.data, self.offset(va)?, count)
     }
     fn imports(&self) -> Result<HashMap<String, u32>> {
@@ -142,8 +164,11 @@ impl Pe {
         )?;
         let mut lookup = HashMap::new();
         while dword(&self.data, p + 12)? != 0 {
-            let names = dword(&self.data, p)?;
             let iat = dword(&self.data, p + 16)?;
+            let names = match dword(&self.data, p)? {
+                0 => iat,
+                value => value,
+            };
             for n in 0..10000u32 {
                 let table = self
                     .base
@@ -177,10 +202,10 @@ impl Pe {
             p += 20;
         }
         for section in &self.sections {
-            if section.flags & 0x20 == 0 {
+            if section.flags & 0x20000020 == 0 {
                 continue;
             }
-            let code = bytes(&self.data, section.offset, section.virtual_size)?;
+            let code = self.code(section)?;
             for i in 0..code.len().saturating_sub(5) {
                 if code[i..i + 2] == [0xff, 0x25] {
                     if let Some(name) = lookup.get(&dword(code, i + 2)?) {
@@ -225,9 +250,12 @@ struct Coff {
 }
 impl Coff {
     fn parse(data: &[u8]) -> Result<Self> {
+        if data.first() == Some(&0x80) {
+            return omf::parse(data);
+        }
         ensure!(
             word(data, 0)? == 0x14c,
-            "runtime member must be i386 COFF (OMF/import objects unsupported)"
+            "runtime member must be i386 COFF or supported THEADR/USE32 OMF"
         );
         let symoff = dword(data, 8)? as usize;
         let count = dword(data, 12)? as usize;
@@ -303,6 +331,9 @@ struct Library {
     members: Vec<(String, Vec<u8>)>,
 }
 fn archive(data: &[u8]) -> Result<Vec<(String, Vec<u8>)>> {
+    if data.first() == Some(&0xf0) {
+        return omf::archive(data);
+    }
     ensure!(
         data.get(..8) == Some(b"!<arch>\n"),
         "runtime library must be a COFF ar archive"
@@ -801,11 +832,52 @@ pub(crate) fn validate_code_ranges(image: &Path, ranges: &[(u32, u32)]) -> Resul
     Ok(())
 }
 
-// The exporter shares graph-audit's Watcom coordinates and checks. Runtime
-// body identification/override qualification below remains MSVC/COFF-only.
+// The exporter shares graph-audit's checked Watcom/TLINK coordinates.
+// Historical compiled-override qualification remains MSVC MAP/COFF-only.
+#[path = "../../shared/tlink_map.rs"]
+#[allow(dead_code)] // Graph also consumes contribution and provenance fields.
+mod tlink_map;
 #[path = "../../shared/watcom_map.rs"]
 #[allow(dead_code)] // Export consumes addresses; graph-audit also consumes provenance.
 mod watcom_map;
+fn tlink_map(text: &str, pe: &Pe) -> Result<tlink_map::Publics> {
+    let sections = pe
+        .sections
+        .iter()
+        .map(|s| {
+            Ok(tlink_map::Section {
+                name: &s.name,
+                start: pe
+                    .base
+                    .checked_add(s.rva)
+                    .context("TLINK PE address overflow")?,
+                size: s.raw_size.try_into()?,
+                virtual_size: if s.virtual_size == 0 {
+                    s.raw_size
+                } else {
+                    s.virtual_size
+                }
+                .try_into()?,
+                off: s.offset,
+                flags: s.flags,
+            })
+        })
+        .collect::<Result<Vec<_>>>()?;
+    tlink_map::parse_text(
+        text,
+        &tlink_map::Image {
+            data: &pe.data,
+            sections,
+        },
+    )
+}
+fn is_tlink(text: &str) -> bool {
+    text.lines()
+        .find(|s| !s.trim().is_empty())
+        .is_some_and(|line| {
+            line.split_whitespace().collect::<Vec<_>>() == ["Start", "Length", "Name", "Class"]
+        })
+}
 fn watcom_addresses(text: &str, pe: &Pe) -> Result<HashMap<String, Vec<u32>>> {
     let sections = pe
         .sections
@@ -838,7 +910,7 @@ fn watcom_addresses(text: &str, pe: &Pe) -> Result<HashMap<String, Vec<u32>>> {
         .map(|(name, address)| (name, vec![address]))
         .collect())
 }
-/// Resolve MAP publics against the PE using the detected MSVC or Watcom format.
+/// Resolve publics against the PE using detected MSVC, Watcom or TLINK32 coordinates.
 pub fn map_addresses(image: &Path, map: &Path) -> Result<HashMap<String, Vec<u32>>> {
     let pe = Pe::parse(fs::read(image)?)?;
     let text = fs::read_to_string(map)?;
@@ -847,6 +919,13 @@ pub fn map_addresses(image: &Path, map: &Path) -> Result<HashMap<String, Vec<u32
 fn public_addresses(text: &str, pe: &Pe) -> Result<HashMap<String, Vec<u32>>> {
     if text.starts_with("WATCOM Linker Version ") {
         return watcom_addresses(text, pe);
+    }
+    if is_tlink(text) {
+        return Ok(tlink_map(text, pe)?
+            .addresses
+            .into_iter()
+            .map(|(n, a)| (n, vec![a]))
+            .collect());
     }
     let map = LinkMap::parse(text, pe)?;
     Ok(map
@@ -990,8 +1069,13 @@ fn override_targets(pe: &Pe, options: &Options) -> Result<HashMap<String, HashSe
             selected.insert(name.to_ascii_lowercase()),
             "ambiguous selected override object name {name}"
         );
-        let object = Coff::parse(&fs::read(path)?)
-            .with_context(|| format!("override object {}", path.display()))?;
+        let data = fs::read(path)?;
+        ensure!(
+            word(&data, 0)? == 0x14c,
+            "historical runtime override objects remain i386 COFF-only"
+        );
+        let object =
+            Coff::parse(&data).with_context(|| format!("override object {}", path.display()))?;
         let mut count = 0;
         for section in object.sections.iter().filter(|s| s.flags & 0x20 != 0) {
             let mut functions: Vec<_> = object
@@ -1056,6 +1140,11 @@ fn prune_with_external_anchors(
     external_anchors: &HashMap<String, HashSet<u32>>,
 ) -> Result<()> {
     let imports = pe.imports()?;
+    let initially_matched: HashSet<_> = candidates
+        .iter()
+        .flat_map(|c| &c.records)
+        .map(|r| r.name.clone())
+        .collect();
     loop {
         let mut known: HashMap<&str, HashSet<u32>> = external_anchors
             .iter()
@@ -1100,6 +1189,16 @@ fn prune_with_external_anchors(
                             .is_some_and(|&target| expected == target as i64);
                     } else if let Some(targets) = known.get(name.as_str()) {
                         valid = targets.iter().any(|&target| expected == target as i64);
+                    } else if reloc.target.storage == 0xfe {
+                        // Use actual undecorated Borland import names. As for
+                        // COFF, unresolved externals do not assert a callee identity;
+                        // a formerly matched/removed identity cannot become unknown.
+                        valid = imports
+                            .get(name)
+                            .or_else(|| name.strip_prefix('_').and_then(|n| imports.get(n)))
+                            .map_or(!initially_matched.contains(name), |&target| {
+                                expected == target as i64
+                            });
                     }
                 }
                 if !valid {
@@ -1222,7 +1321,7 @@ pub fn identify(options: Options) -> Result<()> {
     if library_paths.is_empty() && object_paths.is_empty() {
         ensure!(
             options.toolchain == "1.0-nt",
-            "no default runtime profile for {}; supply --library/--object (i386 COFF/ar only)",
+            "no default runtime profile for {}; supply --library/--object (i386 COFF/ar or USE32 OMF)",
             options.toolchain
         );
         library_paths.push(PathBuf::from("LIBC.LIB"));
@@ -1232,14 +1331,18 @@ pub fn identify(options: Options) -> Result<()> {
         fs::read(&options.image)
             .with_context(|| format!("read image {}", options.image.display()))?,
     )?;
-    let section = pe
+    let sections: Vec<_> = pe
         .sections
         .iter()
-        .find(|s| s.name == ".text")
-        .context("image has no .text section")?;
-    let code = bytes(&pe.data, section.offset, section.virtual_size)?;
+        .filter(|s| s.flags & 0x20000020 != 0)
+        .collect();
+    ensure!(!sections.is_empty(), "image has no executable/code section");
+    for section in &sections {
+        pe.code(section)?;
+    }
     let mut libraries = vec![];
     let mut candidates = vec![];
+    let mut omf_inputs = HashSet::new();
     for path in library_paths {
         let path = input_path(&path, &toolchain)?;
         let name = path
@@ -1248,10 +1351,16 @@ pub fn identify(options: Options) -> Result<()> {
             .context("library filename is not UTF8")?
             .to_owned();
         let data = fs::read(&path)?;
+        if data.first() == Some(&0xf0) {
+            omf_inputs.insert(name.clone());
+        }
         let members =
             archive(&data).with_context(|| format!("read runtime archive {}", path.display()))?;
         for (member, data) in &members {
-            collect(&pe, &name, member, data, code, section.rva, &mut candidates)?;
+            for section in &sections {
+                let code = pe.code(section)?;
+                collect(&pe, &name, member, data, code, section.rva, &mut candidates)?;
+            }
         }
         libraries.push(Library {
             name,
@@ -1266,21 +1375,46 @@ pub fn identify(options: Options) -> Result<()> {
             .and_then(|s| s.to_str())
             .context("object filename is not UTF8")?
             .to_owned();
-        collect(
-            &pe,
-            &name,
-            &name,
-            &fs::read(&path)?,
-            code,
-            section.rva,
-            &mut candidates,
-        )?;
+        let data = fs::read(&path)?;
+        if data.first() == Some(&0x80) {
+            omf_inputs.insert(name.clone());
+        }
+        for section in &sections {
+            collect(
+                &pe,
+                &name,
+                &name,
+                &data,
+                pe.code(section)?,
+                section.rva,
+                &mut candidates,
+            )?;
+        }
     }
     let overrides = override_targets(&pe, &options)?;
     prune(&pe, &mut candidates, &overrides)?;
     if let Some(path) = &options.map {
-        let map =
-            LinkMap::parse(&fs::read_to_string(path)?, &pe).context("runtime MAP qualification")?;
+        let text = fs::read_to_string(path)?;
+        let map = if is_tlink(&text) {
+            let parsed = tlink_map(&text, &pe).context("runtime TLINK MAP qualification")?;
+            LinkMap {
+                symbols: parsed
+                    .addresses
+                    .into_iter()
+                    .map(|(name, address)| {
+                        let object = parsed
+                            .contributions
+                            .iter()
+                            .find(|c| c.start <= address && address < c.end)
+                            .map(|c| c.module.clone())
+                            .unwrap_or_default();
+                        (name, vec![MapSymbol { address, object }])
+                    })
+                    .collect(),
+            }
+        } else {
+            LinkMap::parse(&text, &pe).context("runtime MAP qualification")?
+        };
         // A removed identity must not become a permissive unknown on the
         // second fixed point. MAP publics anchor external identities only;
         // they never relax same-member relocations or add matched bodies.
@@ -1300,7 +1434,7 @@ pub fn identify(options: Options) -> Result<()> {
     }
     let mut records: Vec<_> = candidates.into_iter().flat_map(|c| c.records).collect();
     for i in 0..records.len() {
-        if records[i].name == "_strcat" {
+        if records[i].name == "_strcat" && !omf_inputs.contains(&records[i].library) {
             let shared = records
                 .iter()
                 .find(|r| r.name == "_strcpy" && r.start == records[i].start + 4)

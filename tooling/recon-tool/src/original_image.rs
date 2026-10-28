@@ -198,3 +198,57 @@ impl Image {
         Ok(b)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn execute_only_code_is_masked_with_initialized_bounds() {
+        let mut b = vec![0u8; 0x260];
+        b[..2].copy_from_slice(b"MZ");
+        b[0x3c..0x40].copy_from_slice(&0x80u32.to_le_bytes());
+        b[0x80..0x84].copy_from_slice(b"PE\0\0");
+        for (p, n) in [(0x84, 0x14cu16), (0x86, 2), (0x94, 224), (0x98, 0x10b)] {
+            b[p..p + 2].copy_from_slice(&n.to_le_bytes());
+        }
+        b[0xa8..0xac].copy_from_slice(&0x1000u32.to_le_bytes());
+        for (at, rva, size, off, flags, virtual_size) in [
+            (0x178, 0x1000u32, 0x40u32, 0x200u32, 0x60000000u32, 0x80u32),
+            (0x1a0, 0x2000, 0x20, 0x240, 0x40000040, 0x20),
+        ] {
+            for (p, v) in [
+                (at + 8, virtual_size),
+                (at + 12, rva),
+                (at + 16, size),
+                (at + 20, off),
+                (at + 36, flags),
+            ] {
+                b[p..p + 4].copy_from_slice(&v.to_le_bytes());
+            }
+        }
+        b[0x200..0x240].fill(0x90);
+        b[0x240..].fill(0x42);
+        let image = Image::parse(&b).unwrap();
+        let info = Info {
+            binary: "test".into(),
+            original_path: "".into(),
+            original_sha256: "".into(),
+            original_entry_rva: 0x1000,
+            case: "test".into(),
+            description: "".into(),
+            execution: 0,
+            terminal: 0,
+            frontier_rva: 0,
+            first_entry_order: vec![],
+            first_entry_seen: vec![],
+            functions: vec![],
+            tests: vec![],
+            module: "".into(),
+        };
+        let masked = image.mask(&b, &info).unwrap();
+        assert!(masked[0x200..0x240].iter().all(|v| *v == 0xcc));
+        assert_eq!(&masked[0x240..], &b[0x240..]);
+        assert!(image.file_offset(0x1040, 1).is_err());
+        assert!(image.file_offset(0x103f, 2).is_err());
+    }
+}
