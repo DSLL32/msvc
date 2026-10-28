@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-785 application functions / 285,794 original code bytes are reconstructed
-(68.90% of the 414,810-byte whole `.text` extent, which includes CRT and text
+787 application functions / 286,261 original code bytes are reconstructed
+(69.01% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 35 pending bodies with known extents totaling 3,312 bytes and
-139 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 34 pending bodies with known extents totaling 3,156 bytes and
+138 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all fifty-five cached native cases and their narrow checks;
+`make -j4 check unit` runs all fifty-six cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-798-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 764 ordinary application bodies and six CRT bodies. Seven import
+800-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 766 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1558,3 +1558,37 @@ Final original execution took 3,285.659 ms; native comparison took 51.997 ms
 regression/unit/audit batch passed in 16.087 s: 55 cached cases, 798 graph
 vertices, 770 RET contracts and existing C++/OMF SEH residuals. These are
 incremental timings; blocked cases 19 and 29 remain unchanged.
+
+
+The whole-group ordering case uses two genuinely VC5-compiled x86 objects. One
+has 1,207 COFF sections, including 603 code COMDATs and their compiler-generated
+debug sections. All 600 hot/cold functions are referenced from the ordinary
+entry body; two identical mirror functions exercise folding and one unused
+function exercises reference removal. The command combines explicit subgroup,
+symbol and module order with a data-section merge and ordinary map output.
+The map confirms all 300 cold functions precede all 300 hot functions, both
+subgroup lists have moved into the default code group, the mirrors share one
+address, the unused symbol is absent and the extra data follows initialized
+data in the merged section. The emitted program is not executed by the fixture.
+
+Two whole bodies / 467 original bytes recover reusable module-section buffer
+growth and complete subgroup contribution transfer. Buffer growth preserves the
+original max(requested, old+500) capacity, whole-base size-zero decommit/release
+pairs and fresh allocations, with no stale-buffer copy. The shared Win32 layer
+now supports that genuine whole-owned-reservation request. Group ordering
+transfers counts and ownership for every contribution, appends only entries not
+already marked, grows the ordered array and clears the source list. The already
+accepted order-file application body receives no new credit.
+
+Original and native exit 0 with 299 matching first entries, a 22,016-byte EXE
+and 44,891-byte MAP. Complete raw files are retained; only the PE COFF timestamp
+DWORD [184,188) and the map's eight hex digits [26,34) and 24-byte ctime [36,60)
+are normalized. Each untouched map clock independently equals its own untouched
+PE timestamp and conversion. Every other byte and the final file inventory
+remain strict. New reference invocations capture their actual target OS block;
+this case does not spawn a child. Final original execution took 2,054.367 ms;
+native comparison took 49.792 ms (14.767 setup, 29.707 execution, 5.316 checks).
+The one case-end regression/unit/full graph/RET/EH batch passed in 7.784 s,
+covering 56 cached cases, 800 graph vertices, 772 return contracts and the
+existing C++/OMF SEH residuals. Necessary native and period builds passed. These
+are incremental measurements; fixed-view and MSDIS cases remain blocked.

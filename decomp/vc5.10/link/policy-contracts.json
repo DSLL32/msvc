@@ -6213,5 +6213,18 @@
         "basis": "Recovered ordinary x86 stdcall signature with named registry identity; nonvolatile EDI on normal return, not a pending-body/nonlocal-return execution claim."
       }
     ]
+  },
+  "section_resize_ordinary_abi": {
+    "owner": "_resize_module_section_buffers@4",
+    "cache": "Original40e2dc caches kernel32.dll!VirtualFree from IAT401078 in EDI; uses40e2ea,40e2fa,40e325,40e335.",
+    "facts": [
+      {
+        "target": "_allocate_virtual_memory@16",
+        "normal_return_preserves": [
+          "edi"
+        ],
+        "basis": "Recovered ordinary x86 stdcall4 normal-return ABI; existing complete allocate_virtual_memory body44f5b0..44f5dc. EDI carries the qualified import across its40e30d call. No nonlocal-return claim."
+      }
+    ]
   }
 }

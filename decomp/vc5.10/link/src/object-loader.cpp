@@ -125,4 +125,19 @@ void __stdcall release_module_symbols(IMAGE_SYMBOL *symbols)
     module_symbols_active=0;
 }
 
-void __stdcall resize_module_section_buffers(unsigned count) { __asm { int 3 } }
+void __stdcall resize_module_section_buffers(unsigned count)
+{
+    unsigned capacity=module_section_capacity+500;
+    if(capacity<count)capacity=count;
+    /* Neither old buffer holds live module state here. The original discards
+     * each complete reservation before allocating its larger replacement. */
+    VirtualFree(module_section_map,0,MEM_DECOMMIT);
+    VirtualFree(module_section_map,0,MEM_RELEASE);
+    module_section_map=(BYTE *)allocate_virtual_memory(NULL,capacity*8,
+        MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE);
+    VirtualFree(module_section_headers,0,MEM_DECOMMIT);
+    VirtualFree(module_section_headers,0,MEM_RELEASE);
+    module_section_headers=(IMAGE_SECTION_HEADER *)allocate_virtual_memory(NULL,
+        capacity*sizeof(IMAGE_SECTION_HEADER),MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE);
+    module_section_capacity=capacity;
+}

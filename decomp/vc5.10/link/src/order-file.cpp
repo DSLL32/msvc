@@ -19,8 +19,51 @@ void __stdcall end_hash_enumerator(HashState *);
 char *__stdcall format_contribution_module(Contribution *,char *);
 extern const char *order_file_name;
 void __cdecl link_message(unsigned,...);
-void __stdcall order_contribution_group(Contribution ***,DWORD *,DWORD *,const char *,LinkContext *)
-{ __asm { int 3 } }
+void __stdcall order_contribution_group(Contribution ***ordered,DWORD *count,
+    DWORD *capacity,const char *name,LinkContext *context)
+{
+    SectionEnumerator sections;
+    GroupContributionEnumerator contributions;
+    ContributionGroup *source=NULL,*target;
+    Contribution *contribution;
+    initialize_section_enumerator(&sections,&context->sections);
+    while(next_output_section(&sections)) {
+        source=find_contribution_group(sections.current,name);
+        if(source) {
+            end_section_enumerator(&sections);
+            break;
+        }
+    }
+    if(!source) {
+        link_warning(NULL,4065,name,NULL);
+        return;
+    }
+    target=find_contribution_group(source->section,source->section->name);
+    if(!target || source==target) {
+        link_warning(NULL,4065,name,NULL);
+        return;
+    }
+    initialize_group_contributions(&contributions,source);
+    while(next_group_contribution(&contributions)) {
+        --source->contribution_count;
+        ++target->contribution_count;
+        contribution=contributions.current;
+        contribution->group=target;
+        /* Already ordered entries still change their owning group, but do
+         * not gain another array entry or ordered marker write. */
+        if(contribution->rva!=1) {
+            (*ordered)[(*count)++]=contribution;
+            contribution->rva=1;
+            target->has_ordered_contributions=1;
+            if(*count==*capacity) {
+                *capacity*=2;
+                *ordered=(Contribution **)reallocate_memory(*ordered,*capacity*4);
+            }
+        }
+    }
+    source->last=source->first=NULL;
+    source->contribution_count=0;
+}
 #pragma intrinsic(strlen,strcpy,strcat)
 DWORD __stdcall read_order_file(StringTable *symbols,Contribution ***ordered,
                                LinkContext *context,const char *name)
