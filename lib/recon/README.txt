@@ -161,8 +161,9 @@ suppresses both compiler hooks on that same symbol: automatic exit-hook setup
 could destroy its output registers even when the exit hook is empty. The manual
 entry preserves GPRs, flags, x87/MMX and XMM/MXCSR around the ordinary named hook;
 its unused caller argument is NULL because it runs inside a normal C frame.
-It uses temporary aligned stack space (under 608 bytes), requires native i386
-FXSAVE/FXRSTOR support as the naked helper does, and links the existing tracer.
+It uses up to 615 bytes of temporary aligned stack space, plus the hook's own
+stack usage, requires native i386 FXSAVE/FXRSTOR as the naked helper does, and
+links the existing tracer.
 It is enabled in RECON_NATIVE_TEST Linux builds without requiring the separate
 RECON_NATIVE_TRACE flag; both annotations are empty in the original Win32 build.
 This protects tracing only. Each selected body still requires its own emitted
