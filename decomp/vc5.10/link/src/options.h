@@ -31,7 +31,7 @@ void __stdcall add_mac_data(const unsigned char *,int,DWORD);
 unsigned __stdcall append_bytes(ByteBuffer *,const void *,unsigned);
 void __stdcall set_mac_initializer(LinkContext *,const char *);
 void __stdcall set_mac_terminator(LinkContext *,const char *);
-BYTE __stdcall add_mac_import(const unsigned char *,const unsigned char *,DirectiveModule *,LinkContext *);
+BYTE __stdcall add_mac_import(const unsigned char *,const unsigned char *,Contribution *,LinkContext *);
 void __stdcall set_mac_import_versions(const char *,const char *,const char *,const char *);
 void __cdecl enable_order_file(void);
 BYTE __stdcall find_argument(const char *,InputArguments *);

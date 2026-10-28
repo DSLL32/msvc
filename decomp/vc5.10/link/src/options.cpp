@@ -362,7 +362,7 @@ extern "C" void __stdcall configure_link_options(LinkContext *context,
                 if (*symbol_name=='?') strcpy(copy,symbol_name);
                 else { strcpy(copy,"_"); strcat(copy,symbol_name); }
                 if (!module) append_argument_record(&mac_import_arguments,copy,library);
-                else if (!add_mac_import((unsigned char *)copy,(const unsigned char *)library,module,context))
+                else if (!add_mac_import((unsigned char *)copy,(const unsigned char *)library,(Contribution *)module,context))
                     link_warning(file,4544,symbol_name);
             }
             if (!current_version && !old_code_version && !old_api_version && !weak &&

@@ -5379,7 +5379,7 @@
           "ebp"
         ]
       },
-      "basis": "Identified public cdecl atoi preserves EBP; actual ordinary stdcall string-duplicate and20-byte list-append bodies preserve EBP (append own instructions do not write it; its zero_allocate callee uses the ordinary ABI). Current native pending append is a genuine framed trap and grants no body credit. No provider implementation or unvisited incremental-history equivalence claim."
+      "basis": "Identified public cdecl atoi preserves EBP; actual ordinary stdcall string-duplicate and20-byte list-append bodies preserve EBP (append own instructions do not write it; its zero_allocate callee uses the ordinary ABI). At initial proof authoring append was a genuine framed pending trap with no body credit; its later reconstruction is qualified separately by the MPPC import-code case. No provider implementation or unvisited incremental-history equivalence claim."
     },
     {
       "owner": "_write_mac_shared_library@24",

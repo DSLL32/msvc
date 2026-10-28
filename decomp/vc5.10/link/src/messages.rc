@@ -26,4 +26,5 @@ BEGIN
     4045 " creating LINK_REPRO test case in dir ""%s"""
     4108 " /ALIGN specified without /DRIVER or /VXD; image may not run"
     4044 " unrecognized option ""%s""; ignored"
+    4546 " Mismatch in versions detected. Container may not load. Use /VERBOSE for details."
 END

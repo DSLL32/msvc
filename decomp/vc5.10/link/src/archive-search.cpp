@@ -454,8 +454,8 @@ void RECON_THISCALL LinkContext::ResolveUndefined(void)
 extern "C" {
 extern BYTE mac_target,verbose_libraries,file_access_statistics;
 extern DWORD undefined_symbols;
-/* Set by the as-yet unreconstructed Mac library-binding paths. */
-BYTE mac_library_binding_seen;
+/* Same47f0c8 BYTE written by set_mac_import_versions; no duplicate state. */
+extern BYTE mac_import_versions_changed;
 void __cdecl link_unresolved_error(const char *file,unsigned message,...);
 }
 extern "C" WORD __stdcall get_hash_flags(HashState *state)
@@ -492,7 +492,7 @@ void RECON_THISCALL StringTable::SortSymbols(void)
     char module_name[520];
     WORD name_kind;
     BYTE referenced;
-    if(mac_target && mac_library_binding_seen && !verbose_libraries)
+    if(mac_target && mac_import_versions_changed && !verbose_libraries)
         link_warning(NULL,4546);
     initialize_undefined_enumerator(&enumerator,this);
     while(next_undefined(&enumerator)) {

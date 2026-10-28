@@ -530,8 +530,7 @@ extern char short_symbol_name[9];
 void __stdcall merge_librarian_exports(StringTable *,StringTable *,void *,DWORD);
 void __stdcall initialize_hash_enumerator(HashState *);
 void __stdcall end_hash_enumerator(HashState *);
-StringNode *__stdcall record_incremental_entry(const char *,Contribution *,LinkContext *,DWORD)
-{ __asm { int 3 } return NULL; }
+StringNode *__stdcall record_incremental_entry(const char *,Contribution *,LinkContext *,DWORD);
 }
 void RECON_THISCALL LinkContext::ResolveEntryPoint(void)
 {

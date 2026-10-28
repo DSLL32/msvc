@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-763 application functions / 274,540 original code bytes are reconstructed
-(66.18% of the 414,810-byte whole `.text` extent, which includes CRT and text
+770 application functions / 276,200 original code bytes are reconstructed
+(66.58% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 38 pending bodies with known extents totaling 4,057 bytes and
-146 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 36 pending bodies with known extents totaling 3,599 bytes and
+145 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all fifty-one cached native cases and their narrow checks;
+`make -j4 check unit` runs all fifty-two cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-776-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 742 ordinary application bodies and six CRT bodies. Seven import
+783-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 749 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1428,3 +1428,38 @@ combined case-end regression/unit/full graph/ABI/EH batch passed in 7.409 s.
 Necessary native and original-compiler builds passed before the final pair.
 These are incremental measurements; the fixed-view and MSDIS cases remain
 blocked with their original evidence unchanged.
+
+The MPPC import/code case extends that serialization path with transparent
+COFF code/data, genuine `/IMPORT` declarations for function/data symbols,
+per-library version-bound merging, weak import/library flags, and explicit
+entry/initializer/terminator names. Parent and real SELF child both exit 0
+with 329 combined first entries and matching 1,216-byte DLL, 1,176-byte EXP
+and 620-byte LIB. The original LNK4546 version-mismatch warning is preserved;
+this is original-accepted image serialization, not a claim that the resulting
+container will load or that imported functions execute. The PowerPC instruction
+payload is format-authored and is never run by the fixture. No external
+disassembler, PDB or imported-library provider implementation is supplied.
+
+Seven bodies / 1,660 original bytes recover the 20-byte version-node append,
+import/library/symbol insertion, dot-prefixed jump-entry creation/lookup and
+eight-byte entry serialization. Actual import owners are 12-byte symbol nodes,
+16-byte library nodes and separate 24-byte serialized records. Optional map
+recording and generated entry-name children retain named pending traps.
+The duplicate provisional warning flag was removed: its consumer reads the
+same original 47f0c8 byte written by version merging. Earlier both-zero evidence
+did not establish that identity; the repair adds no credit. Encountered resource
+4546 is bound to original RT_STRING block 285, language 1033 and exact text.
+
+The case validates the complete generated response, including the real
+`/include:_Start` emitted for its resolved entry, and the captured OS block
+plus the single SELF insertion. Earlier underscore-spelling errors, child
+error cleanup, incomplete policy expectations and failed native comparisons
+remain separate raw evidence. Only exact PE/EXP COFF timestamps and parsed
+archive Date/contained COFF timestamps are normalized; durable raw native and
+original files otherwise match byte for byte with strict inventory. The final
+original took 2,588.313 ms and native 51.545 ms (18.015 setup, 29.542 execution,
+3.987 checks). All 52 cached cases/unit routes, the 783-vertex graph, 755 scoped
+RET contracts and existing C++/SEH role checks passed in a combined 5.750 s.
+Necessary native and period builds passed. These are incremental measurements;
+no target execution, debugger exception, optional map or provider success is
+claimed by this case.

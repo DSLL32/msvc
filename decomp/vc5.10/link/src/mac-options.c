@@ -17,9 +17,25 @@ extern DWORD mac_current_import_version;
 extern LONG mac_old_code_version,mac_old_api_version;
 extern BYTE incremental_reuse;
 void __cdecl link_warning(const char *,unsigned,...);
+void *__stdcall zero_allocate(unsigned);
 MacImportVersion *__stdcall append_mac_version(MacImportVersions *list,
     const char *library,void *owner,DWORD version)
-{ __asm { int 3 } return NULL; }
+{
+    MacImportVersion *entry=(MacImportVersion *)zero_allocate(sizeof(MacImportVersion));
+    entry->library=library;
+    entry->version=version;
+    entry->owner=owner;
+    if(!list->first) {
+        ++list->count;
+        list->first=entry;
+        list->last=entry;
+    } else {
+        list->last->next=entry;
+        ++list->count;
+        list->last=entry;
+    }
+    return entry;
+}
 
 void __stdcall set_mac_import_versions(const char *library,const char *current,
     const char *old_code,const char *old_api)

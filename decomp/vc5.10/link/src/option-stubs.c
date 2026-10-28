@@ -16,7 +16,6 @@ void __cdecl enable_warning_errors(void) { __asm { int 3 } }
 void __stdcall disable_warning(unsigned number) { __asm { int 3 } }
 void __stdcall record_incremental_include(void *owner,StringNode *symbol) { __asm { int 3 } }
 void __stdcall add_mac_data(const unsigned char *name,int enabled,DWORD id) { __asm { int 3 } }
-BYTE __stdcall add_mac_import(const unsigned char *name,const unsigned char *library,DirectiveModule *module,LinkContext *context) { __asm { int 3 } return 0; }
 extern BYTE order_file_enabled;
 void __cdecl enable_order_file(void) { order_file_enabled=1; }
 BYTE __stdcall find_argument(const char *name,InputArguments *list) { __asm { int 3 } return 0; }

@@ -125,7 +125,7 @@ void __stdcall initialize_mac_imports(LinkContext *context)
         /* Existing dispatcher view consumes this same Contribution prefix. */
         if(!add_mac_import((const unsigned char *)argument->name,
             (const unsigned char *)argument->original_name,
-            (DirectiveModule *)contribution,context))
+            contribution,context))
             link_warning(argument->original_name,4544,argument->name);
         argument=argument->next;
     }
@@ -602,8 +602,8 @@ void __stdcall set_mac_section_addresses(SectionList *sections)
 }
 
 extern "C" {
-/* Only the linked prefixes consumed here are recovered. Their allocation
- * extents and the library's first two words remain unknown. */
+/* The real import producer allocates these12B/16B linked owners, separate
+ * from the24B serialized library record. */
 struct MacImportSymbolNode {
     MacImportSymbolNode *next;
     StringNode *symbol;
@@ -615,7 +615,93 @@ struct MacImportLibraryNode {
     MacImportSymbolNode *symbols;
     MacImportLibraryNode *next;
 };
+extern char short_symbol_name[9];
 MacImportLibraryNode *mac_import_libraries; /*4946b0*/
+typedef char MacImportOwnersLayout[(sizeof(MacImportSymbolNode)==12 &&
+    offsetof(MacImportSymbolNode,symbol)==4 && offsetof(MacImportSymbolNode,index)==8 &&
+    sizeof(MacImportLibraryNode)==16 && offsetof(MacImportLibraryNode,next)==12)?1:-1];
+void __stdcall append_mac_import_symbol(LinkContext *context,MacImportLibraryNode *library,
+    MacImportSymbolNode *symbol)
+{
+    MacImportSymbolNode **position=&library->symbols;
+    const char *name;
+    WORD kind;
+    while(*position)position=&(*position)->next;
+    *position=symbol;
+    symbol->next=NULL;
+    name=get_symbol_name(symbol->symbol,context->symbols->hash.string_storage,&kind,NULL);
+    if(kind==1)name=strncpy(short_symbol_name,name,8);
+    if(*name=='_')++name;
+    mac_symbol_name_bytes+=strlen(name)+1;
+}
+void __stdcall add_mac_import_library(LinkContext *context,const char *name,
+    MacImportSymbolNode *symbol)
+{
+    MacImportLibraryNode **position=&mac_import_libraries;
+    MacImportLibraryNode *library;
+    MacImportedLibrary *record;
+    while(*position) {
+        if(!strcmp((*position)->library,name))break;
+        position=&(*position)->next;
+    }
+    library=*position;
+    if(!library) {
+        record=(MacImportedLibrary *)allocate_link_memory(1,sizeof(MacImportedLibrary));
+        library=(MacImportLibraryNode *)allocate_link_memory(1,sizeof(MacImportLibraryNode));
+        library->library=duplicate_link_string(name);
+        library->record=record;
+        *position=library;
+        ++mac_import_library_count;
+        mac_library_name_bytes+=strlen(library->library)+1;
+    }
+    ++library->record->symbol_count;
+    append_mac_import_symbol(context,library,symbol);
+    ++mac_import_symbol_count;
+}
+void __stdcall append_mac_map_symbol(StringNode *) { __asm { int 3 } }
+char *__stdcall format_contribution_module(Contribution *,char *);
+void __stdcall report_duplicate_symbol(LinkOptions *,const char *,const char *,const char *);
+BYTE __stdcall add_mac_import(const unsigned char *name,const unsigned char *library,
+    Contribution *contribution,LinkContext *context)
+{
+    StringNode *symbol=context->symbols->Lookup(name,NULL);
+    char previous_name[512],module_name[528];
+    MacImportSymbolNode *imported;
+    DWORD bytes;
+    if(name[0]=='.' && name[1]!='.') {
+        set_symbol_defined(symbol,1,context->symbols);
+        symbol->contribution=contribution;
+        return 0;
+    }
+    if(symbol->flags&1) {
+        if(!symbol->contribution)strcpy(previous_name,"a previous module");
+        else format_contribution_module(symbol->contribution,previous_name);
+        report_duplicate_symbol(&context->options,
+            format_contribution_module(contribution,module_name),
+            (const char *)name,previous_name);
+        return 1;
+    }
+    symbol->attributes|=2;
+    symbol->contribution=contribution;
+    set_symbol_defined(symbol,1,context->symbols);
+    if(library) {
+        imported=(MacImportSymbolNode *)allocate_link_memory(1,sizeof(MacImportSymbolNode));
+        imported->symbol=symbol;
+        add_mac_import_library(context,(const char *)library,imported);
+        if(!(symbol->attributes&0x10)) {
+            bytes=mac_toc_entry_count*4;
+            symbol->reserved36=(WORD)(bytes<0x8000?bytes:0x7ffc-bytes);
+            ++mac_toc_entry_count;
+            ++mac_relocation_count;
+            ++fixup_count;
+            symbol->attributes|=0x10;
+            if(context->options.write_map)append_mac_map_symbol(symbol);
+        }
+        ++context->mac_glue_count;
+    }
+    return 1;
+}
+
 /* Provisional name retained: assigns contiguous import-symbol ordinals. */
 void __cdecl prepare_mac_resource_map(void)
 {
@@ -634,10 +720,50 @@ void __cdecl prepare_mac_resource_map(void)
 }
 
 extern "C" {
-extern char short_symbol_name[9];
 void __stdcall prepare_mac_incremental_entry(StringNode *,LinkContext *) { __asm { int 3 } }
-void __stdcall write_mac_entry(const char *,StringNode *,DWORD,LinkContext *,DWORD)
-{ __asm { int 3 } }
+StringNode *__stdcall lookup_mac_entry_symbol(const char *,LinkContext *,DWORD);
+void __stdcall record_debug_fixup(WORD,WORD,DWORD,DWORD);
+void __stdcall append_mac_relocation(DWORD,DWORD,DWORD);
+void __stdcall write_mac_entry(const char *name,StringNode *symbol,DWORD offset,
+    LinkContext *context,DWORD physical_flag)
+{
+    StringNode *entry;
+    DWORD relocation,toc,error;
+    int fd;
+    FileRecord *file;
+    if(!(BYTE)physical_flag) {
+        if((symbol->attributes&2) || !(symbol->attributes&0x100))return;
+        entry=lookup_mac_entry_symbol(name,context,1);
+    } else entry=symbol;
+    if(entry->attributes&0x40)return;
+    relocation=mac_jump_contribution->rva-mac_data_base+entry->symbol.Value;
+    toc=mac_toc_symbol->final_value-mac_data_base;
+    if(context->options.debug_formats&8) {
+        DWORD address=mac_jump_contribution->rva+entry->symbol.Value;
+        record_debug_fixup(2,0,address,offset+mac_code_base);
+        record_debug_fixup(2,1,address+4,mac_toc_symbol->final_value);
+    }
+    error=0;
+    seek_file(output_file,mac_jump_contribution->file_offset+entry->symbol.Value,
+        FILE_BEGIN,&error);
+    swap_byte_order(&offset,4);
+    fd=output_file;
+    if(file_access_statistics)record_file_access();
+    file=file_slots[fd];
+    if(file->flags&8)mapped_write(file,&offset,4);
+    else buffered_write(file,&offset,4);
+    swap_byte_order(&toc,4);
+    fd=output_file;
+    if(file_access_statistics)record_file_access();
+    file=file_slots[fd];
+    if(file->flags&8)mapped_write(file,&toc,4);
+    else buffered_write(file,&toc,4);
+    if(!(entry->attributes&0x400)) {
+        append_mac_relocation(relocation,5,0);
+        entry->attributes|=0x400;
+    }
+    entry->attributes|=0x40;
+}
 void __stdcall set_mac_entry_point(StringNode *entry,LinkContext *context)
 {
     DWORD offset;
@@ -994,8 +1120,18 @@ extern "C" {
 extern DWORD mac_current_import_version;
 extern LONG mac_old_api_version;
 extern InputArguments weak_mac_libraries,weak_mac_imports;
-StringNode *__stdcall lookup_mac_entry_symbol(const char *,LinkContext *,DWORD)
-{ __asm { int 3 } return NULL; }
+StringNode *__stdcall lookup_mac_entry_symbol(const char *name,LinkContext *context,
+    DWORD physical_flag)
+{
+    char *buffer=(char *)allocate_memory(strlen(name)+2);
+    StringNode *symbol;
+    strcpy(buffer,".");
+    strcat(buffer,name);
+    if((BYTE)physical_flag)symbol=context->symbols->Lookup((const unsigned char *)buffer,NULL);
+    else symbol=context->symbols->FindSymbol(buffer);
+    release_memory(buffer);
+    return symbol;
+}
 void __stdcall release_mac_import_versions(MacImportVersions *);
 int __cdecl compare_mac_relocation_records(const void *left,const void *right)
 {
@@ -1253,4 +1389,38 @@ void __stdcall finish_mac_entry_point(StringNode *entry,LinkContext *context)
 #undef MAC_VERSION_USED
 #undef MAC_ARGUMENT_USED
 #undef WRITE_MAC_LOADER
+}
+
+extern "C" {
+char *__stdcall make_mac_entry_name(char *,const char *) { __asm { int 3 } return NULL; }
+/* Provisional name retained: this creates the dot-prefixed Mac jump entry,
+ * independently of whether the link itself is incremental. */
+StringNode *__stdcall record_incremental_entry(const char *name,Contribution *contribution,
+    LinkContext *context,DWORD physical_flag)
+{
+    char *buffer=(char *)allocate_memory(strlen(name)+7);
+    StringNode *symbol;
+    strcpy(buffer,".");
+    strcat(buffer,name);
+    symbol=context->symbols->Lookup((const unsigned char *)buffer,NULL);
+    /* All32bits are physically forwarded; this complete consumer reads BYTE. */
+    if((BYTE)physical_flag) {
+        set_symbol_defined(symbol,1,context->symbols);
+        symbol->contribution=contribution;
+        buffer=make_mac_entry_name(buffer,name);
+        symbol=context->symbols->Lookup((const unsigned char *)buffer,NULL);
+    }
+    if(!(symbol->attributes&0x20) && !(symbol->attributes&0x100)) {
+        set_symbol_defined(symbol,1,context->symbols);
+        symbol->symbol.SectionNumber=-2;
+        symbol->symbol.Value=mac_jump_entry_count*8;
+        ++mac_jump_entry_count;
+        ++mac_relocation_count;
+        fixup_count+=2;
+        symbol->attributes|=0x20;
+    }
+    symbol->attributes|=0x100;
+    release_memory(buffer);
+    return symbol;
+}
 }
