@@ -222,6 +222,9 @@ struct StringNode {
     const char *diagnostic_name;
     union { DWORD flags; BYTE flag_byte; };
     WORD attributes,reserved36;
+    /* Tail of the actual60B Mac symbol allocation; ordinary52B records do not
+     * contain it. Only the Mac import/glue consumers access this field. */
+    DWORD mac_glue_address;
 };
 typedef struct SectionList {
     OutputSection *first, **last;
@@ -283,6 +286,7 @@ typedef char SymbolUndefinedLinks[(offsetof(StringNode,undefined_previous)==0x1c
     offsetof(StringNode,undefined_next)==0x20 && offsetof(StringNode,auxiliary)==0x24)?1:-1];
 typedef char SymbolAttributesAt34[(offsetof(StringNode,attributes)==0x34)?1:-1];
 typedef char SymbolReservedAt36[(offsetof(StringNode,reserved36)==0x36)?1:-1];
+typedef char SymbolMacGlueAt38[(offsetof(StringNode,mac_glue_address)==0x38)?1:-1];
 typedef char SymbolFlagsAt30[(offsetof(StringNode,flags)==0x30)?1:-1];
 
 #endif

@@ -62,7 +62,7 @@ void __stdcall read_section_relocations(LinkContext *context,Contribution *contr
         module->base_relocation_size+=size;
     }
 }
-DWORD __stdcall read_mac_ppc_relocations(LinkContext *,OutputModule *,Contribution *,IMAGE_SYMBOL *,IMAGE_RELOCATION *,DWORD,DWORD) { __asm { int 3 } return 0; }
+
 void __stdcall release_relocations(IMAGE_RELOCATION *relocations)
 {
     relocation_data_active=0;

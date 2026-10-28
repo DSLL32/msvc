@@ -6162,5 +6162,56 @@
         "basis": "Identified void stdcall(void*,DWORD)/RET8 normal-return x86 nonvolatile EBX preservation. Actual swap call452d6c lies before the loop returns to the cached _stricmp calls. Existing _stricmp/file-cache EBX contracts reused. No nonlocal return or import/version runtime coverage claim."
       }
     ]
+  },
+  "mac_relocation_reader_ordinary_abi": {
+    "owner": "_read_mac_ppc_relocations@28",
+    "target": "mspdb50.dll!SigForPbCb",
+    "cached_register": "esi",
+    "original_sites": [
+      "0x45799a",
+      "0x4579a3",
+      "0x4579b6",
+      "0x457c2e",
+      "0x457c3a"
+    ],
+    "signature": "DWORD __cdecl SigForPbCb(const void *,long,DWORD), same established identified import IAT401294",
+    "normal_return_preserves": [
+      "esi"
+    ],
+    "basis": "The identified ordinary public cdecl ABI preserves ESI across normal return. The original caches this import in ESI for the stated calls. This supplies no provider-body credit or folding execution claim."
+  },
+  "mac_relocation_processor_ordinary_abi": {
+    "owner": "_process_mac_ppc_relocations@28",
+    "cache": "Original453bce/453be3 cache identified msvcrt.dll!strncpy IAT401278 in EDI;453bdc,453c3f,453ca7 are exact indirect use sites.",
+    "facts": [
+      {
+        "target": "_write_mac_entry@20",
+        "normal_return_preserves": [
+          "edi"
+        ],
+        "basis": "Recovered ordinary x86 stdcall signature with named registry identity; nonvolatile EDI on normal return, not a pending-body/nonlocal-return execution claim."
+      },
+      {
+        "target": "_lookup_mac_entry_symbol@12",
+        "normal_return_preserves": [
+          "edi"
+        ],
+        "basis": "Recovered ordinary x86 stdcall signature with named registry identity; nonvolatile EDI on normal return, not a pending-body/nonlocal-return execution claim."
+      },
+      {
+        "target": "_find_mac_import_symbol@8",
+        "normal_return_preserves": [
+          "edi"
+        ],
+        "basis": "Recovered ordinary x86 stdcall signature with named registry identity; nonvolatile EDI on normal return, not a pending-body/nonlocal-return execution claim."
+      },
+      {
+        "target": "_find_weak_default@4",
+        "normal_return_preserves": [
+          "edi"
+        ],
+        "basis": "Recovered ordinary x86 stdcall signature with named registry identity; nonvolatile EDI on normal return, not a pending-body/nonlocal-return execution claim."
+      }
+    ]
   }
 }

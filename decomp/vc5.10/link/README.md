@@ -1,7 +1,7 @@
 # VC5.10 LINK
 
-770 application functions / 276,200 original code bytes are reconstructed
-(66.58% of the 414,810-byte whole `.text` extent, which includes CRT and text
+776 application functions / 284,125 original code bytes are reconstructed
+(68.50% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 36 pending bodies with known extents totaling 3,599 bytes and
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all fifty-two cached native cases and their narrow checks;
+`make -j4 check unit` runs all fifty-three cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-783-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 749 ordinary application bodies and six CRT bodies. Seven import
+789-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 755 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1463,3 +1463,36 @@ RET contracts and existing C++/SEH role checks passed in a combined 5.750 s.
 Necessary native and period builds passed. These are incremental measurements;
 no target execution, debugger exception, optional map or provider success is
 claimed by this case.
+
+
+The MPPC relocation case links a transparent format-authored COFF object with
+local and imported code/data, a real function-descriptor relocation and a
+TOCCALLREL/LCALL pair. Its numbering follows this backend's actual MPPC
+decoder, rather than the distinct WinNT PowerPC relocation constants. The
+import call begins with its genuine nop placeholder; LINK patches the following
+TOC restore instruction. Parent and real synchronous librarian child exit 0
+with 338 combined first entries, producing matching 1,248-byte DLL, 1,176-byte
+EXP and 620-byte LIB artifacts. This qualifies serialization, not PPC code
+execution, imported-provider behavior or successful runtime loading.
+
+Six whole bodies / 7,925 original code bytes recover the MPPC relocation reader,
+classifier, processor, imported-code resolver, import lookup and glue writer.
+The processor retains its reachable continuation after the apparent final RET,
+both original switch tables and normal RET28. The genuine 60-byte Mac symbol
+record now exposes its encountered glue-address tail without changing the
+separate 52-byte allocation profile. Actual child identities and per-call ABIs
+remain distinct; unreached TOC-slot, indirect-glue, debug-fixup, p-code and
+incremental paths keep their named pending children and qualification limits.
+Earlier wrong-numbered and prepatched input attempts remain limited prefix
+evidence, with their raw captures preserved.
+
+Complete original/native raw output files are retained in scratch. Every byte
+except the identified DLL/EXP COFF TimeDateStamp fields, parsed archive member
+ten-digit Date fields and contained COFF TimeDateStamp fields compares strictly;
+relocation, instruction, descriptor, padding and final inventory bytes are
+unmasked. The final original took 3,076.800 ms; native comparison took 48.962 ms
+(17.314 setup, 27.835 execution, 3.812 checks). The one case-end parallel
+regression/unit/audit batch passed in 7.586 s, covering 53 cached cases, the
+789-vertex graph, 761 scoped RET contracts and existing C++/OMF SEH residuals.
+These are incremental timings. Blocked fixed-view case 19 and MSDIS case 29
+remain excluded and unchanged.

@@ -130,10 +130,9 @@ void __stdcall initialize_mac_imports(LinkContext *context)
         argument=argument->next;
     }
 }
-BYTE __stdcall classify_mac_ppc_relocation(Contribution *,WORD,DWORD,BYTE)
-{ __asm { int 3 } return 0; }
+BYTE __stdcall classify_mac_ppc_relocation(Contribution *,WORD,DWORD,BYTE);
 void __stdcall process_mac_ppc_relocations(Contribution *,IMAGE_RELOCATION *,DWORD,
-    BYTE *,IMAGE_SYMBOL *,LinkContext *,DWORD *) { __asm { int 3 } }
+    BYTE *,IMAGE_SYMBOL *,LinkContext *,DWORD *);
 
 void __stdcall initialize_mac_ppc_backend(LinkContext *context,BYTE *incremental_supported)
 {
@@ -827,8 +826,15 @@ DWORD __stdcall write_mac_export_name(const char *name)
     mac_symbol_name_bytes=offset+length+1;
     return offset;
 }
-MacImportSymbolNode *__stdcall find_mac_import_symbol(LinkContext *,StringNode *)
-{ __asm { int 3 } return NULL; }
+MacImportSymbolNode *__stdcall find_mac_import_symbol(LinkContext *,StringNode *symbol)
+{
+    MacImportLibraryNode *library;
+    MacImportSymbolNode *imported;
+    for(library=mac_import_libraries;library;library=library->next)
+        for(imported=library->symbols;imported;imported=imported->next)
+            if(imported->symbol==symbol)return imported;
+    return NULL;
+}
 #pragma pack(push,1)
 struct MacLoaderExportRecord {
     BYTE kind,name_offset[3];
@@ -988,6 +994,42 @@ void __stdcall prepare_mac_debug_information(LinkContext *context)
     if(file->flags&8)mapped_write(file,mac_glue_extension,sizeof(mac_glue_extension));
     else buffered_write(file,mac_glue_extension,sizeof(mac_glue_extension));
     context->mac_glue_bytes_used+=20;
+}
+
+/* Actual494548: the two-word new-glue form, filled before each write. The
+ * legacy24B form reuses the machine setup's real instruction template. */
+DWORD mac_short_glue[2];
+void __stdcall emit_mac_import_glue(DWORD toc_displacement,LinkContext *context)
+{
+    DWORD error=0;
+    FileRecord *file;
+    int fd;
+    seek_file(output_file,mac_glue_contribution->file_offset+context->mac_glue_bytes_used,
+        FILE_BEGIN,&error);
+    if(context->options.new_glue) {
+        if(context->options.debug_formats&8)
+            record_debug_fixup(6,0,mac_glue_contribution->rva+context->mac_glue_bytes_used+2,
+                mac_toc_symbol->final_value+toc_displacement);
+        mac_short_glue[0]=byte_swap_dword(0x81820000|(toc_displacement&0xffff));
+        mac_short_glue[1]=byte_swap_dword(0x48000000|(~context->mac_glue_bytes_used&0x3fffffc));
+        fd=output_file;
+        if(file_access_statistics)record_file_access();
+        file=file_slots[fd];
+        if(file->flags&8)mapped_write(file,mac_short_glue,8);
+        else buffered_write(file,mac_short_glue,8);
+        context->mac_glue_bytes_used+=8;
+    } else {
+        if(context->options.debug_formats&8)
+            record_debug_fixup(6,0,mac_glue_contribution->rva+context->mac_glue_bytes_used+2,
+                mac_toc_symbol->final_value+toc_displacement);
+        mac_import_glue[0]=byte_swap_dword(0x81820000|(toc_displacement&0xffff));
+        fd=output_file;
+        if(file_access_statistics)record_file_access();
+        file=file_slots[fd];
+        if(file->flags&8)mapped_write(file,mac_import_glue,24);
+        else buffered_write(file,mac_import_glue,24);
+        context->mac_glue_bytes_used+=24;
+    }
 }
 }
 
