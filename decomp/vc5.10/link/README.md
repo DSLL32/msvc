@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-795 application functions / 289,722 original code bytes are reconstructed
-(69.84% of the 414,810-byte whole `.text` extent, which includes CRT and text
+800 application functions / 290,696 original code bytes are reconstructed
+(70.08% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 34 pending bodies with known extents totaling 3,156 bytes and
-130 entries whose body extents remain unknown; this is not a complete non-CRT
+129 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -1731,3 +1731,47 @@ regression/unit/full graph/RET/EH batch passed in 5.986 s, covering 59 cached
 cases, 808 graph vertices, 780 return contracts and existing C++/OMF SEH checks.
 These are incremental timings. Array growth, invalid records and alternative
 COMDAT-name histories are not dynamically qualified. Blocked cases stay excluded.
+
+
+The MIPS page-padding case links a transparent 12,692-byte R4000 COFF object
+containing three related code groups, GP-relative data and a relocated jump.
+Its large body places real load/branch/divide instruction patterns at successive
+page boundaries. Preparation independently checks the opcode fields, bounded
+branch targets and NOP delay slots, relocations, symbol indices and record
+lengths. This is format-authored input, not claimed historical compiler output.
+The serialized MIPS code is never executed.
+
+Five whole bodies / 974 original code bytes recover contribution padding and
+four newly identified linker-specific instruction-analysis helpers. They retain
+actual stdcall4/20/8/12/4 cleanup and BYTE predicate returns, with full DWORD
+register and offset transports. Switch tables are owned as encountered text
+data; the original compiler's emitted switch tables have separate rebuilt
+ownership. The first narrow hazard gate correctly rejected an undeclared
+compiler table; its evidence is retained, and the corrected ownership passes.
+No CRT or data bytes add application credit.
+
+Both sides exit 0 after 241 first entries and produce matching 14,848-byte EXE
+and 943-byte MAP files. Independent decoding proves the actual 16-byte prefix,
+rejected 0/4/8/12-byte candidates, unchanged instruction body apart from its
+real GP-relative relocation, corrected jump target, absolute data reference and
+complete MIPS_JMPADDR/HIGHLOW base-relocation directory. The output's selected
+page endings are NOP/NOP/LW, rather than the hazardous branch/divide sequences.
+All raw bytes and final inventory are strict except the identified PE COFF
+TimeDateStamp [184,188), MAP hex timestamp [26,34) and ctime [36,60); each raw
+map clock independently agrees with its own raw PE timestamp. Untouched raw
+original and native files and the comparison derivation are retained in scratch.
+
+An earlier console recipe ended at the backend's Windows CE requirement and
+remains limited failed evidence. The corrected public CLI uses Windows CE;
+its encountered diagnostic literal has exact text-data ownership and zero code
+credit. This case qualifies linker serialization, not MIPS execution or an
+erratum-runtime guarantee. Invalid instructions, scanner exhaustion, fatal paths
+and alternate module/storage modes remain outside the observed domain.
+
+Final original execution took 1,902.124 ms; ordinary native comparison took
+17.194 ms (11.362 setup, 2.113 execution, 3.719 checks). Necessary native/period
+builds and scoped import/extent/RET gates passed before new masks. The one
+case-end regression/unit/full graph/RET/EH batch passed in 8.097 s, covering
+60 cached cases, 813 graph vertices, 785 return contracts and the existing
+C++/OMF SEH role checks. These are incremental timings. The fixed-view and
+MSDIS cases remain blocked.

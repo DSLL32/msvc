@@ -16,7 +16,6 @@ extern "C" void __stdcall write_mac_incremental_table(LinkContext *context,DWORD
 extern "C" void __stdcall allocate_mac_incremental_table(DWORD count,BYTE fixed) { __asm { int 3 } }
 
 
-extern "C" DWORD __stdcall mips_code_padding(Contribution *contribution) { __asm { int 3 } return 0; }
 extern "C" void __stdcall add_ppc_branch_island(Contribution *last,DWORD rva,DWORD count) { __asm { int 3 } }
 extern "C" void __stdcall initialize_relocation_padding(void *state,DWORD pages,DWORD base,DWORD extra) { __asm { int 3 } }
 
