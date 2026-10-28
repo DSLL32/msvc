@@ -15,6 +15,17 @@ int main(int argc,char **argv)
 #ifdef RECON_BORLAND_400_STDOUT
     unsigned n,k;char *text;size_t capacity;int code;unsigned char a[108],b[108];
     assert(argc>=3 && consumer_binding()==recon_borland_400_printf);assert(!atexit(final_callback));code=(int)strtoul(argv[2],NULL,0);
+    if(!strcmp(argv[1],"write-error")) {
+        assert(consumer_print("actual output error\n")==EOF);
+        assert(recon_ferror(&recon_iob[1]) && errno!=0);
+        assert(consumer_print("retry\n")==EOF && recon_ferror(&recon_iob[1]));
+        consumer_quick_exit(0);
+    }
+    if(!strcmp(argv[1],"closed")) {
+        char text[561];memset(text,'x',560);text[560]=0;assert(!close(1));
+        assert(consumer_print(text)==EOF && recon_ferror(&recon_iob[1]) && errno==EBADF);
+        consumer_quick_exit(0);
+    }
     if(!strcmp(argv[1],"format")) {recon_borland_400_printf("%d",7);return 1;}
     if(!strcmp(argv[1],"null")) {consumer_print(NULL);return 1;}
     if(!strcmp(argv[1],"wrap")) {consumer_print((char *)0xfffffff0UL);return 1;}

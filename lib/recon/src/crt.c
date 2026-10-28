@@ -1721,28 +1721,33 @@ int recon_printf(const char *format,...)
 }
 #ifdef RECON_BORLAND_400_STDOUT
 static char *borland_stdout_buffer;
+static int borland_stdout_unbuffered;
 static void borland_stdout_state(ShimFILE *stream)
 {
     uintptr_t base=(uintptr_t)stream->_base,position=(uintptr_t)stream->_ptr;
     if(!borland_stdout_buffer) {
-        if(stream->_flag!=2 || stream->_base || stream->_ptr || stream->_cnt || stream->_bufsiz)
+        if((stream->_flag&~0x20)!=2 || stream->_base || stream->_ptr || stream->_cnt || stream->_bufsiz)
             recon_unsupported("Borland400 printf fresh stdout state");
-    } else if(stream->_flag!=0x0a || stream->_base!=borland_stdout_buffer ||
+    } else if(borland_stdout_unbuffered) {
+        if((stream->_flag&~0x20)!=6 || stream->_base!=borland_stdout_buffer ||
+           stream->_ptr!=stream->_base || stream->_cnt || stream->_bufsiz!=2)
+            recon_unsupported("Borland400 printf owned device stdout state");
+    } else if((stream->_flag&~0x20)!=0x0a || stream->_base!=borland_stdout_buffer ||
               stream->_bufsiz!=512 || position<base || position>base+512 ||
               (position==base?stream->_cnt!=0:stream->_cnt!=512-(int)(position-base)))
-        recon_unsupported("Borland400 printf owned stdout state");
+        recon_unsupported("Borland400 printf owned buffered stdout state");
 }
 #endif
-/* The reached printf grammar is only %s. Original VPRINTER.C stages80 bytes,
- * then FPUTN.C preflushes a whole chunk against the512-byte stream capacity.
- * Reuse native FILE allocation/flush/text-write machinery; no message data or
- * case-specific output lengths occur here. Success assumes writable regular
- * redirected stdout; other formatting, stream roles and failures stay denied. */
+/* The reached printf grammar is only %s. Original STREAMS.C uses unbuffered
+ * stdout for O_DEVICE (including terminals/NUL), full512B buffering otherwise.
+ * VPRINTER.C stages80 bytes; FPUTN.C preflushes a whole next buffered chunk.
+ * Reuse native FILE/text-write machinery without selecting fixture file kinds.
+ * No message data or case-specific output lengths occur here. */
 int __cdecl recon_borland_400_printf(const char *format,...)
 {
 #ifdef RECON_BORLAND_400_STDOUT
     ShimFILE *stream=&recon_iob[1];const char *text;va_list arguments;
-    size_t length,offset,chunk,pending;struct stat info;int descriptor,flags;
+    size_t length,offset,chunk,pending;int failed=0;
     int saved=errno,*target=recon_errno(),saved_target=*target;unsigned long dos=recon_doserrno;
     DWORD error=recon_GetLastError();uintptr_t address=(uintptr_t)format;
     if(address<4096 || address>UINTPTR_MAX-3 || memcmp(format,"%s",3))
@@ -1753,29 +1758,35 @@ int __cdecl recon_borland_400_printf(const char *format,...)
         recon_unsupported("Borland400 printf caller-readable string span");
     length=strnlen(text,65536);
     if(length==65536)recon_unsupported("Borland400 printf bounded NUL string");
-    if(stream->_file!=1 || stream->_tmpfname || recon_nhandle<=1 || recon_osfile[1]!=0x81 ||
-       os_handles[1]<=0 || os_handles[1]>(long)INT_MAX)
-        recon_unsupported("Borland400 printf regular text stdout role");
-    descriptor=(int)os_handles[1]-1;
-    if(fstat(descriptor,&info) || !S_ISREG(info.st_mode) ||
-       (flags=fcntl(descriptor,F_GETFL))<0 || (flags&O_ACCMODE)==O_RDONLY)
-        recon_unsupported("Borland400 printf writable regular stdout");
+    if(stream->_file!=1 || stream->_tmpfname)
+        recon_unsupported("Borland400 printf stdout ownership");
     borland_stdout_state(stream);
-    if(borland_stdout_buffer && address<(uintptr_t)borland_stdout_buffer+512 &&
+    if(borland_stdout_buffer && address<(uintptr_t)borland_stdout_buffer+(borland_stdout_unbuffered?2:512) &&
        (uintptr_t)borland_stdout_buffer<address+length+1)
         recon_unsupported("Borland400 printf disjoint input/stdout buffer");
     if(!borland_stdout_buffer) {
-        if(recon_setvbuf(stream,NULL,0,512))recon_unsupported("Borland400 printf buffer allocation");
+        borland_stdout_unbuffered=(recon_osfile[1]&0x40)!=0;
+        if(recon_setvbuf(stream,NULL,borland_stdout_unbuffered?4:0,512)) {
+            /* Original _allocbuf leaves its hold-byte unbuffered fallback if
+             * allocation fails; startup ignores that allocation return. */
+            borland_stdout_unbuffered=1;recon_setvbuf(stream,NULL,4,0);
+        }
         borland_stdout_buffer=stream->_base;
     }
     for(offset=0;offset<length;offset+=chunk) {
         chunk=length-offset;if(chunk>80)chunk=80;
-        pending=(size_t)(stream->_ptr-stream->_base);
-        if(pending+chunk>512 && recon_flush(stream))
-            recon_unsupported("Borland400 printf stream flush failure");
-        if(recon_fwrite(text+offset,1,chunk,stream)!=chunk)
-            recon_unsupported("Borland400 printf stream write failure");
+        if(borland_stdout_unbuffered) {
+            if(recon_write(stream->_file,text+offset,(unsigned)chunk)!=(int)chunk) {
+                stream->_flag|=0x20;failed=1;
+            }
+        } else {
+            pending=(size_t)(stream->_ptr-stream->_base);
+            if(pending+chunk>512 && recon_flush(stream)) {failed=1;continue;}
+            if(recon_fwrite(text+offset,1,chunk,stream)!=chunk) {stream->_flag|=0x20;failed=1;}
+        }
     }
+    /* Genuine backend failures are CRT output errors, never fixture denials. */
+    if(failed)return EOF;
     errno=saved;*target=saved_target;recon_doserrno=dos;recon_SetLastError(error);
     return (int)length;
 #else

@@ -2163,13 +2163,19 @@ profiles are unchanged; unselected direct calls still deny125. Original builds
 use shipped SDK headers and ordinary spellings, with no native feature remapping.
 
 RECON_BORLAND_400_STDOUT selects the reached BC4 printf("%s",NUL text) route
-on fresh/adapter-owned redirected writable regular text stdout. Text is bounded
-to65535 bytes; other formats/stream roles and I/O failures remain unsupported.
-The native stream is512B, and each printf stages at most80 bytes per write,
-preflushing before a whole next chunk would exceed capacity. These sizes and
-boundaries follow ALLOCBUF/STREAMS/VPRINTER/FPUTN and actual BCC32 code; no catalog
-text, expected output count or case-specific spelling is part of the shim.
-The existing flush/fwrite/CRLF backend and normal cleanup remain available.
+on stdout. Text is bounded to65535 bytes; other formats remain unsupported.
+Following STREAMS.C, lowio O_DEVICE selects unbuffered output (terminals, NUL and
+other devices); nondevice handles such as files and pipes use512B buffering.
+No fixture file-kind or writable-regular-file gate selects the route. Each printf
+stages at most80 bytes, preflushing a whole next buffered chunk before it would
+exceed capacity. Device chunks go directly through existing lowio. ALLOCBUF's
+unbuffered allocation fallback is retained. These boundaries follow original
+source/code; no catalog text, expected output count or case spelling is in shim.
+Existing text/CRLF/backend behavior and normal cleanup remain available. Genuine
+write/flush errors return EOF and retain backend errors rather than denying the
+environment; native FILE error state allows subsequent calls/clearerr. Private
+Borland FILE/errno equivalence is not claimed. No host terminal settings change;
+Linux output postprocessing remains an ordinary host terminal property.
 The same opt-in _exit route publishes actual full status then terminates without
 atexit, pragma-exit callbacks or final stdio flush, preserving deliberate pending
 output loss. This is not general Borland stdio/private-FILE or error behavior;
@@ -2180,3 +2186,7 @@ delivery and date/time calls were uninvoked in that no-arguments case.
 The saved BCC compile-only prefix is adopted by native-only replay through both
 live calls to initialize_memory (five App entries, matching partial streams).
 Clock values across the original/native launches are not compared as identical.
+
+Actual empty-environment BCC noargs CLI checks cover PTY, pipe, file and NUL.
+Terminals print complete help; pipe/file preserve the exact1458B quick-exit
+reference. Focused controls include device output errors and closed descriptors.
