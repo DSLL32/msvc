@@ -2282,3 +2282,24 @@ boundary; no continuation success is implemented or claimed. The actual BCC
 lookup and volume query; its callback traps before findnext. Full native fields
 and error behavior are covered by authored controls, not directly observed as
 historically identical Windows volume metadata.
+
+RECON_BORLAND_400_SETJMP_INITIAL selects only the reached initial Borland save.
+Native jmp_buf is the packed32B opaque owner; actual BCC32 dbe84..dbea7 stores
+six CPU words plus FS:[0], leaves word7 untouched, and returns0. Later shipped
+SETJMP.ASM has context operations absent from that target and is not evidence
+for their execution. Native storage does not emulate/serialize those private
+register/FS words. A direct macro emits a genuine libc save in the live App
+frame, reusing the existing out-of-line registry and preserving error/FP state.
+Its initial-only domain tag reuses the existing private slot/layout. Both
+Borland longjmp and generic resume of a tagged owner deny125; no RtlUnwind,
+exception-chain, nonlocal return or cleanup equivalence is claimed. Taking the
+save function address or calling its parenthesized form also selects typed cold
+denial. The input expression is evaluated once; the caller supplies a live32B
+owner, with unknown sizes/null/wrap denied. The existing single-thread registry
+premise remains; no general context framework, thread or lifetime detection is
+added. Unselected legacy8/16 and Watcom52B behavior is retained. Win32 builds
+continue using the original compiler/CRT, with no App source replacement.
+Focused controls prove real host caller-frame entry, initial0, opaque storage,
+errors/FP, reuse/once-evaluation, cold forms and retained profile behavior.
+BCC's ordinary35-entry pair reaches initialize_translation through the initial
+save; longjmp/resumption is uninvoked and remains unsupported.

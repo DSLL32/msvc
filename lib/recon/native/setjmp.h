@@ -6,7 +6,17 @@
 #undef jmp_buf
 #undef setjmp
 
-#if defined(RECON_CRT_PROFILE_WATCOM_100A) && !defined(RECON_SHIM_IMPL)
+#if defined(RECON_BORLAND_400_SETJMP_INITIAL)
+#if defined(RECON_CRT_PROFILE_WATCOM_100A) || (defined(RECON_LEGACY_JMP_WORDS) && RECON_LEGACY_JMP_WORDS != 8)
+#error Borland initial save requires its own32-byte target owner
+#endif
+/* BC4 flat SETJMP.H is packed32B. The actual BCC save writes7words;
+ * this native object is opaque and never receives captured register/FS bytes. */
+#pragma pack(push,1)
+typedef struct ReconBorland400JumpStorage { unsigned opaque[8]; } jmp_buf[1];
+#pragma pack(pop)
+typedef char ReconBorland400JumpBufferSize[sizeof(jmp_buf)==32?1:-1];
+#elif defined(RECON_CRT_PROFILE_WATCOM_100A) && !defined(RECON_SHIM_IMPL)
 typedef unsigned int jmp_buf[13];
 typedef char ReconWatcomJumpBufferSize[(sizeof(jmp_buf)==52)?1:-1];
 #else
@@ -23,6 +33,9 @@ typedef char ReconJumpBufferSize[(sizeof(jmp_buf) == 4*RECON_LEGACY_JMP_WORDS) ?
 #ifdef __cplusplus
 extern "C" {
 #endif
+int recon_borland_400_setjmp(jmp_buf);
+recon_host_jmp_buf *recon_borland_400_setjmp_context(void *,unsigned);
+void recon_borland_400_longjmp(jmp_buf,int) __attribute__((noreturn));
 int recon_watcom_setjmp(unsigned int *);
 recon_host_jmp_buf *recon_watcom_setjmp_context(void *, unsigned);
 void recon_watcom_longjmp(unsigned int *, int) __attribute__((noreturn));
@@ -39,7 +52,15 @@ void recon_longjmp(void *, int) __attribute__((noreturn));
 #endif
 
 #ifndef RECON_SHIM_IMPL
-#if defined(RECON_CRT_PROFILE_WATCOM_100A)
+#if defined(RECON_BORLAND_400_SETJMP_INITIAL)
+/* Object alias also makes function-address/parenthesized forms select the
+ * typed cold boundary. Only the direct macro emits a real live-frame save. */
+#define setjmp recon_borland_400_setjmp
+#define _setjmp recon_borland_400_setjmp
+#define recon_borland_400_setjmp(environment) \
+    recon_host_setjmp(*recon_borland_400_setjmp_context((void *)(environment),sizeof(environment)))
+#define longjmp recon_borland_400_longjmp
+#elif defined(RECON_CRT_PROFILE_WATCOM_100A)
 /* Ordinary calls save libc state directly in the live caller. Taking the
  * typed function address still selects the explicitly unavailable form. */
 #define _setjmp recon_watcom_setjmp

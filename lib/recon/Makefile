@@ -1240,3 +1240,7 @@ borland-fnsplit-check:
 .PHONY: volume-info-check
 volume-info-check:
 	$(PYTHON) tests/volume-info/check.py
+
+.PHONY: borland-setjmp-check
+borland-setjmp-check:
+	$(PYTHON) tests/borland-setjmp/check.py

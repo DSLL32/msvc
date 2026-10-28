@@ -1065,10 +1065,11 @@ int recon_watcom_setjmp(unsigned int *environment)
  * each new setjmp overwrites the previous saved context at that address.
  * Like the existing tracing runtime, this registry serves single-threaded
  * fixtures. Entries cannot be freed because C has no jump-buffer destructor. */
+enum { JUMP_ORDINARY, JUMP_WATCOM_NORMAL, JUMP_BORLAND_INITIAL };
 struct JumpContext {
     void *legacy;
     int opaque_setjmp3;
-    int watcom_normal_only;
+    int runtime_domain;
     recon_host_jmp_buf host;
     struct JumpContext *next;
 };
@@ -1082,7 +1083,7 @@ void recon_watcom_longjmp(unsigned int *environment,int value)
         recon_unsupported("Watcom longjmp environment/value");
     for(context=jump_contexts;context;context=context->next)
         if(context->legacy==environment) {
-            if(!context->watcom_normal_only || context->opaque_setjmp3)
+            if(context->runtime_domain!=JUMP_WATCOM_NORMAL || context->opaque_setjmp3)
                 recon_unsupported("Watcom longjmp requires saved52-byte context");
             /* The reached Spawn frame is still live on this thread, on the
              * same unwind chain. Its opaque target owner is never serialized;
@@ -1101,12 +1102,12 @@ recon_host_jmp_buf *recon_jmp_context(void *legacy)
 {
     struct JumpContext *context;
     for (context = jump_contexts; context; context = context->next)
-        if (context->legacy == legacy) { context->opaque_setjmp3=0; context->watcom_normal_only=0; return &context->host; }
+        if (context->legacy == legacy) { context->opaque_setjmp3=0; context->runtime_domain=JUMP_ORDINARY; return &context->host; }
     context = malloc(sizeof(*context));
     if (!context) recon_unsupported("setjmp context allocation");
     context->legacy = legacy;
     context->opaque_setjmp3=0;
-    context->watcom_normal_only=0;
+    context->runtime_domain=JUMP_ORDINARY;
     context->next = jump_contexts;
     jump_contexts = context;
     return &context->host;
@@ -1134,12 +1135,42 @@ recon_host_jmp_buf *recon_watcom_setjmp_context(void *legacy,unsigned size)
     if(!legacy || size!=52)recon_unsupported("Watcom setjmp requires52-byte owner");
     host=recon_jmp_context(legacy);
     for(context=jump_contexts;context;context=context->next)
-        if(context->legacy==legacy){context->watcom_normal_only=1;break;}
+        if(context->legacy==legacy){context->runtime_domain=JUMP_WATCOM_NORMAL;break;}
     errno=saved_errno;recon_doserrno=saved_dos;recon_SetLastError(saved_error);
     return host;
 #else
     (void)legacy;(void)size;recon_unsupported("Watcom setjmp requires explicit profile");return NULL;
 #endif
+}
+
+/* BCC32 dbe84..dbea7 stores6CPU words+FShead, leaves word7 alone,
+ * then returns0. Later shipped SETJMP.ASM has extra context logic absent here.
+ * Reuse the real host save in the App frame; do not emulate target FS/private
+ * words. The existing registry stays single-threaded and keeps its layout. */
+int recon_borland_400_setjmp(jmp_buf owner)
+{
+    (void)owner;recon_unsupported("Borland400 setjmp function-address form");return 0;
+}
+recon_host_jmp_buf *recon_borland_400_setjmp_context(void *owner,unsigned bytes)
+{
+#ifdef RECON_BORLAND_400_SETJMP_INITIAL
+    struct JumpContext *context;recon_host_jmp_buf *host;
+    int saved_errno=errno;unsigned long saved_dos=recon_doserrno;
+    DWORD saved_error=recon_GetLastError();uintptr_t address=(uintptr_t)owner;
+    if(address<4096 || address>UINTPTR_MAX-32 || bytes!=32)
+        recon_unsupported("Borland400 setjmp initial32-byte owner");
+    host=recon_jmp_context(owner);
+    for(context=jump_contexts;context;context=context->next)
+        if(context->legacy==owner){context->runtime_domain=JUMP_BORLAND_INITIAL;break;}
+    errno=saved_errno;recon_doserrno=saved_dos;recon_SetLastError(saved_error);return host;
+#else
+    (void)owner;(void)bytes;recon_unsupported("Borland400 setjmp requires explicit initial-save opt-in");return NULL;
+#endif
+}
+void recon_borland_400_longjmp(jmp_buf owner,int value)
+{
+    (void)owner;(void)value;recon_unsupported("Borland400 nonlocal resume/unwind");
+    __builtin_unreachable();
 }
 
 void recon_longjmp(void *legacy, int value)
@@ -1150,6 +1181,8 @@ void recon_longjmp(void *legacy, int value)
 #endif
     for (context = jump_contexts; context; context = context->next)
         if (context->legacy == legacy) {
+            if(context->runtime_domain==JUMP_BORLAND_INITIAL)
+                recon_unsupported("Borland400 saved initial context cannot resume");
             if (context->opaque_setjmp3) {
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
                 if(value!=1 && value!=2 && value!=102)recon_unsupported("MSVCRT510 count0 longjmp value");
@@ -1161,7 +1194,7 @@ void recon_longjmp(void *legacy, int value)
                 recon_unsupported("unreviewed _setjmp3 longjmp/SEH unwind");
 #endif
             }
-            if (context->watcom_normal_only) recon_unsupported("unreviewed Watcom saved-context resume");
+            if (context->runtime_domain==JUMP_WATCOM_NORMAL) recon_unsupported("unreviewed Watcom saved-context resume");
             longjmp(context->host, value);
         }
     recon_unsupported("longjmp without matching setjmp");
