@@ -2150,10 +2150,17 @@ Registration does not invoke callbacks. Console delivery is a named cold125
 boundary, including control-Break; no Borland raise/one-shot/FPE/exception or
 asynchronous signal semantics are claimed. Unselected signal routes are retained.
 RECON_BORLAND_400_DOS_TIME exposes the DOS.H flat-model packed date6B/time4B
-structures and cdecl getdate/gettime spellings; both calls are cold125/no-access.
-In particular no real-time or hundredths behavior is implemented by silently
-reusing the existing seconds-only GetLocalTime. Original builds use shipped SDK
-headers and ordinary call spellings, with no native feature remapping.
+structures and cdecl getdate/gettime spellings. Calls query real CLOCK_REALTIME
+and host localtime_r independently; getdate writes the full year (not year-1980),
+and gettime truncates real nanoseconds to hundredths, equivalent to the original
+GetLocalTime milliseconds/10. Caller-owned writable packed spans may be unaligned;
+NULL/wrapping spans and unsupported host query/calendar results deny before any
+output store. Native success preserves independent errors and semantic x87 state.
+The admitted local year is1601..9999, seconds0..59, using the host's timezone/DST
+policy; historical Windows timezone/leap-second equivalence and atomic date/time
+pairs are not promised. Generic GetLocalTime, fixed-time controls and other CRT
+profiles are unchanged; unselected direct calls still deny125. Original builds
+use shipped SDK headers and ordinary spellings, with no native feature remapping.
 
 RECON_BORLAND_400_STDOUT selects the reached BC4 printf("%s",NUL text) route
 on fresh/adapter-owned redirected writable regular text stdout. Text is bounded
@@ -2168,5 +2175,8 @@ atexit, pragma-exit callbacks or final stdio flush, preserving deliberate pendin
 output loss. This is not general Borland stdio/private-FILE or error behavior;
 unselected printf/_exit routes and MSVC/Watcom configurations are unchanged.
 The saved BCC32 no-arguments reference is adopted by native-only replay: exit0,
-five App first entries and all1458 stdout bytes match (5.383ms native). The cold
-signal/default delivery and date/time boundaries remain uninvoked in this case.
+five App first entries and all1458 stdout bytes match (5.383ms native). Signal/default
+delivery and date/time calls were uninvoked in that no-arguments case.
+The saved BCC compile-only prefix is adopted by native-only replay through both
+live calls to initialize_memory (five App entries, matching partial streams).
+Clock values across the original/native launches are not compared as identical.

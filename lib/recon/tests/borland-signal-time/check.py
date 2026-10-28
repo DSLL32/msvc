@@ -9,7 +9,7 @@ def group(item):
  flags=['-m32','-std=gnu89','-O0','-g','-DRECON_NATIVE_TEST',f'-I{lib}/include',f'-I{lib}/native','-Werror=implicit-function-declaration'];start=time.monotonic()
  p=subprocess.run([cc,*flags,*defs,str(lib/'tests/borland-signal-time/probe.c'),str(lib/'tests/borland-signal-time/consumer.c'),*[str(lib/'src'/f'{n}.c') for n in ['compat','crt','decimal','entry','process','win32']],'-pthread','-ldl','-o',str(exe)],capture_output=True);(folder/'build.log').write_bytes(p.stdout+p.stderr);assert not p.returncode,p.stderr;build=time.monotonic()-start;start=time.monotonic()
  modes=[('',0),('number',125),('error-handler',125),('delivery',125),('break-delivery',125)] if profile=='borland' else [('',125)]
- for mode,status in modes+[('date',125),('time',125),('no-write',0)]:
+ for mode,status in modes+[('date',125),('time',125)]+([('no-write',0)] if profile!='borland' else []):
   p=subprocess.run([str(exe)]+([mode] if mode else []),capture_output=True);(folder/f'{mode or "normal"}.log').write_bytes(p.stdout+p.stderr);assert p.returncode==status,(cc,profile,mode,p.returncode,p.stderr)
  cxx='g++' if cc=='gcc' else 'clang++';p=subprocess.run([cxx,'-m32','-std=c++98','-nostdinc++','-DRECON_NATIVE_TEST',*defs,f'-I{lib}/include',f'-I{lib}/native','-fsyntax-only',str(lib/'tests/borland-signal-time/typing.cpp')],capture_output=True);(folder/'typing.log').write_bytes(p.stdout+p.stderr);assert not p.returncode,p.stderr
  return dict(compiler=cc,profile=profile,build_s=build,checks_s=time.monotonic()-start)

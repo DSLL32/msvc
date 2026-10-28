@@ -1216,3 +1216,7 @@ borland-signal-time-check:
 .PHONY: borland-stdout-check
 borland-stdout-check:
 	$(PYTHON) tests/borland-stdout/check.py
+
+.PHONY: borland-live-time-check
+borland-live-time-check:
+	$(PYTHON) tests/borland-live-time/check.py

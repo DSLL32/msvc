@@ -79,13 +79,54 @@ ReconSignalHandler __cdecl recon_borland_400_signal(int number,ReconSignalHandle
     __builtin_unreachable();
 #endif
 }
-/* Exact public cdecl pointer types only; real time and hundredths have not
- * been qualified. In particular the existing seconds-only GetLocalTime is
- * insufficient for the original gettime millisecond/10 result. */
+#ifdef RECON_BORLAND_400_DOS_TIME
+static void borland_time_output(const void *value,size_t size)
+{
+    uintptr_t address=(uintptr_t)value;
+    /* Packed Borland structures have alignment1. Ownership/writability is the
+     * caller's precondition; these arithmetic checks are not a memory probe. */
+    if(address<4096 || address>UINTPTR_MAX-(size-1))
+        recon_unsupported("Borland400 DOS time caller-owned output span");
+}
+static unsigned borland_local_clock(struct tm *local)
+{
+    struct timespec now;
+    if(clock_gettime(CLOCK_REALTIME,&now) || now.tv_nsec<0 || now.tv_nsec>=1000000000L ||
+       !localtime_r(&now.tv_sec,local) || local->tm_year<1601-1900 || local->tm_year>9999-1900 ||
+       local->tm_mon<0 || local->tm_mon>11 || local->tm_mday<1 || local->tm_mday>31 ||
+       local->tm_hour<0 || local->tm_hour>23 || local->tm_min<0 || local->tm_min>59 ||
+       local->tm_sec<0 || local->tm_sec>59)
+        recon_unsupported("Borland400 DOS local wallclock range/query");
+    /* Original GetLocalTime supplies milliseconds; integer /10 truncates to
+     * hundredths. Flooring native nanoseconds directly is the same operation. */
+    return (unsigned)(now.tv_nsec/10000000L);
+}
+#endif
 void __cdecl recon_borland_400_getdate(struct date *value)
-{ (void)value;recon_unsupported("Borland400 getdate invocation"); }
+{
+#ifdef RECON_BORLAND_400_DOS_TIME
+    struct tm local;struct date result;int saved=errno,*target=recon_errno(),saved_target=*target;
+    unsigned long dos=recon_doserrno;DWORD error=recon_GetLastError();
+    borland_time_output(value,sizeof(*value));borland_local_clock(&local);
+    result.da_year=local.tm_year+1900;result.da_day=(char)local.tm_mday;result.da_mon=(char)(local.tm_mon+1);
+    *value=result;errno=saved;*target=saved_target;recon_doserrno=dos;recon_SetLastError(error);
+#else
+    (void)value;recon_unsupported("Borland400 getdate requires explicit opt-in");
+#endif
+}
 void __cdecl recon_borland_400_gettime(struct time *value)
-{ (void)value;recon_unsupported("Borland400 gettime invocation"); }
+{
+#ifdef RECON_BORLAND_400_DOS_TIME
+    struct tm local;struct time result;int saved=errno,*target=recon_errno(),saved_target=*target;
+    unsigned long dos=recon_doserrno;DWORD error=recon_GetLastError();unsigned hundredths;
+    borland_time_output(value,sizeof(*value));hundredths=borland_local_clock(&local);
+    result.ti_min=(unsigned char)local.tm_min;result.ti_hour=(unsigned char)local.tm_hour;
+    result.ti_hund=(unsigned char)hundredths;result.ti_sec=(unsigned char)local.tm_sec;
+    *value=result;errno=saved;*target=saved_target;recon_doserrno=dos;recon_SetLastError(error);
+#else
+    (void)value;recon_unsupported("Borland400 gettime requires explicit opt-in");
+#endif
+}
 
 /* Compiler-generated abstract vtables may reference this boundary during
  * otherwise inlined construction. Invocation remains unsupported; this does
