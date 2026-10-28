@@ -1,5 +1,5 @@
-//! Explicit CF transport, using the existing stopped-loader controller.
-//! Entry-stop produces diagnostic evidence only, never a fixture oracle.
+//! Explicit CF transport using the existing stopped-loader debugger.
+//! Optional bounded CALL-site inspection writes diagnostics, never a fixture oracle.
 use anyhow::{Context, Result, ensure};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -80,6 +80,85 @@ struct Profile {
 }
 fn hash(bytes: &[u8]) -> String {
     crate::fixture::hex(&Sha256::digest(bytes))
+}
+fn inspection(options: &crate::original::Capture) -> Result<Option<serde_json::Value>> {
+    let Some(site) = options.cf_inspect_call.as_deref() else {
+        ensure!(
+            options.cf_inspector.is_none() && options.cf_inspector_sha256.is_none(),
+            "CF inspector requires --cf-inspect-call"
+        );
+        return Ok(None);
+    };
+    ensure!(
+        options.cf_profile.is_some()
+            && options.progress
+            && options.report.is_some()
+            && !options.entry_stop,
+        "CF inspection requires --cf-profile --progress --report and is separate from retired entry-stop"
+    );
+    let call_rva = if let Some(hex) = site.strip_prefix("0x") {
+        u32::from_str_radix(hex, 16)?
+    } else {
+        site.parse::<u32>()?
+    };
+    let path = options
+        .cf_inspector
+        .as_ref()
+        .context("--cf-inspector required")?
+        .canonicalize()?;
+    let raw = fs::read(&path)?;
+    let sha = options
+        .cf_inspector_sha256
+        .as_ref()
+        .context("--cf-inspector-sha256 required")?;
+    ensure!(
+        raw.len() <= 65536 && sha.len() == 64 && hash(&raw) == *sha,
+        "CF inspector source SHA256/size differs"
+    );
+    Ok(Some(
+        serde_json::json!({"call_rva":call_rva,"script":path,"sha256":sha}),
+    ))
+}
+fn reserve_diagnostic_log(report: &Path) -> Result<(fs::File, PathBuf)> {
+    let parent = report
+        .parent()
+        .filter(|p| !p.as_os_str().is_empty())
+        .unwrap_or(Path::new("."));
+    let mut name = report
+        .file_name()
+        .context("diagnostic report filename")?
+        .to_os_string();
+    name.push(".cf-events");
+    let path = parent.canonicalize()?.join(name);
+    let file = fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&path)
+        .with_context(|| {
+            format!(
+                "reserve diagnostic broker log {}; existing logs are never overwritten",
+                path.display()
+            )
+        })?;
+    Ok((file, path))
+}
+fn save_diagnostic_log(
+    file: &mut fs::File,
+    path: &Path,
+    source: &Path,
+) -> Result<serde_json::Value> {
+    let mut input = fs::File::open(source)?;
+    let bytes = std::io::copy(&mut input, file)?;
+    file.sync_all()?;
+    let saved = fs::read(path)?;
+    ensure!(
+        saved.len() as u64 == bytes,
+        "diagnostic broker log copy differs"
+    );
+    Ok(
+        serde_json::json!({"path":path,"bytes":bytes,"sha256":hash(&saved),
+        "copy_complete":true,"scope":"exact bytes produced; process completion is separate"}),
+    )
 }
 fn launch_executable(command: &Command) -> Result<String> {
     Ok(command
@@ -294,6 +373,7 @@ pub fn capture(
     program: &Path,
     environment: &Path,
 ) -> Result<serde_json::Value> {
+    let inspection = inspection(options)?;
     ensure!(
         options.host.is_none()
             && options.direct_helper.is_none()
@@ -372,6 +452,7 @@ pub fn capture(
         "broker.py",
         "cf_identity.py",
         "ipc.py",
+        "inspect_stopped.py",
     ];
     for name in source_names {
         let path = package.join("watcom").join(name);
@@ -387,33 +468,70 @@ pub fn capture(
     let request = serde_json::json!({"repo":repo,"profile":profile,"profile_sha256":hash(&raw),
         "target_env":f.env,"registry":info.functions,"first_entry_seen":info.first_entry_seen,"sources":sources,"root":root,"cwd":cwd,"target":target,"loader":loader,"helper":helper,
         "wine":launch_executable(&wine)?,"environment":environment,"arguments":args,
-        "raw_command_line":raw_command_line,
+        "raw_command_line":raw_command_line,"inspection":inspection,
         "stdin":if f.stdin_kind==crate::fixture::StdinKind::Null {"NUL".into()}else{crate::wine::windows(&stdin,repo)?},
         "timeout_ms":f.timeout_ms,"seconds":(f.timeout_ms as f64/1000.+1.).min(300.)});
     let request_path = root.join("cf-request");
     fs::write(&request_path, serde_json::to_vec(&request)?)?;
+    let mut diagnostic_log = if inspection.is_some() {
+        let reserved = reserve_diagnostic_log(
+            options
+                .report
+                .as_deref()
+                .context("diagnostic report required")?,
+        )?;
+        ensure!(
+            !reserved.1.starts_with(root) && !reserved.1.starts_with(cwd),
+            "diagnostic broker log must be outside ephemeral workspace"
+        );
+        Some(reserved)
+    } else {
+        None
+    };
     let result = command
         .arg(package.join("watcom/frontend.py"))
         .arg(request_path)
         .current_dir(cwd)
         .stdin(Stdio::null())
         .output()?;
+    // Preserve exact bytes even when the diagnostic fails. The target/helper
+    // have finished; supervisor cleanup will remove the ephemeral original.
+    let retained_log = match diagnostic_log.as_mut() {
+        Some((file, path)) if root.join("cf-events").exists() => {
+            Some(save_diagnostic_log(file, path, &root.join("cf-events"))?)
+        }
+        _ => None,
+    };
     let raw = fs::read(root.join("cf-result")).unwrap_or_default();
     ensure!(
         result.status.success(),
-        "CF backend failed: {}\n{}\n{}",
+        "CF backend failed: {}\n{}\n{}{}",
         result.status,
         String::from_utf8_lossy(&result.stderr),
-        String::from_utf8_lossy(&raw)
+        String::from_utf8_lossy(&raw),
+        retained_log
+            .as_ref()
+            .map(|v| format!("\nretained diagnostic broker log: {v}"))
+            .unwrap_or_default()
     );
     ensure!(raw.len() <= 4 * 1024 * 1024, "CF report exceeds 4 MiB");
-    let report: serde_json::Value = serde_json::from_slice(&raw)?;
+    let mut report: serde_json::Value = serde_json::from_slice(&raw)?;
     ensure!(
         report["passed"] == true
-            && report["oracle_written"] == !options.entry_stop
+            && report["oracle_written"] == !(options.entry_stop || inspection.is_some())
             && (!options.entry_stop || report["original_cf_instructions_executed"] == 0),
         "invalid CF entry-stop receipt"
     );
+    if inspection.is_some() {
+        report["diagnostic_broker_log"] = retained_log.context("diagnostic broker log missing")?;
+        ensure!(
+            report["terminal"]
+                .as_str()
+                .is_some_and(|v| v.starts_with("diagnostic:before-call:"))
+                && report["inspection"]["snapshot"].is_object(),
+            "CF diagnostic requires a selected raw snapshot, never a fixture oracle"
+        );
+    }
     ensure!(
         report["raw_command_line"] == raw_command_line,
         "CF report lacks exact actual command input"
@@ -454,6 +572,105 @@ pub fn build_helper(repo: &Path) -> Result<PathBuf> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn diagnostic_log_retains_exact_bytes_and_rejects_existing_destination() {
+        let root = PathBuf::from(std::env::var_os("HOME").unwrap())
+            .join(".ai-tmp")
+            .join(format!(
+                "cf-log-{}-{}",
+                std::process::id(),
+                std::time::SystemTime::now()
+                    .duration_since(std::time::UNIX_EPOCH)
+                    .unwrap()
+                    .as_nanos()
+            ));
+        fs::create_dir_all(&root).unwrap();
+        let report = root.join("diagnostic.json");
+        let (mut file, path) = reserve_diagnostic_log(&report).unwrap();
+        assert_eq!(path, root.join("diagnostic.json.cf-events"));
+        assert!(reserve_diagnostic_log(&report).is_err());
+        let source = root.join("ephemeral-events");
+        assert!(save_diagnostic_log(&mut file, &path, &source).is_err());
+        assert_eq!(fs::metadata(&path).unwrap().len(), 0);
+        let raw = b"ordinary-event\0\xff\npartial-end";
+        fs::write(&source, raw).unwrap();
+        let receipt = save_diagnostic_log(&mut file, &path, &source).unwrap();
+        fs::remove_file(source).unwrap();
+        assert_eq!(fs::read(&path).unwrap(), raw);
+        assert_eq!(receipt["bytes"], raw.len());
+        assert_eq!(receipt["sha256"], hash(raw));
+        assert_eq!(receipt["copy_complete"], true);
+        assert_eq!(receipt["path"], path.to_str().unwrap());
+        drop(file);
+        fs::remove_dir_all(root).unwrap();
+    }
+    #[test]
+    fn bounded_inspection_cli_requires_complete_source_binding() {
+        use clap::Parser;
+        let arguments = [
+            "recon-tool",
+            "original",
+            "capture",
+            "case",
+            "--output",
+            "unused.bin",
+            "--report",
+            "diagnostic.json",
+        ];
+        let get = |extra: &[&str]| -> Result<crate::original::Capture> {
+            let cli =
+                crate::Cli::try_parse_from(arguments.iter().copied().chain(extra.iter().copied()))?;
+            let crate::Command::Original {
+                command: crate::OriginalCommand::Capture(options),
+            } = cli.command
+            else {
+                unreachable!()
+            };
+            Ok(options)
+        };
+        assert!(inspection(&get(&[]).unwrap()).unwrap().is_none());
+        for bad in [
+            vec!["--cf-inspect-call", "0x61858"],
+            vec!["--cf-inspector", "reader.py"],
+            vec!["--cf-inspector-sha256", "abc"],
+            vec![
+                "--cf-profile",
+                "profile.json",
+                "--progress",
+                "--cf-inspect-call",
+                "0x61858",
+                "--cf-inspector",
+                "reader.py",
+            ],
+        ] {
+            assert!(get(&bad).is_err());
+        }
+        let source = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/cf-stopped-read.py");
+        let sha = hash(&fs::read(&source).unwrap());
+        let source = source.to_str().unwrap();
+        let extra = [
+            "--cf-profile",
+            "profile.json",
+            "--progress",
+            "--cf-inspect-call",
+            "0x61858",
+            "--cf-inspector",
+            source,
+            "--cf-inspector-sha256",
+            &sha,
+        ];
+        let options = get(&extra).unwrap();
+        assert_eq!(inspection(&options).unwrap().unwrap()["call_rva"], 0x61858);
+        let mut bad = options;
+        bad.cf_inspector_sha256 = Some("0".repeat(64));
+        assert!(inspection(&bad).is_err());
+        bad.cf_inspector_sha256 = Some(sha);
+        bad.cf_inspect_call = Some("0x100000000".into());
+        assert!(inspection(&bad).is_err());
+        bad.cf_inspect_call = Some("0x61858".into());
+        bad.entry_stop = true;
+        assert!(inspection(&bad).is_err());
+    }
     #[test]
     fn cf_raw_command_line_matches_helper_recipe_and_declared_input() {
         let loader = r"R:\toolchains\watcom10.0a\binnt\WPP386.EXE";

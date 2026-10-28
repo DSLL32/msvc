@@ -14,6 +14,7 @@ import time
 from broker import Broker
 from cf_identity import Image
 from ipc import Client, ProtocolError
+from inspect_stopped import Inspection
 import frontend as shared
 
 
@@ -141,7 +142,10 @@ def execute(request):
     require(sha(shared.STUB.read_bytes()) == shared.STUB_SHA, 'loader changed')
     # Validate all mask extents before spawning. The second projection uses the
     # actual relocated snapshot; no original instructions have run at that point.
-    mask_image(image.initialized, request['registry'], layout, image.entry_offset)
+    preflight_mask, _, _ = mask_image(image.initialized, request['registry'], layout, image.entry_offset)
+    inspection_config = request.get('inspection')
+    if inspection_config is not None:
+        Inspection(inspection_config, request['registry'], layout, image.initialized, preflight_mask)
     start = time.monotonic()
     cpu = time.process_time()
     child_cpu = resource.getrusage(resource.RUSAGE_CHILDREN)
@@ -192,6 +196,10 @@ def execute(request):
             snapshot = shared.read_all(broker, allocation, image.loaded_size)
             receipt['cf_identity'] = image.compare(snapshot, allocation)
             masked, apps, restored = mask_image(snapshot, request['registry'], layout, image.entry_offset)
+            inspection = (Inspection(inspection_config, request['registry'], layout, snapshot, masked)
+                          if inspection_config is not None else None)
+            if inspection is not None:
+                receipt['inspection'] = inspection.receipt
             broker.run_setup(allocation, image.allocation_size, entry)
             # Only changed contiguous runs are written; outside CODE and explicit
             # restored code/data remain byte-identical to the real loaded image.
@@ -220,11 +228,14 @@ def execute(request):
                 if row['implementation'] == 1 and rva not in seen:
                     require(masked[rva] != 0xcc, 'implemented App entry remains masked')
                     traps[rva] = broker.trap(allocation + rva, masked[rva])
+            if inspection is not None:
+                inspection.arm(broker, allocation, (event['pid'], event['tid']))
             runtime = time.monotonic()
             for _ in range(65536):
                 stop, context = broker.run()
                 receipt['last_stop'] = {'event': stop, 'context': context}
                 if stop['code'] == 5:
+                    require(inspection is None, 'process exited before diagnostic selection')
                     receipt['terminal'] = 'exit:%u' % stop['exit_code']
                     break
                 require(stop['exception'] == 0x80000003 and stop['first_chance'] and
@@ -234,12 +245,20 @@ def execute(request):
                 require(allocation <= address < allocation + image.loaded_size,
                         'external original INT3 at %08x' % address)
                 rva = address - allocation
+                if inspection is not None:
+                    action = inspection.handle(broker, stop, context)
+                    if action == 'selected':
+                        receipt['terminal'] = 'diagnostic:before-call:%x' % inspection.site
+                        break
+                    if action:
+                        continue
                 require(rva in apps, 'masked INT3 is not a known App entry: %x' % rva)
                 row = apps[rva]
                 if rva not in seen:
                     seen.add(rva)
                     order.append(rva)
                 if row['implementation'] == 0:
+                    require(inspection is None, 'pending App frontier before diagnostic selection: %x' % rva)
                     require(broker.read(address, 1) == b'\xcc', 'pending App trap changed')
                     receipt['terminal'] = 'frontier:%x' % rva
                     stack = stack_error = None
@@ -264,7 +283,7 @@ def execute(request):
             require(child.returncode == 0 and not out and not err, 'broker failed/unexpected launcher streams')
             log = (root / 'cf-events').read_bytes()
             require(b'owned-teardown exit-event=1 signaled=1' in log, 'owned teardown missing')
-            receipt.update(passed=True, oracle_written=True)
+            receipt.update(passed=True, oracle_written=inspection is None)
     except BaseException as error:
         receipt['error'] = repr(error)
         raise
@@ -295,5 +314,8 @@ def execute(request):
             log = (root / 'cf-events').read_bytes()
             receipt['event_log_sha256'] = sha(log)
             receipt['event_log'] = log[:65536].decode(errors='replace')
+            if inspection_config is not None:
+                receipt['event_log_bytes'] = len(log)
+                receipt['event_log_truncated'] = len(log) > 65536
         (root / 'cf-result').write_text(json.dumps(receipt))
     return receipt

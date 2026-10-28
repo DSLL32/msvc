@@ -193,6 +193,15 @@ pub struct Capture {
     /// Hash-bound CF format/loader identity and binary-owned code/data layout.
     #[arg(long)]
     pub cf_profile: Option<PathBuf>,
+    /// Diagnostic only: watch a restored direct CALL RVA (hex accepted); never write an oracle.
+    #[arg(long, requires_all = ["cf_profile", "progress", "cf_inspector", "cf_inspector_sha256", "report"])]
+    pub cf_inspect_call: Option<String>,
+    /// Trusted read-only Python select/snapshot source for the bounded CF diagnostic.
+    #[arg(long, requires = "cf_inspect_call")]
+    pub cf_inspector: Option<PathBuf>,
+    /// Exact SHA256 of the trusted inspector source.
+    #[arg(long, requires = "cf_inspect_call")]
+    pub cf_inspector_sha256: Option<String>,
     /// Retired live CF diagnostic switch; identity-only profiles remain static inputs.
     #[arg(long, requires = "cf_profile")]
     pub entry_stop: bool,
@@ -1376,8 +1385,8 @@ fn capture_executor_inner(
             &program,
             &environment,
         )?;
-        let entry_stop = options.entry_stop;
-        let terminal = if entry_stop {
+        let entry_stop = options.entry_stop || options.cf_inspect_call.is_some();
+        let terminal = if options.entry_stop {
             format!("entry-stop:{:x}", loaded.info.original_entry_rva)
         } else {
             backend["terminal"]
@@ -2323,8 +2332,9 @@ fn supervise_capture(options: &Capture, repo: &Path, f: &Fixture) -> Result<Capt
 }
 pub fn capture(mut options: Capture) -> Result<()> {
     anyhow::ensure!(
-        !options.entry_stop || options.artifacts_dir.is_none(),
-        "CF entry-stop does not export artifacts or write a fixture oracle"
+        !(options.entry_stop || options.cf_inspect_call.is_some())
+            || options.artifacts_dir.is_none(),
+        "CF diagnostic does not export artifacts or write a fixture oracle"
     );
     native::signals();
     let repo = crate::toolchain::repository(options.repo.as_deref())?;

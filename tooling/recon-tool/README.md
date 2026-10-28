@@ -882,6 +882,51 @@ native-only. The fixture retains the actual loader-derived payload argv0 and
 reports retain source/helper identities, actual stops, timing and owned teardown.
 Floating state is explicitly absent. CF DIRECT remains unavailable.
 
+For a reviewed finite debugging question, ordinary capture also accepts
+`--cf-inspect-call 0xRVA --cf-inspector /scratch/reader.py
+--cf-inspector-sha256 SHA256`, together with `--cf-profile`, `--progress` and
+`--report`. This is a raw diagnostic: `oracle_written` is false, `--output` is
+reserved but never written, and the report cannot qualify native replay or
+function acceptance. Artifact export is unavailable in this mode.
+
+The watched instruction must be a restored direct E8 CALL and its five bytes
+plus fallthrough must belong to one implemented App owner, outside text data
+and every registered entry. Its target must be one unambiguous implemented named
+App. The trusted, SHA-bound Python source supplies `select(stop,memory)` and
+`snapshot(stop,memory)`. The former returns a bool; the latter returns a JSON
+object. This trusted interface is not a Python security sandbox. It supplies
+only stopped `read(address,size)`, observed `region(address)` and `bytes_used`;
+region/readability and source-bound allocation shapes are not universal heap
+ownership evidence.
+
+Callbacks run before the CALL, after the debugger restores/readbacks E8 and
+rewinds its own INT3. `registers` contains the genuine consumed context;
+`trap_registers` preserves raw EIP=site+1. `stop_rva`, `callee_rva`, `return_rva`,
+`image_base`, `pid`, `tid`, `hit`, and `phase: "before_call"` describe that stop.
+The same memory view is used for selection and snapshot; observed regions expire
+on resume. A nonmatch executes the real CALL to its owned fallthrough breakpoint,
+requires unchanged SP/EBP (the supported no-stack-cleanup ABI), consumes that
+trap and rearms the CALL from the different PC. Active/conflicting traps,
+changed bytes, unknown frontiers/exceptions and wrong return state fail. Existing
+OP_TRAP only reuses an inactive slot with identical saved byte and verified
+current-byte/patch/readback; it adds no stepping or instruction semantics.
+
+There are hard limits of 64 watch hits, 512 bytes per READ, 37,656 aggregate
+diagnostic target bytes (including selector/header/frontend verification and
+reserved broker patch checks), 4,096 observed-region queries, 64 KiB inspector
+source and 1 MiB diagnostic result. Ordinary loader identity/mask readback and
+ordinary App-entry bookkeeping remain unchanged. Raw read bytes, region counts,
+contexts and selection are retained in the existing report's backend section;
+no generic pointer traversal or new broker RPC is provided. Focused offline
+controls are `tests/cf-stopped-read.py` and `tests/cf-trap-rearm.py`.
+Diagnostic capture reserves `REPORT.cf-events` before launch (an existing file
+rejects before launch), then preserves the complete raw broker log there before
+workspace cleanup, including failed diagnostics when the helper created a log.
+The backend report pins its absolute path, byte count and SHA256; the inline
+log remains a labelled bounded preview. The earlier WCC prototype snapshot has
+only that preview and its original full-log hash; its missing raw log is not
+recreated or qualified by a later run.
+
 The old Gate/Session/Capstone controller and instruction-specific controls are
 retired; their source and qualification evidence remain in Git/history and raw
 scratch receipts. Live diagnostic `--entry-stop` is retired too; identity-only

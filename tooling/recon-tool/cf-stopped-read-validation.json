@@ -1,0 +1,61 @@
+{
+  "scope": "Optional CF before-CALL stopped-state diagnostics; no fixture oracle, reconstruction credit or ordinary capture changes",
+  "limits": {
+    "watch_hits": 64,
+    "target_bytes_including_diagnostic_patch_checks": 37656,
+    "read_request_bytes": 512,
+    "region_queries": 4096,
+    "inspector_source_bytes": 65536,
+    "result_bytes": 1048576
+  },
+  "actual_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/wcc386/stopped-loop-state-20261028a/original-diagnostic.json",
+    "sha256": "7528af99fef4c6c97e91fb45a72abe1bb445491fb8de9731db7c386f5579e429",
+    "terminal": "diagnostic:before-call:61858",
+    "oracle_written": false,
+    "elapsed_ms": 5477.125198,
+    "watch_hit": 9,
+    "target_bytes": 12653,
+    "blocks": 20,
+    "instructions": 78,
+    "names": 65,
+    "structured_events": 1707,
+    "broker_status": 0,
+    "forced_outer_stop": false,
+    "old_full_raw_log_retained": false,
+    "old_inline_preview_bytes": 65536,
+    "old_full_log_sha256": "7793263d4e59e7b87f785540ccd6d59fb283904976dccb620c8d9c32f55b6da7"
+  },
+  "inspection_source_sha256": "e88631e587b375347e913c62083a245b7b8cd0999150afd2202c697719a475d1",
+  "script_sha256": "3010a17b57c6adc1c3a2f49972af5f7543d61763bb425c06396f74ffc2940eea",
+  "controls": {
+    "rust_cf_tests": {
+      "passed": 8,
+      "elapsed_ms": 230
+    },
+    "frontend_tests": {
+      "passed": 7,
+      "elapsed_ms": 17
+    },
+    "existing_mask_tests": {
+      "passed": 7,
+      "elapsed_ms": 69
+    },
+    "actual_broker_functions_mocked_Win32": "PASS90.262ms; patch/consume/rearm and inactive/active/stale/byte/write/readback guards",
+    "typed_script": "actual pinned WCC static CALL+registry and nine source pins; authored finite graph positive plus four phase/shape negatives, no target execution"
+  },
+  "raw_log_retention": "Final code reserves exclusive REPORT.cf-events before launch, copies exact produced bytes and syncs before cleanup; path/size/SHA/copy_complete distinguish file-copy completion from process completion. Covered by offline raw byte/collision/missing-source test; no recapture of the older missing log.",
+  "canonical_build": {
+    "status": 0,
+    "elapsed_ms": 19347.419966943562
+  },
+  "artifacts": {
+    "recon_tool_sha256": "36771772e6ed8dce815780ee85c89f448fe2cdae1e51dce809f83f96ab104718",
+    "cf_broker_sha256": "34c4ab1e82fc353234dcae2fc80f262e9e6e718c773f2e211c44adbbe0bac840"
+  },
+  "qualification_limit": "Actual snapshot used pre-retention runner0abc85507e5ab64caebd0adc592d6679a591347383eb2b2884960f3182db21f3; final retention uses source/filesystem verification only. Readability and source-bound allocator shapes are not universal ownership proof.",
+  "dogfood_patch": {
+    "sha256": "f3e55fea98b6886c87aea1710b812dd805344e4bbab3475eeff6a7eaa038aa82",
+    "git_apply_check_after_source_install": "PASS; unchanged; no dogfood implementation included"
+  }
+}

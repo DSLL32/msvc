@@ -111,10 +111,18 @@ static int in_arena(DWORD address)
 { return ordinary && address>=arena_base && address-arena_base<arena_size; }
 static int add_trap(DWORD address,DWORD expected,DWORD *index)
 {
-    unsigned i;
-    if(!pending || expected>255 || (!in_image(address) && !in_arena(address)) || trap_count==MAX_TRAPS ||
+    unsigned i;CONTEXT value;
+    if(!pending || expected>255 || (!in_image(address) && !in_arena(address)) ||
        (!entry_reached && (address!=entry_address || expected!=entry_byte))) return 0;
-    for(i=0;i<trap_count;i++) if(traps[i].address==address) return 0;
+    for(i=0;i<trap_count;i++) if(traps[i].address==address) {
+        /* Only an ordinary, consumed slot may be rearmed from another PC.
+           Keep its original-byte identity; patch verifies before and after. */
+        if(!ordinary || !entry_reached || traps[i].active || traps[i].saved!=(BYTE)expected ||
+           !context(&value) || value.Eip==address || value.Eip==address+1 || value.EFlags&0x100 ||
+           !patch(address,(BYTE)expected,0xcc)) return 0;
+        traps[i].active=1;*index=i;return 1;
+    }
+    if(trap_count==MAX_TRAPS) return 0;
     if(!patch(address,(BYTE)expected,0xcc)) return 0;
     traps[trap_count].address=address;traps[trap_count].saved=(BYTE)expected;
     traps[trap_count].active=1;*index=trap_count++;
