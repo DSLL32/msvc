@@ -1,7 +1,6 @@
 /* Named original boundaries. Each body stays an INT3 until reconstructed. */
 #include "full-link-functions.h"
 #include <recon.h>
-extern "C" void __cdecl finish_alpha_branches(void) { __asm { int 3 } }
 extern "C" void __cdecl record_file_access(void) { __asm { int 3 } }
 
 extern "C" void __stdcall initialize_pdb(BYTE mppc32_types,const char *name) { __asm { int 3 } }
@@ -18,11 +17,9 @@ extern "C" void __stdcall allocate_mac_incremental_table(DWORD count,BYTE fixed)
 
 
 extern "C" DWORD __stdcall mips_code_padding(Contribution *contribution) { __asm { int 3 } return 0; }
-extern "C" void __stdcall add_alpha_branch_island(Contribution *last,DWORD rva,DWORD count) { __asm { int 3 } }
 extern "C" void __stdcall add_ppc_branch_island(Contribution *last,DWORD rva,DWORD count) { __asm { int 3 } }
 extern "C" void __stdcall initialize_relocation_padding(void *state,DWORD pages,DWORD base,DWORD extra) { __asm { int 3 } }
 
-extern "C" void __cdecl update_gp_bounds(void) { __asm { int 3 } }
 
 
 

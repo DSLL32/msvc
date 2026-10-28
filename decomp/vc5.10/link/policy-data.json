@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 192032
+              "offset": 193328
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 192043
+              "offset": 193339
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 287632
+              "offset": 288912
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 287643
+              "offset": 288923
             }
           ]
         },
@@ -7739,11 +7739,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 223040
+              "offset": 224336
             },
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 223051
+              "offset": 224347
             }
           ]
         }
@@ -8216,11 +8216,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 222080
+              "offset": 223376
             },
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 222091
+              "offset": 223387
             }
           ]
         }
@@ -13683,11 +13683,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 224032
+              "offset": 225328
             },
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 224040
+              "offset": 225336
             }
           ],
           "text_data": [
@@ -22026,6 +22026,26 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_add_alpha_branch_island@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_update_gp_bounds": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_find_alpha_branch_target@20": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "_finish_alpha_branches": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -22035,21 +22055,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 192032
+            "offset": 193328
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 192043
+            "offset": 193339
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 192043
+            "offset": 193339
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 192053
+            "offset": 193349
           }
         ]
       ]
@@ -22059,21 +22079,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 287632
+            "offset": 288912
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 287643
+            "offset": 288923
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 287643
+            "offset": 288923
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 287653
+            "offset": 288933
           }
         ]
       ]
@@ -22155,21 +22175,21 @@
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 223040
+            "offset": 224336
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 223051
+            "offset": 224347
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 223051
+            "offset": 224347
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 223061
+            "offset": 224357
           }
         ]
       ]
@@ -22179,21 +22199,21 @@
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 222080
+            "offset": 223376
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 222091
+            "offset": 223387
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 222091
+            "offset": 223387
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 222101
+            "offset": 223397
           }
         ]
       ]
@@ -22203,21 +22223,21 @@
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 224032
+            "offset": 225328
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 224040
+            "offset": 225336
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 224040
+            "offset": 225336
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 224050
+            "offset": 225346
           }
         ]
       ]

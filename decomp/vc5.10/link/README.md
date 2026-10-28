@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-789 application functions / 288,224 original code bytes are reconstructed
-(69.48% of the 414,810-byte whole `.text` extent, which includes CRT and text
+793 application functions / 289,368 original code bytes are reconstructed
+(69.76% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 34 pending bodies with known extents totaling 3,156 bytes and
-136 entries whose body extents remain unknown; this is not a complete non-CRT
+132 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all fifty-seven cached native cases and their narrow checks;
+`make -j4 check unit` runs all fifty-eight cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-802-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 768 ordinary application bodies and six CRT bodies. Seven import
+806-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 772 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1631,3 +1631,52 @@ covering 57 cached cases, 802 graph vertices, 774 return contracts and existing
 C++/OMF SEH residuals. Native and genuine period builds passed before new masks.
 These are incremental timings. Fixed-view, MSDIS and provider/PDB limitations
 remain unchanged.
+
+
+The Alpha branch-island case uses a transparent 4,198,808-byte COFF object with
+more than 4 MiB of explicit Alpha NOP payload, three long-range BRADDR records,
+two distinct destinations and ordinary small-data LITERAL/GPREL32 references.
+Independent input checks bind COFF spans, symbol/relocation indices and the
+actual BR, LDL, return and NOP instruction fields. These are format-authored
+Alpha instruction bytes for relocation and serialization; neither the input
+nor the emitted Alpha program executes in the fixture. No external dependency
+or provider implementation is supplied.
+
+Four whole bodies / 1,144 original bytes recover the 20-byte island reservation
+owner, merged small-data bounds, target search/reuse and final slot writing.
+The array and each target-prefix allocation use the actual allocate_memory
+edge, not zero_allocate. Only recorded target entries reach the writer. The
+repeated branch reuses the first 16-byte slot and the other destination gets a
+second slot; the third reserved slot remains exact zero padding. Each written
+slot contains the authentic LDAH/LDA/JMP template and zero padding. Cleanup
+preserves the original one-shot table state after freeing it. Full DWORD
+transports retain their actual low-BYTE absolute and low-WORD section consumers.
+The current targets do not take the adjusted-high carry branch; that condition,
+array growth, unmerged GP and debug/incremental paths retain static or pending
+qualifications rather than dynamic claims.
+
+The current pair exposed an older Alpha caller predicate that collected map
+references only when map_fixups was set. The actual context+0x137 writer flag
+controls collection; context+0x139 controls later display. Exact field-offset
+assertions and the unchanged-original native retry close this zero-credit
+source correction. The failed order/hash report and old source remain in
+scratch, with earlier receipts limited to their actual reached domains. A GDB
+prefix-copy diagnostic that ended with supervisor signal 9 is retained as a
+non-acceptance diagnostic; a subsequent ordinary native comparison passes.
+
+Original and native exit 0 with 242 matching first entries, a 4,200,960-byte
+EXE and 943-byte MAP. Independent decoding verifies both long branches and
+reused destination, exact island target values, the GP-relative immediate and
+DWORD, and the complete HIGHADJ/LOW base-relocation directory. Complete raw
+artifacts differ only in PE COFF TimeDateStamp [184,188), MAP eight hex digits
+[26,34) and 24-byte ctime [36,60). Each raw map clock independently agrees with
+its raw PE timestamp. All remaining code, data, relocation, padding and final
+inventory bytes are strict. The raw original capture is unchanged; comparison
+receipts identify only those clock-derived fields.
+
+Final original execution took 2,100.365 ms; ordinary native comparison took
+60.927 ms (14.294 setup, 8.043 execution, 38.590 checks). The one case-end
+regression/unit/full graph/RET/EH batch passed in 10.452 s, covering 58 cached
+cases, 806 graph vertices, 778 return contracts and existing C++/OMF SEH checks.
+Necessary native/period builds and scoped owner gates passed before new masks.
+These are incremental timings. Fixed-view and MSDIS cases remain blocked.

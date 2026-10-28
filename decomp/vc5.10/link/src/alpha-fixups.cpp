@@ -21,12 +21,15 @@ const char *__stdcall output_symbol_name(LinkContext *,IMAGE_SYMBOL *);
 void __cdecl link_contribution_warning(Contribution *,unsigned,...);
 void __cdecl link_contribution_error(Contribution *contribution,unsigned message,...) { __asm { int 3 } }
 void __stdcall count_relocation_error(LinkContext *context) { __asm { int 3 } }
-DWORD __stdcall find_alpha_branch_target(LinkContext *context,DWORD site,
-    DWORD absolute,DWORD section,DWORD value) { __asm { int 3 } return 0; }
+DWORD __stdcall find_alpha_branch_target(LinkContext *,DWORD,DWORD,DWORD,DWORD);
 }
 BYTE RECON_THISCALL LinkAuxiliaryData::RecordFixup(DWORD virtual_address,WORD type,
     Contribution *contribution,DWORD input_rva,SHORT section)
 { __asm { int 3 } return 0; }
+
+typedef char AlphaMapFlagOffsets[(offsetof(LinkContext,options)+
+    offsetof(LinkOptions,write_map)==0x137 && offsetof(LinkContext,options)+
+    offsetof(LinkOptions,map_fixups)==0x139)?1:-1];
 
 /* These stores were inlined at each real fixup site. */
 #define APPEND_BASE_RELOCATION(kind,site,target,addend) do { \
@@ -139,7 +142,7 @@ extern "C" void __stdcall process_alpha_relocations(Contribution *contribution,
                 if(incremental_enabled)
                     link_contribution_warning(contribution,2013,output_symbol_name(context,symbol));
                 /* The original passes its whole scratch DWORD, but only its
-                 * initialized low BYTE is consumed by the pending helper
+                 * initialized low BYTE is consumed by the branch-island helper
                  * (4097a7). No equality of its unwritten upper bytes is claimed. */
                 absolute_value=find_alpha_branch_target(context,site,absolute,section,absolute_value);
                 if(!absolute_value)
@@ -147,7 +150,9 @@ extern "C" void __stdcall process_alpha_relocations(Contribution *contribution,
                 value=absolute_value-site-4;
             }
             *(DWORD *)fixup=(word & 0xffe00000)^(((LONG)value>>2)&0x1fffff);
-            if(context->options.map_fixups)record_relative_fixup(site);
+            /* Collection follows write_map at context+137; the separate
+             * map_fixups byte at+139 controls only later map presentation. */
+            if(context->options.write_map)record_relative_fixup(site);
             break;
         case IMAGE_REL_ALPHA_HINT:
             if(absolute_value & 3) {RELOCATION_ERROR(2008);absolute_value&=~3u;}
