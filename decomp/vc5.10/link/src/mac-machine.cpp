@@ -4,6 +4,9 @@
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <mbstring.h>
+#include <stdio.h>
 #include "link.h"
 #include "input.h"
 #include "options.h"
@@ -42,7 +45,9 @@ DWORD __cdecl get_mac_toc_bias(void)
 Contribution *mac_glue_contribution; /* Original494574; distinct from other Mac contributions. */
 /* Setup writes BYTE; the export consumer reads DWORD then masks its low BYTE. */
 DWORD mac_export_state;
-DWORD mac_incremental_tag; /* Actual49456c, time-derived low byte in a DWORD. */
+/* Actual49456c: private-name counter, initially0. Only nonreproducible
+ * incremental setup seeds it from time()&255. */
+DWORD mac_incremental_tag;
 
 /* Six genuine generated glue instructions at4673a0. Each constant describes
  * the output instruction rather than an executable implementation here. */
@@ -80,7 +85,30 @@ void __stdcall append_mac_resource(const void *data,DWORD size,DWORD kind)
     memcpy((*mac_resource_tail)->data,data,size);
     (*mac_resource_tail)->size=size;
     (*mac_resource_tail)->kind=kind;
-    /* contribution and reserved18 are not initialized by this producer. */
+    /* contribution and modification_time are not initialized by this producer. */
+    mac_resource_tail=&(*mac_resource_tail)->next;
+}
+void __stdcall add_mac_data(const unsigned char *name,int enabled,DWORD id)
+{
+    struct _stat information;
+    int fd=(int)id;
+    *mac_resource_tail=(MacResource *)allocate_incremental(sizeof(MacResource));
+    (*mac_resource_tail)->next=NULL;
+    (*mac_resource_tail)->filename=(const char *)name;
+    (*mac_resource_tail)->data=NULL;
+    (*mac_resource_tail)->kind=(DWORD)enabled;
+    if(_stat((const char *)name,&information)==-1) {
+        (*mac_resource_tail)->filename=canonicalize_argument((const char *)name,NULL);
+        if(!_mbsicmp(name,(const unsigned char *)(*mac_resource_tail)->filename))
+            link_fatal(NULL,1104,name);
+        /* The original compares names here, without a second stat. Its failed
+         * stat output carry is not qualified by the successful-file case. */
+    }
+    (*mac_resource_tail)->filename=duplicate_link_string((*mac_resource_tail)->filename);
+    (*mac_resource_tail)->modification_time=(DWORD)information.st_mtime;
+    if(id==(DWORD)-1)fd=open_argument_file((*mac_resource_tail)->filename,0x8000,0);
+    (*mac_resource_tail)->size=(DWORD)get_file_length(fd);
+    if(id==(DWORD)-1)close_argument_file(fd,0);
     mac_resource_tail=&(*mac_resource_tail)->next;
 }
 #pragma intrinsic(memcpy,memset,strlen,strcpy,strcat)
@@ -657,7 +685,7 @@ void __stdcall add_mac_import_library(LinkContext *context,const char *name,
     append_mac_import_symbol(context,library,symbol);
     ++mac_import_symbol_count;
 }
-void __stdcall append_mac_map_symbol(StringNode *) { __asm { int 3 } }
+void __stdcall append_mac_map_symbol(StringNode *);
 char *__stdcall format_contribution_module(Contribution *,char *);
 void __stdcall report_duplicate_symbol(LinkOptions *,const char *,const char *,const char *);
 BYTE __stdcall add_mac_import(const unsigned char *name,const unsigned char *library,
@@ -1476,7 +1504,11 @@ void __stdcall finish_mac_entry_point(StringNode *entry,LinkContext *context)
 }
 
 extern "C" {
-char *__stdcall make_mac_entry_name(char *,const char *) { __asm { int 3 } return NULL; }
+char *__stdcall make_mac_entry_name(char *buffer,const char *name)
+{
+    sprintf(buffer,"%s%03d",name,(int)mac_incremental_tag++);
+    return buffer;
+}
 /* Provisional name retained: this creates the dot-prefixed Mac jump entry,
  * independently of whether the link itself is incremental. */
 StringNode *__stdcall record_incremental_entry(const char *name,Contribution *contribution,

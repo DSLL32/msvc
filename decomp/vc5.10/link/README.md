@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-781 application functions / 285,236 original code bytes are reconstructed
-(68.76% of the 414,810-byte whole `.text` extent, which includes CRT and text
+785 application functions / 285,794 original code bytes are reconstructed
+(68.90% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 36 pending bodies with known extents totaling 3,599 bytes and
-142 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 35 pending bodies with known extents totaling 3,312 bytes and
+139 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all fifty-four cached native cases and their narrow checks;
+`make -j4 check unit` runs all fifty-five cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-794-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 760 ordinary application bodies and six CRT bodies. Seven import
+798-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 764 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1524,3 +1524,37 @@ strict. Final original execution took 2,408.469 ms; native comparison took
 regression/unit/audit batch passed in 13.638 s, covering 54 cached cases, the
 794-vertex graph, 766 RET contracts and existing C++/OMF SEH residuals. These
 are incremental measurements. No blocked case was resumed.
+
+
+The MPPC static/map case combines two transparent format-authored COFF objects,
+a private function descriptor, a real weak-alias auxiliary record, common-size
+merging, compact glue and a normal opaque `/macdata` asset. `/map` produces the
+ordinary symbol/TOC map. Parent and genuine librarian child exit 0 with 363
+combined first entries, producing matching 1,536-byte DLL, 1,176-byte EXP,
+620-byte LIB and 2,721-byte MAP artifacts. Common/weak handling here is integration
+coverage; it does not qualify the separately guarded incremental helpers.
+
+Four bodies / 558 original bytes recover file-backed Mac data collection, the
+8-byte map-list producer, private-entry naming and the complete TOC-map consumer.
+The existing 28-byte resource owner now names its encountered modification-time
+field; the asset's fixed input mtime is preserved. This case qualifies successful
+stat of the ordinary filename and the open/close path. The original failure path
+canonicalizes and compares names without a second stat; its failed-stat output
+carry remains unobserved, with no invented default or original-defect claim.
+The map consumer preserves the original one-shot list behavior and does not
+reset its append tail after freeing the nodes.
+
+The private counter is time-seeded only for nonreproducible incremental setup.
+This explicit nonincremental case starts it at zero: both complete raw maps
+contain `._Inner000` identically, without name normalization. Complete retained
+raw outputs otherwise differ only in identified COFF/archive timestamps and the
+map's exact eight-hex-digit timestamp and 24-byte ctime fields. Each raw map
+clock independently matches its own raw DLL timestamp and conversion. All
+resource, descriptor, name, symbol/reference, layout, padding and inventory bytes
+remain strict. No emitted PPC execution or runtime/provider loading is claimed.
+
+Final original execution took 3,285.659 ms; native comparison took 51.997 ms
+(18.874 setup, 28.750 execution, 4.373 checks). The one case-end parallel
+regression/unit/audit batch passed in 16.087 s: 55 cached cases, 798 graph
+vertices, 770 RET contracts and existing C++/OMF SEH residuals. These are
+incremental timings; blocked cases 19 and 29 remain unchanged.

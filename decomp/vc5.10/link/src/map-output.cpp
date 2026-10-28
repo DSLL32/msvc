@@ -9,6 +9,7 @@
 #include "sections.h"
 #include "pass-one.h"
 #include "debug-output.h"
+#include "map-output.h"
 #include <recon.h>
 
 extern "C" {
@@ -41,8 +42,16 @@ void __stdcall record_map_symbol(const char *name,Contribution *contribution,
     (*map_static_symbol_tail)->next=NULL;
     map_static_symbol_tail=&(*map_static_symbol_tail)->next;
 }
-/* Original4944a0, initially NULL. Its eventual producer owns the opaque nodes. */
-void *map_thunk_symbols;
+/* Original4944a0 and its separate46739c tail: actual8B Mac map records. */
+MacMapSymbol *map_thunk_symbols;
+MacMapSymbol **mac_map_symbol_tail=&map_thunk_symbols;
+void __stdcall append_mac_map_symbol(StringNode *symbol)
+{
+    *mac_map_symbol_tail=(MacMapSymbol *)allocate_memory(sizeof(MacMapSymbol));
+    (*mac_map_symbol_tail)->symbol=symbol;
+    (*mac_map_symbol_tail)->next=NULL;
+    mac_map_symbol_tail=&(*mac_map_symbol_tail)->next;
+}
 BYTE __stdcall is_discardable_comdat(Contribution *);
 StringNode *__stdcall resolve_entry_symbol(LinkContext *);
 void __stdcall write_map_sections(LinkContext *context)
@@ -111,7 +120,29 @@ void __stdcall write_map_static_symbols(LinkContext *context)
         map_static_symbols=next;
     }
 }
-void __stdcall write_map_thunks(LinkContext *) { __asm { int 3 } }
+extern StringNode *mac_toc_symbol;
+void __stdcall write_map_thunks(LinkContext *context)
+{
+    DWORD base;
+    StringNode *symbol;
+    const char *name;
+    WORD kind;
+    SHORT offset;
+    fputs("\n Offset   Rva+Base   Publics by TOC Offset\n\n",map_output);
+    base=context->optional_header.ImageBase+mac_toc_symbol->final_value;
+    while(map_thunk_symbols) {
+        MacMapSymbol *next;
+        symbol=map_thunk_symbols->symbol;
+        name=get_symbol_name(symbol,context->symbols->hash.string_storage,&kind,NULL);
+        if(kind==1)name=strncpy(short_symbol_name,name,8);
+        offset=(SHORT)symbol->reserved36;
+        fprintf(map_output,"  %04hx    %08lx   %s\n",(int)offset,base+offset,name);
+        next=map_thunk_symbols->next;
+        release_memory(map_thunk_symbols);
+        map_thunk_symbols=next;
+    }
+    /* The original consumes the list without resetting its append tail. */
+}
 int __cdecl compare_map_lines(const void *left,const void *right)
 {
     const MapLineRecord *a=(const MapLineRecord *)left;
