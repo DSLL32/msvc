@@ -30,12 +30,11 @@ int main(int argc,char **argv)
     if(!strcmp(mode,"foreign"))decommit(mmap(NULL,8192,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0),8192,MEM_DECOMMIT);
     if(!strcmp(mode,"interior"))decommit(memory+4096,4096,MEM_DECOMMIT);
     if(!strcmp(mode,"partial"))decommit(memory,4096,MEM_DECOMMIT);
-    if(!strcmp(mode,"zero"))decommit(memory,0,MEM_DECOMMIT);
     if(strcmp(mode,"reserve") && strcmp(mode,"topdown") && strcmp(mode,"readonly"))memset(memory,0xa5,8192);
     other=recon_VirtualAlloc(NULL,4096,MEM_COMMIT|MEM_RESERVE,PAGE_READWRITE);assert(other);memset(other,0x5a,4096);
     if(!strcmp(mode,"live"))__asm__ __volatile__("fld1\n\tfldpi":::"st");
     errno=111;recon_doserrno=222;recon_SetLastError(333);fp(before);
-    assert(decommit(memory,8192,MEM_DECOMMIT));fp(after);
+    assert(decommit(memory,!strcmp(mode,"zero")?0:8192,MEM_DECOMMIT));fp(after);
     assert(errno==111 && recon_doserrno==222 && recon_GetLastError()==333 && !memcmp(before,after,108));
     if(!strcmp(mode,"repeat"))decommit(memory,8192,MEM_DECOMMIT);
     if(!strcmp(mode,"recommit"))recon_VirtualAlloc(memory,8192,MEM_COMMIT,PAGE_READWRITE);

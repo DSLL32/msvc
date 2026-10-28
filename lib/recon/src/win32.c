@@ -2428,6 +2428,9 @@ BOOL WINAPI recon_VirtualFree(LPVOID address,DWORD bytes,DWORD kind)
     if(kind==MEM_DECOMMIT) {
         int saved_errno=errno;
         for(v=allocations;v && v->address!=address;v=v->next){}
+        /* At the original reservation base, size zero selects the whole
+         * allocation. The same ownership/commit eligibility still applies. */
+        if(v && !bytes)bytes=v->length;
         if(!v || !bytes || v->decommitted ||
            !((v->decommit_eligible==1 && bytes==v->length) ||
              (v->decommit_eligible==2 && v->committed_prefix &&

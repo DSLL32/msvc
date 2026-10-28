@@ -1432,7 +1432,8 @@ and failures deny125. Native target O_EXCL400 is isolated from host/shim flags;
 read-only and prior writable tuples retain their established domains.
 
 Explicit MSVCRT510 VirtualFree admits MEM_DECOMMIT only at the exact base and
-full requested length of a tracked VirtualAlloc(NULL,n,COMMIT|RESERVE,READWRITE).
+full requested length (or size zero selecting that length) of a tracked
+VirtualAlloc(NULL,n,COMMIT|RESERVE,READWRITE).
 Checked mprotect(PROT_NONE) and madvise(DONTNEED) retain the reservation while
 discarding storage; the owner remains tracked until ordinary zero-size
 MEM_RELEASE. Native errors/FP are retained on successful decommit. Partial,
@@ -1558,7 +1559,8 @@ error/FP state is unmeasured.
 Explicit MSVCRT510 separately reserved RW arenas track only a page-aligned
 contiguous committed prefix. Overlapping/adjacent commits may extend it; holes,
 other protection and recommit after decommit remain denied. Exact-base decommit
-accepts the nonempty prefix or entire reservation, discards storage and retains
+accepts the nonempty prefix or entire reservation (including size zero),
+discards storage and retains
 PROT_NONE ownership until zero-size MEM_RELEASE. Empty/partial-prefix/interior,
 repeat and foreign requests remain unsupported. Combined whole allocations and
 other profiles retain their previous contracts. C1's saved Arena::Release and

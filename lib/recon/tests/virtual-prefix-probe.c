@@ -37,10 +37,9 @@ int main(int argc,char **argv)
     for(n=0;n<prefix;++n)assert(memory[n]==(n<prefix/2?0xa5:0x5a));
     if(!strcmp(mode,"partial"))recon_VirtualFree(memory,prefix-4096,MEM_DECOMMIT);
     if(!strcmp(mode,"interior"))recon_VirtualFree(memory+4096,prefix-4096,MEM_DECOMMIT);
-    if(!strcmp(mode,"zero"))recon_VirtualFree(memory,0,MEM_DECOMMIT);
     other=recon_VirtualAlloc(NULL,4096,MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE);assert(other);memset(other,0x33,4096);
     __asm__ __volatile__("fld1\n\tfldpi":::"st");errno=111;recon_doserrno=222;recon_SetLastError(333);fp(before);
-    assert(recon_VirtualFree(memory,!strcmp(mode,"whole")?bytes:prefix,MEM_DECOMMIT));fp(after);
+    assert(recon_VirtualFree(memory,!strcmp(mode,"zero")?0:(!strcmp(mode,"whole")?bytes:prefix),MEM_DECOMMIT));fp(after);
     assert(errno==111 && recon_doserrno==222 && recon_GetLastError()==333 && !memcmp(before,after,108));
     if(!strcmp(mode,"repeat"))recon_VirtualFree(memory,prefix,MEM_DECOMMIT);
     if(!strcmp(mode,"recommit"))recon_VirtualAlloc(memory,4096,MEM_COMMIT,PAGE_READWRITE);
