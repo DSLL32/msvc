@@ -155,6 +155,21 @@ sources without that flag. The callbacks also explicitly suppress instrumentatio
 Naked functions use RECON_TRACE_NAKED_ENTRY(name), empty in the Win32 build;
 it preserves registers, flags and floating-point state around the entry callback.
 
+A C function with a private register ABI may use RECON_TRACE_REGISTER_ABI
+on its definition and RECON_TRACE_REGISTER_ENTRY(its_name) at entry. This
+suppresses both compiler hooks on that same symbol: automatic exit-hook setup
+could destroy its output registers even when the exit hook is empty. The manual
+entry preserves GPRs, flags, x87/MMX and XMM/MXCSR around the ordinary named hook;
+its unused caller argument is NULL because it runs inside a normal C frame.
+It uses temporary aligned stack space (under 608 bytes), requires native i386
+FXSAVE/FXRSTOR support as the naked helper does, and links the existing tracer.
+It is enabled in RECON_NATIVE_TEST Linux builds without requiring the separate
+RECON_NATIVE_TRACE flag; both annotations are empty in the original Win32 build.
+This protects tracing only. Each selected body still requires its own emitted
+prolog/epilog and private-register ABI verification; it does not make arbitrary C
+code preserve registers. Run make trace-register-check for hostile-hook and real
+named-entry controls in GCC/Clang i386 PIE, non-PIE and shared objects.
+
 Set RECON_TRACE_FD to an inherited writable descriptor for a separate trace file.
 Set RECON_TRACE_FILTER to a newline-separated list of the target's native
 application function names, and RECON_TRACE_SEEN to a newline-separated list of

@@ -18,4 +18,25 @@
 #else
 #define RECON_TRACE_NAKED_ENTRY(name)
 #endif
+/* A C implementation with a private register ABI cannot allow a compiler-
+ * inserted exit hook after it publishes output registers. Suppress automatic
+ * hooks on that same function and explicitly trace its named entry instead.
+ * This variant runs inside an ordinary C frame: the unused caller is NULL,
+ * rather than assuming the naked-entry return-address offset above.
+ * The body still owns its actual compiler prolog/epilog ABI qualification. */
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+#define RECON_TRACE_REGISTER_ABI __attribute__((no_instrument_function))
+#define RECON_TRACE_REGISTER_ENTRY(name) __asm__ volatile ( \
+    "pushfl\n\tpushal\n\tmovl %%esp,%%eax\n\t" \
+    "subl $544,%%esp\n\tandl $-16,%%esp\n\tmovl %%eax,512(%%esp)\n\t" \
+    "fxsave (%%esp)\n\tfninit\n\tcld\n\tcall 991f\n991:\n\tpopl %%ecx\n\t" \
+    "leal " #name "-991b(%%ecx),%%ecx\n\t" \
+    "subl $16,%%esp\n\tmovl %%ecx,(%%esp)\n\tmovl $0,4(%%esp)\n\t" \
+    "call __cyg_profile_func_enter\n\taddl $16,%%esp\n\t" \
+    "fxrstor (%%esp)\n\tmovl 512(%%esp),%%esp\n\tpopal\n\tpopfl\n\t" \
+    : : : "memory", "cc");
+#else
+#define RECON_TRACE_REGISTER_ABI
+#define RECON_TRACE_REGISTER_ENTRY(name)
+#endif
 #endif

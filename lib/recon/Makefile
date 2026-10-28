@@ -1244,3 +1244,7 @@ volume-info-check:
 .PHONY: borland-setjmp-check
 borland-setjmp-check:
 	$(PYTHON) tests/borland-setjmp/check.py
+
+.PHONY: trace-register-check
+trace-register-check:
+	$(PYTHON) tests/check-trace-register.py
