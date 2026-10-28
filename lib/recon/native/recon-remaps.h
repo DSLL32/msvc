@@ -28,7 +28,7 @@
 #ifdef RECON_BORLAND_400_DOS_TIME
 #include <dos.h>
 #endif
-#ifdef RECON_BORLAND_400_FIND
+#if defined(RECON_BORLAND_400_FIND) || defined(RECON_BORLAND_400_FNSPLIT)
 #include <dir.h>
 #endif
 #ifdef __cplusplus
@@ -550,6 +550,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #endif
 #ifdef RECON_BORLAND_400_FIND
 #define findfirst recon_borland_400_findfirst
+#endif
+#ifdef RECON_BORLAND_400_FNSPLIT
+#define fnsplit recon_borland_400_fnsplit
 #endif
 #ifdef RECON_BORLAND_400_USER_HANDLER
 #define _SetUserHandler recon_borland_400_SetUserHandler

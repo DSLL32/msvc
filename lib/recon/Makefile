@@ -1232,3 +1232,7 @@ borland-find-check:
 .PHONY: borland-open-check
 borland-open-check:
 	$(PYTHON) tests/borland-open/check.py
+
+.PHONY: borland-fnsplit-check
+borland-fnsplit-check:
+	$(PYTHON) tests/borland-fnsplit/check.py

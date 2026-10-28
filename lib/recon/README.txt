@@ -2244,3 +2244,21 @@ bytes/cursors, inheritance, repeated ownership, missing/denied/directory errors,
 OS and CRT-table exhaustion, and unselected/SHIM_IMPL isolation. BCC's ordinary
 23-entry compile-only pair reaches option_toggle; this caller consumes signed
 open success/failure, not private descriptor flags or errno values.
+
+RECON_BORLAND_400_FNSPLIT selects int cdecl fnsplit with the BC4 DIR.H flags
+WILDCARDS1/EXTENSION2/FILENAME4/DIRECTORY8/DRIVE16 and flat component limits.
+The allocation-free parser admits caller-readable NUL ASCII paths up to260
+bytes, skips leading literal spaces, retains punctuation/case and slash spelling,
+and treats final dot/dotdot leaves as directories. Flags reflect presence even
+when outputs are NULL; wildcard bits describe the leaf. Each non-NULL component
+is capped at the source's drive2/other255 bytes plus NUL. Computed writable spans
+must be disjoint from input and each other; all validation precedes stores.
+This detects arithmetic/alias errors, not the actual allocation's capacity.
+Longer/non-ASCII inputs and aliases remain unsupported. No filesystem/locale
+query or error/FP mutation is involved. Generic _splitpath and unselected profiles
+retain their previous behavior. Existing stricmp mapping covers this caller's
+ASCII extension equality only; no general Borland locale/return-magnitude claim.
+Focused controls cover22 source vectors under all16 optional-output masks,
+boundary truncation, exact guarded output spans, flags/types, errors/FP and
+profile isolation. BCC's ordinary29-entry pair reaches add_extension with the
+corrected initialize_options fnsplit call and is_library_file extension test.

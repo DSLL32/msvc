@@ -107,6 +107,59 @@ int __cdecl recon_borland_400_findfirst(const char *path,struct ffblk *output,in
 }
 #endif
 
+/* BC4 FNSPLIT.ASM -> SPLITPTH.C _fnsplit. Pure parsing: preserve
+ * original punctuation/case, leading-space rule and component-presence flags;
+ * every non-NULL output owns only its computed bounded write span. */
+#ifdef RECON_BORLAND_400_FNSPLIT
+int __cdecl recon_borland_400_fnsplit(const char *path,char *drive,char *directory,
+    char *name,char *extension)
+{
+    const char *begin,*body,*leaf,*slash=NULL,*dot=NULL,*cursor;
+    const char *parts[4];char *outputs[4];size_t sizes[4],maximum[4]={2,255,255,255};
+    size_t length,i,j;int flags=0,dot_directory;uintptr_t input=(uintptr_t)path;
+    if(input<4096 || input>UINTPTR_MAX-(MAXPATH+1))
+        recon_unsupported("Borland400 fnsplit input span");
+    length=strnlen(path,MAXPATH+1);
+    if(length>MAXPATH)recon_unsupported("Borland400 fnsplit bounded input");
+    for(i=0;i<length;++i)if((unsigned char)path[i]>=128)
+        recon_unsupported("Borland400 fnsplit ASCII input");
+    begin=path;while(*begin==' ')++begin;body=begin;
+    parts[0]=begin;sizes[0]=0;
+    if(begin[0] && begin[1]==':') {sizes[0]=2;flags|=DRIVE;body+=2;}
+    for(cursor=body;*cursor;++cursor)if(*cursor=='/' || *cursor=='\\')slash=cursor;
+    leaf=slash?slash+1:body;
+    dot_directory=!strcmp(leaf,".") || !strcmp(leaf,"..");
+    parts[1]=body;sizes[1]=dot_directory?strlen(body):(size_t)(leaf-body);
+    parts[2]=leaf;parts[3]=leaf;sizes[2]=sizes[3]=0;
+    if(!dot_directory) {
+        for(cursor=leaf;*cursor;++cursor) {
+            if(*cursor=='.')dot=cursor;
+            if(*cursor=='*' || *cursor=='?')flags|=WILDCARDS;
+        }
+        sizes[2]=dot?(size_t)(dot-leaf):strlen(leaf);
+        if(dot) {parts[3]=dot;sizes[3]=strlen(dot);flags|=EXTENSION;}
+        if(sizes[2])flags|=FILENAME;
+    }
+    if(sizes[1])flags|=DIRECTORY;
+    outputs[0]=drive;outputs[1]=directory;outputs[2]=name;outputs[3]=extension;
+    for(i=0;i<4;++i) {
+        uintptr_t output=(uintptr_t)outputs[i];
+        if(sizes[i]>maximum[i])sizes[i]=maximum[i];
+        if(!outputs[i])continue;
+        if(output<4096 || output>UINTPTR_MAX-sizes[i]-1 ||
+           (output<input+length+1 && input<output+sizes[i]+1))
+            recon_unsupported("Borland400 fnsplit output/input spans");
+        for(j=0;j<i;++j)if(outputs[j] && output<(uintptr_t)outputs[j]+sizes[j]+1 &&
+            (uintptr_t)outputs[j]<output+sizes[i]+1)
+            recon_unsupported("Borland400 fnsplit overlapping outputs");
+    }
+    for(i=0;i<4;++i)if(outputs[i]) {
+        memcpy(outputs[i],parts[i],sizes[i]);outputs[i][sizes[i]]=0;
+    }
+    return flags;
+}
+#endif
+
 /* BC4.0 BCC32 VA d4026..d403b and EXCEPT.C: process-global pointer swap.
  * Native defaults preserve distinct initial/GP identities, but do not implement
  * unwinding, register diagnostics, signals or Windows exception dispatch. */
