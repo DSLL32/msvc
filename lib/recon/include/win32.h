@@ -263,6 +263,7 @@ typedef struct _FPO_DATA {
 /* PE/COFF constants referenced by LINK; bundled NT headers except where noted. */
 #define IMAGE_DOS_SIGNATURE 0x5A4D
 #define IMAGE_NT_SIGNATURE 0x00004550
+#define IMAGE_ORDINAL_FLAG 0x80000000
 #define IMAGE_FILE_RELOCS_STRIPPED 0x0001
 #define IMAGE_FILE_EXECUTABLE_IMAGE 0x0002
 #define IMAGE_FILE_LINE_NUMS_STRIPPED 0x0004
