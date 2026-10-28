@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 862 application functions / 227,614 code bytes and
-10,057 bytes of owned text data. Application code is 70.62% of the original
+The reconstruction contains 870 application functions / 228,653 code bytes and
+10,057 bytes of owned text data. Application code is 70.95% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All twenty-three cached cases complete natively: DLL attach/export lookup/detach, the
+All twenty-four cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, browser output, callback/union, prototype-output, conversions, assembly-addressing and intrinsic/macro workloads described below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, browser output, callback/union, prototype-output, conversions, assembly-addressing, intrinsic/macro and based-pointer workloads described below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -372,6 +372,28 @@ needed. All twenty-three cached cases and units passed in 0.435 s; the full
 graph/ABI audit passed in 1.514 s, and the final original/native build took
 1.773 s. Scratch `intrinsic-macros-case-20261028/` retains actual raw artifacts,
 the smaller initial input, failed native comparisons and build diagnostics.
+
+The based-pointer case combines a static void-pointer base, `__based` unsigned
+pointer typedefs and objects, pointer arithmetic and subscripts, conversion to
+ordinary pointers, and unsigned cdecl callbacks selected and returned by a
+conditional expression. Both executions exit zero with 441 first entries and
+exact artifacts: `basedex` (1,916 bytes), `basedgl` (287), `basedin` (18), and
+`basedsy` (285). The final reference took 1,889.213 ms; the matching native run
+took 18.705 ms. Eight application owners add 1,039 code bytes for base-name
+lookup, based-address construction and traversal, dereference attachment,
+storage qualification and shaped conversions. The provisional aggregate-return
+helper is now named for its actual based-expression conversion role.
+The existing type/attribute owners expose the actual base-symbol pointer without
+new storage. The original parser's 24-byte semantic transfers remain distinct
+from the established native attribute prefix; opaque and unwritten bytes gain
+no default or equality claim. Only the encountered conditional classification
+and based-address/conversion IR column cells join the partial tables.
+All twenty-four cached cases and units passed in 0.470 s; the complete graph/ABI
+audit passed in 1.593 s, and the final native/period/case build took 39.334 s.
+Scratch `based-pointers-case-20261028/` and
+`based-pointers-resume-20261028-134158/` retain genuine raw artifacts and failed
+native catch-up attempts. Source-only qualification repairs reuse those original
+references; no output normalization was needed.
 
 The completed cases exercise bounded domains. Larger readable parser, lexer,
 IR writer, PCH, debug and recorded-input bodies include unexercised branches;

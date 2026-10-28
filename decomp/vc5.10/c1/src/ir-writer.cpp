@@ -457,7 +457,7 @@ extern "C" void __cdecl write_ir_operand(int kind, const CompilerIntegerConstant
            type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1))) ||
         (type->shape && (type->shape->flags & 7) != 1 &&
          !((kind == 39 || kind == 44 || kind == 48 || kind == 50 || kind == 62 || kind == 65 || kind == 85) && mode == 2 &&
-           (type->flags == 0x63 || type->flags == 0x64) &&
+           (type->flags == 0x63 || type->flags == 0x4063 || type->flags == 0x64) &&
            (!type->attributes || (kind == 62 && type->attributes == 0x10)) &&
            (type->shape->flags & ~8U) == 3 &&
            (type->shape->attributes == 0x10 || type->shape->attributes == 0x40 ||

@@ -276,7 +276,7 @@ int RECON_THISCALL CompilerParser::Run(void)
             value_top->value.string_attributes = c1_bss.parser_value.string_attributes;
         else if (state == 16 || state == 15 || state == 12 || state == 10 || state == 22 || state == 17 || state == 20 || state == 18 || state == 176 || state == 245)
             value_top->value.declaration = c1_bss.parser_value.declaration;
-        else if (state == 254 || state == 31 || state == 149 || state == 220 || state == 276)
+        else if (state == 254 || state == 31 || state == 149 || state == 220 || state == 276 || state == 153 || state == 35)
             value_top->value.attributes = c1_bss.parser_value.attributes;
         else if (state == 103 || state == 104 || state == 163 || state == 268)
             value_top->value.integer = c1_bss.parser_value.integer;
@@ -555,6 +555,7 @@ read_action:
         case 75: /* Pointer prefix consumes the established empty qualifier record and declarator pair. */
         case 118: /* Abstract pointer uses the same established qualifier/pair roles. */
         case 77: /* Established declarator plus integer bound, then real AppendArrayBound. */
+        case 104: /* Parenthesized based qualifier retains its flags/base-symbol view. */
         case 80: /* Parenthesized declarator preserves its pair and closes one level. */
         case 78:
         case 79:
@@ -576,6 +577,7 @@ read_action:
         case 98: /* Established parameter declaration and pointer declarator. */
         case 103: /* Calling-convention BYTE uses its recovered qualifier relation. */
         case 100:
+        case 109: /* Shifted name enters the genuine pending based-symbol lookup. */
         case 105: /* Explicitly writes both qualifier DWORDs before any consumer. */
         case 106:
         case 112:
@@ -1131,8 +1133,15 @@ case 78:
 case 121:
     c1_bss.parser_value.declarator->AddFunction(right[0].value.parameters);
     break;
-case 80:
 case 104:
+    /* Original transfers the first8 bytes. This variant is the qualifier
+     * view, not a declarator pointer; its unwritten WORD is carried without
+     * assigning it an initial value or semantics on the based path. */
+    c1_bss.parser_value.attributes = right[-1].value.attributes;
+    if (declaration_depth > 0)
+        --declaration_depth;
+    break;
+case 80:
 case 123:
     c1_bss.parser_value.declarator = right[-1].value.declarator;
     c1_bss.parser_value.declarator_symbol.symbol = right[-1].value.declarator_symbol.symbol;
@@ -1263,8 +1272,8 @@ case 108:
     }
     break;
 case 109:
-    c1_bss.parser_value.attributes.extra = (unsigned)find_based_declarator(right[0].value.name);
-    c1_bss.parser_value.attributes.flags = c1_bss.parser_value.attributes.extra ? 3 : 0;
+    c1_bss.parser_value.attributes.based_symbol = find_based_declarator(right[0].value.name);
+    c1_bss.parser_value.attributes.flags = c1_bss.parser_value.attributes.based_symbol ? 3 : 0;
     break;
 case 110:
     c1_bss.parser_value.attributes.flags = 1;
@@ -1783,7 +1792,7 @@ CompilerParserToken *__cdecl get_next_token(void)
         /* Ordinary grammar classes return the token without interpreting
          * payload bytes. Hold only the special declaration alternatives whose
          * consumed state has not yet been established. */
-        if (token_class == PARSER_CLASS_36 || token_class == PARSER_BASED) {
+        if (token_class == PARSER_CLASS_36) {
 #ifdef __linux__
             recon_unsupported("special declaration-token state is not yet modeled");
 #else
@@ -3742,7 +3751,10 @@ static const union CompilerIrOpcodeColumn {
         unsigned negate;
         unsigned bitwise_xor;
         unsigned xor_assign;
-        BYTE unmodeled_174[28];
+        unsigned based_address;
+        BYTE unmodeled_178[4];
+        unsigned based_conversion;
+        BYTE unmodeled_180[16];
         unsigned conversion;
         unsigned integer;
         BYTE unmodeled_198[24];
@@ -3759,7 +3771,7 @@ static const union CompilerIrOpcodeColumn {
         unsigned switch_value;
     } known;
     unsigned indexed[1];
-} ir_node_opcodes = { { {0}, 38, 51, {0}, 11, 28, 23, 50, 55, 67, {0}, 54, 5, {0}, 31, 26, 48, 36, 35, 53, 40, {0}, 9, 34, {0}, 3, 16, 6, {0}, 4, {0}, 32, 12, 25, 27, 39, 2, 15, 39, {0}, 15, 66, {0}, 10, 14, 8, 13, 24, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 89, 64, {0}, 60, 59 } };
+} ir_node_opcodes = { { {0}, 38, 51, {0}, 11, 28, 23, 50, 55, 67, {0}, 54, 5, {0}, 31, 26, 48, 36, 35, 53, 40, {0}, 9, 34, {0}, 3, 16, 6, {0}, 4, {0}, 32, 12, 25, 27, 39, 2, 15, 39, {0}, 15, 66, {0}, 10, 14, 8, 13, 24, 104, {0}, 139, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 89, 64, {0}, 60, 59 } };
 static const union CompilerIrPropertyColumn {
     struct {
         BYTE unmodeled_000[6];
@@ -3810,7 +3822,10 @@ static const union CompilerIrPropertyColumn {
         BYTE negate;
         BYTE bitwise_xor;
         BYTE xor_assign;
-        BYTE unmodeled_05d[7];
+        BYTE based_address;
+        BYTE unmodeled_05e[1];
+        BYTE based_conversion;
+        BYTE unmodeled_060[4];
         BYTE conversion;
         BYTE integer;
         BYTE unmodeled_066[6];
@@ -3827,7 +3842,14 @@ static const union CompilerIrPropertyColumn {
         BYTE switch_value;
     } known;
     BYTE indexed[1];
-} ir_node_properties = { { {0}, 0, 128, {0}, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 128, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 0, 128, {0}, 128, 0 } };
+} ir_node_properties = { { {0}, 0, 128, {0}, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 128, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, 128, {0}, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 0, 128, {0}, 128, 0 } };
+/* Based-address node93: DWORD104 at63fdc and only set property bit80
+ * of BYTEa5 at6429d. Other property bits remain unmodeled. */
+typedef char IrBasedAddressOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.based_address) == 93 * 4 ? 1 : -1];
+typedef char IrBasedAddressPropertyOffset[offsetof(CompilerIrPropertyColumn, known.based_address) == 93 ? 1 : -1];
+/* Based conversion95: opcode139 at63fe4; only property bit80 at6429f. */
+typedef char IrBasedConversionOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.based_conversion) == 95 * 4 ? 1 : -1];
+typedef char IrBasedConversionPropertyOffset[offsetof(CompilerIrPropertyColumn, known.based_conversion) == 95 ? 1 : -1];
 /* Reached greater-or-equal63: DWORD35 at63f64; only the clear bit80
  * of BYTE42 at6427f is consumed. Other property bits remain unmodeled. */
 typedef char IrGreaterEqualOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.greater_equal) == 63 * 4 ? 1 : -1];
@@ -3870,7 +3892,7 @@ typedef char IrBitfieldOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.bitfi
 typedef char IrDotOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.dot_member) == 80 * 4 ? 1 : -1];
 typedef char IrBitfieldPropertyOffset[offsetof(CompilerIrPropertyColumn, known.bitfield) == 53 ? 1 : -1];
 typedef char IrDotPropertyOffset[offsetof(CompilerIrPropertyColumn, known.dot_member) == 80 ? 1 : -1];
-#define IR_KIND_MODELED(k) ((k) == 63 || (k) == 119 || (k) == 78 || (k) == 7 || (k) == 79 || (k) == 64 || (k) == 56 || (k) == 51 || (k) == 72 || (k) == 89 || (k) == 91 || (k) == 92 || (k) == 118 || (k) == 90 || (k) == 57 || (k) == 88 || (k) == 76 || (k) == 70 || (k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
+#define IR_KIND_MODELED(k) ((k) == 95 || (k) == 93 || (k) == 63 || (k) == 119 || (k) == 78 || (k) == 7 || (k) == 79 || (k) == 64 || (k) == 56 || (k) == 51 || (k) == 72 || (k) == 89 || (k) == 91 || (k) == 92 || (k) == 118 || (k) == 90 || (k) == 57 || (k) == 88 || (k) == 76 || (k) == 70 || (k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
 #ifdef __linux__
 #define REQUIRE_IR_KIND(k) do { if (!IR_KIND_MODELED(k)) \
     recon_unsupported("IR node column is not modeled for this kind"); } while (0)
@@ -4653,7 +4675,7 @@ void __cdecl report_binary_operand_error(unsigned, unsigned);
 int __cdecl check_unary_operand(unsigned, int, CompilerParserNode *, CompilerParserNode *);
 CompilerParserNode *__cdecl promote_scalar_expression(CompilerParserNode *);
 CompilerParserNode *__cdecl finish_segment_dereference(CompilerParserNode *);
-CompilerParserNode *__cdecl convert_aggregate_return(CompilerType *, CompilerParserNode *);
+CompilerParserNode *__cdecl convert_based_expression(CompilerType *, CompilerParserNode *);
 CompilerParserNode *__cdecl convert_scalar_expression(unsigned, CompilerType *, CompilerParserNode *);
 CompilerType *__cdecl decay_initializer_array(CompilerParserNode *);
 unsigned __cdecl require_complete_type_size(CompilerType *);
@@ -4888,7 +4910,7 @@ CompilerParserNode *__cdecl make_binary_expression(BYTE operation,
         shape = result->type->shape;
         if (shape && (shape->attributes & 3)) {
             if (operation == 116 || operation == 52)
-                result->right = convert_aggregate_return(result->type, result->right);
+                result->right = convert_based_expression(result->type, result->right);
             return finish_segment_dereference(result);
         }
         return result;
@@ -5934,7 +5956,7 @@ extern "C" CompilerParserNode *__cdecl make_scalar_conversion(unsigned operation
 {
     if (!value) return NULL;
     if (type->shape && (type->shape->attributes & 3))
-        return finish_segment_dereference(convert_aggregate_return(type, value));
+        return finish_segment_dereference(convert_based_expression(type, value));
     if ((value->flags & 7) == 3) {
         check_constant_conversion(operation, value, type);
         return convert_binary_rhs((BYTE)operation, type, value);
@@ -5948,8 +5970,34 @@ extern "C" CompilerParserNode *__cdecl make_conversion_expression(CompilerType *
 {
     return make_typed_unary_operation(100, type, value);
 }
-extern "C" CompilerParserNode *__cdecl make_shaped_conversion(unsigned, CompilerType *, CompilerParserNode *)
-{ __asm { int 3 } return NULL; }
+extern "C" WORD __cdecl resolve_shape_attributes(unsigned, unsigned);
+extern "C" CompilerParserNode *__cdecl make_shaped_conversion(unsigned, CompilerType *type,
+    CompilerParserNode *value)
+{
+    CompilerTypeShape *target = type->shape;
+    WORD attributes = target ? target->attributes : 0;
+    if (target && (value->flags & 0x80)) {
+        if ((attributes & 3) == 3)
+            value->type = replace_function_parameters(type, 1,
+                resolve_shape_attributes(1, 0), NULL);
+        else value->type = type;
+        CompilerType *result = value->type;
+        if ((result->flags & 0x80) && result->shape &&
+            (result->shape->flags & 7) == 1 && !result->shape->base)
+            return value;
+        value->flags &= 0x7f;
+        return value;
+    }
+    CompilerType *source = value->type;
+    int same_base = !((source->flags ^ type->flags) & 0xefcf) &&
+        source->auxiliary == type->auxiliary;
+    if (!source->shape) return make_scalar_conversion(1, type, value);
+    if (attributes & 3)
+        return finish_segment_dereference(convert_based_expression(type, value));
+    if ((type->flags & 0x80) || same_base)
+        return make_conversion_expression(type, value);
+    return make_scalar_conversion(1, type, value);
+}
 CompilerType *__cdecl dereference_expression_type(CompilerType *type)
 {
     unsigned attributes = type->shape->attributes & 3;
@@ -6078,7 +6126,47 @@ CompilerType *RECON_THISCALL CompilerType::AddressType(unsigned attributes)
     description.attributes &= 0xff8f;
     return intern_type(&description);
 }
-CompilerParserNode *__cdecl finish_segment_dereference(CompilerParserNode *) { __asm { int 3 } return NULL; }
+CompilerParserNode *__cdecl make_based_address(CompilerType *type)
+{
+    CompilerTypeShape *shape = type->shape;
+    CompilerIrSymbol *symbol;
+    switch (shape->attributes & 3) {
+    case 1:
+        return NULL;
+    case 3:
+        symbol = shape->based_symbol;
+        if (c1_data.options.debug_info) {
+            unsigned references = symbol->reference_flags;
+            if ((references & 3) < 3)
+                symbol->reference_flags = (references & ~3U) | ((references + 1) & 3);
+            symbol->reference_flags = (symbol->reference_flags & ~4U) |
+                ((c1_data.ir_reference_epoch & 1) << 2);
+        }
+        return make_symbol_reference(symbol, 0);
+    default:
+        /* The original retains the incoming type pointer in this domain;
+         * its eventual interpretation is not established by this entry. */
+        return (CompilerParserNode *)type;
+    }
+}
+CompilerParserNode *__cdecl find_segment_base(CompilerParserNode *value)
+{
+    while (value->kind == 52 || value->kind == 55) value = value->right;
+    return value->kind == 93 ? value->right : NULL;
+}
+int __cdecl same_segment_base(CompilerParserNode *, CompilerParserNode *) { __asm { int 3 } return 0; }
+CompilerParserNode *__cdecl finish_segment_dereference(CompilerParserNode *value)
+{
+    CompilerParserNode *base, *existing;
+    if (!value) return NULL;
+    if (!value->type->shape || !(value->type->shape->attributes & 3))
+        return value;
+    base = make_based_address(value->type);
+    existing = find_segment_base(value);
+    if (existing && same_segment_base(base, existing)) return value;
+    if (!base) return value;
+    return make_ir_operation(93, value, base);
+}
 InitializerExtendedReal *__cdecl allocate_extended_constant(InitializerExtendedReal, unsigned);
 BYTE *__cdecl copy_extended_constant(const BYTE *value, unsigned arena_kind)
 {
@@ -6541,7 +6629,7 @@ CompilerType *__cdecl merge_member_storage(CompilerType *type, WORD attributes)
 /* RVA1d5f2 */
 int __cdecl convert_expression_to_type(unsigned, CompilerType *, CompilerParserNode *);
 int __cdecl returns_local_address(CompilerParserNode *);
-CompilerParserNode *__cdecl convert_aggregate_return(CompilerType *, CompilerParserNode *);
+CompilerParserNode *__cdecl convert_based_expression(CompilerType *, CompilerParserNode *);
 void __cdecl emit_return_statement(CompilerParserNode *value, int explicit_return)
 {
     CompilerType *type = function_return_type;
@@ -6565,7 +6653,7 @@ void __cdecl emit_return_statement(CompilerParserNode *value, int explicit_retur
         if (returns_local_address(value))
             report_language_diagnostic(1, 172);
         if (type->shape && (type->shape->attributes & 3))
-            value = convert_aggregate_return(type, value);
+            value = convert_based_expression(type, value);
         emit_control_record(36);
         emit_ir_node(value);
         value->type = type;
@@ -6579,7 +6667,17 @@ void __cdecl emit_return_statement(CompilerParserNode *value, int explicit_retur
 }
 int __cdecl check_assignment_types(unsigned, CompilerType *, CompilerType *);
 void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerType *);
-#define CDECL_CALLBACK_ASSIGNMENT(d,s) ((d)->flags == 0x63 && (s)->flags == 0x63 && \
+/* A conditional choice between two cdecl function designators shares the
+ * exact return type and canonical parameter/function base. The outer shape
+ * is the temporary function-designator view made by each operand. */
+#define CDECL_UNSIGNED_FUNCTION_CHOICE(d,s) ((d)->flags == 0x4063 && (s)->flags == 0x4063 && \
+    (d)->attributes == 0x10 && (s)->attributes == 0x10 && (d)->shape && (s)->shape && \
+    (d)->shape->flags == 11 && (s)->shape->flags == 11 && \
+    (d)->shape->attributes == 0x10 && (s)->shape->attributes == 0x10 && \
+    (d)->shape->base && (d)->shape->base == (s)->shape->base && \
+    (d)->shape->base->flags == 4 && (d)->shape->base->attributes == 0x10 && \
+    !(d)->shape->base->base)
+#define CDECL_CALLBACK_ASSIGNMENT(d,s) (((d)->flags == 0x63 || (d)->flags == 0x4063) && (s)->flags == (d)->flags && \
     !(d)->attributes && (s)->attributes == 0x10 && (d)->shape && (s)->shape && \
     (d)->shape->flags == 3 && (s)->shape->flags == 11 && \
     (d)->shape->attributes == 0x10 && (s)->shape->attributes == 0x10 && \
@@ -6589,6 +6687,14 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
     (d)->shape->base->attributes == 0x10 && (s)->shape->base->attributes == 0x10 && \
     (d)->shape->base->parameters == (s)->shape->base->parameters && \
     !(d)->shape->base->base && !(s)->shape->base->base)
+/* Function-pointer results retain their canonical pointer/function shape;
+ * the returned description need not have the same address as the typedef. */
+#define CDECL_CALLBACK_VALUE_COPY(d,s) (((d)->flags == 0x63 || (d)->flags == 0x4063) && \
+    (d)->flags == (s)->flags && !(d)->attributes && !((s)->attributes & ~0x10U) && \
+    !(d)->auxiliary && !(s)->auxiliary && (d)->shape && (d)->shape == (s)->shape && \
+    (d)->shape->flags == 3 && (d)->shape->attributes == 0x10 && \
+    (d)->shape->base && (d)->shape->base->flags == 0x404 && \
+    (d)->shape->base->attributes == 0x10 && !(d)->shape->base->base)
 #define WIN32_CALLBACK_ARGUMENT(d,s) ((d)->flags == 0x63 && (s)->flags == 0x63 && \
     !(d)->attributes && ((s)->attributes == 0x40 || (s)->attributes == 0x60) && (d)->shape && (s)->shape && \
     (d)->shape->flags == 3 && (s)->shape->flags == 11 && \
@@ -6641,6 +6747,18 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
     (s)->symbol_owner && (s)->symbol_owner->kind == 4 && ((s)->symbol_owner->flags & 1))
 /* The memory intrinsic arguments convert ordinary char buffers to void
  * pointers, retaining base const qualification and the outer array decay. */
+/* The based-pointer cast of zero has become the ordinary unsigned
+ * pointer representation before assignment checks the storage attributes. */
+#define BASED_UNSIGNED_FROM_PLAIN(d,s) ((d)->flags == 0x4063 && (s)->flags == 0x4063 && \
+    !(d)->attributes && !(s)->attributes && !(d)->auxiliary && !(s)->auxiliary && \
+    (d)->shape && (s)->shape && (d)->shape->flags == 1 && (s)->shape->flags == 1 && \
+    (d)->shape->attributes == 3 && !(s)->shape->attributes && \
+    !(d)->shape->base && !(s)->shape->base && (d)->shape->based_symbol && \
+    (d)->shape->based_symbol->kind == 10)
+#define VOID_FROM_UNSIGNED_POINTER(d,s) ((d)->flags == 0x80 && (s)->flags == 0x4063 && \
+    !(d)->attributes && !(s)->attributes && !(d)->auxiliary && !(s)->auxiliary && \
+    (d)->shape && (d)->shape == (s)->shape && (d)->shape->flags == 1 && \
+    !(d)->shape->attributes && !(d)->shape->base)
 #define VOID_FROM_CHARACTER_BUFFER(d,s) ((d)->flags == 0x80 && (s)->flags == 0x61 && \
     !((d)->attributes & ~0x100U) && !((s)->attributes & ~0x100U) && \
     !((s)->attributes & ~(d)->attributes) && (d)->shape && (s)->shape && \
@@ -6679,8 +6797,9 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
           type->flags == 0x402 && !type->attributes && type->symbol_owner &&
           type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) &&
         !(operation == 125 && CONST_RECORD_RETURN(type, value->type)) &&
+        !(operation == 54 && CDECL_UNSIGNED_FUNCTION_CHOICE(type, value->type)) &&
         !(operation == 116 && RECORD_TO_INT_DIAGNOSTIC(type, value->type)) &&
-        !((operation == 112 || operation == 116) && CDECL_CALLBACK_ASSIGNMENT(type, value->type)) &&
+        !((operation == 112 || operation == 116 || operation == 125) && CDECL_CALLBACK_ASSIGNMENT(type, value->type)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(type, value->type)) &&
         !(operation == 112 && QUALIFIED_INT_POINTER_ARGUMENT(type, value->type)) &&
         !(operation == 112 && CONST_INT_ARRAY_ARGUMENT(type, value->type)) &&
@@ -6691,6 +6810,9 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
         !((operation == 52 || operation == 112 || operation == 116) && RECORD_VALUE_ASSIGNMENT(type, value->type)) &&
         !((operation == 116 || operation == 112) && VOID_FROM_RECORD_POINTER(type, value->type)) &&
         !(operation == 112 && VOID_FROM_CHARACTER_BUFFER(type, value->type)) &&
+        !(operation == 52 && VOID_FROM_UNSIGNED_POINTER(type, value->type)) &&
+        !(operation == 52 && BASED_UNSIGNED_FROM_PLAIN(type, value->type)) &&
+        !(operation == 116 && CDECL_CALLBACK_VALUE_COPY(type, value->type)) &&
         !(operation == 116 && type->flags == 0x402 && value->type->flags == 0x402 &&
           !type->attributes && !value->type->attributes &&
           type->shape && type->shape == value->type->shape &&
@@ -6758,8 +6880,9 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
           (source->flags == 0x106 || source->flags == 0x107) &&
           !(destination->attributes & ~0x100U) && !(source->attributes & ~0x110U)) &&
         !(operation == 125 && CONST_RECORD_RETURN(destination, source)) &&
+        !(operation == 54 && CDECL_UNSIGNED_FUNCTION_CHOICE(destination, source)) &&
         !(operation == 116 && RECORD_TO_INT_DIAGNOSTIC(destination, source)) &&
-        !((operation == 112 || operation == 116) && CDECL_CALLBACK_ASSIGNMENT(destination, source)) &&
+        !((operation == 112 || operation == 116 || operation == 125) && CDECL_CALLBACK_ASSIGNMENT(destination, source)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(destination, source)) &&
         !(operation == 112 && QUALIFIED_INT_POINTER_ARGUMENT(destination, source)) &&
         !(operation == 112 && CONST_INT_ARRAY_ARGUMENT(destination, source)) &&
@@ -6770,6 +6893,9 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
         !((operation == 52 || operation == 112 || operation == 116) && RECORD_VALUE_ASSIGNMENT(destination, source)) &&
         !((operation == 116 || operation == 112) && VOID_FROM_RECORD_POINTER(destination, source)) &&
         !(operation == 112 && VOID_FROM_CHARACTER_BUFFER(destination, source)) &&
+        !(operation == 52 && VOID_FROM_UNSIGNED_POINTER(destination, source)) &&
+        !(operation == 52 && BASED_UNSIGNED_FROM_PLAIN(destination, source)) &&
+        !(operation == 116 && CDECL_CALLBACK_VALUE_COPY(destination, source)) &&
         !(operation == 116 && destination->flags == 0x402 && source->flags == 0x402 &&
           !destination->attributes && !source->attributes && destination->shape &&
           destination->shape == source->shape && destination->shape->flags == 1 &&
@@ -6955,7 +7081,7 @@ int __cdecl check_type_qualifiers(unsigned operation, unsigned destination,
     unsigned source, int first, int character_type)
 {
     operation &= 255;
-    if (operation != 112 && operation != 116 && operation != 52 && operation != 125) {
+    if (operation != 112 && operation != 116 && operation != 52 && operation != 125 && operation != 54) {
 #ifdef __linux__
         recon_unsupported("conversion qualifier operation column is not yet recovered");
 #else
@@ -6994,8 +7120,22 @@ int __cdecl compatible_function_conventions(unsigned left, unsigned right)
 int __cdecl compare_parameter_types(CompilerType *, CompilerType *) { __asm { int 3 } return 0; }
 int __cdecl incompatible_shape_conversion(unsigned, CompilerType *, CompilerType *)
 { __asm { int 3 } return 0; }
-void __cdecl check_storage_conversion(unsigned, CompilerTypeShape *, CompilerTypeShape *)
-{ __asm { int 3 } }
+void __cdecl check_storage_conversion(unsigned, CompilerTypeShape *destination,
+    CompilerTypeShape *source)
+{
+    if ((source->flags & 7) == 2 && (source->attributes & 3)) return;
+    unsigned left = destination->attributes & 3;
+    unsigned right = source->attributes & 3;
+    if (!(left & 1) || !(right & 1) || left == 1 || right == 1) return;
+    if (right != left) {
+        report_language_diagnostic(1, 123);
+        return;
+    }
+    CompilerIrSymbol *left_base = left == 3 ? destination->based_symbol : NULL;
+    CompilerIrSymbol *right_base = right == 3 ? source->based_symbol : NULL;
+    if (left_base != right_base)
+        report_language_diagnostic(1, 119, left_base, right_base);
+}
 void __cdecl warn_function_pointer_conversion(void) { __asm { int 3 } }
 void __cdecl check_floating_conversion(unsigned, CompilerParserNode *, CompilerType *);
 void __cdecl check_integer_float_conversion(unsigned, CompilerParserNode *, CompilerType *, int, int);
@@ -7100,7 +7240,7 @@ int __cdecl returns_local_address(CompilerParserNode *value)
     return 0;
 }
 /* Encountered semantic cells of shared BYTE column63c78; gaps remain unmodeled. */
-CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, 60, 61, 124, {0}, 65, {0}, 128, 124, {0}, 70, {0}, 74, {0}, 79, {0}, 81, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 125, 126, 127 } };
+CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 54, {0}, 110, 60, 61, 124, {0}, 65, {0}, 128, 124, {0}, 70, {0}, 74, {0}, 79, {0}, 81, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 125, 126, 127 } };
 CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *value)
 {
     for (;;) {
@@ -7128,8 +7268,35 @@ CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *value)
         value = left;
     }
 }
-CompilerParserNode *__cdecl convert_aggregate_return(CompilerType *, CompilerParserNode *)
-{ __asm { int 3 } return NULL; }
+int __cdecl is_pointer_based_shape(CompilerTypeShape *shape)
+{
+    if (shape && (shape->flags & 7) == 1 && (shape->attributes & 3) == 3) {
+        CompilerTypeShape *base = shape->based_symbol->value_type->shape;
+        if (base && (base->flags & 3)) return 1;
+    }
+    return 0;
+}
+extern "C" WORD __cdecl resolve_shape_attributes(unsigned, unsigned);
+CompilerParserNode *__cdecl convert_based_expression(CompilerType *type, CompilerParserNode *value)
+{
+    if (value->flags & 0x80) {
+        value->type = replace_function_parameters(type, 1,
+            resolve_shape_attributes(1, 0), NULL);
+        return value;
+    }
+    if (is_pointer_based_shape(type->shape)) {
+        CompilerTypeShape *source = value->type->shape;
+        if (source && (source->flags & 3))
+            return make_typed_binary_expression(95, value,
+                make_based_address(type), type);
+    }
+    if (!value->type->shape || !(value->type->shape->attributes & 3))
+        value = make_conversion_expression(type, value);
+    value->type = type;
+    if ((type->shape->attributes & 3) == 1)
+        value = finish_segment_dereference(value);
+    return value;
+}
 /* RVA1df6d */
 extern "C" CompilerIrSymbol *__cdecl begin_initializer_symbol(CompilerIrSymbol *);
 CompilerIrSymbol * __cdecl prepare_initializer_symbol(CompilerIrSymbol *symbol)
@@ -7377,7 +7544,7 @@ extern "C" CompilerParserNode *__cdecl make_call_argument(CompilerParserNode *va
         (parameter_type = *call_context->next_parameter) != NULL && !(call_context->flags & 2)) {
         shape = parameter_type->shape;
         if (shape && (shape->storage & 1))
-            argument->left = convert_aggregate_return(parameter_type, argument->left);
+            argument->left = convert_based_expression(parameter_type, argument->left);
         if (!is_void_parameter_type(*call_context->next_parameter)) {
             if (!convert_expression_to_type(112, *call_context->next_parameter, value)) {
                 if (call_context->reference_depth > 1)
@@ -8206,7 +8373,28 @@ void __cdecl skip_declaration_tokens(void)
 /* RVA3f3ff */
 CompilerParserToken * __cdecl recover_parser_token(CompilerParserToken *, ...) { __asm { int 3 } return 0; }
 /* RVA3f4f1 */
-CompilerIrSymbol * __cdecl find_based_declarator(CompilerNameEntry *) { __asm { int 3 } return 0; }
+CompilerIrSymbol *__cdecl find_based_declarator(CompilerNameEntry *name)
+{
+    CompilerIrSymbol **found = c1_data.translation_unit->FindName(name);
+    CompilerIrSymbol *symbol;
+    CompilerTypeShape *shape;
+    if (!found) {
+        compiler_warning(65, name);
+        return NULL;
+    }
+    symbol = *found;
+    shape = symbol->value_type->shape;
+    if (!shape || !(shape->flags & 1) || (shape->attributes & 3))
+        compiler_warning(213, name);
+    else if (c1_data.options.debug_info) {
+        unsigned references = symbol->reference_flags;
+        if ((references & 3) < 3)
+            symbol->reference_flags = (references & ~3U) | ((references + 1) & 3);
+        symbol->reference_flags = (symbol->reference_flags & ~4U) |
+            ((c1_data.ir_reference_epoch & 1) << 2);
+    }
+    return symbol;
+}
 /* RVA3f798 */
 void __cdecl process_pragma_declaration(void) { __asm { int 3 } }
 /* RVA3f7d4 */

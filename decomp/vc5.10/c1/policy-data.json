@@ -1512,11 +1512,11 @@
             [
               {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 18522
+                "offset": 19325
               },
               {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 18791
+                "offset": 19594
               }
             ]
           ],
@@ -1524,228 +1524,228 @@
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 7027
+                "offset": 7830
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7034
+                  "offset": 7837
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7095
+                  "offset": 7898
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7141
+                  "offset": 7944
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7095
+                  "offset": 7898
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7150
+                  "offset": 7953
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 7545
+                "offset": 8348
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7552
+                  "offset": 8355
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7884
+                  "offset": 8687
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8611
+                  "offset": 9414
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8691
+                  "offset": 9494
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8881
+                  "offset": 9684
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9242
+                  "offset": 10045
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9732
+                  "offset": 10535
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9847
+                  "offset": 10650
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10041
+                  "offset": 10844
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10215
+                  "offset": 11018
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10316
+                  "offset": 11119
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10400
+                  "offset": 11203
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10797
+                  "offset": 11600
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11750
+                  "offset": 12553
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11873
+                  "offset": 12676
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12092
+                  "offset": 12895
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12472
+                  "offset": 13275
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 18243
+                  "offset": 19046
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12922
+                  "offset": 13725
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13080
+                  "offset": 13883
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13624
+                  "offset": 14427
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13624
+                  "offset": 14427
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 14171
+                  "offset": 14974
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 14298
+                  "offset": 15101
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 14651
+                  "offset": 15454
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 14838
+                  "offset": 15641
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 18243
+                  "offset": 19046
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15372
+                  "offset": 16175
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15372
+                  "offset": 16175
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15460
+                  "offset": 16263
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 18243
+                  "offset": 19046
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10316
+                  "offset": 11119
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15681
+                  "offset": 16484
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 16896
+                  "offset": 17699
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17623
+                  "offset": 18426
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 18243
+                  "offset": 19046
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15559
+                  "offset": 16362
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17809
+                  "offset": 18612
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 18243
+                  "offset": 19046
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17972
+                  "offset": 18775
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 18142
+                  "offset": 18945
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 8258
+                "offset": 9061
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8265
+                  "offset": 9068
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8275
+                  "offset": 9078
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8286
+                  "offset": 9089
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8336
+                  "offset": 9139
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8345
+                  "offset": 9148
                 }
               ]
             }
@@ -2020,11 +2020,11 @@
             [
               {
                 "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                "offset": 10324
+                "offset": 10372
               },
               {
                 "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                "offset": 11328
+                "offset": 11376
               }
             ]
           ],
@@ -2265,99 +2265,99 @@
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5264
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5314
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5375
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5543
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5685
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5709
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5743
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5314
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5375
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5543
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5709
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5743
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5781
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5959
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6157
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6211
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6256
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
                   "offset": 5213
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5266
+                  "offset": 6231
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5326
+                  "offset": 6256
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5495
+                  "offset": 6393
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5636
+                  "offset": 6435
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5660
+                  "offset": 6459
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5694
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5266
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5326
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5495
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5660
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5694
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5732
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5908
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6107
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6161
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6206
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5213
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6181
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6206
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6342
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6386
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6410
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6458
+                  "offset": 6507
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
@@ -2377,23 +2377,23 @@
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5213
+                  "offset": 5264
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8862
+                  "offset": 8910
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6661
+                  "offset": 6710
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6992
+                  "offset": 7040
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7080
+                  "offset": 7128
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
@@ -2401,103 +2401,83 @@
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7133
+                  "offset": 7181
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7153
+                  "offset": 7201
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7169
+                  "offset": 7217
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7218
+                  "offset": 7266
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7238
+                  "offset": 7286
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7284
+                  "offset": 7332
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7294
+                  "offset": 7342
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7327
+                  "offset": 7375
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7284
+                  "offset": 7332
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7403
+                  "offset": 7451
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7413
+                  "offset": 7461
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7671
+                  "offset": 7719
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7741
+                  "offset": 7789
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7868
+                  "offset": 7916
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7878
+                  "offset": 7926
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7923
+                  "offset": 7971
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7969
+                  "offset": 8017
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7986
+                  "offset": 8034
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8037
+                  "offset": 8085
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8150
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8160
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8170
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8180
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8190
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7153
+                  "offset": 8198
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
@@ -2517,107 +2497,123 @@
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8315
+                  "offset": 7201
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8330
+                  "offset": 8256
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8350
+                  "offset": 8266
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8400
+                  "offset": 8276
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8526
+                  "offset": 8286
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8647
+                  "offset": 8363
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8756
+                  "offset": 8378
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8781
+                  "offset": 8398
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8832
+                  "offset": 8448
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8862
+                  "offset": 8574
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8877
+                  "offset": 8695
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8915
+                  "offset": 8804
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8976
+                  "offset": 8829
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9047
+                  "offset": 8880
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9076
+                  "offset": 8910
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9102
+                  "offset": 8925
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9128
+                  "offset": 8963
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9154
+                  "offset": 9024
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9249
+                  "offset": 9095
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9300
+                  "offset": 9124
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9326
+                  "offset": 9150
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9352
+                  "offset": 9176
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9409
+                  "offset": 9202
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9451
+                  "offset": 9297
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9484
+                  "offset": 9348
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9553
+                  "offset": 9374
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9400
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9457
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9499
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9532
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
@@ -2625,67 +2621,71 @@
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9672
+                  "offset": 9649
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9693
+                  "offset": 9720
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9747
+                  "offset": 9741
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9778
+                  "offset": 9795
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9802
+                  "offset": 9826
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9839
+                  "offset": 9850
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9858
+                  "offset": 9887
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10023
+                  "offset": 9906
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10050
+                  "offset": 10071
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10068
+                  "offset": 10098
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10107
+                  "offset": 10116
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10209
+                  "offset": 10155
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10231
+                  "offset": 10257
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10253
+                  "offset": 10279
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10278
+                  "offset": 10301
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10306
+                  "offset": 10326
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 10354
                 }
               ]
             },
@@ -2761,11 +2761,11 @@
             [
               {
                 "rebuilt_symbol": "_get_next_token",
-                "offset": 913
+                "offset": 907
               },
               {
                 "rebuilt_symbol": "_get_next_token",
-                "offset": 1198
+                "offset": 1192
               }
             ]
           ],
@@ -2773,100 +2773,100 @@
             {
               "site": {
                 "rebuilt_symbol": "_get_next_token",
-                "offset": 83
+                "offset": 77
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 865
+                  "offset": 859
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 173
+                  "offset": 167
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 297
+                  "offset": 291
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 297
+                  "offset": 291
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 314
+                  "offset": 308
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 297
+                  "offset": 291
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 549
+                  "offset": 543
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 549
+                  "offset": 543
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 549
+                  "offset": 543
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 549
+                  "offset": 543
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 549
+                  "offset": 543
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 549
+                  "offset": 543
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 549
+                  "offset": 543
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 549
+                  "offset": 543
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 865
+                  "offset": 859
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 549
+                  "offset": 543
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 599
+                  "offset": 593
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 549
+                  "offset": 543
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 716
+                  "offset": 710
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 90
+                  "offset": 84
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 768
+                  "offset": 762
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 297
+                  "offset": 291
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 903
+                  "offset": 897
                 }
               ]
             }
@@ -3378,11 +3378,11 @@
             [
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 6374
+                "offset": 6844
               },
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 6406
+                "offset": 6876
               }
             ]
           ],
@@ -3390,40 +3390,40 @@
             {
               "site": {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 5571
+                "offset": 6041
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 5594
+                  "offset": 6064
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 5721
+                  "offset": 6191
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 5594
+                  "offset": 6064
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 5608
+                  "offset": 6078
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 5578
+                  "offset": 6048
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 5578
+                  "offset": 6048
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 5578
+                  "offset": 6048
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 5682
+                  "offset": 6150
                 }
               ]
             }
@@ -3475,11 +3475,11 @@
             [
               {
                 "rebuilt_symbol": "_emit_ir_node",
-                "offset": 3954
+                "offset": 4087
               },
               {
                 "rebuilt_symbol": "_emit_ir_node",
-                "offset": 4112
+                "offset": 4245
               }
             ]
           ],
@@ -3487,40 +3487,40 @@
             {
               "site": {
                 "rebuilt_symbol": "_emit_ir_node",
-                "offset": 826
+                "offset": 859
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 833
+                  "offset": 866
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 1604
+                  "offset": 1670
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 1642
+                  "offset": 1709
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 1696
+                  "offset": 1763
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 1957
+                  "offset": 2024
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 1936
+                  "offset": 2003
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 2073
+                  "offset": 2140
                 },
                 {
                   "rebuilt_symbol": "_emit_ir_node",
-                  "offset": 3083
+                  "offset": 3183
                 }
               ]
             }
@@ -5439,11 +5439,11 @@
             [
               {
                 "rebuilt_symbol": "_check_type_qualifiers",
-                "offset": 279
+                "offset": 285
               },
               {
                 "rebuilt_symbol": "_check_type_qualifiers",
-                "offset": 385
+                "offset": 391
               }
             ]
           ],
@@ -5451,40 +5451,40 @@
             {
               "site": {
                 "rebuilt_symbol": "_check_type_qualifiers",
-                "offset": 89
+                "offset": 95
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_check_type_qualifiers",
-                  "offset": 106
+                  "offset": 112
                 },
                 {
                   "rebuilt_symbol": "_check_type_qualifiers",
-                  "offset": 96
+                  "offset": 102
                 },
                 {
                   "rebuilt_symbol": "_check_type_qualifiers",
-                  "offset": 96
+                  "offset": 102
                 },
                 {
                   "rebuilt_symbol": "_check_type_qualifiers",
-                  "offset": 106
+                  "offset": 112
                 },
                 {
                   "rebuilt_symbol": "_check_type_qualifiers",
-                  "offset": 106
+                  "offset": 112
                 },
                 {
                   "rebuilt_symbol": "_check_type_qualifiers",
-                  "offset": 96
+                  "offset": 102
                 },
                 {
                   "rebuilt_symbol": "_check_type_qualifiers",
-                  "offset": 106
+                  "offset": 112
                 },
                 {
                   "rebuilt_symbol": "_check_type_qualifiers",
-                  "offset": 267
+                  "offset": 273
                 }
               ]
             }

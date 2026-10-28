@@ -29,7 +29,8 @@ typedef union CompilerExpressionClasses {
         BYTE unmodeled_08[37], end_of_line; /* kind45, RVA63ca5 ->1 */
         BYTE unmodeled_2e[4], logical_and; /* kind50, RVA63caa ->50 */
         BYTE unmodeled_33[1], simple_assignment; /* kind52, RVA63cac ->52 */
-        BYTE unmodeled_35[6], equality; /* kind59, RVA63cb3 ->110 */
+        BYTE unmodeled_35[1], conditional; /* kind54, RVA63cae ->54 */
+        BYTE unmodeled_37[4], equality; /* kind59, RVA63cb3 ->110 */
         BYTE logical_not, indirection; /* kind60, RVA63cb4 ->60 */
         BYTE greater, unmodeled_3f[2], subscript; /* kind65, RVA63cb9 ->65 */
         BYTE unmodeled_42[1], shift_left, less; /* kinds67/68 ->128/124 */
@@ -46,6 +47,7 @@ typedef union CompilerExpressionClasses {
     BYTE indexed[1];
 } CompilerExpressionClasses;
 #ifdef __cplusplus
+typedef char ExpressionConditionalClassOffset[offsetof(CompilerExpressionClasses, known.conditional) == 54 ? 1 : -1];
 typedef char ExpressionSubscriptClassOffset[offsetof(CompilerExpressionClasses, known.subscript) == 65 ? 1 : -1];
 typedef char ExpressionShiftClassOffset[offsetof(CompilerExpressionClasses, known.shift_left) == 67 ? 1 : -1];
 typedef char ExpressionSubtractClassOffset[offsetof(CompilerExpressionClasses, known.subtraction) == 70 ? 1 : -1];
@@ -293,7 +295,8 @@ struct CompilerTypeShape {
     union {
         unsigned value;
         struct CompilerTypeList *parameters;
-        struct CompilerIrSymbol *symbol_owner; /* Source-only symbol-bearing shape. */
+        struct CompilerIrSymbol *symbol_owner; /* Other symbol-bearing shape alternatives. */
+        struct CompilerIrSymbol *based_symbol; /* Pointer attribute3: actual base variable. */
     };
 #ifdef __cplusplus
     CompilerTypeShape *RECON_THISCALL FindMatching(CompilerTypeShapePredicate);
@@ -418,7 +421,7 @@ typedef struct CompilerAssemblyResetState {
 typedef struct CompilerDeclarationAttributes {
     WORD flags;
     WORD extended_flags;
-    union { unsigned extra; struct CompilerIrSymbol *allocated_segment; };
+    union { unsigned extra; struct CompilerIrSymbol *allocated_segment, *based_symbol; };
 } CompilerDeclarationAttributes;
 #ifdef __cplusplus
 /* Run's declaration callback is a real single-inheritance member pointer.
