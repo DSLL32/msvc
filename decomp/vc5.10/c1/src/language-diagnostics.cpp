@@ -66,7 +66,8 @@ extern "C" const char *__stdcall get_diagnostic_message(unsigned number)
 {
     if (number != C1_TEXT_FASTCALL_STACK_CHECK && number != C1_TEXT_ILLEGAL_INITIALIZATION &&
         number != C1_TEXT_SYNTAX_ERROR_TOKEN && number != C1_TEXT_MEMBER_NOT_FOUND &&
-        number != C1_TEXT_TOO_FEW_ARGUMENTS && number != C1_TEXT_INCOMPATIBLE_TYPES) {
+        number != C1_TEXT_TOO_FEW_ARGUMENTS && number != C1_TEXT_INCOMPATIBLE_TYPES &&
+        number != C1_TEXT_ASSEMBLY_UNDEFINED_NAME) {
 #ifdef __linux__
         recon_unsupported("language diagnostic resource is not reconstructed");
 #else

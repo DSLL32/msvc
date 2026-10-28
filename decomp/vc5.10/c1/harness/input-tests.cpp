@@ -2340,3 +2340,92 @@ extern "C" int c1_test_simple_function_type_composition(void)
         !memcmp(&empty, empty_before, sizeof(empty)) &&
         !memcmp(&single, single_before, sizeof(single));
 }
+
+extern "C" CompilerIrSymbol *__cdecl find_assembly_member(CompilerIrSymbol *, CompilerNameEntry *);
+extern "C" int c1_test_assembly_member_lookup(void)
+{
+    CompilerIrSymbol first, middle, last;
+    CompilerNameEntry alignment, wanted, absent;
+    CompilerNameEntry *saved = c1_data.builtin_names.alignment_member;
+    int ok;
+    memset(&first, 0xa5, sizeof(first));
+    memset(&middle, 0x5a, sizeof(middle));
+    memset(&last, 0x3c, sizeof(last));
+    first.binding.name = &alignment; first.binding.next = &middle.binding;
+    middle.binding.name = &wanted; middle.binding.next = &last.binding;
+    last.binding.name = &wanted; last.binding.next = NULL;
+    c1_data.builtin_names.alignment_member = &alignment;
+    ok = !find_assembly_member(NULL, &wanted) &&
+        find_assembly_member(&first, &wanted) == &middle &&
+        !find_assembly_member(&first, &alignment) &&
+        !find_assembly_member(&first, &absent) &&
+        find_assembly_member(&last, &wanted) == &last &&
+        first.binding.next == &middle.binding && middle.binding.next == &last.binding &&
+        first.kind == 0xa5 && middle.kind == 0x5a && last.kind == 0x3c;
+    c1_data.builtin_names.alignment_member = saved;
+    return ok;
+}
+
+extern "C" CompilerAssemblyExpression *__cdecl make_assembly_current_location(CompilerAssemblyExpression *);
+extern "C" int c1_test_assembly_offset_write(void)
+{
+    CompilerAssemblyOperand *saved = c1_bss.assembly.current_operand;
+    CompilerAssemblyOperand operand;
+    CompilerAssemblyValue value;
+    CompilerAssemblyExpression expression;
+    CompilerIrSymbol symbol;
+    int ok;
+    memset(&operand, 0xa5, sizeof(operand));
+    memset(&value, 0x6b, sizeof(value));
+    memset(&expression, 0x3c, sizeof(expression));
+    operand.value = &value;
+    value.operand.symbol = &symbol;
+    value.operand.kind_flags = 0xd5;
+    c1_bss.assembly.current_operand = &operand;
+    ok = make_assembly_current_location(&expression) == &expression &&
+        expression.kind == 0x3c3c && expression.payload == 0x3c3c3c3c &&
+        value.operand.symbol == &symbol && value.operand.kind_flags == 0xc3 &&
+        value.operand.displacement == 0x6b6b6b6b && value.operand.register_code == 0x6b &&
+        operand.form == 2 && operand.modifiers == 0xa5 && operand.unmodeled_06[0] == 0xa5;
+    c1_bss.assembly.current_operand = saved;
+    return ok;
+}
+
+extern "C" void __cdecl select_assembly_encoding(void);
+extern "C" int c1_test_assembly_imul_duplicate(void)
+{
+    CompilerAssemblyResetState saved = c1_bss.assembly;
+    unsigned i;
+    int ok;
+    memset(&c1_bss.assembly, 0xa5, sizeof(c1_bss.assembly));
+    c1_bss.assembly.first_form = 20;
+    c1_bss.assembly.reset_54 = 163;
+    c1_bss.assembly.reset_5c = 6;
+    c1_bss.assembly.operand_index = 2;
+    for (i = 0; i < 2; ++i) {
+        c1_bss.assembly.operands[i].value = &c1_bss.assembly.values[i];
+        c1_bss.assembly.operands[i].form = (BYTE)(i ? 15 : 2);
+        c1_bss.assembly.operands[i].modifiers = 0;
+        c1_bss.assembly.operands[i].source_symbol = NULL;
+        c1_bss.assembly.operands[i].symbol = NULL;
+        memset(&c1_bss.assembly.values[i], 0, sizeof(CompilerAssemblyValue));
+    }
+    c1_bss.assembly.values[0].operand.kind_flags = 4;
+    c1_bss.assembly.values[0].operand.register_code = 2;
+    c1_bss.assembly.values[1].operand.kind_flags = 2;
+    c1_bss.assembly.values[1].operand.displacement = 4;
+    c1_bss.assembly.current_operand = &c1_bss.assembly.operands[1];
+    select_assembly_encoding();
+    ok = c1_bss.assembly.operand_index == 3 &&
+        c1_bss.assembly.encoded_opcode == 163 && c1_bss.assembly.encoding_flags == 2 &&
+        c1_bss.assembly.operands[2].value == &c1_bss.assembly.values[2] &&
+        c1_bss.assembly.operands[1].value == &c1_bss.assembly.values[1] &&
+        !memcmp(&c1_bss.assembly.values[0], &c1_bss.assembly.values[1], 12) &&
+        c1_bss.assembly.values[2].operand.displacement == 4 &&
+        c1_bss.assembly.values[2].operand.kind_flags == 2 &&
+        c1_bss.assembly.values[0].operand.register_code == 1 &&
+        c1_bss.assembly.operands[2].unmodeled_06[0] == 0xa5 &&
+        c1_bss.assembly.operands[1].unmodeled_06[1] == 0xa5;
+    c1_bss.assembly = saved;
+    return ok;
+}

@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 855 application functions / 226,794 code bytes and
-10,057 bytes of owned text data. Application code is 70.37% of the original
+The reconstruction contains 860 application functions / 227,338 code bytes and
+10,057 bytes of owned text data. Application code is 70.54% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All twenty-one cached cases complete natively: DLL attach/export lookup/detach, the
+All twenty-two cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, browser output the callback/union, prototype-output and conversions workloads described below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, browser output, callback/union, prototype-output, conversions and assembly-addressing workloads described below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -324,12 +324,32 @@ leaf. A focused test covers signed minimum, unsigned maximum, bases 2/8/10/16/36
 input retention and output neighbors. Existing declaration, conversion and IR
 owners now admit the encountered pointer/callback/record domains; unknown
 semantic alternatives remain guarded. The return-expression classification
-adds only its actual BYTE cell at index125 to the partial shared column. All twenty-one
+adds only its actual BYTE cell at index 125 to the partial shared column. All twenty-one
 cached cases and units passed in 0.404 s; the full graph/ABI audit passed in
 1.521 s, and the final original/native build took 3.962 s. Scratch
 `conversion-case-20261028/` preserves actual raw artifacts and all failed native
 catchup attempts. No additional original was launched for those source-only
 corrections, and no comparison normalization was required.
+
+The assembly-addressing case combines ESI/EDI string-copy instructions, REP and
+CLD, structure-member addressing, scaled indexes, MOVZX/MOVSX, OFFSET, LENGTH,
+TYPE, SIZE, two-operand immediate IMUL, local labels, JE and XCHG. Both executions
+exit zero with 522 first entries and exact artifacts: `assemblyex` (1,999 bytes),
+`assemblygl` (140), `assemblyin` (30), and `assemblysy` (218). The final reference
+took 1,366.317 ms; the matching native run took 21.946 ms. Five application
+functions add 544 code bytes: the diagnostic subject, member-offset resolver,
+ordered member lookup, OFFSET normalizer and array-length query. Encountered
+mnemonic/selector and operand-form relations retain original search order;
+other rows and instruction-description semantics remain guarded. Three focused
+tests cover alignment-member skipping, OFFSET's distinct operand/value owners,
+and two-operand IMUL's copied records and retained padding. All twenty-two cached
+cases and units passed in 0.416 s; the full graph/ABI audit passed in 1.671 s
+following the emitted writer-table offset update. The final original/native
+build took 1.700 s. Raw artifacts and failed catch-up attempts, including the
+superseded undefined-structure-name input and the one-byte OFFSET receiver
+mistake, remain under `assembly-addressing-case-20261028/` and
+`assembly-addressing-resume-20261028/` in scratch. No output normalization or
+original replay for native-only source corrections was needed.
 
 The completed cases exercise bounded domains. Larger readable parser, lexer,
 IR writer, PCH, debug and recorded-input bodies include unexercised branches;

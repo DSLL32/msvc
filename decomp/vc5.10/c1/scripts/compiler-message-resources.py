@@ -8,7 +8,7 @@ OWNER="7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
 image=(ROOT/"toolchains/5.10/bin/C1.DLL").read_bytes()
 if hashlib.sha256(image).hexdigest()!=OWNER:raise SystemExit("C1 resource identity mismatch")
 # Authenticated RT_STRING block/file spans, language1033. Each leaf contains16 UTF16 strings.
-LEAVES={128: (438964, 1068), 133: (444216, 1300), 138: (451080, 1420), 129: (440032, 922), 19: (378928, 46), 20: (378976, 264), 21: (379240, 186), 22: (379428, 590), 23: (380020, 372), 24: (380392, 350), 25: (380744, 424), 26: (381168, 596), 57: (381764, 868), 132: (443280, 934), 258: (404176, 1388)}
+LEAVES={128: (438964, 1068), 133: (444216, 1300), 138: (451080, 1420), 129: (440032, 922), 19: (378928, 46), 20: (378976, 264), 21: (379240, 186), 22: (379428, 590), 23: (380020, 372), 24: (380392, 350), 25: (380744, 424), 26: (381168, 596), 57: (381764, 868), 132: (443280, 934), 258: (404176, 1388), 151: (468752, 1194)}
 original={}
 for block,(first,length) in LEAVES.items():
     cursor=first;end=first+length
@@ -27,7 +27,7 @@ for name,literal in re.findall(r'^\s*(C1_TEXT_\w+)\s+("[^\n]*")\s*$',source,re.M
     number=ids[name];text=json.loads(literal)
     if original.get(number)!=text:raise SystemExit("C1 resource source differs: "+name)
     entries.append(dict(kind="string",id=number,language=1033,text=text))
-if len(entries)!=92 or len({x["id"]for x in entries})!=92 or set(ids.values())!={x["id"]for x in entries}:
+if len(entries)!=93 or len({x["id"]for x in entries})!=93 or set(ids.values())!={x["id"]for x in entries}:
     raise SystemExit("C1 encountered resource inventory mismatch")
 spec=importlib.util.spec_from_file_location("resources",ROOT/"lib/recon/resources.py")
 resources=importlib.util.module_from_spec(spec);spec.loader.exec_module(resources)

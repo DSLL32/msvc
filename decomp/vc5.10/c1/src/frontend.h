@@ -339,6 +339,7 @@ struct CompilerTranslationUnit {
     CompilerTranslationUnit *RECON_THISCALL Initialize(void);
     CompilerIrSymbol **RECON_THISCALL EndParameterScope(void);
     CompilerIrSymbol **RECON_THISCALL FindName(CompilerNameEntry *);
+    CompilerIrSymbol *RECON_THISCALL FindAssemblySymbol(CompilerNameEntry *);
     CompilerIrSymbol **RECON_THISCALL FindTag(CompilerNameEntry *, int);
     CompilerIrSymbol **RECON_THISCALL FindVisibleTag(CompilerNameEntry *);
     CompilerIrSymbol **RECON_THISCALL FindScopedDeclaration(CompilerIrSymbol *);

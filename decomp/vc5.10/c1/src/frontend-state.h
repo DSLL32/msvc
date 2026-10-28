@@ -405,7 +405,7 @@ typedef struct CompilerAssemblyResetState {
     WORD reset_54, reset_5c; /* RVA5a054/5a05c */
     unsigned operand_index; /* RVA5a064, reset0; statement parser advances up to2. */
     unsigned reset_08, reset_60, reset_9fc4, reset_9ffc; /* RVA5a008/5a060/59fc4/59ffc */
-    unsigned reset_4c; /* RVA5a04c, operand initializer clears it. */
+    union { unsigned reset_4c; struct CompilerIrSymbol *member_owner; }; /* RVA5a04c; operand initializer clears, member lookup selects tag owner. */
     unsigned first_form; /* RVA59ff8, setter writes numeric instruction-form index. */
     struct CompilerAssemblyOperand *current_operand; /* RVA5a050, written from real initializer result. */
     CompilerAssemblyOperand operands[3]; /* RVA59fc8..59ff8; record2 remains unread. */

@@ -95,4 +95,5 @@ BEGIN
     C1_TEXT_MEMBER_NOT_FOUND "'%$*' : is not a member of '%$S'"
     C1_TEXT_TOO_FEW_ARGUMENTS "'%$*' : too few actual parameters"
     C1_TEXT_INCOMPATIBLE_TYPES "'%$L' : incompatible types"
+    C1_TEXT_ASSEMBLY_UNDEFINED_NAME "'%$I' : name undefined in '%$M'"
 END
