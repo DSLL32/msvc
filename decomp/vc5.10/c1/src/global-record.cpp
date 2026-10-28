@@ -1015,7 +1015,7 @@ extern "C" void __cdecl write_global_reference(CompilerSymbolBinding *binding)
     if (symbol->kind == 5) {
         if (!c1_data.options.debug_info) goto marked;
         type = symbol->value_type;
-        if (!c1_bss.function_output_mode) {
+        if (!c1_bss.options.prototypes_only) {
             prepare_debug_type(type);
             if (type->symbol_owner && type->symbol_owner->kind == 4 &&
                 !type->symbol_owner->alternate_size) finish_debug_type(type->symbol_owner);
@@ -1056,7 +1056,7 @@ extern "C" void __cdecl write_global_reference(CompilerSymbolBinding *binding)
         target->reference_flags = (target->reference_flags & ~4U) |
             ((c1_data.ir_reference_epoch & 1) << 2);
         type = symbol->value_type;
-        if (!c1_bss.function_output_mode) {
+        if (!c1_bss.options.prototypes_only) {
             prepare_debug_type(type);
             if (type->symbol_owner && type->symbol_owner->kind == 4 &&
                 !type->symbol_owner->alternate_size) finish_debug_type(type->symbol_owner);

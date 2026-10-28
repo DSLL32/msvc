@@ -76,7 +76,7 @@ typedef char ParserLabelStack_extent[sizeof(ParserLabelStack) == 8 ? 1 : -1];
 static unsigned parser_symbol_cache_index;    /* RVA5f494 */
 #define enumerator_type c1_data.enumerator_type /* RVA5e400 */
 #define enumerator_value c1_data.enumerator_value /* RVA5f380 */
-static BYTE *c1_lexer_token_cursor;            /* RVA5f38c */
+#define c1_lexer_token_cursor c1_data.quoted_cursor /* RVA5f38c */
 #define loop_labels c1_bss.loop_labels /* RVA55090 */
 #define continue_labels c1_bss.continue_labels /* RVA547f0 */
 #define break_labels c1_bss.break_labels /* RVA54014 */
@@ -84,7 +84,7 @@ static BYTE *c1_lexer_token_cursor;            /* RVA5f38c */
 #define default_labels c1_bss.default_labels /* RVA54020, BSS NULL */
 #define label_stack_count c1_bss.label_stack_count /* RVA550a8 */
 #define case_label c1_bss.case_label /* RVA53ff8, BSS; statement entry clears it */
-extern char c1_lexer_token_text[2048];         /* Existing source-only owner. */
+#define c1_lexer_token_text c1_bss.quoted_workspace /* RVA55120, one physical owner. */
 
 
 
@@ -1193,7 +1193,8 @@ case 97:
     break;
 case 98:
 #ifdef RECON_NATIVE_TEST
-    if (declaration_depth != 1 || state_top[1] != 176 || state_top[2] != 218 ||
+    if ((declaration_depth != 1 && declaration_depth != 2) ||
+        state_top[1] != 176 || state_top[2] != 218 ||
         !right[0].value.declarator_symbol.declarator || !right[0].value.declarator_symbol.symbol ||
         right[-1].value.declaration.flags != 0x20 || right[-1].value.declaration.value ||
         right[-1].value.declaration.apply)
@@ -2294,7 +2295,7 @@ int __cdecl add_record_member(const CompilerParserDeclaration *declaration,
         }
         report_extension_diagnostic(201, 467, type);
         if (!(type->symbol_owner->flags & 1)) {
-            if (!c1_bss.function_output_mode) compiler_warning(27, type->symbol_owner);
+            if (!c1_bss.options.prototypes_only) compiler_warning(27, type->symbol_owner);
             return 0;
         }
         emit_anonymous_record_member(type);
@@ -2823,7 +2824,7 @@ WORD __cdecl merge_declarator_qualifiers(WORD previous, WORD added)
 unsigned __cdecl save_type_context(void);
 void __cdecl restore_type_context(void);
 extern "C" const char *__cdecl diagnostic_text_data(unsigned);
-extern "C" unsigned __cdecl format_diagnostic_type(unsigned, unsigned, unsigned, CompilerType *);
+extern "C" unsigned __cdecl format_diagnostic_type(unsigned, unsigned, unsigned, ...);
 extern "C" CompilerIrSymbol *__cdecl create_tag_symbol(CompilerNameEntry *, WORD, CompilerDeclarationApply *, int);
 void __cdecl process_declaration(const CompilerParserDeclaration *declaration)
 {
@@ -2857,10 +2858,57 @@ void __cdecl process_declaration(const CompilerParserDeclaration *declaration)
         break;
     }
 }
-/* RVA433a8: diagnostic context/flags/value/type formatter, not the separate
- * symbol-declaration formatter at42ec1. */
-extern "C" unsigned __cdecl format_diagnostic_type(unsigned, unsigned, unsigned, CompilerType *)
-{ __asm { int 3 } return 0; }
+/* RVA433a8 reads three fixed cdecl slots. The diagnostic caller supplies
+ * four slots and the declaration-prefix caller supplies three; each cleans
+ * its actual argument list. No surplus slot is read, and the third is an
+ * unchanged carrier forwarded to the next formatter. */
+extern "C" unsigned __cdecl create_diagnostic_text(void);
+extern "C" void __cdecl append_diagnostic_text(unsigned, const char *);
+extern "C" void __cdecl append_diagnostic_character(unsigned, int);
+extern "C" unsigned __cdecl describe_diagnostic_storage(unsigned result, unsigned flags,
+    unsigned context)
+{
+    unsigned attributes = create_diagnostic_text();
+    const char *text;
+    if (flags & 0x080000) append_diagnostic_text(attributes, "dllimport ");
+    if (flags & 0x040000) append_diagnostic_text(attributes, "dllexport ");
+    if (flags & 0x010000) append_diagnostic_text(attributes, "naked ");
+    if (flags & 0x020000) append_diagnostic_text(attributes, "thread ");
+    if (flags & 0x01000000) {
+        append_diagnostic_text(attributes, "allocate(\"");
+        append_diagnostic_text(attributes, ((CompilerIrSymbol *)context)->binding.name->name);
+        append_diagnostic_text(attributes, "\") ");
+    }
+    if (flags & 0x400000) append_diagnostic_text(attributes, "selectany ");
+    text = diagnostic_text_data(attributes);
+    if (*text) {
+        append_diagnostic_text(result, "__declspec");
+        append_diagnostic_character(result, '(');
+        append_diagnostic_text(result, text);
+        append_diagnostic_text(result, ") ");
+    }
+    return result;
+}
+extern "C" unsigned __cdecl format_diagnostic_type(unsigned result, unsigned flags,
+    unsigned context, ...)
+{
+    const char *text;
+    if (!result) result = create_diagnostic_text();
+    switch (flags & 7) {
+    case 0: text = ""; break;
+    case 1: text = "extern"; break;
+    case 2: text = "/*global*/"; break;
+    case 3: text = "static"; break;
+    case 4: text = "auto"; break;
+    case 5: text = "register"; break;
+    case 6: text = "/* really */ register"; break;
+    case 7: text = "typedef"; break;
+    default: text = "/*CLASS?*/"; break;
+    }
+    append_diagnostic_text(result, text);
+    append_diagnostic_character(result, ' ');
+    return describe_diagnostic_storage(result, flags, context);
+}
 /* RVA0e4d2 */
 BYTE __cdecl prepare_bitfield(CompilerIrSymbol *symbol, __int64 width)
 {
@@ -3238,7 +3286,7 @@ void __cdecl begin_compound_statement(void)
     c1_bss.declaration_scope_active = parameter_nesting;
     if (c1_data.debug_module_kind != 4) {
         if (!(lexer_flags & 0x20)) c1_data.translation_unit->EnterBlockScope();
-        if (!c1_bss.function_output_mode) write_ir_record(83, NULL);
+        if (!c1_bss.options.prototypes_only) write_ir_record(83, NULL);
     }
 }
 /* RVA10bb3 */
@@ -3260,7 +3308,7 @@ void __cdecl finish_compound_statement(void)
             finish_scope_symbols();
         }
     }
-    if (!c1_bss.function_output_mode && c1_data.debug_module_kind != 4) {
+    if (!c1_bss.options.prototypes_only && c1_data.debug_module_kind != 4) {
         if (!(lexer_flags & 0x20)) c1_data.translation_unit->FinishScope(scope);
         write_ir_record(84, make_integer_constant(parameter_nesting));
     }
@@ -3276,7 +3324,7 @@ struct CompilerPendingScopeSymbol {
 void __cdecl pop_scope_symbol_frame(CompilerPendingScopeSymbol **);
 void __cdecl finish_scope_symbols(void)
 {
-    if (c1_bss.function_output_mode) return;
+    if (c1_bss.options.prototypes_only) return;
 #ifdef RECON_NATIVE_TEST
     if (c1_bss.pending_scope_symbols)
         recon_unsupported("pending scope-symbol records are not yet modeled");
@@ -3412,7 +3460,7 @@ void __cdecl apply_function_context(CompilerIrSymbol *symbol, void *context)
 /* RVA10ffa */
 /* These contextual cells are held until their actual function-body uses. */
 #define function_stack_check_reported c1_bss.function_stack_check_reported /* RVA53d68, BSS */
-#define function_output_mode c1_bss.function_output_mode /* RVA54c88, predicate-only DWORD */
+#define function_output_mode c1_bss.options.prototypes_only /* RVA54c88, predicate-only DWORD */
 #define function_debug_info c1_data.options.debug_info /* RVA5ef38, existing owner */
 void __cdecl initialize_function_parameters(void);
 unsigned __cdecl parameter_stack_bytes(CompilerParameterBindings *);
@@ -3537,10 +3585,6 @@ void __cdecl initialize_function_parameters(void)
     function->flags |= 1;
     c1_bss.parameter_symbol_count = 0;
     function->declaration_flags &= ~0x10;
-#ifdef RECON_NATIVE_TEST
-    if (function_output_mode)
-        recon_unsupported("nonzero function output mode is not yet supported");
-#endif
     if (function_output_mode) return;
     prepare_function_record(0);
     if (c1_data.debug_module_kind != 4) {
@@ -4261,7 +4305,48 @@ void __cdecl restore_type_context(void)
         for (index = 0; index < c1_data.saved_context_count; ++index)
             c1_data.saved_context_records[index].handle = 0;
 }
-void __cdecl write_function_declaration(CompilerIrSymbol *, FILE *) { __asm { int 3 } }
+unsigned __cdecl build_diagnostic_declaration(CompilerIrSymbol *, CompilerType *, unsigned);
+const char *__cdecl diagnostic_text_data(unsigned);
+#ifdef _MSC_VER
+#pragma intrinsic(strlen)
+#endif
+void __cdecl write_declaration_prefix(unsigned flags, CompilerIrSymbol *context, FILE *stream)
+{
+    save_type_context();
+    const char *text = diagnostic_text_data(format_diagnostic_type(0, flags, (unsigned)context));
+    fwrite(text, strlen(text), 1, stream);
+    restore_type_context();
+}
+#ifdef _MSC_VER
+#pragma intrinsic(strlen)
+#endif
+void __cdecl write_function_declaration(CompilerIrSymbol *symbol, FILE *stream)
+{
+    const char *text;
+    CompilerIrSymbol *context = NULL;
+    unsigned flags;
+    if (!symbol) return;
+    c1_data.declaration_format_failure = 0;
+    c1_data.declaration_format_function = symbol->kind == 7 || symbol->kind == 8;
+    text = diagnostic_text_data(build_diagnostic_declaration(symbol, NULL, 0));
+    if (c1_data.declaration_format_failure) {
+        fwrite("/* ", 3, 1, stream);
+        fwrite(text, strlen(text), 1, stream);
+        fwrite("; */\n", 5, 1, stream);
+        report_language_diagnostic(1, 36, c1_data.declaration_format_failure);
+        return;
+    }
+    flags = symbol->intrinsic_flags;
+    if ((symbol->function_flags & 1) && (context = lookup_ir_symbol(symbol)))
+        flags |= 0x1000000;
+    else flags &= ~0x1000000U;
+    write_declaration_prefix(flags, context, stream);
+    fwrite(text, strlen(text), 1, stream);
+    fwrite(";\n", 2, 1, stream);
+}
+#ifdef _MSC_VER
+#pragma function(strlen)
+#endif
 /* RVA1153d */
 void __cdecl finish_function_definition(int);
 void __cdecl finish_function_label_context(void);
@@ -4306,8 +4391,7 @@ void __cdecl finish_function_definition(int inline_mode)
 {
     CompilerIrSymbol *function = c1_bss.current_scope_symbol;
 #ifdef RECON_NATIVE_TEST
-    if (inline_mode || c1_data.debug_module_kind != 2 ||
-        function_output_mode || !function)
+    if (inline_mode || c1_data.debug_module_kind != 2 || !function)
         recon_unsupported("alternate function finalization domain is not yet modeled");
 #endif
     if (function) {
@@ -8057,7 +8141,37 @@ void __cdecl report_parser_error(const char *message)
     }
 }
 /* RVA3f393 */
-void __cdecl skip_declaration_tokens(void) { __asm { int 3 } }
+void __cdecl skip_declaration_tokens(void)
+{
+    unsigned depth = 0;
+    for (;;) {
+        CompilerParserToken *token = c1_bss.current_context.ReadToken();
+        switch (token->kind) {
+        case 0:
+            return;
+        case 7:
+            c1_lexer_token_cursor = c1_bss.quoted_workspace;
+            break;
+        case 109:
+            compiler_fatal(4);
+            break;
+        case 117:
+            ++depth;
+            break;
+        case 123:
+            if (depth) --depth;
+            else {
+                c1_bss.current_context.saved_frame->stream->Unread((unsigned)token);
+                return;
+            }
+            break;
+        case 127:
+            c1_bss.arenas[3].ClearUsed();
+            c1_lexer_token_cursor = c1_bss.quoted_workspace;
+            break;
+        }
+    }
+}
 /* RVA3f3ff */
 CompilerParserToken * __cdecl recover_parser_token(CompilerParserToken *, ...) { __asm { int 3 } return 0; }
 /* RVA3f4f1 */
@@ -10193,8 +10307,48 @@ extern "C" CompilerIrSymbol *__cdecl match_tag_type(CompilerIrSymbol *symbol, WO
     }
     return symbol;
 }
-extern "C" const char *__cdecl tag_type_name(WORD)
-{ __asm { int 3 } return NULL; }
+extern "C" const char *__cdecl tag_type_name(WORD flags)
+{
+    if (flags & 0x40) {
+        unsigned code = (flags & 0x4f) - 0x41;
+        switch (code) {
+        case 0: return "char";
+        case 1: return "short";
+        case 2: return "int";
+        case 3: return "long";
+        }
+        /* The original retains these overlapping cases in its second switch.
+         * The first three return in the preceding switch at this entry. */
+        switch (code) {
+        case 0: return "__int8";
+        case 1: return "__int16";
+        case 2: return "__int32";
+        case 11: return "__int64";
+        case 12: return "__int128";
+        default: return "";
+        }
+    }
+    if (flags & 0x100) {
+        switch (flags) {
+        case 0x106: return "float";
+        case 0x107: return "double";
+        case 0x108: return "long double";
+        default: return "";
+        }
+    }
+    if (flags & 0x400) {
+        if (!(c1_data.declaration_format_flags & 1)) {
+            if ((flags & 0x408) == 0x408) return "class";
+            if ((flags & 0x402) == 0x402) return "struct";
+            if ((flags & 0x404) == 0x404) return "union";
+        }
+        return "";
+    }
+    if (flags & 0x200) return "enum";
+    if (flags & 0x80) return "void";
+    if (flags & 0x800) return "__segment";
+    return "";
+}
 extern "C" CompilerIrSymbol *__cdecl lookup_tag_reference(CompilerNameEntry *, WORD,
     CompilerDeclarationApply *);
 extern "C" CompilerIrSymbol *__cdecl validate_tag_reference(CompilerIrSymbol *, WORD);

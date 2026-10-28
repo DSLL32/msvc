@@ -295,10 +295,256 @@ const char *__cdecl format_initializer_integer(const unsigned __int64 *, char *,
 CompilerDiagnosticText __cdecl build_diagnostic_declaration(CompilerIrSymbol *, CompilerType *, unsigned);
 const char *__cdecl diagnostic_text_data(CompilerDiagnosticText);
 }
-extern "C" CompilerDiagnosticText __cdecl build_diagnostic_declaration(CompilerIrSymbol *, CompilerType *, unsigned)
+extern "C" unsigned __cdecl create_diagnostic_text(void);
+extern "C" char *__cdecl reserve_diagnostic_text(unsigned, int, unsigned);
+extern "C" void __cdecl prepend_diagnostic_text(unsigned result, const char *text)
+{
+    unsigned length = strlen(text);
+    if (length) {
+        char *destination = reserve_diagnostic_text(result, 0, length);
+        text += length;
+        do { *destination-- = *--text; } while (--length);
+    }
+}
+extern "C" void __cdecl append_diagnostic_character(unsigned result, int character)
+{
+    char *byte = reserve_diagnostic_text(result, 1, 1);
+    *byte = (char)character;
+}
+extern "C" void __cdecl append_diagnostic_text(unsigned, const char *);
+extern "C" unsigned __cdecl describe_diagnostic_type(unsigned result, CompilerType *type,
+    int trailing_space, int mode)
+{
+    CompilerIrSymbol *owner;
+    if (!result) result = create_diagnostic_text();
+    if (!type) return result;
+    if (type->flags & 0x4000) prepend_diagnostic_text(result, "unsigned ");
+    if (type->flags & 0x8000) prepend_diagnostic_text(result, "signed ");
+    if (type->attributes & 0x100) prepend_diagnostic_text(result, "const ");
+    if (type->attributes & 0x200) prepend_diagnostic_text(result, "volatile ");
+    append_diagnostic_text(result, tag_type_name(type->flags));
+    if (trailing_space || (type->symbol_owner && !(c1_data.declaration_format_flags & 1)))
+        append_diagnostic_character(result, ' ');
+    owner = type->symbol_owner;
+    if (owner) {
+        if (owner->binding.name == c1_data.builtin_names.unnamed) {
+            c1_data.declaration_format_failure = tag_type_name(owner->value_type->flags);
+            return result;
+        }
+        append_diagnostic_text(result, owner->binding.name->name);
+        if (trailing_space) append_diagnostic_character(result, ' ');
+    }
+    return result;
+}
+typedef void (__cdecl *CompilerDiagnosticAppender)(unsigned, const char *);
+extern "C" void __cdecl release_diagnostic_text(unsigned);
+extern "C" unsigned __cdecl build_diagnostic_pointer_qualifier(unsigned, CompilerTypeList *)
 { __asm { int 3 } return 0; }
-extern "C" const char *__cdecl diagnostic_text_data(CompilerDiagnosticText)
-{ __asm { int 3 } return NULL; }
+extern "C" unsigned __cdecl describe_diagnostic_qualifiers(unsigned result,
+    CompilerDiagnosticAppender append, unsigned attributes, CompilerTypeList *parameters,
+    CompilerTypeShape *shape)
+{
+    static const struct { WORD flags; const char *text; } conventions[] = {
+        { 0x20, "__pascal " }, { 0x40, "__fastcall " },
+        { 0x10, "__cdecl " }, { 0x60, "__stdcall " },
+        { 0x50, "__syscall " }, { 0, "" }
+    };
+    unsigned convention = attributes & 0x70;
+    unsigned i;
+    for (i = 0; i < 6; ++i)
+        if (conventions[i].flags == convention) {
+            append(result, conventions[i].text);
+            break;
+        }
+    if (c1_data.options.language_extensions) {
+        if (attributes & 3) {
+            unsigned qualifier = build_diagnostic_pointer_qualifier(attributes, parameters);
+            append(result, diagnostic_text_data(qualifier));
+            release_diagnostic_text(qualifier);
+        }
+        if (shape && (shape->flags & 7) != 3 && (shape->flags & 7) != 1 &&
+            convention == 0x40)
+            append(result, "__fastcall ");
+    }
+    return result;
+}
+extern "C" void __cdecl prepend_diagnostic_character(unsigned result, int character)
+{
+    char *byte = reserve_diagnostic_text(result, 0, 1);
+    *byte = (char)character;
+}
+extern "C" unsigned __cdecl describe_diagnostic_parameters(unsigned result,
+    CompilerTypeList *parameters, unsigned flags)
+{
+    CompilerParameterBindings *bindings = c1_data.declaration_format_function ?
+        (CompilerParameterBindings *)c1_bss.parameter_scope_initial_value : NULL;
+    CompilerSymbolBinding *binding = bindings ? bindings->first : NULL;
+    CompilerIrSymbol *symbol = binding ? (CompilerIrSymbol *)((BYTE *)binding - 8) : NULL;
+    CompilerType **type = parameters->types;
+    int remaining = parameters->count;
+    c1_data.declaration_format_function = 0;
+    while (*type) {
+        unsigned text;
+        if (symbol) text = build_diagnostic_declaration(symbol, NULL, 0);
+        else text = build_diagnostic_declaration(NULL, *type, 0);
+        append_diagnostic_text(result, diagnostic_text_data(text));
+        release_diagnostic_text(text);
+        if (binding) {
+            binding = binding->next;
+            if (binding) symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
+        }
+        ++type;
+        if (--remaining <= 0) return result;
+        append_diagnostic_character(result, ',');
+    }
+    append_diagnostic_text(result, remaining ? "..." : "void");
+    return result;
+}
+extern "C" unsigned __cdecl describe_diagnostic_pointer(unsigned result, CompilerTypeShape *shape)
+{
+    unsigned attributes = shape->attributes;
+    if (attributes & 0x100) prepend_diagnostic_text(result, "const ");
+    if (attributes & 0x200) prepend_diagnostic_text(result, "volatile ");
+    prepend_diagnostic_character(result, '*');
+    if (c1_data.options.language_extensions)
+        return describe_diagnostic_qualifiers(result, prepend_diagnostic_text,
+            attributes, shape->parameters, shape);
+    return result;
+}
+extern "C" unsigned __cdecl describe_diagnostic_shape(unsigned result, CompilerTypeShape *shape)
+{
+    char number[80];
+    while (shape) {
+        switch (shape->flags & 7) {
+        case 2:
+            append_diagnostic_character(result, '[');
+            if (shape->value) {
+                format_buffer(number, "%d", 80, shape->value);
+                append_diagnostic_text(result, number);
+            }
+            append_diagnostic_character(result, ']');
+            shape = shape->base;
+            break;
+        case 4:
+            append_diagnostic_character(result, '(');
+            describe_diagnostic_parameters(result, shape->parameters, shape->flags);
+            append_diagnostic_character(result, ')');
+            shape = shape->base;
+            break;
+        case 1:
+        case 3:
+            describe_diagnostic_pointer(result, shape);
+            shape = shape->base;
+            if (shape) {
+                if (shape->flags & 1)
+                    append_diagnostic_character(result, ' ');
+                else {
+                    append_diagnostic_character(result, ')');
+                    prepend_diagnostic_character(result, '(');
+                }
+            }
+            break;
+        }
+    }
+    return result;
+}
+extern "C" unsigned __cdecl build_diagnostic_name(CompilerIrSymbol *symbol, CompilerType *type)
+{
+    unsigned result = create_diagnostic_text();
+    if (symbol) {
+        if (symbol->kind == 7 || symbol->kind == 8) {
+            CompilerTypeShape *function = symbol->value_type->shape;
+            result = describe_diagnostic_qualifiers(result, append_diagnostic_text,
+                function->attributes, function->parameters, function);
+        } else {
+            result = describe_diagnostic_qualifiers(result, append_diagnostic_text,
+                symbol->value_type->attributes, NULL, NULL);
+        }
+        if (symbol->binding.name != c1_data.builtin_names.formal_parameter)
+            append_diagnostic_text(result, symbol->binding.name->name);
+    }
+    if (type) return describe_diagnostic_shape(result, type->shape);
+    return result;
+}
+extern "C" CompilerSavedContextRecord *__cdecl find_diagnostic_text(unsigned handle)
+{
+    unsigned short index;
+    for (index = 0; index < c1_data.saved_context_count; ++index)
+        if (c1_data.saved_context_records[index].handle == handle)
+            return c1_data.saved_context_records + index;
+    return NULL;
+}
+extern "C" void __cdecl free_argument_allocation(void *);
+extern "C" char *__cdecl reserve_diagnostic_text(unsigned handle, int direction, unsigned count)
+{
+    CompilerSavedContextRecord *record = find_diagnostic_text(handle);
+    char *allocation, *result;
+    unsigned capacity;
+    if (!record) return NULL;
+    if (direction == 0) {
+        if (count > record->prefix_offset) {
+            capacity = (WORD)(count + record->capacity + 32);
+            allocation = (char *)allocate_compiler_memory(capacity);
+            memset(allocation, 0, capacity);
+            memcpy(allocation + count + 33,
+                (char *)record->allocation + record->prefix_offset + 1,
+                record->suffix_offset - record->prefix_offset - 1);
+            free_argument_allocation(record->allocation);
+            record->allocation = allocation;
+            record->capacity = capacity;
+            record->prefix_offset = count + 32;
+            /* The original adds this displacement to the old suffix cursor;
+             * it does not subtract the old prefix cursor. */
+            record->suffix_offset += count + 32;
+        }
+        result = (char *)record->allocation + (WORD)record->prefix_offset;
+        record->prefix_offset -= count;
+        return result;
+    }
+    if (direction == 1) {
+        if (count + record->suffix_offset >= record->capacity) {
+            capacity = (WORD)(count + record->capacity + 32);
+            allocation = (char *)allocate_compiler_memory(capacity);
+            memset(allocation, 0, capacity);
+            memcpy(allocation, record->allocation, record->suffix_offset);
+            free_argument_allocation(record->allocation);
+            record->allocation = allocation;
+            record->capacity = capacity;
+        }
+        result = (char *)record->allocation + (WORD)record->suffix_offset;
+        record->suffix_offset += count;
+        return result;
+    }
+    return NULL;
+}
+extern "C" void __cdecl append_diagnostic_text(unsigned result, const char *text)
+{
+    unsigned length = strlen(text);
+    char *bytes = reserve_diagnostic_text(result, 1, length);
+    memcpy(bytes, text, length);
+}
+extern "C" void __cdecl release_diagnostic_text(unsigned handle)
+{
+    find_diagnostic_text(handle)->handle = 0;
+}
+extern "C" CompilerDiagnosticText __cdecl build_diagnostic_declaration(CompilerIrSymbol *symbol,
+    CompilerType *type, unsigned mode)
+{
+    unsigned result = create_diagnostic_text();
+    unsigned name;
+    if (!type && !symbol) return result;
+    if (!type) type = symbol->value_type;
+    if (type) describe_diagnostic_type(result, type, 1, 0);
+    name = build_diagnostic_name(symbol, type);
+    append_diagnostic_text(result, diagnostic_text_data(name));
+    release_diagnostic_text(name);
+    return result;
+}
+extern "C" const char *__cdecl diagnostic_text_data(CompilerDiagnosticText handle)
+{
+    CompilerSavedContextRecord *record = find_diagnostic_text(handle);
+    return record ? (char *)record->allocation + record->prefix_offset + 1 : NULL;
+}
 
 extern "C" int __cdecl format_buffer_v(char *buffer, const char *format,
     unsigned size, va_list arguments)

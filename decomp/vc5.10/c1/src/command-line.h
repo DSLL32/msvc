@@ -111,7 +111,7 @@ typedef struct CompilerOptionBss {
     struct CompilerVector *forced_includes;
     int show_includes;
     struct CompilerVector *defines;
-    int prototypes_only;
+    int prototypes_only; /* RVA54c88, -Zg; shared function-output mode owner. */
     char *preprocessed_file;
     char *browser_file; /* RVA54de8, -FR; also enables nested browser references. */
     int preprocess_stdout;

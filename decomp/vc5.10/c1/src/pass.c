@@ -52,6 +52,9 @@ int __cdecl initialize_compiler_pass(void)
         saved->browser_header_position = c1_data.browser_header_position;
         saved->browser_generation = c1_data.browser_generation;
         saved->browser_scope_depth = c1_data.browser_scope_depth;
+        saved->declaration_format_failure = c1_data.declaration_format_failure;
+        saved->declaration_format_function = c1_data.declaration_format_function;
+        saved->declaration_format_flags = c1_data.declaration_format_flags;
         c1_reuse_state = 0;
     } else {
         saved = c1_bss.saved_data;
@@ -93,6 +96,9 @@ int __cdecl initialize_compiler_pass(void)
         c1_data.browser_header_position = saved->browser_header_position;
         c1_data.browser_generation = saved->browser_generation;
         c1_data.browser_scope_depth = saved->browser_scope_depth;
+        c1_data.declaration_format_failure = saved->declaration_format_failure;
+        c1_data.declaration_format_function = saved->declaration_format_function;
+        c1_data.declaration_format_flags = saved->declaration_format_flags;
         memset(&c1_bss, 0, sizeof(c1_bss));
         c1_bss.saved_data = saved;
         c1_reuse_state = !c1_pass_mode;

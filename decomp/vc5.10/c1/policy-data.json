@@ -98,7 +98,7 @@
           ],
           "evidence": {
             "path": "preprocessor-imports.json",
-            "sha256": "194d6f7a543489065b4715ee2afb8948e7a78634beee4549be9116c10b7b1948"
+            "sha256": "45a67d8c8f2b2bcffffc876bb5d4b90bb98ecefb31fc075210b3430e5c0e0a70"
           }
         },
         {
@@ -429,11 +429,12 @@
           "preserves": [
             "edi",
             "esi",
-            "ebp"
+            "ebp",
+            "ebx"
           ],
           "evidence": {
             "path": "preprocessor-imports.json",
-            "sha256": "194d6f7a543489065b4715ee2afb8948e7a78634beee4549be9116c10b7b1948"
+            "sha256": "45a67d8c8f2b2bcffffc876bb5d4b90bb98ecefb31fc075210b3430e5c0e0a70"
           }
         },
         {
@@ -724,7 +725,7 @@
           ],
           "evidence": {
             "path": "preprocessor-imports.json",
-            "sha256": "194d6f7a543489065b4715ee2afb8948e7a78634beee4549be9116c10b7b1948"
+            "sha256": "45a67d8c8f2b2bcffffc876bb5d4b90bb98ecefb31fc075210b3430e5c0e0a70"
           }
         },
         {
@@ -736,7 +737,7 @@
           ],
           "evidence": {
             "path": "preprocessor-imports.json",
-            "sha256": "194d6f7a543489065b4715ee2afb8948e7a78634beee4549be9116c10b7b1948"
+            "sha256": "45a67d8c8f2b2bcffffc876bb5d4b90bb98ecefb31fc075210b3430e5c0e0a70"
           }
         },
         {
@@ -748,7 +749,7 @@
           ],
           "evidence": {
             "path": "preprocessor-imports.json",
-            "sha256": "194d6f7a543489065b4715ee2afb8948e7a78634beee4549be9116c10b7b1948"
+            "sha256": "45a67d8c8f2b2bcffffc876bb5d4b90bb98ecefb31fc075210b3430e5c0e0a70"
           }
         },
         {
@@ -761,7 +762,7 @@
           ],
           "evidence": {
             "path": "preprocessor-imports.json",
-            "sha256": "194d6f7a543489065b4715ee2afb8948e7a78634beee4549be9116c10b7b1948"
+            "sha256": "45a67d8c8f2b2bcffffc876bb5d4b90bb98ecefb31fc075210b3430e5c0e0a70"
           }
         },
         {
@@ -773,7 +774,7 @@
           ],
           "evidence": {
             "path": "preprocessor-imports.json",
-            "sha256": "194d6f7a543489065b4715ee2afb8948e7a78634beee4549be9116c10b7b1948"
+            "sha256": "45a67d8c8f2b2bcffffc876bb5d4b90bb98ecefb31fc075210b3430e5c0e0a70"
           }
         },
         {
@@ -785,7 +786,7 @@
           ],
           "evidence": {
             "path": "preprocessor-imports.json",
-            "sha256": "194d6f7a543489065b4715ee2afb8948e7a78634beee4549be9116c10b7b1948"
+            "sha256": "45a67d8c8f2b2bcffffc876bb5d4b90bb98ecefb31fc075210b3430e5c0e0a70"
           }
         },
         {
@@ -797,7 +798,7 @@
           ],
           "evidence": {
             "path": "preprocessor-imports.json",
-            "sha256": "194d6f7a543489065b4715ee2afb8948e7a78634beee4549be9116c10b7b1948"
+            "sha256": "45a67d8c8f2b2bcffffc876bb5d4b90bb98ecefb31fc075210b3430e5c0e0a70"
           }
         },
         {
@@ -3363,11 +3364,11 @@
             [
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 5100
+                "offset": 5620
               },
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 5132
+                "offset": 5652
               }
             ]
           ],
@@ -3375,40 +3376,40 @@
             {
               "site": {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 4297
+                "offset": 4818
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4320
+                  "offset": 4841
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4447
+                  "offset": 4966
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4320
+                  "offset": 4841
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4334
+                  "offset": 4853
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4304
+                  "offset": 4825
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4304
+                  "offset": 4825
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4304
+                  "offset": 4825
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 4406
+                  "offset": 4925
                 }
               ]
             }
@@ -3549,11 +3550,11 @@
             [
               {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1801
+                "offset": 1786
               },
               {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1915
+                "offset": 1900
               }
             ]
           ],
@@ -3561,88 +3562,88 @@
             {
               "site": {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 725
+                "offset": 708
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 732
+                  "offset": 715
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 741
+                  "offset": 724
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 750
+                  "offset": 733
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 759
+                  "offset": 742
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 759
+                  "offset": 742
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 766
+                  "offset": 749
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1214
+                "offset": 1198
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1343
+                  "offset": 1327
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1380
+                  "offset": 1364
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1417
+                  "offset": 1401
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1454
+                  "offset": 1438
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1287
+                "offset": 1271
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1505
+                  "offset": 1490
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1524
+                  "offset": 1509
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1537
+                  "offset": 1522
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1554
+                  "offset": 1539
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 1555
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
                   "offset": 1570
-                },
-                {
-                  "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1585
                 }
               ]
             }
@@ -8061,6 +8062,313 @@
       "_write_browser_string": {
         "register_imports": {
           "require_all_register_calls_resolved": true
+        }
+      },
+      "_tag_type_name": {
+        "original": {
+          "text_data": [
+            [
+              275052692,
+              275052745
+            ]
+          ],
+          "switches": {
+            "275000498": [
+              275000505,
+              275000511,
+              275000517,
+              275000523
+            ],
+            "275000546": [
+              275000553,
+              275000559,
+              275000565,
+              275000571,
+              275000577,
+              275000731
+            ]
+          }
+        },
+        "rebuilt": {
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_tag_type_name",
+                "offset": 58
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_tag_type_name",
+                  "offset": 65
+                },
+                {
+                  "rebuilt_symbol": "_tag_type_name",
+                  "offset": 75
+                },
+                {
+                  "rebuilt_symbol": "_tag_type_name",
+                  "offset": 85
+                },
+                {
+                  "rebuilt_symbol": "_tag_type_name",
+                  "offset": 95
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_tag_type_name",
+                "offset": 128
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_tag_type_name",
+                  "offset": 135
+                },
+                {
+                  "rebuilt_symbol": "_tag_type_name",
+                  "offset": 145
+                },
+                {
+                  "rebuilt_symbol": "_tag_type_name",
+                  "offset": 155
+                },
+                {
+                  "rebuilt_symbol": "_tag_type_name",
+                  "offset": 165
+                },
+                {
+                  "rebuilt_symbol": "_tag_type_name",
+                  "offset": 175
+                },
+                {
+                  "rebuilt_symbol": "_tag_type_name",
+                  "offset": 185
+                }
+              ]
+            }
+          ],
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_tag_type_name",
+                "offset": 509
+              },
+              {
+                "rebuilt_symbol": "_tag_type_name",
+                "offset": 562
+              }
+            ]
+          ]
+        }
+      },
+      "_describe_diagnostic_shape": {
+        "original": {
+          "text_data": [
+            [
+              275052748,
+              275052764
+            ]
+          ],
+          "switches": {
+            "275001518": [
+              275001648,
+              275001525,
+              275001648,
+              275001604
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_describe_diagnostic_shape",
+                "offset": 321
+              },
+              {
+                "rebuilt_symbol": "_describe_diagnostic_shape",
+                "offset": 337
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_describe_diagnostic_shape",
+                "offset": 52
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_describe_diagnostic_shape",
+                  "offset": 219
+                },
+                {
+                  "rebuilt_symbol": "_describe_diagnostic_shape",
+                  "offset": 59
+                },
+                {
+                  "rebuilt_symbol": "_describe_diagnostic_shape",
+                  "offset": 219
+                },
+                {
+                  "rebuilt_symbol": "_describe_diagnostic_shape",
+                  "offset": 152
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_format_diagnostic_type": {
+        "original": {
+          "text_data": [
+            [
+              275052764,
+              275052796
+            ]
+          ],
+          "switches": {
+            "275002311": [
+              275002404,
+              275002318,
+              275002390,
+              275002376,
+              275002383,
+              275002362,
+              275002369,
+              275002397
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_format_diagnostic_type",
+                "offset": 178
+              },
+              {
+                "rebuilt_symbol": "_format_diagnostic_type",
+                "offset": 210
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_format_diagnostic_type",
+                "offset": 38
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_format_diagnostic_type",
+                  "offset": 45
+                },
+                {
+                  "rebuilt_symbol": "_format_diagnostic_type",
+                  "offset": 54
+                },
+                {
+                  "rebuilt_symbol": "_format_diagnostic_type",
+                  "offset": 63
+                },
+                {
+                  "rebuilt_symbol": "_format_diagnostic_type",
+                  "offset": 72
+                },
+                {
+                  "rebuilt_symbol": "_format_diagnostic_type",
+                  "offset": 81
+                },
+                {
+                  "rebuilt_symbol": "_format_diagnostic_type",
+                  "offset": 90
+                },
+                {
+                  "rebuilt_symbol": "_format_diagnostic_type",
+                  "offset": 99
+                },
+                {
+                  "rebuilt_symbol": "_format_diagnostic_type",
+                  "offset": 108
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_skip_declaration_tokens": {
+        "original": {
+          "text_data": [
+            [
+              275051876,
+              275052032
+            ]
+          ],
+          "switches": {
+            "274985911": [
+              274985980,
+              274985946,
+              274985954,
+              274985925,
+              274985918,
+              274985928,
+              274985884
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_skip_declaration_tokens",
+                "offset": 172
+              },
+              {
+                "rebuilt_symbol": "_skip_declaration_tokens",
+                "offset": 328
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_skip_declaration_tokens",
+                "offset": 53
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_skip_declaration_tokens",
+                  "offset": 60
+                },
+                {
+                  "rebuilt_symbol": "_skip_declaration_tokens",
+                  "offset": 62
+                },
+                {
+                  "rebuilt_symbol": "_skip_declaration_tokens",
+                  "offset": 74
+                },
+                {
+                  "rebuilt_symbol": "_skip_declaration_tokens",
+                  "offset": 86
+                },
+                {
+                  "rebuilt_symbol": "_skip_declaration_tokens",
+                  "offset": 97
+                },
+                {
+                  "rebuilt_symbol": "_skip_declaration_tokens",
+                  "offset": 143
+                },
+                {
+                  "rebuilt_symbol": "_skip_declaration_tokens",
+                  "offset": 163
+                }
+              ]
+            }
+          ]
         }
       }
     },

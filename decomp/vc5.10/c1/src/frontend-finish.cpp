@@ -295,7 +295,7 @@ extern "C" void __cdecl finalize_function_directory(void)
                 c1_data.ir_symbol_state_ready = record->flags & 1;
                 c1_data.disable_inline_records = (record->flags >> 2) & 1;
                 c1_data.emit_global_locations = (record->flags >> 5) & 1;
-                if (c1_data.options.debug_info && !c1_bss.function_output_mode) {
+                if (c1_data.options.debug_info && !c1_bss.options.prototypes_only) {
                     type = symbol->value_type;
                     prepare_debug_type(type);
                     if (type->symbol_owner && type->symbol_owner->kind == 4 &&

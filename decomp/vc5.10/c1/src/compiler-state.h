@@ -220,6 +220,9 @@ typedef struct CompilerInitializedState {
     long browser_header_position; /* RVA5e3c8, initial0; ftell before PCH browser records. */
     BYTE browser_generation; /* RVA5eef0, initial0; browser record generation. */
     int browser_scope_depth; /* RVA5e3d8, initial0; browser scope markers. */
+    const char *declaration_format_failure; /* RVA5f4e8, initialNULL; unprintable base-type spelling. */
+    int declaration_format_function; /* RVA5f4ec, initial0; formatting a kind7/8 symbol. */
+    BYTE declaration_format_flags; /* RVA5f4f0, initial0; bit0 suppresses tagged-type keywords. */
 } CompilerInitializedState;
 typedef char CompilerInitializedState_fits_snapshot[sizeof(CompilerInitializedState) <= 6548 ? 1 : -1];
 #define abstract_symbol_free symbol_cache.known.head9
@@ -494,7 +497,6 @@ typedef struct CompilerBss {
     struct CompilerParserNode *function_entry_label; /* RVA54fc8, BSS; label builder result */
     long function_expression_offset; /* RVA550fc, BSS; ftell of expression stream */
     long function_symbol_offset; /* RVA54f34, BSS; ftell of symbol stream */
-    unsigned function_output_mode; /* RVA54c88, BSS; current consumers test only truth */
     unsigned parameter_symbol_count; /* RVA54fd0, BSS; writer consumes signed low WORD */
     unsigned lexical_skip_mode; /* RVA54da0, BSS; debugger function input */
     unsigned parameter_scope_value; /* RVA5401c, BSS; current parameter scope value */
@@ -622,6 +624,7 @@ extern CompilerPdbContext c1_output_pdb_context;
 extern CompilerPdbContext *c1_current_pdb_context;
 extern CompilerInitializedState c1_data;
 extern CompilerBss c1_bss;
+/* Source-only BYTE at RVA5f4f0; guarded before all reads, no default/snapshot claim. */
 extern CompilerRealRangeScratch c1_real_range_scratch;
 extern int c1_reuse_state;
 extern C1Initializer const c1_initialization_callbacks[34];

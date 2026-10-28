@@ -218,10 +218,8 @@ extern "C" unsigned __cdecl pack_option_flags(void)
             result |= bit;
     return result;
 }
-/* Shared lexer scratch: the original append bound at40f61 is base55120
- * through55920. Current native -V use is held, so this source-only owner has
- * no modeled byte defaults, reset or equality claim yet. */
-char c1_lexer_token_text[2048];
+/* The version literal shares the existing lexer spelling workspace55120. */
+#define c1_lexer_token_text ((char *)c1_bss.quoted_workspace)
 extern "C" void __cdecl initialize_string_literal_type(CompilerParserNode *);
 extern "C" void __cdecl record_version_literal(CompilerParserNode *);
 extern "C" void __cdecl prepare_translation_unit(void)

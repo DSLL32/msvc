@@ -370,10 +370,11 @@ static int type_arena_snapshot(void)
     CompilerIrSymbol owned_symbols[2];
     CompilerSourceFrame owned_frames[3];
     unsigned i;
-    if (c1_data.function_directory_head || c1_data.function_directory_current || c1_data.function_directory_index != 19 || c1_data.function_debug_handle || c1_data.function_cleanup_flags || c1_data.debug_symbol_index || c1_data.function_scope_cache || c1_data.source_exhausted || c1_data.final_input_token_emitted || c1_data.omit_external_names || c1_data.pch_type_record_value || c1_data.pch_record_name || c1_data.global_options || c1_data.pch_expression_stream_open || c1_data.pch_primary_stream_open || c1_data.pch_secondary_stream_open || c1_data.pch_cleanup_done || c1_data.saved_context_records || c1_data.saved_context_count || c1_bss.function_cleanup_context || c1_bss.token_input_finished || c1_bss.pending_scope_symbols || c1_data.try_depth || c1_data.finally_depth || c1_data.exception_filter_depth || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_data.label_symbols || c1_bss.function_entry_label || c1_data.line_range_warning_enabled != 1 || c1_data.function_record_flags || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_data.function_label_state_first != -1 || c1_data.function_label_state_second != -1 || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_data.parser_flags || c1_data.function_return_type || c1_data.function_label_depth || c1_data.local_symbol_limit != 0x3fffff || c1_data.function_reference_epoch != 1 || c1_data.disable_inline_records || c1_data.function_context || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting || c1_bss.declaration_depth || c1_bss.declaration_control[0].flags || c1_bss.type_description_depth || c1_data.lexer_flags || c1_data.active_parser || c1_bss.parser_value.declaration_flags || c1_bss.browser_context_value || c1_data.debug_module_kind != 2 || c1_data.source_frames || c1_data.root_source_frame || c1_data.free_source_frames ||
+    if (c1_data.function_directory_head || c1_data.function_directory_current || c1_data.function_directory_index != 19 || c1_data.function_debug_handle || c1_data.function_cleanup_flags || c1_data.debug_symbol_index || c1_data.function_scope_cache || c1_data.source_exhausted || c1_data.final_input_token_emitted || c1_data.omit_external_names || c1_data.pch_type_record_value || c1_data.pch_record_name || c1_data.global_options || c1_data.pch_expression_stream_open || c1_data.pch_primary_stream_open || c1_data.pch_secondary_stream_open || c1_data.pch_cleanup_done || c1_data.saved_context_records || c1_data.saved_context_count || c1_bss.function_cleanup_context || c1_bss.token_input_finished || c1_bss.pending_scope_symbols || c1_data.try_depth || c1_data.finally_depth || c1_data.exception_filter_depth || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_data.label_symbols || c1_bss.function_entry_label || c1_data.line_range_warning_enabled != 1 || c1_data.function_record_flags || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.options.prototypes_only || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_data.function_label_state_first != -1 || c1_data.function_label_state_second != -1 || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_data.parser_flags || c1_data.function_return_type || c1_data.function_label_depth || c1_data.local_symbol_limit != 0x3fffff || c1_data.function_reference_epoch != 1 || c1_data.disable_inline_records || c1_data.function_context || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting || c1_bss.declaration_depth || c1_bss.declaration_control[0].flags || c1_bss.type_description_depth || c1_data.lexer_flags || c1_data.active_parser || c1_bss.parser_value.declaration_flags || c1_bss.browser_context_value || c1_data.debug_module_kind != 2 || c1_data.source_frames || c1_data.root_source_frame || c1_data.free_source_frames ||
         c1_data.source_descriptor != -1 || c1_data.conditional_depth != -1 ||
         c1_bss.source_cursor || c1_data.type_arena_kind != 3 ||
         c1_data.inline_depth != 8 || c1_data.inline_recursion ||
+        c1_data.declaration_format_failure || c1_data.declaration_format_function || c1_data.declaration_format_flags ||
         c1_bss.forced_include_name || c1_bss.browser_stream || c1_bss.options.browser_file || c1_data.browser_last_line || c1_data.browser_absolute_line || c1_data.browser_output_stream || c1_data.browser_suppressed || c1_data.browser_header_position || c1_data.browser_generation || c1_data.browser_scope_depth ||
         c1_data.pragma_restore_options != 0x03fff800 || c1_data.pragma_disable_options != 0x037eb800 ||
         c1_data.anonymous_identifier_count != 1 || c1_bss.runtime_initializer_pending || c1_data.segment_symbol_cache_index != 9 || c1_data.declaration_context_map ||
@@ -404,6 +405,9 @@ static int type_arena_snapshot(void)
     c1_data.browser_header_position = 113;
     c1_data.browser_generation = 137;
     c1_data.browser_scope_depth = 157;
+    c1_data.declaration_format_failure = (const char *)&owned_symbols[0];
+    c1_data.declaration_format_function = 1;
+    c1_data.declaration_format_flags = 0xa5;
     c1_data.macro_reset_value = 83;
     c1_data.emit_global_locations = 37;
     c1_data.debug_module_kind = 37;
@@ -502,6 +506,7 @@ static int type_arena_snapshot(void)
         saved->anonymous_global_symbol != &owned_symbols[0] ||
         saved->local_size_symbol != &owned_symbols[1]) return 0;
     if (saved->abstract_symbol_free != &owned_symbols[0].binding) return 0;
+    if (saved->declaration_format_failure != (const char *)&owned_symbols[0] || saved->declaration_format_function != 1 || saved->declaration_format_flags != 0xa5) return 0;
     /* The cache gaps remain unmodeled. Distinct owned storage
      * sentinels detect copying it along with its separately known head9. */
     memset(saved->symbol_cache.known.unmodeled_00, 0xa5, sizeof(saved->symbol_cache.known.unmodeled_00));
@@ -525,6 +530,9 @@ static int type_arena_snapshot(void)
     c1_data.browser_header_position = 127;
     c1_data.browser_generation = 149;
     c1_data.browser_scope_depth = 163;
+    c1_data.declaration_format_failure = (const char *)&owned_symbols[1];
+    c1_data.declaration_format_function = 0;
+    c1_data.declaration_format_flags = 0x52;
     c1_data.macro_reset_value = 97;
     c1_data.emit_global_locations = 61;
     c1_data.debug_module_kind = 61;
@@ -538,7 +546,7 @@ static int type_arena_snapshot(void)
     c1_bss.function_symbol_offset = 43;
     c1_data.function_label_state_first = 61;
     c1_data.function_label_state_second = 67;
-    c1_bss.function_output_mode = 43;
+    c1_bss.options.prototypes_only = 43;
     c1_bss.parameter_symbol_count = 67;
     c1_bss.lexical_skip_mode = 37;
     c1_bss.case_label = (struct CompilerParserNode *)&c1_bss.literal;
@@ -657,7 +665,7 @@ static int type_arena_snapshot(void)
     for (i = 0; i < sizeof(c1_bss.declaration_specs[0]); ++i)
         if (c1_bss.declaration_specs[0][i]) return 0;
     if (c1_bss.forced_include_name || c1_bss.browser_stream || c1_bss.options.browser_file || c1_bss.browser_last_symbol) return 0;
-    if (c1_bss.runtime_initializer_pending || c1_bss.dereferenced_shape_value || c1_bss.token_input_finished || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_bss.function_entry_label || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting ||
+    if (c1_bss.runtime_initializer_pending || c1_bss.dereferenced_shape_value || c1_bss.token_input_finished || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_bss.function_entry_label || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.options.prototypes_only || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting ||
         c1_bss.declaration_control[1].flags || c1_bss.declaration_depth || c1_bss.declaration_control[0].flags ||
         c1_bss.pending_scope_symbols || c1_data.try_depth || c1_data.finally_depth || c1_data.exception_filter_depth ||
         c1_bss.type_description_depth || c1_bss.type_descriptions[1].flags ||
@@ -671,6 +679,9 @@ static int type_arena_snapshot(void)
         c1_data.browser_header_position == 113 && saved->browser_header_position == 113 &&
         c1_data.browser_generation == 137 && saved->browser_generation == 137 &&
         c1_data.browser_scope_depth == 157 && saved->browser_scope_depth == 157 &&
+        c1_data.declaration_format_failure == (const char *)&owned_symbols[0] && saved->declaration_format_failure == (const char *)&owned_symbols[0] &&
+        c1_data.declaration_format_function == 1 && saved->declaration_format_function == 1 &&
+        c1_data.declaration_format_flags == 0xa5 && saved->declaration_format_flags == 0xa5 &&
         c1_data.function_directory_head == (struct CompilerFunctionDirectoryBlock *)&owned_symbols[0] &&
         c1_data.function_directory_current == (struct CompilerFunctionDirectoryBlock *)&owned_symbols[1] &&
         c1_data.function_directory_index == 7 && c1_data.function_debug_handle == 37 && c1_data.function_cleanup_flags == 71 && c1_data.debug_symbol_index == 79 && c1_data.function_scope_cache == &owned_symbols[1] && c1_data.source_exhausted == 17 && c1_data.final_input_token_emitted == 29 && c1_data.omit_external_names == 37 && c1_data.pch_type_record_value == 0x1234 && c1_data.pch_record_name == (const char *)&owned_symbols[0] && c1_data.global_options == (struct CompilerGlobalOption *)&owned_symbols[1] && c1_data.pch_expression_stream_open == 17 && c1_data.pch_primary_stream_open == 19 && c1_data.pch_secondary_stream_open == 23 && c1_data.pch_cleanup_done == 29 && c1_data.saved_context_records == (struct CompilerSavedContextRecord *)&owned_symbols[0] && c1_data.saved_context_count == 17 &&

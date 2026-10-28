@@ -208,7 +208,8 @@ CompilerInitializedState c1_data = {
     0, 0, NULL, /* Diagnostic prefix length, line and source. */
     0, 0, NULL, /* Browser last line, absolute mode and current output stream. */
     0, 0, 0, /* Browser suppression, header position and generation. */
-    0 /* Browser scope depth. */
+    0, /* Browser scope depth. */
+    0, 0, 0 /* Declaration-format failure marker, function flag and spelling flags. */
 
 };
 CompilerBss c1_bss;

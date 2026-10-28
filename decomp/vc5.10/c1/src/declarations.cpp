@@ -75,7 +75,7 @@ struct DeclarationTagNameView {
     !(t)->shape->base && (t)->symbol_owner && (t)->symbol_owner->kind == 4 && \
     ((t)->symbol_owner->flags & 1))
 
-#define STDCALL_INT_FUNCTION(t) ((t) && (t)->flags == 0x63 && (t)->attributes == 0x60 && \
+#define STDCALL_INT_FUNCTION(t) ((t) && ((t)->flags == 0x63 || (t)->flags == 0x4063) && (t)->attributes == 0x60 && \
     (t)->shape && ((t)->shape->flags & 7) == 4 && \
     (t)->shape->attributes == 0x60 && !(t)->shape->base)
 
@@ -130,6 +130,11 @@ struct DeclarationTagNameView {
 
 #define CONST_CHAR_POINTER(t) ((t) && (t)->flags == 0x61 && (t)->attributes == 0x100 && \
     (t)->shape && (t)->shape->flags == 1 && !(t)->shape->attributes && !(t)->shape->base)
+
+/* Encountered packet-prototype parameter; no pointee storage is read. */
+#define CONST_UNSIGNED_CHAR_POINTER(t) ((t) && (t)->flags == 0x4061 && \
+    (t)->attributes == 0x100 && !(t)->auxiliary && (t)->shape && \
+    (t)->shape->flags == 1 && !(t)->shape->attributes && !(t)->shape->base)
 
 #define CONST_CHAR_POINTER_ARRAY(t) ((t) && (t)->flags == 0x61 && (t)->attributes == 0x100 && \
     (t)->shape && (t)->shape->flags == 2 && !(t)->shape->attributes && \
@@ -200,11 +205,11 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
           !(original.flags == 0x20003 && symbol->kind == 10 && declarator &&
             declarator->resolved_type == c1_data.builtin_types.type_0063) &&
           !(original.flags == 0x1001 && symbol->kind == 10 && declarator &&
-            (CDECL_INT_FUNCTION(declarator->resolved_type) || CDECL_RECORD_FUNCTION(declarator->resolved_type) || INT_ARRAY_TYPE(declarator->resolved_type)))) ||
+            (CDECL_INT_FUNCTION(declarator->resolved_type) || CDECL_RECORD_FUNCTION(declarator->resolved_type) || STDCALL_INT_FUNCTION(declarator->resolved_type) || INT_ARRAY_TYPE(declarator->resolved_type)))) ||
         original.context || (symbol->kind != 10 && symbol->kind != 2 && symbol->kind != 3 && symbol->kind != 11 &&
         !(symbol->kind == 12 && declarator && declarator->resolved_type &&
-          (CDECL_INT_CALLBACK(declarator->resolved_type) || SCALAR_ARITHMETIC_TYPE(declarator->resolved_type) ||
-           VOLATILE_SHORT_POINTER(declarator->resolved_type) || CONST_CHAR_POINTER(declarator->resolved_type) ||
+          (DECLARED_INT_CALLBACK(declarator->resolved_type) || SCALAR_ARITHMETIC_TYPE(declarator->resolved_type) ||
+           VOLATILE_SHORT_POINTER(declarator->resolved_type) || CONST_CHAR_POINTER(declarator->resolved_type) || CONST_UNSIGNED_CHAR_POINTER(declarator->resolved_type) ||
            CONST_INT_POINTER(declarator->resolved_type) ||
            COMPLETE_RECORD_VALUE(declarator->resolved_type) || COMPLETE_RECORD_POINTER(declarator->resolved_type) ||
            declarator->resolved_type == c1_data.builtin_types.type_0080 ||
@@ -276,8 +281,8 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
               !type->shape->attributes && !type->shape->base && type->symbol_owner &&
               type->symbol_owner->kind == 4) &&
             symbol->kind != 7 && symbol->kind != 11 &&
-            !(symbol->kind == 12 && (CDECL_INT_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
-              VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_INT_POINTER(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
+            !(symbol->kind == 12 && (DECLARED_INT_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
+              VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_UNSIGNED_CHAR_POINTER(type) || CONST_INT_POINTER(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
               type == c1_data.builtin_types.type_0080 ||
               type == c1_data.builtin_types.type_0063 ||
               type == c1_data.builtin_types.type_4063_first ||
@@ -427,7 +432,7 @@ extern "C" CompilerIrSymbol *__cdecl declare_declarator(
         (flags != 0x20 && flags != 7 && flags != 3 &&
          !(flags == 0x40020 && symbol->kind == 1 && STDCALL_INT_FUNCTION(declarator->resolved_type)) &&
          !(flags == 0x20003 && symbol->kind == 1 && declarator->resolved_type == c1_data.builtin_types.type_0063) &&
-         !(flags == 0x1001 && symbol->kind == 1 && (CDECL_INT_FUNCTION(declarator->resolved_type) || CDECL_RECORD_FUNCTION(declarator->resolved_type) || INT_ARRAY_TYPE(declarator->resolved_type)))) || context) {
+         !(flags == 0x1001 && symbol->kind == 1 && (CDECL_INT_FUNCTION(declarator->resolved_type) || CDECL_RECORD_FUNCTION(declarator->resolved_type) || STDCALL_INT_FUNCTION(declarator->resolved_type) || INT_ARRAY_TYPE(declarator->resolved_type)))) || context) {
 #ifdef __linux__
         recon_unsupported("declaration publication flags or symbol alternative is not yet modeled");
 #else
@@ -843,7 +848,7 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
     } else if (symbol->kind == 11 || symbol->kind == 12) {
         if (typedef_name || !(DECLARED_INT_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
             (symbol->kind == 11 && type->flags == 0x62 && !type->attributes && !shape && !type->auxiliary) ||
-            VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_INT_POINTER(type) || CONST_INT_MATRIX(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
+            VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_UNSIGNED_CHAR_POINTER(type) || CONST_INT_POINTER(type) || CONST_INT_MATRIX(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
             type == c1_data.builtin_types.type_0063 ||
             type == c1_data.builtin_types.type_4063_first ||
             (shape && ((shape->flags & 7) == 1 ||

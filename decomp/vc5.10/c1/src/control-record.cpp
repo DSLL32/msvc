@@ -55,7 +55,7 @@ extern "C" void __cdecl emit_control_record(int code)
     unsigned value, operand;
     if (c1_data.debug_module_kind == 4) return;
     if (!c1_data.c9_il && code != 11 && !(c1_data.function_record_flags & 0x1000)) return;
-    if (c1_bss.function_output_mode) return;
+    if (c1_bss.options.prototypes_only) return;
 #ifdef RECON_NATIVE_TEST
     if (!c1_data.c9_il || code < 0 || code > 36)
         recon_unsupported("non-IL or unknown control record is not yet modeled");

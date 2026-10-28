@@ -13,6 +13,42 @@ extern "C" unsigned __cdecl create_diagnostic_text(void);
 extern "C" void __cdecl restore_type_context(void);
 extern "C" void __cdecl cleanup_saved_contexts(void);
 extern "C" char *__cdecl trim_include_name(char *, char *);
+extern "C" void __cdecl prepend_diagnostic_text(unsigned, const char *);
+extern "C" void __cdecl append_diagnostic_text(unsigned, const char *);
+extern "C" void __cdecl append_diagnostic_character(unsigned, int);
+extern "C" const char *__cdecl diagnostic_text_data(unsigned);
+extern "C" void __cdecl release_diagnostic_text(unsigned);
+extern "C" char *__cdecl reserve_diagnostic_text(unsigned, int, unsigned);
+
+extern "C" int c1_test_diagnostic_text_growth(void)
+{
+    unsigned handle = create_diagnostic_text();
+    CompilerSavedContextRecord *row = c1_data.saved_context_records;
+    char tail[101];
+    memset(tail, 'x', 100);
+    tail[100] = 0;
+    prepend_diagnostic_text(handle, "volatile ");
+    prepend_diagnostic_text(handle, "const ");
+    append_diagnostic_character(handle, '*');
+    if (strcmp(diagnostic_text_data(handle), "const volatile *") ||
+        row->prefix_offset != 49 || row->suffix_offset != 66) return 0;
+    ((BYTE *)row->allocation)[40] = 0xa5;
+    append_diagnostic_text(handle, tail);
+    const char *text = diagnostic_text_data(handle);
+    if (row->capacity != 260 || row->prefix_offset != 49 || row->suffix_offset != 166 ||
+        ((BYTE *)row->allocation)[40] != 0xa5 || strncmp(text, "const volatile *", 16) ||
+        memcmp(text + 16, tail, 101) || reserve_diagnostic_text(handle + 1000, 1, 3)) return 0;
+    void *allocation = row->allocation;
+    release_diagnostic_text(handle);
+    if (row->handle || row->allocation != allocation ||
+        create_diagnostic_text() != handle + 1 || row->allocation != allocation) return 0;
+    for (unsigned i = 0; i < row->capacity; ++i)
+        if (((BYTE *)row->allocation)[i]) return 0;
+    cleanup_saved_contexts();
+    c1_data.saved_context_records = NULL;
+    c1_data.saved_context_count = 0;
+    return 1;
+}
 
 extern "C" int c1_test_parameter_append_links(void)
 {
@@ -1036,7 +1072,7 @@ extern "C" int c1_test_function_directory(void)
     c1_data.debug_module_kind = 2;
     c1_data.options.pch_use = c1_data.options.pch_auto = c1_data.saved_pch_mode = 0;
     c1_bss.options.prototypes_only = 0;
-    c1_bss.parser_early_result = c1_bss.function_output_mode = 0;
+    c1_bss.parser_early_result = c1_bss.options.prototypes_only = 0;
     c1_data.function_directory_head = c1_data.function_directory_current = NULL;
     c1_data.function_directory_index = 19;
     c1_data.function_record_flags = 0x1000;

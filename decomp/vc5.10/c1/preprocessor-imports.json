@@ -47,7 +47,8 @@
       "preserves": [
         "edi",
         "esi",
-        "ebp"
+        "ebp",
+        "ebx"
       ],
       "sdk": {
         "path": "toolchains/5.10/include/STDIO.H",

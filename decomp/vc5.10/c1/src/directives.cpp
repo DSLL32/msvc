@@ -1317,7 +1317,7 @@ extern "C" CompilerParserToken *__cdecl read_pragma_directive(void)
     BYTE *memory;
     int kind;
     if (c1_bss.options.preprocess_stdout) return read_preprocessed_pragma();
-    if (c1_bss.function_output_mode) {
+    if (c1_bss.options.prototypes_only) {
         discard_input_character();
         return (CompilerParserToken *)c1_data.predefined_tokens[1];
     }
