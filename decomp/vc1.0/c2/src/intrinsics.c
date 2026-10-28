@@ -12,7 +12,7 @@ enum { INTRINSIC_ABSOLUTE_INTEGER = 15, INTRINSIC_ABSOLUTE_DOUBLE = 17, INTRINSI
     INTRINSIC_STRING_CONCATENATE = 166, INTRINSIC_MEMORY_COMPARE = 170,
     INTRINSIC_AGGREGATE_COPY = 172, INTRINSIC_AGGREGATE_FILL = 173,
     INTRINSIC_POWER_DOUBLE = 174, INTRINSIC_AGGREGATE_VALUE = 179,
-    INTRINSIC_SEH_STATUS = 215, INTRINSIC_SEH_D9 = 217, INTRINSIC_SCOPE_FINALLY = 241, INTRINSIC_FINALLY_DEPTH = 242, INTRINSIC_SCOPE_STATE = 244 };
+    INTRINSIC_SEH_STATUS = 215, INTRINSIC_SEH_D9 = 217, INTRINSIC_SETJMP = 219, INTRINSIC_SCOPE_FINALLY = 241, INTRINSIC_FINALLY_DEPTH = 242, INTRINSIC_SCOPE_STATE = 244 };
 
 Node *current_intrinsic; /* original0007b9b4 */
 /* Original83ae8..83af8, actual mixed-wave fabs ID17. The two-byte
@@ -88,6 +88,12 @@ const IntrinsicDescription seh_status_intrinsic = { 0, 0, "", "", 0x10 };
 /* Original84768..84778, actual SEH IDd9: scalar default202, call-class20,
    no command/runtime spelling. Its exact source intrinsic name is pending. */
 const IntrinsicDescription seh_d9_intrinsic = { 0x202, 0, "", "", 0x20 };
+/* Original84788..84798, actual self-host setjmp ID219. The first word
+   normalizes its jump-buffer argument to pointer404; the call result remains
+   the node's signed-int104 type. No command rewrites it or generates a call:
+   the existing selector's DB arm emits __setjmp with its original stack ABI.
+   Empty recipe839d0, runtime spelling84b20, zero reserved/flag fields. */
+const IntrinsicDescription setjmp_intrinsic = { 0x404, 0, "", "setjmp", 0 };
 const IntrinsicDescription scope_finally_intrinsic = { 0, 0, "", "", 0 };
 const IntrinsicDescription finally_depth_intrinsic = { 0, 0, "", "", 0 };
 /* Original84918..84928: the encountered except-only scope-state IDf4
@@ -121,6 +127,7 @@ const IntrinsicDescription scope_state_intrinsic = { 0, 0, "", "", 0 };
     case INTRINSIC_POWER_DOUBLE: (description) = &power_double_intrinsic; break; \
     case INTRINSIC_AGGREGATE_VALUE: (description) = &aggregate_value_intrinsic; break; \
     case INTRINSIC_SEH_D9: (description) = &seh_d9_intrinsic; break; \
+    case INTRINSIC_SETJMP: (description) = &setjmp_intrinsic; break; \
     case INTRINSIC_SEH_STATUS: (description) = &seh_status_intrinsic; break; \
     case INTRINSIC_SCOPE_FINALLY: (description) = &scope_finally_intrinsic; break; \
     case INTRINSIC_SCOPE_STATE: (description) = &scope_state_intrinsic; break; \
@@ -147,7 +154,7 @@ Node *__fastcall lower_intrinsic(Node *node, Node *parent)
     current_intrinsic = node;
     node->detail.control.code = 8;
     SELECT_INTRINSIC_DESCRIPTION(intrinsic, description);
-    if (description->result_type || (description->flags & 0x10))
+    if (description->argument_type || (description->flags & 0x10))
         prepare_intrinsic_arguments(node, intrinsic, arguments);
     argument_count = 0;
     for (argument = node->second.node; argument->opcode != 0x4c; argument = argument->second.node) {
@@ -312,7 +319,7 @@ const unsigned *__fastcall intrinsic_argument_types(unsigned intrinsic)
     int index;
     SELECT_INTRINSIC_DESCRIPTION(intrinsic, description);
     if (!(description->flags & 0x10)) {
-        type = (unsigned)(int)(short)description->result_type;
+        type = (unsigned)(int)(short)description->argument_type;
         if (default_intrinsic_argument_types[0] != type)
             for (index = 0; index < 5; ++index) default_intrinsic_argument_types[index] = type;
         return default_intrinsic_argument_types;

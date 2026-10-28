@@ -35,9 +35,9 @@ static int intrinsic_descriptors(void)
 {
     const IntrinsicDescription *s=&string_concatenate_intrinsic,*m=&memory_compare_intrinsic;
     const unsigned *types=intrinsic_argument_types(170);
-    return sizeof(*s)==16&&s->result_type==0x404&&!s->reserved&&
+    return sizeof(*s)==16&&s->argument_type==0x404&&!s->reserved&&
         !strcmp(s->commands,"nvyE0E1")&&!*s->runtime_name&&s->flags==0x40&&
-        !m->result_type&&!m->reserved&&!strcmp(m->commands,"vE0E1")&&
+        !m->argument_type&&!m->reserved&&!strcmp(m->commands,"vE0E1")&&
         !*m->runtime_name&&m->flags==0x10&&types[0]==0x104&&
         types[1]==0x404&&types[2]==0x404&&!types[3]&&!types[4]&&!types[5];
 }

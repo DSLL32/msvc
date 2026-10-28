@@ -1,5 +1,47 @@
 # VC1.0 C2 reconstruction
 
+Case0048 fixes the native self-host failure while compiling the reconstructed
+C1XX expression-preparation source. Native CL/C1 emitted genuine setjmp intrinsic
+219(0xDB); the already implemented lower_intrinsic owner lacked its descriptor
+and deliberately trapped. The existing instruction selector already emitted
+__setjmp. One encountered16B description is now defined at its contextual owner:
+argument type404(pointer), reserved0, empty recipe, runtime "setjmp", flags0.
+The call result remains104(int). This observation also corrects the misleading
+field name result_type to argument_type without changing its layout/ABI. The
+default guard for unrecovered IDs remains in both builds. No function/code credit,
+new CRT implementation or shim/process workaround is introduced.
+
+The regression pins actual native CL→C1→C2 transport for the substantial deferred
+expression/record-cleanup source: four exact6856/1655/15/1285B inputs, no db input,
+argv0 only and sole MSC_CMD_FLAGS environment. This is native-C1-generated IR,
+not an original-CL frontend claim. Standalone paths rebase only catalog, IR prefix
+and output transport; source metadata/options remain actual. Fresh masked
+original C2 and corrected native match the complete5057B object, empty streams
+and status0, with only established COFF timestamp4..8 normalization. Normalized
+SHA256 is `f00cd427fedd1e0dfa91b594670c06cd95b19adb258a29b9c90f9c320cac44de`.
+The seeded first-entry trace retains lower_intrinsic. Before correction, native
+had that same entry then an inline data-guard SIGTRAP, not a new named-function
+trap; the original completed. Counts describe recovered bodies/current data,
+not universal intrinsic-data or branch coverage.
+
+Replacing only the staged C2 ELF fixes the exact dogfood compilations:
+expression-preparation39.798ms/status0/5057B and record-processing53.092ms/status0/
+15296B. The first object matches the fresh original oracle outside its timestamp;
+the second is a native completion check, not a new original object comparison.
+The scratch dogfood sources, Makefiles, baseline and patch are untouched; the
+whole campaign was not rerun. All49 cached cases(38IO/11DIRECT),273 units,
+1414 paired graphs and218 scoped RET checks pass. Original compiler plus native
+build31.583s(combined phases unsplit), original W3 compile1.520s, metadata0.898s,
+focused graph/RET0.068s and final make-j4 audit/check/unit3.918s. The first2.241s
+case-end batch caught stale test field names; its corrected two tests retain
+identical assertions/oracles. Native diagnosis0.265s, case build7.345s, original capture1.117s, before-fix
+native failure0.033s and corrected pair0.064s. The corrected native pair splits
+29.503ms into setup17.189/execution7.480/checks4.833ms; other wrapper/runner
+overhead and individual timing records remain in scratch. Analysis and
+authoring elapsed are unmeasured. Raw transport, descriptor/ABI proof, original
+artifact, all attempts and dogfood retry references are under
+`~/.ai-tmp/msvc2/vc1.0/c2/selfhost-intrinsics-20261028/`.
+
 Canonical native execution is available with `make -j4 native-bin`, producing
 `build/c2`; the toolchain coordinator installs the same host as
 `decomp/vc1.0/build/native/bin/C23232.EXE`. Root `entry.c` is native-only, reuses
@@ -63,7 +105,7 @@ unchanged source regressions above were not needlessly repeated. Specific member
 hashes/relocations/raw gap disassembly are retained in scratch
 `~/.ai-tmp/msvc2/vc1.0/c2/residual-classification/`.
 
-`binary.c` is the sole registry. All37 cached IO cases, eleven INTERNAL DIRECT
+`binary.c` is the sole registry. All38 cached IO cases, eleven INTERNAL DIRECT
 cases and273 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR where required, stable cwd and explicit entry seeds. Only established
 COFF timestamp bytes4..8 are normalized in completed object cases; listings/OMF/

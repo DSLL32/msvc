@@ -6,7 +6,9 @@
    defined; the interpreter never exposes their address or computes between
    descriptor addresses. Numeric IDs remain the frontend's serialized IDs. */
 typedef struct IntrinsicDescription {
-    unsigned short result_type, reserved;
+    /* Default scalar argument normalization, not the call's result type:
+       setjmp is the concrete pointer404 argument/int104 result distinction. */
+    unsigned short argument_type, reserved;
     const char *commands, *runtime_name;
     unsigned flags;
 } IntrinsicDescription;

@@ -65,12 +65,12 @@ static int chain_edges(void)
   83ac8/843c8/843d8. This contextual data adds no App/text extent credit. */
 static int descriptors(void)
 {
- return absolute_integer_intrinsic.result_type==0x104&&!absolute_integer_intrinsic.reserved&&
+ return absolute_integer_intrinsic.argument_type==0x104&&!absolute_integer_intrinsic.reserved&&
   absolute_integer_intrinsic.flags==0x20&&!strcmp(absolute_integer_intrinsic.commands,"u")&&
-  !*absolute_integer_intrinsic.runtime_name&&!rotate_left_intrinsic.result_type&&
+  !*absolute_integer_intrinsic.runtime_name&&!rotate_left_intrinsic.argument_type&&
   !rotate_left_intrinsic.reserved&&!rotate_left_intrinsic.flags&&
   !strcmp(rotate_left_intrinsic.commands,"vb")&&!*rotate_left_intrinsic.runtime_name&&
-  !rotate_right_intrinsic.result_type&&!rotate_right_intrinsic.reserved&&
+  !rotate_right_intrinsic.argument_type&&!rotate_right_intrinsic.reserved&&
   !rotate_right_intrinsic.flags&&!strcmp(rotate_right_intrinsic.commands,"vb")&&
   !*rotate_right_intrinsic.runtime_name;
 }
