@@ -16,6 +16,11 @@ typedef struct C2PendingCallbackAlignment { char byte; C2PendingCallback slot; }
 typedef char C2PendingCallbackSizeCheck[sizeof(C2PendingCallback) == 4 ? 1 : -1];
 typedef char C2PendingCallbackOffsetCheck[offsetof(C2PendingCallback, target) == 0 ? 1 : -1];
 typedef char C2PendingCallbackAlignmentCheck[offsetof(C2PendingCallbackAlignment, slot) == 4 ? 1 : -1];
+/* Unit completion invokes both alternatives without arguments or a result.
+ * Their complete original hot/cold paths use no entry inputs and RET0. */
+typedef struct C2OutputFinishCallback { void (__cdecl *target)(void); } C2OutputFinishCallback;
+typedef char C2OutputFinishCallbackSizeCheck[sizeof(C2OutputFinishCallback) == 4 ? 1 : -1];
+typedef char C2OutputFinishCallbackOffsetCheck[offsetof(C2OutputFinishCallback, target) == 0 ? 1 : -1];
 typedef struct C2OutputDirective C2OutputDirective;
 typedef void (__fastcall *C2OutputDirectiveWriter)(C2OutputDirective *directive);
 typedef struct C2DirectiveCallback { C2OutputDirectiveWriter target; } C2DirectiveCallback;
@@ -57,7 +62,7 @@ void __fastcall output_noop_line(unsigned line, unsigned offset);
 void __fastcall output_noop_symbol(C2Symbol *symbol);
 extern C2SymbolCallback output_slot_497de4;
 extern C2PendingCallback output_slot_499a00;
-extern C2PendingCallback output_slot_497e10;
+extern C2OutputFinishCallback output_slot_497e10;
 extern C2SymbolCallback output_slot_497dbc;
 extern C2SymbolCallback output_slot_497de0;
 extern C2FunctionCodeCallback output_slot_497dec;
@@ -75,7 +80,7 @@ extern C2CodeRelocationCallback output_slot_491070;
 extern C2CodeRelocationCallback output_slot_497db4;
 extern C2CodeRelocationCallback output_slot_491078;
 extern C2PendingCallback output_slot_497f60;
-extern C2PendingCallback output_slot_497dfc;
+extern C2OutputFinishCallback output_slot_497dfc;
 /* The initializer callback receives ECX=value, EDX=symbol and a single
  * stack section pointer; EAX counts bytes and both alternatives use RET4. */
 typedef unsigned (__fastcall *C2InitializerWriter)(C2InitRecord *value,
@@ -103,8 +108,8 @@ unsigned __fastcall output_callback_44a79d(C2InitRecord *value, C2Symbol *symbol
 void __fastcall emit_output_directive(C2OutputDirective *directive);
 void __fastcall emit_incremental_string(char *value);
 void __fastcall write_coff_directive(char *prefix, char *value, char *suffix, int quoted);
-void output_callback_4541f3();
-void output_callback_454ba8();
+void output_callback_4541f3(void);
+void output_callback_454ba8(void);
 void __fastcall output_callback_4849f2(C2Symbol *symbol, char *file, int unwind, unsigned line);
 unsigned __fastcall output_callback_4849f5(C2InitRecord *value, C2Symbol *symbol, C2Section *section);
 void __fastcall output_callback_4849fa(C2Symbol *symbol);

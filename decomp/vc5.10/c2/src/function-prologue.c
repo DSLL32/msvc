@@ -7,7 +7,7 @@
 #include <recon.h>
 
 extern int c2_global_optimize, c2_favor_speed, c2_basic_mode, c2_stack_probe_limit;
-extern unsigned input_option_high_bit, frame_allocated_offset;
+extern unsigned input_option_high_bit;
 extern C2Symbol *frame_reserved_symbol;
 /* Initialized file DWORD0; all earlier writers are pending paths. No pointed
  * object or later nonzero mode is inferred from this Boolean consumer. */
@@ -276,7 +276,7 @@ C2Symbol *__fastcall find_runtime_function(char *name)
             function = (C2FunctionSymbol *)c2_allocate_node(4, 0);
             runtime_function_cache[index] = function;
             function->symbol.kind = 4;
-            function->symbol.serial = output_enabled ? index - 0x81U : next_symbol_serial();
+            function->symbol.serial = c2_internal_listing ? index - 0x81U : next_symbol_serial();
             function->symbol.name = arena_strdup(name, 0);
             function->symbol.output_flags &= ~3;
             function->symbol.flags = 0;
@@ -291,7 +291,7 @@ C2Symbol *__fastcall find_runtime_function(char *name)
         right = name;
         while (*left == *right && *left) { ++left; ++right; }
         if (*left == *right) {
-            if (output_enabled) queue_symbol_debug(&function->symbol);
+            if (c2_internal_listing) queue_symbol_debug(&function->symbol);
             return &function->symbol;
         }
         index = (index + 1) & 127;

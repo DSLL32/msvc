@@ -1496,6 +1496,18 @@ int __fastcall input_operands_may_alias(C2Expression *left, C2Expression *right)
     return 0;
 }
 
+/* Only these fixed-register rows have proved width/position fields.
+ * Dynamic register views keep their producer-owned ranges. */
+#define REQUIRE_OVERLAP_RANGE(reg) do { \
+    if ((unsigned long)(reg) >= (unsigned long)machine_registers && \
+        (unsigned long)(reg) <= (unsigned long)(machine_registers + C2_MACHINE_REGISTER_COUNT) && \
+        !((unsigned long)(reg) <= (unsigned long)&machine_registers[9] || \
+          ((unsigned long)(reg) >= (unsigned long)&machine_registers[17] && \
+           (unsigned long)(reg) <= (unsigned long)&machine_registers[21]) || \
+          (reg) == (C2FunctionRegister *)&machine_registers[31] || \
+          ((unsigned long)(reg) >= (unsigned long)&machine_registers[66] && \
+           (unsigned long)(reg) <= (unsigned long)&machine_registers[74]))) { __asm { int 3 } } \
+} while (0)
 int __fastcall function_registers_overlap(C2FunctionRegister *left, C2FunctionRegister *right)
 {
     C2FunctionRegister *left_root, *right_root;
@@ -1505,6 +1517,8 @@ int __fastcall function_registers_overlap(C2FunctionRegister *left, C2FunctionRe
     right_root = right->canonical;
     if (left_root == right_root) {
         if (left == right) return 1;
+        REQUIRE_OVERLAP_RANGE(left);
+        REQUIRE_OVERLAP_RANGE(right);
         return REGISTER_OVERLAPS(left, right);
     }
     if (!optimizer_input_changed || left->kind < 3 || left->kind > 6 ||

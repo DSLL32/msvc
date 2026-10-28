@@ -92,9 +92,10 @@ RECON_AUDIT_PROFILE = cl
 RECON_IMAGE_BASE = 4194304
 RECON_POLICY = policy-data.json
 RECON_AUDIT_REGISTRY_METADATA = 1
+RECON_AUDIT_REGISTRY_RET_CHECKS = 1
 RECON_METADATA_REBUILT_MAP = $(ORIGINAL_BUILD)/c2.map
 RECON_AUDIT_REGISTRY_RUNTIME = 1
-RECON_AUDIT_FLAGS = -q --original $(abspath ../../../toolchains/5.10/bin/C2.EXE) --rebuilt $(abspath $(ORIGINAL_OUTPUT)) --map $(abspath $(ORIGINAL_BUILD)/c2.map) --discovery cfg --check-ret --check-imports --check-references --check-callbacks --check-accepted-extents --check-ownership --check-extents
+RECON_AUDIT_FLAGS = -q --original $(abspath ../../../toolchains/5.10/bin/C2.EXE) --rebuilt $(abspath $(ORIGINAL_OUTPUT)) --map $(abspath $(ORIGINAL_BUILD)/c2.map) --discovery cfg --export-instructions --check-imports --check-references --check-callbacks --check-accepted-extents --check-ownership --check-extents
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
 RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/LIBC.LIB
 RECON_RUNTIME_FLAGS = --library $(ORIGINAL_TOOLCHAIN_ROOT)/lib/LIBC.LIB
@@ -132,3 +133,11 @@ cases/0002-no-arguments/.build/tests.c.o: NATIVE_CPPFLAGS += -DC2_CANONICAL_NATI
 noargs-installed-executable:
 	+$(MAKE) -C .. native-bin-c2
 cases/0002-no-arguments/unit: noargs-installed-executable
+
+# Shared graph checks retain every accepted owner. The live cleanup contracts
+# enforce every other owner; this exact slot-tail residual closes only the
+# no-argument completion dispatcher, including genuine non-callable NULL states.
+.PHONY: c2-unit-finish-ret-check
+audit: c2-unit-finish-ret-check
+c2-unit-finish-ret-check: recon-graph-audit
+	python3 harness/check-unit-finish.py --report $(RECON_AUDIT_REPORT) --config $(RECON_REGISTRY) --metadata $(RECON_AUDIT_METADATA) --ret-checks $(RECON_AUDIT_RET_CHECKS) --original ../../../toolchains/5.10/bin/C2.EXE --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --object $(ORIGINAL_BUILD)/obj/src/output-callbacks.c.obj --source src/output-callbacks.c --header src/output-callbacks.h --output build/unit-finish-ret.json

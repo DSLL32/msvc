@@ -514,6 +514,7 @@ void __fastcall prepare_schedule_range(C2Expression *first, C2Expression *last)
         (reg) != (C2FunctionRegister *)&machine_registers[7] && \
         (reg) != (C2FunctionRegister *)&machine_registers[8] && \
         (reg) != (C2FunctionRegister *)&machine_registers[18] && \
+        (reg) != (C2FunctionRegister *)&machine_registers[21] && \
         (reg) != (C2FunctionRegister *)&machine_registers[66] && \
         (reg) != (C2FunctionRegister *)&machine_registers[67] && \
         !((unsigned long)(reg) >= (unsigned long)&machine_registers[68] && \
@@ -1919,18 +1920,18 @@ anti_dependency:
 
 void __fastcall prepare_schedule_ready_node(C2ScheduleNode *node)
 {
-    C2ScheduleNode *previous = node->previous;
-    if (!previous) {
+    C2ScheduleNode *next = node->next;
+    if (!next) {
         c2_report_internal("E:\\utc\\src\\\\P2\\dag.c", 0x34f);
         return;
     }
     do {
-        if (previous->flags3a & 1) {
-            find_or_add_schedule_dependency(previous, node, 0x80000);
+        if (next->flags3a & 1) {
+            find_or_add_schedule_dependency(next, node, 0x80000);
             return;
         }
-        previous = previous->previous;
-    } while (previous);
+        next = next->next;
+    } while (next);
     c2_report_internal("E:\\utc\\src\\\\P2\\dag.c", 0x34f);
 }
 unsigned __fastcall scale_schedule_priority(unsigned value, int shift)

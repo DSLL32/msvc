@@ -19,6 +19,8 @@
 #include <recon-tool.h>
 #include <recon.h>
 
+extern C2InputLineMap *diagnostic_line_cache;
+
 typedef char CanonicalTemporaryCountOffset[offsetof(C2FunctionSymbol, temporary_count) == 100 ? 1 : -1];
 
 unsigned __fastcall final_intrinsic_output_index(C2Expression *record);
@@ -484,14 +486,25 @@ static int stack_slot_alignment(void)
     return 1;
 }
 
+void __fastcall finalize_stack_frame_size(C2Function *function);
 static int local_storage_sequence(void)
 {
+    C2Function function;
+    C2FunctionSymbol symbol, expected;
+    int ok;
+    memset(&function, 0, sizeof(function));
+    memset(&symbol, 0xa5, sizeof(symbol));
+    function.symbol = &symbol;
     local_stack_offset = 0;
     local_storage_alignment = 4;
-    return allocate_local_storage(3, 4) == -4 &&
+    ok = allocate_local_storage(3, 4) == -4 &&
         allocate_local_storage(2, 2) == -6 &&
         allocate_local_storage(1, 0) == -7 &&
         allocate_local_storage(3, 0) == -12 && local_stack_offset == -12;
+    expected = symbol;
+    expected.frame_stack_bytes = 12;
+    finalize_stack_frame_size(&function);
+    return ok && !memcmp(&symbol, &expected, sizeof(symbol));
 }
 
 static int function_line_reset(void)
@@ -501,8 +514,10 @@ static int function_line_reset(void)
     input_line_needs_record = 0;
     input_line_filename = filename;
     input_line_cache = (C2InputLineMap *)0x13579bdfU;
+    diagnostic_line_cache = (C2InputLineMap *)0x2468ace0U;
     return reset_function_line_input() == 37 && input_last_line == 37 &&
-        input_line_needs_record == 1 && !input_line_cache && !input_line_filename;
+        input_line_needs_record == 1 && !diagnostic_line_cache &&
+        input_line_cache == (C2InputLineMap *)0x13579bdfU && !input_line_filename;
 }
 
 static int small_node_reuse(void)
@@ -2612,7 +2627,12 @@ static int fixed_register_overlap_boundaries(void)
         operands[0].original_register = (C2FunctionRegister *)fixed;
         if (final_record_uses_machine_register(&record, fixed) != &operands[0]) return 0;
     }
-    return 1;
+    return function_registers_overlap((C2FunctionRegister *)&machine_registers[9],
+               (C2FunctionRegister *)&machine_registers[21]) &&
+        function_registers_overlap((C2FunctionRegister *)&machine_registers[1],
+               (C2FunctionRegister *)&machine_registers[21]) &&
+        !function_registers_overlap((C2FunctionRegister *)&machine_registers[17],
+               (C2FunctionRegister *)&machine_registers[21]);
 }
 
 C2Expression *__fastcall find_final_register_output(C2Expression *record,
@@ -3353,7 +3373,7 @@ static int encoding_integer_width_and_relaxation(void)
         bytes[4] == 0xab && bytes[5] == 0x89 && bytes[6] == 0xa5 && bytes[15] == 0xa5;
 }
 
-extern C2InputLineMap *diagnostic_line_cache;
+
 static int diagnostic_location_bidirectional_cache(void)
 {
     C2InputLineMap entries[3], original[3];
@@ -3665,6 +3685,383 @@ static int fpo_record_layout_and_owners(void)
 
 void __fastcall write_coff_relocation(unsigned serial, unsigned offset,
     unsigned symbol_index, unsigned short type);
+C2Expression *__fastcall new_fixed_register_operand(unsigned number, unsigned short type);
+extern C2FunctionSymbol *runtime_function_cache[128];
+C2Symbol *__fastcall find_runtime_function(char *name);
+unsigned __fastcall hash_runtime_function_name(char *name);
+static int runtime_serial_uses_listing_owner(void)
+{
+    char first_name[] = "__unit_runtime_listing_A";
+    char second_name[] = "__unit_runtime_listing_B";
+    unsigned a = hash_runtime_function_name(first_name) & 127;
+    unsigned b = hash_runtime_function_name(second_name) & 127;
+    C2FunctionSymbol *saved_a = runtime_function_cache[a], *saved_b = runtime_function_cache[b];
+    C2Symbol *first, *second;
+    int saved_serial = c2_il_initial_symbol_count, saved_listing = c2_internal_listing;
+    int saved_output = output_enabled, ok;
+    if (a == b) return 0;
+    runtime_function_cache[a] = runtime_function_cache[b] = NULL;
+    c2_il_initial_symbol_count = 0x123456;
+    c2_internal_listing = 0; output_enabled = 1;
+    first = find_runtime_function(first_name);
+    ok = first->serial == 0x123456 && c2_il_initial_symbol_count == 0x123457 &&
+        find_runtime_function(first_name) == first && c2_il_initial_symbol_count == 0x123457;
+    c2_internal_listing = 1; output_enabled = 0;
+    second = find_runtime_function(second_name);
+    ok = ok && second->serial == b - 0x81U && c2_il_initial_symbol_count == 0x123457;
+    c2_il_initial_symbol_count = saved_serial; c2_internal_listing = saved_listing;
+    output_enabled = saved_output;
+    runtime_function_cache[a] = saved_a; runtime_function_cache[b] = saved_b;
+    return ok;
+}
+
+static int converted_zero_moves_remain_executable(void)
+{
+    C2Function function;
+    C2FlowGraph flow;
+    C2BasicBlock block;
+    C2Expression head, end, *first, *second, *self;
+    int saved_cpu = c2_cpu_generation, saved_speed = c2_favor_speed, ok;
+    memset(&function, 0, sizeof(function)); memset(&flow, 0, sizeof(flow));
+    memset(&block, 0, sizeof(block)); memset(&head, 0, sizeof(head));
+    memset(&end, 0, sizeof(end));
+    function.flow = &flow; flow.first = flow.last = &block;
+    block.records = (C2Record *)&head; block.last_record = (C2Record *)&end;
+    head.next = &end; end.previous = &head;
+    first = new_binary_expression(1, 0x1004, new_fixed_register_operand(3, 0x1004),
+        new_integer_expression(0x1004, 0), insert_input_record, (C2Record *)&head);
+    second = new_binary_expression(1, 0x1004, new_fixed_register_operand(2, 0x1004),
+        new_integer_expression(0x1004, 0), insert_input_record, (C2Record *)first);
+    self = new_binary_expression(1, 0x1004, new_fixed_register_operand(1, 0x1004),
+        new_fixed_register_operand(1, 0x1004), insert_input_record, (C2Record *)second);
+    c2_cpu_generation = 5; c2_favor_speed = 1;
+    optimize_final_instruction_forms(&function);
+    ok = head.next == first && first->next == second && second->next == &end &&
+        end.previous == second && first->opcode == 0x34 && second->opcode == 0x34 &&
+        first->left->original_register == (C2FunctionRegister *)&machine_registers[3] &&
+        second->left->original_register == (C2FunctionRegister *)&machine_registers[2];
+    c2_cpu_generation = saved_cpu; c2_favor_speed = saved_speed;
+    (void)self;
+    return ok;
+}
+
+extern IMAGE_SYMBOL *coff_current_symbol;
+static int coff_symbol_file_and_section_records(void)
+{
+    C2OutputSection section, associated;
+    C2CoffSectionData data, associated_data;
+    C2OutputTable table, *saved_table = coff_table;
+    C2OutputPage page;
+    C2CoffRecord record;
+    C2CoffSource source;
+    IMAGE_SYMBOL file_symbol, section_symbol, unused_symbol;
+    IMAGE_AUX_SYMBOL auxiliary, expected_auxiliary;
+    IMAGE_SYMBOL *saved_symbol = coff_current_symbol;
+    FILE *saved_output = coff_output, *file;
+    ShimFILE *output;
+    unsigned char file_auxiliary[36];
+    int saved_new = coff_new_output, ok, i;
+
+    memset(&section, 0, sizeof(section)); memset(&associated, 0, sizeof(associated));
+    memset(&data, 0, sizeof(data)); memset(&associated_data, 0, sizeof(associated_data));
+    memset(&table, 0, sizeof(table)); memset(&page, 0, sizeof(page));
+    section.name = "test"; section.characteristics = IMAGE_SCN_LNK_COMDAT;
+    section.selection = 5; section.association = 1; section.data = &data;
+    data.section = &section; data.size = 0x81234567U; data.storage_index = 3;
+    data.relocation_count = 0xffff; data.line_number_count = 0xff00;
+    associated.data = &associated_data; associated_data.storage_index = 0x8001;
+    table.count = table.capacity = 1; table.first = &page; page.items[0] = &associated;
+    coff_table = &table; coff_new_output = 0;
+    source.name = "abcdefghijklmnopqr"; source.next_source = 0x87654321U;
+    output = recon_fopen("unit-coff-symbols.bin", "wb");
+    if (!output) { coff_table = saved_table; coff_new_output = saved_new; return 0; }
+    coff_output = (FILE *)output;
+    record.kind = 1; record.value.source = &source;
+    write_coff_symbol_record(&record);
+    ok = coff_current_symbol == NULL;
+    record.kind = 2; record.value.section = &data;
+    write_coff_symbol_record(&record);
+    ok = ok && coff_current_symbol == NULL;
+    record.kind = 6; write_coff_symbol_record(&record);
+    coff_current_symbol = (IMAGE_SYMBOL *)&record;
+    record.kind = 5; write_coff_symbol_record(&record);
+    ok = ok && coff_current_symbol == (IMAGE_SYMBOL *)&record;
+    recon_fclose(output);
+    file = fopen("unit-coff-symbols.bin", "rb");
+    if (file) {
+        ok = fread(&file_symbol, 18, 1, file) == 1 &&
+            fread(file_auxiliary, 36, 1, file) == 1 &&
+            fread(&section_symbol, 18, 1, file) == 1 &&
+            fread(&auxiliary, 18, 1, file) == 1 &&
+            fread(&unused_symbol, 18, 1, file) == 1 && fgetc(file) == EOF && ok;
+        fclose(file);
+        ok = ok && !memcmp(file_symbol.N.ShortName, ".file\0\0\0", 8) &&
+            file_symbol.Value == 0x87654321U && file_symbol.SectionNumber == -2 &&
+            !file_symbol.Type && file_symbol.StorageClass == 103 && file_symbol.NumberOfAuxSymbols == 2 &&
+            !memcmp(file_auxiliary, source.name, 19) &&
+            !memcmp(section_symbol.N.ShortName, "test\0\0\0", 8) &&
+            !section_symbol.Value && section_symbol.SectionNumber == -5 &&
+            !section_symbol.Type && section_symbol.StorageClass == 3 && section_symbol.NumberOfAuxSymbols == 1 &&
+            !memcmp(unused_symbol.N.ShortName, "$unused$", 8) && !unused_symbol.Value &&
+            !unused_symbol.SectionNumber && !unused_symbol.Type && unused_symbol.StorageClass == 14 &&
+            !unused_symbol.NumberOfAuxSymbols;
+        for (i = 19; i < 36; ++i) if (file_auxiliary[i]) ok = 0;
+        memset(&expected_auxiliary, 0, sizeof(expected_auxiliary));
+        expected_auxiliary.Section.Length = 0x81234567U;
+        expected_auxiliary.Section.NumberOfRelocations = 0xffff;
+        expected_auxiliary.Section.NumberOfLinenumbers = 0xff00;
+        expected_auxiliary.Section.Number = 0x7ffd;
+        expected_auxiliary.Section.Selection = 5;
+        ok = ok && !memcmp(&auxiliary, &expected_auxiliary, 18);
+    } else ok = 0;
+    coff_output = saved_output; coff_table = saved_table; coff_new_output = saved_new;
+    coff_current_symbol = saved_symbol;
+    return ok;
+}
+
+extern int c2_reproducible;
+static int coff_clock_uses_reproducible_option(void)
+{
+    int saved = c2_reproducible, ok;
+    c2_reproducible = 1;
+    ok = writer_callback_45477a() == 0;
+    c2_reproducible = -1;
+    ok = writer_callback_45477a() == 0 && ok;
+    c2_reproducible = saved;
+    return ok;
+}
+
+static int coff_relocation_output_and_recycling(void)
+{
+    C2OutputBlock508 first, last, old, expected_first, expected_last;
+    C2OutputBlock508 *saved_free = coff_free_blocks_508;
+    C2CoffSectionData data, before;
+    IMAGE_RELOCATION got[4];
+    FILE *saved_output = coff_output, *file;
+    ShimFILE *output;
+    int ok;
+
+    memset(&first, 0xa5, sizeof(first)); memset(&last, 0x6b, sizeof(last));
+    memset(&old, 0x3c, sizeof(old)); memset(&data, 0x96, sizeof(data));
+    first.count = 2; first.last = &last; last.count = 1; last.last = &first;
+    first.entries[0].VirtualAddress = 0xfffffff0U;
+    first.entries[1].VirtualAddress = 0x10;
+    last.entries[0].VirtualAddress = 0x80000000U;
+    expected_first = first; expected_last = last;
+    expected_first.entries[0].VirtualAddress = 0x20;
+    expected_first.entries[1].VirtualAddress = 0x40;
+    expected_last.entries[0].VirtualAddress = 0x80000030U;
+    expected_last.last = &old;
+    data.relocations = &last; data.relocation_count = 0xffff;
+    before = data;
+    output = recon_fopen("unit-coff-relocations.bin", "wb");
+    if (!output) return 0;
+    coff_output = (FILE *)output; coff_free_blocks_508 = &old;
+    write_coff_section_relocations(&data, 0x30);
+    ok = coff_free_blocks_508 == &first &&
+        !memcmp(&first, &expected_first, sizeof(first)) &&
+        !memcmp(&last, &expected_last, sizeof(last)) && !memcmp(&data, &before, sizeof(data));
+    recon_fclose(output);
+    file = fopen("unit-coff-relocations.bin", "rb");
+    if (file) {
+        ok = fread(got, 10, 4, file) == 4 && fgetc(file) == EOF && ok;
+        fclose(file);
+        ok = ok && got[0].VirtualAddress == 0x10000 && !got[0].SymbolTableIndex &&
+            !got[0].Type && !memcmp(got + 1, first.entries, 20) &&
+            !memcmp(got + 3, last.entries, 10);
+    } else ok = 0;
+    coff_output = saved_output; coff_free_blocks_508 = saved_free;
+    return ok;
+}
+
+static int coff_flush_chunk_order_and_recycling(void)
+{
+    C2OutputChunk first, last, old, *saved_free = coff_free_chunks;
+    C2OutputList list, before;
+    unsigned char bytes[507];
+    FILE *saved_output = coff_output, *file;
+    ShimFILE *output;
+    unsigned i;
+    int ok;
+
+    memset(&first, 0xa5, sizeof(first));
+    memset(&last, 0x6b, sizeof(last));
+    memset(&old, 0x3c, sizeof(old));
+    memset(&list, 0, sizeof(list));
+    for (i = 0; i < 500; ++i) first.data[i] = (unsigned char)i;
+    for (i = 0; i < 7; ++i) last.data[i] = (unsigned char)(0xf0 + i);
+    first.next = &last; last.next = &first; old.next = NULL;
+    list.last = &last; list.used_bytes = 7; list.completed_bytes = 500;
+    list.buffered = 1; list.write_count = 0x12345678;
+    before = list;
+    output = recon_fopen("unit-coff-flush.bin", "wb");
+    if (!output) return 0;
+    coff_output = (FILE *)output; coff_free_chunks = &old;
+    flush_coff_list(&list);
+    ok = coff_free_chunks == &first && first.next == &last && last.next == &old &&
+        old.next == NULL && !memcmp(&list, &before, sizeof(list));
+    recon_fclose(output);
+    file = fopen("unit-coff-flush.bin", "rb");
+    if (file) {
+        ok = fread(bytes, 1, sizeof(bytes), file) == sizeof(bytes) &&
+            fgetc(file) == EOF && ok;
+        fclose(file);
+        for (i = 0; i < 500; ++i) if (bytes[i] != (unsigned char)i) ok = 0;
+        for (i = 0; i < 7; ++i) if (bytes[500+i] != (unsigned char)(0xf0+i)) ok = 0;
+    } else ok = 0;
+    /* Count-only lists recycle the same ring without attempting file I/O. */
+    first.next = &last; last.next = &first;
+    coff_output = NULL; coff_free_chunks = &old; list.count_only = 1;
+    flush_coff_list(&list);
+    ok = ok && coff_free_chunks == &first && first.next == &last && last.next == &old;
+    flush_coff_list(NULL);
+    ok = ok && coff_free_chunks == &first;
+    coff_output = saved_output; coff_free_chunks = saved_free;
+    return ok;
+}
+
+static int coff_table_iteration_and_finalization(void)
+{
+    C2OutputTable table, *saved_table = coff_table;
+    C2OutputPage *first = malloc(16), *last = malloc(16);
+    C2OutputSection sections[3], expected[3];
+    C2CoffSectionData data[3], before[3];
+    unsigned char first_before[16], last_before[16];
+    unsigned saved_extended = incremental_extended_counts, i;
+    unsigned short saved_count = coff_section_count;
+    int ok;
+    if (!first || !last) { free(first); free(last); return 0; }
+    memset(first, 0xa5, 16); memset(last, 0x6b, 16);
+    memset(&table, 0, sizeof(table)); memset(sections, 0xa5, sizeof(sections));
+    memset(data, 0x3c, sizeof(data));
+    first->next = last; last->next = NULL;
+    first->items[0] = &sections[0]; first->items[1] = &sections[1];
+    last->items[0] = &sections[2];
+    memcpy(first_before, first, 16); memcpy(last_before, last, 16);
+    table.count = 3; table.capacity = 2; table.used = 1;
+    table.first = first; table.last = last;
+    for (i = 0; i < 3; ++i) sections[i].data = &data[i];
+    data[0].relocation_count = 0xfffe; data[1].relocation_count = 0xffff;
+    data[2].relocation_count = 0xffffffffU;
+    sections[0].flags = 0xa5a5; sections[1].flags = 0xa5a7; sections[2].flags = 2;
+    memcpy(expected, sections, sizeof(sections)); memcpy(before, data, sizeof(data));
+    expected[1].flags &= ~2; expected[2].flags = 0;
+    ok = next_output_table_entry(&table) == &sections[0] &&
+        next_output_table_entry(&table) == &sections[1] &&
+        next_output_table_entry(&table) == &sections[2] &&
+        !next_output_table_entry(&table) && !table.iterator_index &&
+        next_output_table_entry(&table) == &sections[0];
+    table.iterator_index = 0;
+    coff_table = &table; coff_section_count = 1; incremental_extended_counts = 0;
+    finish_coff_sections();
+    ok = ok && coff_section_count == 0xffff && incremental_extended_counts == 1 &&
+        !table.iterator_index && table.iterator_used == 1 && table.iterator_page == last &&
+        !memcmp(sections, expected, sizeof(sections)) && !memcmp(data, before, sizeof(data)) &&
+        !memcmp(first, first_before, 16) && !memcmp(last, last_before, 16);
+    /* No overflow leaves a preexisting nonzero marker untouched. */
+    for (i = 0; i < 3; ++i) data[i].relocation_count = 0xfffe;
+    incremental_extended_counts = 0x13579bdf;
+    finish_coff_sections();
+    ok = ok && incremental_extended_counts == 0x13579bdf && coff_section_count == 0xffff;
+    coff_table = saved_table; coff_section_count = saved_count;
+    incremental_extended_counts = saved_extended; free(first); free(last);
+    return ok;
+}
+
+static int coff_alignment_preserves_characteristics(void)
+{
+    C2OutputTable table;
+    C2OutputPage page;
+    C2OutputSection section, expected;
+    C2OutputTable *saved = coff_table;
+    unsigned i, flags;
+    int ok = 1;
+    memset(&table, 0, sizeof(table)); memset(&page, 0, sizeof(page));
+    table.count = table.capacity = 1; table.first = &page;
+    page.items[0] = &section; coff_table = &table;
+    for (i = 0; i != 7; ++i) {
+        memset(&section, 0xa5, sizeof(section));
+        section.characteristics = 0x80100020;
+        expected = section;
+        flags = coff_alignment_characteristics(1U << i);
+        expected.characteristics |= (i + 1) << 20;
+        or_coff_section_characteristics(1, flags);
+        if (flags != (i + 1) << 20 || memcmp(&section, &expected, sizeof(section))) ok = 0;
+    }
+    coff_table = saved;
+    return ok;
+}
+
+static int coff_deferred_storage_owner(void)
+{
+    C2OutputStorage storage, expected_storage, *saved_storage = coff_storage;
+    C2OutputStorageEntry first, hole, last, expected_hole;
+    C2CoffSectionData low, item, high, before_item;
+    int saved_deferred = deferred_compilation, ok;
+    memset(&storage, 0xa5, sizeof(storage));
+    memset(&first, 0x3c, sizeof(first)); memset(&hole, 0x6b, sizeof(hole));
+    memset(&last, 0x78, sizeof(last)); memset(&low, 0, sizeof(low));
+    memset(&high, 0, sizeof(high)); memset(&item, 0xa5, sizeof(item));
+    low.symbol_index = 1; item.symbol_index = 5; high.symbol_index = 9;
+    first.data = &low; first.next = &hole; hole.data = NULL; hole.next = &last;
+    last.data = &high; last.next = NULL; storage.first = &first; storage.last = &last;
+    storage.count = 10; storage.next_index = 20; expected_storage = storage;
+    expected_storage.count = 11; expected_storage.next_index = 21;
+    expected_hole = hole; expected_hole.data = &item; before_item = item;
+    deferred_compilation = 0x12345678; coff_storage = &storage;
+    ok = register_coff_storage(&item) == 21 &&
+        !memcmp(&storage, &expected_storage, sizeof(storage)) &&
+        !memcmp(&hole, &expected_hole, sizeof(hole)) &&
+        !memcmp(&item, &before_item, sizeof(item)) && first.next == &hole && last.next == NULL;
+    coff_storage = saved_storage; deferred_compilation = saved_deferred;
+    return ok;
+}
+
+static int coff_symbol_relocation_kinds(void)
+{
+    C2InputSymbol symbol, before_symbol;
+    C2OutputSection section;
+    C2CoffSectionData data, expected_data;
+    C2OutputBlock508 block, expected_block;
+    C2OutputList list;
+    C2OutputTable table;
+    C2OutputPage page;
+    unsigned i;
+    memset(&section, 0, sizeof(section));
+    memset(&list, 0, sizeof(list));
+    memset(&table, 0, sizeof(table));
+    memset(&page, 0, sizeof(page));
+    section.data = &data; section.base_offset = 0x1000; section.flags = 1;
+    list.completed_bytes = 13; list.used_bytes = 7;
+    page.items[0] = &section; table.first = &page;
+    table.count = table.capacity = 1;
+    coff_table = &table; coff_flags = 1; coff_default_flags = 0;
+    coff_current_section = &section;
+    for (i = 0; i != 4; ++i) {
+        memset(&symbol, 0xa5, sizeof(symbol));
+        symbol.symbol.kind = i == 2 ? 4 : 1;
+        symbol.symbol.flags = i == 1 || i == 2 ? 0x1000 : 0;
+        symbol.attributes = i == 3 ? 0x1000 : 0;
+        symbol.symbol.coff_symbol_index = 0x87654321;
+        symbol.symbol.serial = 0x12345678;
+        before_symbol = symbol;
+        memset(&data, 0xa5, sizeof(data));
+        memset(&block, 0xa5, sizeof(block));
+        data.output = &list; data.relocations = &block; data.relocation_count = 17;
+        block.count = 0; block.last = &block;
+        expected_data = data; expected_data.relocation_count = 18;
+        expected_block = block; expected_block.count = 1;
+        expected_block.entries[0].VirtualAddress = 0x20 + 13 + 7;
+        expected_block.entries[0].SymbolTableIndex = 0x87654321;
+        expected_block.entries[0].Type = i == 1 ? IMAGE_REL_I386_SECREL : IMAGE_REL_I386_DIR32;
+        output_callback_43696a(0x20, &symbol.symbol);
+        if (memcmp(&symbol, &before_symbol, sizeof(symbol)) ||
+            memcmp(&data, &expected_data, sizeof(data)) ||
+            memcmp(&block, &expected_block, sizeof(block))) return 0;
+    }
+    return 1;
+}
+
 static int coff_relocation_last_row_and_reuse(void)
 {
     C2OutputSection section;
@@ -3691,7 +4088,7 @@ static int coff_relocation_last_row_and_reuse(void)
         !memcmp(&free_block, &expected_free, sizeof(free_block)) &&
         section.base_offset == 0x1000 && next_free.count == 0x3c3c3c3c;
 }
-extern unsigned frame_allocated_offset, function_output_reset6c;
+extern unsigned function_output_reset6c;
 extern C2Symbol *frame_reserved_symbol;
 extern C2FunctionRegister *frame_extra_slot;
 extern int prologue_has_reserved_storage;
@@ -3700,12 +4097,12 @@ static int function_output_reset_exact_owners(void)
 {
     C2Symbol symbol;
     C2FunctionRegister reg;
-    argument_stack_offset = -23; frame_allocated_offset = 0xfedcba98;
+    argument_stack_offset = -23; local_stack_offset = 0xfedcba98;
     frame_reserved_symbol = &symbol; frame_extra_slot = &reg;
     prologue_has_reserved_storage = 0x12345678; function_output_reset6c = 0x9abcdef0;
     generate_frame = 37; generate_prologue = 91; c2_default_library = 43;
     finish_function_output();
-    return argument_stack_offset == 8 && !frame_allocated_offset &&
+    return argument_stack_offset == 8 && !local_stack_offset &&
         !frame_reserved_symbol && !frame_extra_slot && !prologue_has_reserved_storage &&
         !function_output_reset6c && generate_frame == 37 && generate_prologue == 91 &&
         c2_default_library == 43;
@@ -4098,7 +4495,7 @@ void __fastcall prepare_schedule_ready_node(C2ScheduleNode *node);
 void __fastcall remove_schedule_dependency(C2ScheduleDependency *edge);
 extern C2ScheduleGraph *active_schedule_graph;
 extern unsigned schedule_edge_count;
-static int schedule_ready_predecessor_fence(void)
+static int schedule_ready_next_fence(void)
 {
     C2ScheduleNode oldest, fence, middle, node;
     C2ScheduleDependency edge, expected;
@@ -4107,14 +4504,14 @@ static int schedule_ready_predecessor_fence(void)
     memset(&middle, 0, sizeof(middle)); memset(&node, 0, sizeof(node));
     memset(&edge, 0xa5, sizeof(edge));
     oldest.flags3a = fence.flags3a = 1;
-    fence.previous = &oldest; middle.previous = &fence; node.previous = &middle;
-    node.next = &oldest; node.incoming = &edge;
+    fence.next = &oldest; middle.next = &fence; node.next = &middle;
+    node.previous = &oldest; node.incoming = &edge;
     edge.next_outgoing = edge.next_incoming = NULL; edge.source = &fence; edge.destination = &node;
     expected = edge; expected.flags |= 0x80000;
     prepare_schedule_ready_node(&node);
     if (memcmp(&edge, &expected, sizeof(edge)) ||
-        node.previous != &middle || middle.previous != &fence ||
-        fence.previous != &oldest || node.next != &oldest) return 0;
+        node.next != &middle || middle.next != &fence ||
+        fence.next != &oldest || node.previous != &oldest) return 0;
     memset(&graph, 0, sizeof(graph)); active_schedule_graph = &graph;
     node.incoming_count = node.remaining_incoming = fence.outgoing_count = 1;
     fence.outgoing = &edge; schedule_edge_count = 1;
@@ -4249,6 +4646,30 @@ static int wide_integer_halves_and_fallback(void)
 }
 
 extern C2InitRecord *free_initializers;
+static int initializer_recycle_value_chain(void)
+{
+    C2InitRecord nodes[3], expected[3], old, old_before, zero;
+    C2InitRecord *saved = free_initializers;
+    int ok;
+    memset(nodes, 0xa5, sizeof(nodes)); memset(&old, 0x6b, sizeof(old));
+    nodes[0].next = &nodes[1]; nodes[1].next = &nodes[2]; nodes[2].next = NULL;
+    memcpy(expected, nodes, sizeof(nodes)); old_before = old;
+    expected[0].list_next = &old;
+    expected[1].list_next = &nodes[0];
+    expected[2].list_next = &nodes[1];
+    free_initializers = &old;
+    free_initializer(NULL);
+    ok = free_initializers == &old && !memcmp(&old, &old_before, sizeof(old));
+    free_initializer(&nodes[0]);
+    ok = ok && free_initializers == &nodes[2] &&
+        !memcmp(nodes, expected, sizeof(nodes)) && !memcmp(&old, &old_before, sizeof(old));
+    memset(&zero, 0, sizeof(zero)); zero.kind = 2;
+    ok = ok && new_initializer(2) == &nodes[2] &&
+        free_initializers == &nodes[1] && !memcmp(&nodes[2], &zero, sizeof(zero));
+    free_initializers = saved;
+    return ok;
+}
+
 static int initializer_reuse_exact_span(void)
 {
     struct { C2InitRecord record; unsigned canary[2]; } backing;
@@ -4716,6 +5137,17 @@ static int x87_arithmetic_encoding_roles(void)
 }
 
 const ReconTest numeric_tests[] = {
+    {"runtime symbol serials distinguish listing mode from output enable", 1, runtime_serial_uses_listing_owner},
+    {"converted zero moves survive while genuine self moves are removed", 1, converted_zero_moves_remain_executable},
+    {"COFF symbol output preserves filename padding and associated-section fields", 1, coff_symbol_file_and_section_records},
+    {"COFF timestamp uses the existing reproducible option owner", 1, coff_clock_uses_reproducible_option},
+    {"COFF relocations retain packed output, overflow count and recycled ownership", 1, coff_relocation_output_and_recycling},
+    {"COFF flush preserves chunk order and recycles the entire ring", 1, coff_flush_chunk_order_and_recycling},
+    {"COFF table paging and finalization preserve links, flags and full-width counts", 1, coff_table_iteration_and_finalization},
+    {"COFF alignment flags OR existing characteristics without touching adjacent fields", 1, coff_alignment_preserves_characteristics},
+    {"COFF reuse consumes the real nonzero deferred-compilation owner", 1, coff_deferred_storage_owner},
+    {"initializer recycling follows value links and preserves payload before reuse", 1, initializer_recycle_value_chain},
+    {"COFF symbol relocations retain offset, kind and distinct flag owners", 1, coff_symbol_relocation_kinds},
     {"x87 arithmetic encoding preserves direction, pop groups and output tails", 1, x87_arithmetic_encoding_roles},
     {"float constant scope follows listing control instead of object-output control", 1, real_constant_scope_owner},
     {"float load and pop-store encoding retains widths, operand roles and byte canaries", 1, float_load_store_encoding_widths},
@@ -4737,7 +5169,7 @@ const ReconTest numeric_tests[] = {
     {"real expression reuses exact 24-byte node and negation form consumes no payload", 1, real_expression_reuse_and_negate_form},
     {"real conversion preserves signed values, range status and input/output tails", 1, real_conversion_range_and_sign},
     {"real IL block preserves signed count, full structure and untouched FILE/input tails", 1, real_input_block_scope},
-    {"ready scheduler node selects its nearest previous fence and reuses edge", 1, schedule_ready_predecessor_fence},
+    {"ready scheduler node follows offset-four fence chain and reuses edge", 1, schedule_ready_next_fence},
     {"spill block boundaries retain availability ownership and update visit results", 1, spill_block_boundary_results},
     {"allocation copy roles preserve known fixed address inputs and outputs", 1, fixed_address_copy_roles},
     {"register alias lookup preserves remapped indices, grouped uses and wildcard roles", 1, register_alias_index_roles},

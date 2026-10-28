@@ -1,10 +1,10 @@
 #include "coff-output.h"
 #include <string.h>
-#include <string.h>
+#include <time.h>
 #include <recon.h>
 
 extern char *c2_output_name, *c2_source_name;
-extern int deferred_compilation, c2_codeview_types, c2_line_numbers;
+extern int deferred_compilation, c2_codeview_types, c2_line_numbers, c2_reproducible;
 FILE *object_output;
 int object_output_open;
 void *incremental_data;
@@ -68,7 +68,7 @@ void initialize_object_output(void)
 
 C2OutputAllocator output_allocate;
 C2OutputErrorHandler output_error_handler;
-C2PendingCallback output_clock_handler;
+C2OutputClockCallback output_clock_handler;
 int coff_new_output;
 unsigned short coff_machine;
 char *coff_source_name;
@@ -283,8 +283,8 @@ void __fastcall select_output_section(C2Section *section)
         write_output_fill(0, section->symbol.section_size - position);
 }
 
-/* Function attribute bit23; its wider optimizer meaning is still pending. */
-int function_option_23 = 1;
+/* Original48fb60 is c2_favor_speed, updated by the real bit23 decoder. */
+extern int c2_favor_speed;
 
 unsigned short __fastcall create_coff_section(C2Section *section)
 {
@@ -315,7 +315,7 @@ unsigned short __fastcall create_coff_section(C2Section *section)
             (section->combine == 7 && section->selection == 5) ?
             ".text" : base->symbol.name;
         flags = IMAGE_SCN_CNT_CODE | IMAGE_SCN_MEM_EXECUTE | IMAGE_SCN_MEM_READ;
-        section->alignment = function_option_23 ? stack_alignment :
+        section->alignment = c2_favor_speed ? stack_alignment :
             c2_constant_strings ? 2 : 1;
         break;
     case 1:
@@ -358,7 +358,7 @@ unsigned short __fastcall create_coff_section(C2Section *section)
     case 18:
         name = ".text$x";
         flags = IMAGE_SCN_CNT_CODE | IMAGE_SCN_MEM_EXECUTE | IMAGE_SCN_MEM_READ;
-        if (function_option_23)
+        if (c2_favor_speed)
             section->alignment = stack_alignment;
         break;
     case 19:
@@ -441,7 +441,8 @@ unsigned __fastcall append_output_table(C2OutputTable *table, void *item)
     return ++table->count;
 }
 
-int coff_reuse_output;
+/* Original497da8 is the existing deferred_compilation control, also read
+ * by initialize_coff_output. The older duplicate zero-only view is retired. */
 
 int __fastcall initialize_coff_section(unsigned short section, unsigned flags)
 {
@@ -464,7 +465,7 @@ int __fastcall initialize_coff_section(unsigned short section, unsigned flags)
             return 0;
     }
     old = entry->data;
-    if (coff_reuse_output) {
+    if (deferred_compilation) {
         if (!old)
             goto new_data;
         old->flags = 0;
@@ -563,7 +564,7 @@ unsigned __fastcall register_coff_storage(C2CoffSectionData *data)
     C2OutputStorageEntry *entry, *first, *previous, *next, *empty;
     C2CoffSectionData *last;
     unsigned index = data->symbol_index;
-    if (coff_reuse_output) {
+    if (deferred_compilation) {
         storage = coff_storage;
         first = storage->first;
         if (first) {
@@ -1256,4 +1257,513 @@ void __fastcall output_callback_435af6(unsigned offset, C2Symbol *symbol)
     offset += query_coff_position(coff_default_flags);
     write_coff_relocation(symbol->serial, offset, symbol->coff_symbol_index,
         IMAGE_REL_I386_REL32);
+}
+
+void __fastcall write_coff_symbol_relocation(unsigned offset, C2Symbol *symbol,
+    unsigned short type)
+{
+    offset += query_coff_position(coff_default_flags);
+    write_coff_relocation(symbol->serial, offset, symbol->coff_symbol_index, type);
+}
+
+void __fastcall output_callback_43696a(unsigned offset, C2Symbol *symbol)
+{
+    unsigned short type = IMAGE_REL_I386_DIR32;
+    if (symbol->kind == 1 && (symbol->flags & 0x1000))
+        type = IMAGE_REL_I386_SECREL;
+    write_coff_symbol_relocation(offset, symbol, type);
+}
+
+/* Four independently owned incremental-output DWORDs. The existing
+ * incremental_data is also the49e31c byte-buffer base; it is not duplicated.
+ * Pristine flags/count/cursor are0; their real writers precede later use. */
+unsigned incremental_buffer_left; /*49e314*/
+unsigned char *incremental_buffer_cursor; /*49e324*/
+unsigned incremental_stream_append; /*49e32c: first replace, subsequent append*/
+unsigned incremental_extended_counts; /*49e330: extended relocation/line counts*/
+unsigned __fastcall coff_alignment_characteristics(unsigned alignment)
+{
+    /* SDK IMAGE_SCN_ALIGN_nBYTES values for the seven supported alignments. */
+    switch (alignment) {
+    case 1: return IMAGE_SCN_ALIGN_1BYTES;
+    case 2: return IMAGE_SCN_ALIGN_2BYTES;
+    case 4: return IMAGE_SCN_ALIGN_4BYTES;
+    case 8: return IMAGE_SCN_ALIGN_8BYTES;
+    case 16: return IMAGE_SCN_ALIGN_16BYTES;
+    case 32: return IMAGE_SCN_ALIGN_32BYTES;
+    case 64: return IMAGE_SCN_ALIGN_64BYTES;
+    default:
+        c2_report_internal("E:\\utc\\src\\\\P2\\coff.c", 0x79c);
+        return 0;
+    }
+}
+void __fastcall or_coff_section_characteristics(unsigned short section, unsigned flags)
+{
+    C2OutputSection *entry = lookup_output_table(coff_table, section);
+    /* The original assumes this section lookup succeeds. */
+    entry->characteristics |= flags;
+}
+void *__fastcall next_output_table_entry(C2OutputTable *table)
+{
+    unsigned index = table->iterator_index;
+    if (!index) {
+        table->iterator_used = 0;
+        table->iterator_page = table->first;
+    }
+    if (index >= table->count) {
+        table->iterator_index = 0;
+        return NULL;
+    }
+    table->iterator_index = index + 1;
+    if (table->iterator_used >= table->capacity) {
+        table->iterator_used = 0;
+        table->iterator_page = table->iterator_page->next;
+    }
+    return table->iterator_page->items[table->iterator_used++];
+}
+
+/* Finalize active entries; no section is removed from the table. */
+void finish_coff_sections(void)
+{
+    C2OutputSection *section = next_output_table_entry(coff_table);
+    while (section) {
+        if (section->data->relocation_count >= 0xffffU)
+            incremental_extended_counts = 1;
+        if (section->flags & 2) {
+            --coff_section_count;
+            section->flags &= ~2;
+        }
+        section = next_output_table_entry(coff_table);
+    }
+}
+void prepare_incremental_sections(void) { __asm { int 3 } }
+void prepare_incremental_symbols(void) { __asm { int 3 } }
+unsigned __fastcall output_table_count(C2OutputTable *table)
+{
+    __asm { int 3 }
+    return 0;
+}
+void __fastcall reserve_coff_headers(unsigned short count)
+{
+    unsigned needed;
+
+    if (coff_pending_e18)
+        return;
+    if (!count)
+        coff_pending_e18 = (unsigned short)coff_storage->count;
+    else if ((unsigned)count < output_table_count(coff_table))
+        output_error_handler(7, "E:\\utc\\src\\\\P2\\coffemit.c", 0x3a7);
+    else {
+        needed = coff_storage->count + count - output_table_count(coff_table);
+        if (needed > 0xffffU)
+            output_error_handler(6, "E:\\utc\\src\\\\P2\\coffemit.c", 0x3b0);
+        else
+            coff_pending_e18 = (unsigned short)needed;
+    }
+    /* If an error callback returns, the original still seeks using the
+       unchanged reservation. It does not synthesize a replacement count. */
+    fseek(coff_output, (unsigned)coff_pending_e18 * 40 + 20, SEEK_SET);
+}
+void __fastcall grow_incremental_headers(unsigned bytes) { __asm { int 3 } }
+unsigned __fastcall coff_relocation_bytes(C2CoffSectionData *data) { __asm { int 3 } return 0; }
+unsigned __fastcall coff_line_number_bytes(C2CoffSectionData *data) { __asm { int 3 } return 0; }
+unsigned __fastcall reserve_incremental_section(unsigned bytes, unsigned previous_offset) { __asm { int 3 } return 0; }
+void __fastcall write_coff_section_relocations(C2CoffSectionData *data, unsigned base)
+{
+    IMAGE_RELOCATION overflow;
+    C2OutputBlock508 *last, *block, *first;
+    unsigned index;
+
+    if (data->relocation_count >= 0xffffU) {
+        overflow.VirtualAddress = data->relocation_count + 1;
+        overflow.SymbolTableIndex = 0;
+        overflow.Type = 0;
+        if (fwrite(&overflow, 10, 1, coff_output) != 1)
+            output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xd3f);
+    }
+    last = data->relocations;
+    block = last;
+    do {
+        block = block->last;
+        index = block->count;
+        while (index) {
+            --index;
+            block->entries[index].VirtualAddress += base;
+        }
+        if (fwrite(block->entries, 10, block->count, coff_output) != block->count)
+            output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xd4c);
+    } while (block != last);
+    first = last->last;
+    last->last = coff_free_blocks_508;
+    coff_free_blocks_508 = first;
+}
+void __fastcall write_coff_section_lines(C2CoffSectionData *data, unsigned base) { __asm { int 3 } }
+void __fastcall write_coff_section_data(C2OutputSection *section)
+{
+    C2CoffSectionData *data = section->data;
+    C2OutputList *list = data->output;
+    unsigned size = output_list_position(list), offset, lines, relocations;
+
+    if (list->count_only == 1)
+        data->raw_data_offset = 0;
+    else {
+        if (incremental_header_output) {
+            offset = data->raw_data_offset;
+            lines = coff_line_number_bytes(data);
+            relocations = coff_relocation_bytes(data);
+            offset = reserve_incremental_section(size + lines + relocations, offset);
+            if (fseek(coff_output, offset, SEEK_SET))
+                c2_report_internal("E:\\utc\\src\\\\P2\\coffemit.c", 0xa74);
+        } else
+            offset = ftell(coff_output);
+        data->raw_data_offset = offset;
+    }
+    data->virtual_address = 0;
+    data->virtual_size = section->flags & 0x10 ? 1 : 0;
+    data->size = size;
+    flush_coff_list(data->output);
+    if (data->relocation_count) {
+        data->relocation_offset = ftell(coff_output);
+        write_coff_section_relocations(data, 0);
+    } else
+        data->relocation_offset = 0;
+    if (data->line_number_count) {
+        data->line_number_offset = ftell(coff_output);
+        write_coff_section_lines(data, data->virtual_address);
+    } else
+        data->line_number_offset = 0;
+    data->flags |= 1;
+}
+void __fastcall write_incremental_ulong(unsigned value) { __asm { int 3 } }
+void write_incremental_header_metadata(void) { __asm { int 3 } }
+unsigned long writer_callback_45477a(void)
+{
+    time_t stamp;
+    if (c2_reproducible)
+        return 0;
+    time(&stamp);
+    return (unsigned long)stamp;
+}
+IMAGE_SYMBOL *coff_current_symbol; /*499acc; initialized NULL, then owned by this writer. */
+void __fastcall write_coff_symbol_record(C2CoffRecord *record)
+{
+    IMAGE_SYMBOL symbol;
+    IMAGE_AUX_SYMBOL auxiliary;
+    C2CoffSource *source;
+    C2CoffSectionData *data;
+    C2OutputSection *section, *associated;
+    C2OutputList *saved;
+    char *name;
+    unsigned length, padding;
+
+    switch (record->kind) {
+    case 1:
+        strncpy((char *)symbol.N.ShortName, ".file", 8);
+        source = record->value.source;
+        symbol.Value = source->next_source;
+        symbol.SectionNumber = IMAGE_SYM_DEBUG;
+        symbol.Type = 0;
+        symbol.StorageClass = IMAGE_SYM_CLASS_FILE;
+        length = strlen(source->name);
+        symbol.NumberOfAuxSymbols = (unsigned char)(length / 18 + 1);
+        if (fwrite(&symbol, 18, 1, coff_output) != 1)
+            output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xb00);
+        if (fwrite(source->name, length + 1, 1, coff_output) != 1)
+            output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xb04);
+        /* The original BYTE auxiliary count wraps for very long filenames;
+           retain its DWORD padding arithmetic rather than widening the count. */
+        padding = (unsigned)symbol.NumberOfAuxSymbols * 18 - length - 1;
+        while (padding--) fputc(0, coff_output);
+        coff_current_symbol = NULL;
+        break;
+    case 2:
+        data = record->value.section;
+        section = data->section;
+        set_coff_symbol_name(&symbol, section->name, 1);
+        symbol.Value = 0;
+        symbol.SectionNumber = coff_new_output ? (short)data->storage_index :
+            (short)(-2 - (int)data->storage_index);
+        symbol.Type = 0;
+        symbol.StorageClass = IMAGE_SYM_CLASS_STATIC;
+        symbol.NumberOfAuxSymbols = 1;
+        if (fwrite(&symbol, 18, 1, coff_output) != 1)
+            output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xb19);
+        memset(&auxiliary, 0, sizeof(auxiliary));
+        auxiliary.Section.Length = data->size;
+        auxiliary.Section.NumberOfRelocations = data->relocation_count >= 0xffffU ?
+            0xffff : (unsigned short)data->relocation_count;
+        auxiliary.Section.NumberOfLinenumbers = data->line_number_count;
+        if (section->characteristics & IMAGE_SCN_LNK_COMDAT) {
+            auxiliary.Section.CheckSum = 0;
+            auxiliary.Section.Selection = section->selection;
+            if (section->association) {
+                associated = lookup_output_table(coff_table, section->association);
+                auxiliary.Section.Number = coff_new_output ? (short)associated->data->storage_index :
+                    (short)(-2 - (int)associated->data->storage_index);
+            } else
+                auxiliary.Section.Number = 0;
+        }
+        if (fwrite(&auxiliary, 18, 1, coff_output) != 1)
+            output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xb33);
+        coff_current_symbol = NULL;
+        break;
+    case 3:
+        coff_current_symbol = record->value.symbol;
+        if (deferred_compilation && !coff_current_symbol->N.Name.Short) {
+            name = (char *)coff_current_symbol->N.LongName[1];
+            coff_current_symbol->N.Name.Long = coff_string_position(coff_output_list) + 4;
+            saved = coff_current_list;
+            coff_current_list = coff_output_list;
+            write_output_bytes(name, strlen(name) + 1);
+            coff_current_list = saved;
+        }
+        if (fwrite(coff_current_symbol, 18, 1, coff_output) != 1)
+            output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xb46);
+        break;
+    case 4:
+        if (fwrite(record->value.symbol, 18, 1, coff_output) != 1)
+            output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xb4d);
+        coff_current_symbol = NULL;
+        break;
+    case 5:
+        break;
+    case 6:
+    case 7:
+        strncpy((char *)symbol.N.ShortName, "$unused$", 8);
+        symbol.Value = 0;
+        symbol.SectionNumber = 0;
+        symbol.Type = 0;
+        symbol.StorageClass = 14;
+        symbol.NumberOfAuxSymbols = 0;
+        if (fwrite(&symbol, 18, 1, coff_output) != 1)
+            output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xb60);
+        break;
+    default:
+        c2_report_internal("E:\\utc\\src\\\\P2\\coffemit.c", 0xb65);
+        break;
+    }
+}
+void __fastcall encode_coff_section_name(unsigned char *destination, char *name)
+{
+    C2OutputList *saved;
+    int length;
+
+    memset(destination, 0, 8);
+    length = (int)strlen(name);
+    if (length < 9)
+        strncpy((char *)destination, name, length);
+    else {
+        destination[0] = '/';
+        /* Original defect: decimal offsets are formatted directly into the
+           eight-byte name field without checking that they fit. */
+        format_integer((int)(coff_string_position(coff_output_list) + 4),
+            (char *)destination + 1, 10);
+        saved = coff_current_list;
+        coff_current_list = coff_output_list;
+        write_output_bytes(name, length + 1);
+        coff_current_list = saved;
+    }
+}
+void __fastcall write_coff_section_header(C2CoffSectionData *data)
+{
+    IMAGE_SECTION_HEADER header;
+    C2OutputSection *section = data->section;
+
+    encode_coff_section_name(header.Name, section->name);
+    header.Misc.PhysicalAddress = data->virtual_size;
+    header.VirtualAddress = data->virtual_address;
+    header.SizeOfRawData = data->size;
+    header.PointerToRawData = data->raw_data_offset;
+    header.PointerToRelocations = data->relocation_offset;
+    header.PointerToLinenumbers = data->line_number_offset;
+    header.NumberOfRelocations = (unsigned short)data->relocation_count;
+    if (data->relocation_count >= 0xffffU)
+        header.NumberOfRelocations = 0xffff;
+    header.NumberOfLinenumbers = data->line_number_count;
+    header.Characteristics = section->characteristics;
+    if (data->relocation_count >= 0xffffU)
+        header.Characteristics |= 0x01000000U; /* IMAGE_SCN_LNK_NRELOC_OVFL */
+    if (fwrite(&header, 40, 1, coff_output) != 1)
+        output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xb90);
+}
+void __fastcall flush_coff_list(C2OutputList *list)
+{
+    C2OutputChunk *chunk, *last;
+
+    if (!list)
+        return;
+    if (list->count_only != 1) {
+        last = list->last;
+        chunk = last->next;
+        while (chunk != last) {
+            if (fwrite(chunk->data, 500, 1, coff_output) != 1)
+                output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xceb);
+            chunk = chunk->next;
+        }
+        if (list->used_bytes &&
+            fwrite(chunk->data, list->used_bytes, 1, coff_output) != 1)
+            output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0xcf0);
+    }
+    chunk = list->last->next;
+    list->last->next = coff_free_chunks;
+    coff_free_chunks = chunk;
+}
+
+unsigned incremental_header_position; /*49e488*/
+unsigned incremental_data_position; /*49e48c*/
+int incremental_header_output; /*499ad0*/
+C2OutputList *coff_extra_output_list; /*499ad4*/
+void finish_coff_image(void)
+{
+    IMAGE_FILE_HEADER header;
+    C2OutputSection *section;
+    C2CoffRecord *record;
+    C2OutputStorageEntry *entry;
+    unsigned bytes, index;
+
+    if (deferred_compilation) {
+        prepare_incremental_sections();
+        prepare_incremental_symbols();
+        coff_new_output = 1;
+    }
+    if (!coff_pending_e18)
+        reserve_coff_headers(0);
+    fseek(coff_output, (unsigned)coff_pending_e18 * 40 + 20, SEEK_SET);
+    if (c2_internal_listing) {
+        if (deferred_compilation) {
+            bytes = (unsigned)coff_pending_e18 * 40;
+            if (bytes > incremental_data_position - 20U)
+                grow_incremental_headers(bytes - incremental_data_position + 20);
+            incremental_header_output = 1;
+        }
+        for (section = next_output_table_entry(coff_table); section;
+             section = next_output_table_entry(coff_table)) {
+            if ((section->flags & 0x10) && (section->flags & 1))
+                write_coff_section_data(section);
+        }
+        if (!deferred_compilation)
+            incremental_header_position = ftell(coff_output);
+        else {
+            fseek(coff_output, incremental_header_position, SEEK_SET);
+            incremental_header_output = 0;
+        }
+    }
+    for (section = next_output_table_entry(coff_table); section;
+         section = next_output_table_entry(coff_table)) {
+        if ((!c2_internal_listing || !(section->flags & 0x10)) &&
+            (section->flags & 1) && !(section->flags & 4))
+            write_coff_section_data(section);
+    }
+    header.Machine = coff_machine;
+    header.NumberOfSections = (unsigned short)coff_storage->count;
+    header.TimeDateStamp = output_clock_handler.target();
+    header.NumberOfSymbols = coff_symbol_total;
+    header.SizeOfOptionalHeader = 0;
+    header.Characteristics = 0;
+    header.PointerToSymbolTable = ftell(coff_output);
+    if (c2_internal_listing) {
+        write_incremental_ulong(header.TimeDateStamp);
+        write_incremental_ulong(incremental_header_position);
+        write_incremental_header_metadata();
+    }
+    for (index = 0; index < coff_symbol_total; ++index) {
+        record = coff_symbol_buffer[index];
+        if (c2_internal_listing && record->kind == 3 && record->serial) {
+            write_incremental_ulong(index);
+            write_incremental_ulong(record->serial);
+        }
+        write_coff_symbol_record(record);
+    }
+    if (c2_internal_listing) {
+        write_incremental_ulong(0);
+        write_incremental_ulong(0);
+    }
+    fseek(coff_output, 0, SEEK_SET);
+    if (fwrite(&header, sizeof(header), 1, coff_output) != 1)
+        output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0x4b8);
+    ftell(coff_output);
+    for (entry = coff_storage->first; entry; entry = entry->next) {
+        if (entry->data)
+            write_coff_section_header(entry->data);
+    }
+    fseek(coff_output, 0, SEEK_END);
+    bytes = output_list_position(coff_output_list) + 4;
+    if (fwrite(&bytes, sizeof(bytes), 1, coff_output) != 1)
+        output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 0x4ce);
+    flush_coff_list(coff_output_list);
+    if (coff_extra_output_list) {
+        fseek(coff_output, 0, SEEK_END);
+        flush_coff_list(coff_extra_output_list);
+    }
+}
+void __fastcall write_incremental_byte(unsigned char value) { __asm { int 3 } }
+void write_incremental_options(void) { __asm { int 3 } }
+void write_incremental_objects(void) { __asm { int 3 } }
+void write_incremental_sections(void) { __asm { int 3 } }
+void write_incremental_global_symbols(void) { __asm { int 3 } }
+void write_incremental_symbol_uses(void) { __asm { int 3 } }
+int __fastcall replace_incremental_stream(const void *data, unsigned bytes)
+{ __asm { int 3 } return 0; }
+int __fastcall append_incremental_stream(const void *data, unsigned bytes)
+{ __asm { int 3 } return 0; }
+
+extern C2FunctionSymbol *listed_functions;
+void output_callback_4541f3(void)
+{
+    C2OutputSectionLink *link;
+    C2Section *section;
+    C2FunctionSymbol *function;
+    C2ListingSymbol *entry;
+    unsigned flags, bucket;
+    unsigned short indices[8];
+    int count;
+
+    for (bucket = 0; bucket < 16; ++bucket) {
+        for (link = coff_section_buckets[bucket]; link; link = link->next) {
+            section = link->section;
+            flags = coff_alignment_characteristics(section->alignment);
+            or_coff_section_characteristics((unsigned short)section->coff_section, flags);
+            if (section->symbol.section_size)
+                select_output_section(section);
+        }
+    }
+    finish_coff_sections();
+    if (c2_internal_listing) {
+        incremental_data = c2_pool_allocate(0, 0x2800);
+        incremental_buffer_cursor = incremental_data;
+        incremental_buffer_left = 0x2800;
+        write_incremental_byte(incremental_extended_counts ? 0 : 5);
+        write_incremental_options();
+        if (deferred_compilation) {
+            for (function = listed_functions; function; function = function->pending_next) {
+                entry = function->listing->symbols;
+                if (entry) {
+                    count = 0;
+                    /* Original defect: the fixed eight-WORD local has no
+                     * oversized-list check before these stores. */
+                    for (; entry; entry = entry->next)
+                        indices[count++] = entry->index;
+                    restore_listing_symbol_indices(indices, count, 0);
+                    function->listing->symbols = NULL;
+                }
+            }
+        }
+    }
+    finish_coff_image();
+    if (c2_internal_listing) {
+        if (deferred_compilation)
+            write_incremental_objects();
+        write_incremental_sections();
+        write_incremental_global_symbols();
+        write_incremental_symbol_uses();
+        if (incremental_stream_append) {
+            if (!append_incremental_stream(incremental_data, 0x2800 - incremental_buffer_left))
+                c2_report_internal("E:\\utc\\src\\\\P2\\coff.c", 0x172);
+        } else {
+            if (!replace_incremental_stream(incremental_data, 0x2800 - incremental_buffer_left))
+                c2_report_internal("E:\\utc\\src\\\\P2\\coff.c", 0x175);
+        }
+    }
+    fclose(object_output);
+    object_output_open = 0;
 }

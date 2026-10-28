@@ -60,10 +60,10 @@ C2MachineRegisterStorage machine_register_storage = { {
     /* Row20 has its reached kind1/root4 identity, number20 and eight-bit
      * range and reached x86 encoding WORD3. Next/other payload and rows21..30 remain unavailable. */
     { {0}, 1, 0, {0}, (C2FunctionRegister *)&machine_registers[4], {{{0}, 20}}, 8, 0, 3 },
-    /* Row21 has its reached kind1 and canonical DWORD pointing to row1. Its remaining
-     * reserved bytes have no default or field interpretation. The reached encoder
-     * now consumes number21 and encodingWORD4; range remains unmodeled. */
-    { {0}, 1, 0, {0}, (C2FunctionRegister *)&machine_registers[1], {{{0}, 21}}, 0, 0, 4 },
+    /* Row21 is the reached AH view: canonical row1, number21, width8,
+     * displacement8 and encodingWORD4. These exact range DWORDs are consumed
+     * by AX/AH scheduling overlap; the other reserved fields remain UNMODELED. */
+    { {0}, 1, 0, {0}, (C2FunctionRegister *)&machine_registers[1], {{{0}, 21}}, 8, 8, 4 },
     { {0} }, { {0} }, { {0} },
     { {0} }, { {0} }, { {0} }, { {0} }, { {0} }, { {0} },
     /* Row31 has the consumed number31 and canonical self identity. Its

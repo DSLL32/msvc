@@ -1602,21 +1602,21 @@
             [
               {
                 "rebuilt_symbol": "@mark_register_references@4",
-                "offset": 300
+                "offset": 299
               },
               {
                 "rebuilt_symbol": "@mark_register_references@4",
-                "offset": 324
+                "offset": 323
               }
             ],
             [
               {
                 "rebuilt_symbol": "@mark_register_references@4",
-                "offset": 324
+                "offset": 323
               },
               {
                 "rebuilt_symbol": "@mark_register_references@4",
-                "offset": 344
+                "offset": 343
               }
             ]
           ]
@@ -2826,21 +2826,21 @@
             [
               {
                 "rebuilt_symbol": "@final_record_needs_allocation@4",
-                "offset": 625
+                "offset": 675
               },
               {
                 "rebuilt_symbol": "@final_record_needs_allocation@4",
-                "offset": 673
+                "offset": 723
               }
             ],
             [
               {
                 "rebuilt_symbol": "@final_record_needs_allocation@4",
-                "offset": 673
+                "offset": 723
               },
               {
                 "rebuilt_symbol": "@final_record_needs_allocation@4",
-                "offset": 813
+                "offset": 863
               }
             ]
           ]
@@ -3034,41 +3034,41 @@
             [
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13736
+                "offset": 13746
               },
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13760
+                "offset": 13770
               }
             ],
             [
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13760
+                "offset": 13770
               },
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13784
+                "offset": 13794
               }
             ],
             [
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13784
+                "offset": 13794
               },
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13844
+                "offset": 13854
               }
             ],
             [
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 13844
+                "offset": 13854
               },
               {
                 "rebuilt_symbol": "@optimize_final_instruction_forms@4",
-                "offset": 14021
+                "offset": 14031
               }
             ]
           ]
@@ -5461,6 +5461,24 @@
             ]
           ]
         }
+      },
+      "_finish_coff_image": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "@flush_coff_list@4": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "@write_coff_symbol_record@4": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true
+        }
       }
     },
     "callback_tables": [
@@ -5498,7 +5516,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5510,7 +5528,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5522,7 +5540,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5534,7 +5552,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5546,7 +5564,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5558,7 +5576,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5570,7 +5588,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5582,7 +5600,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5594,7 +5612,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5606,7 +5624,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5620,7 +5638,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5632,7 +5650,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5648,7 +5666,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5660,7 +5678,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5672,7 +5690,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5684,7 +5702,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5696,7 +5714,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5708,7 +5726,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5723,7 +5741,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5738,7 +5756,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5750,7 +5768,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5762,7 +5780,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5774,7 +5792,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5789,7 +5807,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5804,7 +5822,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5816,7 +5834,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5827,11 +5845,13 @@
             }
           },
           "preserves": [
-            "ebp"
+            "ebp",
+            "esi",
+            "edi"
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5843,7 +5863,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         },
         {
@@ -5858,7 +5878,311 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "c88f8a0e1de1e30c97f794d031ebb56b500868d265f0be4c66b79b1fb2ab6802"
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "function": "@next_output_table_entry@4"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "function": "@output_list_position@4"
+          },
+          "preserves": [
+            "esi",
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "function": "@write_coff_section_data@4"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "function": "@write_incremental_ulong@4"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "function": "_write_incremental_header_metadata"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "function": "@flush_coff_list@4"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "function": "@write_coff_section_header@4"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "ftell"
+            }
+          },
+          "preserves": [
+            "esi",
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fwrite"
+            }
+          },
+          "preserves": [
+            "esi",
+            "edi",
+            "ebx",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "function": "@grow_incremental_headers@4"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fputc"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "target": {
+            "function": "@lookup_output_table@8"
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        }
+      ],
+      "callback_preservation_contracts": [
+        {
+          "owner": "_finish_coff_image",
+          "original": {
+            "site": 4539537,
+            "slot": 4816384
+          },
+          "rebuilt": {
+            "site": {
+              "rebuilt_symbol": "_finish_coff_image",
+              "offset": 436
+            },
+            "slot": {
+              "rebuilt_symbol": "_output_clock_handler",
+              "offset": 0
+            }
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "owner": "_finish_coff_image",
+          "original": {
+            "site": 4673961,
+            "slot": 4823540
+          },
+          "rebuilt": {
+            "site": {
+              "rebuilt_symbol": "_finish_coff_image",
+              "offset": 703
+            },
+            "slot": {
+              "rebuilt_symbol": "_output_error_handler",
+              "offset": 0
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "owner": "_finish_coff_image",
+          "original": {
+            "site": 4673987,
+            "slot": 4823540
+          },
+          "rebuilt": {
+            "site": {
+              "rebuilt_symbol": "_finish_coff_image",
+              "offset": 854
+            },
+            "slot": {
+              "rebuilt_symbol": "_output_error_handler",
+              "offset": 0
+            }
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "owner": "@flush_coff_list@4",
+          "original": {
+            "site": 4674262,
+            "slot": 4823540
+          },
+          "rebuilt": {
+            "site": {
+              "rebuilt_symbol": "@flush_coff_list@4",
+              "offset": 107
+            },
+            "slot": {
+              "rebuilt_symbol": "_output_error_handler",
+              "offset": 0
+            }
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "owner": "@write_coff_symbol_record@4",
+          "original": {
+            "site": 4674318,
+            "slot": 4823540
+          },
+          "rebuilt": {
+            "site": {
+              "rebuilt_symbol": "@write_coff_symbol_record@4",
+              "offset": 183
+            },
+            "slot": {
+              "rebuilt_symbol": "_output_error_handler",
+              "offset": 0
+            }
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
+          }
+        },
+        {
+          "owner": "@write_coff_symbol_record@4",
+          "original": {
+            "site": 4674388,
+            "slot": 4823540
+          },
+          "rebuilt": {
+            "site": {
+              "rebuilt_symbol": "@write_coff_symbol_record@4",
+              "offset": 467
+            },
+            "slot": {
+              "rebuilt_symbol": "_output_error_handler",
+              "offset": 0
+            }
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-contracts.json",
+            "sha256": "fb7613118296196c4d2abe572c40c6ac02e745bf12cf26141c642cce5875ee8e"
           }
         }
       ]
@@ -5879,6 +6203,6541 @@
     },
     "@find_symbol_real@4": {
       "pending_extent": false
+    }
+  },
+  "ret_checks": {
+    "schema": 1,
+    "functions": {
+      "@activate_scope@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@add_associative_coff_section@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@add_coff_section@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@add_coff_symbol@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@add_final_cached_value@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@add_frame_register_group@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@add_optimizer_dense_member@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@add_optimizer_use@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@add_output_directive@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@add_output_source@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@add_region_register_definition@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@add_region_register_use@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@add_register_to_set@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@add_schedule_anti_dependencies@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@add_schedule_control_dependencies@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@add_schedule_memory_anti_dependencies@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@add_schedule_memory_dependencies@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@add_schedule_record_dependencies@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@add_schedule_register_dependencies@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@adjust_allocation_input@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@adjust_final_stack_depth@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@adjust_final_stack_operands@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@adjust_input_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@adjust_input_return_size@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@adjust_schedule_dependency@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@advance_schedule_cycle@0": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@aggregate_result_needs_temporary@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@align_pending_debug_symbols@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@align_stack_storage@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@allocate_final_function_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocate_floating_function@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocate_flow_block@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocate_local_storage@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocate_output_bytes@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocate_region_registers@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocate_small_node@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_block_for_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_blocks_are_adjacent@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_can_coalesce@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_copy_cost@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_copy_uses_fixed_register@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@allocation_definition_can_be_reused@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_definition_cost@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_definition_is_reusable@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_definition_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_input_is_repeated@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_integer_limit@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_move_is_blocked@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@allocation_operand_is_copy@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_record_breaks_reuse@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_record_is_rematerializable@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_record_stores_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_spill_is_profitable@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@allocation_spill_path_is_available@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@allocation_use_accepts_definition@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocation_use_cost@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@analyze_function_regions@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@analyze_optimizer_values@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@analyze_region_register_sets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@analyze_single_region_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@annotate_schedule_dependency@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@append_input_trees@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@append_output_table@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@append_region_candidate@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@append_scheduled_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@append_section@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@apply_allocation_spills@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@apply_integer_mask@12": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@apply_schedule_dependency@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@arena_strdup@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@arrange_factor_operands@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@assign_allocation_spill_registers@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@assign_entry_register_parameters@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@assign_final_call_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@assign_flow_region@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@assign_frame_register_offsets@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@assign_function_parameters@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@assign_machine_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@assign_optimizer_registers@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@assign_spill_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@assignment_identity_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@assignment_identity_value@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@attach_call_result@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@attach_input_expression@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@attach_optimizer_output@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@bind_allocation_spill@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@bind_final_call_parameter@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@bind_final_division_result@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@bind_final_fixed_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@bind_final_fixed_result@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@bind_final_intrinsic_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@bind_final_parameter_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@bind_global_record_register@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@bind_spill_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@bind_symbol_input_use@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@block_has_call_barrier@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@block_reaches_region_exits@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@block_scopes_equal@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@build_allocation_preferences@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@build_allocation_register_map@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@build_flow_regions@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@build_frame_register_conflicts@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@build_function_edges@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@build_function_prologue@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@build_function_register_regions@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@build_global_flow_analysis@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@build_optimizer_aliases@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@build_optimizer_conflicts@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@build_optimizer_register_sets@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@build_optimizer_register_state@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@build_region_motion_sets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@build_region_operation@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@build_schedule_graph@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@c2_allocate_node@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@c2_apply_option@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@c2_get_diagnostic_string@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@c2_match_option@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@c2_node_size@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@c2_open_intermediate@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@c2_pool_allocate@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@c2_read_environment@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@c2_system_fatal@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@c2_validate_alignment@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@c2_wildcard_match@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@can_forward_final_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@can_pair_schedule_nodes@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@canonical_region_opcode@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@canonicalize_expression_tree@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@canonicalize_function@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@choose_allocation_spill@28": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "@choose_final_multiply_recipe@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@choose_spill_scratch_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@classify_final_shift@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@classify_final_shift_mask@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@classify_global_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clear_expression_values@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clear_frame_symbol_state@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clear_global_block_marks@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clear_global_register_marks@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clear_global_rewrite_marks@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clear_region_block_flags@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clear_register_set@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clear_schedule_memory_uses@0": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clear_schedule_register_uses@0": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clear_schedule_resource_busy@0": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clone_function_section@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@clone_optimizer_dense_set@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@coalesce_allocation_registers@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@coalesce_fixed_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@coalesce_region_assignments@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@coalesce_single_use_registers@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@coff_alignment_characteristics@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@coff_selection_code@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@coff_string_position@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@coff_symbol_name@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@coff_symbol_type@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@collect_allocation_uses@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@collect_factor_operands@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@collect_frame_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@collect_global_available_record@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@collect_global_loop_record@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@collect_global_record_sets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@collect_inline_calls@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@collect_optimizer_register_aliases@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@collect_optimizer_result_uses@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@collect_region_candidates@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@collect_region_comparison_choices@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@collect_region_motion_definitions@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@collect_region_value_records@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@collect_spill_block_masks@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@combine_bitwise_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@combine_region_iterations@28": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "@common_factored_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@common_input_value_type@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compare_expression_keys@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compare_expression_trees@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compare_factor_benefit@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compare_function_registers@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compare_input_operands@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compare_optimizer_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@compare_region_constants@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@compare_region_iteration_order@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@complete_schedule_node@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compute_block_dominators@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compute_block_predecessors@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compute_frame_register_liveness@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compute_region_iteration_count@28": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "@consider_final_multiply_recipe@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@constant_region_difference@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@constrain_spill_block@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@contains_factor_operation@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@conversion_may_change_value@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@convert_final_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@convert_input_expression@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@convert_input_operand@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@convert_region_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@copy_defined_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@copy_global_set_intersection@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@copy_input_expression@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@copy_input_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@copy_input_record@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@copy_input_record_list@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@copy_optimizer_dense_set@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@copy_optimizer_symbol_difference@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@copy_optimizer_symbol_set@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@copy_optimizer_symbol_set_into@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@copy_symbol_type@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@count_integer_leading_zero_bits@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@count_optimizer_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@count_optimizer_symbols@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@count_region_record_uses@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@count_static_address_bases@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@create_coff_section@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@create_function_block@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@create_function_flow@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@create_global_expression@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@create_section@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@decode_input_token@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@defer_region_candidate@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@delay_allocation_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@delay_schedule_node@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@delete_final_record_range@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@detach_input_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@distribute_expression_operator@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@distribute_widening_conversion@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@duplicate_final_multiply_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@early_schedule_node_is_busy@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@early_schedule_range_is_usable@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@eliminate_expression_node@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@emit_encoding_integer@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@emit_final_function@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@emit_final_memory_operation@36": {
+        "expected_cleanup": [
+          28
+        ]
+      },
+      "@emit_final_multiply_recipe@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@emit_final_multiply_shift@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@emit_global_pending_diagnostics@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@emit_initializer@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@emit_output_directive@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@emit_schedule_graph@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@encode_coff_section_name@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@encode_far_symbol_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@encode_final_record@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@encode_immediate_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@encode_modrm_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@encoding_displacement_mode@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@enqueue_schedule_node@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@ensure_allocation_definition@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@exchange_scheduled_float_top@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@exchange_spill_float_top@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@expand_branch_edges@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@expand_final_operand@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@expression_can_flatten@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@expression_has_unsafe_effects@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@expression_has_unsafe_inputs@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@expression_is_binary_operation@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@expression_is_unary_operation@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@expression_order_key@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@expression_shift_mask@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@expression_value_hash@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@extract_aggregate_result@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@factor_common_operands@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@factor_constant_operands@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@factor_negations_and_comparisons@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@factor_operands_are_equal@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@factor_unary_operands@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@fence_schedule_node@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fill_global_available_set@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fill_optimizer_dense_set@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_cached_input_is_usable@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_cached_operand_aliases@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_comparisons_match@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@final_condition_allows_narrowing@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_definition_can_fold@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_division_can_share_result@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_first_input_unused_bits@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_float_stack_effect@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_input_accepts_replacement@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@final_intrinsic_input_index@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_intrinsic_output_index@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_label_allows_tail_merge@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_operand_fits_signed_byte@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_operand_fits_signed_word@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_operand_fits_word@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_operand_lists_match@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_operand_needs_expansion@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_operand_supports_width@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_operand_zero_bits@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_parameter_needs_copy@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@final_record_can_narrow@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_record_code_size@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_record_condition@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_record_has_single_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_record_is_machine_shift@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_record_needs_allocation@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_record_sign_extends_byte@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_record_sign_extends_word@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_record_supports_width@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_record_uses_machine_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_record_zero_bits@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_records_match@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_register_accepts_width@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@final_register_has_other_use@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_replacement_is_blocked@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@final_scheduling_is_enabled@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_second_input_unused_bits@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@final_type_register_class@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finalize_expression_tree@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finalize_stack_frame_size@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_aggregate_operand_owner@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@find_allocation_choice_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_assignment_rewrite@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_available_global_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_block_backedge_target@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_block_end_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_cached_message@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_control_target@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_final_constraints@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_final_fixed_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_final_float_source@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_final_input_position@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_final_multiplier_recipe@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_final_operand_constraints@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@find_final_overlapping_result@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_final_real_value@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_final_register_definition@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_final_register_output@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_final_register_use@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_final_result_use@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@find_float_pop_opcode_index@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_flow_edge@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_generic_final_constraints@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@find_global_alternative_register@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@find_global_expression@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@find_global_loop_header@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_global_replacement_register@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@find_input_record_block@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_next_global_operation@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_next_record_kind@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_optimizer_set_intersection@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_or_add_schedule_dependency@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@find_physical_register_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_real_constant_symbol@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_record_constrained_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_region_initial_constant@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_region_initial_value@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_region_matching_value@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_register_input@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_register_save_region@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@find_register_use@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@find_runtime_function@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_schedule_address_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@find_schedule_coalescing_dependency@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_schedule_dependency@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_schedule_range_end@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_schedule_register_address@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_schedule_register_alias@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_spill_constrained_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_spill_float_position@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_spill_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@find_symbol_real@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_allocation_choices@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@finish_allocation_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_allocation_spill@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@finish_coalesced_allocation_copy@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_expression_rewrite@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_final_call@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_final_call_result@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_final_condition_use@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_final_float_call@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_final_integer_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_final_multiply@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_final_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_final_value_reuse@0": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_float_allocation_machine@0": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_function_code_offsets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_function_output_state@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_global_assignment@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_global_block_pass@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_global_flow_analysis@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_global_function@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_global_function_rewrite@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_global_record_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_global_region@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_input_call_stack@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_input_expression@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_instruction_peephole_record@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_machine_register_allocation@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_optimizer_record@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_optimizer_records@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@finish_region_block_records@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_region_motion@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_region_motion_candidates@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_region_register_allocation@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_region_register_sets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_region_selection@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_register_moves@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_restored_expression@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_schedule_output@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_schedule_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_spill_block_records@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@finish_spill_float_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_spill_moves@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@finish_spill_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@flatten_expression_inputs@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@float_allocation_live_at_record@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@float_allocation_load_cost@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@float_allocation_record_needs_reload@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@float_allocation_reload_cost@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@float_allocation_store_cost@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@float_allocation_use_conflicts@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@float_binary_opcode_index@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@float_depth_before_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@flush_coff_list@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_expression_constants@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_expression_conversion@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_expression_tree@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_expression_value@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_final_address_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_final_assignment@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_final_branch_pair@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_final_branch_target@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_final_cached_output@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_final_comparison@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_final_conditional_branches@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_final_float_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_final_integer_forms@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_final_record_inputs@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_final_zero_test@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_flow_labels@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_flow_region@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_input_constant@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@fold_integer_operation@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@fold_real_operation@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@fold_region_binary_expression@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@fold_region_invariant@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_return_block@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@fold_scheduled_register_moves@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@follow_optimizer_result@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@force_allocation_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@format_integer@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@frame_reference_weight@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@frame_register_group_alignment@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@free_initializer@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@function_pass_4088c7@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@function_registers_overlap@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@function_retains_symbols@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@get_allocation_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@get_factor_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@get_final_byte_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@get_final_shift_range@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@get_frame_register_adjustment@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@get_global_index_uses@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@get_global_value_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@get_optimizer_operand_range@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@get_symbol_branch_target@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_assignment_is_redundant@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_assignment_restored@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_block_has_backedge@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_class1_opcodes@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_class2_opcodes@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_condition_opcode@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_expression_condition@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_opcode_requires_exact_type@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_operand_is_restricted@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_operand_rejects_substitution@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_operand_uses_set@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_operation_preserves_second_type@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_range_overlaps_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@global_range_overwrites_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@global_record_needs_rewrite@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_record_skips_replacement_check@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_register_is_available@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_register_slice_displacement@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_replacement_conflicts@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@global_type_has_register_class@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@group_symbol_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@has_local_symbol@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@hash_global_expression@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@hash_global_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@hash_runtime_function_name@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@immediate_fits_signed_byte@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@increase_allocation_spill_cost@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@initialize_allocation_work_sets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_block_register_regions@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@initialize_coff_output@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_coff_section@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_coff_symbols@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_final_constraints@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_final_stack_depths@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_final_value_reuse@0": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_float_allocation_regions@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_flow_pool@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@initialize_global_available_sets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_global_block_sets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_global_flow_analysis@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_global_loop_block@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_global_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_instruction_sizes@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_optimizer_dense_set@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@initialize_schedule_function@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_schedule_graph_state@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_section_defaults@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@initialize_source_output@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@inline_function_calls@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@input_argument_list@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_assignment_operator@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@input_binary_operator@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_call@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@input_comparison@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_has_side_effects@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_integer_equals@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_intrinsic_needs_result@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_operand_has_effects@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_operand_pair@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@input_operands_may_alias@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_pragma@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_record_has_effects@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_store_operator@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_string@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_symbol_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_symbol_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_tree_has_effects@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@input_unary_operator@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@insert_allocation_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@insert_allocation_work@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@insert_final_constant_assignment@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@insert_float_allocation_barrier@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@insert_flow_block@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@insert_frame_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@insert_function_scope_markers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@insert_input_record@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@insert_register_set_node@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@insert_symbol@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@integer_constant_differs@12": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@intern_symbol_name@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@intersect_block_allocation_sets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@intersect_optimizer_dense_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@intersect_optimizer_symbol_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@invalidate_global_available_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@invalidate_global_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@invert_final_branch@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@is_constant_symbol@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@is_empty_return_block@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@is_known_symbol@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@is_spill_float_binary@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@issue_schedule_node@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@label_after_final_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@last_input_tree@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@layout_function_code@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@layout_function_stack_frame@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@layout_optimized_stack_frame@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@limit_frame_register_pressure@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@link_code_nodes@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@link_global_expression_dependencies@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@load_final_float_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@load_message@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@lookup_allocation_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lookup_factor_entry@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lookup_float_opcode@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lookup_function_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lookup_global_expression_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lookup_global_symbol@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lookup_input_filename@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lookup_message@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lookup_optimizer_memory_definition@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lookup_output_table@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lookup_symbol@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_allocation_pseudo_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_condition_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_constant_arithmetic@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_constant_multiply@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_float_arithmetic@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_float_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_function_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_indirect_call@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_integer_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_memory_intrinsic@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@lower_final_memory_transfer@52": {
+        "expected_cleanup": [
+          44
+        ]
+      },
+      "@lower_final_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_shift_count@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_final_switch_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_intrinsic_runtime_call@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@lower_spilled_record_inputs@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@lower_spilled_record_outputs@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@make_global_register_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mapped_defined_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mark_expression_execution@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mark_first_input_expression@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mark_flow_regions@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@mark_global_index_inputs@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@mark_global_precision@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mark_global_register_available@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mark_optimizer_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mark_reachable_flow_blocks@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mark_region_allocation_spill@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mark_region_candidate_seen@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mark_register_references@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mark_single_flow_region@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@mark_spill_register_used@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@materialize_allocation_input@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@materialize_expression_result@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@materialize_final_address_input@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@materialize_final_intrinsic_destination@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@materialize_final_intrinsic_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@materialize_final_register_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@materialize_global_register_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@materialize_real_symbol@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@materialize_region_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@materialize_spill_scratch@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@materialize_spill_scratch_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@measure_final_call_stack@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@merge_allocation_spill_classes@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@merge_allocation_work@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@merge_expression_inputs@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@merge_factored_operands@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@merge_final_record_ranges@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@merge_flow_blocks@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@merge_frame_live_sets@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@merge_global_dependency_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@merge_global_register_identity@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@merge_optimizer_dense_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@merge_optimizer_symbol_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@merge_spill_register_constraints@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@move_final_assignment@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@move_final_label_after@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@move_float_allocation_store_to_exits@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@move_flow_edge_destination@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@move_flow_edge_source@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@move_global_region_block@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@move_input_record_before@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@move_record_range_before@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@move_scheduled_float_slot@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@needs_input_return_storage@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@negate_rewritten_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_address_register@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@new_aggregate_expression@28": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "@new_allocation_reload@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@new_assignment_expression@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@new_binary_expression@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@new_bitfield_register@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@new_block_copy_expression@28": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "@new_block_jump@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_call_expression@28": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "@new_comparison_expression@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@new_control_expression@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_final_address_expression@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@new_final_block_transfer@32": {
+        "expected_cleanup": [
+          24
+        ]
+      },
+      "@new_final_move_expression@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@new_fixed_register_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_flow@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_flow_edge@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@new_folded_binary_expression@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@new_function_edge@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@new_function_entry@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_function_exit@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_function_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_global_exclusion_set@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_global_expression_register@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@new_global_intrinsic_expression@40": {
+        "expected_cleanup": [
+          32
+        ]
+      },
+      "@new_global_register_set_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_global_result_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_global_ternary_expression@28": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "@new_global_value_expression@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@new_initializer@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_inline_result_symbol@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@new_input_call_expression@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@new_input_expression@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_input_flow_label@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_input_local@28": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "@new_input_temporary@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_integer_expression@12": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@new_numbered_machine_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_optimizer_dense_set@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_optimizer_index_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_optimizer_memory_value@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@new_output_list@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_output_table@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_real_expression@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_region_binary_expression@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@new_region_candidate_link@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_region_iteration_counter@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_region_register_domain@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_register_expression@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_register_set@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_register_set_expression@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_register_set_node@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_schedule_dependency@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@new_schedule_graph@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_schedule_memory_use@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_schedule_node@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_schedule_register_use@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_select_expression@32": {
+        "expected_cleanup": [
+          24
+        ]
+      },
+      "@new_spill_temporary_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_temporary_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_temporary_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@new_temporary_register_expression@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@new_transfer_expression@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@new_typed_register_expression@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@next_allocation_dense_member@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@next_final_marker@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@next_global_code_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@next_optimizer_symbol@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@next_output_table_entry@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@next_region_comparison_choice@28": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "@next_scope_symbol@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@normalize_final_float_opcode@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@normalize_final_float_order@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@normalize_final_move@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@normalize_flow_boundaries@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@normalize_flow_regions@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@normalize_global_call_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@normalize_integer_value@12": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@normalize_line_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@normalize_output_conditions@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@number_allocation_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@number_allocation_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@number_final_peephole_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@number_function_blocks@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@number_optimizer_operands@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@operation_absorber@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@operation_identity@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@operation_is_associative@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@operation_is_comparison@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_final_branch_sequences@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_final_instruction_forms@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_final_record_pass@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_final_record_sequence@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_final_value_reuse@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_flow_regions@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_function_flow@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_function_returns@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_global_assignment@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_global_block@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_global_flow@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_global_record@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@optimize_instruction_offsets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_region_motion@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_return_successors@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_single_flow_region@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimize_spill_float_order@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimizer_dense_contains@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimizer_dense_sets_equal@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimizer_dense_sets_intersect@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimizer_indices_overlap@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimizer_register_may_alias_index@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimizer_set_contains@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimizer_symbol_sets_equal@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@optimizer_symbol_sets_intersect@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@or_coff_section_characteristics@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@order_allocation_work@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@order_call_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@order_float_allocation_registers@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@order_function_blocks@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@order_schedule_graph@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@output_callback_41f3f2@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@output_callback_41fa04@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@output_callback_434139@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@output_callback_4346cf@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@output_callback_435633@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@output_callback_4357b8@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@output_callback_435af6@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@output_callback_43696a@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@output_dependency_is_redundant@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@output_list_position@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@parse_option_integer@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@partition_function_blocks@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_432924@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_4329c6@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_432ada@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_432bbe@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_432be2@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_432f03@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_432ff1@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_436085@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_436275@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_4363c0@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_4364af@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_46133c@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_462dfb@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_463050@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_463a2c@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@peephole_463b53@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@plan_function_frame_pointer@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@pop_function_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@pop_input_expression@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@pop_input_trees@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@pop_region_candidate_link@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@pop_region_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@pop_region_register_definition@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@pop_region_register_use@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@preceding_instruction_is_arithmetic@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_allocation_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_early_schedule_costs@0": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_expression_rewrite@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_final_address_inputs@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_final_aggregate_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@prepare_final_aggregate_result@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@prepare_final_block_address@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@prepare_final_call_parameters@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_final_call_stack@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_final_destructive_input@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_final_division_operands@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@prepare_final_expression@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_final_intrinsic_arguments@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_final_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@prepare_final_record_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_float_allocation@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_float_division_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_function_code_offsets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_function_liveness@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_function_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_function_register_spills@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_global_assignments@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_global_block@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_global_blocks@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_global_cleanup_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_global_comparison@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_global_expressions@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_global_function_cleanup@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_global_loop@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_global_operand_links@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_global_record@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@prepare_input_comparison@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@prepare_instruction_peephole_inputs@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_intrinsic_runtime_call@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@prepare_region_motion@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_region_motion_assignments@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_region_register_sets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_reused_allocation@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_schedule_dependencies@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_schedule_move_dependency@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_schedule_paths@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_schedule_range@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_schedule_ready_node@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_schedule_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepare_spill_register_allocation@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepend_flow_block@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepend_flow_label@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepend_hidden_parameter@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepend_input_record@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prepend_schedule_register_use@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@previous_expression_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@previous_global_code_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@previous_peephole_marker@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@process_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@propagate_allocation_spill_edges@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@propagate_expression_conversion@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@propagate_final_result_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@propagate_final_stack_depths@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@propagate_final_zero_bits@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@propagate_global_dependencies@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@propagate_global_rewrites@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prune_after_final_transfer@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prune_allocation_registers@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@prune_detached_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prune_final_transfer_ranges@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@prune_input_tree@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@push_function_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@push_input_trees@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@push_region_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@put_symbol@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@query_coff_position@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@queue_initializer@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@queue_symbol_debug@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@read_control_fields@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@read_function@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@read_function_code@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@read_il_block@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@read_initializer_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@read_input_token@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@read_input_type@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@read_symbol@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@read_symbols@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rebuild_function_flow@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rebuild_schedule_ready_queue@0": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@record_factor_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@record_filename@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@record_output_section@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@record_schedule_memory_dependency@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@record_schedule_register_use@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@record_schedule_register_write@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@record_symbol_references@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@recycle_flow_block@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@redirect_allocation_branch@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@redirect_final_symbol_uses@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@redirect_flow_target@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@reduce_factored_operand@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@refine_final_block_dominators@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@refresh_allocation_work@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@refresh_final_flow_analysis@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@refresh_region_candidate_sources@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_link_contains@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3ba96@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3bbb3@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3c245@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3c33f@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3c3a0@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3c4a5@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3c87c@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3caf9@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3ccb2@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3d127@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3d37b@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3d4a4@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3d93c@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3de8b@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@region_candidate_pass_3e5ed@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3e73e@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3e91d@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3e9fe@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3ea57@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3ec06@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3ec67@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_candidate_pass_3edd3@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_choice_dependency_is_valid@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_definitions_are_nonincremental@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_has_early_exit@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_operand_can_move@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_operand_is_invariant@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_operand_is_volatile@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_operand_overlaps_motion_inputs@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_other_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_register_has_external_use@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_register_is_live@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@region_shares_ancestor_exit@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_spill_mask_is_available@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@region_substitution_conflicts@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@region_uses_saved_register@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@register_coff_storage@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@register_frame_variable@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@register_may_alias_index@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@register_types_match@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@register_views_differ@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@relax_allocation_candidate@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@relax_instruction_branch@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@relax_pinned_allocation@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_allocation_moves@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_allocation_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_allocation_spill_block@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_allocation_spill_uses@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_block_predecessors@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_flow_edge@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_function_block@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_function_flow_edge@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_function_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_input_aggregate_operands@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_input_pool@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_input_stack@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_optimizer_set_header@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_optimizer_symbol_set@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_result_aggregate_operands@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_schedule_memory_uses@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_schedule_register_use@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_small_node@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_small_node_list@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_unreferenced_temporaries@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@release_unused_spill_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@relink_function_block@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@reload_spill_input@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remember_function_coff_symbol@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_branch_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_control_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_duplicate_block_edges@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_function_edge@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@remove_global_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_input_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_input_result@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_optimizer_symbol@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_redundant_flow_branch@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_region_register_use@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_register_set_node@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_schedule_dependency@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_schedule_ready_node@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@remove_symbol_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@renew_region_output_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@repair_relinked_block@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@replace_aggregate_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@replace_expression_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@replace_final_input@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@replace_global_expression@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@replace_input_result@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@replace_peephole_record@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@replace_region_last@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@replace_region_register_variant@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@required_final_input_bits@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@reserve_coff_headers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@reserve_section_symbol@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@reserve_symbol_storage@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@reset_input_pool@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@reset_schedule_graph@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@resolve_active_address_base@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@resolve_diagnostic_location@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@resolve_input_source_line@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@resolve_optimizer_memory@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@resolve_optimizer_register_memory@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@resolve_symbol_input_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@restore_available_global_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@restore_expression_operand@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@restore_expression_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@restore_function_registers@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@restore_global_assignment@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@restore_global_function@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@restore_spill_float_order@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@restrict_allocation_register@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@resume_final_peephole_scan@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@retain_aggregate_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@retain_full_shift_mask@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@retain_input_result@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@retarget_global_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@retarget_region_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@retype_final_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@reuse_float_memory_operand@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@reuse_float_stack_store@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_allocated_function@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_allocation_deferred_operand@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@rewrite_allocation_definition@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@rewrite_allocation_spill_edges@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@rewrite_expression_operands@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_expression_tree@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@rewrite_final_assignment@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_final_assignments@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_final_binary_assignment@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@rewrite_final_input_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_final_record_width@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_float_allocation_registers@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@rewrite_function_records_backward@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_global_cleanup_record@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@rewrite_global_function@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_global_record@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@rewrite_region_candidate_uses@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_region_comparison@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@rewrite_spill_block_records@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_spill_float_block@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@rewrite_spilled_function_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@save_function_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@save_input_expression@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@save_register_in_region@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@scale_schedule_priority@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_dependency_is_zero_latency@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_dependency_operand_penalty@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_final_function@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_float_operation_is_ordered@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_node_cost@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_node_is_busy@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_node_operand_cost@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_node_resource_cost@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_operand_fully_covers@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_pentium_pair_penalty@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_range_has_memory_output@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_range_has_work@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_record_is_serial@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_record_reads_memory@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_record_resource_class@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_record_writes_memory@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_register_fully_covers@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@schedule_resource_available@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@score_region_dependency_chain@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@seed_allocation_classes@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@select_allocation_byte_spill@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@select_allocation_spill_choice@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@select_allocation_spills@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@select_coff_section@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@select_final_cached_value@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@select_final_copy_opcode@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@select_final_machine_form@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@select_float_allocation_register@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@select_float_arithmetic_form@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@select_narrow_logical_width@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@select_output_section@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@select_pentium_schedule_node@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@select_schedule_nodes@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@set_coff_symbol_name@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@set_final_intrinsic_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@set_final_record_condition@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@set_function_input_options@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@set_input_expression_type@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@set_input_filename@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@set_input_operand_type@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@set_region_motion_anchor@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@set_schedule_register_delay@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@set_schedule_register_overlap@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@simplify_assignment_rewrite@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_block_label@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_expression_conditions@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_expression_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_expression_operation@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_expression_tree@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_final_block@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_final_block_backward@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_final_block_forward@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_final_blocks@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_final_record@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_final_transfers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_final_transfers_once@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_flow_branch@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_flow_regions@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_function_blocks@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_function_expressions@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_region_entry_block@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_region_record_range@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@simplify_region_statement@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_statement_expressions@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_symbol_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_symbol_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@simplify_unary_constant@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@solve_allocation_liveness@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@solve_global_block_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@solve_global_loop_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@solve_global_register_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@solve_optimizer_alias_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@solve_region_motion_availability@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@solve_region_motion_block@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@solve_region_register_sets@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@solve_spill_block_masks@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@sort_allocation_work@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@sort_expression_inputs@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@spill_allocation_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@spill_allocation_result@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@spill_float_allocation_register@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@spill_float_allocation_use@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@spill_result_is_redundant@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@split_allocation_edge@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@split_allocation_registers@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@split_final_wide_result@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@split_function_block@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@strip_multiplier_twos@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@substitute_available_global_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@substitute_global_assignment@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@substitute_region_register@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@subtract_common_factor@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@subtract_optimizer_symbol_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@swap_global_operands@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@swap_input_stacks@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@swap_scheduled_float_registers@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@symbol_input_expression@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@symbol_range_boundary@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@test_and_add_global_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@test_and_remove_region_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@test_schedule_dependency@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@translate_optimizer_input@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@truncate_global_integer@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@try_allocate_float_register@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@try_fold_final_float_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@unescape_message@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@unlink_active_allocation_register@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@unlink_allocation_live@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@unlink_and_release_input_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@unlink_final_output@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@unlink_input_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@unlink_input_use@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@unwrap_final_conversion@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@update_allocation_choices@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@update_available_register_transfer@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "@update_entry_parameter_flags@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@update_float_allocation_retry@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@update_flow_regions@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@update_global_available_registers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@update_global_available_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@update_global_block_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@update_global_loop_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@update_global_record_registers@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@update_optimizer_alias_set@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@update_schedule_dependent@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@update_schedule_ready_priorities@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@update_single_flow_region@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@update_symbol_storage@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@validate_function_code@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@validate_global_region@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@variable_input_expression@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@visit_symbols@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@widen_final_integer_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@write_assembly_records@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@write_coff_directive@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@write_coff_relocation@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@write_coff_section_data@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@write_coff_section_header@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@write_coff_section_relocations@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@write_coff_symbol@24": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "@write_coff_symbol_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@write_coff_symbol_relocation@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@write_fpo_record@40": {
+        "expected_cleanup": [
+          32
+        ]
+      },
+      "@write_function_coff_symbol@28": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "@write_function_unwind@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@write_output_byte@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@write_output_bytes@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@write_record_initializers@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@xor_global_register_sets@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_begin_function_input": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_begin_region_candidate_work": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_cleanup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_copy_arguments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_create_type_table": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_fatal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_finalize_output": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_initialize_constants": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_initialize_options": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_math_error": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_next_argument": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_read_header": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_read_il_byte": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_read_il_long": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_read_il_word": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_real_compare": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_real_from_int": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_real_subtract": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_register_exit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_register_onexit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_reset_symbol_table": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_set_argv": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c2_set_default_precision": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_clear_function_finish_state": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_clear_function_input_state": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_clear_function_symbol_scope": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_clear_region_expression_list": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_clear_symbol_input_registers": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_clone_global_expression_operands": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_compile_functions": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_constrain_input_real": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_default_runtime_library": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_discard_emitted_initializers": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_discard_region_hash_values": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_emit_diagnostic": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finalize_register_displacements": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_coff_image": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_coff_sections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_factoring_storage": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_function": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_function_input": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_function_output": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_global_expression_cache": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_real_operation": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_region_candidate_registers": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_spill_float_block": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_format_diagnostic": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_format_diagnostic_args": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_get_argument_stack_offset": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_index_frame_registers": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_allocation_machine": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_backend": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_coff_lists": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_factoring_storage": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_final_arithmetic": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_final_lowering": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_frame_allocation": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_function_output": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_function_records": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_global_optimizer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_intrinsics": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_machine_registers": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_messages": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_object_output": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_optimizer_registers": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_pass_functions": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_region_expression_list": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_region_motion_sets": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_sections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_spill_register_costs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_input_compact_short": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_input_compact_signed": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_input_real_from_double": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_input_real_kind": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_input_real_to_double": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_input_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_input_varuint": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_integer_log2@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_main": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_mainCRTStartup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_allocation_move": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_allocation_spill_block": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_allocation_spill_class": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_allocation_spill_use": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_flow_label": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_flow_region": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_function_scope": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_input_stack": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_output_chunk": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_register_block": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_statement_boundary": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_symbol_link": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_temporary_register_set": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_next_symbol_serial": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_number_optimizer_registers": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_optimize_region_spill_moves": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_output_callback_44a79d": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_output_callback_4541f3": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_pop_deferred_region_candidate": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_pop_region_candidate": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_pop_seen_region_candidate": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_prepare_global_alias_uses": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_prepare_global_records": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_global_symbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_initializers": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_input_real": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_release_global_expression_cache": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_release_global_optimizer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_release_region_expression_list": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_release_region_motion_sets": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_reset_allocation_register_hash": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_reset_function_line_input": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_reset_register_marks": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_set_global_expression_operands": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_store_extended": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_assembly_symbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_output_directives": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_pending_debug_symbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_writer_callback_45477a": {
+        "expected_cleanup": [
+          0
+        ]
+      }
     }
   }
 }

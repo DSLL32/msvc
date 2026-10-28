@@ -57,7 +57,7 @@ C2FunctionRegister *frame_register_chain; /* 4910ac */
 C2FunctionRegister *frame_aux_registers; /* 4911b0 */
 C2RegisterSet *frame_fixed_registers; /* 4910a8 */
 unsigned frame_total_bytes, frame_group_count, frame_aux_count; /* 4910a4/c4/4911ac */
-unsigned frame_allocated_offset; /* 49107c */
+/* Original49107c is the existing signed local_stack_offset owner. */
 void initialize_frame_allocation(void);
 void __fastcall insert_frame_register(C2FunctionRegister *previous,
     C2FunctionRegister *reg)
@@ -812,7 +812,7 @@ void initialize_frame_allocation(void)
     frame_aux_count = 0;
     frame_aux_registers = NULL;
     visit_symbols(1, clear_frame_symbol_state);
-    frame_allocated_offset = 0;
+    local_stack_offset = 0;
     if (frame_reserved_symbol) {
         symbol = frame_reserved_symbol;
         symbol->parameter_offset = allocate_local_storage((unsigned)symbol->value, 0);
@@ -841,7 +841,7 @@ void __fastcall finalize_stack_frame_size(C2Function *function)
 {
     unsigned alignment = (unsigned)local_storage_alignment;
     function->symbol->frame_stack_bytes =
-        (alignment - frame_allocated_offset - 1) & ~(alignment - 1);
+        (alignment - local_stack_offset - 1) & ~(alignment - 1);
 }
 
 typedef char FinalLabelStackDepthCheck[offsetof(C2InputSymbol, stack_depth) == 54 ? 1 : -1];

@@ -1,70 +1,53 @@
 # C2.EXE
 
 Native reconstruction and cases use `tooling/recon-tool`: `make -j4 check unit`,
-`make -j4 recon-original`, and `make -j4 audit`. Cases contain saved invocation
-inputs/oracles; replay is Linux-only and does not refresh originals.
-The cases retain their original NUL stdin and frozen target environment.
-Application code is in `src/`; existing target CRT boundaries and their rationale
-are in `crt/`. The common native case adapter is in `harness/`.
+`make -j4 recon-original`, and `make -j4 audit`. Cached replay is Linux-only and
+never refreshes originals. Application code is in `src/`, justified target CRT
+support in `crt/`, and fixture adapters and finite ABI checks in `harness/`.
+The canonical native executable uses root `entry.c` and the shared runtime.
 
-The registry preserves 1,282 qualified application functions / 385,721 code bytes.
-CRT/import support and contextual text data remain separate from App credit.
-The full text extent is
-573,183 bytes including CRT/data/padding; no complete non-CRT denominator is known.
+The registry contains 1,301 qualified application functions / 389,855 code bytes,
+68.02% of the 573,183-byte whole text extent. That denominator includes CRT,
+text data and padding; no complete non-CRT denominator is known. CRT/import
+support and contextual data receive no App credit.
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
-- `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  unfinished and paused at `output_callback_43696a`, original RVA 0x3696a.
-  Final COFF equivalence has not been established.
-- `0002-no-arguments`: completed missing-intermediate diagnostic, exit DWORD 1,
-  empty stdout and exactly 94 stderr bytes, including the two original CRLFs.
-  Its isolated cwd contains no `in` file, stdin is NUL, and target environment
-  is empty. The new 38-byte `c2_system_fatal` follows the genuine `_strerror`
-  and fatal-diagnostic path; root `entry.c` has no argument special case.
-  `make -j4 cases/0002-no-arguments/unit` also rebuilds and executes the actual
-  coordinator-installed `../build/native/bin/C2.EXE`, comparing streams and
-  POSIX exit status 1 separately from the reference's full DWORD status.
-  Raw captures and before/after CLI evidence are retained outside Git at
-  `~/.ai-tmp/msvc2/vc5.10/c2/noargs-20261027/`.
+- `0001-numeric-control-flow`: completed original CL `/O2 /G5` IL covering signed
+  and unsigned arithmetic, loops, calls, pointer aliasing, aggregate copies and
+  x87 conversions. Original and native exit 0 with matching streams, first-entry
+  order and final 2,347-byte COFF object. Only the identified four-byte COFF
+  timestamp at offsets 4..8 is normalized. The exact NUL stdin and frozen target
+  environment are retained. All 166 focused units accompany the workload.
+- `0002-no-arguments`: completed missing-intermediate diagnostic, full DWORD
+  exit 1, empty stdout and exactly 94 stderr bytes including original CRLFs.
+  The isolated cwd has no `in` file, stdin is NUL and target environment is empty.
+  Its unit also executes the actual coordinator-installed
+  `../build/native/bin/C2.EXE`, comparing its streams and POSIX status separately.
+  Root `entry.c` has no argument special case.
 
-The following notes describe earlier milestones within the unfinished numeric case.
+The numeric case reaches the complete optimizer, allocation, scheduling,
+peephole, instruction-emission and COFF-completion path exercised by this input.
+It does not qualify pending child bodies or unvisited semantic domains. Partial
+machine/register/grammar data retains its explicit guards and ownership limits;
+reserved native storage does not establish original defaults or payload meaning.
+Known original defects remain documented at their actual consumers. Native-only
+traps cover specific unsupported host-layout/address-dependent domains.
 
-The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a
-fresh original/native pair at the genuine node-constructor trap. Its prior
-uncommitted source, patch, and status were saved before migration in
-`~/.ai-tmp/msvc2/vc5.10/c2/migration-20261025/owned-worktree/` and
-`uncommitted.patch`. The 126-byte node constructor is also accepted. Its two pool1 free-list pointer
-slots have proven NULL defaults; other slots remain unmodeled and guarded in
-native execution. Function-entry reset clears 49 size-indexed free-list pointers;
-their node-specific payload remains incomplete. The small-node size table currently
-models kinds1/2/3/4/21/22 = 28 bytes, kinds7/11/14 = 32 bytes and kind24 = 24 bytes; native guards reject unmodeled kind rows before reading. Old proof packages remain in Git history.
+The complete graph/import/reference/callback/ownership/extent audit retains every
+accepted owner. Live `policy-data.json` cleanup contracts enforce the actually
+checked RET sets for every selected owner except `c2_compile_unit`.
+`harness/check-unit-finish.py` closes only that original twelve-byte absolute-slot
+CALL/JMP dispatcher's valid normal-return ABI. Its exact initializers, callable
+alternatives and emitted counterpart are checked; NULL remains non-callable.
+The independently qualified completion callback receives ordinary strict checks,
+while the unresolved callback remains a genuine named INT3 with zero credit.
+Canonical `c2_set_argv` callback aliases share one physical CRT identity.
 
-Migration also corrected 19 address stores in 17 callback slots to the existing
-physical `c2_set_argv` function and removed the duplicate trapping placeholder.
-Sixteen unresolved slot views have no reconstructed consumers; the sole typed
-directive consumer is reached after assignment of its real writer. New consumers
-require their actual ABI before use. This source identity correction adds no
-function or coverage credit. The source inventory made before correction is saved
-in the same migration scratch directory as `noop-consumer-inventory.json`.
-
-The flow allocator additionally models only the proven 12-byte pool12 slot;
-slots8–11 remain unmodeled backing and are guarded before lookup. The new unit
-checks the allocated zeroed span and preserves an unrelated nonzero canary.
-
-The complete function-code dispatcher includes its hot/cold code and both switch
-families. Its pending value is a 28-byte expression-stack context; its EAX result
-is the final record pointer. Opcodes38/45/70/79/83 model their encountered classification bytes; opcodes38/70/79/83/86 model
-only the two consumed high-byte properties. The inverse-comparison and register-opcode
-projections have no modeled rows. The typed-operand opcode table also remains
-unmodeled and guarded before lookup. Native guards stop before unknown
-lookups; their reserved storage carries no default, low-bit or whole-table claim.
-Reader child functions retain genuine named INT3 stubs and zero body credit.
-
-The pragma-field interpreter models the encountered control1 source-line, control2
-filename, control31 signed-long and control32 sign-extended short descriptors. Other rows and each row's unused second DWORD remain unmodeled behind
-native guards. Its unvisited warning-state branch zeros the original's unwritten
-terminal short; the defect is documented at the copy.
-
-Register offset36 and the fourth `new_address_register` argument are signed byte
-displacements. Earlier provisional pointer views at cold callsites were superseded
-without changing DWORD layout, register inputs or RET8 cleanup.
+Raw numeric captures, failed diagnostics, superseded source snapshots and closing
+logs remain outside Git under
+`~/.ai-tmp/msvc2/vc5.10/c2/numeric-resume-20261028/` (completed reference1302).
+The original raw COFF SHA256 is
+`9106007fc74dfd7a182529def834808e0813ca412e62b7b2a779836fb8076f8a`.
+Earlier numeric research remains under `numeric-resume-20261025/`; migration and
+no-arguments evidence remain under `migration-20261025/` and `noargs-20261027/`.
+No historical captures were relabeled or recaptured for closing bookkeeping.

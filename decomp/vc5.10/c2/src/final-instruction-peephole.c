@@ -182,6 +182,7 @@ void __fastcall optimize_final_instruction_forms(C2Function *function)
                             attach_input_expression(record, left, right);
                             copy_input_operand(record, record->tail.right);
                             select_final_machine_form(record);
+                            break; /* Converted arithmetic bypasses MOV self-copy removal. */
                         }
                     }
                 } else {
@@ -198,6 +199,7 @@ void __fastcall optimize_final_instruction_forms(C2Function *function)
                         record->left->next = left;
                     }
                     attach_optimizer_output(record, new_fixed_register_operand(66, 0x8000));
+                    break;
                 }
             } else if (right->kind != 1 && !c2_favor_speed) {
                 left = record->left;

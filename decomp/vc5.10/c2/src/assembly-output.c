@@ -150,3 +150,34 @@ void __fastcall finish_function_output_state(C2Function *function)
     generate_frame = saved_frame;
     reset_input_pool(4);
 }
+
+/* The MASM source-file cache at49e6c0 holds at most five pointers: its
+ * producer evicts entry0 when count reaches5 before appending. Only the
+ * FILE member at+8 is used here; the preceding payload remains opaque.
+ * The count and five pointer cells lie in the original .data virtual
+ * zero-fill tail [49e400,49e700), independently of any live cache state. */
+typedef struct C2AssemblySourceFile {
+    unsigned char opaque[8];
+    FILE *file;
+} C2AssemblySourceFile;
+int assembly_source_file_count; /*49e4b0*/
+C2AssemblySourceFile *assembly_source_files[5]; /*49e6c0..49e6d4*/
+extern int c2_assembly_redirected; /* existing49e2f4 option/cleanup owner */
+void finish_assembly_output(void) { __asm { int 3 } }
+
+void c2_finalize_output(void)
+{
+    int i;
+    int (__cdecl *close_file)(FILE *);
+    if (!assembly_output_active)
+        return;
+    finish_assembly_output();
+    if (assembly_alternate_syntax && assembly_source_file_count > 0) {
+        /* No wider cache domain has been reconstructed. */
+        if (assembly_source_file_count > 5) { __asm { int 3 } }
+        close_file = fclose;
+        for (i = 0; i < assembly_source_file_count; ++i)
+            close_file(assembly_source_files[i]->file);
+    }
+    c2_assembly_redirected = 0;
+}

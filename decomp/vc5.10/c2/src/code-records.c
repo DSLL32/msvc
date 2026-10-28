@@ -1262,6 +1262,21 @@ C2Expression *__fastcall new_register_set_expression(C2RegisterSet *set)
 /* Original497f48 is the initializer free chain, initially NULL. Recycled
  * links use+8, distinct from the initializer value chain at+4. */
 C2InitRecord *free_initializers;
+void __fastcall free_initializer(C2InitRecord *record)
+{
+    C2InitRecord *next, *head;
+    if (record) {
+        head = free_initializers;
+        do {
+            next = record->next;
+            record->list_next = head;
+            head = record;
+            record = next;
+        } while (record);
+        free_initializers = head;
+    }
+}
+
 C2InitRecord *__fastcall new_initializer(int kind)
 {
     C2InitRecord *record = free_initializers;

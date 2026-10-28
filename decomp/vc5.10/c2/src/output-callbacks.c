@@ -8,7 +8,7 @@ char *output_group_name;
 int output_enabled = 1;
 C2SymbolCallback output_slot_497de4;
 C2PendingCallback output_slot_499a00;
-C2PendingCallback output_slot_497e10;
+C2OutputFinishCallback output_slot_497e10;
 C2SymbolCallback output_slot_497dbc;
 C2SymbolCallback output_slot_497de0;
 C2FunctionCodeCallback output_slot_497dec;
@@ -22,10 +22,16 @@ C2CodeRelocationCallback output_slot_491070;
 C2CodeRelocationCallback output_slot_497db4;
 C2CodeRelocationCallback output_slot_491078;
 C2PendingCallback output_slot_497f60;
-C2PendingCallback output_slot_497dfc;
+C2OutputFinishCallback output_slot_497dfc;
 C2InitializerCallback output_slot_497f50;
 C2DirectiveCallback output_slot_49971c;
 C2SymbolCallback output_slot_497cec;
+
+void c2_compile_unit(void)
+{
+    output_slot_497e10.target();
+    output_slot_497dfc.target();
+}
 
 void initialize_pass_functions(void)
 {

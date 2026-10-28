@@ -51,15 +51,7 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
 
 
 
-void c2_compile_unit(void)
-{
-    __asm { int 3 }
-}
 
-void c2_finalize_output(void)
-{
-    __asm { int 3 }
-}
 
 void c2_flush_debug(void)
 {
@@ -110,7 +102,6 @@ int __fastcall is_constant_symbol(C2Symbol *symbol)
 C2Section *__fastcall select_symbol_section(C2FunctionSymbol *function, C2Symbol *symbol) { __asm { int 3 } return NULL; }
 
 void __fastcall read_initializer_values(C2InitRecord *record) { __asm { int 3 } }
-void __fastcall free_initializer(C2InitRecord *record) { __asm { int 3 } }
 
 
 int check_extended_backend(void)
@@ -293,11 +284,6 @@ void __fastcall function_pass_47d1d3(C2Function *function)
 
 
 
-void __fastcall output_callback_43696a(unsigned offset, C2Symbol *symbol)
-{
-    __asm { int 3 }
-}
-
 void __fastcall output_callback_442b9f(unsigned line, unsigned offset)
 {
     __asm { int 3 }
@@ -326,12 +312,7 @@ void output_callback_4432a1()
 
 
 
-void output_callback_4541f3()
-{
-    __asm { int 3 }
-}
-
-void output_callback_454ba8()
+void output_callback_454ba8(void)
 {
     __asm { int 3 }
 }
@@ -386,7 +367,7 @@ void prepare_output_486e67(void) { __asm { int 3 } }
 void prepare_output_486a23(void) { __asm { int 3 } }
 void prepare_output_48710f(void) { __asm { int 3 } }
 void __fastcall writer_callback_48511c(int error, char *source, int line) { __asm { int 3 } }
-void writer_callback_45477a() { __asm { int 3 } }
+
 
 int read_incremental_output(void) { __asm { int 3 } return 0; }
 void restore_incremental_output(void) { __asm { int 3 } }

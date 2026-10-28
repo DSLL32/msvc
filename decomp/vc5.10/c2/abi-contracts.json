@@ -346,6 +346,147 @@
         }
       ],
       "review": "Complete2374B includes post-RET switch cases. PUSHESI4857a2 under fixed local frame; only normal exits restore POPESI48584c/485eee before RET485852/485ef9. Caller-frame writes and passed buffers stay above saved register slots; no saved-slot escape. External104B classmap+8-entry32B jump table separately pinned; all targets in this interval. No body/data unmask or source credit."
+    },
+    {
+      "function": "@next_output_table_entry@4",
+      "abi": "fastcall ECX table -> EAX item/NULL, RET0; saves/restoresESI, no CALL",
+      "preserves": [
+        "esi"
+      ],
+      "original": [
+        {
+          "start": 4539275,
+          "end": 4539354,
+          "sha256": "855cfcd52e5777b351057696277b355880cb2a9b7c0b1b01d9c134f9e9bad19d"
+        }
+      ],
+      "scope": "Finite normal-return register fact only; pending bodies remain masked/unimplemented and get zero credit."
+    },
+    {
+      "function": "@output_list_position@4",
+      "abi": "fastcall ECX list -> EAX count, RET0; no ESI/EDI writes or CALL",
+      "preserves": [
+        "esi",
+        "edi"
+      ],
+      "original": [
+        {
+          "start": 4321895,
+          "end": 4321904,
+          "sha256": "66c7d7e2930691750e64d4e435e1c0a5d9101269f104b378afaf825ccf649b1b"
+        }
+      ],
+      "scope": "Finite normal-return register fact only; pending bodies remain masked/unimplemented and get zero credit."
+    },
+    {
+      "function": "@write_coff_section_data@4",
+      "abi": "fastcall ECX section, RET0; ESI saved before write and restored on both complete normal epilogues",
+      "preserves": [
+        "esi"
+      ],
+      "original": [
+        {
+          "start": 4539946,
+          "end": 4540151,
+          "sha256": "4ed9e22955514651d46f9f7a70587f8ee8d0bb0772f1ab7090d98cae2e94aae3"
+        },
+        {
+          "start": 4674143,
+          "end": 4674247,
+          "sha256": "75c644d06b23bf83fff9c430f7f5b48d00b9ef34ca5c414ed530f2bee3b5978c"
+        }
+      ],
+      "scope": "Finite normal-return register fact only; pending bodies remain masked/unimplemented and get zero credit."
+    },
+    {
+      "function": "@write_incremental_ulong@4",
+      "abi": "fastcall ECX DWORD, RET0; PUSH ESI, all hot/cold paths return via POP ESI/RET0",
+      "preserves": [
+        "esi"
+      ],
+      "original": [
+        {
+          "start": 4708023,
+          "end": 4708127,
+          "sha256": "34e04886b29aa46bccc54c3e5ab53bada6af0d7789aebaa3e4de49695f8709c9"
+        },
+        {
+          "start": 4739410,
+          "end": 4739479,
+          "sha256": "0e6f15a00a4b97d408749f0b8910369c61bb2e7d3b7b79bdda6f3c85dc35222e"
+        }
+      ],
+      "scope": "Finite normal-return register fact only; pending bodies remain masked/unimplemented and get zero credit."
+    },
+    {
+      "function": "_write_incremental_header_metadata",
+      "abi": "cdecl(void), RET0; PUSH ESI/POP ESI surrounds ordinary fastcall DWORD writer calls",
+      "preserves": [
+        "esi"
+      ],
+      "original": [
+        {
+          "start": 4743953,
+          "end": 4744002,
+          "sha256": "d2ea41eb79f471d5bc3ab00a64d4cd9c3370250a049bc8ad3d0e2cbb6bf63e4c"
+        }
+      ],
+      "scope": "Finite normal-return register fact only; pending bodies remain masked/unimplemented and get zero credit."
+    },
+    {
+      "function": "@flush_coff_list@4",
+      "abi": "fastcall ECX list, RET0; NULL bypass never changesESI, other paths save/restoreESI through complete hot/cold fwrite/error paths",
+      "preserves": [
+        "esi"
+      ],
+      "original": [
+        {
+          "start": 4540151,
+          "end": 4540282,
+          "sha256": "1873d851506c155036c0771454e551b8ad06298e2027e0575ef2218f62231192"
+        },
+        {
+          "start": 4674247,
+          "end": 4674299,
+          "sha256": "66233f09e8d2d1356be7cf0fea1903d9d22dbcfd958760ed911328b0a4fb59d4"
+        }
+      ],
+      "scope": "Finite normal-return register fact only; pending bodies remain masked/unimplemented and get zero credit."
+    },
+    {
+      "function": "@write_coff_section_header@4",
+      "abi": "fastcall ECX data, RET0; savedEDI restored through common balanced epilogue after all hot/cold paths",
+      "preserves": [
+        "edi"
+      ],
+      "original": [
+        {
+          "start": 4540976,
+          "end": 4541125,
+          "sha256": "d5170bcfd8e0a05fd1f6711390f496b94fd61d130109d0483bed11351da85364"
+        },
+        {
+          "start": 4674711,
+          "end": 4674765,
+          "sha256": "6b114bd88a74e332598cbd4c23b6757726fd8f517a1f1d593845c6f6991976d2"
+        }
+      ],
+      "scope": "Finite normal-return register fact only; pending bodies remain masked/unimplemented and get zero credit."
+    },
+    {
+      "function": "@grow_incremental_headers@4",
+      "abi": "fastcall ECX byte delta, RET0; complete383B single body saves ESI before use, unique normal exit POP EDI/ESI/EBP/EBX/RET0; outgoing public cdecl I/O/allocation and existing internal-error boundary are balanced.",
+      "preserves": [
+        "esi"
+      ],
+      "original": [
+        {
+          "start": 4744085,
+          "end": 4744468,
+          "sha256": "c4fd2750bd504a428c97bfc902a591accc626d0af23fb5915319b753c9aa9b11"
+        }
+      ],
+      "scope": "Normal-return ESI fact only; body stays pending/masked/zero credit."
     }
   ],
   "writer_provider_evidence": [
@@ -861,5 +1002,140 @@
       "ebx"
     ],
     "scope": "Identified public cdecl normal-return nonvolatile guarantee only. No provider-internal code, data or return-value behavior claim beyond the existing FILE boundary; no App credit."
+  },
+  "coff_image_stdio_abi": {
+    "header": "toolchains/5.10/include/STDIO.H",
+    "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+    "declarations": [
+      "_CRTIMP int __cdecl fseek(FILE *, long, int);",
+      "_CRTIMP long __cdecl ftell(FILE *);",
+      "_CRTIMP size_t __cdecl fwrite(const void *, size_t, size_t, FILE *);"
+    ],
+    "basis": "Identified shipped public cdecl signatures; Win32 x86 cdecl guarantees nonvolatile ESI/EDI on normal return. No provider body or behavior claim. Existing fseek EBP fact remains unchanged.",
+    "preserves": [
+      "esi",
+      "edi"
+    ]
+  },
+  "coff_image_callbacks": {
+    "owner": "_finish_coff_image",
+    "scope": "Opaque absolute calls retain opaque graph identities; only existing ESI/EDI values survive on valid normal returns. No target/value seed, default, return-value, body availability or termination promise.",
+    "clock": {
+      "original_slot": "497e00",
+      "call": "454491",
+      "actual_target": "_writer_callback_45477a",
+      "source": "ObjectOutput+24 set45477a in initialize_object_output, copied into output_clock_handler by initialize_coff_output; no other current stores/escapes",
+      "abi": "unsigned long cdecl(void), RET0; EAX header.TimeDateStamp",
+      "preserves": [
+        "esi"
+      ],
+      "original": [
+        {
+          "start": 4540282,
+          "end": 4540316,
+          "sha256": "e65c103ecf357a690af91cf586b493059fa09b63bdfa63fd5941287d1ba700a0"
+        },
+        {
+          "start": 4674299,
+          "end": 4674303,
+          "sha256": "8fdd3b635684d751cc4b798697093700d22e754e02ea3f4d7cd12e9bc7272eef"
+        }
+      ],
+      "basis": "Complete target writes no ESI; its sole outgoing public time call obeys documented cdecl nonvolatile preservation."
+    },
+    "error": {
+      "original_slot": "4999f4",
+      "calls": [
+        "4751a9",
+        "4751c3"
+      ],
+      "actual_target": "@writer_callback_48511c@12",
+      "source": "ObjectOutput+20 set48511c by initialize_object_output, copied to output_error_handler; one current target",
+      "abi": "fastcall ECX error14, EDX source filename, one stack line DWORD; RET4, result unused",
+      "original": [
+        {
+          "start": 4739356,
+          "end": 4739410,
+          "sha256": "c855be14ce9b46dc55d0e5e90661319a1fa2ee43a1703de33cbd2731e141efba"
+        }
+      ],
+      "basis": "Existing recovered normal Win32 fastcall interface preserves ESI/EDI; complete54B wrapper does not write them, and normal outgoing App boundaries retain the same convention. No body acceptance/error execution claim."
+    }
+  },
+  "coff_flush_cached_fwrite_abi": {
+    "owner": "@flush_coff_list@4",
+    "seed": "45470c MOV EBX,[48d04c] = public cdecl fwrite",
+    "calls": [
+      "45472d",
+      "454764"
+    ],
+    "preserves": [
+      "ebx"
+    ],
+    "stdio_declaration": "toolchains/5.10/include/STDIO.H:352, size_t __cdecl fwrite(const void *, size_t, size_t, FILE *)",
+    "error_callback": {
+      "slot": "4999f4",
+      "original_call": "4752d6",
+      "rebuilt_symbol": "@flush_coff_list@4",
+      "rebuilt_call_offset": "0x6b",
+      "target": "@writer_callback_48511c@12",
+      "extent": [
+        545052,
+        545106
+      ],
+      "basis": "Existing complete ordinary three-argument fastcall error body uses no EBX writer; documented normal-return nonvolatile ABI. No target/body availability or termination claim."
+    },
+    "scope": "Only cached EBX preservation across normal fwrite/error returns; absolute error edge remains opaque and NULL is not granted callable semantics."
+  },
+  "coff_symbol_stdio_abi": {
+    "owner": "@write_coff_symbol_record@4",
+    "header": "toolchains/5.10/include/STDIO.H",
+    "declarations": [
+      "line343: _CRTIMP int __cdecl fputc(int, FILE *);",
+      "line352: _CRTIMP size_t __cdecl fwrite(const void *, size_t, size_t, FILE *);"
+    ],
+    "basis": "Public cdecl normal-return EBP/EDI nonvolatile guarantee, used only for actual cached import identities. No provider-internal data or behavior claim.",
+    "facts": [
+      {
+        "target": "fwrite",
+        "preserves": [
+          "ebp"
+        ]
+      },
+      {
+        "target": "fputc",
+        "preserves": [
+          "edi"
+        ]
+      }
+    ],
+    "error_calls": [
+      {
+        "original": "47530e",
+        "rebuilt_owner_offset": "0xb7"
+      },
+      {
+        "original": "475354",
+        "rebuilt_owner_offset": "0x1d3"
+      }
+    ],
+    "error_basis": "Existing three-argument fastcall writer_callback_48511c normal-return EBP preservation; opaque slot4999f4 remains opaque. No callable/default/termination assumption for NULL."
+  },
+  "coff_symbol_lookup_ebp": {
+    "target": "@lookup_output_table@8",
+    "chunks": [
+      [
+        127109,
+        127172
+      ],
+      [
+        432763,
+        432787
+      ]
+    ],
+    "preserves": [
+      "ebp"
+    ],
+    "basis": "Whole known hot/cold body PUSH EBP at41f087 before MOV EBP,EDX, balanced POP EBP at41f0b0 and469a7d for both normal RET0 paths. Cold null-page error calls existing c2_report_internal whose EBP fact is retained, then rejoins the balanced path. No extra body/data credit."
   }
 }

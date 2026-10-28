@@ -213,7 +213,7 @@ C2Section *function_debug_section; /*497f04*/
 C2Expression *__fastcall new_linked_instruction(unsigned opcode, unsigned short type,
     C2InputLink link, C2Record *prior) { __asm { int 3 } return NULL; }
 extern unsigned diagnostic_position;
-extern int c2_global_optimize, c2_zero_alignment;
+extern int c2_global_optimize, c2_favor_speed;
 void __fastcall layout_function_code(C2Function *function, int mode)
 {
     C2FunctionSymbol *symbol = function->symbol;
@@ -288,7 +288,7 @@ void __fastcall layout_function_code(C2Function *function, int mode)
             declaration = record->declaration;
             if (declaration->symbol.source_kind == 2) {
                 if (mode && next->opcode == 0xbb && (next->type & 0xfff) == 4 &&
-                    c2_zero_alignment && c2_global_optimize) {
+                    c2_favor_speed && c2_global_optimize) {
                     alignment = -offset & 3;
                     if (alignment) {
                         padding = new_linked_instruction(0xa9, 0x6000, prepend_input_record, (C2Record *)record);
@@ -391,7 +391,7 @@ void __fastcall finish_function_code_offsets(C2Function *function)
     generate_frame = saved_frame;
     output_slot_497ce4.target(section);
     output_slot_497de0.target(&symbol->symbol);
-    if (c2_zero_alignment && c2_global_optimize) {
+    if (c2_favor_speed && c2_global_optimize) {
         if (alternate_declaration) offset = saved_offset;
         padding = (16 - ((int)(offset - symbol->symbol.parameter_offset) % 16)) % 16;
         if (padding > 0) memset(bytes, 0x90, padding);
@@ -440,7 +440,6 @@ void __fastcall write_function_unwind(C2Symbol *header, int plain, int flag5)
         (unsigned char)symbol->prologue_bytes, (unsigned char)current_function->saved_register_count,
         0, plain, plain || flag5);
 }
-extern unsigned frame_allocated_offset;
 extern C2Symbol *frame_reserved_symbol;
 extern C2FunctionRegister *frame_extra_slot;
 extern int prologue_has_reserved_storage;
@@ -450,7 +449,7 @@ unsigned function_output_reset6c;
 void finish_function_output(void)
 {
     argument_stack_offset = 8;
-    frame_allocated_offset = 0;
+    local_stack_offset = 0;
     frame_reserved_symbol = NULL;
     frame_extra_slot = NULL;
     prologue_has_reserved_storage = 0;
