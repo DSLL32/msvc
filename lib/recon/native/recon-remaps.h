@@ -618,6 +618,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define readdir recon_watcom_readdir
 #define closedir recon_watcom_closedir
 #define getcmd recon_watcom_getcmd
+#define _inline_memcpy memcpy
 #define __STOSD recon_watcom_fill_dwords
 #define _rotl recon_watcom_rotl
 #define _splitpath2 recon_watcom_splitpath2
