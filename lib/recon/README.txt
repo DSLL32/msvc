@@ -2141,3 +2141,16 @@ main, matching the later db319..db32b CRT pointer replacement. Initial RTL and
 later GP default identities are distinct and both deny125 if invoked: no unwind,
 signal, GP diagnostic or OS exception dispatch is implemented. This feature does
 not select a general Borland CRT profile or alter unselected MSVC/Watcom callers.
+
+RECON_BORLAND_400_SIGNAL selects the reached BC4.0 SIGINT2 registration path:
+private handler state/previous return plus once-only CRT console registration
+through existing SetConsoleCtrlHandler machinery. SIG_DFL, SIG_IGN and custom
+cdecl callbacks may be registered; other signal numbers/SIG_ERR remain denied.
+Registration does not invoke callbacks. Console delivery is a named cold125
+boundary, including control-Break; no Borland raise/one-shot/FPE/exception or
+asynchronous signal semantics are claimed. Unselected signal routes are retained.
+RECON_BORLAND_400_DOS_TIME exposes the DOS.H flat-model packed date6B/time4B
+structures and cdecl getdate/gettime spellings; both calls are cold125/no-access.
+In particular no real-time or hundredths behavior is implemented by silently
+reusing the existing seconds-only GetLocalTime. Original builds use shipped SDK
+headers and ordinary call spellings, with no native feature remapping.

@@ -49,6 +49,44 @@ void recon_borland_400_initialize_gp_handler(void)
 #endif
 }
 
+/* BC4.0 SIGNAL.C and BCC32 dc0e8: the reached SIGINT registration owns
+ * a private callback slot and registers the CRT console bridge only once.
+ * Delivery remains cold; never install the App callback as a Linux handler. */
+#ifdef RECON_BORLAND_400_SIGNAL
+static int borland_signal_initialized;
+static ReconSignalHandler borland_sigint_handler;
+static BOOL WINAPI borland_console_signal(DWORD event)
+{
+    (void)event;recon_unsupported("Borland400 console signal delivery");
+    __builtin_unreachable();
+}
+#endif
+ReconSignalHandler __cdecl recon_borland_400_signal(int number,ReconSignalHandler handler)
+{
+#ifdef RECON_BORLAND_400_SIGNAL
+    ReconSignalHandler previous;
+    if(number!=2 || handler==SIG_ERR)
+        recon_unsupported("Borland400 signal outside SIGINT registration");
+    if(!borland_signal_initialized) {
+        /* Original ignores the Win32 BOOL and marks registration attempted. */
+        recon_SetConsoleCtrlHandler(borland_console_signal,TRUE);
+        borland_signal_initialized=1;
+    }
+    previous=borland_sigint_handler;borland_sigint_handler=handler;
+    return previous;
+#else
+    (void)number;(void)handler;recon_unsupported("Borland400 signal requires explicit opt-in");
+    __builtin_unreachable();
+#endif
+}
+/* Exact public cdecl pointer types only; real time and hundredths have not
+ * been qualified. In particular the existing seconds-only GetLocalTime is
+ * insufficient for the original gettime millisecond/10 result. */
+void __cdecl recon_borland_400_getdate(struct date *value)
+{ (void)value;recon_unsupported("Borland400 getdate invocation"); }
+void __cdecl recon_borland_400_gettime(struct time *value)
+{ (void)value;recon_unsupported("Borland400 gettime invocation"); }
+
 /* Compiler-generated abstract vtables may reference this boundary during
  * otherwise inlined construction. Invocation remains unsupported; this does
  * not model an original CRT purecall diagnostic or successful return. */

@@ -25,6 +25,9 @@
 #include <imagehlp.h>
 #include <objbase.h>
 #include <direct.h>
+#ifdef RECON_BORLAND_400_DOS_TIME
+#include <dos.h>
+#endif
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -331,6 +334,10 @@ void recon_apply_x87_empty_entry_profile(const char *,unsigned,unsigned,unsigned
 void recon_ftime(struct _timeb *);
 typedef void (*ReconSignalHandler)(int);
 ReconSignalHandler recon_signal(int,ReconSignalHandler);
+ReconSignalHandler __cdecl recon_borland_400_signal(int,ReconSignalHandler);
+struct date;struct time;
+void __cdecl recon_borland_400_getdate(struct date *);
+void __cdecl recon_borland_400_gettime(struct time *);
 /* Explicit Watcom surfaces only: all remain unavailable until reached proof. */
 int recon_watcom_heapchk(void),recon_watcom_nheapchk(void);
 int __cdecl recon_watcom_open(const char *,int,...);
@@ -536,6 +543,11 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #ifdef RECON_BORLAND_400_USER_HANDLER
 #define _SetUserHandler recon_borland_400_SetUserHandler
 #endif
+#ifdef RECON_BORLAND_400_DOS_TIME
+/* Host time.h declarations were consumed before these target-only names. */
+#define getdate recon_borland_400_getdate
+#define gettime recon_borland_400_gettime
+#endif
 #define setlocale recon_setlocale
 #define _setmbcp recon_setmbcp
 #define _mbctype recon_mbctype
@@ -623,6 +635,8 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _nheapchk recon_watcom_nheapchk
 #define signal recon_watcom_signal
 #define raise recon_watcom_raise
+#elif defined(RECON_BORLAND_400_SIGNAL)
+#define signal recon_borland_400_signal
 #else
 #define signal recon_signal
 #endif

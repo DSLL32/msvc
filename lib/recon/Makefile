@@ -1208,3 +1208,7 @@ native-prepare-check:
 .PHONY: borland-user-handler-check
 borland-user-handler-check:
 	$(PYTHON) tests/borland-user-handler/check.py
+
+.PHONY: borland-signal-time-check
+borland-signal-time-check:
+	$(PYTHON) tests/borland-signal-time/check.py
