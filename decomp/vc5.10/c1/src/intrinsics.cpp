@@ -1,7 +1,7 @@
 #include <string.h>
 #include "frontend.h"
 #include "keywords.h"
-#pragma intrinsic(memset, memcpy, strlen)
+#pragma intrinsic(memset, memcpy, strlen, strcmp)
 #include <recon.h>
 
 /* Encountered intrinsic declarations: the original uses a suffix-pointer
@@ -177,4 +177,24 @@ extern "C" void __cdecl initialize_intrinsic_symbol(CompilerIrSymbol *symbol, un
     symbol->intrinsic_low_flags = (symbol->intrinsic_low_flags & 0xf8) | 1;
     symbol->intrinsic_opcode = intrinsic_specs[index].opcode;
     symbol->intrinsic_traits = intrinsic_specs[index].traits;
+}
+
+extern "C" int __cdecl find_intrinsic_number(CompilerNameEntry *identifier)
+{
+    const char *name = identifier->name;
+    int initial = (signed char)*name;
+    unsigned index, end;
+    if (initial < '_') return -1;
+    if (initial > 'z') {
+#ifdef __linux__
+        recon_unsupported("intrinsic prefix beyond the recovered specification ranges");
+#else
+        __asm { int 3 }
+#endif
+    }
+    index = (unsigned)intrinsic_prefix_ranges[initial - '_'];
+    end = (unsigned)intrinsic_prefix_ranges[initial - '_' + 1];
+    for (; index != end; ++index)
+        if (!strcmp(intrinsic_specs[index].suffix, name + 1)) return index;
+    return -1;
 }

@@ -249,6 +249,10 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
          !symbol->value_type->auxiliary && symbol->value_type->shape &&
          symbol->value_type->shape->flags == 1 && !symbol->value_type->shape->attributes &&
          !symbol->value_type->shape->base) ||
+        (symbol->value_type->flags == 0x61 && symbol->value_type->attributes == 0x100 &&
+         !symbol->value_type->auxiliary && symbol->value_type->shape &&
+         symbol->value_type->shape->flags == 1 && !symbol->value_type->shape->attributes &&
+         !symbol->value_type->shape->base) ||
         (symbol->value_type->flags == 0x62 && symbol->value_type->attributes == 0x200 &&
          symbol->value_type->shape && symbol->value_type->shape->flags == 1 &&
          !symbol->value_type->shape->attributes && !symbol->value_type->shape->base) ||

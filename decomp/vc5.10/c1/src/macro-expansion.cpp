@@ -885,7 +885,7 @@ extern "C" unsigned __cdecl process_special_character(void)
     --c1_bss.lexical_skip_mode;
     return 0x20;
 }
-extern "C" void __cdecl refill_lexer_source(void) { __asm { int 3 } }
+/* refill_lexer_source is defined with the shared PCH cursor owner in preprocessor.cpp. */
 extern "C" void __cdecl copy_macro_argument_range(BYTE *first, BYTE *last)
 {
     unsigned length = (unsigned)(last - first);

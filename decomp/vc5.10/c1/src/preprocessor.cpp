@@ -583,3 +583,23 @@ extern "C" int __cdecl restore_forced_source_input(void)
     return (status ? -1 : 1) * (c1_data.source_include_depth + 1);
 }
 void RECON_THISCALL CompilerDependency::NotifySource(void) { __asm { int 3 } }
+
+/* Ordinary source refill shares the established source-stack reader. The
+ * alternate PCH branch passes its existing cursor first to a genuine pending
+ * initializer; no initialized cursor value or PCH semantics are inferred. */
+extern "C" void __cdecl report_macro_input_end(int);
+extern "C" void __cdecl initialize_pch_text(void **) { __asm { int 3 } }
+extern "C" void __cdecl append_pch_input_text(void *, const char *, ...) { __asm { int 3 } }
+extern "C" void __cdecl parse_pch_directive_text(int) { __asm { int 3 } }
+extern "C" void __cdecl refill_lexer_source(void)
+{
+    if (!read_source_chunk()) return;
+    if (c1_data.lexer_flags & 0x800) compiler_fatal(71);
+    else if (c1_data.lexer_flags & 0x1000) report_macro_input_end(57);
+    else if (!(c1_data.parser_flags & 0x40000)) compiler_fatal(4);
+    else if (c1_data.function_record_flags & 0x10000) {
+        initialize_pch_text(&unmodeled_pch_input_cursor);
+        append_pch_input_text(unmodeled_pch_input_cursor, "#pragma hdrstop\n");
+        parse_pch_directive_text(0);
+    } else compiler_fatal(10);
+}

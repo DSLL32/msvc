@@ -697,19 +697,8 @@ extern "C" void __cdecl read_pragma_identifier_list(void (__cdecl *apply)(Compil
 }
 extern "C" int __cdecl find_intrinsic_number(CompilerNameEntry *);
 extern "C" void __cdecl reset_function_intrinsic(CompilerIrSymbol *);
-extern "C" int __cdecl find_intrinsic_number(CompilerNameEntry *identifier)
-{
-    /* Encountered 'a' bucket: the actual bounds select relations30..34.
-     * Suffixes retain the original lookup order and intrinsic numbers. */
-    static const char *suffixes[] = { "tan2", "tan", "sin", "cos", "bs" };
-    const char *name = identifier->name;
-    unsigned i;
-    if ((signed char)*name < '_') return -1;
-    if (*name != 'a') PRAGMA_UNSUPPORTED("intrinsic classifier bucket not recovered");
-    for (i = 0; i != sizeof(suffixes) / sizeof(suffixes[0]); ++i)
-        if (!strcmp(name + 1, suffixes[i])) return 30 + i;
-    return -1;
-}
+/* The classifier shares the already recovered intrinsic specification owner
+ * in intrinsics.cpp. No duplicate suffix or prefix-range storage. */
 extern "C" void __cdecl reset_function_intrinsic(CompilerIrSymbol *symbol)
 {
     symbol->kind = 7;

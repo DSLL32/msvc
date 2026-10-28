@@ -3712,7 +3712,7 @@ static const union CompilerIrOpcodeColumn {
         unsigned logical_not;
         unsigned indirection;
         unsigned greater;
-        BYTE unmodeled_0fc[4];
+        unsigned greater_equal;
         unsigned post_increment;
         unsigned subscript;
         BYTE unmodeled_108[4];
@@ -3759,7 +3759,7 @@ static const union CompilerIrOpcodeColumn {
         unsigned switch_value;
     } known;
     unsigned indexed[1];
-} ir_node_opcodes = { { {0}, 38, 51, {0}, 11, 28, 23, 50, 55, 67, {0}, 54, 5, {0}, 31, 26, 48, 36, {0}, 53, 40, {0}, 9, 34, {0}, 3, 16, 6, {0}, 4, {0}, 32, 12, 25, 27, 39, 2, 15, 39, {0}, 15, 66, {0}, 10, 14, 8, 13, 24, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 89, 64, {0}, 60, 59 } };
+} ir_node_opcodes = { { {0}, 38, 51, {0}, 11, 28, 23, 50, 55, 67, {0}, 54, 5, {0}, 31, 26, 48, 36, 35, 53, 40, {0}, 9, 34, {0}, 3, 16, 6, {0}, 4, {0}, 32, 12, 25, 27, 39, 2, 15, 39, {0}, 15, 66, {0}, 10, 14, 8, 13, 24, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 89, 64, {0}, 60, 59 } };
 static const union CompilerIrPropertyColumn {
     struct {
         BYTE unmodeled_000[6];
@@ -3780,7 +3780,7 @@ static const union CompilerIrPropertyColumn {
         BYTE logical_not;
         BYTE indirection;
         BYTE greater;
-        BYTE unmodeled_03f[1];
+        BYTE greater_equal;
         BYTE post_increment;
         BYTE subscript;
         BYTE unmodeled_042[1];
@@ -3827,7 +3827,11 @@ static const union CompilerIrPropertyColumn {
         BYTE switch_value;
     } known;
     BYTE indexed[1];
-} ir_node_properties = { { {0}, 0, 128, {0}, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 128, 0, {0}, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 0, 128, {0}, 128, 0 } };
+} ir_node_properties = { { {0}, 0, 128, {0}, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 128, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 0, 128, {0}, 128, 0 } };
+/* Reached greater-or-equal63: DWORD35 at63f64; only the clear bit80
+ * of BYTE42 at6427f is consumed. Other property bits remain unmodeled. */
+typedef char IrGreaterEqualOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.greater_equal) == 63 * 4 ? 1 : -1];
+typedef char IrGreaterEqualPropertyOffset[offsetof(CompilerIrPropertyColumn, known.greater_equal) == 63 ? 1 : -1];
 /* Intrinsic-call119 consumes opcode64@64044 and only property bit80@642b7. */
 typedef char IrIntrinsicCallOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.intrinsic_call) == 119 * 4 ? 1 : -1];
 typedef char IrIntrinsicCallPropertyOffset[offsetof(CompilerIrPropertyColumn, known.intrinsic_call) == 119 ? 1 : -1];
@@ -3866,7 +3870,7 @@ typedef char IrBitfieldOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.bitfi
 typedef char IrDotOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.dot_member) == 80 * 4 ? 1 : -1];
 typedef char IrBitfieldPropertyOffset[offsetof(CompilerIrPropertyColumn, known.bitfield) == 53 ? 1 : -1];
 typedef char IrDotPropertyOffset[offsetof(CompilerIrPropertyColumn, known.dot_member) == 80 ? 1 : -1];
-#define IR_KIND_MODELED(k) ((k) == 119 || (k) == 78 || (k) == 7 || (k) == 79 || (k) == 64 || (k) == 56 || (k) == 51 || (k) == 72 || (k) == 89 || (k) == 91 || (k) == 92 || (k) == 118 || (k) == 90 || (k) == 57 || (k) == 88 || (k) == 76 || (k) == 70 || (k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
+#define IR_KIND_MODELED(k) ((k) == 63 || (k) == 119 || (k) == 78 || (k) == 7 || (k) == 79 || (k) == 64 || (k) == 56 || (k) == 51 || (k) == 72 || (k) == 89 || (k) == 91 || (k) == 92 || (k) == 118 || (k) == 90 || (k) == 57 || (k) == 88 || (k) == 76 || (k) == 70 || (k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
 #ifdef __linux__
 #define REQUIRE_IR_KIND(k) do { if (!IR_KIND_MODELED(k)) \
     recon_unsupported("IR node column is not modeled for this kind"); } while (0)
@@ -6604,7 +6608,7 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
     (d)->shape && (d)->shape == (s)->shape && (d)->shape->flags == 1 && \
     !(d)->shape->attributes && !(d)->shape->base)
 #define CHAR_POINTER_ASSIGNMENT(d,s) ((d)->flags == 0x61 && (s)->flags == 0x61 && \
-    (d)->attributes == 0x100 && !(s)->attributes && (d)->shape && (s)->shape && \
+    (d)->attributes == 0x100 && !((s)->attributes & ~0x100U) && (d)->shape && (s)->shape && \
     (d)->shape->flags == 1 && ((s)->shape->flags == 1 || (s)->shape->flags == 2) && \
     !(d)->shape->attributes && !(s)->shape->attributes && \
     !(d)->shape->base && !(s)->shape->base)
@@ -6635,6 +6639,13 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
     !(d)->attributes && !(s)->attributes && (d)->shape && (d)->shape == (s)->shape && \
     (d)->shape->flags == 1 && !(d)->shape->attributes && !(d)->shape->base && \
     (s)->symbol_owner && (s)->symbol_owner->kind == 4 && ((s)->symbol_owner->flags & 1))
+/* The memory intrinsic arguments convert ordinary char buffers to void
+ * pointers, retaining base const qualification and the outer array decay. */
+#define VOID_FROM_CHARACTER_BUFFER(d,s) ((d)->flags == 0x80 && (s)->flags == 0x61 && \
+    !((d)->attributes & ~0x100U) && !((s)->attributes & ~0x100U) && \
+    !((s)->attributes & ~(d)->attributes) && (d)->shape && (s)->shape && \
+    (d)->shape->flags == 1 && ((s)->shape->flags == 1 || (s)->shape->flags == 2) && \
+    !(d)->shape->attributes && !(s)->shape->attributes && !(d)->shape->base && !(s)->shape->base)
 #define RECORD_VALUE_ASSIGNMENT(d,s) ((d)->flags == 0x402 && (s)->flags == 0x402 && \
     !(d)->attributes && !((s)->attributes & ~0x10U) && !(d)->shape && !(s)->shape && \
     (d)->symbol_owner && (d)->symbol_owner == (s)->symbol_owner && \
@@ -6678,7 +6689,8 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
         !((operation == 52 || operation == 112 || operation == 116 || operation == 125) && CHAR_POINTER_ASSIGNMENT(type, value->type)) &&
         !(operation == 52 && RECORD_POINTER_ASSIGNMENT(type, value->type)) &&
         !((operation == 52 || operation == 112 || operation == 116) && RECORD_VALUE_ASSIGNMENT(type, value->type)) &&
-        !(operation == 116 && VOID_FROM_RECORD_POINTER(type, value->type)) &&
+        !((operation == 116 || operation == 112) && VOID_FROM_RECORD_POINTER(type, value->type)) &&
+        !(operation == 112 && VOID_FROM_CHARACTER_BUFFER(type, value->type)) &&
         !(operation == 116 && type->flags == 0x402 && value->type->flags == 0x402 &&
           !type->attributes && !value->type->attributes &&
           type->shape && type->shape == value->type->shape &&
@@ -6756,7 +6768,8 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
         !((operation == 52 || operation == 112 || operation == 116 || operation == 125) && CHAR_POINTER_ASSIGNMENT(destination, source)) &&
         !(operation == 52 && RECORD_POINTER_ASSIGNMENT(destination, source)) &&
         !((operation == 52 || operation == 112 || operation == 116) && RECORD_VALUE_ASSIGNMENT(destination, source)) &&
-        !(operation == 116 && VOID_FROM_RECORD_POINTER(destination, source)) &&
+        !((operation == 116 || operation == 112) && VOID_FROM_RECORD_POINTER(destination, source)) &&
+        !(operation == 112 && VOID_FROM_CHARACTER_BUFFER(destination, source)) &&
         !(operation == 116 && destination->flags == 0x402 && source->flags == 0x402 &&
           !destination->attributes && !source->attributes && destination->shape &&
           destination->shape == source->shape && destination->shape->flags == 1 &&
@@ -7187,7 +7200,7 @@ struct CompilerCallContext {
 typedef char CompilerCallContext_size[sizeof(CompilerCallContext) == 36 ? 1 : -1];
 #define call_context c1_data.call_context /* RVA5e3e4, original NULL; saved/restored. */
 #define call_reference_depth c1_bss.call_reference_depth /* RVA53d6c; actual classifier writer sets1. */
-static CompilerNameEntry *special_call_symbols[2]; /* RVA5e458/5e45c, source-only. */
+/* RVA5e458/5e45c are the existing setjmp/catch builtin-name owners. */
 #define exception_code_enabled c1_data.finally_depth /* RVA5f3a0, shared authoritative counter. */
 #define abnormal_termination_enabled c1_data.exception_filter_depth /* RVA5f3a4. */
 extern "C" {
@@ -7230,8 +7243,13 @@ CompilerParserNode * __cdecl normalize_based_expression(CompilerParserNode *valu
         call_context->callee = symbol;
         if (symbol->kind == 6) {
 #ifdef __linux__
-            if (symbol->intrinsic_opcode != 0x0f || symbol->intrinsic_traits != 1)
-                recon_unsupported("intrinsic call context is outside the integer-absolute domain");
+            if (!(((symbol->intrinsic_opcode == 0x0f || symbol->intrinsic_opcode == 0xa7) &&
+                    symbol->intrinsic_traits == 1) ||
+                  ((symbol->intrinsic_opcode == 0xa5 || symbol->intrinsic_opcode == 0x9f ||
+                    symbol->intrinsic_opcode == 0xa0) && symbol->intrinsic_traits == 2) ||
+                  ((symbol->intrinsic_opcode == 0xac || symbol->intrinsic_opcode == 0xad) &&
+                    symbol->intrinsic_traits == 3)))
+                recon_unsupported("intrinsic call context outside recovered string/memory/integer operations");
 #endif
             unsigned opcode = symbol->intrinsic_opcode;
             if ((opcode == 0xd9 && !(lexer_flags & 0x2000000) && !exception_code_enabled) ||
@@ -7246,14 +7264,8 @@ CompilerParserNode * __cdecl normalize_based_expression(CompilerParserNode *valu
         }
         call_context->diagnostic_name = symbol->binding.name->name;
         call_context->reference_depth = call_reference_depth;
-#ifdef __linux__
-        /* These two special callee cells are outside the supported native
-         * ordinary-call owner domain. Their Win32 declarations retain identity. */
-        if (special_call_symbols[0] || special_call_symbols[1])
-            recon_unsupported("special call symbol identity is not yet qualified");
-#endif
-        if (symbol->binding.name == special_call_symbols[0] ||
-            symbol->binding.name == special_call_symbols[1]) {
+        if (symbol->binding.name == c1_data.builtin_names.setjmp_name ||
+            symbol->binding.name == c1_data.builtin_names.catch_name) {
             if (c1_bss.current_scope_symbol->linkage_flags & 1)
                 compiler_warning(490, 83, symbol);
             else c1_bss.current_scope_symbol->qualifier_flags |= 2;
@@ -7887,7 +7899,7 @@ CompilerParserNode *__cdecl make_sizeof_expression(CompilerParserNode *value)
     } else {
         /* Only these encountered classification cells are initialized. */
         if (value->kind != 6 && value->kind != 45 && value->kind != 50 &&
-            value->kind != 59 && value->kind != 61 && value->kind != 65 &&
+            value->kind != 59 && value->kind != 61 && value->kind != 65 && value->kind != 83 &&
             value->kind != 101 && value->kind != 112) {
 #ifdef __linux__
             recon_unsupported("sizeof expression classification is not yet recovered");

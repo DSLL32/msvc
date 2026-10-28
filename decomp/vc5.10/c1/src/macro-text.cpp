@@ -221,7 +221,24 @@ escaped_character:
     }
     goto append_character;
 }
-extern "C" BYTE *__cdecl grow_macro_text(BYTE *, BYTE *, BYTE **) { __asm { int 3 } return NULL; }
+extern "C" char c1_numeric_token_text[128];
+extern "C" BYTE *__cdecl grow_macro_text(BYTE *cursor, BYTE *base, BYTE **limit)
+{
+    unsigned span;
+    do {
+        span = (unsigned)(*limit - base);
+        if (span >= 0x500000) {
+            if (!c1_bss.lexical_skip_mode)
+                compiler_error(11, c1_numeric_token_text, 0x500000);
+            else compiler_error(56, 0x500000, c1_bss.macro_expansions[1].macro->identifier);
+        } else {
+            if (!VirtualAlloc(base + span + 5, span, MEM_COMMIT, PAGE_READWRITE))
+                compiler_fatal(60);
+            *limit = base + span * 2 + 5;
+        }
+    } while (cursor >= *limit - 5);
+    return cursor;
+}
 /* RVAe32c. Preserve quoted replacement text, including encoded escapes;
  * a newline warns and supplies the closing delimiter without consuming it. */
 extern "C" BYTE *__cdecl copy_macro_quoted_text(BYTE *out, BYTE **limit, unsigned quote)

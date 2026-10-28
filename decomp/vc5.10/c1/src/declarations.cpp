@@ -117,6 +117,7 @@ struct DeclarationTagNameView {
 /* Additional member alternatives have the same existing interned type/shape
  * producers: an int matrix, a const-char pointer, or a cdecl callback. */
 #define DECLARED_RECORD_MEMBER_TYPE(t) (SCALAR_ARITHMETIC_TYPE(t) || INT_ARRAY_TYPE(t) || \
+    (CHAR_ARRAY_TYPE(t) && (t)->shape->value) || \
     COMPLETE_AGGREGATE_MEMBER(t) || CDECL_INT_CALLBACK(t) || \
     ((t) && (t)->flags == 0x63 && !(t)->attributes && (t)->shape && \
      (t)->shape->flags == 2 && !(t)->shape->attributes && (t)->shape->value && \
@@ -158,6 +159,11 @@ struct DeclarationTagNameView {
     !(t)->shape->base->attributes && !(t)->shape->base->base)
 
 #define VOID_POINTER(t) ((t) && (t)->flags == 0x80 && !(t)->attributes && \
+    (t)->shape && (t)->shape->flags == 1 && !(t)->shape->attributes && !(t)->shape->base)
+
+/* Encountered void/const-void prototype parameters keep a single ordinary
+ * pointer shape and only the established const qualifier on the base. */
+#define VOID_PARAMETER_POINTER(t) ((t) && (t)->flags == 0x80 && !((t)->attributes & ~0x100U) && \
     (t)->shape && (t)->shape->flags == 1 && !(t)->shape->attributes && !(t)->shape->base)
 
 #define COMPLETE_RECORD_POINTER(t) ((t) && (t)->flags == 0x402 && !((t)->attributes & ~0x100U) && \
@@ -221,7 +227,7 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
         original.context || (symbol->kind != 10 && symbol->kind != 2 && symbol->kind != 3 && symbol->kind != 11 &&
         !(symbol->kind == 12 && declarator && declarator->resolved_type &&
           (DECLARED_SCALAR_CALLBACK(declarator->resolved_type) || SCALAR_ARITHMETIC_TYPE(declarator->resolved_type) ||
-           VOLATILE_SHORT_POINTER(declarator->resolved_type) || CONST_CHAR_POINTER(declarator->resolved_type) || CONST_UNSIGNED_CHAR_POINTER(declarator->resolved_type) ||
+           VOID_PARAMETER_POINTER(declarator->resolved_type) || VOLATILE_SHORT_POINTER(declarator->resolved_type) || CONST_CHAR_POINTER(declarator->resolved_type) || CONST_UNSIGNED_CHAR_POINTER(declarator->resolved_type) ||
            QUALIFIED_INT_POINTER(declarator->resolved_type) ||
            COMPLETE_RECORD_VALUE(declarator->resolved_type) || COMPLETE_RECORD_POINTER(declarator->resolved_type) ||
            declarator->resolved_type == c1_data.builtin_types.type_0080 ||
@@ -261,6 +267,8 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
             !(symbol->kind == 10 && (original.flags == 0x1001 || original.flags == 3 || original.flags == 0x20) &&
               (INT_ARRAY_TYPE(type) || INT_MATRIX_TYPE(type))) &&
             !(symbol->kind == 3 && original.flags == 0x20 && DECLARED_RECORD_MEMBER_TYPE(type)) &&
+            !(symbol->kind == 10 && storage_class == 7 && !type->shape &&
+              type->flags == 0x4063 && !type->attributes) &&
             !(symbol->kind == 10 && storage_class == 7 && FIXED_INT_ARRAY(type)) &&
             !(symbol->kind == 10 && (original.flags == 7 || original.flags == 3) && WIDE_INTEGER_TYPE(type)) &&
             !(symbol->kind == 13 && !original.flags &&
@@ -294,7 +302,7 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
               type->symbol_owner->kind == 4) &&
             symbol->kind != 7 && symbol->kind != 11 &&
             !(symbol->kind == 12 && (DECLARED_SCALAR_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
-              VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_UNSIGNED_CHAR_POINTER(type) || QUALIFIED_INT_POINTER(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
+              VOID_PARAMETER_POINTER(type) || VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_UNSIGNED_CHAR_POINTER(type) || QUALIFIED_INT_POINTER(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
               type == c1_data.builtin_types.type_0080 ||
               type == c1_data.builtin_types.type_0063 ||
               type == c1_data.builtin_types.type_4063_first ||
@@ -465,6 +473,8 @@ extern "C" CompilerIrSymbol *__cdecl declare_declarator(
         !(symbol->kind == 10 && (flags == 0x1001 || flags == 3 || flags == 0x20) &&
           (INT_ARRAY_TYPE(symbol->value_type) || INT_MATRIX_TYPE(symbol->value_type))) &&
         !(symbol->kind == 3 && flags == 0x20 && DECLARED_RECORD_MEMBER_TYPE(symbol->value_type)) &&
+        !(symbol->kind == 10 && flags == 7 && !symbol->value_type->shape &&
+          symbol->value_type->flags == 0x4063 && !symbol->value_type->attributes) &&
         !(symbol->kind == 10 && flags == 7 && FIXED_INT_ARRAY(symbol->value_type)) &&
         !(symbol->kind == 10 && (flags == 7 || flags == 3) && WIDE_INTEGER_TYPE(symbol->value_type)) &&
         !(symbol->kind == 10 && flags == 3 && (symbol->value_type->flags == 0x61 || symbol->value_type->flags == 0x4062) &&
@@ -861,7 +871,7 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
     } else if (symbol->kind == 11 || symbol->kind == 12) {
         if (typedef_name || !(DECLARED_SCALAR_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
             (symbol->kind == 11 && type->flags == 0x62 && !type->attributes && !shape && !type->auxiliary) ||
-            VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_UNSIGNED_CHAR_POINTER(type) || QUALIFIED_INT_POINTER(type) || CONST_INT_MATRIX(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
+            VOID_PARAMETER_POINTER(type) || VOLATILE_SHORT_POINTER(type) || CONST_CHAR_POINTER(type) || CONST_UNSIGNED_CHAR_POINTER(type) || QUALIFIED_INT_POINTER(type) || CONST_INT_MATRIX(type) || COMPLETE_RECORD_VALUE(type) || COMPLETE_RECORD_POINTER(type) ||
             type == c1_data.builtin_types.type_0063 ||
             type == c1_data.builtin_types.type_4063_first ||
             (shape && ((shape->flags & 7) == 1 ||
@@ -881,6 +891,10 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
         !type->attributes && shape && shape->flags == 1 && !shape->attributes &&
         !shape->base && type->symbol_owner && type->symbol_owner->kind == 4) {
         /* A self-referential record pointer needs no complete pointee read. */
+    } else if (symbol->kind == 10 && typedef_name && !shape &&
+               type->flags == 0x4063 && !type->attributes) {
+        /* The reached unsigned-int typedef retains the existing primitive
+         * encoding; it has no pointer/array rewrite or new storage. */
     } else if (symbol->kind == 10 && typedef_name && DECLARED_SCALAR_CALLBACK(type)) {
         /* The explicit cdecl callback typedef retains its pointer/function
          * shape chain. No parameter-list or pointee bytes are consumed. */

@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "scope": "Finite ordinary normal-return EDI/EBP import/function ABI facts, including grow_macro_text cached EBP at1063c796; no provider implementation or behavior claim.",
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "sdk": {
+    "path": "toolchains/5.10/include/WINBASE.H",
+    "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5",
+    "declaration": "LPVOID WINAPI VirtualAlloc(LPVOID,DWORD,DWORD,DWORD);"
+  },
+  "functions": {
+    "_compiler_fatal": "void __cdecl(int); original3c79e supplies one slot and caller pops4.",
+    "_compiler_error": "int __cdecl(int,...); original3c7d3 supplies three slots and caller pops12."
+  },
+  "preservation": "Microsoft i386 WINAPI/stdcall and cdecl preserve EDI and EBP on ordinary normal return. No claim for nonlocal returns. Cached IAT5d1c4 loaded at3c771 and called at3c796; target remains the identified VirtualAlloc import through the loop.",
+  "prior_EDI_evidence": {
+    "path": "import-contracts.json",
+    "sha256": "0ea362d70e6aaf78dd1a6ead56f7e6cb94ca553804c3a06fdabd311aefd8de50",
+    "qualification": "The existing VirtualAlloc/_compiler_fatal EDI contract remains applicable; this file adds only the ordinary EBP guarantee required by grow_macro_text."
+  }
+}

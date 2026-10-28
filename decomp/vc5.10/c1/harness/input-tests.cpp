@@ -2429,3 +2429,20 @@ extern "C" int c1_test_assembly_imul_duplicate(void)
     c1_bss.assembly = saved;
     return ok;
 }
+
+extern "C" int __cdecl find_intrinsic_number(CompilerNameEntry *);
+extern "C" int c1_test_intrinsic_lookup_relations(void)
+{
+    static const struct { const char *name; int number; } rows[] = {
+        {"memset",46}, {"memcpy",47}, {"strlen",54}, {"strcmp",56},
+        {"abs",34}, {"labs",45}, {"_rotl",3}, {"_rotr",2},
+        {"memCopy",-1}, {"Memcpy",-1}, {"unknown",-1}, {"",-1}
+    };
+    CompilerNameEntry identifier;
+    unsigned i;
+    for (i = 0; i < sizeof(rows)/sizeof(rows[0]); ++i) {
+        identifier.name = (char *)rows[i].name;
+        if (find_intrinsic_number(&identifier) != rows[i].number) return 0;
+    }
+    return 1;
+}

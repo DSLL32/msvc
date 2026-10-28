@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 860 application functions / 227,338 code bytes and
-10,057 bytes of owned text data. Application code is 70.54% of the original
+The reconstruction contains 862 application functions / 227,614 code bytes and
+10,057 bytes of owned text data. Application code is 70.62% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All twenty-two cached cases complete natively: DLL attach/export lookup/detach, the
+All twenty-three cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, browser output, callback/union, prototype-output, conversions and assembly-addressing workloads described below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, the constant-expressions workload below, the declaration-diagnostics workload below, browser output, callback/union, prototype-output, conversions, assembly-addressing and intrinsic/macro workloads described below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -350,6 +350,28 @@ superseded undefined-structure-name input and the one-byte OFFSET receiver
 mistake, remain under `assembly-addressing-case-20261028/` and
 `assembly-addressing-resume-20261028/` in scratch. No output normalization or
 original replay for native-only source corrections was needed.
+
+The intrinsic/macro case combines a 37,649-byte generated header with 1,536
+macro-expanded operations, token pasting/stringification, a source-line directive,
+and memcpy/memset/strlen/strcmp/abs/labs/rotate intrinsics. Its macro definition
+crosses the initial 16 KiB work-buffer boundary. Both executions exit zero with
+543 first entries and exact artifacts: `intrinsicsex` (61,204 bytes),
+`intrinsicsgl` (188), `intrinsicsin` (58), and `intrinsicssy` (222). The final
+reference took 1,095.827 ms; the matching native run took 52.954 ms. Two application
+functions add 276 code bytes: committed macro-text growth and source refill.
+The classifier now shares the existing intrinsic specifications and prefix
+ranges, retaining case sensitivity and canonical selectors. The actual builtin
+setjmp/catch name owners replace redundant zero-valued call-classifier storage;
+this case makes no special-call behavior claim. Encountered typedef, pointer,
+record-member and parameter-publication domains are qualified, together with
+only the reached greater-or-equal opcode/property cells. Two focused tests cover
+multiple commits with retained prefix bytes and intrinsic lookup relations.
+Native adoption uses the shared owned-commit count rounding and reuses the
+unchanged genuine reference; no API-only capture or output normalization was
+needed. All twenty-three cached cases and units passed in 0.435 s; the full
+graph/ABI audit passed in 1.514 s, and the final original/native build took
+1.773 s. Scratch `intrinsic-macros-case-20261028/` retains actual raw artifacts,
+the smaller initial input, failed native comparisons and build diagnostics.
 
 The completed cases exercise bounded domains. Larger readable parser, lexer,
 IR writer, PCH, debug and recorded-input bodies include unexercised branches;
