@@ -763,6 +763,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _open recon_open
 #ifdef RECON_BORLAND_400_OPEN
 #define open recon_borland_400_open
+/* BC4 ERRNO.H: the qualified IO mapper already writes target errno4. */
+#undef EMFILE
+#define EMFILE 4
 #endif
 #define _sopen recon_sopen
 #define _setmode recon_setmode

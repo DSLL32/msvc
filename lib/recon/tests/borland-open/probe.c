@@ -6,6 +6,7 @@
 #include <sys/resource.h>
 #include <recon.h>
 extern int use_open(const char *),two_argument_open(const char *),other_open(const char *,int);
+extern int target_emfile_matches(void);
 static const unsigned char input[]={'a','\r','\n',0,0x1a,0xff,'z'};
 static int descriptors(void){int n=0;DIR *d=opendir("/proc/self/fd");struct dirent *e;assert(d);while((e=readdir(d)))++n;assert(!closedir(d));return n;}
 int main(int argc,char **argv)
@@ -17,12 +18,12 @@ int main(int argc,char **argv)
   }
   if(!strcmp(argv[1],"osfull")){
    struct rlimit limit={32,32};assert(!setrlimit(RLIMIT_NOFILE,&limit));while(open("/dev/null",O_RDONLY)>=0){}
-   assert(use_open("input.bin")==-1 && errno==4 && recon_doserrno==4);return 0;
+   assert(use_open("input.bin")==-1 && errno==4 && recon_doserrno==4 && target_emfile_matches());return 0;
   }
   if(!strcmp(argv[1],"crtfull")){
    int fds[256],count=0;before=descriptors();
    while(count<256 && (fd=use_open("input.bin"))>=0)fds[count++]=fd;
-   assert(count==recon_nhandle-3 && fd==-1 && errno==4 && recon_doserrno==4);
+   assert(count==recon_nhandle-3 && fd==-1 && errno==4 && recon_doserrno==4 && target_emfile_matches());
    assert(descriptors()==before+count);while(count)assert(!recon_close(fds[--count]));assert(descriptors()==before);return 0;
   }
   if(!strcmp(argv[1],"append"))return other_open("input.bin",0x8800);

@@ -2243,6 +2243,10 @@ reuse, independent owners, directory filtering and real permission/FD errors.
 BCC's ordinary compile-only pair matches17 App entries to parse_option; its
 file_exists caller consumes only the boolean, not the returned metadata fields.
 
+RECON_BORLAND_400_OPEN also exposes the encountered ERRNO.H EMFILE4 spelling
+after host headers; it uses the existing target-mapped errno slot. SHIM_IMPL
+and unselected callers retain host constants; no broader errno table is claimed.
+
 RECON_BORLAND_400_OPEN selects cdecl variadic bare open and BC4 flat FCNTL.H
 constants in native App callers. The only admitted tuple is O_RDONLY|O_BINARY
 (8000); no optional permission argument is fetched, matching __OPEN.C without
