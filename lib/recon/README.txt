@@ -2222,3 +2222,25 @@ Focused checks cover ABI, real present/missing paths, metadata/tails, search
 reuse, independent owners, directory filtering and real permission/FD errors.
 BCC's ordinary compile-only pair matches17 App entries to parse_option; its
 file_exists caller consumes only the boolean, not the returned metadata fields.
+
+RECON_BORLAND_400_OPEN selects cdecl variadic bare open and BC4 flat FCNTL.H
+constants in native App callers. The only admitted tuple is O_RDONLY|O_BINARY
+(8000); no optional permission argument is fetched, matching __OPEN.C without
+O_CREAT. Borland O_APPEND0800 and DOS sharing10..40 are distinct from Microsoft
+flags and explicitly deny along with create/truncate/text/other open tuples.
+SHIM_IMPL retains host flags and names; unselected MSVC/Watcom paths are unchanged.
+The adapter uses actual GetFileAttributes/CreateFile (read access, shared read+
+write, inheritable handle), then the existing owned logical descriptor backend.
+Existing read/lseek/close retain real binary bytes, independent cursors and close
+ownership. Directories fail with source-backed access denied; ordinary missing,
+permission and descriptor-exhaustion errors return-1 with exact Borland errno/DOS
+numbers through the internal mapper also used by findfirst. Real host EMFILE/
+ENFILE now map to Win32 error4. No captured path, cwd, provider or filename gate
+is required. Native success preserves independent error slots; original success
+LastError is unmeasured. Private Borland handle-table layout/capacity/addresses,
+other open modes and general lowio failure-errno equivalence are not claimed.
+Focused GCC/Clang controls cover flags/types, two/three argument forms, binary
+bytes/cursors, inheritance, repeated ownership, missing/denied/directory errors,
+OS and CRT-table exhaustion, and unselected/SHIM_IMPL isolation. BCC's ordinary
+23-entry compile-only pair reaches option_toggle; this caller consumes signed
+open success/failure, not private descriptor flags or errno values.

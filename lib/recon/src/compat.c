@@ -7,23 +7,13 @@
 #include <limits.h>
 #include <malloc.h>
 #include <pthread.h>
+#include "borland-io.h"
 #include <recon.h>
 
-/* BC4 FINDFRST.C / Win32 DOSFIND.C: findfirst owns a search record
- * keyed by the result object's address. This is independent of CRT _find's
- * singleton and keeps the actual Win32 search until this buffer is reused.
- * Only attr0 is qualified; native filesystem/mtime policy follows FindFile. */
-#ifdef RECON_BORLAND_400_FIND
-typedef struct BorlandFind {
-    struct BorlandFind *next;
-    struct ffblk *owner;
-    HANDLE search;
-} BorlandFind;
-static BorlandFind *borland_finds;
-static pthread_mutex_t borland_find_lock=PTHREAD_MUTEX_INITIALIZER;
+#if defined(RECON_BORLAND_400_FIND) || defined(RECON_BORLAND_400_OPEN)
 /* Exact Borland ERRNO.H numbers; these are not Linux errno constants. The
  * existing Win32 backend reports this finite subset of IOERROR.C's table. */
-static int borland_find_error(DWORD error)
+int recon_borland_400_io_error(DWORD error)
 {
     int value;
     switch(error) {
@@ -42,6 +32,20 @@ static int borland_find_error(DWORD error)
     }
     recon_doserrno=error;errno=value;return -1;
 }
+#endif
+
+/* BC4 FINDFRST.C / Win32 DOSFIND.C: findfirst owns a search record
+ * keyed by the result object's address. This is independent of CRT _find's
+ * singleton and keeps the actual Win32 search until this buffer is reused.
+ * Only attr0 is qualified; native filesystem/mtime policy follows FindFile. */
+#ifdef RECON_BORLAND_400_FIND
+typedef struct BorlandFind {
+    struct BorlandFind *next;
+    struct ffblk *owner;
+    HANDLE search;
+} BorlandFind;
+static BorlandFind *borland_finds;
+static pthread_mutex_t borland_find_lock=PTHREAD_MUTEX_INITIALIZER;
 static void borland_find_time(const FILETIME *file,unsigned short *date,unsigned short *clock)
 {
     uint64_t ticks=((uint64_t)file->dwHighDateTime<<32)|file->dwLowDateTime;
@@ -76,7 +80,7 @@ int __cdecl recon_borland_400_findfirst(const char *path,struct ffblk *output,in
             output->ff_reserved=0;
             pthread_mutex_unlock(&borland_find_lock);
             recon_SetLastError(ERROR_NOT_ENOUGH_MEMORY);
-            return borland_find_error(ERROR_NOT_ENOUGH_MEMORY);
+            return recon_borland_400_io_error(ERROR_NOT_ENOUGH_MEMORY);
         }
         record->owner=output;record->next=borland_finds;borland_finds=record;
     }
@@ -90,7 +94,7 @@ int __cdecl recon_borland_400_findfirst(const char *path,struct ffblk *output,in
         success=recon_FindNextFileA(record->search,&found);
     if(!success) {
         failure=recon_GetLastError();pthread_mutex_unlock(&borland_find_lock);
-        return borland_find_error(failure);
+        return recon_borland_400_io_error(failure);
     }
     n=strlen(found.cFileName);
     if(n>=sizeof(output->ff_name))recon_unsupported("Borland400 findfirst native filename span");

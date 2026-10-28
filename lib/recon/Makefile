@@ -1228,3 +1228,7 @@ system-default-check:
 .PHONY: borland-find-check
 borland-find-check:
 	$(PYTHON) tests/borland-find/check.py
+
+.PHONY: borland-open-check
+borland-open-check:
+	$(PYTHON) tests/borland-open/check.py

@@ -1279,6 +1279,7 @@ static DWORD error_code(int error)
     case EACCES: case EPERM: return ERROR_ACCESS_DENIED;
     case EBADF: return ERROR_INVALID_HANDLE;
     case ENOMEM: return ERROR_NOT_ENOUGH_MEMORY;
+    case EMFILE: case ENFILE: return 4; /* ERROR_TOO_MANY_OPEN_FILES */
     case EEXIST: return ERROR_ALREADY_EXISTS;
     case EINVAL: return ERROR_INVALID_PARAMETER;
     case ENOSPC: return 112;

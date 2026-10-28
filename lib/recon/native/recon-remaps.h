@@ -288,6 +288,9 @@ int recon_ungetc(int,ShimFILE *),recon_ferror(ShimFILE *),recon_feof(ShimFILE *)
 void recon_clearerr(ShimFILE *),recon_rewind(ShimFILE *);
 int recon_fileno(ShimFILE *);
 int recon_open(const char *,int,...),recon_sopen(const char *,int,int,...);
+#ifdef RECON_BORLAND_400_OPEN
+int __cdecl recon_borland_400_open(const char *,int,...);
+#endif
 int recon_setmode(int,int);
 ShimFILE *recon_openfile(const char *,const char *,int,ShimFILE *);
 int recon_read(int,void *,unsigned),recon_write(int,const void *,unsigned),recon_close(int);
@@ -752,6 +755,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define exit recon_exit
 #define perror recon_perror
 #define _open recon_open
+#ifdef RECON_BORLAND_400_OPEN
+#define open recon_borland_400_open
+#endif
 #define _sopen recon_sopen
 #define _setmode recon_setmode
 #define _find recon_find

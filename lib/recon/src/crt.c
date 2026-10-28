@@ -10,6 +10,7 @@
 #include <sys/mman.h>
 #include <malloc.h>
 #include "native-files.h"
+#include "borland-io.h"
 #include "native-entry.h"
 
 /* Reconstructed CRT overrides in a target take precedence over these fallbacks. */
@@ -1037,6 +1038,45 @@ WEAK int recon_open(const char *name,int mode,...)
     if (mode&0x100) { va_start(args,mode); permission=va_arg(args,int); va_end(args); }
     return recon_sopen(name,mode,0x40,permission);
 }
+/* BC4 OPEN.ASM -> __OPEN.C readonly binary domain. The optional mode
+ * argument is fetched only for O_CREAT in the original; do not fetch it here.
+ * Keep real Win32 handle/CRT descriptor ownership and inheritance, rather than
+ * returning a host fd or interpreting Borland append/share as Microsoft bits. */
+#ifdef RECON_BORLAND_400_OPEN
+int __cdecl recon_borland_400_open(const char *path,int flags,...)
+{
+    SECURITY_ATTRIBUTES security;HANDLE handle;DWORD attributes,type,error;
+    int fd,saved_errno=errno;unsigned long saved_dos=recon_doserrno;
+    DWORD saved_error=recon_GetLastError();uintptr_t address=(uintptr_t)path;
+    if(flags!=0x8000 || address<4096 || address>UINTPTR_MAX-MAX_PATH ||
+       !*path || strnlen(path,MAX_PATH)==MAX_PATH)
+        recon_unsupported("Borland400 open readonly binary/path domain");
+    attributes=recon_GetFileAttributesA(path);
+    if(attributes==(DWORD)-1)attributes=0;
+    if(attributes&FILE_ATTRIBUTE_DIRECTORY) {
+        recon_SetLastError(ERROR_ACCESS_DENIED);
+        return recon_borland_400_io_error(ERROR_ACCESS_DENIED);
+    }
+    security.nLength=sizeof(security);security.lpSecurityDescriptor=NULL;security.bInheritHandle=TRUE;
+    handle=recon_CreateFileA(path,GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,
+        &security,OPEN_EXISTING,attributes,NULL);
+    if(handle==INVALID_HANDLE_VALUE) {
+        error=recon_GetLastError();
+        /* Source maps Win32 ERROR_OPEN_FAILED to FILE_NOT_FOUND without CREAT. */
+        if(error==110)error=ERROR_FILE_NOT_FOUND;
+        return recon_borland_400_io_error(error);
+    }
+    fd=recon_alloc_osfhnd();
+    if(fd<0) {
+        recon_CloseHandle(handle);
+        return recon_borland_400_io_error(4); /* ERROR_TOO_MANY_OPEN_FILES */
+    }
+    if(recon_set_osfhnd(fd,(long)handle))recon_unsupported("Borland400 open descriptor ownership");
+    type=recon_GetFileType(handle);
+    recon_osfile[fd]=1|(type==FILE_TYPE_CHAR?0x40:0);pushed_byte[fd]=-1;
+    errno=saved_errno;recon_doserrno=saved_dos;recon_SetLastError(saved_error);return fd;
+}
+#endif
 WEAK long recon_lseek(int fd,long offset,int origin)
 {
     DWORD p;

@@ -18,6 +18,36 @@
 #define O_TEXT 0x0100
 #define O_BINARY 0x0200
 #endif
+/* BC4 flat-model FCNTL.H. In particular APPEND is0800; DOS sharing
+ * bits are not Microsoft's RANDOM/SEQUENTIAL flags. The adapter currently
+ * accepts only explicit readonly+binary, leaving every other tuple denied. */
+#if defined(RECON_BORLAND_400_OPEN) && !defined(RECON_SHIM_IMPL)
+#undef O_RDONLY
+#undef O_WRONLY
+#undef O_RDWR
+#undef O_ACCMODE
+#undef O_APPEND
+#undef O_CREAT
+#undef O_TRUNC
+#undef O_EXCL
+#define O_RDONLY 0x0000
+#define O_WRONLY 0x0001
+#define O_RDWR 0x0002
+#define O_ACCMODE 0x0003
+#define O_CREAT 0x0100
+#define O_TRUNC 0x0200
+#define O_EXCL 0x0400
+#define O_APPEND 0x0800
+#define O_CHANGED 0x1000
+#define O_DEVICE 0x2000
+#define O_TEXT 0x4000
+#define O_BINARY 0x8000
+#define O_NOINHERIT 0x0080
+#define O_DENYALL 0x0010
+#define O_DENYWRITE 0x0020
+#define O_DENYREAD 0x0030
+#define O_DENYNONE 0x0040
+#endif
 #define _O_RDONLY 0x0000
 #define _O_WRONLY 0x0001
 #define _O_RDWR 0x0002
