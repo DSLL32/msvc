@@ -763,6 +763,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _write recon_write
 #define _close recon_close
 #define _lseek recon_lseek
+#ifndef RECON_CRT_PROFILE_WATCOM_100A
+#define lseek recon_lseek
+#endif
 #define _tell recon_tell
 #define _filelength recon_filelength
 #define _fstat recon_fstat
